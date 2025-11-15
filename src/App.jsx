@@ -1,5 +1,59 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { Check, X, ArrowRight, Zap, TrendingUp, Camera, Globe, Megaphone, Video, Sparkles, Mail, Palette } from 'lucide-react';
+
+// Navigation Component
+const Navigation = () => {
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-xl border-b-2 border-pink-500">
+      <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          <Link to="/" className="text-2xl font-black bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
+            NUNYA BUNYA
+          </Link>
+          <div className="flex gap-8">
+            <Link to="/" className="font-bold text-lg text-gray-400 hover:text-white transition-all">
+              Home
+            </Link>
+            <Link to="/services" className="font-bold text-lg text-gray-400 hover:text-white transition-all">
+              Services
+            </Link>
+            <Link to="/contact" className="font-bold text-lg text-gray-400 hover:text-white transition-all">
+              Contact
+            </Link>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+// Home Page Component
+const HomePage = () => {
+  const navigate = useNavigate();
+  
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="text-center max-w-4xl">
+        <h1 className="text-7xl font-black mb-6 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
+          Your Marketing Sucks.
+        </h1>
+        <h2 className="text-5xl font-bold mb-8 text-white">
+          We Fix It.
+        </h2>
+        <p className="text-2xl mb-12 text-gray-300">
+          Brisbane's boldest digital marketing agency. No fluff, no BS, just results.
+        </p>
+        <button
+          onClick={() => navigate('/contact')}
+          className="px-12 py-5 bg-gradient-to-r from-pink-500 to-cyan-500 text-white text-xl font-bold rounded-xl hover:scale-105 transition-all"
+        >
+          Get Started →
+        </button>
+      </div>
+    </div>
+  );
+};
 
 // Services Page Component
 const ServicesPage = () => {
@@ -589,80 +643,49 @@ const ServicesPage = () => {
   );
 };
 
-// Main Website Component
-const NunyaBunyaWebsite = () => {
-  const [currentPage, setCurrentPage] = useState('home');
-
+// Contact Page Component
+const ContactPage = () => {
   return (
-    <div className="bg-black text-white min-h-screen">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-xl border-b-2 border-pink-500">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="text-2xl font-black bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
-              NUNYA BUNYA
-            </div>
-            <div className="flex gap-8">
-              {['home', 'services', 'contact'].map(page => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`font-bold text-lg transition-all ${
-                    currentPage === page ? 'text-cyan-400' : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  {page.charAt(0).toUpperCase() + page.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <div className="pt-20">
-        {currentPage === 'home' && (
-          <div className="min-h-screen flex items-center justify-center px-4">
-            <div className="text-center max-w-4xl">
-              <h1 className="text-7xl font-black mb-6 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
-                Your Marketing Sucks.
-              </h1>
-              <h2 className="text-5xl font-bold mb-8 text-white">
-                We Fix It.
-              </h2>
-              <p className="text-2xl mb-12 text-gray-300">
-                Brisbane's boldest digital marketing agency. No fluff, no BS, just results.
-              </p>
-              <button
-                onClick={() => setCurrentPage('contact')}
-                className="px-12 py-5 bg-gradient-to-r from-pink-500 to-cyan-500 text-white text-xl font-bold rounded-xl hover:scale-105 transition-all"
-              >
-                Get Started →
-              </button>
-            </div>
-          </div>
-        )}
-
-        {currentPage === 'services' && <ServicesPage />}
-
-        {currentPage === 'contact' && (
-          <div className="min-h-screen py-20 px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-5xl font-black mb-6 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
-                Let's Talk
-              </h1>
-              <p className="text-xl text-gray-400 mb-8">
-                Email: hello@nunyabunya.com
-              </p>
-            </div>
-          </div>
-        )}
+    <div className="min-h-screen py-20 px-4">
+      <div className="max-w-4xl mx-auto text-center">
+        <h1 className="text-5xl font-black mb-6 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
+          Let's Talk
+        </h1>
+        <p className="text-xl text-gray-400 mb-8">
+          Email: hello@nunyabunya.com
+        </p>
       </div>
-
-      <footer className="border-t-2 border-cyan-500 bg-black py-12 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-gray-400">© 2025 Nunya Bunya. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
+  );
+};
+
+// Footer Component
+const Footer = () => {
+  return (
+    <footer className="border-t-2 border-cyan-500 bg-black py-12 px-4">
+      <div className="max-w-7xl mx-auto text-center">
+        <p className="text-gray-400">© 2025 Nunya Bunya. All rights reserved.</p>
+      </div>
+    </footer>
+  );
+};
+
+// Main App Component with Router
+const NunyaBunyaWebsite = () => {
+  return (
+    <Router>
+      <div className="bg-black text-white min-h-screen">
+        <Navigation />
+        <div className="pt-20">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+          </Routes>
+        </div>
+        <Footer />
+      </div>
+    </Router>
   );
 };
 
