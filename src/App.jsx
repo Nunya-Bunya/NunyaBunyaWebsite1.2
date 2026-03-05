@@ -5,20 +5,20 @@ import { Check, X, ArrowRight, Zap, TrendingUp, Camera, Globe, Megaphone, Video,
 // Navigation Component
 const Navigation = () => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-xl border-b-2 border-pink-500">
-      <div className="max-w-7xl mx-auto px-6 py-4">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-xl border-b border-gray-800">
+      <div className="max-w-5xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-black bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
+          <Link to="/" className="text-xl font-black bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
             NUNYA BUNYA
           </Link>
-          <div className="flex gap-8">
-            <Link to="/" className="font-bold text-lg text-gray-400 hover:text-white transition-all">
+          <div className="flex gap-6">
+            <Link to="/" className="font-bold text-sm text-gray-400 hover:text-white transition-all">
               Home
             </Link>
-            <Link to="/services" className="font-bold text-lg text-gray-400 hover:text-white transition-all">
+            <Link to="/services" className="font-bold text-sm text-gray-400 hover:text-white transition-all">
               Services
             </Link>
-            <Link to="/contact" className="font-bold text-lg text-gray-400 hover:text-white transition-all">
+            <Link to="/contact" className="font-bold text-sm text-gray-400 hover:text-white transition-all">
               Contact
             </Link>
           </div>
@@ -31,25 +31,118 @@ const Navigation = () => {
 // Home Page Component
 const HomePage = () => {
   const navigate = useNavigate();
-  
+
+  const services = [
+    { icon: Megaphone, title: 'Social Media', desc: 'Content that actually converts. Strategy, creation, and community management.' },
+    { icon: TrendingUp, title: 'Authority Marketing', desc: 'Build your personal brand. Become the go-to expert in your industry.' },
+    { icon: Zap, title: 'Paid Advertising', desc: 'Stop burning money on ads. Get campaigns that deliver real ROI.' },
+    { icon: Camera, title: 'Photography', desc: 'Stock photos are killing your brand. Get images that actually sell.' },
+    { icon: Globe, title: 'Web Design', desc: 'Your website should make you money. Not just look pretty.' },
+    { icon: Palette, title: 'Brand & Creative', desc: 'Boring brands get ignored. Legendary brands get remembered.' },
+  ];
+
+  const process = [
+    { num: '01', title: 'Discovery', desc: 'We deep-dive into your business, audience, and goals. No cookie-cutter strategies.' },
+    { num: '02', title: 'Strategy', desc: 'Custom roadmap built around what will actually move the needle for you.' },
+    { num: '03', title: 'Execute', desc: 'We build, launch, and manage everything. You focus on running your business.' },
+    { num: '04', title: 'Optimise', desc: 'Data-driven refinement. We track, test, and scale what works.' },
+  ];
+
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="text-center max-w-4xl">
-        <h1 className="text-7xl font-black mb-6 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
-          Your Marketing Sucks.
-        </h1>
-        <h2 className="text-5xl font-bold mb-8 text-white">
-          We Fix It.
-        </h2>
-        <p className="text-2xl mb-12 text-gray-300">
-          Brisbane's boldest digital marketing agency. No fluff, no BS, just results.
-        </p>
-        <button
-          onClick={() => navigate('/contact')}
-          className="px-12 py-5 bg-gradient-to-r from-pink-500 to-cyan-500 text-white text-xl font-bold rounded-xl hover:scale-105 transition-all"
-        >
-          Get Started →
-        </button>
+    <div className="min-h-screen">
+      {/* Hero */}
+      <div className="flex items-center justify-center px-6 pt-20 pb-24" style={{ minHeight: '80vh' }}>
+        <div className="text-center max-w-4xl">
+          <p className="text-sm font-bold text-pink-400 uppercase tracking-widest mb-6">Brisbane's Boldest Agency</p>
+          <h1 className="text-7xl font-black mb-4 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
+            Your Marketing Sucks.
+          </h1>
+          <h2 className="text-5xl font-bold mb-8 text-white">
+            We Fix It.
+          </h2>
+          <p className="text-xl mb-12 text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            No fluff, no BS, just results. Full-service digital marketing for businesses ready to dominate.
+          </p>
+          <div className="flex items-center justify-center gap-4">
+            <button
+              onClick={() => navigate('/services')}
+              className="px-10 py-4 bg-gradient-to-r from-pink-500 to-cyan-500 text-white text-lg font-bold rounded-xl hover:shadow-lg hover:shadow-pink-500/30 transition-all flex items-center gap-2"
+            >
+              View Packages <ArrowRight className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => navigate('/contact')}
+              className="px-10 py-4 bg-gray-900/50 border border-gray-700 text-white text-lg font-bold rounded-xl hover:border-pink-500/50 hover:bg-gray-800/50 transition-all"
+            >
+              Get in Touch
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Services Overview */}
+      <div className="max-w-5xl mx-auto px-6 pb-24">
+        <div className="mb-10">
+          <p className="text-sm font-bold text-pink-400 uppercase tracking-widest mb-2">What We Do</p>
+          <h2 className="text-3xl font-black text-white">Everything Your Brand Needs</h2>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {services.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <div
+                key={i}
+                onClick={() => navigate('/services')}
+                className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 hover:border-pink-500/50 hover:bg-gray-800/30 transition-all cursor-pointer group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-pink-500 to-cyan-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Icon className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">{s.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{s.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Process */}
+      <div className="max-w-5xl mx-auto px-6 pb-24">
+        <div className="mb-10">
+          <p className="text-sm font-bold text-pink-400 uppercase tracking-widest mb-2">How It Works</p>
+          <h2 className="text-3xl font-black text-white">Simple Process. Serious Results.</h2>
+        </div>
+        <div className="space-y-4">
+          {process.map((step, i) => (
+            <div key={i} className="bg-gray-900/50 border border-gray-800 rounded-xl px-6 py-5 flex items-center gap-5 hover:border-pink-500/30 transition-all">
+              <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-r from-pink-500 to-cyan-500 flex items-center justify-center font-black text-sm">
+                {step.num}
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white">{step.title}</h3>
+                <p className="text-gray-400 text-sm">{step.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="max-w-5xl mx-auto px-6 pb-24">
+        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-12 text-center">
+          <h2 className="text-4xl font-black mb-4 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
+            Ready to Stop Wasting Money?
+          </h2>
+          <p className="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
+            Book a free strategy call and we'll show you exactly where your marketing is leaking cash — and how to fix it.
+          </p>
+          <button
+            onClick={() => navigate('/contact')}
+            className="px-10 py-4 bg-gradient-to-r from-pink-500 to-cyan-500 text-white text-lg font-bold rounded-xl hover:shadow-lg hover:shadow-pink-500/30 transition-all"
+          >
+            Book Free Strategy Call
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -427,79 +520,73 @@ const ServicesPage = () => {
   };
 
   const PackageCard = ({ pkg, isMonthly }) => (
-    <div className="bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-800 rounded-2xl p-8 hover:border-pink-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-pink-500/20 group relative">
+    <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 hover:border-pink-500/50 transition-all group relative">
       {pkg.highlight && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-cyan-500 text-white text-sm font-bold px-4 py-2 rounded-full">
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-cyan-500 text-white text-xs font-bold px-4 py-1.5 rounded-full">
           {pkg.highlight}
         </div>
       )}
-      
-      <div className="flex items-start justify-between mb-6">
-        <div>
-          <h3 className="text-2xl font-bold text-white mb-1">{pkg.name}</h3>
-          {pkg.subtitle && <p className="text-gray-400 text-sm">{pkg.subtitle}</p>}
-        </div>
-        <div className="text-right">
-          <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">
+
+      <div className="mb-5">
+        <h3 className="text-xl font-bold text-white mb-1">{pkg.name}</h3>
+        {pkg.subtitle && <p className="text-gray-500 text-sm">{pkg.subtitle}</p>}
+        <div className="flex items-baseline gap-1 mt-3">
+          <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">
             {pkg.price}
-          </div>
-          <div className="text-gray-400 text-sm">{pkg.period || pkg.timeline}</div>
+          </span>
+          <span className="text-gray-500 text-sm">{pkg.period || pkg.timeline}</span>
         </div>
       </div>
 
-      <p className="text-gray-300 mb-6">{pkg.description}</p>
+      <p className="text-gray-400 text-sm mb-5 leading-relaxed">{pkg.description}</p>
 
-      <div className="space-y-6">
+      <div className="space-y-5">
         <div>
-          <h4 className="text-white font-bold mb-3 flex items-center gap-2">
-            <Check className="w-5 h-5 text-pink-400" />
-            {pkg.features ? "What's Included:" : "Includes:"}
-          </h4>
-          <ul className="space-y-2">
+          <p className="text-sm font-bold text-pink-400 uppercase tracking-wider mb-3">
+            {pkg.features ? "What's Included" : "Includes"}
+          </p>
+          <div className="space-y-2">
             {(pkg.features || pkg.includes || []).map((item, i) => (
-              <li key={i} className="text-gray-300 text-sm flex items-start gap-2">
+              <div key={i} className="text-gray-300 text-sm flex items-start gap-2">
                 <Check className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
                 <span>{item}</span>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
 
         {pkg.notIncluded && (
           <div>
-            <h4 className="text-white font-bold mb-3 flex items-center gap-2">
-              <X className="w-5 h-5 text-gray-500" />
-              Not Included:
-            </h4>
-            <ul className="space-y-2">
+            <p className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Not Included</p>
+            <div className="space-y-2">
               {pkg.notIncluded.map((item, i) => (
-                <li key={i} className="text-gray-400 text-sm flex items-start gap-2">
+                <div key={i} className="text-gray-500 text-sm flex items-start gap-2">
                   <X className="w-4 h-4 text-gray-600 mt-0.5 flex-shrink-0" />
                   <span>{item}</span>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
 
         {pkg.bestFor && (
           <div className="pt-4 border-t border-gray-800">
-            <p className="text-cyan-400 text-sm font-semibold mb-1">Best For:</p>
-            <p className="text-gray-300 text-sm">{pkg.bestFor}</p>
+            <p className="text-pink-400 text-xs font-bold uppercase tracking-wider mb-1">Best For</p>
+            <p className="text-gray-400 text-sm">{pkg.bestFor}</p>
           </div>
         )}
 
         {pkg.investment && (
           <div className="pt-4 border-t border-gray-800">
-            <p className="text-pink-400 text-sm font-semibold mb-1">Investment:</p>
-            <p className="text-gray-300 text-sm">{pkg.investment}</p>
+            <p className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-1">Investment</p>
+            <p className="text-gray-400 text-sm">{pkg.investment}</p>
           </div>
         )}
       </div>
 
-      <button 
+      <button
         onClick={() => setSelectedPackage(pkg)}
-        className="w-full mt-6 bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-bold py-3 rounded-lg hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-300 flex items-center justify-center gap-2 group-hover:gap-3"
+        className="w-full mt-6 bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-bold py-3 rounded-xl hover:shadow-lg hover:shadow-pink-500/30 transition-all flex items-center justify-center gap-2"
       >
         Select Package
         <ArrowRight className="w-5 h-5" />
@@ -512,54 +599,54 @@ const ServicesPage = () => {
 
   return (
     <div className="min-h-screen bg-black text-white py-20">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h1 className="text-6xl font-black mb-4 bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-            Services & Packages
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="mb-12">
+          <p className="text-sm font-bold text-pink-400 uppercase tracking-widest mb-2">Services & Packages</p>
+          <h1 className="text-4xl font-black text-white mb-3">
+            Transparent Pricing. No BS.
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Transparent pricing. No bullshit. Choose what fits your business.
+          <p className="text-gray-400 text-lg max-w-2xl">
+            Choose what fits your business. Every package is built to deliver real results.
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
+        {/* Service Tabs */}
+        <div className="flex flex-wrap gap-2 mb-10">
           {Object.entries(services).map(([key, service]) => {
             const ServiceIcon = service.icon;
             return (
               <button
                 key={key}
                 onClick={() => setActiveService(key)}
-                className={`px-6 py-3 rounded-lg font-bold transition-all flex items-center gap-2 ${
+                className={`px-5 py-2.5 rounded-lg font-bold text-sm transition-all flex items-center gap-2 ${
                   activeService === key
-                    ? `bg-gradient-to-r ${service.color} text-white shadow-lg`
-                    : 'bg-gray-900 text-gray-400 hover:text-white hover:bg-gray-800'
+                    ? 'bg-gradient-to-r from-pink-500 to-cyan-500 text-white'
+                    : 'bg-gray-900/50 border border-gray-800 text-gray-400 hover:text-white hover:border-pink-500/50'
                 }`}
               >
-                <ServiceIcon className="w-5 h-5" />
+                <ServiceIcon className="w-4 h-4" />
                 {service.name}
               </button>
             );
           })}
         </div>
 
-        <div className="text-center mb-12">
-          <div className={`inline-flex items-center gap-3 bg-gradient-to-r ${currentService.color} p-4 rounded-xl mb-4`}>
-            <Icon className="w-8 h-8 text-white" />
-            <h2 className="text-3xl font-black text-white">{currentService.name}</h2>
+        {/* Active Service Header */}
+        <div className="bg-gray-900/50 border border-gray-800 rounded-xl px-6 py-5 flex items-center gap-5 mb-8">
+          <div className={`flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-r ${currentService.color} flex items-center justify-center`}>
+            <Icon className="w-6 h-6 text-white" />
           </div>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            {currentService.description}
-          </p>
+          <div>
+            <h2 className="text-xl font-bold text-white">{currentService.name}</h2>
+            <p className="text-gray-400 text-sm">{currentService.description}</p>
+          </div>
         </div>
 
-        <div className="space-y-12">
+        <div className="space-y-10">
           {currentService.monthly.length > 0 && (
             <div>
-              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <div className="h-1 w-12 bg-gradient-to-r from-pink-500 to-cyan-500 rounded"></div>
-                Monthly Packages
-              </h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <p className="text-sm font-bold text-pink-400 uppercase tracking-wider mb-4">Monthly Packages</p>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {currentService.monthly.map((pkg, i) => (
                   <PackageCard key={i} pkg={pkg} isMonthly={true} />
                 ))}
@@ -569,11 +656,8 @@ const ServicesPage = () => {
 
           {currentService.project.length > 0 && (
             <div>
-              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <div className="h-1 w-12 bg-gradient-to-r from-cyan-500 to-purple-500 rounded"></div>
-                Project-Based
-              </h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <p className="text-sm font-bold text-pink-400 uppercase tracking-wider mb-4">Project-Based</p>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {currentService.project.map((pkg, i) => (
                   <PackageCard key={i} pkg={pkg} isMonthly={false} />
                 ))}
@@ -582,19 +666,24 @@ const ServicesPage = () => {
           )}
         </div>
 
-        <div className="mt-20 text-center bg-gradient-to-r from-pink-500/20 to-cyan-500/20 rounded-2xl p-12 border border-pink-500/30">
-          <h2 className="text-4xl font-black mb-4">Not Sure Which Package?</h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Book a free strategy call and we'll figure out exactly what you need to dominate your market.
-          </p>
-          <button className="bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-xl hover:shadow-pink-500/50 transition-all">
-            Book Free Strategy Call
-          </button>
+        {/* CTA */}
+        <div className="mt-16">
+          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-10 text-center">
+            <h2 className="text-3xl font-black mb-3 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">Not Sure Which Package?</h2>
+            <p className="text-gray-400 mb-6 max-w-xl mx-auto">
+              Book a free strategy call and we'll figure out exactly what you need to dominate your market.
+            </p>
+            <button className="bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-bold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-pink-500/30 transition-all">
+              Book Free Strategy Call
+            </button>
+          </div>
         </div>
 
-        <div className="mt-20">
-          <h2 className="text-3xl font-black text-white mb-8 text-center">Add-Ons & Extras</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Add-Ons */}
+        <div className="mt-16">
+          <p className="text-sm font-bold text-pink-400 uppercase tracking-widest mb-2">Extras</p>
+          <h2 className="text-2xl font-black text-white mb-6">Add-Ons & Extras</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { name: 'Extra Short Video', price: '$250' },
               { name: 'Extra Long Video (5-10min)', price: '$1,200' },
@@ -605,9 +694,9 @@ const ServicesPage = () => {
               { name: '1-Hour Strategy Session', price: '$300' },
               { name: 'Crisis Management Retainer', price: '$600/mo' }
             ].map((addon, i) => (
-              <div key={i} className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 hover:border-cyan-500/50 transition-all">
-                <h3 className="text-white font-bold mb-2">{addon.name}</h3>
-                <p className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">
+              <div key={i} className="bg-gray-900/50 border border-gray-800 rounded-xl p-5 hover:border-pink-500/50 transition-all">
+                <h3 className="text-white font-bold text-sm mb-2">{addon.name}</h3>
+                <p className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">
                   {addon.price}
                 </p>
               </div>
@@ -618,22 +707,21 @@ const ServicesPage = () => {
 
       {selectedPackage && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 z-50">
-          <div className="bg-gray-900 rounded-2xl p-8 max-w-2xl w-full border border-pink-500/50">
-            <h2 className="text-3xl font-black text-white mb-4">
-              Selected: {selectedPackage.name}
-            </h2>
-            <p className="text-gray-300 mb-6">
+          <div className="bg-gray-900/95 border border-gray-800 rounded-xl p-8 max-w-lg w-full">
+            <p className="text-sm font-bold text-pink-400 uppercase tracking-wider mb-2">Selected Package</p>
+            <h2 className="text-2xl font-black text-white mb-2">{selectedPackage.name}</h2>
+            <p className="text-gray-400 text-sm mb-6">
               Great choice! Ready to get started or want to discuss customization?
             </p>
-            <div className="flex gap-4">
-              <button className="flex-1 bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-bold py-3 rounded-lg hover:shadow-lg transition-all">
+            <div className="flex gap-3">
+              <button className="flex-1 bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-bold py-3 rounded-xl hover:shadow-lg hover:shadow-pink-500/30 transition-all">
                 Book Discovery Call
               </button>
-              <button 
+              <button
                 onClick={() => setSelectedPackage(null)}
-                className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-all"
+                className="px-6 py-3 bg-gray-900/50 border border-gray-700 text-white rounded-xl hover:border-pink-500/50 transition-all"
               >
-                Keep Browsing
+                Back
               </button>
             </div>
           </div>
@@ -646,14 +734,44 @@ const ServicesPage = () => {
 // Contact Page Component
 const ContactPage = () => {
   return (
-    <div className="min-h-screen py-20 px-4">
-      <div className="max-w-4xl mx-auto text-center">
-        <h1 className="text-5xl font-black mb-6 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
-          Let's Talk
-        </h1>
-        <p className="text-xl text-gray-400 mb-8">
-          Email: hello@nunyabunya.com
-        </p>
+    <div className="min-h-screen py-20 px-6">
+      <div className="max-w-5xl mx-auto">
+        <div className="mb-10">
+          <p className="text-sm font-bold text-pink-400 uppercase tracking-widest mb-2">Get In Touch</p>
+          <h1 className="text-4xl font-black text-white mb-3">Let's Talk</h1>
+          <p className="text-gray-400 text-lg max-w-xl">
+            Ready to stop wasting money on marketing that doesn't work? Reach out.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-4 mb-10">
+          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 hover:border-pink-500/50 transition-all">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-pink-500 to-cyan-500 flex items-center justify-center mb-4">
+              <Mail className="w-5 h-5 text-white" />
+            </div>
+            <p className="text-sm font-bold text-pink-400 uppercase tracking-wider mb-1">Email</p>
+            <p className="text-white font-bold text-lg">hello@nunyabunya.com</p>
+          </div>
+          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 hover:border-pink-500/50 transition-all">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-pink-500 to-cyan-500 flex items-center justify-center mb-4">
+              <Globe className="w-5 h-5 text-white" />
+            </div>
+            <p className="text-sm font-bold text-pink-400 uppercase tracking-wider mb-1">Location</p>
+            <p className="text-white font-bold text-lg">Brisbane, Australia</p>
+          </div>
+        </div>
+
+        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-10 text-center">
+          <h2 className="text-2xl font-black mb-3 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
+            Free Strategy Call
+          </h2>
+          <p className="text-gray-400 mb-6 max-w-lg mx-auto">
+            30 minutes. No obligation. We'll audit your current marketing and show you where you're leaving money on the table.
+          </p>
+          <button className="bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-bold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-pink-500/30 transition-all flex items-center gap-2 mx-auto">
+            Book a Call <ArrowRight className="w-5 h-5" />
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -1016,9 +1134,12 @@ const PortalPage = () => {
 const Footer = () => {
   const navigate = useNavigate();
   return (
-    <footer className="border-t-2 border-cyan-500 bg-black py-12 px-4">
-      <div className="max-w-7xl mx-auto text-center">
-        <p className="text-gray-400">
+    <footer className="border-t border-gray-800 bg-black py-10 px-6">
+      <div className="max-w-5xl mx-auto flex items-center justify-between">
+        <span className="text-sm font-bold bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
+          NUNYA BUNYA
+        </span>
+        <p className="text-gray-500 text-sm">
           <span
             onClick={() => navigate('/portal')}
             className="cursor-default select-none"
