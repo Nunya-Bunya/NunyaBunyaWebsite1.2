@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { Check, X, ArrowRight, Zap, TrendingUp, Camera, Globe, Megaphone, Video, Sparkles, Mail, Palette } from 'lucide-react';
+import { Check, X, ArrowRight, Zap, TrendingUp, Camera, Globe, Megaphone, Video, Sparkles, Mail, Palette, Lock, ChevronDown, ChevronRight, Search, LogOut } from 'lucide-react';
 
 // Navigation Component
 const Navigation = () => {
@@ -659,12 +659,372 @@ const ContactPage = () => {
   );
 };
 
+// ── Foundations Checklist Data ──────────────────────────────────────────
+const checklistData = [
+  {
+    id: 's00', number: '00', title: 'Ben HQ', description: 'Central operations hub & personal command center',
+    subsections: [
+      { title: 'Brand & Identity', items: ['Brand Bible', 'Logo Suite', 'Style Guide'] },
+      { title: 'Strategy & Planning', items: ['Workspace Organization', 'Five Year Plan', 'Foundational Docs Summary', 'Master Budget & P&L Tracker', 'Cross-Business Calendar'] },
+      { title: 'Operations & Systems', items: ['Master SOPs Document', 'Password & Accounts Registry', 'Vendor & Contractor Directory', 'Insurance & Compliance Tracker'] },
+      { title: 'Templates (Cross-Business)', items: ['Universal Invoice Template', 'Universal Contract Template', 'NDA Template', 'Meeting Agenda Template'] },
+    ]
+  },
+  {
+    id: 's01', number: '01', title: 'Conner Law Group', description: 'Umbrella for Merkel & Conner, Conner Injury Law, MBCS, KevLaw AI',
+    subsections: [
+      { title: 'Brand & Identity', items: ['Brand Bible', 'Brand Guidelines', 'Logo Suite', 'Style Guide', 'Elevator Pitch / Positioning'] },
+      { title: 'Strategy & Finance', items: ['Service Packages & Pricing', 'Business Plan', 'Financial Projections', 'Growth Roadmap'] },
+      { title: 'Client & Legal Ops', items: ['Client Onboarding Process', 'Case Templates & Forms', 'Demand Letter Templates', 'Client Intake Form Template', 'Retainer Agreement Template'] },
+      { title: 'Branded Templates', items: ['Branded Letterhead', 'Branded Email Signature', 'Branded Invoice Template', 'Branded Proposal Template', 'Business Card Design', 'Branded Slide Deck Template'] },
+      { title: 'Content & Marketing', items: ['Content Calendar', 'Social Media Templates', 'Website Copy', 'KevLaw AI Marketing Page'] },
+      { title: 'Technology', items: ['KevLaw AI App', 'KevLaw AI SaaS Pricing Page', 'CASEpeer Integration Docs'] },
+    ]
+  },
+  {
+    id: 's02', number: '02', title: 'Ben Alek Conner', description: 'Personal brand — multi-passionate entrepreneur',
+    subsections: [
+      { title: 'Brand & Identity', items: ['Brand Bible', 'Personal Brand Foundation', 'Logo Suite', 'Style Guide', 'Elevator Pitch'] },
+      { title: 'Strategy & Planning', items: ['Business Plan / Monetization Strategy', 'Roadmap', 'Revenue Goals & Milestones'] },
+      { title: 'Content & Marketing', items: ['Content Calendar', 'Launch Content', 'Social Media Strategy', 'YouTube Channel Kit', 'Podcast Launch Plan'] },
+      { title: 'Branded Templates', items: ['Business Card Design', 'Email Signature', 'Branded Slide Deck', 'Media Kit / One-Pager', 'Resume'] },
+    ]
+  },
+  {
+    id: 's03', number: '03', title: 'Nunya Bunya', description: 'Digital marketing agency — $35K MRR goal',
+    subsections: [
+      { title: 'Brand & Identity', items: ['Brand Bible', 'Brand Guidelines', 'Logo Suite', 'Style Guide', 'Elevator Pitch', 'Brand Sheet'] },
+      { title: 'Strategy & Finance', items: ['Business Plan', 'Service Packages & Pricing', 'Strategy & Content Plan', 'Business Strategy Doc', 'Financial Projections Spreadsheet'] },
+      { title: 'Client Operations', items: ['Client Onboarding Process', 'Client Proposal Template', 'Client Contract / Service Agreement', 'Client Reporting Template', 'Client Offboarding Checklist'] },
+      { title: 'Branded Templates', items: ['Stationery Suite', 'Business Card & Landing Page', 'Branded Invoice Template', 'Branded Slide Deck Template', 'Branded Email Signature', 'Social Media Post Templates'] },
+      { title: 'Content & Marketing', items: ['Content Calendar', 'Launch Content', 'Social Media Profiles', 'Case Study Template'] },
+      { title: 'Technology', items: ['Website', 'Backend System'] },
+    ]
+  },
+  {
+    id: 's04', number: '04', title: 'ORCA Film Awards', description: 'Film awards event & content platform',
+    subsections: [
+      { title: 'Brand & Identity', items: ['Brand Bible', 'Brand Guidelines', 'Logo Suite', 'Style Guide', 'Elevator Pitch'] },
+      { title: 'Strategy & Finance', items: ['Business Plan', 'Service Packages / Sponsorship Tiers', 'Event Budget Template', 'Revenue Model'] },
+      { title: 'Event Operations', items: ['Nominations Ballot', 'Event Planning Checklist', 'Sponsor Proposal Template', 'Submission Guidelines', 'Judge Scoring Rubric'] },
+      { title: 'Branded Templates & Content', items: ['Award Certificate Template', 'Nomination Announcement Graphics', 'Social Media Templates', 'Content Calendar', 'Launch Content', 'Press Kit / Media One-Pager'] },
+    ]
+  },
+  {
+    id: 's05', number: '05', title: 'Power Portraits', description: 'Premium headshot photography — $150K annual goal',
+    subsections: [
+      { title: 'Brand & Identity', items: ['Brand Bible', 'Brand Book', 'Business Foundation', 'Logo Suite', 'Style Guide', 'Elevator Pitch'] },
+      { title: 'Strategy & Finance', items: ['Service Packages', 'Strategy & Content Plan', 'Financial Projections Spreadsheet', 'Roadmap'] },
+      { title: 'Client Operations', items: ['Client Onboarding Process', 'Booking Confirmation Template', 'Session Prep Guide', 'Photo Release / Model Release Form', 'Gallery Delivery Template'] },
+      { title: 'Branded Templates & Content', items: ['Branded Invoice Template', 'Business Card Design', 'Email Signature', 'Social Media Post Templates', 'Content Calendar', 'Corporate Package Proposal Template'] },
+    ]
+  },
+  {
+    id: 's06', number: '06', title: 'Bella Rhyder', description: 'Personal brand / project',
+    subsections: [
+      { title: 'Brand & Identity', items: ['Brand Bible', 'Brand Guidelines', 'Logo Suite', 'Style Guide', 'Elevator Pitch / Positioning'] },
+      { title: 'Strategy & Finance', items: ['Business Plan / Brand Strategy', 'Service Packages', 'Revenue Model'] },
+      { title: 'Content & Marketing', items: ['Content Calendar', 'Social Media Strategy', 'Photo Assets', 'Launch Content Plan'] },
+      { title: 'Branded Templates', items: ['Business Card Design', 'Email Signature', 'Social Media Post Templates', 'Media Kit / One-Pager'] },
+    ]
+  },
+  {
+    id: 's07', number: '07', title: 'The Conner Store', description: 'E-commerce product brand',
+    subsections: [
+      { title: 'Brand & Identity', items: ['Brand Bible', 'Brand Guidelines', 'Logo Suite', 'Style Guide', 'Elevator Pitch / Tagline'] },
+      { title: 'Strategy & Finance', items: ['Business Plan', 'Product Catalog / Pricing', 'Supplier & Fulfillment Plan', 'Revenue Projections'] },
+      { title: 'E-Commerce Operations', items: ['Product Listing Template', 'Order Confirmation Email Template', 'Shipping & Returns Policy', 'Customer Service Scripts', 'Packaging Design / Unboxing Guide'] },
+      { title: 'Branded Templates & Marketing', items: ['Product Photography Standards', 'Social Media Post Templates', 'Email Marketing Templates', 'Content Calendar', 'Launch Campaign Plan'] },
+    ]
+  },
+  {
+    id: 's08', number: '08', title: 'Content Studio', description: 'Creative content services hub',
+    subsections: [
+      { title: 'Brand & Identity', items: ['Brand Bible', 'Brand Guidelines', 'Logo Suite', 'Style Guide', 'Elevator Pitch / Positioning'] },
+      { title: 'Strategy & Finance', items: ['Business Plan', 'Service Packages & Pricing', 'Revenue Goals & Projections', 'Growth Roadmap'] },
+      { title: 'Client Operations', items: ['Client Onboarding Process', 'Client Proposal Template', 'Service Agreement / Contract', 'Project Brief Template', 'Deliverables Checklist Template'] },
+      { title: 'Branded Templates & Marketing', items: ['Business Card Design', 'Email Signature', 'Branded Invoice Template', 'Portfolio / Case Study Template', 'Social Media Post Templates', 'Content Calendar'] },
+    ]
+  },
+];
+
+// ── Portal Password Gate ───────────────────────────────────────────────
+const PORTAL_PASS_HASH = 'nb2026admin';
+
+const PortalLogin = ({ onAuth }) => {
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
+  const [shake, setShake] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (password === PORTAL_PASS_HASH) {
+      localStorage.setItem('nb_portal_auth', 'true');
+      onAuth(true);
+    } else {
+      setError(true);
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+      setPassword('');
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className={`max-w-md w-full ${shake ? 'animate-pulse' : ''}`}>
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-cyan-500 mb-4">
+            <Lock className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-3xl font-black text-white mb-2">Backend Portal</h1>
+          <p className="text-gray-400">Enter password to continue</p>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => { setPassword(e.target.value); setError(false); }}
+            placeholder="Password"
+            className={`w-full px-6 py-4 bg-gray-900 border-2 ${error ? 'border-red-500' : 'border-gray-700 focus:border-pink-500'} rounded-xl text-white text-lg outline-none transition-colors`}
+            autoFocus
+          />
+          {error && <p className="text-red-400 text-sm text-center">Incorrect password</p>}
+          <button
+            type="submit"
+            className="w-full py-4 bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:shadow-pink-500/30 transition-all"
+          >
+            Enter Portal
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+// ── Interactive Foundations Checklist ───────────────────────────────────
+const FoundationsChecklist = () => {
+  const navigate = useNavigate();
+  const [checked, setChecked] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('nb_checklist') || '{}'); } catch { return {}; }
+  });
+  const [expanded, setExpanded] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('nb_checklist', JSON.stringify(checked));
+  }, [checked]);
+
+  const itemKey = (sectionId, subIdx, itemIdx) => `${sectionId}_${subIdx}_${itemIdx}`;
+
+  const toggleCheck = (key) => {
+    setChecked(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const toggleSection = (sectionId) => {
+    setExpanded(prev => ({ ...prev, [sectionId]: !prev[sectionId] }));
+  };
+
+  const getSectionProgress = (section) => {
+    let total = 0, done = 0;
+    section.subsections.forEach((sub, si) => {
+      sub.items.forEach((_, ii) => {
+        total++;
+        if (checked[itemKey(section.id, si, ii)]) done++;
+      });
+    });
+    return { total, done, pct: total ? Math.round((done / total) * 100) : 0 };
+  };
+
+  const getOverallProgress = () => {
+    let total = 0, done = 0;
+    checklistData.forEach(section => {
+      const p = getSectionProgress(section);
+      total += p.total;
+      done += p.done;
+    });
+    return { total, done, pct: total ? Math.round((done / total) * 100) : 0 };
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('nb_portal_auth');
+    navigate('/');
+  };
+
+  const matchesSearch = (text) => {
+    if (!searchQuery) return true;
+    return text.toLowerCase().includes(searchQuery.toLowerCase());
+  };
+
+  const overall = getOverallProgress();
+
+  return (
+    <div className="min-h-screen bg-black text-white">
+      {/* Header */}
+      <div className="sticky top-20 z-40 bg-black/95 backdrop-blur-xl border-b border-gray-800">
+        <div className="max-w-5xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <h1 className="text-2xl font-black bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
+                Foundations Checklist
+              </h1>
+              <p className="text-gray-400 text-sm">{overall.done} of {overall.total} items complete</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="text-right">
+                <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">{overall.pct}%</span>
+              </div>
+              <button onClick={handleLogout} className="p-2 text-gray-400 hover:text-white transition-colors" title="Log out">
+                <LogOut className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+          {/* Overall progress bar */}
+          <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-pink-500 to-cyan-500 rounded-full transition-all duration-500"
+              style={{ width: `${overall.pct}%` }}
+            />
+          </div>
+          {/* Search */}
+          <div className="mt-3 relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search items..."
+              className="w-full pl-10 pr-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-sm text-white outline-none focus:border-pink-500 transition-colors"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Sections */}
+      <div className="max-w-5xl mx-auto px-6 py-8 space-y-4">
+        {checklistData.map((section) => {
+          const progress = getSectionProgress(section);
+          const isExpanded = expanded[section.id] || searchQuery;
+
+          // Filter for search
+          const hasMatch = searchQuery
+            ? matchesSearch(section.title) || matchesSearch(section.description) ||
+              section.subsections.some(sub => matchesSearch(sub.title) || sub.items.some(item => matchesSearch(item)))
+            : true;
+
+          if (!hasMatch) return null;
+
+          return (
+            <div key={section.id} className="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden">
+              {/* Section Header */}
+              <button
+                onClick={() => toggleSection(section.id)}
+                className="w-full px-6 py-5 flex items-center gap-4 hover:bg-gray-800/50 transition-colors"
+              >
+                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r from-pink-500 to-cyan-500 flex items-center justify-center font-black text-sm">
+                  {section.number}
+                </div>
+                <div className="flex-1 text-left">
+                  <h2 className="text-lg font-bold text-white">{section.title}</h2>
+                  <p className="text-gray-400 text-sm">{section.description}</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="text-right">
+                    <span className={`text-sm font-bold ${progress.pct === 100 ? 'text-green-400' : progress.pct > 0 ? 'text-cyan-400' : 'text-gray-500'}`}>
+                      {progress.done}/{progress.total}
+                    </span>
+                    <div className="w-24 h-1.5 bg-gray-700 rounded-full overflow-hidden mt-1">
+                      <div
+                        className={`h-full rounded-full transition-all duration-500 ${progress.pct === 100 ? 'bg-green-400' : 'bg-gradient-to-r from-pink-500 to-cyan-500'}`}
+                        style={{ width: `${progress.pct}%` }}
+                      />
+                    </div>
+                  </div>
+                  {isExpanded ? <ChevronDown className="w-5 h-5 text-gray-400" /> : <ChevronRight className="w-5 h-5 text-gray-400" />}
+                </div>
+              </button>
+
+              {/* Section Content */}
+              {isExpanded && (
+                <div className="px-6 pb-6 space-y-6">
+                  {section.subsections.map((sub, si) => {
+                    const subHasMatch = searchQuery
+                      ? matchesSearch(sub.title) || sub.items.some(item => matchesSearch(item))
+                      : true;
+                    if (!subHasMatch) return null;
+
+                    return (
+                      <div key={si}>
+                        <h3 className="text-sm font-bold text-pink-400 uppercase tracking-wider mb-3 pl-1">{sub.title}</h3>
+                        <div className="space-y-1">
+                          {sub.items.map((item, ii) => {
+                            if (searchQuery && !matchesSearch(item) && !matchesSearch(sub.title)) return null;
+                            const key = itemKey(section.id, si, ii);
+                            const isChecked = !!checked[key];
+                            return (
+                              <label
+                                key={ii}
+                                className={`flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all ${
+                                  isChecked
+                                    ? 'bg-green-500/10 border border-green-500/20'
+                                    : 'hover:bg-gray-800/50 border border-transparent'
+                                }`}
+                              >
+                                <div className="relative flex-shrink-0">
+                                  <input
+                                    type="checkbox"
+                                    checked={isChecked}
+                                    onChange={() => toggleCheck(key)}
+                                    className="sr-only"
+                                  />
+                                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                                    isChecked
+                                      ? 'bg-gradient-to-r from-pink-500 to-cyan-500 border-transparent'
+                                      : 'border-gray-600 hover:border-pink-500'
+                                  }`}>
+                                    {isChecked && <Check className="w-3 h-3 text-white" />}
+                                  </div>
+                                </div>
+                                <span className={`text-sm transition-all ${isChecked ? 'text-gray-400 line-through' : 'text-gray-200'}`}>
+                                  {item}
+                                </span>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// ── Portal Page (Password Gated) ───────────────────────────────────────
+const PortalPage = () => {
+  const [authed, setAuthed] = useState(() => localStorage.getItem('nb_portal_auth') === 'true');
+
+  if (!authed) return <PortalLogin onAuth={setAuthed} />;
+  return <FoundationsChecklist />;
+};
+
 // Footer Component
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <footer className="border-t-2 border-cyan-500 bg-black py-12 px-4">
       <div className="max-w-7xl mx-auto text-center">
-        <p className="text-gray-400">© 2025 Nunya Bunya. All rights reserved.</p>
+        <p className="text-gray-400">
+          <span
+            onClick={() => navigate('/portal')}
+            className="cursor-default select-none"
+            title=""
+          >©</span> 2025 Nunya Bunya. All rights reserved.
+        </p>
       </div>
     </footer>
   );
@@ -681,6 +1041,7 @@ const NunyaBunyaWebsite = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/portal" element={<PortalPage />} />
           </Routes>
         </div>
         <Footer />
