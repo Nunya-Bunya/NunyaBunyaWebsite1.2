@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The 10-Minute Marketing Audit: Score Your Business | Nunya Bunya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========== RESET & BASE ========== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --teal: #4BBFB4;
+      --pink: #D6396B;
+      --navy: #1A2E3E;
+      --navy-light: #2a4459;
+      --gray-50: #f8fafb;
+      --gray-100: #f0f4f5;
+      --gray-200: #dce3e6;
+      --gray-400: #94a3af;
+      --gray-600: #5a6b78;
+      --white: #ffffff;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--navy);
+      background: var(--gray-50);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ========== LAYOUT ========== */
+    .page-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 32px;
+    }
+
+    /* ========== COVER / HEADER ========== */
+    .cover {
+      text-align: center;
+      padding: 48px 24px 40px;
+      border: 3px solid var(--teal);
+      border-radius: 16px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--teal), var(--pink));
+    }
+
+    .brand-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 16px;
+    }
+
+    .cover h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .cover .subtitle {
+      font-size: 1.125rem;
+      color: var(--gray-600);
+      font-weight: 500;
+    }
+
+    /* ========== INTRO ========== */
+    .intro {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 36px;
+      border-left: 4px solid var(--teal);
+    }
+
+    .intro h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .intro p {
+      color: var(--gray-600);
+      font-size: 0.9375rem;
+      line-height: 1.7;
+    }
+
+    /* ========== AUDIT SECTIONS ========== */
+    .audit-section {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      margin-bottom: 28px;
+      overflow: hidden;
+      page-break-inside: avoid;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .section-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--teal);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .section-body {
+      padding: 24px 28px;
+    }
+
+    /* ========== CHECKLIST ITEMS ========== */
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--gray-100);
+      gap: 16px;
+    }
+
+    .checklist-item:last-child {
+      border-bottom: none;
+      padding-bottom: 4px;
+    }
+
+    .checklist-label {
+      font-size: 0.9375rem;
+      color: var(--navy);
+      font-weight: 500;
+      flex: 1;
+      padding-top: 2px;
+    }
+
+    .checklist-label span {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: var(--gray-600);
+      margin-top: 2px;
+    }
+
+    /* ========== SCORING CIRCLES ========== */
+    .score-circles {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .score-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gray-400);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .score-circle:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    /* ========== SECTION SUBTOTAL ========== */
+    .section-subtotal {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 16px 28px;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+      gap: 12px;
+    }
+
+    .section-subtotal label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .score-input {
+      width: 56px;
+      height: 36px;
+      border: 2px solid var(--gray-200);
+      border-radius: 8px;
+      text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      outline: none;
+    }
+
+    .score-input:focus {
+      border-color: var(--teal);
+    }
+
+    .score-max {
+      font-size: 0.8125rem;
+      color: var(--gray-400);
+      font-weight: 500;
+    }
+
+    /* ========== TOTAL SCORE ========== */
+    .total-score-section {
+      background: var(--white);
+      border: 2px solid var(--teal);
+      border-radius: 12px;
+      padding: 32px;
+      margin-top: 36px;
+      margin-bottom: 36px;
+      page-break-inside: avoid;
+    }
+
+    .total-score-section h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .total-score-row {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .total-score-input {
+      width: 80px;
+      height: 48px;
+      border: 3px solid var(--teal);
+      border-radius: 10px;
+      text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      outline: none;
+    }
+
+    .total-score-input:focus {
+      border-color: var(--pink);
+    }
+
+    .total-max {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.125rem;
+      color: var(--gray-400);
+      font-weight: 600;
+    }
+
+    /* ========== SCORE INTERPRETATION ========== */
+    .score-tiers {
+      display: grid;
+      gap: 12px;
+    }
+
+    .tier {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .tier-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .tier-excellent .tier-badge {
+      background: #e6f7f5;
+      color: #0d856f;
+      border: 1px solid #b8e8e0;
+    }
+
+    .tier-good .tier-badge {
+      background: #e8f0fe;
+      color: #2e5ea3;
+      border: 1px solid #b8d0f5;
+    }
+
+    .tier-gaps .tier-badge {
+      background: #fff5e6;
+      color: #b8760a;
+      border: 1px solid #f5dca8;
+    }
+
+    .tier-serious .tier-badge {
+      background: #fce8ee;
+      color: #b82e52;
+      border: 1px solid #f5a8be;
+    }
+
+    .tier-text {
+      font-size: 0.9375rem;
+      color: var(--navy);
+    }
+
+    .tier-text strong {
+      font-weight: 600;
+    }
+
+    .tier-text span {
+      color: var(--gray-600);
+      font-weight: 400;
+    }
+
+    /* ========== CTA ========== */
+    .cta-section {
+      text-align: center;
+      padding: 40px 32px;
+      border: 2px dashed var(--teal);
+      border-radius: 12px;
+      margin-bottom: 32px;
+      page-break-inside: avoid;
+    }
+
+    .cta-section h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .cta-section p {
+      color: var(--gray-600);
+      font-size: 1rem;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      background: var(--pink);
+      padding: 14px 36px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+
+    .cta-button:hover {
+      background: #c02d5c;
+    }
+
+    .cta-url {
+      display: block;
+      margin-top: 14px;
+      font-size: 0.875rem;
+      color: var(--teal);
+      font-weight: 600;
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      text-align: center;
+      padding: 20px 0;
+      font-size: 0.8125rem;
+      color: var(--gray-400);
+    }
+
+    .footer a {
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    /* ========== PRINT STYLES ========== */
+    @media print {
+      @page {
+        margin: 0.6in 0.7in;
+        size: letter;
+      }
+
+      html {
+        font-size: 14px;
+      }
+
+      body {
+        background: white;
+        color: #1a1a1a;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .page-wrapper {
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .cover {
+        border: 2px solid #4BBFB4;
+        border-radius: 0;
+        padding: 32px 20px 28px;
+        margin-bottom: 24px;
+      }
+
+      .cover::before {
+        height: 4px;
+      }
+
+      .intro {
+        border-radius: 0;
+        padding: 20px 24px;
+        margin-bottom: 24px;
+      }
+
+      .audit-section {
+        border-radius: 0;
+        margin-bottom: 20px;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      .section-number {
+        background: var(--teal) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .score-circle {
+        border: 2px solid #999;
+        color: #666;
+      }
+
+      .score-circle:hover {
+        border-color: #999;
+        color: #666;
+      }
+
+      .cta-button {
+        display: none;
+      }
+
+      .cta-section {
+        border: 2px solid #4BBFB4;
+        border-radius: 0;
+      }
+
+      .cta-url {
+        font-size: 1rem;
+        color: #1a1a1a;
+        font-weight: 700;
+      }
+
+      .total-score-section {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        border-radius: 0;
+      }
+
+      .tier {
+        border-radius: 0;
+      }
+
+      a {
+        color: #1a1a1a;
+        text-decoration: none;
+      }
+
+      .footer {
+        color: #888;
+      }
+
+      .footer a {
+        color: #1a1a1a;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- COVER -->
+    <header class="cover">
+      <div class="brand-name">Nunya Bunya</div>
+      <h1>The 10-Minute Marketing Audit</h1>
+      <p class="subtitle">Score Your Business &mdash; Find What&rsquo;s Working and What&rsquo;s Not</p>
+    </header>
+
+    <!-- INTRO -->
+    <div class="intro">
+      <h2>How to Use This Guide</h2>
+      <p>
+        Rate each item on a scale of <strong>1 to 5</strong>, where 1 means "not doing this at all" and 5 means
+        "nailing it." Be honest &mdash; this audit only works if you are. At the end, add up your score and see where
+        you stand. The whole thing takes about 10 minutes.
+      </p>
+    </div>
+
+    <!-- SECTION 1: WEBSITE HEALTH -->
+    <section class="audit-section">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <h2>Website Health</h2>
+      </div>
+      <div class="section-body">
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Mobile Responsive
+            <span>Does your site look and work great on phones and tablets?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Fast Load Speed
+            <span>Pages load in under 3 seconds on desktop and mobile?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Clear Calls to Action
+            <span>Every page has a clear next step for visitors (call, book, buy)?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Professional Design
+            <span>Clean, modern look that matches your brand and builds trust?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            SEO Basics in Place
+            <span>Title tags, meta descriptions, and alt text on images?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="section-subtotal">
+        <label>Section Score:</label>
+        <input type="text" class="score-input" placeholder="__" aria-label="Website Health score">
+        <span class="score-max">/ 25</span>
+      </div>
+    </section>
+
+    <!-- SECTION 2: SOCIAL MEDIA -->
+    <section class="audit-section">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <h2>Social Media</h2>
+      </div>
+      <div class="section-body">
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Consistent Posting
+            <span>Publishing content on a regular schedule (3+ times per week)?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Clear Brand Voice
+            <span>Your tone, visuals, and messaging are recognizable and consistent?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Engagement Rate
+            <span>Posts get likes, comments, shares &mdash; not just silence?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Platform Optimization
+            <span>Profiles are fully completed with bios, links, and contact info?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Content Variety
+            <span>Mix of formats: photos, video, stories, carousels, reels?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="section-subtotal">
+        <label>Section Score:</label>
+        <input type="text" class="score-input" placeholder="__" aria-label="Social Media score">
+        <span class="score-max">/ 25</span>
+      </div>
+    </section>
+
+    <!-- SECTION 3: SEO FOUNDATIONS -->
+    <section class="audit-section">
+      <div class="section-header">
+        <div class="section-number">3</div>
+        <h2>SEO Foundations</h2>
+      </div>
+      <div class="section-body">
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Google Business Profile
+            <span>Claimed, verified, and regularly updated with posts and photos?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Keyword Strategy
+            <span>You know what terms your customers search and target them?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Meta Tags Done Right
+            <span>Unique title tags and meta descriptions on every page?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Local SEO
+            <span>Showing up in local search results and map packs?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Backlink Profile
+            <span>Other reputable sites link to yours?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="section-subtotal">
+        <label>Section Score:</label>
+        <input type="text" class="score-input" placeholder="__" aria-label="SEO Foundations score">
+        <span class="score-max">/ 25</span>
+      </div>
+    </section>
+
+    <!-- SECTION 4: CONTENT STRATEGY -->
+    <section class="audit-section">
+      <div class="section-header">
+        <div class="section-number">4</div>
+        <h2>Content Strategy</h2>
+      </div>
+      <div class="section-body">
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Blog or Articles
+            <span>Publishing helpful content regularly that attracts organic traffic?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Email List
+            <span>Actively growing a subscriber list and sending regular emails?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Lead Magnets
+            <span>Offering a freebie (guide, checklist, template) to capture leads?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Case Studies or Testimonials
+            <span>Social proof that shows results and builds trust?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-label">
+            Video Content
+            <span>Creating video for social, YouTube, or your website?</span>
+          </div>
+          <div class="score-circles">
+            <div class="score-circle">1</div>
+            <div class="score-circle">2</div>
+            <div class="score-circle">3</div>
+            <div class="score-circle">4</div>
+            <div class="score-circle">5</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="section-subtotal">
+        <label>Section Score:</label>
+        <input type="text" class="score-input" placeholder="__" aria-label="Content Strategy score">
+        <span class="score-max">/ 25</span>
+      </div>
+    </section>
+
+    <!-- TOTAL SCORE -->
+    <section class="total-score-section">
+      <h2>Your Total Marketing Score</h2>
+      <div class="total-score-row">
+        <input type="text" class="total-score-input" placeholder="__" aria-label="Total score">
+        <span class="total-max">/ 100</span>
+      </div>
+
+      <div class="score-tiers">
+        <div class="tier tier-excellent">
+          <span class="tier-badge">80 &ndash; 100</span>
+          <div class="tier-text">
+            <strong>You're Crushing It</strong> &mdash;
+            <span>Your marketing engine is running strong. Focus on optimization and scaling what works.</span>
+          </div>
+        </div>
+        <div class="tier tier-good">
+          <span class="tier-badge">60 &ndash; 79</span>
+          <div class="tier-text">
+            <strong>Good Foundation, Room to Grow</strong> &mdash;
+            <span>The basics are in place. Time to level up the areas dragging your score down.</span>
+          </div>
+        </div>
+        <div class="tier tier-gaps">
+          <span class="tier-badge">40 &ndash; 59</span>
+          <div class="tier-text">
+            <strong>Significant Gaps Holding You Back</strong> &mdash;
+            <span>You're leaving money on the table. Prioritize the weakest sections first.</span>
+          </div>
+        </div>
+        <div class="tier tier-serious">
+          <span class="tier-badge">Below 40</span>
+          <div class="tier-text">
+            <strong>Time to Get Serious About Marketing</strong> &mdash;
+            <span>Your competition is outpacing you. A structured strategy can turn things around fast.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <h2>Want an Expert to Run This Audit for You?</h2>
+      <p>
+        Our team will do a deep-dive analysis of your marketing &mdash; not just a checklist, but a
+        full strategy review with actionable recommendations tailored to your business.
+      </p>
+      <a href="https://nunyabunya.com" class="cta-button">Book a Free Strategy Call</a>
+      <span class="cta-url">nunyabunya.com</span>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p>&copy; 2026 <a href="https://nunyabunya.com">Nunya Bunya</a>. All rights reserved.</p>
+    </footer>
+
+  </div>
+</body>
+</html>

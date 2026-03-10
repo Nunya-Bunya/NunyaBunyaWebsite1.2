@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Command Center | Nunya Bunya</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg-card: #12121a;
+  --bg-light: #1a1a2e;
+  --accent: #e94560;
+  --accent-glow: rgba(233, 69, 96, 0.3);
+  --accent2: #f857a6;
+  --text: #ffffff;
+  --text-muted: #8a8a9a;
+  --gradient: linear-gradient(135deg, #e94560, #f857a6);
+  --radius: 16px;
+  --radius-sm: 8px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.3);
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --green: #00e676;
+  --yellow: #ffd600;
+  --blue: #448aff;
+  --orange: #ff9100;
+  --red: #ff1744;
+  --purple: #b388ff;
+  --cyan: #18ffff;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ═══════ HEADER ═══════ */
+.header {
+  padding: 40px 0 20px;
+  border-bottom: 1px solid rgba(233,69,96,0.15);
+  background: linear-gradient(180deg, rgba(233,69,96,0.05) 0%, transparent 100%);
+}
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.header h1 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header .subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 4px;
+}
+.header-stats { display: flex; gap: 24px; }
+.header-stat { text-align: center; }
+.header-stat .num {
+  font-family: var(--font-heading);
+  font-size: 32px;
+  font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header-stat .label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+}
+
+/* ═══════ LEGEND + FILTERS ═══════ */
+.controls {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.legend { display: flex; gap: 16px; flex-wrap: wrap; }
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.legend-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-btn {
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn:hover { border-color: var(--accent); color: var(--text); }
+.filter-btn.active {
+  background: var(--gradient);
+  color: white;
+  border-color: transparent;
+}
+
+/* ═══════ GRID ═══════ */
+.grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 12px 32px 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 16px;
+}
+
+/* ═══════ CARD ═══════ */
+.card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.card:hover {
+  border-color: rgba(233,69,96,0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.card:hover::before { opacity: 1; }
+
+/* Card top color by status */
+.card[data-ops="operational"]::before { background: var(--green); }
+.card[data-ops="needs-setup"]::before { background: var(--yellow); }
+.card[data-ops="planned"]::before { background: var(--text-muted); }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+.card-title {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.card-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+/* Operational status bar */
+.ops-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+}
+.ops-status.operational {
+  background: rgba(0,230,118,0.08);
+  border: 1px solid rgba(0,230,118,0.15);
+  color: var(--green);
+}
+.ops-status.needs-setup {
+  background: rgba(255,214,0,0.08);
+  border: 1px solid rgba(255,214,0,0.15);
+  color: var(--yellow);
+}
+.ops-status.planned {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-muted);
+}
+.ops-icon { font-size: 14px; }
+.ops-detail {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+/* Business tags */
+.business-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.biz-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(233,69,96,0.1);
+  color: var(--accent);
+  border: 1px solid rgba(233,69,96,0.15);
+  white-space: nowrap;
+}
+.biz-tag.all { background: rgba(179,136,255,0.1); color: var(--purple); border-color: rgba(179,136,255,0.15); }
+.biz-tag.personal { background: rgba(24,255,255,0.1); color: var(--cyan); border-color: rgba(24,255,255,0.15); }
+.biz-tag.agency { background: rgba(68,138,255,0.1); color: var(--blue); border-color: rgba(68,138,255,0.15); }
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.badge .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.badge-cron { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid rgba(0,230,118,0.2); }
+.badge-cron .dot { background: var(--green); animation: pulse 2s infinite; }
+.badge-webhook { background: rgba(68,138,255,0.1); color: var(--blue); border: 1px solid rgba(68,138,255,0.2); }
+.badge-webhook .dot { background: var(--blue); }
+.badge-manual { background: rgba(255,145,0,0.1); color: var(--orange); border: 1px solid rgba(255,145,0,0.2); }
+.badge-manual .dot { background: var(--orange); }
+.badge-always { background: rgba(24,255,255,0.1); color: var(--cyan); border: 1px solid rgba(24,255,255,0.2); }
+.badge-always .dot { background: var(--cyan); animation: pulse 1.5s infinite; }
+.badge-utility { background: rgba(179,136,255,0.1); color: var(--purple); border: 1px solid rgba(179,136,255,0.2); }
+.badge-utility .dot { background: var(--purple); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Card meta */
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.meta-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.04);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.meta-tag.schedule { color: var(--green); background: rgba(0,230,118,0.08); }
+.meta-tag.integration { color: var(--accent2); background: rgba(248,87,166,0.08); }
+.meta-tag.missing { color: var(--yellow); background: rgba(255,214,0,0.08); border: 1px dashed rgba(255,214,0,0.3); }
+
+/* Section headers */
+.section-header {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 32px 8px;
+}
+.section-header h2 {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-header h2 .count {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.section-divider {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Status summary bar */
+.status-bar {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 32px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.status-pill.op { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid rgba(0,230,118,0.2); }
+.status-pill.ns { background: rgba(255,214,0,0.1); color: var(--yellow); border: 1px solid rgba(255,214,0,0.2); }
+.status-pill.pl { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .header-inner { flex-direction: column; text-align: center; }
+  .controls { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <h1>Agent Command Center</h1>
+      <div class="subtitle">Nunya Bunya Operations Dashboard &mdash; 9 Businesses, 42 Agents</div>
+    </div>
+    <div class="header-stats">
+      <div class="header-stat"><div class="num">42</div><div class="label">Agents</div></div>
+      <div class="header-stat"><div class="num">14</div><div class="label">Operational</div></div>
+      <div class="header-stat"><div class="num">7</div><div class="label">Need Setup</div></div>
+      <div class="header-stat"><div class="num">5</div><div class="label">Cron Jobs</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- STATUS SUMMARY -->
+<div class="status-bar">
+  <div class="status-pill op">Fully Operational: 14 agents</div>
+  <div class="status-pill ns">Needs API Setup: 7 agents (Twilio, Yelp, WordPress, Buffer, SEMrush, Google Ads)</div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:var(--green);animation:pulse 2s infinite;"></span> Cron</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--blue);"></span> Webhook</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--orange);"></span> Manual</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--cyan);animation:pulse 1.5s infinite;"></span> Always On</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--purple);"></span> Utility</div>
+    <div class="legend-item" style="margin-left:12px;"><span class="legend-dot" style="background:var(--green);"></span> Operational</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--yellow);"></span> Needs Setup</div>
+  </div>
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterAgents('all')">All</button>
+    <button class="filter-btn" onclick="filterAgents('cron')">Cron</button>
+    <button class="filter-btn" onclick="filterAgents('webhook')">Webhook</button>
+    <button class="filter-btn" onclick="filterAgents('manual')">Manual</button>
+    <button class="filter-btn" onclick="filterAgents('always')">Always On</button>
+    <button class="filter-btn" onclick="filterAgents('utility')">Utilities</button>
+    <button class="filter-btn" onclick="filterByOps('operational')">Operational</button>
+    <button class="filter-btn" onclick="filterByOps('needs-setup')">Needs Setup</button>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- CRON JOBS -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-header"><h2>Scheduled Agents (Cron Jobs) <span class="count">5 agents</span></h2></div>
+<div class="grid">
+
+  <div class="card" data-type="cron" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Monthly Industry Report</div>
+      <div class="badge badge-cron"><span class="dot"></span>CRON</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag personal">Ben Alek Conner</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Scrapes 9 industry RSS feeds (Variety, IndieWire, Hollywood Reporter, No Film School, Screen Queensland, etc.), aggregates jobs from Indeed/Behance/WeWorkRemotely via Apify, compiles opportunities from Sundance/NEA/Screen Queensland, and generates AI executive summary via Claude. Delivered as Gmail draft with Excel attachment to ben@nunyabunya.com.</div>
+    <div class="card-meta">
+      <span class="meta-tag schedule">1st of month @ 9am</span>
+      <span class="meta-tag integration">Apify</span>
+      <span class="meta-tag integration">Claude API</span>
+      <span class="meta-tag integration">Gmail IMAP</span>
+      <span class="meta-tag">monthly_report.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="cron" data-ops="needs-setup">
+    <div class="card-header">
+      <div class="card-title">SEO Agent</div>
+      <div class="badge badge-cron"><span class="dot"></span>CRON</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">All Clients</span>
+    </div>
+    <div class="ops-status needs-setup">
+      <span class="ops-icon">&#9888;</span>
+      <div>Needs Setup<div class="ops-detail">Missing: SEMRUSH_API_KEY or AHREFS_API_KEY</div></div>
+    </div>
+    <div class="card-desc">Pulls keyword data via Ahrefs/SEMrush, analyzes competitors, identifies trending topics, generates 50 keyword opportunities, creates 12-week content calendar, and produces internal linking map. Feeds content strategy to downstream agents.</div>
+    <div class="card-meta">
+      <span class="meta-tag schedule">Weekly via n8n</span>
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag integration">Gemini</span>
+      <span class="meta-tag integration">Search Console</span>
+      <span class="meta-tag missing">SEMRUSH_API_KEY</span>
+      <span class="meta-tag missing">AHREFS_API_KEY</span>
+      <span class="meta-tag">seo_agent.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="cron" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Ads Optimization Agent</div>
+      <div class="badge badge-cron"><span class="dot"></span>CRON</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">All Clients</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Monitors Google Ads and Meta Ads performance daily. Identifies underperformers by CTR/CPA thresholds, generates new ad copy variants, and flags budget decisions for team review. No auto-publishing of ad changes &mdash; all copy requires team approval.</div>
+    <div class="card-meta">
+      <span class="meta-tag schedule">Daily via n8n</span>
+      <span class="meta-tag integration">Google Ads</span>
+      <span class="meta-tag integration">Meta Ads</span>
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag">ads_agent.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="cron" data-ops="needs-setup">
+    <div class="card-header">
+      <div class="card-title">Reputation Management Agent</div>
+      <div class="badge badge-cron"><span class="dot"></span>CRON</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">All Clients</span>
+    </div>
+    <div class="ops-status needs-setup">
+      <span class="ops-icon">&#9888;</span>
+      <div>Needs Setup<div class="ops-detail">Missing: YELP_API_KEY (Google + Facebook working)</div></div>
+    </div>
+    <div class="card-desc">Monitors Google Business, Facebook, and Yelp for new reviews. Drafts AI responses in client's brand voice. Auto-posts replies for 4-5 star reviews; alerts team on 1-3 star reviews for manual handling. Yelp monitoring disabled until API key added.</div>
+    <div class="card-meta">
+      <span class="meta-tag schedule">Every 4 hours</span>
+      <span class="meta-tag integration">Google Business</span>
+      <span class="meta-tag integration">Facebook</span>
+      <span class="meta-tag missing">YELP_API_KEY</span>
+      <span class="meta-tag">reputation_agent.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="cron" data-ops="needs-setup">
+    <div class="card-header">
+      <div class="card-title">Marketing Analyst (Weekly Report)</div>
+      <div class="badge badge-cron"><span class="dot"></span>CRON</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">All Clients</span>
+    </div>
+    <div class="ops-status needs-setup">
+      <span class="ops-icon">&#9888;</span>
+      <div>Needs Setup<div class="ops-detail">Missing: GOOGLE_ADS_DEVELOPER_TOKEN (all other sources working)</div></div>
+    </div>
+    <div class="card-desc">Pulls data from Search Console, Analytics, Google Ads, Meta Ads, and GoHighLevel. Generates formatted weekly client report with executive summary, traffic metrics, leads, paid ad performance, and AI-powered recommendations.</div>
+    <div class="card-meta">
+      <span class="meta-tag schedule">Every Monday 8am</span>
+      <span class="meta-tag integration">GA4</span>
+      <span class="meta-tag integration">Search Console</span>
+      <span class="meta-tag integration">Meta Ads</span>
+      <span class="meta-tag integration">GoHighLevel</span>
+      <span class="meta-tag missing">GOOGLE_ADS_DEV_TOKEN</span>
+      <span class="meta-tag">reporting_agent.py</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- WEBHOOK-TRIGGERED -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-header"><h2>Webhook-Triggered Agents <span class="count">10 agents</span></h2></div>
+<div class="grid">
+
+  <div class="card" data-type="webhook" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Content Generator (Content Factory)</div>
+      <div class="badge badge-webhook"><span class="dot"></span>WEBHOOK</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">All Clients</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Takes a campaign topic and produces a complete marketing package: SEO blog post, FAQ schema markup, Google Business post, 3 platform-specific social media posts, email newsletter draft, ad headlines with variations, and DALL-E image prompt. Publishes to WordPress as draft.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">n8n</span>
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag integration">Gemini</span>
+      <span class="meta-tag integration">DALL-E</span>
+      <span class="meta-tag integration">WordPress</span>
+      <span class="meta-tag">content_generator.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="webhook" data-ops="needs-setup">
+    <div class="card-header">
+      <div class="card-title">Lead Qualification Agent</div>
+      <div class="badge badge-webhook"><span class="dot"></span>WEBHOOK</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag">Conner Injury Law</span>
+      <span class="biz-tag agency">All Clients</span>
+    </div>
+    <div class="ops-status needs-setup">
+      <span class="ops-icon">&#9888;</span>
+      <div>Needs Setup<div class="ops-detail">Missing: TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER</div></div>
+    </div>
+    <div class="card-desc">Engages incoming leads via SMS, asks qualifying questions (injury type, timeline, insurance), scores leads on fit/budget/urgency, books appointments via GoHighLevel if qualified, and routes unqualified leads to nurture workflows.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">GoHighLevel</span>
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag integration">n8n</span>
+      <span class="meta-tag missing">TWILIO (all 3 keys)</span>
+      <span class="meta-tag">lead_qualifier.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="webhook" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Short Form Video Agent</div>
+      <div class="badge badge-webhook"><span class="dot"></span>WEBHOOK</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">All Clients</span>
+      <span class="biz-tag personal">Ben Alek Conner</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Takes company name and video series concept; produces 5+ entertainment-first Reels/TikTok/Shorts scripts with visual direction, shot lists, hashtags, and platform-specific captions. Story-driven approach where brand connection is subtle.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag integration">Supabase</span>
+      <span class="meta-tag integration">n8n</span>
+      <span class="meta-tag">short_form_video.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="webhook" data-ops="needs-setup">
+    <div class="card-header">
+      <div class="card-title">Social Media Agent</div>
+      <div class="badge badge-webhook"><span class="dot"></span>WEBHOOK</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">All Clients</span>
+    </div>
+    <div class="ops-status needs-setup">
+      <span class="ops-icon">&#9888;</span>
+      <div>Needs Setup<div class="ops-detail">Missing: BUFFER_ACCESS_TOKEN (content generation works, scheduling doesn't)</div></div>
+    </div>
+    <div class="card-desc">Generates platform-optimized social posts (LinkedIn, Instagram, Facebook) from blog content. Designed to schedule through Buffer API and track engagement. Content generation works, but auto-scheduling blocked until Buffer connected.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag integration">GoHighLevel</span>
+      <span class="meta-tag missing">BUFFER_ACCESS_TOKEN</span>
+      <span class="meta-tag">social_agent.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="webhook" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Welcome Client Emails</div>
+      <div class="badge badge-webhook"><span class="dot"></span>WEBHOOK</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">Nunya Bunya</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Sends 3-email welcome sequence (from Nick, Peter, Sam) when a new client signs their agreement. Fully deterministic &mdash; no AI needed. Introduces each team member and books kickoff call. Sends from nick@leftclick.ai.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Gmail API</span>
+      <span class="meta-tag integration">OAuth2</span>
+      <span class="meta-tag">welcome_client_emails.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="webhook" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Instantly Auto-Reply</div>
+      <div class="badge badge-webhook"><span class="dot"></span>WEBHOOK</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">Nunya Bunya</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Reads incoming cold email responses from Instantly, fetches campaign-specific context from knowledge base Google Sheet, generates personalized replies via Claude with extended thinking, and sends via Instantly API. Skips confirmations and unsubscribes.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Instantly</span>
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag integration">Google Sheets</span>
+      <span class="meta-tag">instantly_autoreply.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="webhook" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Post-Kickoff Onboarding</div>
+      <div class="badge badge-webhook"><span class="dot"></span>WEBHOOK</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">Nunya Bunya</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Full post-kickoff orchestration pipeline: scrapes Google Maps leads, enriches emails via AnyMailFinder, casualizes company/first names/cities via Claude, creates Instantly cold email campaigns, sets up auto-reply knowledge base, sends summary email. 100% deterministic Python.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Apify</span>
+      <span class="meta-tag integration">AnyMailFinder</span>
+      <span class="meta-tag integration">Instantly</span>
+      <span class="meta-tag integration">Google Sheets</span>
+      <span class="meta-tag">onboarding_post_kickoff.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="webhook" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Create Proposal</div>
+      <div class="badge badge-webhook"><span class="dot"></span>WEBHOOK</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">Nunya Bunya</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Creates customized PandaDoc proposals using template UUID, populates with client/project data from webhooks or call transcripts, and sends follow-up emails. Handles pricing, scope, and timeline assembly.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">PandaDoc</span>
+      <span class="meta-tag integration">Gmail API</span>
+      <span class="meta-tag integration">n8n</span>
+      <span class="meta-tag">create_proposal.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="webhook" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Strategy Agent (AI CMO)</div>
+      <div class="badge badge-webhook"><span class="dot"></span>WEBHOOK</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">All Clients</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Designs overall marketing strategy per client: 90-day plan, positioning statement, content pillars, SEO targets, content calendar outline, quick wins, and KPIs. Seeds all downstream agents (Content Factory, Social, SEO, Ads). Runs on new client onboarding + monthly reviews.</div>
+    <div class="card-meta">
+      <span class="meta-tag schedule">Onboarding + monthly</span>
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag integration">Supabase</span>
+      <span class="meta-tag">strategy_agent.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="webhook" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Instantly Create Campaigns</div>
+      <div class="badge badge-webhook"><span class="dot"></span>WEBHOOK</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">Nunya Bunya</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Creates 3 cold email campaigns in Instantly (one per offer), each with 2-3 email steps and A/B testing for the first step. Weekday schedule 9am-5pm, 50 emails/day limit, auto-stops on reply. Claude generates personalized copy.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Instantly</span>
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag">instantly_create_campaigns.py</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ALWAYS RUNNING -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-header"><h2>Always Running <span class="count">1 agent</span></h2></div>
+<div class="grid">
+
+  <div class="card" data-type="always" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Modal Webhook Server</div>
+      <div class="badge badge-always"><span class="dot"></span>ALWAYS ON</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag all">All Businesses</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">FastAPI webhook server deployed to Modal. Central nerve system for event-driven Claude orchestration. Routes n8n triggers to the correct agent, provides email sending, Instantly integration, YouTube research, and content scraping tools. Hosts all directive-based agent execution.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Modal</span>
+      <span class="meta-tag integration">FastAPI</span>
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag integration">Gmail API</span>
+      <span class="meta-tag integration">Instantly</span>
+      <span class="meta-tag">modal_webhook.py</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- MANUAL LAUNCH -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-header"><h2>Manual Launch (On-Demand) <span class="count">17 agents</span></h2></div>
+<div class="grid">
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Job Finder</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag personal">Ben Alek Conner</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Scrapes job listings from Indeed, Behance, and WeWorkRemotely via Apify with multi-keyword search. Generates cover letters for each job, saves all to Excel, and creates Gmail drafts with resume + cover letter attachments ready to review and send.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Apify</span>
+      <span class="meta-tag integration">Gmail IMAP</span>
+      <span class="meta-tag">job_finder.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">First Client Package</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag all">Any Business</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">5-stage orchestration to take any business from zero to signed first client. Strategy (Claude) &rarr; Research (Gemini Pro) &rarr; Creative (Antigravity) &rarr; Build (Claude Code) &rarr; Execute. Produces complete go-to-market package.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag integration">Gemini Pro</span>
+      <span class="meta-tag">first_client_package.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Foundation Package Builder</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag all">Any Business</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Reads brand style guide, extracts brand DNA, then generates every foundational document in the brand's voice: brand bible, elevator pitches, service descriptions, ideal client profiles, and style guides.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag">foundation_package_builder.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Foundations Builder (Portfolio)</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag all">All 9 Businesses</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Portfolio-wide document generator. Can run gap analysis audit across all 9 businesses (Conner Law Group, Nunya Bunya, ORCA Film Awards, Power Portraits, Bella Rhyder, The Conner Store, Content Studio, Ben Alek Conner) or generate all missing foundational docs in one sweep.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag">foundations_builder.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Google Maps Lead Pipeline</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">Nunya Bunya</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Scrapes Google Maps for target businesses, enriches with website contact info extraction using Claude Haiku, finds emails via DuckDuckGo search, deduplicates, and saves 36-field lead profiles to a persistent Google Sheet. Tested at scale with 50+ leads.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Apify</span>
+      <span class="meta-tag integration">Claude Haiku</span>
+      <span class="meta-tag integration">Google Sheets</span>
+      <span class="meta-tag">gmaps_lead_pipeline.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Upwork Job Scraper</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">Nunya Bunya</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Scrapes Upwork job listings via Apify (free tier) with post-filtering for budget range, experience level (entry/intermediate/expert), verified payment clients, minimum client spend, and hire rate. Outputs to JSON.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Apify</span>
+      <span class="meta-tag">upwork_apify_scraper.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Upwork Proposal Generator</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">Nunya Bunya</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Generates highly personalized Upwork cover letters and project proposals using Claude Opus with extended thinking. Discovers likely hiring manager names from job postings and creates professional Google Docs for each proposal.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Claude Opus</span>
+      <span class="meta-tag integration">Google Docs</span>
+      <span class="meta-tag">upwork_proposal_generator.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Content Machine</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">All Clients</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Simplified single-keyword content generator. Produces full SEO article + featured image prompt + social posts. Auto-publishes to WordPress as draft. Lighter-weight alternative to full Content Factory for quick content runs.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag integration">WordPress</span>
+      <span class="meta-tag integration">DALL-E</span>
+      <span class="meta-tag">content_machine.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="needs-setup">
+    <div class="card-header">
+      <div class="card-title">Local SEO Tool</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag">Conner Injury Law</span>
+      <span class="biz-tag agency">All Clients</span>
+    </div>
+    <div class="ops-status needs-setup">
+      <span class="ops-icon">&#9888;</span>
+      <div>Needs Setup<div class="ops-detail">Missing: WP_URL, WP_USERNAME, WP_APP_PASSWORD (generates content but can't publish)</div></div>
+    </div>
+    <div class="card-desc">Generates up to 50 local landing pages (one per city/service combo) targeting "[service] + [location]" keywords like "personal injury lawyer Brisbane". Can produce content but needs WordPress credentials to publish as drafts.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag missing">WP_URL</span>
+      <span class="meta-tag missing">WP_USERNAME</span>
+      <span class="meta-tag missing">WP_APP_PASSWORD</span>
+      <span class="meta-tag">local_seo_tool.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">SEO Opportunity Finder</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">All Clients</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Analyzes any website URL, generates 50 keyword opportunities ranked by difficulty and search volume, plus a 12-week content calendar with quick wins and high-priority targets. No external SEO tool APIs needed &mdash; uses Claude analysis.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag">seo_opportunity_finder.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Content Calendar Generator</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag all">All 9 Businesses</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Generates 30-day content calendars as markdown and PDF for any or all 9 businesses. Each calendar includes post topics, platforms, content types, hashtags, and publishing schedule tailored to the business's industry and audience.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag">generate_content_calendars.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Content Marketing Agent</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag all">Any Business</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">6-phase content marketing framework: Discovery &rarr; Strategy &rarr; Planning &rarr; Execution &rarr; Distribution &rarr; Measurement. Claude-driven analysis with no external API dependencies. Produces full marketing playbook for any business.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag">content_marketing_agent.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Jump Cut (Video Editor)</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag personal">Ben Alek Conner</span>
+      <span class="biz-tag">Content Studio</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Removes silences from talking-head videos using Silero neural VAD (more accurate than FFmpeg). Supports audio enhancement and LUT color grading. Auto-detects Mac hardware encoding (h264_videotoolbox). Single-pass for speed.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Silero VAD</span>
+      <span class="meta-tag integration">FFmpeg</span>
+      <span class="meta-tag integration">PyTorch</span>
+      <span class="meta-tag">jump_cut_vad_singlepass.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">3D Transition Inserter</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag personal">Ben Alek Conner</span>
+      <span class="biz-tag">Content Studio</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Inserts 3D transition effects between video clips for polished social media content. Local processing, no external APIs needed.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">FFmpeg</span>
+      <span class="meta-tag">insert_3d_transition.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Casualize Batch</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">Nunya Bunya</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Batch Claude processing to casualize company names ("Johnson & Associates LLC" &rarr; "Johnson"), first names ("William" &rarr; "Will"), and city names ("San Francisco" &rarr; "SF") in lead lists. Optimized batching with retry logic for large datasets.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Claude</span>
+      <span class="meta-tag">casualize_batch.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Email Enrichment</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">Nunya Bunya</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Enriches missing emails in lead lists using AnyMailFinder API. Concurrent processing for speed. Looks up email addresses by person name + company domain. Part of the post-kickoff onboarding pipeline.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">AnyMailFinder</span>
+      <span class="meta-tag">enrich_emails.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="manual" data-ops="needs-setup">
+    <div class="card-header">
+      <div class="card-title">Google SERP Lead Scraper</div>
+      <div class="badge badge-manual"><span class="dot"></span>MANUAL</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">Nunya Bunya</span>
+    </div>
+    <div class="ops-status needs-setup">
+      <span class="ops-icon">&#9888;</span>
+      <div>Needs Setup<div class="ops-detail">Hardcoded test query, test limit of 2, dedup not implemented, prod webhook not deployed</div></div>
+    </div>
+    <div class="card-desc">Scrapes Google search results for local service businesses, extracts 100+ fields per lead using GPT, and saves to Google Sheets. Currently hardcoded to "calgary plumber" with test limit of 2 results. Needs parameterization for production use.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Apify</span>
+      <span class="meta-tag integration">OpenAI</span>
+      <span class="meta-tag integration">Google Sheets</span>
+      <span class="meta-tag">google_serp_lead_scraper</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- UTILITIES -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-header"><h2>Utility Modules <span class="count">6 modules</span></h2></div>
+<div class="grid">
+
+  <div class="card" data-type="utility" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Knowledge Base (Vector DB)</div>
+      <div class="badge badge-utility"><span class="dot"></span>UTILITY</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag all">All Businesses</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Ingests client documents (transcripts, contracts, emails, website content, call recordings) into Supabase pgvector. Provides semantic search + keyword fallback. Enables agents and team to query client history using natural language.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Supabase pgvector</span>
+      <span class="meta-tag integration">OpenAI Embeddings</span>
+      <span class="meta-tag">knowledge_base.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="utility" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Google Sheets I/O</div>
+      <div class="badge badge-utility"><span class="dot"></span>UTILITY</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag all">All Businesses</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Read, write, and append operations for Google Sheets with OAuth authentication and rate limit handling. Used by lead generation, onboarding, and reporting pipelines. Optimized for large datasets from scraping workflows.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Google Sheets API</span>
+      <span class="meta-tag integration">OAuth2</span>
+      <span class="meta-tag">read_sheet.py / update_sheet.py / append_to_sheet.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="utility" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">WordPress Publisher</div>
+      <div class="badge badge-utility"><span class="dot"></span>UTILITY</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">All Clients</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Handles WordPress draft creation, scheduling, and publishing via REST API. Default publish status: "draft" &mdash; never auto-publishes without approval. Supports featured images, categories, tags, and custom fields.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">WordPress REST API</span>
+      <span class="meta-tag">publishing/wp_publisher.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="utility" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Trend Scraper</div>
+      <div class="badge badge-utility"><span class="dot"></span>UTILITY</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag all">All Businesses</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Scrapes trending topics and market research data to feed into strategy and content agents. Research utility module for competitive intelligence and market analysis.</div>
+    <div class="card-meta">
+      <span class="meta-tag">research/trend_scraper.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="utility" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">FastAPI Router (main.py)</div>
+      <div class="badge badge-utility"><span class="dot"></span>UTILITY</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag all">All Businesses</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">Central FastAPI server that routes n8n webhook triggers to the correct agent. Provides /run/{agent_name} (async background task) and /run/{agent_name}/sync (synchronous) endpoints. Contains AGENT_REGISTRY mapping names to execution functions.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">FastAPI</span>
+      <span class="meta-tag integration">n8n</span>
+      <span class="meta-tag integration">uvicorn</span>
+      <span class="meta-tag">main.py</span>
+    </div>
+  </div>
+
+  <div class="card" data-type="utility" data-ops="operational">
+    <div class="card-header">
+      <div class="card-title">Scrape Apify (Lead Finder)</div>
+      <div class="badge badge-utility"><span class="dot"></span>UTILITY</div>
+    </div>
+    <div class="business-tags">
+      <span class="biz-tag agency">Nunya Bunya</span>
+    </div>
+    <div class="ops-status operational"><span class="ops-icon">&#10003;</span> Fully Operational</div>
+    <div class="card-desc">General-purpose Apify lead scraper using code_crafter/leads-finder actor. Industry/location targeting, job title and company keyword filtering, email verification. Single and parallel versions for different scale needs.</div>
+    <div class="card-meta">
+      <span class="meta-tag integration">Apify</span>
+      <span class="meta-tag integration">Google Sheets</span>
+      <span class="meta-tag">scrape_apify.py / scrape_apify_parallel.py</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div style="padding: 40px 32px; text-align: center; max-width: 1400px; margin: 0 auto;">
+  <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 24px;">
+    <p style="color: var(--text-muted); font-size: 12px; font-family: var(--font-mono); margin-bottom: 8px;">NUNYA BUNYA AGENT COMMAND CENTER</p>
+    <p style="color: rgba(255,255,255,0.15); font-size: 11px; font-family: var(--font-mono);">
+      Portfolio: Ben HQ &bull; Conner Law Group &bull; Ben Alek Conner &bull; Nunya Bunya &bull; ORCA Film Awards &bull; Power Portraits &bull; Bella Rhyder &bull; The Conner Store &bull; Content Studio
+    </p>
+    <p style="color: rgba(255,255,255,0.1); font-size: 10px; font-family: var(--font-mono); margin-top: 8px;">Last updated: March 2026</p>
+  </div>
+</div>
+
+<script>
+function filterAgents(type) {
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    card.style.display = (type === 'all' || card.dataset.type === type) ? '' : 'none';
+  });
+}
+
+function filterByOps(ops) {
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    card.style.display = (card.dataset.ops === ops) ? '' : 'none';
+  });
+}
+</script>
+
+</body>
+</html>
