@@ -336,8 +336,7 @@
     <div class="section-label" style="justify-content: center;">Free Resource</div>
     <h2 class="section-heading" style="text-align: center;">The 10-Minute<br><span>Marketing Audit</span></h2>
     <p class="section-sub" style="text-align: center; max-width: 460px; margin: 0 auto 32px;">Score your website, social media, SEO, and content strategy. Find out where you're leaving money on the table — <strong>for free.</strong></p>
-    <form class="lead-magnet-form" action="https://formspree.io/f/PLACEHOLDER_ID" method="POST">
-      <input type="hidden" name="_next" value="thankyou.html">
+    <form class="lead-magnet-form" id="inlineLeadForm">
       <input type="email" name="email" placeholder="Enter your email" required>
       <button type="submit">Get the Free Guide</button>
     </form>
@@ -424,11 +423,27 @@
   <p class="footer-copy">&copy; 2026 Nunya Bunya Pty Ltd &middot; Brisbane, QLD &middot; All rights reserved.</p>
 </footer>
 
-<!-- STICKY LEAD MAGNET BAR -->
-<div class="sticky-lead-bar" id="stickyBar">
-  <span class="lead-text">Free: <span>10-Minute Marketing Audit Guide</span></span>
-  <a href="#contact" class="lead-cta">Get It Free</a>
-  <button class="lead-close" onclick="document.getElementById('stickyBar').classList.add('hidden')">&times;</button>
+<!-- SCROLL-TRIGGERED LEAD POPUP -->
+<div class="lead-popup-overlay" id="leadPopup">
+  <div class="lead-popup">
+    <button class="lead-popup-close" id="leadPopupClose">&times;</button>
+    <div class="lead-popup-badge">Free Guide</div>
+    <h3>What Even Is<br><span>Good Marketing?</span></h3>
+    <p class="lead-popup-desc">A no-BS guide for business owners who are tired of wasting money. Learn what actually works — in 8 pages.</p>
+    <form class="lead-popup-form" id="leadPopupForm">
+      <input type="text" name="name" placeholder="First name" required>
+      <input type="email" name="email" placeholder="Email address" required>
+      <button type="submit" class="lead-popup-btn" id="leadPopupBtn">Send Me the Free Guide</button>
+      <p class="lead-popup-error" id="leadPopupError"></p>
+    </form>
+    <div class="lead-popup-success" id="leadPopupSuccess" style="display:none;">
+      <div class="success-icon">&#10003;</div>
+      <h4>Check your inbox!</h4>
+      <p>Your guide is on the way.</p>
+      <a href="thankyou.html">Download it now &rarr;</a>
+    </div>
+    <p class="lead-popup-trust">No spam. Unsubscribe anytime.</p>
+  </div>
 </div>
 
 <script>
@@ -479,6 +494,132 @@
       btn.parentElement.classList.toggle('open');
     });
   });
+
+  // ═══════════ LEAD MAGNET POPUP ═══════════
+  (function() {
+    const popup = document.getElementById('leadPopup');
+    const closeBtn = document.getElementById('leadPopupClose');
+    const form = document.getElementById('leadPopupForm');
+    const DISMISS_KEY = 'nb_popup_dismissed';
+    const DISMISS_DAYS = 7;
+    let popupShown = false;
+
+    // Check if popup was recently dismissed
+    function isDismissed() {
+      const dismissed = localStorage.getItem(DISMISS_KEY);
+      if (!dismissed) return false;
+      const dismissedAt = parseInt(dismissed, 10);
+      const daysSince = (Date.now() - dismissedAt) / (1000 * 60 * 60 * 24);
+      return daysSince < DISMISS_DAYS;
+    }
+
+    function dismissPopup() {
+      localStorage.setItem(DISMISS_KEY, Date.now().toString());
+      popup.classList.remove('visible');
+    }
+
+    function showPopup() {
+      if (popupShown || isDismissed()) return;
+      popupShown = true;
+      popup.classList.add('visible');
+    }
+
+    // Show popup when user scrolls 40% down the page
+    if (!isDismissed()) {
+      window.addEventListener('scroll', function onScroll() {
+        const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+        if (scrollPercent > 0.35) {
+          showPopup();
+          window.removeEventListener('scroll', onScroll);
+        }
+      });
+    }
+
+    // Close popup
+    closeBtn.addEventListener('click', dismissPopup);
+    popup.addEventListener('click', function(e) {
+      if (e.target === popup) dismissPopup();
+    });
+
+    // Form submission
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('leadPopupBtn');
+      const errorEl = document.getElementById('leadPopupError');
+      const name = form.querySelector('input[name="name"]').value.trim();
+      const email = form.querySelector('input[name="email"]').value.trim();
+
+      if (!name || !email) return;
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      errorEl.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, source: 'homepage-popup' })
+        });
+
+        if (res.ok) {
+          form.style.display = 'none';
+          document.getElementById('leadPopupSuccess').style.display = 'block';
+          // Don't show popup again
+          localStorage.setItem(DISMISS_KEY, Date.now().toString());
+        } else {
+          const data = await res.json().catch(() => ({}));
+          errorEl.textContent = data.error || 'Something went wrong. Try again.';
+          errorEl.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Send Me the Free Guide';
+        }
+      } catch (err) {
+        errorEl.textContent = 'Network error. Please try again.';
+        errorEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Send Me the Free Guide';
+      }
+    });
+
+    // Add popup elements to cursor hover
+    popup.querySelectorAll('a, button, input').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering'); });
+      el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering'); });
+    });
+  })();
+
+  // ═══════════ INLINE LEAD MAGNET FORM ═══════════
+  (function() {
+    const inlineForm = document.getElementById('inlineLeadForm');
+    if (!inlineForm) return;
+    inlineForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = inlineForm.querySelector('input[name="email"]').value.trim();
+      const btn = inlineForm.querySelector('button');
+      if (!email) return;
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: '', email, source: 'homepage-inline' })
+        });
+        if (res.ok) {
+          window.location.href = 'thankyou.html';
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Get the Free Guide';
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'Get the Free Guide';
+      }
+    });
+  })();
 </script>
 
 </body>
