@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Much Should Marketing Cost? | Nunya Bunya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal: #4BBFB4;
+      --pink: #D6396B;
+      --navy: #1A2E3E;
+      --navy-light: #2a4459;
+      --gray-50: #f8fafb;
+      --gray-100: #f0f4f5;
+      --gray-200: #dce3e6;
+      --gray-400: #94a3af;
+      --gray-600: #5a6b78;
+      --white: #ffffff;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--navy);
+      background: var(--gray-50);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 32px; }
+
+    /* ========== COVER ========== */
+    .cover {
+      text-align: center;
+      padding: 48px 24px 40px;
+      border: 3px solid var(--teal);
+      border-radius: 16px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--teal), var(--pink));
+    }
+    .cover .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.08em; color: var(--gray-400); text-transform: uppercase; margin-bottom: 24px; }
+    .cover .logo span { color: var(--teal); }
+    .cover h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2.4rem; font-weight: 700; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .cover h1 span { color: var(--pink); }
+    .cover .subtitle { font-size: 1.05rem; color: var(--gray-600); max-width: 500px; margin: 0 auto 20px; }
+    .cover .meta { font-size: 0.85rem; color: var(--gray-400); }
+    .cover .meta strong { color: var(--navy); }
+
+    /* ========== SECTIONS ========== */
+    .guide-section {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 36px 32px;
+      margin-bottom: 24px;
+      border: 1px solid var(--gray-200);
+    }
+    .guide-section h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--teal);
+    }
+    .guide-section h2 .num {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--white);
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      text-align: center;
+      line-height: 30px;
+      font-size: 0.9rem;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    .guide-section h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin: 24px 0 8px;
+    }
+    .guide-section p { margin-bottom: 14px; color: var(--gray-600); font-size: 0.95rem; line-height: 1.7; }
+    .guide-section ul { margin: 12px 0 16px 20px; }
+    .guide-section li { margin-bottom: 8px; color: var(--gray-600); font-size: 0.95rem; line-height: 1.6; }
+    .guide-section li strong { color: var(--navy); }
+
+    /* ========== TABLES ========== */
+    .price-table { width: 100%; border-collapse: collapse; margin: 16px 0 20px; font-size: 0.9rem; }
+    .price-table th {
+      background: var(--navy);
+      color: var(--white);
+      padding: 12px 16px;
+      text-align: left;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .price-table th:first-child { border-radius: 8px 0 0 0; }
+    .price-table th:last-child { border-radius: 0 8px 0 0; }
+    .price-table td { padding: 12px 16px; border-bottom: 1px solid var(--gray-200); color: var(--gray-600); }
+    .price-table tr:nth-child(even) td { background: var(--gray-50); }
+    .price-table .highlight { color: var(--pink); font-weight: 600; }
+    .price-table .service-name { font-weight: 600; color: var(--navy); }
+
+    /* ========== CALLOUT BOXES ========== */
+    .callout {
+      background: linear-gradient(135deg, rgba(75, 191, 180, 0.08), rgba(75, 191, 180, 0.03));
+      border-left: 4px solid var(--teal);
+      border-radius: 0 10px 10px 0;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+    .callout p { margin-bottom: 0; color: var(--navy); }
+    .callout strong { color: var(--navy); }
+    .callout.warning {
+      background: linear-gradient(135deg, rgba(214, 57, 107, 0.08), rgba(214, 57, 107, 0.03));
+      border-left-color: var(--pink);
+    }
+
+    /* ========== PERCENTAGE BARS ========== */
+    .pct-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .pct-label { width: 140px; font-size: 0.85rem; font-weight: 500; color: var(--navy); flex-shrink: 0; }
+    .pct-bar-bg { flex: 1; height: 24px; background: var(--gray-100); border-radius: 6px; overflow: hidden; }
+    .pct-bar { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 10px; font-size: 0.75rem; font-weight: 600; color: var(--white); }
+    .pct-bar.teal { background: var(--teal); }
+    .pct-bar.pink { background: var(--pink); }
+    .pct-bar.navy { background: var(--navy); }
+
+    /* ========== RED/GREEN FLAGS ========== */
+    .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+    .flag-card { padding: 16px; border-radius: 10px; border: 1px solid var(--gray-200); }
+    .flag-card.green { border-color: var(--teal); background: rgba(75, 191, 180, 0.04); }
+    .flag-card.red { border-color: var(--pink); background: rgba(214, 57, 107, 0.04); }
+    .flag-card h4 { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; margin-bottom: 8px; }
+    .flag-card.green h4 { color: var(--teal); }
+    .flag-card.red h4 { color: var(--pink); }
+    .flag-card p { font-size: 0.85rem; margin: 0; color: var(--gray-600); line-height: 1.5; }
+
+    /* ========== CTA ========== */
+    .cta-section {
+      text-align: center;
+      padding: 48px 32px;
+      background: var(--navy);
+      border-radius: 16px;
+      margin-top: 32px;
+    }
+    .cta-section h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; color: var(--white); margin-bottom: 12px; }
+    .cta-section p { color: var(--gray-400); font-size: 0.95rem; margin-bottom: 24px; max-width: 440px; margin-left: auto; margin-right: auto; }
+    .cta-button {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--navy);
+      padding: 14px 36px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+    }
+    .cta-section .footer-note { font-size: 0.8rem; color: var(--gray-400); margin-top: 20px; }
+
+    /* ========== PRINT ========== */
+    @media print {
+      body { background: white; }
+      .page-wrapper { padding: 20px; }
+      .guide-section { break-inside: avoid; }
+      .cta-section { break-inside: avoid; }
+    }
+    @media (max-width: 600px) {
+      .page-wrapper { padding: 20px 16px; }
+      .cover h1 { font-size: 1.8rem; }
+      .guide-section { padding: 24px 20px; }
+      .flag-grid { grid-template-columns: 1fr; }
+      .pct-label { width: 100px; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- COVER -->
+    <div class="cover">
+      <div class="logo">NUNYA <span>BUNYA</span></div>
+      <h1>How Much Should<br>Marketing <span>Cost?</span></h1>
+      <p class="subtitle">Brisbane pricing benchmarks, industry budgets, and the real numbers agencies won't tell you.</p>
+      <p class="meta"><strong>12 pages</strong> &middot; Updated March 2026 &middot; Brisbane, QLD</p>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="guide-section">
+      <h2><span class="num">1</span> The Uncomfortable Truth About Marketing Budgets</h2>
+      <p>Most business owners have no idea what marketing should cost. And that's not their fault &mdash; the industry is deliberately vague about pricing. Agencies don't publish rates. Freelancers charge wildly different prices for the same work. And the internet is full of contradictory advice.</p>
+      <p>This guide cuts through all of that. We're going to give you real numbers &mdash; what things actually cost in Brisbane in 2026, what percentage of revenue you should be spending, and how to tell if you're getting ripped off or getting a deal.</p>
+
+      <div class="callout">
+        <p><strong>The golden rule:</strong> Marketing isn't an expense &mdash; it's an investment. The question isn't "how much does it cost?" It's "how much does it return?" A $3,000/month campaign that generates $15,000 in new revenue is a no-brainer. A $500/month campaign that generates nothing is infinitely more expensive.</p>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="guide-section">
+      <h2><span class="num">2</span> How Much Should You Spend? (By Revenue)</h2>
+      <p>The most commonly cited benchmark comes from the U.S. Small Business Administration: <strong>spend 7&ndash;8% of gross revenue on marketing</strong> if you're under $5M in revenue. But that's a starting point, not a rule. Here's how it actually breaks down by growth stage:</p>
+
+      <div class="pct-row">
+        <span class="pct-label">Startup / Launch</span>
+        <div class="pct-bar-bg"><div class="pct-bar pink" style="width:75%;">12 &ndash; 20%</div></div>
+      </div>
+      <div class="pct-row">
+        <span class="pct-label">Growth Stage</span>
+        <div class="pct-bar-bg"><div class="pct-bar teal" style="width:55%;">8 &ndash; 12%</div></div>
+      </div>
+      <div class="pct-row">
+        <span class="pct-label">Established</span>
+        <div class="pct-bar-bg"><div class="pct-bar navy" style="width:35%;">5 &ndash; 8%</div></div>
+      </div>
+      <div class="pct-row">
+        <span class="pct-label">Market Leader</span>
+        <div class="pct-bar-bg"><div class="pct-bar navy" style="width:20%;">2 &ndash; 5%</div></div>
+      </div>
+
+      <p style="margin-top: 20px;">If your business turns over $500K/year and you're in growth mode, that's <strong>$40,000&ndash;$60,000/year</strong> (or roughly $3,300&ndash;$5,000/month). Sound like a lot? Consider that your competitors who are growing faster than you are probably spending more.</p>
+
+      <div class="callout warning">
+        <p><strong>Reality check:</strong> If you're spending less than $1,500/month on marketing, you're not marketing &mdash; you're dabbling. That's enough for one part-time freelancer doing social posts. It won't move the needle on SEO, ads, content, or brand. Be honest about whether your budget matches your ambitions.</p>
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="guide-section">
+      <h2><span class="num">3</span> Industry Benchmarks (% of Revenue)</h2>
+      <p>Different industries have very different norms. Here's what Australian businesses typically allocate:</p>
+
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th>Industry</th>
+            <th>Typical Budget</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="service-name">Professional Services</td>
+            <td class="highlight">6 &ndash; 10%</td>
+            <td>Law, accounting, consulting. Referrals do heavy lifting but digital is growing fast.</td>
+          </tr>
+          <tr>
+            <td class="service-name">Hospitality / Food</td>
+            <td class="highlight">3 &ndash; 8%</td>
+            <td>Restaurants, cafes, bars. Social media and local SEO are king.</td>
+          </tr>
+          <tr>
+            <td class="service-name">Trades / Home Services</td>
+            <td class="highlight">5 &ndash; 10%</td>
+            <td>Plumbers, electricians, builders. Google Ads + Google Business Profile dominate.</td>
+          </tr>
+          <tr>
+            <td class="service-name">Health & Wellness</td>
+            <td class="highlight">8 &ndash; 12%</td>
+            <td>Gyms, physios, dentists. Highly competitive locally, need consistent content.</td>
+          </tr>
+          <tr>
+            <td class="service-name">E-commerce / Retail</td>
+            <td class="highlight">10 &ndash; 20%</td>
+            <td>Highest spend. Paid ads, email, influencers, and content all essential.</td>
+          </tr>
+          <tr>
+            <td class="service-name">Real Estate</td>
+            <td class="highlight">5 &ndash; 12%</td>
+            <td>Agents and agencies. Personal brand + local presence critical.</td>
+          </tr>
+          <tr>
+            <td class="service-name">Tech / SaaS</td>
+            <td class="highlight">15 &ndash; 25%</td>
+            <td>Highest overall. Content marketing, PPC, and brand awareness drive growth.</td>
+          </tr>
+          <tr>
+            <td class="service-name">Not-for-Profit</td>
+            <td class="highlight">2 &ndash; 5%</td>
+            <td>Tight budgets but Google Ad Grants ($10K/mo free) help enormously.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="guide-section">
+      <h2><span class="num">4</span> Brisbane Pricing Guide: What Things Actually Cost</h2>
+      <p>Here's what you can expect to pay for common marketing services in Brisbane in 2026. These are real market rates &mdash; not the cheapest and not the most expensive.</p>
+
+      <h3>Website Design & Development</h3>
+      <table class="price-table">
+        <thead><tr><th>Service</th><th>Freelancer</th><th>Agency</th></tr></thead>
+        <tbody>
+          <tr><td class="service-name">5-page business site</td><td>$2,000 &ndash; $5,000</td><td>$5,000 &ndash; $15,000</td></tr>
+          <tr><td class="service-name">E-commerce store</td><td>$4,000 &ndash; $10,000</td><td>$10,000 &ndash; $40,000+</td></tr>
+          <tr><td class="service-name">Landing page</td><td>$500 &ndash; $1,500</td><td>$1,500 &ndash; $4,000</td></tr>
+          <tr><td class="service-name">Website redesign</td><td>$3,000 &ndash; $8,000</td><td>$8,000 &ndash; $25,000</td></tr>
+        </tbody>
+      </table>
+
+      <h3>SEO (Search Engine Optimisation)</h3>
+      <table class="price-table">
+        <thead><tr><th>Service</th><th>Freelancer</th><th>Agency</th></tr></thead>
+        <tbody>
+          <tr><td class="service-name">Local SEO (monthly)</td><td>$500 &ndash; $1,200/mo</td><td>$1,000 &ndash; $2,500/mo</td></tr>
+          <tr><td class="service-name">National SEO (monthly)</td><td>$1,000 &ndash; $2,500/mo</td><td>$2,500 &ndash; $6,000/mo</td></tr>
+          <tr><td class="service-name">SEO audit (one-off)</td><td>$300 &ndash; $800</td><td>$1,000 &ndash; $3,000</td></tr>
+          <tr><td class="service-name">Technical SEO fix</td><td>$500 &ndash; $2,000</td><td>$1,500 &ndash; $5,000</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Social Media Management</h3>
+      <table class="price-table">
+        <thead><tr><th>Service</th><th>Freelancer</th><th>Agency</th></tr></thead>
+        <tbody>
+          <tr><td class="service-name">1 platform, 12 posts/mo</td><td>$400 &ndash; $800/mo</td><td>$800 &ndash; $1,500/mo</td></tr>
+          <tr><td class="service-name">2&ndash;3 platforms, 16+ posts/mo</td><td>$800 &ndash; $1,500/mo</td><td>$1,500 &ndash; $3,500/mo</td></tr>
+          <tr><td class="service-name">Content creation (video/photo)</td><td>$500 &ndash; $2,000/shoot</td><td>$1,500 &ndash; $5,000/shoot</td></tr>
+          <tr><td class="service-name">Community management</td><td>$300 &ndash; $800/mo</td><td>$800 &ndash; $2,000/mo</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Paid Advertising</h3>
+      <table class="price-table">
+        <thead><tr><th>Service</th><th>Management Fee</th><th>Recommended Min Spend</th></tr></thead>
+        <tbody>
+          <tr><td class="service-name">Google Ads</td><td>15&ndash;20% of spend or $500&ndash;$1,500/mo</td><td>$1,000/mo</td></tr>
+          <tr><td class="service-name">Facebook / Instagram Ads</td><td>15&ndash;20% of spend or $500&ndash;$1,500/mo</td><td>$500/mo</td></tr>
+          <tr><td class="service-name">LinkedIn Ads</td><td>15&ndash;20% of spend or $800&ndash;$2,000/mo</td><td>$2,000/mo</td></tr>
+          <tr><td class="service-name">TikTok Ads</td><td>15&ndash;20% of spend or $500&ndash;$1,200/mo</td><td>$500/mo</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Content & Email Marketing</h3>
+      <table class="price-table">
+        <thead><tr><th>Service</th><th>Freelancer</th><th>Agency</th></tr></thead>
+        <tbody>
+          <tr><td class="service-name">Blog post (1,000&ndash;1,500 words)</td><td>$100 &ndash; $400</td><td>$300 &ndash; $800</td></tr>
+          <tr><td class="service-name">Email campaign (single send)</td><td>$100 &ndash; $300</td><td>$250 &ndash; $600</td></tr>
+          <tr><td class="service-name">Email automation setup</td><td>$500 &ndash; $1,500</td><td>$1,500 &ndash; $4,000</td></tr>
+          <tr><td class="service-name">Monthly newsletter</td><td>$200 &ndash; $500/mo</td><td>$500 &ndash; $1,200/mo</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Branding & Design</h3>
+      <table class="price-table">
+        <thead><tr><th>Service</th><th>Freelancer</th><th>Agency</th></tr></thead>
+        <tbody>
+          <tr><td class="service-name">Logo design</td><td>$300 &ndash; $1,500</td><td>$2,000 &ndash; $10,000</td></tr>
+          <tr><td class="service-name">Full brand identity</td><td>$1,500 &ndash; $5,000</td><td>$5,000 &ndash; $25,000</td></tr>
+          <tr><td class="service-name">Brand guidelines document</td><td>$500 &ndash; $2,000</td><td>$2,000 &ndash; $8,000</td></tr>
+          <tr><td class="service-name">Business card / stationery</td><td>$100 &ndash; $400</td><td>$300 &ndash; $1,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="guide-section">
+      <h2><span class="num">5</span> DIY vs. Freelancer vs. Agency</h2>
+      <p>There's no universally "right" option. It depends on your budget, your time, and your growth goals. Here's the honest breakdown:</p>
+
+      <table class="price-table">
+        <thead>
+          <tr><th>Factor</th><th>DIY</th><th>Freelancer</th><th>Agency</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="service-name">Monthly cost</td><td>$0 &ndash; $500</td><td>$1,000 &ndash; $3,000</td><td>$2,500 &ndash; $10,000+</td></tr>
+          <tr><td class="service-name">Time investment (yours)</td><td class="highlight">10&ndash;20 hrs/week</td><td>2&ndash;5 hrs/week</td><td>1&ndash;2 hrs/week</td></tr>
+          <tr><td class="service-name">Expertise level</td><td>Learning as you go</td><td>Specialist in 1&ndash;2 areas</td><td>Full team coverage</td></tr>
+          <tr><td class="service-name">Consistency</td><td>Drops when you're busy</td><td>Good if managed well</td><td>Built-in accountability</td></tr>
+          <tr><td class="service-name">Strategy</td><td>Trial and error</td><td>Tactical advice</td><td>Full strategic planning</td></tr>
+          <tr><td class="service-name">Best for</td><td>Side hustles, startups</td><td>Growing businesses</td><td>Established, scaling fast</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <p><strong>The hidden cost of DIY:</strong> Your time has a dollar value. If you earn $80/hour and spend 15 hours/week on marketing, that's $4,800/month in opportunity cost. At that point, hiring a professional isn't an expense &mdash; it's a saving.</p>
+      </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="guide-section">
+      <h2><span class="num">6</span> Where to Spend First (Priority Order)</h2>
+      <p>If you're working with a limited budget, here's the order that gives you the best return on investment. Focus on one level before moving to the next.</p>
+
+      <h3>Level 1: The Foundation ($0 &ndash; $500/mo)</h3>
+      <ul>
+        <li><strong>Google Business Profile:</strong> Free. Optimise it fully. This drives more local leads than anything else.</li>
+        <li><strong>Website that actually converts:</strong> One-time investment. If your site looks like it was built in 2015, fix it first.</li>
+        <li><strong>Basic SEO:</strong> Title tags, meta descriptions, Google indexing. The bare minimum.</li>
+      </ul>
+
+      <h3>Level 2: Building Visibility ($500 &ndash; $2,000/mo)</h3>
+      <ul>
+        <li><strong>Content marketing:</strong> 2&ndash;4 blog posts per month targeting keywords your customers search.</li>
+        <li><strong>Social media:</strong> Pick 1&ndash;2 platforms. Post consistently. Quality over quantity.</li>
+        <li><strong>Email list building:</strong> Start collecting emails. Send a monthly newsletter at minimum.</li>
+      </ul>
+
+      <h3>Level 3: Accelerating Growth ($2,000 &ndash; $5,000/mo)</h3>
+      <ul>
+        <li><strong>Paid ads (Google or Meta):</strong> Target high-intent keywords or retarget website visitors.</li>
+        <li><strong>Professional SEO:</strong> Ongoing link building, technical audits, content optimisation.</li>
+        <li><strong>Video content:</strong> Short-form for social, testimonial videos, behind-the-scenes.</li>
+      </ul>
+
+      <h3>Level 4: Market Domination ($5,000+/mo)</h3>
+      <ul>
+        <li><strong>Multi-channel campaigns:</strong> SEO + Ads + Social + Email working together.</li>
+        <li><strong>CRM and automation:</strong> Nurture leads automatically. Nothing falls through the cracks.</li>
+        <li><strong>Brand authority:</strong> PR, partnerships, thought leadership, podcast appearances.</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="guide-section">
+      <h2><span class="num">7</span> Red Flags vs. Green Flags in Pricing</h2>
+      <p>Not all quotes are created equal. Here's how to tell the difference between a fair deal and a rip-off:</p>
+
+      <div class="flag-grid">
+        <div class="flag-card green">
+          <h4>&#10003; Green Flags</h4>
+          <p>Clear scope of work in writing. Monthly reporting with actual metrics. No long-term lock-in contracts. They explain what you're paying for. They set realistic timelines. They ask about your business goals first.</p>
+        </div>
+        <div class="flag-card red">
+          <h4>&#10007; Red Flags</h4>
+          <p>Guaranteed #1 rankings on Google. Prices that sound too good to be true. 12-month lock-in with penalties. Vague deliverables ("we'll manage your marketing"). They own your accounts/content. No reporting or transparency.</p>
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <p><strong>The $299/month SEO trap:</strong> If someone offers you "full SEO" for under $500/month, they're either outsourcing to a content farm, using AI-generated junk, or doing almost nothing. Real SEO requires real hours from someone who knows what they're doing. That costs more than $299.</p>
+      </div>
+    </div>
+
+    <!-- SECTION 8 -->
+    <div class="guide-section">
+      <h2><span class="num">8</span> How to Calculate Your Marketing ROI</h2>
+      <p>You can't manage what you don't measure. Here's the simple formula:</p>
+
+      <div class="callout">
+        <p><strong>Marketing ROI = (Revenue from marketing &minus; Marketing cost) &divide; Marketing cost &times; 100</strong></p>
+        <p style="margin-top: 12px;">Example: You spend $3,000/month. You generate $12,000 in new revenue from those efforts. ROI = ($12,000 &minus; $3,000) &divide; $3,000 &times; 100 = <strong>300% ROI</strong>.</p>
+      </div>
+
+      <h3>What counts as "good" ROI?</h3>
+      <ul>
+        <li><strong>100% ROI (2:1):</strong> You're breaking even on marketing. Not great, but sustainable for brand building.</li>
+        <li><strong>200&ndash;300% (3:1 to 4:1):</strong> Solid performance. This is where most well-run campaigns land.</li>
+        <li><strong>400%+ (5:1):</strong> Excellent. You should be scaling this spend aggressively.</li>
+      </ul>
+
+      <h3>Key metrics to track:</h3>
+      <ul>
+        <li><strong>Cost per lead (CPL):</strong> Total marketing spend &divide; number of leads generated</li>
+        <li><strong>Cost per acquisition (CPA):</strong> Total spend &divide; number of new customers</li>
+        <li><strong>Customer lifetime value (CLV):</strong> Average revenue per customer over their entire relationship</li>
+        <li><strong>Lead-to-close rate:</strong> What percentage of leads become paying customers?</li>
+      </ul>
+
+      <p>If you don't know these numbers, you're flying blind. Any good marketing partner should be tracking and reporting on all of them.</p>
+    </div>
+
+    <!-- SECTION 9 -->
+    <div class="guide-section">
+      <h2><span class="num">9</span> The Bottom Line</h2>
+      <p>Here's what most business owners get wrong: they pick a budget based on what they're "comfortable" spending, not what their business actually needs. That's like going to the gym once a month and wondering why you're not getting stronger.</p>
+      <p>Marketing works when you invest enough to create momentum. Half-measures produce half-results &mdash; or worse, no results &mdash; and then you conclude "marketing doesn't work for my business." It does. You just weren't doing enough of it.</p>
+      <p><strong>Three rules for setting your marketing budget:</strong></p>
+      <ul>
+        <li><strong>Match your budget to your ambition.</strong> Want to grow 50%? Invest like it.</li>
+        <li><strong>Commit for at least 90 days.</strong> Marketing isn't a light switch. Results compound over time.</li>
+        <li><strong>Track everything.</strong> If you can't measure it, you can't improve it &mdash; or justify it.</li>
+      </ul>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <h2>Want a Custom Budget Breakdown?</h2>
+      <p>Book a free strategy call. We'll look at your business, your industry, and your goals &mdash; and tell you exactly what you should be spending and where.</p>
+      <a href="https://cal.com/nunyabunya" class="cta-button">Book a Free Strategy Call</a>
+      <p class="footer-note">Nunya Bunya Pty Ltd &middot; Brisbane, QLD &middot; nunyabunya.com</p>
+    </div>
+
+  </div>
+</body>
+</html>
