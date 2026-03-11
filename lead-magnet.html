@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free: The 10-Minute Marketing Audit Guide | Nunya Bunya</title>
-<meta name="description" content="Score your website, social media, SEO, and content strategy in 10 minutes with our free marketing audit guide.">
+<title>Free: What Even Is Good Marketing? | Nunya Bunya</title>
+<meta name="description" content="A no-BS guide for business owners who are tired of wasting money on marketing that doesn't work. Free PDF download.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style-v2.css">
@@ -128,6 +128,38 @@
     font-weight: 300;
     margin-top: 16px;
   }
+  .btn-submit {
+    width: 100%;
+    padding: 16px 24px;
+    background: var(--teal);
+    color: var(--dark);
+    border: none;
+    border-radius: 10px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-submit:hover {
+    background: #00cdb5;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,229,204,0.3);
+  }
+  .btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .form-error {
+    color: #ff4444;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 12px;
+    display: none;
+  }
   @media (max-width: 768px) {
     .lm-grid {
       grid-template-columns: 1fr;
@@ -164,25 +196,24 @@
   <div class="lm-grid">
     <!-- Left: Content -->
     <div class="lm-content">
-      <div class="badge">Free Download</div>
-      <h1>THE <span>10-MINUTE</span><br>MARKETING<br>AUDIT GUIDE.</h1>
-      <p class="subtitle">Score your website, social media, SEO, and content strategy in 10 minutes — and find out exactly where you're leaving growth on the table.</p>
+      <div class="badge">Free Guide &mdash; 8 Pages</div>
+      <h1>WHAT EVEN IS<br><span>GOOD</span><br>MARKETING?</h1>
+      <p class="subtitle">A no-BS guide for business owners who are tired of wasting money. Learn what actually works, what to ignore, and exactly what to do in the next 30 days.</p>
       <ul class="benefits-list">
-        <li><span class="check">&#10003;</span><span>Website performance scorecard with actionable fixes</span></li>
-        <li><span class="check">&#10003;</span><span>Social media presence audit checklist</span></li>
-        <li><span class="check">&#10003;</span><span>SEO quick-win finder for immediate traffic gains</span></li>
-        <li><span class="check">&#10003;</span><span>Content strategy gap analysis framework</span></li>
-        <li><span class="check">&#10003;</span><span>Priority action plan template to organize next steps</span></li>
+        <li><span class="check">&#10003;</span><span>The 5 signs your marketing is actually working</span></li>
+        <li><span class="check">&#10003;</span><span>The marketing stack that matters (in priority order)</span></li>
+        <li><span class="check">&#10003;</span><span>DIY vs. agency vs. freelancer &mdash; honest comparison</span></li>
+        <li><span class="check">&#10003;</span><span>A 30-day quick start action plan with checkboxes</span></li>
+        <li><span class="check">&#10003;</span><span>7 red flags when hiring a marketing agency</span></li>
       </ul>
-      <p class="trust-note"><strong>50+ businesses</strong> have used this guide to identify growth opportunities.</p>
+      <p class="trust-note"><strong>100% free.</strong> No credit card. No sales pitch. Just useful stuff.</p>
     </div>
 
     <!-- Right: Form -->
     <div class="lm-form-card">
       <h2>Get Your Free Guide</h2>
-      <p class="form-sub">Enter your info and I'll send it right over.</p>
-      <form action="https://formspree.io/f/PLACEHOLDER_ID" method="POST">
-        <input type="hidden" name="_next" value="thankyou.html">
+      <p class="form-sub">Drop your info and download it instantly.</p>
+      <form id="leadForm" onsubmit="return handleSubmit(event)">
         <div class="form-group">
           <label class="form-label" for="name">First Name</label>
           <input class="form-input" type="text" id="name" name="name" placeholder="Your first name" required>
@@ -191,7 +222,8 @@
           <label class="form-label" for="email">Email Address</label>
           <input class="form-input" type="email" id="email" name="email" placeholder="you@company.com" required>
         </div>
-        <button type="submit" class="btn-submit" style="width: 100%;">Send Me the Guide</button>
+        <button type="submit" class="btn-submit" id="submitBtn">Send Me the Guide</button>
+        <p class="form-error" id="formError"></p>
       </form>
       <p class="form-footer">No spam. Unsubscribe anytime.</p>
     </div>
@@ -204,10 +236,11 @@
   <ul class="footer-links">
     <li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="portfolio.html">Work</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li>
   </ul>
-  <p class="footer-copy">&copy; 2026 Nunya Bunya. All rights reserved.</p>
+  <p class="footer-copy">&copy; 2026 Nunya Bunya Pty Ltd &middot; Brisbane, QLD &middot; All rights reserved.</p>
 </footer>
 
 <script>
+  // Cursor
   const cursor = document.getElementById('cursor'); const ring = document.getElementById('cursorRing');
   let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
   document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px'; });
@@ -215,6 +248,44 @@
   document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering'); }); el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering'); }); });
   document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
   document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
+
+  // Form submission
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const errorEl = document.getElementById('formError');
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    if (!name || !email) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    errorEl.style.display = 'none';
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, source: 'what-even-is-good-marketing' })
+      });
+
+      if (res.ok) {
+        window.location.href = 'thankyou.html';
+      } else {
+        const data = await res.json().catch(() => ({}));
+        errorEl.textContent = data.error || 'Something went wrong. Please try again.';
+        errorEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Send Me the Guide';
+      }
+    } catch (err) {
+      errorEl.textContent = 'Network error. Please try again.';
+      errorEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Send Me the Guide';
+    }
+  }
 </script>
 
 </body>
