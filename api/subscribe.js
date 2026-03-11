@@ -15,8 +15,8 @@ export default async function handler(req, res) {
 
   const { name, email, source } = req.body || {};
 
-  if (!name || !email) {
-    return res.status(400).json({ error: 'Name and email are required.' });
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required.' });
   }
 
   // Basic email validation
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
         'Prefer': 'return=minimal'
       },
       body: JSON.stringify({
-        name: name.trim(),
+        name: (name || '').trim(),
         email: email.trim().toLowerCase(),
         source: source || 'lead-magnet',
         created_at: new Date().toISOString()
