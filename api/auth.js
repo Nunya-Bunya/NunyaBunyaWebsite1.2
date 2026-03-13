@@ -1,6 +1,6 @@
 // Admin dashboard authentication — JWT cookie-based
 import crypto from 'crypto';
-import { signJWT, verifyJWT, getTokenFromCookie } from './auth-utils.js';
+import { signJWT, verifyJWT, getTokenFromCookie } from '../lib/auth-utils.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');

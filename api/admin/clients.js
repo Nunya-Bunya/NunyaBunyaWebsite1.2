@@ -1,5 +1,5 @@
 // Admin API: GET all clients
-import { requireAuth, supabaseFetch } from '../auth-utils.js';
+import { requireAuth, supabaseFetch } from '../../lib/auth-utils.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');

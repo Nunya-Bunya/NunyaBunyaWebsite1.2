@@ -1,5 +1,5 @@
 // Admin API: GET weekly view data, PUT weekly notes
-import { requireAuth, supabaseFetch } from '../auth-utils.js';
+import { requireAuth, supabaseFetch } from '../../lib/auth-utils.js';
 
 function getMonday(d) {
   const date = new Date(d);
