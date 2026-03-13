@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>This Week | NB Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Weekly <span>Overview</span></h1>
+      <div class="toolbar" style="margin-bottom:0">
+        <select id="clientFilter" onchange="loadWeek()">
+          <option value="all">All Clients</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="week-columns" id="weekColumns"></div>
+
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading week data...</p></div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let weekData = null;
+  let allClients = [];
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('week');
+
+    const data = await NB_ADMIN.apiFetch('clients');
+    if (data) {
+      allClients = data.clients;
+      const select = document.getElementById('clientFilter');
+      allClients.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.client_id;
+        opt.textContent = c.client_name;
+        select.appendChild(opt);
+      });
+    }
+
+    await loadWeek();
+  }
+
+  async function loadWeek() {
+    const client = document.getElementById('clientFilter').value;
+    const data = await NB_ADMIN.apiFetch('week?date=' + NB_ADMIN.todayStr() + '&client=' + client);
+    document.getElementById('loading').style.display = 'none';
+    if (!data) return;
+    weekData = data;
+    renderWeek();
+  }
+
+  function renderWeek() {
+    const cols = document.getElementById('weekColumns');
+    const weeks = [
+      { key: 'last_week', label: 'Last Week', cls: 'last' },
+      { key: 'this_week', label: 'This Week', cls: 'current' },
+      { key: 'next_week', label: 'Next Week', cls: 'next' },
+    ];
+
+    cols.innerHTML = weeks.map(w => {
+      const week = weekData[w.key];
+      if (!week) return '';
+
+      const dateRange = NB_ADMIN.formatDate(week.start + 'T12:00:00') + ' &ndash; ' + NB_ADMIN.formatDate(week.end + 'T12:00:00');
+      const notes = week.notes;
+
+      // Group items by date
+      const byDate = {};
+      (week.items || []).forEach(i => {
+        if (!byDate[i.date]) byDate[i.date] = [];
+        byDate[i.date].push(i);
+      });
+
+      // Stats
+      const total = week.items ? week.items.length : 0;
+      const published = week.items ? week.items.filter(i => i.status === 'published').length : 0;
+
+      return `
+        <div class="week-col">
+          <div class="week-col-header ${w.cls}">
+            ${w.label}
+            <div style="font-size:11px;font-weight:400;font-family:var(--font-body);color:var(--muted);margin-top:4px">${dateRange}</div>
+            <div style="font-size:11px;font-weight:400;font-family:var(--font-body);margin-top:4px">${published}/${total} completed</div>
+          </div>
+          <div class="week-col-body">
+            ${notes ? `
+              <div style="margin-bottom:16px">
+                ${notes.accomplished ? `<div style="font-size:12px;margin-bottom:8px"><strong style="color:var(--teal)">Accomplished:</strong> <span style="color:rgba(255,255,255,0.6);font-weight:300">${NB_ADMIN.esc(notes.accomplished)}</span></div>` : ''}
+                ${notes.in_progress ? `<div style="font-size:12px;margin-bottom:8px"><strong style="color:var(--yellow)">In Progress:</strong> <span style="color:rgba(255,255,255,0.6);font-weight:300">${NB_ADMIN.esc(notes.in_progress)}</span></div>` : ''}
+                ${notes.upcoming ? `<div style="font-size:12px;margin-bottom:8px"><strong style="color:var(--purple)">Upcoming:</strong> <span style="color:rgba(255,255,255,0.6);font-weight:300">${NB_ADMIN.esc(notes.upcoming)}</span></div>` : ''}
+              </div>
+            ` : ''}
+            ${Object.entries(byDate).map(([date, items]) => {
+              const dayName = new Date(date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short' });
+              return `
+                <div class="week-day-group">
+                  <div class="week-day-label">${dayName} ${new Date(date + 'T12:00:00').getDate()}</div>
+                  ${items.map(i => `
+                    <div class="task-item ${i.status === 'published' ? 'task-done' : ''}">
+                      <div class="platform-dot ${NB_ADMIN.platformClass(i.platform)}"></div>
+                      <span class="topic">${NB_ADMIN.esc(i.topic || i.content_type || 'Item')}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              `;
+            }).join('')}
+            ${total === 0 ? '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">No content scheduled</div>' : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  init();
+</script>
+</body>
+</html>

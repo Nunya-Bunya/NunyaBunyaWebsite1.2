@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clients | NB Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>All <span>Clients</span></h1>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Search clients..." oninput="filterClients()">
+    </div>
+
+    <!-- Card View -->
+    <div class="card-grid" id="clientGrid"></div>
+
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading clients...</p></div>
+    <div class="empty-state" id="empty" style="display:none"><div class="icon">&#128100;</div><p>No clients found.</p></div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let allClients = [];
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('clients');
+    await loadClients();
+  }
+
+  async function loadClients() {
+    const data = await NB_ADMIN.apiFetch('clients');
+    document.getElementById('loading').style.display = 'none';
+    if (!data || !data.clients.length) {
+      document.getElementById('empty').style.display = 'block';
+      return;
+    }
+    allClients = data.clients;
+    renderClients(allClients);
+  }
+
+  function renderClients(clients) {
+    const grid = document.getElementById('clientGrid');
+    const empty = document.getElementById('empty');
+    if (!clients.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+    empty.style.display = 'none';
+
+    grid.innerHTML = clients.map(c => {
+      const platforms = (c.platforms || []).map(p => NB_ADMIN.platformBadge(p)).join(' ');
+      const totalPosts = Object.values(c.posting_frequency || {}).reduce((a, b) => a + b, 0);
+      return `
+        <a href="/nb-admin-client?id=${c.client_id}" class="client-card">
+          <div class="name">${NB_ADMIN.esc(c.client_name)}</div>
+          <div class="type">${NB_ADMIN.esc(c.business_type || '')} ${c.location ? '&mdash; ' + NB_ADMIN.esc(c.location) : ''}</div>
+          <div class="platforms">${platforms}</div>
+          <div class="meta">
+            ${NB_ADMIN.tierBadge(c.tier)}
+            <span style="color:var(--muted);font-size:12px">${totalPosts} posts/wk</span>
+          </div>
+        </a>
+      `;
+    }).join('');
+  }
+
+  function filterClients() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    renderClients(allClients.filter(c =>
+      c.client_name.toLowerCase().includes(q) ||
+      (c.business_type || '').toLowerCase().includes(q) ||
+      (c.location || '').toLowerCase().includes(q)
+    ));
+  }
+
+  init();
+</script>
+</body>
+</html>

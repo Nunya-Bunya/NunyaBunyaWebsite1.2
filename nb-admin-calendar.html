@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendar | NB Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Content <span>Calendar</span></h1>
+    </div>
+
+    <!-- Controls -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+      <div class="calendar-nav">
+        <button onclick="changeMonth(-1)">&larr;</button>
+        <h2 id="monthLabel"></h2>
+        <button onclick="changeMonth(1)">&rarr;</button>
+        <button onclick="goToday()" class="btn-outline btn-small" style="margin-left:8px">Today</button>
+      </div>
+      <div class="toolbar" style="margin-bottom:0">
+        <select id="clientFilter" onchange="loadCalendar()">
+          <option value="all">All Clients</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Calendar Grid -->
+    <div class="calendar-grid" id="calendarGrid"></div>
+
+    <div class="loading" id="loading" style="display:none"><div class="spinner"></div><p>Loading...</p></div>
+  </main>
+</div>
+
+<!-- Content Modal -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-card" id="modalContent"></div>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let currentYear, currentMonth;
+  let allClients = [];
+  let calendarItems = [];
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('calendar');
+
+    const now = new Date();
+    currentYear = now.getFullYear();
+    currentMonth = now.getMonth();
+
+    // Load clients for filter
+    const data = await NB_ADMIN.apiFetch('clients');
+    if (data) {
+      allClients = data.clients;
+      const select = document.getElementById('clientFilter');
+      allClients.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.client_id;
+        opt.textContent = c.client_name;
+        select.appendChild(opt);
+      });
+    }
+
+    await loadCalendar();
+  }
+
+  function changeMonth(delta) {
+    currentMonth += delta;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+    loadCalendar();
+  }
+
+  function goToday() {
+    const now = new Date();
+    currentYear = now.getFullYear();
+    currentMonth = now.getMonth();
+    loadCalendar();
+  }
+
+  async function loadCalendar() {
+    const start = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-01`;
+    const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const end = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${lastDay}`;
+    const client = document.getElementById('clientFilter').value;
+
+    document.getElementById('monthLabel').textContent =
+      new Date(currentYear, currentMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+    const data = await NB_ADMIN.apiFetch(`calendar?start=${start}&end=${end}&client=${client}`);
+    calendarItems = data ? data.items : [];
+    renderCalendar();
+  }
+
+  function renderCalendar() {
+    const grid = document.getElementById('calendarGrid');
+    const todayStr = NB_ADMIN.todayStr();
+
+    // Day headers
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    let html = days.map(d => `<div class="calendar-header">${d}</div>`).join('');
+
+    // First day of month
+    const firstDay = new Date(currentYear, currentMonth, 1);
+    let startDow = firstDay.getDay(); // 0=Sun
+    startDow = startDow === 0 ? 6 : startDow - 1; // Convert to Mon=0
+
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    // Group items by date
+    const byDate = {};
+    calendarItems.forEach(i => {
+      if (!byDate[i.date]) byDate[i.date] = [];
+      byDate[i.date].push(i);
+    });
+
+    // Previous month padding
+    const prevMonthDays = new Date(currentYear, currentMonth, 0).getDate();
+    for (let i = startDow - 1; i >= 0; i--) {
+      html += `<div class="calendar-day other-month"><div class="day-num">${prevMonthDays - i}</div></div>`;
+    }
+
+    // Month days
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+      const isToday = dateStr === todayStr;
+      const dayItems = byDate[dateStr] || [];
+
+      html += `<div class="calendar-day ${isToday ? 'today' : ''}">`;
+      html += `<div class="day-num">${d}</div>`;
+      dayItems.slice(0, 5).forEach((item, idx) => {
+        const cls = NB_ADMIN.platformClass(item.platform);
+        const label = allClients.length > 1 && document.getElementById('clientFilter').value === 'all'
+          ? (item.client_id.substring(0, 3).toUpperCase() + ' ')
+          : '';
+        html += `<div class="calendar-pill ${cls}" onclick="showItem('${dateStr}',${idx})" title="${NB_ADMIN.esc(item.topic || '')}">${label}${NB_ADMIN.esc((item.content_type || '').substring(0, 4))}</div>`;
+      });
+      if (dayItems.length > 5) {
+        html += `<div style="font-size:10px;color:var(--muted);padding:2px 4px">+${dayItems.length - 5} more</div>`;
+      }
+      html += '</div>';
+    }
+
+    // Next month padding
+    const totalCells = startDow + daysInMonth;
+    const remaining = (7 - (totalCells % 7)) % 7;
+    for (let i = 1; i <= remaining; i++) {
+      html += `<div class="calendar-day other-month"><div class="day-num">${i}</div></div>`;
+    }
+
+    grid.innerHTML = html;
+  }
+
+  function showItem(dateStr, idx) {
+    const dayItems = calendarItems.filter(i => i.date === dateStr);
+    const item = dayItems[idx];
+    if (!item) return;
+
+    const clientName = allClients.find(c => c.client_id === item.client_id)?.client_name || item.client_id;
+
+    document.getElementById('modalContent').innerHTML = `
+      <h3>${NB_ADMIN.esc(item.topic || 'Content Item')}</h3>
+      <div class="meta">${NB_ADMIN.esc(clientName)} &bull; ${NB_ADMIN.formatDate(item.date + 'T12:00:00')}</div>
+      <div class="field"><div class="field-label">Platform</div><div class="field-value">${NB_ADMIN.platformBadge(item.platform)} ${NB_ADMIN.esc(item.content_type || '')}</div></div>
+      ${item.pillar ? `<div class="field"><div class="field-label">Content Pillar</div><div class="field-value">${NB_ADMIN.esc(item.pillar)}</div></div>` : ''}
+      ${item.hook ? `<div class="field"><div class="field-label">Hook</div><div class="field-value">${NB_ADMIN.esc(item.hook)}</div></div>` : ''}
+      ${item.cta ? `<div class="field"><div class="field-label">CTA</div><div class="field-value">${NB_ADMIN.esc(item.cta)}</div></div>` : ''}
+      ${item.caption ? `<div class="field"><div class="field-label">Caption</div><div class="field-value" style="white-space:pre-wrap">${NB_ADMIN.esc(item.caption)}</div></div>` : ''}
+      <div class="field"><div class="field-label">Status</div><div class="field-value">${NB_ADMIN.statusBadge(item.status)}</div></div>
+      <button class="btn-outline" style="margin-top:16px" onclick="closeModal()">Close</button>
+    `;
+    document.getElementById('modal').classList.add('show');
+  }
+
+  function closeModal() { document.getElementById('modal').classList.remove('show'); }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  init();
+</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | NB Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1 id="greeting"></h1>
+        <div class="date" id="dateLabel"></div>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid" id="kpiGrid"></div>
+
+    <!-- Two Column Layout -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+
+      <!-- Today's Tasks -->
+      <div class="section">
+        <div class="section-header">Today's Tasks <span class="badge" id="taskCount">0</span></div>
+        <div id="todayTasks" class="card" style="max-height:400px;overflow-y:auto"></div>
+      </div>
+
+      <!-- Client Quick View -->
+      <div class="section">
+        <div class="section-header">Clients <span class="badge" id="clientCount">0</span></div>
+        <div id="clientQuickList" style="max-height:400px;overflow-y:auto"></div>
+      </div>
+    </div>
+
+    <!-- This Week Summary -->
+    <div class="section" style="margin-top:24px">
+      <div class="section-header">This Week at a Glance</div>
+      <div class="week-columns" id="weekSummary"></div>
+    </div>
+
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading dashboard...</p></div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let allClients = [];
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('dashboard');
+
+    document.getElementById('greeting').innerHTML = `${NB_ADMIN.greeting()}, <span>Ben</span>`;
+    document.getElementById('dateLabel').textContent = NB_ADMIN.formatDateFull(new Date());
+
+    // Load all data in parallel
+    const [clientsData, tasksData, weekData] = await Promise.all([
+      NB_ADMIN.apiFetch('clients'),
+      NB_ADMIN.apiFetch('tasks?date=' + NB_ADMIN.todayStr()),
+      NB_ADMIN.apiFetch('week?date=' + NB_ADMIN.todayStr()),
+    ]);
+
+    document.getElementById('loading').style.display = 'none';
+
+    allClients = clientsData ? clientsData.clients : [];
+    const tasks = tasksData ? tasksData.tasks : [];
+    const week = weekData;
+
+    renderKPIs(allClients, tasks, week);
+    renderTodayTasks(tasks);
+    renderClientList(allClients);
+    if (week) renderWeekSummary(week);
+  }
+
+  function renderKPIs(clients, tasks, week) {
+    const activeClients = clients.filter(c => c.active).length;
+    const pendingTasks = tasks.filter(t => t.status !== 'published').length;
+    const thisWeekItems = week && week.this_week ? week.this_week.items.length : 0;
+    const thisWeekDone = week && week.this_week ? week.this_week.items.filter(i => i.status === 'published').length : 0;
+
+    document.getElementById('kpiGrid').innerHTML = `
+      <div class="kpi-card"><div class="num">${activeClients}</div><div class="label">Active Clients</div></div>
+      <div class="kpi-card yellow"><div class="num">${pendingTasks}</div><div class="label">Tasks Today</div></div>
+      <div class="kpi-card magenta"><div class="num">${thisWeekItems}</div><div class="label">Posts This Week</div></div>
+      <div class="kpi-card purple"><div class="num">${thisWeekDone}/${thisWeekItems}</div><div class="label">Week Progress</div></div>
+    `;
+  }
+
+  function renderTodayTasks(tasks) {
+    document.getElementById('taskCount').textContent = tasks.length;
+    if (!tasks.length) {
+      document.getElementById('todayTasks').innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">No tasks for today!</div>';
+      return;
+    }
+
+    const pending = tasks.filter(t => t.status !== 'published');
+    const done = tasks.filter(t => t.status === 'published');
+
+    document.getElementById('todayTasks').innerHTML = [
+      ...pending.map(t => taskRow(t)),
+      ...done.map(t => taskRow(t)),
+    ].join('');
+  }
+
+  function taskRow(t) {
+    const isDone = t.status === 'published';
+    const client = allClients.find(c => c.client_id === t.client_id);
+    const clientLabel = client ? client.client_name : t.client_id;
+    return `
+      <div class="task-item ${isDone ? 'task-done' : ''}">
+        <div class="platform-dot ${NB_ADMIN.platformClass(t.platform)}"></div>
+        <span style="font-size:10px;color:var(--muted);min-width:60px">${NB_ADMIN.esc(clientLabel).substring(0, 10)}</span>
+        <span class="topic">${NB_ADMIN.esc(t.topic || t.content_type || 'Item')}</span>
+        ${!isDone ? `<button class="btn-teal btn-small" onclick="markDone('${t.id}')">Done</button>` : ''}
+      </div>
+    `;
+  }
+
+  async function markDone(id) {
+    await NB_ADMIN.apiSend('tasks', 'PATCH', { id, status: 'published' });
+    // Reload
+    const tasksData = await NB_ADMIN.apiFetch('tasks?date=' + NB_ADMIN.todayStr());
+    renderTodayTasks(tasksData ? tasksData.tasks : []);
+  }
+
+  function renderClientList(clients) {
+    document.getElementById('clientCount').textContent = clients.length;
+    document.getElementById('clientQuickList').innerHTML = clients.map(c => {
+      const totalPosts = Object.values(c.posting_frequency || {}).reduce((a, b) => a + b, 0);
+      return `
+        <a href="/nb-admin-client?id=${c.client_id}" class="client-card" style="margin-bottom:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="name" style="font-size:15px">${NB_ADMIN.esc(c.client_name)}</div>
+            ${NB_ADMIN.tierBadge(c.tier)}
+          </div>
+          <div class="type" style="margin-bottom:4px">${NB_ADMIN.esc(c.business_type || '')} &bull; ${totalPosts} posts/wk</div>
+        </a>
+      `;
+    }).join('');
+  }
+
+  function renderWeekSummary(data) {
+    const weeks = [
+      { key: 'last_week', label: 'Last Week', cls: 'last' },
+      { key: 'this_week', label: 'This Week', cls: 'current' },
+      { key: 'next_week', label: 'Next Week', cls: 'next' },
+    ];
+
+    document.getElementById('weekSummary').innerHTML = weeks.map(w => {
+      const week = data[w.key];
+      if (!week) return '';
+      const total = week.items ? week.items.length : 0;
+      const done = week.items ? week.items.filter(i => i.status === 'published').length : 0;
+      const notes = week.notes;
+
+      return `
+        <div class="week-col">
+          <div class="week-col-header ${w.cls}">
+            ${w.label}
+            <div style="font-size:11px;font-weight:400;font-family:var(--font-body);margin-top:4px">${done}/${total} content items</div>
+          </div>
+          <div class="week-col-body">
+            ${notes ? `
+              ${notes.accomplished ? `<div style="font-size:12px;margin-bottom:6px"><strong style="color:var(--teal)">Done:</strong> <span style="color:rgba(255,255,255,0.6);font-weight:300">${NB_ADMIN.esc(notes.accomplished)}</span></div>` : ''}
+              ${notes.in_progress ? `<div style="font-size:12px;margin-bottom:6px"><strong style="color:var(--yellow)">Active:</strong> <span style="color:rgba(255,255,255,0.6);font-weight:300">${NB_ADMIN.esc(notes.in_progress)}</span></div>` : ''}
+              ${notes.upcoming ? `<div style="font-size:12px;margin-bottom:6px"><strong style="color:var(--purple)">Next:</strong> <span style="color:rgba(255,255,255,0.6);font-weight:300">${NB_ADMIN.esc(notes.upcoming)}</span></div>` : ''}
+            ` : `<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">${total > 0 ? total + ' items scheduled' : 'Nothing scheduled'}</div>`}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  init();
+</script>
+</body>
+</html>

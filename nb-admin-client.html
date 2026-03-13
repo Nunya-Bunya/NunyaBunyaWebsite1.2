@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Detail | NB Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div id="clientHeader" class="admin-topbar"></div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid" id="kpiGrid"></div>
+
+    <!-- Tabs -->
+    <div class="tabs" id="tabBar"></div>
+
+    <!-- Tab Content: Overview -->
+    <div id="tab-overview" class="tab-content active">
+      <div id="overviewContent"></div>
+    </div>
+
+    <!-- Tab Content: Content -->
+    <div id="tab-content" class="tab-content">
+      <div id="contentList"></div>
+    </div>
+
+    <!-- Tab Content: Reports -->
+    <div id="tab-reports" class="tab-content">
+      <div id="reportsList"></div>
+    </div>
+
+    <!-- Tab Content: Notes -->
+    <div id="tab-notes" class="tab-content">
+      <div id="notesEditor"></div>
+    </div>
+
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading client...</p></div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let clientData = null;
+  const clientId = new URLSearchParams(window.location.search).get('id');
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('clients');
+
+    if (!clientId) { window.location.href = '/nb-admin-clients'; return; }
+    await loadClient();
+  }
+
+  async function loadClient() {
+    const data = await NB_ADMIN.apiFetch('client?id=' + encodeURIComponent(clientId));
+    document.getElementById('loading').style.display = 'none';
+    if (!data || !data.client) {
+      document.getElementById('clientHeader').innerHTML = '<h1>Client not found</h1>';
+      return;
+    }
+    clientData = data;
+    renderAll();
+  }
+
+  function renderAll() {
+    const c = clientData.client;
+    const stats = clientData.content_stats;
+
+    // Header
+    document.getElementById('clientHeader').innerHTML = `
+      <div>
+        <h1>${NB_ADMIN.esc(c.client_name)} ${NB_ADMIN.tierBadge(c.tier)}</h1>
+        <div class="date">${NB_ADMIN.esc(c.business_type || '')} ${c.location ? '&mdash; ' + NB_ADMIN.esc(c.location) : ''}
+          ${c.client_url ? ' &mdash; <a href="https://' + NB_ADMIN.esc(c.client_url) + '" target="_blank" style="color:var(--teal)">' + NB_ADMIN.esc(c.client_url) + '</a>' : ''}
+        </div>
+      </div>
+      <a href="/nb-admin-clients" class="btn-outline btn-small">&larr; Back</a>
+    `;
+
+    // KPIs
+    document.getElementById('kpiGrid').innerHTML = `
+      <div class="kpi-card"><div class="num">${stats.total}</div><div class="label">Total Content</div></div>
+      <div class="kpi-card yellow"><div class="num">${stats.planned}</div><div class="label">Planned</div></div>
+      <div class="kpi-card purple"><div class="num">${stats.drafted}</div><div class="label">Drafted</div></div>
+      <div class="kpi-card"><div class="num">${stats.published}</div><div class="label">Published</div></div>
+    `;
+
+    // Tabs
+    document.getElementById('tabBar').innerHTML = `
+      <button class="tab active" onclick="switchTab('overview')">Overview</button>
+      <button class="tab" onclick="switchTab('content')">Content (${stats.total})</button>
+      <button class="tab" onclick="switchTab('reports')">Reports (${clientData.reports.length})</button>
+      <button class="tab" onclick="switchTab('notes')">Weekly Notes</button>
+    `;
+
+    renderOverview();
+    renderContent();
+    renderReports();
+    renderNotes();
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  }
+
+  function renderOverview() {
+    const c = clientData.client;
+    const platforms = (c.platforms || []).map(p => NB_ADMIN.platformBadge(p)).join(' ');
+    const pillars = (c.content_pillars || []).map(p => `<span class="badge-status active">${NB_ADMIN.esc(p)}</span>`).join(' ');
+    const pipes = (c.pipelines || []).map(p => `<span class="badge-platform blog">${p}</span>`).join(' ');
+    const freq = c.posting_frequency || {};
+
+    document.getElementById('overviewContent').innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div class="card">
+          <div class="section-header">Platforms</div>
+          <div style="margin-bottom:16px">${platforms}</div>
+          <div style="font-size:13px;color:var(--muted)">
+            ${Object.entries(freq).map(([k, v]) => `${k}: ${v}/wk`).join(' &bull; ')}
+          </div>
+        </div>
+        <div class="card">
+          <div class="section-header">Pipelines</div>
+          <div>${pipes || '<span style="color:var(--muted)">None configured</span>'}</div>
+        </div>
+        <div class="card" style="grid-column:1/-1">
+          <div class="section-header">Content Pillars</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">${pillars || '<span style="color:var(--muted)">None set</span>'}</div>
+        </div>
+        ${c.notes ? `<div class="card" style="grid-column:1/-1"><div class="section-header">Notes</div><p style="font-size:14px;color:rgba(255,255,255,0.7);font-weight:300;line-height:1.6">${NB_ADMIN.esc(c.notes)}</p></div>` : ''}
+      </div>
+    `;
+  }
+
+  async function renderContent() {
+    // Fetch content items for this client
+    const now = new Date();
+    const start = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-01';
+    const end = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-31';
+    const data = await NB_ADMIN.apiFetch(`calendar?start=${start}&end=${end}&client=${clientId}`);
+    const items = data ? data.items : [];
+
+    if (!items.length) {
+      document.getElementById('contentList').innerHTML = '<div class="empty-state"><div class="icon">&#128196;</div><p>No content items for this month.</p></div>';
+      return;
+    }
+
+    // Group by date
+    const byDate = {};
+    items.forEach(i => {
+      if (!byDate[i.date]) byDate[i.date] = [];
+      byDate[i.date].push(i);
+    });
+
+    document.getElementById('contentList').innerHTML = Object.entries(byDate).map(([date, dayItems]) => `
+      <div class="week-day-group">
+        <div class="week-day-label">${NB_ADMIN.formatDate(date + 'T12:00:00')}</div>
+        ${dayItems.map(i => `
+          <div class="task-item">
+            <div class="platform-dot ${NB_ADMIN.platformClass(i.platform)}"></div>
+            <span class="type-label">${NB_ADMIN.esc(i.content_type || '')}</span>
+            <span class="topic">${NB_ADMIN.esc(i.topic || 'Untitled')}</span>
+            ${NB_ADMIN.statusBadge(i.status)}
+          </div>
+        `).join('')}
+      </div>
+    `).join('');
+  }
+
+  function renderReports() {
+    const reports = clientData.reports;
+    if (!reports.length) {
+      document.getElementById('reportsList').innerHTML = '<div class="empty-state"><div class="icon">&#128200;</div><p>No reports yet.</p></div>';
+      return;
+    }
+    document.getElementById('reportsList').innerHTML = reports.map(r => `
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <strong>${NB_ADMIN.esc(r.title || r.report_type + ' Report')}</strong>
+          <span style="color:var(--muted);font-size:12px">${NB_ADMIN.formatDate(r.report_date + 'T12:00:00')}</span>
+        </div>
+        <p style="font-size:14px;color:rgba(255,255,255,0.6);font-weight:300">${NB_ADMIN.esc(r.summary || 'No summary available.')}</p>
+      </div>
+    `).join('');
+  }
+
+  function renderNotes() {
+    const notes = clientData.weekly_notes;
+    const thisMonday = NB_ADMIN.toDateStr(NB_ADMIN.getMonday(new Date()));
+    const current = notes.find(n => n.week_start === thisMonday) || {};
+
+    document.getElementById('notesEditor').innerHTML = `
+      <div class="card">
+        <div class="section-header">Week of ${NB_ADMIN.formatDate(thisMonday + 'T12:00:00')}</div>
+        <div class="week-notes">
+          <label>Accomplished</label>
+          <textarea id="noteAccomplished" placeholder="What was completed...">${NB_ADMIN.esc(current.accomplished || '')}</textarea>
+        </div>
+        <div class="week-notes">
+          <label>In Progress</label>
+          <textarea id="noteInProgress" placeholder="What's currently being worked on...">${NB_ADMIN.esc(current.in_progress || '')}</textarea>
+        </div>
+        <div class="week-notes">
+          <label>Upcoming</label>
+          <textarea id="noteUpcoming" placeholder="What's coming next...">${NB_ADMIN.esc(current.upcoming || '')}</textarea>
+        </div>
+        <button class="btn-teal" onclick="saveNotes()">Save Notes</button>
+        <span id="saveStatus" style="margin-left:12px;font-size:13px;color:var(--teal);display:none">Saved!</span>
+      </div>
+      ${notes.length > 0 ? `
+        <div class="section-header" style="margin-top:24px">Previous Weeks</div>
+        ${notes.filter(n => n.week_start !== thisMonday).map(n => `
+          <div class="card" style="margin-bottom:12px">
+            <strong>Week of ${NB_ADMIN.formatDate(n.week_start + 'T12:00:00')}</strong>
+            ${n.accomplished ? `<p style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px"><strong style="color:var(--teal)">Done:</strong> ${NB_ADMIN.esc(n.accomplished)}</p>` : ''}
+            ${n.in_progress ? `<p style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:4px"><strong style="color:var(--yellow)">In Progress:</strong> ${NB_ADMIN.esc(n.in_progress)}</p>` : ''}
+            ${n.upcoming ? `<p style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:4px"><strong style="color:var(--purple)">Upcoming:</strong> ${NB_ADMIN.esc(n.upcoming)}</p>` : ''}
+          </div>
+        `).join('')}
+      ` : ''}
+    `;
+  }
+
+  async function saveNotes() {
+    const thisMonday = NB_ADMIN.toDateStr(NB_ADMIN.getMonday(new Date()));
+    const result = await NB_ADMIN.apiSend('week', 'PUT', {
+      client_id: clientId,
+      week_start: thisMonday,
+      accomplished: document.getElementById('noteAccomplished').value,
+      in_progress: document.getElementById('noteInProgress').value,
+      upcoming: document.getElementById('noteUpcoming').value,
+    });
+    if (result) {
+      const el = document.getElementById('saveStatus');
+      el.style.display = 'inline';
+      setTimeout(() => { el.style.display = 'none'; }, 2000);
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>

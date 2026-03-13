@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Today's Tasks | NB Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Today's <span>Tasks</span></h1>
+        <div class="date" id="dateLabel"></div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn-outline btn-small" onclick="changeDate(-1)">&larr; Yesterday</button>
+        <button class="btn-outline btn-small" onclick="goToday()">Today</button>
+        <button class="btn-outline btn-small" onclick="changeDate(1)">Tomorrow &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="kpi-grid" id="taskStats"></div>
+
+    <!-- Task List -->
+    <div id="taskList"></div>
+
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading tasks...</p></div>
+    <div class="empty-state" id="empty" style="display:none"><div class="icon">&#10003;</div><p>No tasks for this day. You're all caught up!</p></div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let currentDate = NB_ADMIN.todayStr();
+  let allClients = [];
+  let tasks = [];
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('tasks');
+
+    const data = await NB_ADMIN.apiFetch('clients');
+    if (data) allClients = data.clients;
+
+    await loadTasks();
+  }
+
+  function changeDate(delta) {
+    const d = new Date(currentDate + 'T12:00:00');
+    d.setDate(d.getDate() + delta);
+    currentDate = NB_ADMIN.toDateStr(d);
+    loadTasks();
+  }
+
+  function goToday() {
+    currentDate = NB_ADMIN.todayStr();
+    loadTasks();
+  }
+
+  async function loadTasks() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('empty').style.display = 'none';
+    document.getElementById('dateLabel').textContent = NB_ADMIN.formatDateFull(currentDate + 'T12:00:00');
+
+    const data = await NB_ADMIN.apiFetch('tasks?date=' + currentDate);
+    document.getElementById('loading').style.display = 'none';
+
+    tasks = data ? data.tasks : [];
+
+    if (!tasks.length) {
+      document.getElementById('empty').style.display = 'block';
+      document.getElementById('taskList').innerHTML = '';
+      document.getElementById('taskStats').innerHTML = '';
+      return;
+    }
+
+    renderTasks();
+  }
+
+  function renderTasks() {
+    const pending = tasks.filter(t => t.status !== 'published');
+    const done = tasks.filter(t => t.status === 'published');
+
+    // Stats
+    document.getElementById('taskStats').innerHTML = `
+      <div class="kpi-card"><div class="num">${tasks.length}</div><div class="label">Total Items</div></div>
+      <div class="kpi-card yellow"><div class="num">${pending.length}</div><div class="label">Pending</div></div>
+      <div class="kpi-card"><div class="num">${done.length}</div><div class="label">Completed</div></div>
+    `;
+
+    // Group by client
+    const byClient = {};
+    tasks.forEach(t => {
+      if (!byClient[t.client_id]) byClient[t.client_id] = [];
+      byClient[t.client_id].push(t);
+    });
+
+    document.getElementById('taskList').innerHTML = Object.entries(byClient).map(([cid, items]) => {
+      const client = allClients.find(c => c.client_id === cid);
+      const name = client ? client.client_name : cid;
+      return `
+        <div class="section">
+          <div class="section-header">${NB_ADMIN.esc(name)} <span class="badge">${items.length}</span></div>
+          ${items.map(item => {
+            const isDone = item.status === 'published';
+            return `
+              <div class="task-item ${isDone ? 'task-done' : ''}" id="task-${item.id}">
+                <div class="platform-dot ${NB_ADMIN.platformClass(item.platform)}"></div>
+                ${NB_ADMIN.platformBadge(item.platform)}
+                <span class="type-label">${NB_ADMIN.esc(item.content_type || '')}</span>
+                <span class="topic">${NB_ADMIN.esc(item.topic || 'Untitled')}</span>
+                ${NB_ADMIN.statusBadge(item.status)}
+                ${!isDone ? `<button class="btn-teal btn-small" onclick="markDone('${item.id}')">Done</button>` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function markDone(id) {
+    const result = await NB_ADMIN.apiSend('tasks', 'PATCH', { id, status: 'published' });
+    if (result) {
+      // Update local state
+      const task = tasks.find(t => t.id === id);
+      if (task) task.status = 'published';
+      renderTasks();
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>
