@@ -48,6 +48,79 @@
     font-size: 12px;
   }
 
+  /* SPOTS TRACKER */
+  .spots-tracker {
+    display: inline-block;
+    margin-top: 24px;
+    background: var(--dark2);
+    border: 1px solid var(--subtle);
+    border-radius: 12px;
+    padding: 16px 28px;
+    text-align: center;
+  }
+  .spots-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .spots-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #e04040;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .spots-label {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--white);
+  }
+  .spots-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .spots-bar-segment {
+    width: 36px;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--subtle);
+    transition: background 0.3s;
+  }
+  .spots-bar-segment.filled {
+    background: #e04040;
+  }
+  .spots-bar-segment.open {
+    background: #C9A84C;
+  }
+  .spots-count {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 14px;
+    color: #C9A84C;
+    letter-spacing: 0.02em;
+  }
+  .spots-count small {
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 11px;
+  }
+  .spots-updated {
+    font-size: 10px;
+    color: var(--faint, #555);
+    font-weight: 300;
+    margin-top: 4px;
+  }
+
   /* PRICE HERO */
   .price-hero {
     text-align: center;
@@ -374,6 +447,21 @@
     <div style="margin-top: 36px;">
       <a href="https://cal.com/nunyabunya" target="_blank" rel="noopener" class="btn-primary">Claim This Offer</a>
     </div>
+    <div class="spots-tracker">
+      <div class="spots-header">
+        <div class="spots-dot"></div>
+        <div class="spots-label">Spots This Month</div>
+      </div>
+      <div class="spots-bar">
+        <div class="spots-bar-segment filled"></div>
+        <div class="spots-bar-segment filled"></div>
+        <div class="spots-bar-segment filled"></div>
+        <div class="spots-bar-segment open"></div>
+        <div class="spots-bar-segment open"></div>
+      </div>
+      <div class="spots-count">2 of 5 spots left <small>&middot; I only take 5 new clients/month</small></div>
+      <div class="spots-updated">Updated <span id="spotsDate"></span></div>
+    </div>
   </div>
 </section>
 
@@ -608,6 +696,10 @@
   document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
   const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+  // Spots date — always shows today
+  const d = new Date();
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('spotsDate').textContent = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
 </script>
 
 <!-- Matomo -->
