@@ -485,6 +485,24 @@
   </div>
 </div>
 
+<!-- LEAD MAGNET -->
+<section class="section-dark section-pad">
+  <div class="container" style="text-align: center;">
+    <div class="section-label" style="justify-content: center;">Free Download</div>
+    <h2 class="section-heading" style="text-align: center;">Audit your socials<br>in <span>10 minutes.</span></h2>
+    <p class="section-sub" style="text-align: center; max-width: 480px; margin: 0 auto 32px;">Grab my free Social Media Audit Checklist — the same one I use when reviewing a new client's presence. 34 checkpoints across 5 categories.</p>
+    <div style="max-width: 400px; margin: 0 auto;">
+      <form id="leadMagnetForm" style="display: flex; flex-direction: column; gap: 12px;">
+        <input type="text" name="name" placeholder="Your name" style="padding: 14px 16px; border-radius: 8px; border: 1px solid var(--subtle); background: var(--dark2); color: var(--white); font-size: 15px; font-family: var(--font-body);">
+        <input type="email" name="email" placeholder="Your email" required style="padding: 14px 16px; border-radius: 8px; border: 1px solid var(--subtle); background: var(--dark2); color: var(--white); font-size: 15px; font-family: var(--font-body);">
+        <button type="submit" class="btn-primary" style="border: none; cursor: pointer; font-family: var(--font-heading); font-size: 15px; padding: 14px 24px;">Send Me the Checklist</button>
+      </form>
+      <p id="leadMagnetMsg" style="font-size: 13px; color: var(--muted); margin-top: 12px; display: none;"></p>
+      <p style="font-size: 11px; color: var(--faint, #555); margin-top: 10px;">No spam. Unsubscribe anytime.</p>
+    </div>
+  </div>
+</section>
+
 <!-- WHAT'S INCLUDED -->
 <section class="section-pad">
   <div class="container">
@@ -792,6 +810,20 @@
   const d = new Date();
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   document.getElementById('spotsDate').textContent = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  // Lead magnet form
+  document.getElementById('leadMagnetForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const msg = document.getElementById('leadMagnetMsg');
+    const name = this.name.value.trim();
+    const email = this.email.value.trim();
+    if (!email) { msg.style.display = 'block'; msg.style.color = '#e04040'; msg.textContent = 'Please enter your email.'; return; }
+    msg.style.display = 'block'; msg.style.color = 'var(--muted)'; msg.textContent = 'Sending...';
+    try {
+      const res = await fetch('https://n8n.nunyabunya.com/webhook/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, source: 'social-media-special' }) });
+      if (res.ok) { msg.style.color = '#C9A84C'; msg.textContent = 'Check your inbox! Your checklist is on its way.'; this.reset(); }
+      else { msg.style.color = '#e04040'; msg.textContent = 'Something went wrong. Try again.'; }
+    } catch (err) { msg.style.color = '#e04040'; msg.textContent = 'Connection error. Try again.'; }
+  });
 </script>
 
 <!-- Matomo -->
