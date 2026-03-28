@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free: What Even Is Good Marketing? | Nunya Bunya</title>
-<meta name="description" content="A no-BS guide for business owners who are tired of wasting money on marketing that doesn't work. Free PDF download.">
+<title>The $0/mo Marketing Stack | Nunya Bunya</title>
+<meta name="description" content="Replace $500+/mo in SaaS tools with a self-hosted open-source marketing stack. Free guide with step-by-step setup instructions.">
+<meta property="og:title" content="The $0/mo Marketing Stack — Replace HubSpot, Mailchimp, GA4 & More">
+<meta property="og:description" content="How to build a complete marketing stack with open-source tools on a single $10/mo server. Free PDF guide.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nunyabunya.com/open-source-stack">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
@@ -28,7 +33,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
-    max-width: 1000px;
+    max-width: 1100px;
     width: 100%;
     align-items: center;
     position: relative;
@@ -63,8 +68,65 @@
     color: var(--muted);
     font-weight: 300;
     line-height: 1.7;
+    margin-bottom: 28px;
+  }
+
+  /* Stack comparison */
+  .stack-compare {
     margin-bottom: 32px;
   }
+  .stack-compare-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--subtle);
+  }
+  .stack-compare-row:last-child { border-bottom: none; }
+  .stack-old {
+    color: rgba(255,255,255,0.4);
+    text-decoration: line-through;
+    text-align: right;
+    font-weight: 300;
+  }
+  .stack-arrow {
+    color: var(--teal);
+    font-size: 16px;
+    text-align: center;
+  }
+  .stack-new {
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+  }
+  .stack-new em {
+    font-style: normal;
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  .savings-callout {
+    background: rgba(0,229,204,0.06);
+    border: 1px solid rgba(0,229,204,0.15);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .savings-callout .amount {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 28px;
+    color: var(--teal);
+    display: block;
+  }
+  .savings-callout .label {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
   .benefits-list {
     list-style: none;
     padding: 0;
@@ -99,6 +161,8 @@
     font-weight: 300;
   }
   .trust-note strong { color: var(--white); font-weight: 500; }
+
+  /* Form card */
   .lm-form-card {
     background: var(--dark2);
     border: 1px solid var(--subtle);
@@ -161,14 +225,71 @@
     margin-top: 12px;
     display: none;
   }
+
+  /* What's inside section */
+  .whats-inside {
+    padding: 80px 20px;
+    background: var(--dark2);
+    border-top: 1px solid var(--subtle);
+  }
+  .whats-inside-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .whats-inside h2 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(24px, 3vw, 36px);
+    text-transform: uppercase;
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .whats-inside h2 span { color: var(--teal); }
+  .inside-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .inside-card {
+    background: var(--dark);
+    border: 1px solid var(--subtle);
+    border-radius: 12px;
+    padding: 28px 24px;
+  }
+  .inside-card .icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .inside-card h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .inside-card p {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.6;
+    margin: 0;
+  }
+
   @media (max-width: 768px) {
     .lm-grid {
       grid-template-columns: 1fr;
       gap: 40px;
     }
     .lm-content { text-align: center; }
+    .stack-compare-row { font-size: 13px; }
     .benefits-list li { justify-content: center; text-align: left; }
     .trust-note { text-align: center; }
+    .inside-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 </head>
@@ -190,30 +311,73 @@
   <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- MAIN -->
+<!-- HERO -->
 <main class="lm-main">
   <div class="hero-orb-1"></div>
   <div class="hero-orb-2"></div>
   <div class="lm-grid">
     <!-- Left: Content -->
     <div class="lm-content">
-      <div class="badge">Free Guide &mdash; 8 Pages</div>
-      <h1>WHAT EVEN IS<br><span>GOOD</span><br>MARKETING?</h1>
-      <p class="subtitle">A no-BS guide for business owners who are tired of wasting money. Learn what actually works, what to ignore, and exactly what to do in the next 30 days.</p>
+      <div class="badge">Free Guide &mdash; PDF Download</div>
+      <h1>THE <span>$0/MO</span><br>MARKETING<br>STACK</h1>
+      <p class="subtitle">Stop paying $500+/mo for HubSpot, Mailchimp, Google Analytics, Calendly, and Bitly. Replace them all with free, open-source tools on a single $10/mo server.</p>
+
+      <div class="stack-compare">
+        <div class="stack-compare-row">
+          <span class="stack-old">HubSpot &mdash; $800/mo</span>
+          <span class="stack-arrow">&rarr;</span>
+          <span class="stack-new"><em>Twenty CRM</em> &mdash; Free</span>
+        </div>
+        <div class="stack-compare-row">
+          <span class="stack-old">Mailchimp &mdash; $80/mo</span>
+          <span class="stack-arrow">&rarr;</span>
+          <span class="stack-new"><em>Mautic</em> &mdash; Free</span>
+        </div>
+        <div class="stack-compare-row">
+          <span class="stack-old">Google Analytics &mdash; $0*</span>
+          <span class="stack-arrow">&rarr;</span>
+          <span class="stack-new"><em>Matomo</em> &mdash; Free</span>
+        </div>
+        <div class="stack-compare-row">
+          <span class="stack-old">Calendly &mdash; $16/mo</span>
+          <span class="stack-arrow">&rarr;</span>
+          <span class="stack-new"><em>Cal.com</em> &mdash; Free</span>
+        </div>
+        <div class="stack-compare-row">
+          <span class="stack-old">Bitly &mdash; $35/mo</span>
+          <span class="stack-arrow">&rarr;</span>
+          <span class="stack-new"><em>Shlink</em> &mdash; Free</span>
+        </div>
+        <div class="stack-compare-row">
+          <span class="stack-old">Zapier &mdash; $50/mo</span>
+          <span class="stack-arrow">&rarr;</span>
+          <span class="stack-new"><em>n8n</em> &mdash; Free</span>
+        </div>
+        <div class="stack-compare-row">
+          <span class="stack-old">Tableau &mdash; $75/mo</span>
+          <span class="stack-arrow">&rarr;</span>
+          <span class="stack-new"><em>Metabase</em> &mdash; Free</span>
+        </div>
+      </div>
+
+      <div class="savings-callout">
+        <span class="amount">$1,056/mo saved</span>
+        <span class="label">Total cost: ~$10/mo for a Hetzner VPS</span>
+      </div>
+
       <ul class="benefits-list">
-        <li><span class="check">&#10003;</span><span>The 5 signs your marketing is actually working</span></li>
-        <li><span class="check">&#10003;</span><span>The marketing stack that matters (in priority order)</span></li>
-        <li><span class="check">&#10003;</span><span>DIY vs. agency vs. freelancer &mdash; honest comparison</span></li>
-        <li><span class="check">&#10003;</span><span>A 30-day quick start action plan with checkboxes</span></li>
-        <li><span class="check">&#10003;</span><span>7 red flags when hiring a marketing agency</span></li>
+        <li><span class="check">&#10003;</span><span>Step-by-step install guide for every tool</span></li>
+        <li><span class="check">&#10003;</span><span>Docker Compose configs you can copy-paste</span></li>
+        <li><span class="check">&#10003;</span><span>How to connect everything into one pipeline</span></li>
+        <li><span class="check">&#10003;</span><span>You own your data &mdash; no vendor lock-in</span></li>
       </ul>
-      <p class="trust-note"><strong>100% free.</strong> No credit card. No sales pitch. Just useful stuff.</p>
+      <p class="trust-note"><strong>100% free.</strong> No credit card. No sales pitch. Just the exact stack we use for our agency and clients.</p>
     </div>
 
     <!-- Right: Form -->
     <div class="lm-form-card">
-      <h2>Get Your Free Guide</h2>
-      <p class="form-sub">Drop your info and download it instantly.</p>
+      <h2>Download the Free Guide</h2>
+      <p class="form-sub">Get the complete setup guide as a PDF &mdash; delivered instantly.</p>
       <form id="leadForm" onsubmit="return handleSubmit(event)">
         <div class="form-group">
           <label class="form-label" for="name">First Name</label>
@@ -230,6 +394,45 @@
     </div>
   </div>
 </main>
+
+<!-- WHAT'S INSIDE -->
+<section class="whats-inside">
+  <div class="whats-inside-inner">
+    <h2>WHAT'S <span>INSIDE</span> THE GUIDE</h2>
+    <div class="inside-grid">
+      <div class="inside-card">
+        <span class="icon">1</span>
+        <h3>The Stack Overview</h3>
+        <p>Every tool explained &mdash; what it replaces, what it does, and why we chose it over the paid alternative.</p>
+      </div>
+      <div class="inside-card">
+        <span class="icon">2</span>
+        <h3>Server Setup</h3>
+        <p>How to spin up a Hetzner VPS, install Docker, and configure Traefik for automatic SSL on all your subdomains.</p>
+      </div>
+      <div class="inside-card">
+        <span class="icon">3</span>
+        <h3>Tool-by-Tool Install</h3>
+        <p>Docker Compose files and step-by-step setup for Mautic, Twenty CRM, Matomo, Metabase, Shlink, Cal.com, and n8n.</p>
+      </div>
+      <div class="inside-card">
+        <span class="icon">4</span>
+        <h3>Connect the Pipeline</h3>
+        <p>How to wire everything together: website form &rarr; Mautic &rarr; CRM &rarr; analytics &rarr; reporting dashboards.</p>
+      </div>
+      <div class="inside-card">
+        <span class="icon">5</span>
+        <h3>DNS &amp; Domains</h3>
+        <p>How to set up subdomains (crm.yourdomain.com, analytics.yourdomain.com) and point them to your server.</p>
+      </div>
+      <div class="inside-card">
+        <span class="icon">6</span>
+        <h3>What's Next</h3>
+        <p>How to maintain your stack, keep it updated, and where to get help if you get stuck. Plus our recommended add-ons.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -268,11 +471,12 @@
       const res = await fetch('https://n8n.nunyabunya.com/webhook/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, source: 'what-even-is-good-marketing' })
+        body: JSON.stringify({ name, email, source: 'open-source-stack-guide' })
       });
 
       if (res.ok) {
-        window.location.href = 'thankyou.html';
+        // Redirect to PDF download + thank you
+        window.location.href = '/assets/open-source-stack-thankyou.html';
       } else {
         const data = await res.json().catch(() => ({}));
         errorEl.textContent = data.error || 'Something went wrong. Please try again.';

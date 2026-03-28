@@ -22,6 +22,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="../style-v2.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
@@ -1304,6 +1305,32 @@
   </div>
 </section>
 
+<!-- INLINE CTA -->
+<section style="padding:60px 20px;text-align:center;">
+  <div style="max-width:640px;margin:0 auto;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:40px 32px;">
+    <h3 style="font-size:22px;font-weight:800;color:#fff;margin:0 0 12px;">Ready to Put These Trends to Work?</h3>
+    <p style="color:#999;font-size:15px;line-height:1.7;margin:0 0 24px;">We help Brisbane businesses implement exactly what's in this report — SEO, ads, content, and strategy. See our <a href="../services.html" style="color:#00E5CC;">marketing packages</a> or book a free audit call.</p>
+    <a href="../free-audit.html" class="btn-primary" style="display:inline-block;">Get Your Free Marketing Audit</a>
+  </div>
+</section>
+
+<!-- KEEP READING -->
+<section style="padding:0 20px 60px;">
+  <div style="max-width:800px;margin:0 auto;">
+    <h3 style="font-size:16px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:1px;margin:0 0 20px;">Keep Reading</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <a href="seo-basics-small-business.html" style="display:block;padding:20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;text-decoration:none;">
+        <span style="font-size:14px;font-weight:600;color:#fff;">SEO for Small Business: A No-BS Guide</span>
+        <span style="display:block;font-size:12px;color:#666;margin-top:6px;">The fundamentals that actually move the needle.</span>
+      </a>
+      <a href="small-business-marketing-mistakes.html" style="display:block;padding:20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;text-decoration:none;">
+        <span style="font-size:14px;font-weight:600;color:#fff;">7 Marketing Mistakes Killing Your Business</span>
+        <span style="display:block;font-size:12px;color:#666;margin-top:6px;">The most common errors and how to fix them.</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- SITE FOOTER -->
 <footer>
   <div class="footer-logo"><img src="../images/logo-icon-white.png" alt="Nunya Bunya"> <span>NUNYA<em>BUNYA</em></span></div>
@@ -1334,7 +1361,7 @@
     btn.textContent = 'Sending...';
     errorEl.style.display = 'none';
     try {
-      const res = await fetch('/api/subscribe', {
+      const res = await fetch('https://n8n.nunyabunya.com/webhook/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, source: '2026-trend-report' })
@@ -1359,5 +1386,20 @@
   });
 </script>
 
+<!-- Matomo -->
+<script>
+var _paq = window._paq = window._paq || [];
+_paq.push(["trackPageView"]);
+_paq.push(["enableLinkTracking"]);
+(function() {
+  var u="https://analytics.nunyabunya.com/";
+  _paq.push(["setTrackerUrl", u+"matomo.php"]);
+  _paq.push(["setSiteId", "1"]);
+  var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
+  g.async=true; g.src=u+"matomo.js"; s.parentNode.insertBefore(g,s);
+})();
+</script>
+<noscript><img referrerpolicy="no-referrer-when-downgrade" src="https://analytics.nunyabunya.com/matomo.php?idsite=1&amp;rec=1" style="border:0" alt="" /></noscript>
+<!-- End Matomo -->
 </body>
 </html>

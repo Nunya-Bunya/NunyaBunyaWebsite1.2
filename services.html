@@ -23,6 +23,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="style-v2.css">
 </head>
 <body>
@@ -262,6 +263,29 @@
   </div>
 </section>
 
+<!-- LEARN MORE -->
+<section class="section-dark section-pad" style="padding-bottom:0;">
+  <div class="container">
+    <div class="section-label" style="justify-content: center;">FROM THE BLOG</div>
+    <h2 class="section-heading" style="text-align: center;">Not Sure Where<br>to <span>Start?</span></h2>
+    <p class="section-sub" style="text-align: center; max-width: 480px; margin: 0 auto 32px;">Read these first — they'll help you figure out what you actually need.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:800px;margin:0 auto;">
+      <a href="blog/seo-basics-small-business.html" style="display:block;padding:24px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;text-decoration:none;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(0,229,204,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
+        <span style="font-size:15px;font-weight:700;color:#fff;display:block;margin-bottom:6px;">SEO for Small Business</span>
+        <span style="font-size:13px;color:#888;line-height:1.5;">A no-BS guide to what actually matters for getting found on Google.</span>
+      </a>
+      <a href="blog/small-business-marketing-mistakes.html" style="display:block;padding:24px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;text-decoration:none;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(0,229,204,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
+        <span style="font-size:15px;font-weight:700;color:#fff;display:block;margin-bottom:6px;">7 Marketing Mistakes</span>
+        <span style="font-size:13px;color:#888;line-height:1.5;">The most common errors killing small businesses — and how to fix them.</span>
+      </a>
+      <a href="blog/do-i-need-a-website.html" style="display:block;padding:24px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;text-decoration:none;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(0,229,204,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
+        <span style="font-size:15px;font-weight:700;color:#fff;display:block;margin-bottom:6px;">Do I Need a Website?</span>
+        <span style="font-size:13px;color:#888;line-height:1.5;">Why social media alone isn't enough — and what your site actually needs.</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section class="section-dark section-pad">
   <div class="container">
@@ -423,7 +447,7 @@
       errorEl.style.display = 'none';
 
       try {
-        const res = await fetch('/api/subscribe', {
+        const res = await fetch('https://n8n.nunyabunya.com/webhook/subscribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, source: 'services-pricing-guide' })
@@ -456,5 +480,20 @@
   })();
 </script>
 
+<!-- Matomo -->
+<script>
+var _paq = window._paq = window._paq || [];
+_paq.push(["trackPageView"]);
+_paq.push(["enableLinkTracking"]);
+(function() {
+  var u="https://analytics.nunyabunya.com/";
+  _paq.push(["setTrackerUrl", u+"matomo.php"]);
+  _paq.push(["setSiteId", "1"]);
+  var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
+  g.async=true; g.src=u+"matomo.js"; s.parentNode.insertBefore(g,s);
+})();
+</script>
+<noscript><img referrerpolicy="no-referrer-when-downgrade" src="https://analytics.nunyabunya.com/matomo.php?idsite=1&amp;rec=1" style="border:0" alt="" /></noscript>
+<!-- End Matomo -->
 </body>
 </html>

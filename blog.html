@@ -24,6 +24,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="style-v2.css">
 </head>
 <body>
@@ -165,7 +166,7 @@
       if (!email) return;
       btn.disabled = true; btn.textContent = 'Sending...';
       try {
-        const res = await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: '', email, source: 'blog-inline' }) });
+        const res = await fetch('https://n8n.nunyabunya.com/webhook/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: '', email, source: 'blog-inline' }) });
         if (res.ok) { window.location.href = 'thankyou.html'; }
         else { btn.disabled = false; btn.textContent = 'Get the Free Guide'; }
       } catch (err) { btn.disabled = false; btn.textContent = 'Get the Free Guide'; }
@@ -173,5 +174,20 @@
   })();
 </script>
 
+<!-- Matomo -->
+<script>
+var _paq = window._paq = window._paq || [];
+_paq.push(["trackPageView"]);
+_paq.push(["enableLinkTracking"]);
+(function() {
+  var u="https://analytics.nunyabunya.com/";
+  _paq.push(["setTrackerUrl", u+"matomo.php"]);
+  _paq.push(["setSiteId", "1"]);
+  var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
+  g.async=true; g.src=u+"matomo.js"; s.parentNode.insertBefore(g,s);
+})();
+</script>
+<noscript><img referrerpolicy="no-referrer-when-downgrade" src="https://analytics.nunyabunya.com/matomo.php?idsite=1&amp;rec=1" style="border:0" alt="" /></noscript>
+<!-- End Matomo -->
 </body>
 </html>
