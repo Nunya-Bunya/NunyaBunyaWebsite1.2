@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Marketing Audit | Nunya Bunya — Brisbane</title>
+<meta name="description" content="Book a free 15-minute marketing audit with Nunya Bunya. We'll review your website, SEO, and social presence and tell you exactly what's working and what needs fixing.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.nunyabunya.com/free-audit">
+<meta property="og:title" content="Free Marketing Audit | Nunya Bunya">
+<meta property="og:description" content="15 minutes. Zero cost. Real insights. Book a free marketing audit and walk away knowing exactly what to fix.">
+<meta property="og:image" content="https://www.nunyabunya.com/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Nunya Bunya">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Marketing Audit | Nunya Bunya">
+<meta name="twitter:description" content="15 minutes. Zero cost. Real insights. Book a free marketing audit and walk away knowing exactly what to fix.">
+<meta name="twitter:image" content="https://www.nunyabunya.com/images/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="style-v2.css">
+<style>
+  .audit-page { min-height: 100vh; display: flex; flex-direction: column; }
+  .audit-main {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    padding: 80px 20px; position: relative; overflow: hidden;
+  }
+  .audit-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    max-width: 1000px; width: 100%; align-items: center; position: relative; z-index: 2;
+  }
+  .audit-badge {
+    display: inline-block; font-family: var(--font-heading); font-weight: 700;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--mint); border: 1px solid rgba(0,229,204,0.3);
+    padding: 6px 16px; border-radius: 100px; margin-bottom: 20px;
+  }
+  .audit-h1 {
+    font-family: var(--font-heading); font-size: clamp(32px, 5vw, 48px);
+    font-weight: 900; text-transform: uppercase; line-height: 1.05;
+    color: var(--white); margin-bottom: 16px;
+  }
+  .audit-h1 span { color: var(--mint); }
+  .audit-sub {
+    font-size: 16px; color: var(--gray); line-height: 1.7;
+    font-weight: 300; margin-bottom: 32px;
+  }
+  .audit-list { list-style: none; padding: 0; margin: 0 0 36px; }
+  .audit-list li {
+    font-size: 15px; color: var(--light); padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; align-items: flex-start; gap: 12px; font-weight: 300;
+  }
+  .audit-list li::before {
+    content: "\2713"; color: var(--mint); font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+  .audit-cta {
+    display: inline-block; background: var(--mint); color: var(--bg);
+    padding: 18px 40px; border-radius: 12px; text-decoration: none;
+    font-family: var(--font-heading); font-weight: 800; font-size: 16px;
+    text-transform: uppercase; letter-spacing: 0.04em; transition: transform 0.2s;
+  }
+  .audit-cta:hover { transform: translateY(-2px); }
+  .audit-trust {
+    margin-top: 20px; font-size: 12px; color: var(--gray); font-weight: 300;
+  }
+  .audit-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px; padding: 40px; text-align: center;
+  }
+  .audit-card h3 {
+    font-family: var(--font-heading); font-size: 20px; font-weight: 800;
+    text-transform: uppercase; color: var(--white); margin-bottom: 16px;
+  }
+  .audit-card p { font-size: 14px; color: var(--gray); line-height: 1.7; font-weight: 300; margin-bottom: 24px; }
+  .audit-steps { list-style: none; padding: 0; margin: 0 0 32px; text-align: left; }
+  .audit-steps li {
+    padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px; color: var(--light); font-weight: 300; display: flex; gap: 12px;
+  }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%; background: rgba(0,229,204,0.15);
+    color: var(--mint); font-weight: 700; font-size: 13px; display: flex;
+    align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .audit-card .audit-cta { width: 100%; text-align: center; display: block; }
+
+  /* Social proof strip */
+  .audit-proof {
+    text-align: center; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .audit-proof-grid {
+    display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; max-width: 800px; margin: 0 auto;
+  }
+  .audit-stat { text-align: center; }
+  .audit-stat .num {
+    font-family: var(--font-heading); font-size: 36px; font-weight: 900; color: var(--mint);
+  }
+  .audit-stat .lbl { font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  /* FAQ */
+  .audit-faq { max-width: 640px; margin: 0 auto; padding: 60px 20px; }
+  .audit-faq h2 {
+    font-family: var(--font-heading); font-size: 24px; font-weight: 800;
+    text-transform: uppercase; color: var(--white); text-align: center; margin-bottom: 32px;
+  }
+  .audit-faq-item { border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .audit-faq-q {
+    width: 100%; background: none; border: none; color: var(--white);
+    font-family: var(--font-body); font-size: 15px; font-weight: 500;
+    padding: 16px 0; text-align: left; cursor: pointer; display: flex;
+    justify-content: space-between; align-items: center;
+  }
+  .audit-faq-q::after { content: "+"; color: var(--mint); font-size: 20px; font-weight: 300; }
+  .audit-faq-item.open .audit-faq-q::after { content: "\2212"; }
+  .audit-faq-a {
+    max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+    font-size: 14px; color: var(--gray); line-height: 1.7; font-weight: 300;
+  }
+  .audit-faq-item.open .audit-faq-a { max-height: 200px; padding-bottom: 16px; }
+
+  @media (max-width: 768px) {
+    .audit-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="audit-page">
+
+<!-- Minimal nav -->
+<nav style="padding: 20px; display: flex; justify-content: center;">
+  <a href="index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+    <img src="images/logo-icon-white.png" alt="Nunya Bunya" style="height: 28px;">
+    <span style="font-family: var(--font-heading); font-weight: 900; font-size: 16px; text-transform: uppercase; color: var(--white);">NUNYA<span style="color: var(--mint);">BUNYA</span></span>
+  </a>
+</nav>
+
+<!-- Hero -->
+<div class="audit-main">
+  <div class="hero-orb-1"></div>
+  <div class="hero-orb-2"></div>
+  <div class="audit-grid">
+    <div>
+      <div class="audit-badge">100% Free &mdash; No Strings</div>
+      <h1 class="audit-h1">Free Marketing<br><span>Audit.</span></h1>
+      <p class="audit-sub">15 minutes on a call. I'll review your website, SEO, social presence, and ads &mdash; and tell you exactly what's working, what's broken, and what to fix first. No pitch. No pressure.</p>
+      <ul class="audit-list">
+        <li>Full review of your website, SEO, and online presence</li>
+        <li>Identify your 3 biggest growth opportunities</li>
+        <li>Prioritised action plan you can start on today</li>
+        <li>Honest feedback &mdash; even if the answer is "you don't need us"</li>
+      </ul>
+      <a href="https://cal.com/nunyabunya" target="_blank" rel="noopener" class="audit-cta">Book Your Free Audit</a>
+      <p class="audit-trust">No credit card. No commitment. Just a straight-up conversation.</p>
+    </div>
+    <div class="audit-card">
+      <h3>How It Works</h3>
+      <p>Three simple steps &mdash; takes less time than your morning coffee.</p>
+      <ol class="audit-steps">
+        <li><span class="step-num">1</span>Book a time that suits you (takes 30 seconds)</li>
+        <li><span class="step-num">2</span>Jump on a 15-minute video call with me</li>
+        <li><span class="step-num">3</span>Walk away with a clear action plan for your business</li>
+      </ol>
+      <a href="https://cal.com/nunyabunya" target="_blank" rel="noopener" class="audit-cta">Pick a Time</a>
+    </div>
+  </div>
+</div>
+
+<!-- Social proof -->
+<div class="audit-proof">
+  <div class="audit-proof-grid">
+    <div class="audit-stat"><div class="num">50+</div><div class="lbl">Businesses Helped</div></div>
+    <div class="audit-stat"><div class="num">40%</div><div class="lbl">Avg Growth</div></div>
+    <div class="audit-stat"><div class="num">30-Day</div><div class="lbl">Money-Back Guarantee</div></div>
+    <div class="audit-stat"><div class="num">$0</div><div class="lbl">Cost to You</div></div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="audit-faq">
+  <h2>Common Questions</h2>
+  <div class="audit-faq-item">
+    <button class="audit-faq-q">Is this really free?</button>
+    <div class="audit-faq-a">Yes. No hidden fees, no "gotcha" at the end. I genuinely just want to help small businesses figure out what's working and what's not. If you want to work together after, great. If not, you still walk away with actionable insights.</div>
+  </div>
+  <div class="audit-faq-item">
+    <button class="audit-faq-q">What do you actually review?</button>
+    <div class="audit-faq-a">Your website (speed, mobile, UX, conversion), SEO (Google rankings, local SEO, Google Business Profile), social media presence, and any ads you're running. I'll identify the 3 biggest opportunities and give you a prioritised plan.</div>
+  </div>
+  <div class="audit-faq-item">
+    <button class="audit-faq-q">Will you try to sell me something?</button>
+    <div class="audit-faq-a">No pitch, no pressure. If I think we'd be a good fit, I'll mention it. But the call is about giving you value, not closing a deal. Most people who end up working with us come back weeks later on their own.</div>
+  </div>
+  <div class="audit-faq-item">
+    <button class="audit-faq-q">What if I'm just starting out?</button>
+    <div class="audit-faq-a">Even better. I'll help you prioritise where to focus your limited time and budget so you're not wasting money on things that don't matter yet. I've helped dozens of businesses get started from scratch.</div>
+  </div>
+</div>
+
+<!-- Bottom CTA -->
+<section style="padding: 60px 20px 80px; text-align: center;">
+  <h2 style="font-family: var(--font-heading); font-size: 28px; font-weight: 900; text-transform: uppercase; color: var(--white); margin-bottom: 12px;">Stop Guessing.<br><span style="color: var(--mint);">Start Growing.</span></h2>
+  <p style="color: var(--gray); font-size: 15px; max-width: 440px; margin: 0 auto 28px; font-weight: 300; line-height: 1.7;">Book your free audit and I'll show you exactly where to focus. No BS, no sales pitch, just honest marketing advice from someone who actually cares.</p>
+  <a href="https://cal.com/nunyabunya" target="_blank" rel="noopener" class="audit-cta">Book Your Free Audit Now</a>
+</section>
+
+<!-- Minimal footer -->
+<footer style="text-align: center; padding: 20px; border-top: 1px solid rgba(255,255,255,0.06);">
+  <p style="font-size: 12px; color: var(--gray);">&copy; 2026 Nunya Bunya Pty Ltd &middot; Brisbane, QLD &middot; <a href="services.html" style="color: var(--mint); text-decoration: none;">See Our Packages</a></p>
+</footer>
+
+</div>
+
+<script>
+document.querySelectorAll('.audit-faq-item').forEach(item => {
+  item.querySelector('.audit-faq-q').addEventListener('click', () => {
+    item.classList.toggle('open');
+  });
+});
+</script>
+<!-- Matomo -->
+<script>
+var _paq = window._paq = window._paq || [];
+_paq.push(["trackPageView"]);
+_paq.push(["enableLinkTracking"]);
+(function() {
+  var u="https://analytics.nunyabunya.com/";
+  _paq.push(["setTrackerUrl", u+"matomo.php"]);
+  _paq.push(["setSiteId", "1"]);
+  var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
+  g.async=true; g.src=u+"matomo.js"; s.parentNode.insertBefore(g,s);
+})();
+</script>
+<noscript><img referrerpolicy="no-referrer-when-downgrade" src="https://analytics.nunyabunya.com/matomo.php?idsite=1&amp;rec=1" style="border:0" alt="" /></noscript>
+<!-- End Matomo -->
+</body>
+</html>

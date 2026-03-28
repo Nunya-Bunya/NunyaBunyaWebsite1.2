@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The $0/mo Marketing Stack — Nunya Bunya</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --teal: #00E5CC;
+    --dark: #0D0D0D;
+    --dark2: #141414;
+    --dark3: #1A1A1A;
+    --white: #FFFFFF;
+    --muted: rgba(255,255,255,0.5);
+    --subtle: rgba(255,255,255,0.08);
+  }
+
+  @page {
+    size: letter;
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.6in 0.65in;
+    margin: 0 auto;
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    page-break-inside: avoid;
+  }
+  .page:last-child { page-break-after: avoid; }
+
+  .page-num {
+    position: absolute;
+    bottom: 0.5in;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* Screen: show pages stacked with gap */
+  @media screen {
+    body { padding: 20px 0; }
+    .page {
+      margin: 0 auto 20px;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.5);
+    }
+  }
+
+  /* Cover */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 2.5in;
+  }
+  .cover-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--teal);
+    background: rgba(0,229,204,0.08);
+    border: 1px solid rgba(0,229,204,0.2);
+    padding: 7px 18px;
+    border-radius: 50px;
+    margin-bottom: 32px;
+  }
+  .cover h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 56px;
+    text-transform: uppercase;
+    line-height: 0.9;
+    margin-bottom: 18px;
+  }
+  .cover h1 span { color: var(--teal); }
+  .cover .sub {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 420px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+  .cover-meta {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .cover-meta strong { color: var(--white); font-weight: 500; }
+  .cover-divider {
+    width: 50px;
+    height: 3px;
+    background: var(--teal);
+    margin: 28px auto;
+    border-radius: 2px;
+  }
+
+  /* Section headers */
+  h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  h2 span { color: var(--teal); }
+  .section-intro {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    max-width: 520px;
+  }
+
+  h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+    margin-top: 20px;
+  }
+  h3 .label {
+    color: var(--teal);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  p { margin-bottom: 10px; font-size: 13px; }
+
+  /* Tool cards */
+  .tool-card {
+    background: var(--dark2);
+    border: 1px solid var(--subtle);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+  .tool-card h3 { margin-top: 0; font-size: 17px; }
+  .tool-card .replaces {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .tool-card .replaces strong {
+    color: var(--teal);
+    font-weight: 600;
+  }
+  .tool-card p { font-size: 12px; margin-bottom: 8px; }
+
+  /* Code blocks */
+  .code-block {
+    background: var(--dark3);
+    border: 1px solid var(--subtle);
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 10px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.8);
+    overflow-x: auto;
+    margin: 8px 0;
+    white-space: pre;
+  }
+  .code-block .comment { color: rgba(255,255,255,0.3); }
+  .code-block .highlight { color: var(--teal); }
+
+  /* Comparison table */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+  }
+  .compare-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--teal);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(0,229,204,0.2);
+  }
+  .compare-table td {
+    font-size: 12px;
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--subtle);
+    color: rgba(255,255,255,0.75);
+  }
+  .compare-table .old { text-decoration: line-through; color: rgba(255,255,255,0.35); }
+  .compare-table .free { color: var(--teal); font-weight: 600; }
+
+  /* Checklist */
+  .checklist {
+    list-style: none;
+    padding: 0;
+  }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
+    border-bottom: 1px solid var(--subtle);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist .box {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0,229,204,0.3);
+    border-radius: 3px;
+    margin-top: 1px;
+  }
+
+  /* Callout */
+  .callout {
+    background: rgba(0,229,204,0.06);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 6px 6px 0;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+  }
+  .callout strong { color: var(--teal); }
+
+  /* CTA */
+  .cta-box {
+    background: var(--dark2);
+    border: 1px solid rgba(0,229,204,0.2);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    margin-top: 28px;
+  }
+  .cta-box h2 { margin-bottom: 8px; font-size: 26px; }
+  .cta-box p { color: var(--muted); margin-bottom: 18px; font-size: 13px; }
+  .cta-link {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--teal);
+    color: var(--dark);
+    border-radius: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+
+  /* Flow diagram */
+  .flow-card {
+    background: var(--dark2);
+    border: 1px solid var(--subtle);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 2;
+    margin: 14px 0;
+  }
+  .flow-card .arrow { color: var(--teal); font-size: 14px; }
+  .flow-card .tool { color: var(--teal); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: COVER -->
+<div class="page cover">
+  <div class="cover-badge">Free Guide by Nunya Bunya</div>
+  <h1>THE <span>$0/MO</span><br>MARKETING<br>STACK</h1>
+  <p class="sub">How to replace $1,000+/mo in SaaS tools with a self-hosted open-source stack on a single $10/mo server.</p>
+  <div class="cover-divider"></div>
+  <p class="cover-meta"><strong>nunyabunya.com</strong> &mdash; Brisbane, Australia</p>
+</div>
+
+<!-- PAGE 2: THE PROBLEM -->
+<div class="page">
+  <h2>THE <span>PROBLEM</span></h2>
+  <p class="section-intro">You're paying for a dozen tools that don't talk to each other. Here's what most small businesses are spending:</p>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Paid Tool</th>
+        <th>What It Does</th>
+        <th>Cost/mo</th>
+        <th>Open-Source Alt.</th>
+        <th>Cost</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="old">HubSpot</td>
+        <td>CRM</td>
+        <td class="old">$800+</td>
+        <td>Twenty CRM</td>
+        <td class="free">$0</td>
+      </tr>
+      <tr>
+        <td class="old">Mailchimp</td>
+        <td>Email marketing</td>
+        <td class="old">$80+</td>
+        <td>Mautic</td>
+        <td class="free">$0</td>
+      </tr>
+      <tr>
+        <td class="old">Google Analytics</td>
+        <td>Web analytics</td>
+        <td class="old">$0*</td>
+        <td>Matomo</td>
+        <td class="free">$0</td>
+      </tr>
+      <tr>
+        <td class="old">Calendly</td>
+        <td>Booking</td>
+        <td class="old">$16</td>
+        <td>Cal.com</td>
+        <td class="free">$0</td>
+      </tr>
+      <tr>
+        <td class="old">Bitly</td>
+        <td>Short links</td>
+        <td class="old">$35</td>
+        <td>Shlink</td>
+        <td class="free">$0</td>
+      </tr>
+      <tr>
+        <td class="old">Zapier</td>
+        <td>Automation</td>
+        <td class="old">$50+</td>
+        <td>n8n</td>
+        <td class="free">$0</td>
+      </tr>
+      <tr>
+        <td class="old">Tableau</td>
+        <td>Reporting</td>
+        <td class="old">$75+</td>
+        <td>Metabase</td>
+        <td class="free">$0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>*Google Analytics is "free"</strong> but you're paying with your data. Google uses your visitors' data for ad targeting. With Matomo, you own everything &mdash; and you're GDPR compliant out of the box.
+  </div>
+
+  <p>Total SaaS cost: <strong>$1,056+/mo</strong> ($12,672/year)</p>
+  <p>Total open-source cost: <strong>~$10/mo</strong> for a Hetzner VPS ($120/year)</p>
+  <p>Plus: you own your data, no vendor lock-in, and everything runs on infrastructure you control.</p>
+
+  <div class="page-num">2</div>
+</div>
+
+<!-- PAGE 3: SERVER SETUP -->
+<div class="page">
+  <h2>STEP 1: <span>SERVER</span> SETUP</h2>
+  <p class="section-intro">Everything runs on a single Hetzner Cloud VPS. Here's how to get one running in 10 minutes.</p>
+
+  <h3><span class="label">1.1</span>Create a Hetzner Account</h3>
+  <p>Go to hetzner.com/cloud and sign up. Create a new project, then spin up a server:</p>
+  <ul class="checklist">
+    <li><span class="box"></span>Location: Choose closest to your audience (Nuremberg for EU, Ashburn for US)</li>
+    <li><span class="box"></span>Image: Ubuntu 22.04</li>
+    <li><span class="box"></span>Type: CX21 (2 vCPU, 4GB RAM) &mdash; $10/mo is plenty to start</li>
+    <li><span class="box"></span>Add your SSH key for secure access</li>
+  </ul>
+
+  <h3><span class="label">1.2</span>Install Docker &amp; Docker Compose</h3>
+  <p>SSH into your server and run:</p>
+  <div class="code-block"><span class="comment"># Update system</span>
+apt update && apt upgrade -y
+
+<span class="comment"># Install Docker</span>
+curl -fsSL https://get.docker.com | sh
+
+<span class="comment"># Install Docker Compose</span>
+apt install docker-compose-plugin -y
+
+<span class="comment"># Verify</span>
+docker --version
+docker compose version</div>
+
+  <h3><span class="label">1.3</span>Set Up Traefik (Reverse Proxy + Auto-SSL)</h3>
+  <p>Traefik handles routing and auto-provisions SSL certificates for all your subdomains:</p>
+  <div class="code-block">mkdir -p /opt/traefik && cd /opt/traefik
+touch acme.json && chmod 600 acme.json</div>
+
+  <p>Create <strong>docker-compose.yml</strong>:</p>
+  <div class="code-block">version: "3.8"
+services:
+  traefik:
+    image: traefik:v2.10
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.le.acme.httpchallenge=true"
+      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.le.acme.email=<span class="highlight">you@yourdomain.com</span>"
+      - "--certificatesresolvers.le.acme.storage=/acme.json"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+    ports: ["80:80", "443:443"]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./acme.json:/acme.json
+    networks: [web]
+    restart: always
+networks:
+  web:
+    external: true</div>
+
+  <div class="code-block"><span class="comment"># Create shared network and start Traefik</span>
+docker network create web && docker compose up -d</div>
+
+  <div class="page-num">3</div>
+</div>
+
+<!-- PAGE 4: DNS -->
+<div class="page">
+  <h2>STEP 2: <span>DNS</span> &amp; DOMAINS</h2>
+  <p class="section-intro">Point subdomains to your server so each tool gets its own clean URL.</p>
+
+  <p>In your domain registrar (GoDaddy, Namecheap, Cloudflare, etc.), add A records pointing to your server's IP:</p>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Subdomain</th>
+        <th>Tool</th>
+        <th>Type</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>crm.yourdomain.com</td><td>Twenty CRM</td><td>A</td><td>YOUR_SERVER_IP</td></tr>
+      <tr><td>mautic.yourdomain.com</td><td>Mautic</td><td>A</td><td>YOUR_SERVER_IP</td></tr>
+      <tr><td>analytics.yourdomain.com</td><td>Matomo</td><td>A</td><td>YOUR_SERVER_IP</td></tr>
+      <tr><td>reports.yourdomain.com</td><td>Metabase</td><td>A</td><td>YOUR_SERVER_IP</td></tr>
+      <tr><td>go.yourdomain.com</td><td>Shlink</td><td>A</td><td>YOUR_SERVER_IP</td></tr>
+      <tr><td>auto.yourdomain.com</td><td>n8n</td><td>A</td><td>YOUR_SERVER_IP</td></tr>
+      <tr><td>cal.yourdomain.com</td><td>Cal.com</td><td>A</td><td>YOUR_SERVER_IP</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>Tip:</strong> DNS propagation can take up to 48 hours, but usually takes 5&ndash;30 minutes. Don't start installing tools until your subdomains resolve. Use <code>ping crm.yourdomain.com</code> to check.
+  </div>
+
+  <div class="page-num">4</div>
+</div>
+
+<!-- PAGE 5: MAUTIC -->
+<div class="page">
+  <h2>STEP 3: <span>INSTALL</span> YOUR TOOLS</h2>
+  <p class="section-intro">Each tool gets its own Docker Compose file. Copy-paste these configs and you're running.</p>
+
+  <div class="tool-card">
+    <h3>Mautic &mdash; Email Marketing &amp; Automation</h3>
+    <p class="replaces">Replaces: <strong>Mailchimp, ActiveCampaign, ConvertKit</strong></p>
+    <p>Open-source marketing automation. Email campaigns, drip sequences, lead scoring, forms, and segmentation. Unlimited contacts, unlimited emails.</p>
+    <div class="code-block">mkdir -p /opt/mautic && cd /opt/mautic</div>
+    <p>Create <strong>docker-compose.yml</strong>:</p>
+    <div class="code-block">version: "3.8"
+services:
+  mautic:
+    image: mautic/mautic:latest
+    environment:
+      - MAUTIC_DB_HOST=mautic-db
+      - MAUTIC_DB_USER=mautic
+      - MAUTIC_DB_PASSWORD=<span class="highlight">CHANGE_THIS_PASSWORD</span>
+      - MAUTIC_DB_NAME=mautic
+    volumes: [mautic_data:/var/www/html]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mautic.rule=Host(`<span class="highlight">mautic.yourdomain.com</span>`)"
+      - "traefik.http.routers.mautic.tls.certresolver=le"
+    networks: [web, internal]
+    restart: always
+  mautic-db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=<span class="highlight">CHANGE_THIS_PASSWORD</span>
+      - MYSQL_DATABASE=mautic
+      - MYSQL_USER=mautic
+      - MYSQL_PASSWORD=<span class="highlight">CHANGE_THIS_PASSWORD</span>
+    volumes: [mautic_db:/var/lib/mysql]
+    networks: [internal]
+    restart: always
+volumes:
+  mautic_data:
+  mautic_db:
+networks:
+  web: { external: true }
+  internal:</div>
+    <div class="code-block">docker compose up -d</div>
+    <p>Visit mautic.yourdomain.com and complete the setup wizard.</p>
+  </div>
+
+  <div class="page-num">5</div>
+</div>
+
+<!-- PAGE 6: TWENTY CRM + MATOMO -->
+<div class="page">
+  <div class="tool-card">
+    <h3>Twenty CRM &mdash; Customer Relationship Management</h3>
+    <p class="replaces">Replaces: <strong>HubSpot, Salesforce, GHL</strong></p>
+    <p>Modern open-source CRM. Contacts, companies, deals, pipelines, tasks, and a powerful API.</p>
+    <div class="code-block">mkdir -p /opt/twenty && cd /opt/twenty</div>
+    <div class="code-block">version: "3.8"
+services:
+  twenty:
+    image: twentycrm/twenty:latest
+    environment:
+      - SERVER_URL=https://<span class="highlight">crm.yourdomain.com</span>
+      - FRONT_BASE_URL=https://<span class="highlight">crm.yourdomain.com</span>
+      - PG_DATABASE_URL=postgres://twenty:twenty@twenty-db:5432/default
+      - ACCESS_TOKEN_SECRET=<span class="highlight">generate-a-random-string</span>
+      - LOGIN_TOKEN_SECRET=<span class="highlight">generate-a-random-string</span>
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.twenty.rule=Host(`<span class="highlight">crm.yourdomain.com</span>`)"
+      - "traefik.http.routers.twenty.tls.certresolver=le"
+      - "traefik.http.services.twenty.loadbalancer.server.port=3000"
+    networks: [web, internal]
+    restart: always
+  twenty-db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=twenty
+      - POSTGRES_PASSWORD=twenty
+      - POSTGRES_DB=default
+    volumes: [twenty_db:/var/lib/postgresql/data]
+    networks: [internal]
+    restart: always
+volumes:
+  twenty_db:
+networks:
+  web: { external: true }
+  internal:</div>
+  </div>
+
+  <div class="tool-card">
+    <h3>Matomo &mdash; Web Analytics</h3>
+    <p class="replaces">Replaces: <strong>Google Analytics (GA4)</strong></p>
+    <p>Privacy-respecting analytics. Pageviews, sessions, referrers, goals. You own every byte. GDPR compliant without cookie banners.</p>
+    <div class="code-block">mkdir -p /opt/matomo && cd /opt/matomo</div>
+    <div class="code-block">version: "3.8"
+services:
+  matomo:
+    image: matomo:latest
+    environment:
+      - MATOMO_DATABASE_HOST=matomo-db
+      - MATOMO_DATABASE_USERNAME=matomo
+      - MATOMO_DATABASE_PASSWORD=<span class="highlight">CHANGE_THIS_PASSWORD</span>
+      - MATOMO_DATABASE_DBNAME=matomo
+    volumes: [matomo_data:/var/www/html]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.matomo.rule=Host(`<span class="highlight">analytics.yourdomain.com</span>`)"
+      - "traefik.http.routers.matomo.tls.certresolver=le"
+    networks: [web, internal]
+    restart: always
+  matomo-db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=<span class="highlight">CHANGE_THIS_PASSWORD</span>
+      - MYSQL_DATABASE=matomo
+      - MYSQL_USER=matomo
+      - MYSQL_PASSWORD=<span class="highlight">CHANGE_THIS_PASSWORD</span>
+    volumes: [matomo_db:/var/lib/mysql]
+    networks: [internal]
+    restart: always
+volumes:
+  matomo_data:
+  matomo_db:
+networks:
+  web: { external: true }
+  internal:</div>
+  </div>
+
+  <div class="page-num">6</div>
+</div>
+
+<!-- PAGE 7: METABASE + SHLINK + N8N -->
+<div class="page">
+  <div class="tool-card">
+    <h3>Metabase &mdash; Dashboards &amp; Reporting</h3>
+    <p class="replaces">Replaces: <strong>Tableau, Looker, Google Data Studio</strong></p>
+    <p>Business intelligence dashboards. Connect to any database, build charts, share reports with clients.</p>
+    <div class="code-block">version: "3.8"
+services:
+  metabase:
+    image: metabase/metabase:latest
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_HOST=metabase-db
+      - MB_DB_DBNAME=metabase
+      - MB_DB_USER=metabase
+      - MB_DB_PASS=<span class="highlight">CHANGE_THIS_PASSWORD</span>
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.metabase.rule=Host(`<span class="highlight">reports.yourdomain.com</span>`)"
+      - "traefik.http.routers.metabase.tls.certresolver=le"
+      - "traefik.http.services.metabase.loadbalancer.server.port=3000"
+    networks: [web, internal]
+    restart: always
+  metabase-db:
+    image: postgres:15
+    environment: { POSTGRES_DB: metabase, POSTGRES_USER: metabase, POSTGRES_PASSWORD: <span class="highlight">CHANGE_THIS_PASSWORD</span> }
+    volumes: [metabase_db:/var/lib/postgresql/data]
+    networks: [internal]
+    restart: always
+volumes: { metabase_db: }
+networks:
+  web: { external: true }
+  internal:</div>
+  </div>
+
+  <div class="tool-card">
+    <h3>Shlink &mdash; Branded Short Links</h3>
+    <p class="replaces">Replaces: <strong>Bitly, Rebrandly</strong></p>
+    <p>Short links with full click analytics. Track every link across email, social, and ads.</p>
+    <div class="code-block">version: "3.8"
+services:
+  shlink:
+    image: shlinkio/shlink:stable
+    environment:
+      - DEFAULT_DOMAIN=<span class="highlight">go.yourdomain.com</span>
+      - IS_HTTPS_ENABLED=true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.shlink.rule=Host(`<span class="highlight">go.yourdomain.com</span>`)"
+      - "traefik.http.routers.shlink.tls.certresolver=le"
+      - "traefik.http.services.shlink.loadbalancer.server.port=8080"
+    networks: [web]
+    restart: always
+networks:
+  web: { external: true }</div>
+  </div>
+
+  <div class="tool-card">
+    <h3>n8n &mdash; Workflow Automation</h3>
+    <p class="replaces">Replaces: <strong>Zapier, Make (Integromat)</strong></p>
+    <p>Visual drag-and-drop automation. Trigger emails on form submit, sync CRM data, post to Slack.</p>
+    <div class="code-block">version: "3.8"
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    environment:
+      - N8N_HOST=<span class="highlight">auto.yourdomain.com</span>
+      - N8N_PROTOCOL=https
+      - WEBHOOK_URL=https://<span class="highlight">auto.yourdomain.com</span>/
+    volumes: [n8n_data:/home/node/.n8n]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.n8n.rule=Host(`<span class="highlight">auto.yourdomain.com</span>`)"
+      - "traefik.http.routers.n8n.tls.certresolver=le"
+      - "traefik.http.services.n8n.loadbalancer.server.port=5678"
+    networks: [web]
+    restart: always
+volumes: { n8n_data: }
+networks:
+  web: { external: true }</div>
+  </div>
+
+  <div class="page-num">7</div>
+</div>
+
+<!-- PAGE 8: PIPELINE + INTEGRATIONS -->
+<div class="page">
+  <h2>STEP 4: <span>CONNECT</span> THE PIPELINE</h2>
+  <p class="section-intro">Individual tools are useful. Connected tools are powerful. Here's how to wire everything together.</p>
+
+  <div class="flow-card">
+    <strong>Visitor lands on your website</strong><br>
+    <span class="arrow">&darr;</span><br>
+    <span class="tool">Matomo</span> tracks the visit (pages, referrer, time on site)<br>
+    <span class="arrow">&darr;</span><br>
+    Visitor fills out a form or downloads a lead magnet<br>
+    <span class="arrow">&darr;</span><br>
+    <span class="tool">Mautic</span> captures their email, adds tags, starts a drip campaign<br>
+    <span class="arrow">&darr;</span><br>
+    <span class="tool">Twenty CRM</span> creates a contact record with lead score<br>
+    <span class="arrow">&darr;</span><br>
+    <span class="tool">n8n</span> sends a Slack notification to your team<br>
+    <span class="arrow">&darr;</span><br>
+    Lead books a call via <span class="tool">Cal.com</span><br>
+    <span class="arrow">&darr;</span><br>
+    Track the deal in <span class="tool">Twenty CRM</span>, report results in <span class="tool">Metabase</span>
+  </div>
+
+  <h3>Key Integrations</h3>
+  <ul class="checklist">
+    <li><span class="box"></span><strong>Website &rarr; Mautic:</strong> Add the Mautic tracking pixel to your site. Create Mautic forms or connect existing forms via API.</li>
+    <li><span class="box"></span><strong>Mautic &rarr; Twenty CRM:</strong> Use n8n to sync new Mautic contacts into Twenty CRM automatically.</li>
+    <li><span class="box"></span><strong>Mautic &rarr; Slack:</strong> Use n8n to post a notification when a new lead comes in.</li>
+    <li><span class="box"></span><strong>Matomo &rarr; Metabase:</strong> Connect Metabase to Matomo's MySQL database for custom dashboards.</li>
+    <li><span class="box"></span><strong>Shlink &rarr; Campaigns:</strong> Create tracked short links for every email, social post, and ad.</li>
+  </ul>
+
+  <div class="callout" style="margin-top: 20px;">
+    <strong>Cal.com note:</strong> Cal.com's self-hosted setup is more involved than the others. You can use their free hosted tier at cal.com to skip the Docker setup. We use the hosted version ourselves.
+  </div>
+
+  <div class="page-num">8</div>
+</div>
+
+<!-- PAGE 9: MAINTENANCE + CTA -->
+<div class="page">
+  <h2>STEP 5: <span>MAINTAIN</span> YOUR STACK</h2>
+  <p class="section-intro">Your stack is running. Here's how to keep it healthy.</p>
+
+  <h3>Updates</h3>
+  <p>Pull the latest images and restart. Do this monthly:</p>
+  <div class="code-block"><span class="comment"># Update everything at once:</span>
+for dir in /opt/traefik /opt/mautic /opt/twenty /opt/matomo /opt/metabase /opt/shlink /opt/n8n; do
+  cd "$dir" && docker compose pull && docker compose up -d
+done</div>
+
+  <h3>Backups</h3>
+  <p>Back up your Docker volumes regularly with a cron job:</p>
+  <div class="code-block"><span class="comment"># Add to crontab (crontab -e) — runs daily at 3am</span>
+0 3 * * * docker run --rm \
+  -v mautic_db:/data -v /backups:/backup alpine \
+  tar czf /backup/mautic-db-$(date +\%Y\%m\%d).tar.gz /data</div>
+
+  <h3>Monitoring</h3>
+  <ul class="checklist">
+    <li><span class="box"></span>Check disk space monthly: <code>df -h</code></li>
+    <li><span class="box"></span>Monitor container health: <code>docker ps</code></li>
+    <li><span class="box"></span>Set up UptimeRobot (free for 50 monitors) for uptime alerts</li>
+    <li><span class="box"></span>Keep your server OS updated: <code>apt update && apt upgrade -y</code></li>
+  </ul>
+
+  <div class="callout">
+    <strong>Scaling:</strong> The CX21 ($10/mo) handles most small businesses easily. If you hit limits, upgrade to CX31 (4 vCPU, 8GB, $18/mo) with one click. No downtime.
+  </div>
+
+  <div class="cta-box">
+    <h2>NEED HELP <span>SETTING IT UP?</span></h2>
+    <p>If you'd rather have someone build the entire stack for you, we do that too. Book a free 15-minute call and we'll scope it out.</p>
+    <a href="https://cal.com/nunyabunya" class="cta-link">Book a Free Call</a>
+    <p style="margin-top: 16px; margin-bottom: 0; font-size: 12px;">nunyabunya.com</p>
+  </div>
+
+  <div class="page-num">9</div>
+</div>
+
+</body>
+</html>
