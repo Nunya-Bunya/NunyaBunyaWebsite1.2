@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nunya Bunya HQ</title>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface-hover: #222633;
+      --border: #2a2e3d;
+      --text: #e4e6ed;
+      --text-muted: #8b8fa3;
+      --accent: #6c5ce7;
+      --accent-glow: rgba(108, 92, 231, 0.15);
+      --green: #00b894;
+      --green-bg: rgba(0, 184, 148, 0.12);
+      --yellow: #fdcb6e;
+      --yellow-bg: rgba(253, 203, 110, 0.12);
+      --red: #e17055;
+      --red-bg: rgba(225, 112, 85, 0.12);
+      --blue: #74b9ff;
+      --blue-bg: rgba(116, 185, 255, 0.12);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ===== LAYOUT ===== */
+    .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 32px; flex-wrap: wrap; gap: 16px;
+    }
+    .header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+    .header h1 span { color: var(--accent); }
+    .header-meta { text-align: right; color: var(--text-muted); font-size: 14px; }
+    .header-meta .date { font-size: 16px; color: var(--text); font-weight: 500; }
+
+    .grid { display: grid; gap: 20px; }
+    .grid-top { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .grid-main { grid-template-columns: 2fr 1fr; margin-top: 20px; }
+    .grid-bottom { grid-template-columns: 1fr 1fr; margin-top: 20px; }
+
+    @media (max-width: 1200px) {
+      .grid-top { grid-template-columns: 1fr 1fr; }
+      .grid-main { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .grid-top, .grid-bottom { grid-template-columns: 1fr; }
+      .container { padding: 16px; }
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
+    }
+    .card-header h2 { font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+    .card-header .badge {
+      font-size: 12px; padding: 3px 10px; border-radius: 20px;
+      font-weight: 600;
+    }
+
+    /* ===== STAT CARDS ===== */
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .stat-card .label { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-card .value { font-size: 36px; font-weight: 700; letter-spacing: -1px; }
+    .stat-card .sub { font-size: 13px; color: var(--text-muted); }
+    .stat-card.green { border-left: 3px solid var(--green); }
+    .stat-card.green .value { color: var(--green); }
+    .stat-card.yellow { border-left: 3px solid var(--yellow); }
+    .stat-card.yellow .value { color: var(--yellow); }
+    .stat-card.red { border-left: 3px solid var(--red); }
+    .stat-card.red .value { color: var(--red); }
+    .stat-card.blue { border-left: 3px solid var(--accent); }
+    .stat-card.blue .value { color: var(--accent); }
+
+    /* ===== QUOTE ===== */
+    .quote-bar {
+      background: var(--accent-glow);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      font-style: italic; color: var(--text-muted); font-size: 14px;
+    }
+    .quote-bar strong { color: var(--text); font-style: normal; }
+
+    /* ===== QUICK ACTIONS ===== */
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .action-btn {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; padding: 16px 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text); font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .action-btn:hover { background: var(--surface-hover); border-color: var(--accent); text-decoration: none; transform: translateY(-1px); }
+    .action-btn .icon { font-size: 24px; }
+
+    /* ===== TASKS ===== */
+    .task-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+    }
+    .task-item:last-child { border-bottom: none; }
+    .task-priority {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .task-priority.high { background: var(--red); }
+    .task-priority.medium { background: var(--yellow); }
+    .task-priority.low { background: var(--green); }
+    .task-info { flex: 1; }
+    .task-info .task-name { font-size: 14px; font-weight: 500; }
+    .task-info .task-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .task-actions { display: flex; gap: 6px; }
+    .task-btn {
+      padding: 5px 12px; border-radius: 6px; border: 1px solid var(--border);
+      background: transparent; color: var(--text-muted); font-size: 12px;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .task-btn:hover { background: var(--surface-hover); color: var(--text); }
+    .task-btn.done:hover { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+    .task-btn.skip:hover { background: var(--yellow-bg); color: var(--yellow); border-color: var(--yellow); }
+
+    /* ===== BUSINESS PROGRESS ===== */
+    .biz-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .biz-item:last-child { border-bottom: none; }
+    .biz-name { font-size: 14px; font-weight: 500; width: 160px; flex-shrink: 0; }
+    .progress-bar {
+      flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;
+    }
+    .progress-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+    .biz-pct { font-size: 13px; font-weight: 600; width: 45px; text-align: right; }
+
+    /* ===== LEADS TABLE ===== */
+    .leads-table { width: 100%; border-collapse: collapse; }
+    .leads-table th {
+      text-align: left; font-size: 12px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      padding: 8px 0; border-bottom: 1px solid var(--border);
+    }
+    .leads-table td { padding: 10px 0; font-size: 14px; border-bottom: 1px solid var(--border); }
+    .leads-table tr:last-child td { border-bottom: none; }
+    .source-badge {
+      font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500;
+    }
+    .source-badge.organic { background: var(--green-bg); color: var(--green); }
+    .source-badge.ad { background: var(--blue-bg); color: var(--blue); }
+    .source-badge.referral { background: var(--accent-glow); color: var(--accent); }
+
+    /* ===== CAMPAIGNS ===== */
+    .campaign-item {
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+    }
+    .campaign-item:last-child { border-bottom: none; }
+    .campaign-name { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+    .campaign-stats { display: flex; gap: 20px; }
+    .campaign-stat { font-size: 13px; color: var(--text-muted); }
+    .campaign-stat strong { color: var(--text); }
+
+    /* ===== SITES LIST ===== */
+    .site-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .site-link:last-child { border-bottom: none; }
+    .site-link a { font-weight: 500; }
+    .site-status { font-size: 12px; display: flex; align-items: center; gap: 6px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .status-dot.live { background: var(--green); }
+    .status-dot.dev { background: var(--yellow); }
+
+    /* ===== QUICK LINKS ===== */
+    .links-grid { display: flex; flex-direction: column; gap: 6px; }
+    .link-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: var(--radius-sm);
+      font-size: 13px; color: var(--text-muted);
+      transition: background 0.15s;
+    }
+    .link-row:hover { background: var(--surface-hover); }
+    .link-row a { color: var(--text); font-weight: 500; }
+
+    /* ===== LOADING STATE ===== */
+    .skeleton {
+      background: linear-gradient(90deg, var(--border) 25%, var(--surface-hover) 50%, var(--border) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .fade-in { animation: fadeIn 0.3s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ===== GREETING FLASH ===== */
+    .greeting { font-size: 18px; font-weight: 500; color: var(--text); }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <h1><span>NB</span> Headquarters</h1>
+      <div class="greeting" id="greeting"></div>
+    </div>
+    <div class="header-meta">
+      <div class="date" id="current-date"></div>
+      <div id="current-time"></div>
+    </div>
+  </div>
+
+  <!-- QUOTE -->
+  <div class="quote-bar" id="quote-bar"></div>
+
+  <!-- AT A GLANCE -->
+  <div class="grid grid-top">
+    <div class="stat-card green">
+      <div class="label">Tasks Completed Today</div>
+      <div class="value" id="stat-completed">—</div>
+      <div class="sub" id="stat-completed-sub">loading...</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="label">Current Streak</div>
+      <div class="value" id="stat-streak">—</div>
+      <div class="sub">consecutive days</div>
+    </div>
+    <div class="stat-card red">
+      <div class="label">Overdue Tasks</div>
+      <div class="value" id="stat-overdue">—</div>
+      <div class="sub" id="stat-overdue-sub">loading...</div>
+    </div>
+    <div class="stat-card yellow">
+      <div class="label">Total Leads This Week</div>
+      <div class="value" id="stat-leads">—</div>
+      <div class="sub">from all sources</div>
+    </div>
+  </div>
+
+  <!-- QUICK ACTIONS -->
+  <div class="card" style="margin-top: 20px;">
+    <div class="card-header">
+      <h2>Quick Actions</h2>
+    </div>
+    <div class="actions-grid">
+      <a class="action-btn" href="https://mautic.nunyabunya.com" target="_blank">
+        <div class="icon">&#x2709;</div>Mautic
+      </a>
+      <a class="action-btn" href="https://crm.nunyabunya.com" target="_blank">
+        <div class="icon">&#x1f4c7;</div>Twenty CRM
+      </a>
+      <a class="action-btn" href="https://n8n.nunyabunya.com" target="_blank">
+        <div class="icon">&#x26a1;</div>n8n
+      </a>
+      <a class="action-btn" href="https://analytics.nunyabunya.com" target="_blank">
+        <div class="icon">&#x1f4ca;</div>Matomo
+      </a>
+      <a class="action-btn" href="https://reports.nunyabunya.com" target="_blank">
+        <div class="icon">&#x1f4c8;</div>Metabase
+      </a>
+      <a class="action-btn" href="https://go.nunyabunya.com" target="_blank">
+        <div class="icon">&#x1f517;</div>Shlink
+      </a>
+      <a class="action-btn" href="https://cal.com" target="_blank">
+        <div class="icon">&#x1f4c5;</div>Cal.com
+      </a>
+      <a class="action-btn" href="https://supabase.com/dashboard" target="_blank">
+        <div class="icon">&#x1f5c4;</div>Supabase
+      </a>
+    </div>
+  </div>
+
+  <!-- MAIN: TASKS + BUSINESS OVERVIEW -->
+  <div class="grid grid-main">
+
+    <!-- TOP 3 TASKS -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Your Top Tasks Right Now</h2>
+        <span class="badge" style="background: var(--accent-glow); color: var(--accent);">Live</span>
+      </div>
+      <div id="tasks-list">
+        <div class="task-item">
+          <div class="task-priority high"></div>
+          <div class="task-info">
+            <div class="task-name skeleton" style="width: 200px; height: 16px;">&nbsp;</div>
+          </div>
+        </div>
+        <div class="task-item">
+          <div class="task-priority medium"></div>
+          <div class="task-info">
+            <div class="task-name skeleton" style="width: 180px; height: 16px;">&nbsp;</div>
+          </div>
+        </div>
+        <div class="task-item">
+          <div class="task-priority low"></div>
+          <div class="task-info">
+            <div class="task-name skeleton" style="width: 220px; height: 16px;">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUSINESS OVERVIEW -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Business Overview</h2>
+      </div>
+      <div id="business-overview">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM: LEADS + CAMPAIGNS -->
+  <div class="grid grid-bottom">
+
+    <!-- RECENT LEADS -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Recent Leads</h2>
+        <span class="badge" style="background: var(--green-bg); color: var(--green);">Supabase</span>
+      </div>
+      <table class="leads-table">
+        <thead>
+          <tr><th>Name</th><th>Email</th><th>Source</th><th>Date</th></tr>
+        </thead>
+        <tbody id="leads-body">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ACTIVE CAMPAIGNS -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Active Email Campaigns</h2>
+        <span class="badge" style="background: var(--accent-glow); color: var(--accent);">Mautic</span>
+      </div>
+      <div id="campaigns-list">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM: SITES + QUICK LINKS -->
+  <div class="grid grid-bottom">
+
+    <!-- YOUR SITES -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Your Sites</h2>
+      </div>
+      <div id="sites-list">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Quick Links</h2>
+      </div>
+      <div class="links-grid" id="quick-links">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// =============================================================================
+// CONFIG — Update these endpoints when your stack goes live
+// =============================================================================
+const CONFIG = {
+  // Set to true once your Hetzner stack is deployed
+  LIVE_MODE: false,
+
+  // API endpoints (update with your real URLs)
+  TASK_API:    'https://tasks.nunyabunya.com/api',
+  SUPABASE_URL: 'https://your-project.supabase.co',
+  SUPABASE_KEY: 'your-anon-key',
+  MAUTIC_API:  'https://mautic.nunyabunya.com/api',
+  MAUTIC_USER: '',
+  MAUTIC_PASS: '',
+};
+
+// =============================================================================
+// QUOTES
+// =============================================================================
+const QUOTES = [
+  { text: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
+  { text: "Done is better than perfect.", author: "Sheryl Sandberg" },
+  { text: "If you're going through hell, keep going.", author: "Winston Churchill" },
+  { text: "Ship it.", author: "Every founder ever" },
+  { text: "The best time to plant a tree was 20 years ago. The second best time is now.", author: "Chinese Proverb" },
+  { text: "Move fast and break things. Then fix them.", author: "Startup Wisdom" },
+  { text: "You don't have to be great to start, but you have to start to be great.", author: "Zig Ziglar" },
+  { text: "Focus on being productive instead of busy.", author: "Tim Ferriss" },
+  { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+  { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+  { text: "What would you do if you weren't afraid?", author: "Spencer Johnson" },
+  { text: "Execution eats strategy for breakfast.", author: "Startup Proverb" },
+];
+
+// =============================================================================
+// MOCK DATA — Used when LIVE_MODE is false
+// =============================================================================
+const MOCK = {
+  stats: {
+    completedToday: 7,
+    totalToday: 12,
+    streak: 14,
+    overdue: 3,
+    leadsThisWeek: 18,
+  },
+  tasks: [
+    { name: "Deploy marketing stack to Hetzner", priority: "high", project: "Nunya Bunya", due: "Today" },
+    { name: "Finish Content Calendar Builder MVP", priority: "high", project: "Nunya Bunya", due: "Tomorrow" },
+    { name: "Review CLG demand letter templates", priority: "medium", project: "Conner Law Group", due: "Mar 31" },
+  ],
+  businesses: [
+    { name: "Nunya Bunya", pct: 45, color: "#6c5ce7" },
+    { name: "Conner Law Group", pct: 72, color: "#00b894" },
+    { name: "Power Portraits", pct: 15, color: "#fdcb6e" },
+    { name: "ORCA Film Awards", pct: 30, color: "#e17055" },
+    { name: "Bella Rhyder", pct: 8, color: "#74b9ff" },
+    { name: "Ben Alek Conner", pct: 20, color: "#a29bfe" },
+  ],
+  leads: [
+    { name: "Sarah Mitchell", email: "sarah.m@gmail.com", source: "organic", date: "Mar 29" },
+    { name: "David Chen", email: "dchen@outlook.com", source: "ad", date: "Mar 28" },
+    { name: "Emily Torres", email: "emily.t@yahoo.com", source: "referral", date: "Mar 28" },
+    { name: "James Wilson", email: "jwilson@hotmail.com", source: "organic", date: "Mar 27" },
+    { name: "Lisa Park", email: "lisa.park@gmail.com", source: "ad", date: "Mar 27" },
+  ],
+  campaigns: [
+    { name: "Welcome Series — New Leads", sent: 245, opened: 178, clicked: 62, status: "Active" },
+    { name: "CLG — Free Case Review", sent: 89, opened: 51, clicked: 23, status: "Active" },
+    { name: "March Newsletter", sent: 412, opened: 287, clicked: 94, status: "Sent" },
+  ],
+};
+
+// =============================================================================
+// INIT
+// =============================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  renderDateTime();
+  renderQuote();
+  setInterval(renderDateTime, 60000);
+
+  if (CONFIG.LIVE_MODE) {
+    fetchLiveData();
+  } else {
+    renderMockData();
+  }
+
+  renderSites();
+  renderQuickLinks();
+});
+
+// =============================================================================
+// DATE/TIME & GREETING
+// =============================================================================
+function renderDateTime() {
+  const now = new Date();
+  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('current-date').textContent = now.toLocaleDateString('en-AU', opts);
+  document.getElementById('current-time').textContent = now.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' });
+
+  const hour = now.getHours();
+  let greeting = 'Good evening, Ben';
+  if (hour < 12) greeting = 'Good morning, Ben';
+  else if (hour < 17) greeting = 'Good afternoon, Ben';
+  document.getElementById('greeting').textContent = greeting;
+}
+
+function renderQuote() {
+  const q = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+  document.getElementById('quote-bar').innerHTML = `"${q.text}" — <strong>${q.author}</strong>`;
+}
+
+// =============================================================================
+// MOCK RENDERING
+// =============================================================================
+function renderMockData() {
+  const s = MOCK.stats;
+
+  // Stats
+  document.getElementById('stat-completed').textContent = s.completedToday;
+  document.getElementById('stat-completed-sub').textContent = `${s.completedToday} of ${s.totalToday} tasks`;
+  document.getElementById('stat-streak').textContent = s.streak;
+  document.getElementById('stat-overdue').textContent = s.overdue;
+  document.getElementById('stat-overdue-sub').textContent = s.overdue > 0 ? 'need attention' : 'all clear';
+  document.getElementById('stat-leads').textContent = s.leadsThisWeek;
+
+  // Tasks
+  renderTasks(MOCK.tasks);
+
+  // Business overview
+  renderBusinessOverview(MOCK.businesses);
+
+  // Leads
+  renderLeads(MOCK.leads);
+
+  // Campaigns
+  renderCampaigns(MOCK.campaigns);
+}
+
+// =============================================================================
+// LIVE DATA FETCHERS
+// =============================================================================
+async function fetchLiveData() {
+  // Task API
+  try {
+    const taskRes = await fetch(`${CONFIG.TASK_API}/stats`);
+    const taskData = await taskRes.json();
+    document.getElementById('stat-completed').textContent = taskData.completedToday || 0;
+    document.getElementById('stat-completed-sub').textContent =
+      `${taskData.completedToday || 0} of ${taskData.totalToday || 0} tasks`;
+    document.getElementById('stat-streak').textContent = taskData.streak || 0;
+    document.getElementById('stat-overdue').textContent = taskData.overdue || 0;
+    document.getElementById('stat-overdue-sub').textContent =
+      (taskData.overdue || 0) > 0 ? 'need attention' : 'all clear';
+
+    // Top tasks
+    const topRes = await fetch(`${CONFIG.TASK_API}/tasks?limit=3&sort=priority`);
+    const topTasks = await topRes.json();
+    renderTasks(topTasks);
+  } catch (e) {
+    console.warn('Task API unavailable, using mock data:', e);
+    renderTasks(MOCK.tasks);
+    const s = MOCK.stats;
+    document.getElementById('stat-completed').textContent = s.completedToday;
+    document.getElementById('stat-completed-sub').textContent = `${s.completedToday} of ${s.totalToday} tasks`;
+    document.getElementById('stat-streak').textContent = s.streak;
+    document.getElementById('stat-overdue').textContent = s.overdue;
+    document.getElementById('stat-overdue-sub').textContent = 'need attention';
+  }
+
+  // Supabase leads
+  try {
+    const headers = {
+      'apikey': CONFIG.SUPABASE_KEY,
+      'Authorization': `Bearer ${CONFIG.SUPABASE_KEY}`,
+    };
+    const leadRes = await fetch(
+      `${CONFIG.SUPABASE_URL}/rest/v1/leads?select=*&order=created_at.desc&limit=5`,
+      { headers }
+    );
+    const leads = await leadRes.json();
+    renderLeads(leads.map(l => ({
+      name: l.name || l.full_name || 'Unknown',
+      email: l.email,
+      source: l.source || 'organic',
+      date: new Date(l.created_at).toLocaleDateString('en-AU', { month: 'short', day: 'numeric' }),
+    })));
+
+    // Lead count this week
+    const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+    const countRes = await fetch(
+      `${CONFIG.SUPABASE_URL}/rest/v1/leads?select=id&created_at=gte.${weekAgo.toISOString()}`,
+      { headers: { ...headers, 'Prefer': 'count=exact' } }
+    );
+    const countHeader = countRes.headers.get('content-range');
+    if (countHeader) {
+      const total = countHeader.split('/')[1];
+      document.getElementById('stat-leads').textContent = total;
+    }
+  } catch (e) {
+    console.warn('Supabase unavailable, using mock data:', e);
+    renderLeads(MOCK.leads);
+    document.getElementById('stat-leads').textContent = MOCK.stats.leadsThisWeek;
+  }
+
+  // Mautic campaigns
+  try {
+    const authHeader = 'Basic ' + btoa(`${CONFIG.MAUTIC_USER}:${CONFIG.MAUTIC_PASS}`);
+    const campRes = await fetch(`${CONFIG.MAUTIC_API}/emails?orderBy=id&orderByDir=desc&limit=3`, {
+      headers: { 'Authorization': authHeader },
+    });
+    const campData = await campRes.json();
+    const campaigns = (campData.emails ? Object.values(campData.emails) : []).map(c => ({
+      name: c.name,
+      sent: c.sentCount || 0,
+      opened: c.readCount || 0,
+      clicked: c.clickCount || 0,
+      status: c.isPublished ? 'Active' : 'Draft',
+    }));
+    renderCampaigns(campaigns);
+  } catch (e) {
+    console.warn('Mautic unavailable, using mock data:', e);
+    renderCampaigns(MOCK.campaigns);
+  }
+
+  // Business overview (always mock until you have a dedicated API)
+  renderBusinessOverview(MOCK.businesses);
+}
+
+// =============================================================================
+// RENDER HELPERS
+// =============================================================================
+function renderTasks(tasks) {
+  const el = document.getElementById('tasks-list');
+  el.innerHTML = tasks.map((t, i) => `
+    <div class="task-item fade-in" style="animation-delay: ${i * 80}ms">
+      <div class="task-priority ${t.priority}"></div>
+      <div class="task-info">
+        <div class="task-name">${t.name}</div>
+        <div class="task-meta">${t.project || ''} ${t.due ? '&middot; Due ' + t.due : ''}</div>
+      </div>
+      <div class="task-actions">
+        <button class="task-btn done" onclick="taskAction(${i}, 'done')">Done</button>
+        <button class="task-btn skip" onclick="taskAction(${i}, 'skip')">Skip</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderBusinessOverview(businesses) {
+  const el = document.getElementById('business-overview');
+  el.innerHTML = businesses.map((b, i) => `
+    <div class="biz-item fade-in" style="animation-delay: ${i * 60}ms">
+      <div class="biz-name">${b.name}</div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: ${b.pct}%; background: ${b.color};"></div>
+      </div>
+      <div class="biz-pct" style="color: ${b.color};">${b.pct}%</div>
+    </div>
+  `).join('');
+}
+
+function renderLeads(leads) {
+  const el = document.getElementById('leads-body');
+  el.innerHTML = leads.map((l, i) => `
+    <tr class="fade-in" style="animation-delay: ${i * 60}ms">
+      <td>${l.name}</td>
+      <td style="color: var(--text-muted)">${l.email}</td>
+      <td><span class="source-badge ${l.source}">${l.source}</span></td>
+      <td style="color: var(--text-muted)">${l.date}</td>
+    </tr>
+  `).join('');
+}
+
+function renderCampaigns(campaigns) {
+  const el = document.getElementById('campaigns-list');
+  el.innerHTML = campaigns.map((c, i) => `
+    <div class="campaign-item fade-in" style="animation-delay: ${i * 80}ms">
+      <div class="campaign-name">${c.name}</div>
+      <div class="campaign-stats">
+        <div class="campaign-stat">Sent <strong>${c.sent}</strong></div>
+        <div class="campaign-stat">Opened <strong>${c.opened}</strong> (${c.sent ? Math.round(c.opened / c.sent * 100) : 0}%)</div>
+        <div class="campaign-stat">Clicked <strong>${c.clicked}</strong> (${c.sent ? Math.round(c.clicked / c.sent * 100) : 0}%)</div>
+        <div class="campaign-stat" style="color: ${c.status === 'Active' ? 'var(--green)' : 'var(--text-muted)'};">${c.status}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderSites() {
+  const sites = [
+    { name: 'nunyabunya.com', url: 'https://nunyabunya.com', status: 'live' },
+    { name: 'Social Media Special', url: 'https://nunyabunya.com/social-media-special', status: 'live' },
+    { name: 'Free Audit Landing Page', url: 'https://nunyabunya.com/free-audit', status: 'live' },
+    { name: 'Task Dashboard', url: 'https://tasks.nunyabunya.com/stats', status: 'dev' },
+    { name: 'HQ Dashboard', url: 'https://hq.nunyabunya.com', status: 'live' },
+  ];
+  const el = document.getElementById('sites-list');
+  el.innerHTML = sites.map(s => `
+    <div class="site-link">
+      <a href="${s.url}" target="_blank">${s.name}</a>
+      <div class="site-status">
+        <div class="status-dot ${s.status}"></div>
+        ${s.status === 'live' ? 'Live' : 'Dev'}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderQuickLinks() {
+  const links = [
+    { label: 'Slack — #all-nunyabunya', url: 'https://nunyabunya-workspace.slack.com/archives/C0AN76ZDWH2' },
+    { label: 'Slack — #alerts', url: 'https://nunyabunya-workspace.slack.com/archives/C0AN3KML1DG' },
+    { label: 'Slack — #wins', url: 'https://nunyabunya-workspace.slack.com/archives/C0AMN6DC8UX' },
+    { label: 'Slack — #conner-law-group', url: 'https://nunyabunya-workspace.slack.com/archives/C0AMN6DBAUF' },
+    { label: 'GitHub Repos', url: 'https://github.com/benalekconner' },
+    { label: 'Hetzner Console', url: 'https://console.hetzner.cloud' },
+    { label: 'Vercel Dashboard', url: 'https://vercel.com/dashboard' },
+    { label: 'Traefik Dashboard', url: 'https://traefik.nunyabunya.com' },
+  ];
+  const el = document.getElementById('quick-links');
+  el.innerHTML = links.map(l => `
+    <div class="link-row">
+      <span>&#x2192;</span>
+      <a href="${l.url}" target="_blank">${l.label}</a>
+    </div>
+  `).join('');
+}
+
+// =============================================================================
+// TASK ACTIONS
+// =============================================================================
+function taskAction(index, action) {
+  const items = document.querySelectorAll('#tasks-list .task-item');
+  const item = items[index];
+  if (!item) return;
+
+  if (action === 'done') {
+    item.style.opacity = '0.4';
+    item.querySelector('.task-name').style.textDecoration = 'line-through';
+  } else {
+    item.style.opacity = '0.3';
+  }
+
+  // If live mode, POST to task API
+  if (CONFIG.LIVE_MODE) {
+    fetch(`${CONFIG.TASK_API}/tasks/${index}/${action}`, { method: 'POST' }).catch(() => {});
+  }
+}
+</script>
+
+</body>
+</html>
