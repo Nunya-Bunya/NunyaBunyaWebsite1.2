@@ -29,9 +29,16 @@ const NB_ADMIN = {
       { id: 'dashboard', label: 'Dashboard', icon: '&#9670;', href: '/nb-admin-dashboard' },
       { id: 'clients', label: 'Clients', icon: '&#9632;', href: '/nb-admin-clients' },
       { id: 'calendar', label: 'Calendar', icon: '&#9783;', href: '/nb-admin-calendar' },
+      { id: 'calendar-edit', label: 'Calendar Editor', icon: '&#128197;', href: '/nb-admin-calendar-edit' },
       { id: 'week', label: 'This Week', icon: '&#9776;', href: '/nb-admin-week' },
       { id: 'tasks', label: "Today's Tasks", icon: '&#10003;', href: '/nb-admin-tasks' },
+      { id: 'approval', label: 'Approval Queue', icon: '&#9998;', href: '/nb-admin-approval' },
+      { id: 'pipelines', label: 'Pipelines', icon: '&#9881;', href: '/nb-admin-pipelines' },
+      { id: 'onboard', label: 'Onboard Client', icon: '&#10010;', href: '/nb-admin-onboard' },
+      { id: 'reports', label: 'Reports', icon: '&#9776;', href: '/nb-admin-reports' },
       { id: 'leads', label: 'Leads', icon: '&#9993;', href: '/nb-admin-leads' },
+      { id: 'benchmark', label: 'Benchmark', icon: '&#9201;', href: '/nb-admin-benchmark' },
+      { id: 'landing-pages', label: 'Landing Pages', icon: '&#9873;', href: '/nb-admin-landing-pages' },
     ];
 
     const sidebar = document.getElementById('sidebar');
@@ -41,7 +48,7 @@ const NB_ADMIN = {
       <div class="sidebar-logo">
         <img src="/images/logo-icon-white.png" alt="NB">
       </div>
-      <div class="sidebar-label">Admin Panel</div>
+      <div class="sidebar-label">NBHQ</div>
       <nav class="sidebar-nav">
         ${pages.map(p => `
           <a href="${p.href}" class="sidebar-link ${p.id === activePage ? 'active' : ''}">
@@ -156,5 +163,72 @@ const NB_ADMIN = {
     if (h < 12) return 'Good morning';
     if (h < 17) return 'Good afternoon';
     return 'Good evening';
+  },
+
+  // Pipeline status badge
+  pipelineBadge(status) {
+    const s = (status || 'unknown').toLowerCase();
+    const labels = {
+      running: 'Running', completed: 'Completed', failed: 'Failed',
+      paused_review: 'Paused', unknown: 'Unknown',
+    };
+    return `<span class="badge-pipeline ${s}">${labels[s] || s}</span>`;
+  },
+
+  // Content type badge
+  typeBadge(type) {
+    const t = (type || '').toLowerCase();
+    const labels = {
+      content_campaign: 'Blog', social_post: 'Social', review_response: 'Review',
+      weekly_report: 'Report', blog_post: 'Blog', social: 'Social',
+    };
+    return `<span class="badge-type ${t.replace('_', '-')}">${labels[t] || type}</span>`;
+  },
+
+  // Item type icon
+  typeIcon(type) {
+    const icons = {
+      content_campaign: '&#128221;', social_post: '&#128247;',
+      review_response: '&#11088;', weekly_report: '&#128200;',
+    };
+    return icons[type] || '&#128196;';
+  },
+
+  // Poll pipeline status until complete
+  async pollPipeline(runId, callback, intervalMs = 5000) {
+    const poll = async () => {
+      const data = await this.apiFetch(`pipeline?run_id=${runId}`);
+      if (!data) return;
+      callback(data);
+      if (data.status === 'running' || data.status === 'paused_review') {
+        setTimeout(poll, intervalMs);
+      }
+    };
+    poll();
+  },
+
+  // Format duration in seconds to human-readable
+  formatDuration(seconds) {
+    if (!seconds && seconds !== 0) return '—';
+    const s = Math.round(seconds);
+    if (s < 60) return `${s}s`;
+    const m = Math.floor(s / 60);
+    const rem = s % 60;
+    if (m < 60) return `${m}m ${rem}s`;
+    const h = Math.floor(m / 60);
+    return `${h}h ${m % 60}m`;
+  },
+
+  // Relative time (e.g. "2 hours ago")
+  timeAgo(dateStr) {
+    if (!dateStr) return '';
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
   },
 };

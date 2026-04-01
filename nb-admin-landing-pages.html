@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landing Pages | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  .lp-filters { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .lp-filter-btn {
+    padding: 8px 16px; border-radius: 8px; border: 1px solid var(--subtle);
+    background: transparent; color: var(--muted); font-size: 13px; cursor: pointer;
+    font-family: var(--font-heading); font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; transition: all 0.2s;
+  }
+  .lp-filter-btn:hover { color: var(--white); border-color: var(--white); }
+  .lp-filter-btn.active { color: var(--teal); border-color: var(--teal); background: rgba(0,229,204,0.05); }
+
+  .lp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .lp-grid { grid-template-columns: 1fr; } }
+
+  .lp-card {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
+    padding: 24px; transition: border-color 0.2s, transform 0.2s;
+  }
+  .lp-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+
+  .lp-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .lp-card-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; }
+  .lp-card-biz {
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 3px 10px; border-radius: 6px;
+  }
+
+  .lp-card-links { display: flex; gap: 16px; margin-bottom: 20px; font-size: 13px; }
+  .lp-card-links a { color: var(--teal); text-decoration: none; transition: opacity 0.2s; }
+  .lp-card-links a:hover { opacity: 0.7; }
+  .lp-card-links .sep { color: var(--subtle); }
+
+  .lp-stats { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+  .lp-stat {
+    background: var(--dark); border: 1px solid var(--subtle); border-radius: 8px;
+    padding: 14px 8px; text-align: center;
+  }
+  .lp-stat-value {
+    font-family: var(--font-heading); font-weight: 900; font-size: 28px;
+    letter-spacing: -0.5px; line-height: 1;
+  }
+  .lp-stat-label {
+    font-size: 10px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.08em; margin-top: 6px;
+  }
+
+  .lp-totals { margin-bottom: 32px; }
+
+  .lp-biz-divider {
+    font-family: var(--font-heading); font-size: 14px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em; padding: 12px 0 8px;
+    margin-top: 24px; color: var(--muted); border-bottom: 1px solid var(--subtle);
+  }
+  .lp-biz-divider:first-child { margin-top: 0; }
+
+  .lp-empty { color: var(--muted); font-size: 14px; padding: 40px; text-align: center; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Landing <span>Pages</span></h1>
+        <div class="date">Performance across all businesses</div>
+      </div>
+    </div>
+
+    <!-- KPI Summary -->
+    <div class="kpi-grid lp-totals" id="kpiTotals">
+      <div class="kpi-card"><div class="num" id="totalClicks">—</div><div class="label">Total Link Clicks</div></div>
+      <div class="kpi-card"><div class="num" id="totalViews">—</div><div class="label">Total Page Views</div></div>
+      <div class="kpi-card magenta"><div class="num" id="totalLeads">—</div><div class="label">Total Leads</div></div>
+      <div class="kpi-card"><div class="num" id="avgConv">—</div><div class="label">Avg Conversion Rate</div></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="lp-filters">
+      <button class="lp-filter-btn active" data-filter="all">All</button>
+      <button class="lp-filter-btn" data-filter="nunya-bunya">Nunya Bunya</button>
+      <button class="lp-filter-btn" data-filter="power-portraits">Power Portraits</button>
+      <button class="lp-filter-btn" data-filter="ben-alek-conner">Ben Alek Conner</button>
+    </div>
+
+    <!-- Landing Page Cards -->
+    <div class="lp-grid" id="lpGrid"></div>
+
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading landing pages...</p></div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+const MAUTIC_URL = 'https://mautic.nunyabunya.com';
+const MAUTIC_AUTH = btoa('ben@nunyabunya.com:VIVAlaR3VOLUCI0N!');
+const SHLINK_URL = 'https://go.nunyabunya.com/rest/v3';
+const SHLINK_KEY = '5cacc8944dafea3f168f216643805808';
+const MATOMO_URL = 'https://analytics.nunyabunya.com';
+const MATOMO_TOKEN = 'b922b22fa942389ee37e3373456e8dfb';
+
+const PAGES = [
+  { business: 'Nunya Bunya', bizId: 'nunya-bunya', color: '#00E5CC', name: 'Free Strategy Session', slug: 'free-strategy-session', formId: 15, shortLink: 'strategy' },
+  { business: 'Nunya Bunya', bizId: 'nunya-bunya', color: '#00E5CC', name: 'Free Marketing Audit', slug: 'free-marketing-audit', formId: 16, shortLink: 'nb-audit' },
+  { business: 'Power Portraits', bizId: 'power-portraits', color: '#FFB800', name: 'Book Portrait Session', slug: 'book-portrait-session', formId: 17, shortLink: 'pp-book' },
+  { business: 'Power Portraits', bizId: 'power-portraits', color: '#FFB800', name: 'Portrait Day Waitlist', slug: 'portrait-day-waitlist', formId: 18, shortLink: 'pp-waitlist' },
+  { business: 'Ben Alek Conner', bizId: 'ben-alek-conner', color: '#9B59B6', name: 'Work With Me', slug: 'work-with-me', formId: 19, shortLink: 'bac-work' },
+  { business: 'Ben Alek Conner', bizId: 'ben-alek-conner', color: '#9B59B6', name: 'Free Consultation', slug: 'free-consultation', formId: 20, shortLink: 'bac-consult' },
+];
+
+let pageData = [];
+let activeFilter = 'all';
+
+async function init() {
+  const ok = await NB_ADMIN.checkAuth();
+  if (!ok) return;
+  NB_ADMIN.renderSidebar('landing-pages');
+  await loadData();
+  setupFilters();
+}
+
+async function loadData() {
+  document.getElementById('loading').style.display = 'flex';
+  pageData = await Promise.all(PAGES.map(async (page) => {
+    const [clicks, views, submissions] = await Promise.all([
+      fetchClicks(page.shortLink),
+      fetchViews(page.slug),
+      fetchSubmissions(page.formId),
+    ]);
+    return { ...page, clicks, views, submissions };
+  }));
+  document.getElementById('loading').style.display = 'none';
+  render();
+}
+
+async function fetchClicks(shortLink) {
+  try {
+    const res = await fetch(`${SHLINK_URL}/short-urls/${shortLink}`, {
+      headers: { 'X-Api-Key': SHLINK_KEY },
+    });
+    const json = await res.json();
+    return json.visitsSummary?.total || json.visitsCount || 0;
+  } catch { return 0; }
+}
+
+async function fetchViews(slug) {
+  try {
+    const params = new URLSearchParams({
+      module: 'API', method: 'Actions.getPageUrl',
+      pageUrl: `/${slug}`, idSite: '1',
+      period: 'month', date: 'today', format: 'JSON',
+      token_auth: MATOMO_TOKEN,
+    });
+    const res = await fetch(MATOMO_URL, { method: 'POST', body: params });
+    const json = await res.json();
+    return (json[0] && json[0].nb_visits) || 0;
+  } catch { return 0; }
+}
+
+async function fetchSubmissions(formId) {
+  try {
+    const res = await fetch(`${MAUTIC_URL}/api/forms/${formId}/submissions?limit=1`, {
+      headers: { 'Authorization': `Basic ${MAUTIC_AUTH}` },
+    });
+    const json = await res.json();
+    return parseInt(json.total) || 0;
+  } catch { return 0; }
+}
+
+function render() {
+  const filtered = activeFilter === 'all' ? pageData : pageData.filter(p => p.bizId === activeFilter);
+
+  // Totals
+  const totalClicks = filtered.reduce((s, p) => s + p.clicks, 0);
+  const totalViews = filtered.reduce((s, p) => s + p.views, 0);
+  const totalLeads = filtered.reduce((s, p) => s + p.submissions, 0);
+  const avgConv = totalViews > 0 ? ((totalLeads / totalViews) * 100).toFixed(1) : '0.0';
+
+  document.getElementById('totalClicks').textContent = totalClicks.toLocaleString();
+  document.getElementById('totalViews').textContent = totalViews.toLocaleString();
+  document.getElementById('totalLeads').textContent = totalLeads.toLocaleString();
+  document.getElementById('avgConv').textContent = avgConv + '%';
+
+  // Cards
+  const grid = document.getElementById('lpGrid');
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="lp-empty">No landing pages match this filter.</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map((p, i) => {
+    const conv = p.views > 0 ? ((p.submissions / p.views) * 100).toFixed(1) : '0.0';
+    const convColor = conv >= 5 ? 'var(--teal)' : conv >= 2 ? 'var(--yellow)' : 'var(--magenta)';
+    return `
+      <div class="lp-card" style="animation: fadeIn 0.3s ease ${i * 60}ms both">
+        <div class="lp-card-top">
+          <div class="lp-card-title">${p.name}</div>
+          <div class="lp-card-biz" style="background: ${p.color}18; color: ${p.color};">${p.business}</div>
+        </div>
+        <div class="lp-card-links">
+          <a href="https://go.nunyabunya.com/${p.shortLink}" target="_blank">go.nunyabunya.com/${p.shortLink}</a>
+          <span class="sep">|</span>
+          <a href="${MAUTIC_URL}/${p.slug}" target="_blank">Preview</a>
+          <span class="sep">|</span>
+          <a href="${MAUTIC_URL}/s/forms/view/${p.formId}" target="_blank">Form</a>
+        </div>
+        <div class="lp-stats">
+          <div class="lp-stat">
+            <div class="lp-stat-value" style="color: var(--blue);">${p.clicks}</div>
+            <div class="lp-stat-label">Link Clicks</div>
+          </div>
+          <div class="lp-stat">
+            <div class="lp-stat-value" style="color: var(--teal);">${p.views}</div>
+            <div class="lp-stat-label">Page Views</div>
+          </div>
+          <div class="lp-stat">
+            <div class="lp-stat-value" style="color: var(--magenta);">${p.submissions}</div>
+            <div class="lp-stat-label">Leads</div>
+          </div>
+          <div class="lp-stat">
+            <div class="lp-stat-value" style="color: ${convColor};">${conv}%</div>
+            <div class="lp-stat-label">Conv. Rate</div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function setupFilters() {
+  document.querySelectorAll('.lp-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.lp-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      render();
+    });
+  });
+}
+
+init();
+</script>
+</body>
+</html>
