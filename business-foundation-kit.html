@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Business Foundation Kit — $199 | Nunya Bunya</title>
-<meta name="description" content="Answer 50 questions about your business. Get 20 professionally written foundation documents back — brand strategy, sales playbook, financial model, and more. $199.">
+<title>Business Foundation Kit | Nunya Bunya — Start Free</title>
+<meta name="description" content="Answer 50 questions about your business. Get 3 foundation documents free — or upgrade to the full 20-doc kit for $199, or the complete Launch Kit with logo + website for $1,000.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.nunyabunya.com/business-foundation-kit">
-<meta property="og:title" content="Business Foundation Kit — 20 Documents for $199 | Nunya Bunya">
-<meta property="og:description" content="Answer 50 questions. Get 20 professionally written business documents — brand strategy, sales playbook, pricing model, and more.">
+<meta property="og:title" content="Business Foundation Kit — 3 Free Documents | Nunya Bunya">
+<meta property="og:description" content="Answer 50 questions. Get 3 business documents free. Upgrade to all 20 for $199, or the full Launch Kit with logo + website for $1,000.">
 <meta property="og:image" content="https://www.nunyabunya.com/images/og-image.png">
 <meta property="og:site_name" content="Nunya Bunya">
 <meta name="twitter:card" content="summary_large_image">
@@ -193,28 +193,74 @@
 /* Sales Hero */
 .sales-hero { padding: 160px 0 80px; position: relative; overflow: hidden; }
 .sales-hero .container { position: relative; z-index: 2; }
-.price-tag {
-  display: inline-block; background: var(--teal);
-  color: var(--dark); font-family: var(--font-heading);
-  font-weight: 900; font-size: 18px; letter-spacing: 0.1em;
-  padding: 8px 20px; margin-bottom: 24px;
-}
 
-/* Document list */
-.doc-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-  margin: 40px 0;
+/* Pricing Cards */
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  margin: 48px 0 0;
 }
-.doc-item {
-  display: flex; align-items: center; gap: 10px;
-  font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.65);
-  padding: 10px 14px; background: var(--dark3);
-  border: 1px solid rgba(255,255,255,0.04);
+.pricing-card {
+  background: var(--dark3); border: 1px solid var(--subtle);
+  padding: 36px 28px; position: relative; transition: all 0.3s;
 }
-.doc-item::before {
-  content: '\2713'; color: var(--teal);
-  font-weight: 700; font-size: 14px; flex-shrink: 0;
+.pricing-card:hover { border-color: rgba(0,229,204,0.2); }
+.pricing-card.featured {
+  border-color: var(--teal); box-shadow: 0 0 40px rgba(0,229,204,0.1);
+  transform: scale(1.03);
 }
+.pricing-card.premium {
+  border-color: var(--magenta); box-shadow: 0 0 40px rgba(255,77,221,0.1);
+}
+.pricing-badge {
+  position: absolute; top: -12px; left: 28px;
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 4px 14px;
+}
+.pricing-badge.teal { background: var(--teal); color: var(--dark); }
+.pricing-badge.magenta { background: var(--magenta); color: var(--dark); }
+.pricing-tier {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 8px;
+}
+.pricing-price {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 48px; color: var(--white); line-height: 1; margin-bottom: 4px;
+}
+.pricing-price span { font-size: 18px; font-weight: 700; color: var(--muted); }
+.pricing-desc {
+  font-size: 13px; color: var(--muted); font-weight: 300;
+  line-height: 1.5; margin-bottom: 24px; min-height: 40px;
+}
+.pricing-list {
+  list-style: none; padding: 0; margin: 0 0 28px;
+}
+.pricing-list li {
+  font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 400;
+  padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.pricing-list li::before {
+  content: '\2713'; color: var(--teal); font-weight: 700;
+  font-size: 13px; flex-shrink: 0; margin-top: 1px;
+}
+.pricing-list li.locked::before { content: '\2014'; color: rgba(255,255,255,0.15); }
+.pricing-list li.locked { color: rgba(255,255,255,0.2); }
+.pricing-list li.bonus::before { content: '\2605'; color: var(--magenta); }
+.pricing-list li.bonus { color: var(--magenta); }
+.btn-pricing {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 16px 28px; border: none; cursor: pointer;
+  width: 100%; text-align: center; transition: all 0.2s;
+}
+.btn-pricing.teal { background: var(--teal); color: var(--dark); }
+.btn-pricing.teal:hover { background: var(--magenta); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255,77,221,0.3); }
+.btn-pricing.outline { background: none; color: var(--teal); border: 1px solid var(--teal); }
+.btn-pricing.outline:hover { background: rgba(0,229,204,0.08); }
+.btn-pricing.magenta { background: var(--magenta); color: var(--dark); }
+.btn-pricing.magenta:hover { background: var(--teal); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,229,204,0.3); }
 
 /* How it works */
 .how-steps {
@@ -265,7 +311,8 @@
 @media (max-width: 768px) {
   .survey-progress { padding: 12px 16px; top: 56px; }
   .progress-steps { display: none; }
-  .doc-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
+  .pricing-card.featured { transform: none; }
   .how-steps { grid-template-columns: 1fr; }
   .checkbox-grid { grid-template-columns: 1fr; }
   .survey-nav { flex-direction: column; }
@@ -296,38 +343,91 @@
   <div class="hero-orb-1"></div>
   <div class="hero-orb-2"></div>
   <div class="container">
-    <div class="section-label">New Product</div>
+    <div class="section-label">For New Business Owners</div>
     <h1 style="font-family:var(--font-heading);font-weight:900;font-size:clamp(40px,8vw,72px);text-transform:uppercase;letter-spacing:0.02em;line-height:1;">Business<br>Foundation <span style="color:var(--teal);">Kit</span></h1>
-    <p style="font-size:18px;color:var(--muted);font-weight:300;line-height:1.7;max-width:560px;margin:24px 0 32px;">Answer 50 questions about your business. We turn your answers into <strong style="color:var(--white);">20 professionally written documents</strong> that give your business a real foundation.</p>
-    <div class="price-tag">$199 AUD</div>
+    <p style="font-size:18px;color:var(--muted);font-weight:300;line-height:1.7;max-width:560px;margin:24px 0 0;">Answer 50 questions about your business. We turn your answers into professionally written documents that give your business a real foundation. <strong style="color:var(--white);">Start with 3 documents free.</strong></p>
+  </div>
+</section>
 
-    <div class="doc-grid">
-      <div class="doc-item">Ideal Customer Profile</div>
-      <div class="doc-item">Value Proposition Canvas</div>
-      <div class="doc-item">Offer Stack & Pricing Doc</div>
-      <div class="doc-item">Brand Positioning Statement</div>
-      <div class="doc-item">Pitch Deck (10 Slides)</div>
-      <div class="doc-item">Sales Playbook</div>
-      <div class="doc-item">Service Delivery Framework</div>
-      <div class="doc-item">CRM Pipeline Definition</div>
-      <div class="doc-item">Messaging Framework</div>
-      <div class="doc-item">Brand Voice & Tone Guide</div>
-      <div class="doc-item">Visual Style Guide</div>
-      <div class="doc-item">Content Strategy</div>
-      <div class="doc-item">Core SOPs (3 Documents)</div>
-      <div class="doc-item">Contracts & Agreements</div>
-      <div class="doc-item">Financial Model & Forecast</div>
-      <div class="doc-item">Pricing & Unit Economics</div>
-      <div class="doc-item">Competitive Analysis</div>
-      <div class="doc-item">Conversion Funnel Map</div>
-      <div class="doc-item">Lead Generation Strategy</div>
-      <div class="doc-item">Lean Business Plan</div>
+<!-- ═══════════ PRICING TIERS ═══════════ -->
+<section class="section-dark section-pad" id="pricingSection">
+  <div class="container">
+    <div class="section-label" style="text-align:center;">Choose Your Package</div>
+    <h2 style="font-family:var(--font-heading);font-weight:900;font-size:clamp(28px,5vw,44px);text-transform:uppercase;letter-spacing:0.02em;text-align:center;margin-bottom:8px;">Same survey. <span style="color:var(--teal);">You pick how far we go.</span></h2>
+    <p style="text-align:center;color:var(--muted);font-weight:300;max-width:520px;margin:0 auto 48px;">Everyone fills out the same 50-question survey. Your package determines what we build from your answers.</p>
+
+    <div class="pricing-grid">
+      <!-- FREE TIER -->
+      <div class="pricing-card">
+        <div class="pricing-tier">Starter</div>
+        <div class="pricing-price">Free</div>
+        <div class="pricing-desc">Get a taste of what we build. 3 core documents to validate your direction.</div>
+        <ul class="pricing-list">
+          <li>Ideal Customer Profile (ICP)</li>
+          <li>Brand Positioning Statement</li>
+          <li>Competitive Analysis</li>
+          <li class="locked">Value Proposition Canvas</li>
+          <li class="locked">+ 16 more documents</li>
+          <li class="locked">Logo design</li>
+          <li class="locked">Website</li>
+        </ul>
+        <button class="btn-pricing outline" onclick="selectTier('free')">Start Free</button>
+      </div>
+
+      <!-- $199 FOUNDATION KIT -->
+      <div class="pricing-card featured">
+        <div class="pricing-badge teal">Most Popular</div>
+        <div class="pricing-tier">Foundation Kit</div>
+        <div class="pricing-price">$199 <span>AUD</span></div>
+        <div class="pricing-desc">The complete foundation. 20 documents covering every aspect of your business.</div>
+        <ul class="pricing-list">
+          <li>Ideal Customer Profile (ICP)</li>
+          <li>Brand Positioning Statement</li>
+          <li>Competitive Analysis</li>
+          <li>Value Proposition Canvas</li>
+          <li>Offer Stack & Pricing Doc</li>
+          <li>Pitch Deck (10 Slides)</li>
+          <li>Sales Playbook</li>
+          <li>Service Delivery Framework</li>
+          <li>CRM Pipeline Definition</li>
+          <li>Messaging Framework</li>
+          <li>Brand Voice & Tone Guide</li>
+          <li>Visual Style Guide</li>
+          <li>Content Strategy</li>
+          <li>Core SOPs (3 Documents)</li>
+          <li>Contracts & Agreements</li>
+          <li>Financial Model & Forecast</li>
+          <li>Pricing & Unit Economics</li>
+          <li>Conversion Funnel Map</li>
+          <li>Lead Generation Strategy</li>
+          <li>Lean Business Plan</li>
+        </ul>
+        <button class="btn-pricing teal" onclick="selectTier('foundation')">Get the Foundation Kit</button>
+      </div>
+
+      <!-- $1,000 LAUNCH KIT -->
+      <div class="pricing-card premium">
+        <div class="pricing-badge magenta">Best Value</div>
+        <div class="pricing-tier">Launch Kit</div>
+        <div class="pricing-price">$1,000 <span>AUD</span></div>
+        <div class="pricing-desc">Everything you need to launch and start selling. Documents + design + digital presence.</div>
+        <ul class="pricing-list">
+          <li>All 20 Foundation Documents</li>
+          <li class="bonus">Custom Logo Design</li>
+          <li class="bonus">One-Page Website (designed + live)</li>
+          <li class="bonus">Social Media Templates (5 branded)</li>
+          <li class="bonus">30-Day Content Plan</li>
+          <li class="bonus">Brand Asset Pack (colors, fonts, files)</li>
+          <li class="bonus">48-Hour Delivery</li>
+        </ul>
+        <button class="btn-pricing magenta" onclick="selectTier('launch')">Get the Launch Kit</button>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="section-dark section-pad">
+<section class="section-pad" id="howSection">
   <div class="container">
     <div class="section-label" style="text-align:center;">How It Works</div>
     <h2 style="font-family:var(--font-heading);font-weight:900;font-size:clamp(28px,5vw,44px);text-transform:uppercase;letter-spacing:0.02em;text-align:center;margin-bottom:8px;">Three steps. <span style="color:var(--teal);">That's it.</span></h2>
@@ -341,7 +441,7 @@
       <div class="how-step">
         <div class="how-step-num">02</div>
         <h4>We Build Your Docs</h4>
-        <p>Our team turns your answers into 20 tailored, professional documents within 48 hours.</p>
+        <p>Our team turns your answers into tailored, professional documents within 48 hours.</p>
       </div>
       <div class="how-step">
         <div class="how-step-num">03</div>
@@ -349,15 +449,6 @@
         <p>You get a complete business foundation — brand, sales, operations, finances — ready to execute.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- CTA TO BEGIN -->
-<section class="section-pad cta-begin">
-  <div class="container">
-    <h2 style="font-family:var(--font-heading);font-weight:900;font-size:clamp(28px,5vw,40px);text-transform:uppercase;letter-spacing:0.02em;margin-bottom:16px;">Ready? Let's <span style="color:var(--teal);">build your foundation.</span></h2>
-    <p style="color:var(--muted);font-weight:300;max-width:480px;margin:0 auto 32px;">The survey takes about 30 minutes. Your answers are saved as you go. You'll pay after submitting.</p>
-    <button class="btn-next" onclick="startSurvey()" id="beginBtn">Start the Survey</button>
   </div>
 </section>
 
@@ -888,12 +979,26 @@
   </div>
 </section>
 
-<!-- ═══════════ SUCCESS SCREEN ═══════════ -->
+<!-- ═══════════ SUCCESS SCREEN — FREE TIER ═══════════ -->
+<div class="survey-success" id="successFreeScreen">
+  <div class="container">
+    <div class="survey-success-icon">&#10003;</div>
+    <h2>You're <span>in.</span></h2>
+    <p>We've received your survey. Your 3 free documents (ICP, Brand Positioning, Competitive Analysis) will be in your inbox within 48 hours.</p>
+    <div style="margin-top:48px;padding:32px;background:var(--dark3);border:1px solid var(--subtle);max-width:500px;margin-left:auto;margin-right:auto;text-align:left;">
+      <div style="font-family:var(--font-heading);font-weight:700;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;">Want the full kit?</div>
+      <p style="font-size:14px;color:var(--muted);font-weight:300;line-height:1.6;margin-bottom:16px;">Upgrade to the <strong style="color:var(--white);">Foundation Kit ($199)</strong> for all 20 documents, or the <strong style="color:var(--magenta);">Launch Kit ($1,000)</strong> for docs + logo + website + social templates + 30-day content plan.</p>
+      <p style="font-size:13px;color:rgba(255,255,255,0.3);">We'll include upgrade options in your delivery email.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SUCCESS SCREEN — PAID TIER ═══════════ -->
 <div class="survey-success" id="successScreen">
   <div class="container">
     <div class="survey-success-icon">&#10003;</div>
     <h2>You're <span>all set.</span></h2>
-    <p>We've received your survey. Your 20-document Business Foundation Kit will be delivered to your inbox within 48 hours.</p>
+    <p>Payment received. We're building your documents now — expect them in your inbox within 48 hours.</p>
     <p style="margin-top:24px;font-size:13px;color:rgba(255,255,255,0.3);">Check your email for a payment confirmation and receipt.</p>
   </div>
 </div>
@@ -954,11 +1059,27 @@ document.querySelectorAll('.option-item input').forEach(input => {
   });
 });
 
-/* ═══════════ SURVEY STATE ═══════════ */
+/* ═══════════ TIER & SURVEY STATE ═══════════ */
+let selectedTier = 'free';
+const STRIPE_PRICES = {
+  foundation: 'price_1THOymJGGLPcHaTXslY49htM',
+  launch: 'price_1THPJlJGGLPcHaTXlmxdHKo4'
+};
+const TIER_LABELS = {
+  free: 'Get My Free Documents',
+  foundation: 'Submit & Pay $199',
+  launch: 'Submit & Pay $1,000'
+};
+
 let currentStep = 1;
 const totalSteps = 7;
 const questionsPerStep = [8, 9, 8, 5, 7, 7, 6];
 const STORAGE_KEY = 'nb_bfk_survey';
+
+function selectTier(tier) {
+  selectedTier = tier;
+  startSurvey();
+}
 
 /* Save answers to localStorage as user types */
 function saveProgress() {
@@ -1018,10 +1139,12 @@ document.getElementById('surveyForm').addEventListener('change', () => saveProgr
 /* ═══════════ NAVIGATION ═══════════ */
 function startSurvey() {
   document.getElementById('salesSection').style.display = 'none';
-  document.querySelector('.section-dark.section-pad').style.display = 'none';
-  document.querySelector('.cta-begin').style.display = 'none';
+  document.getElementById('pricingSection').style.display = 'none';
+  document.getElementById('howSection').style.display = 'none';
   document.getElementById('progressBar').style.display = 'block';
   document.getElementById('surveySection').style.display = 'block';
+  /* Update submit button text based on tier */
+  document.getElementById('submitBtn').textContent = TIER_LABELS[selectedTier] || TIER_LABELS.free;
   restoreProgress();
   showStep(1);
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1103,6 +1226,7 @@ async function submitSurvey() {
 
   const payload = {
     product: 'business-foundation-kit',
+    tier: selectedTier,
     client_name: name,
     client_email: email,
     client_phone: document.getElementById('clientPhone').value.trim(),
@@ -1119,13 +1243,20 @@ async function submitSurvey() {
 
     if (res.ok) {
       const responseData = await res.json().catch(() => ({}));
-      if (responseData.checkout_url) {
-        /* Redirect to Stripe Checkout — don't clear localStorage yet,
-           in case they hit back. It clears on success return. */
+
+      if (selectedTier === 'free') {
+        /* Free tier — no payment needed, show success */
+        localStorage.removeItem(STORAGE_KEY);
+        document.getElementById('surveySection').style.display = 'none';
+        document.getElementById('progressBar').style.display = 'none';
+        document.getElementById('successFreeScreen').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (responseData.checkout_url) {
+        /* Paid tier — redirect to Stripe Checkout */
         btn.textContent = 'Redirecting to payment...';
         window.location.href = responseData.checkout_url;
       } else {
-        /* Fallback if no checkout URL (e.g. Stripe not configured yet) */
+        /* Fallback */
         localStorage.removeItem(STORAGE_KEY);
         document.getElementById('surveySection').style.display = 'none';
         document.getElementById('progressBar').style.display = 'none';
@@ -1137,13 +1268,13 @@ async function submitSurvey() {
       errorEl.textContent = errData.error || 'Something went wrong. Please try again.';
       errorEl.style.display = 'block';
       btn.disabled = false;
-      btn.textContent = 'Submit & Pay $199';
+      btn.textContent = TIER_LABELS[selectedTier];
     }
   } catch (err) {
     errorEl.textContent = 'Network error. Please check your connection and try again.';
     errorEl.style.display = 'block';
     btn.disabled = false;
-    btn.textContent = 'Submit & Pay $199';
+    btn.textContent = TIER_LABELS[selectedTier];
   }
 }
 
@@ -1153,36 +1284,31 @@ async function submitSurvey() {
   const payment = params.get('payment');
 
   if (payment === 'success') {
-    /* Payment succeeded — show success screen, clear saved data */
     localStorage.removeItem(STORAGE_KEY);
     document.getElementById('salesSection').style.display = 'none';
-    document.querySelector('.section-dark.section-pad').style.display = 'none';
-    document.querySelector('.cta-begin').style.display = 'none';
+    document.getElementById('pricingSection').style.display = 'none';
+    document.getElementById('howSection').style.display = 'none';
     document.getElementById('surveySection').style.display = 'none';
     document.getElementById('progressBar').style.display = 'none';
     document.getElementById('successScreen').classList.add('active');
-    /* Clean URL */
     window.history.replaceState({}, '', window.location.pathname);
   }
 
   if (payment === 'cancelled') {
-    /* Payment was cancelled — show survey with a message to try again */
     document.getElementById('salesSection').style.display = 'none';
-    document.querySelector('.section-dark.section-pad').style.display = 'none';
-    document.querySelector('.cta-begin').style.display = 'none';
+    document.getElementById('pricingSection').style.display = 'none';
+    document.getElementById('howSection').style.display = 'none';
     document.getElementById('progressBar').style.display = 'block';
     document.getElementById('surveySection').style.display = 'block';
     restoreProgress();
     showStep(7);
-    /* Show a gentle message */
     const errorEl = document.getElementById('formError');
     errorEl.textContent = 'Payment was cancelled. Your answers are saved — click Submit when you\'re ready to try again.';
     errorEl.style.display = 'block';
     errorEl.style.color = '#f0ad4e';
     const btn = document.getElementById('submitBtn');
     btn.disabled = false;
-    btn.textContent = 'Submit & Pay $199';
-    /* Clean URL */
+    btn.textContent = TIER_LABELS[selectedTier] || 'Submit & Pay $199';
     window.history.replaceState({}, '', window.location.pathname);
   }
 })();
