@@ -45,6 +45,7 @@ const NB_ADMIN = {
       { id: 'landing-pages', label: 'Landing Pages', icon: '&#9873;', href: '/nb-admin-landing-pages' },
       { id: 'lead-magnets', label: 'Lead Magnets', icon: '&#9883;', href: '/nb-admin-lead-magnets' },
       { id: 'brand-docs', label: 'Brand Docs', icon: '&#9997;', href: '/nb-admin-brand-docs' },
+      { id: 'settings', label: 'Settings', icon: '&#9881;', href: '/nb-admin-settings' },
     ];
 
     const sidebar = document.getElementById('sidebar');

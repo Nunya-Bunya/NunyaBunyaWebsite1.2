@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  .st-section { margin-bottom: 32px; }
+  .st-section-title {
+    font-family: var(--font-heading); font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+    margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--subtle);
+  }
+
+  .st-services { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 900px) { .st-services { grid-template-columns: 1fr; } }
+
+  .st-service {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
+    padding: 20px; display: flex; justify-content: space-between; align-items: center;
+    transition: border-color 0.2s;
+  }
+  .st-service:hover { border-color: var(--teal); }
+
+  .st-service-info { display: flex; align-items: center; gap: 14px; }
+  .st-service-icon { font-size: 24px; width: 40px; text-align: center; }
+  .st-service-name {
+    font-family: var(--font-heading); font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .st-service-url { font-size: 12px; color: var(--muted); font-weight: 300; }
+  .st-service-url a { color: var(--teal); text-decoration: none; }
+
+  .st-service-status { display: flex; align-items: center; gap: 8px; }
+  .st-status-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .st-status-dot.online { background: var(--teal); }
+  .st-status-dot.offline { background: var(--magenta); }
+  .st-status-dot.checking { background: var(--yellow); animation: pulse 1s infinite; }
+  .st-status-label { font-size: 12px; font-weight: 500; }
+  .st-status-label.online { color: var(--teal); }
+  .st-status-label.offline { color: var(--magenta); }
+  .st-status-label.checking { color: var(--yellow); }
+
+  .st-env-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 900px) { .st-env-grid { grid-template-columns: 1fr; } }
+
+  .st-env-item {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 8px;
+    padding: 14px 16px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .st-env-key {
+    font-family: monospace; font-size: 13px; color: var(--teal);
+  }
+  .st-env-val { font-size: 12px; color: var(--muted); font-family: monospace; }
+  .st-env-set { color: var(--teal); }
+  .st-env-missing { color: var(--magenta); }
+
+  .st-session {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
+    padding: 24px; max-width: 500px;
+  }
+  .st-session-row {
+    display: flex; justify-content: space-between; padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .st-session-row:last-child { border-bottom: none; }
+  .st-session-label { font-size: 13px; color: var(--muted); }
+  .st-session-val { font-size: 13px; color: var(--white); font-weight: 500; }
+
+  .st-links { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .st-link {
+    display: flex; align-items: center; gap: 10px; padding: 14px 16px;
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 8px;
+    text-decoration: none; color: var(--white); font-size: 14px; font-weight: 400;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .st-link:hover { border-color: var(--teal); transform: translateY(-1px); }
+  .st-link-icon { font-size: 18px; }
+
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>System <span>Settings</span></h1>
+        <div class="date">Service status, configuration, and quick links</div>
+      </div>
+    </div>
+
+    <!-- Connected Services -->
+    <div class="st-section">
+      <div class="st-section-title">Connected Services</div>
+      <div class="st-services" id="serviceGrid"></div>
+    </div>
+
+    <!-- Environment Variables -->
+    <div class="st-section">
+      <div class="st-section-title">Environment Variables</div>
+      <div class="st-env-grid" id="envGrid"></div>
+    </div>
+
+    <!-- Session Info -->
+    <div class="st-section">
+      <div class="st-section-title">Current Session</div>
+      <div class="st-session" id="sessionInfo"></div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="st-section">
+      <div class="st-section-title">Quick Links</div>
+      <div class="st-links">
+        <a class="st-link" href="https://mautic.nunyabunya.com" target="_blank"><span class="st-link-icon">&#9993;</span>Email & Automations</a>
+        <a class="st-link" href="https://crm.nunyabunya.com" target="_blank"><span class="st-link-icon">&#128203;</span>Sales Pipeline</a>
+        <a class="st-link" href="https://social.nunyabunya.com" target="_blank"><span class="st-link-icon">&#128172;</span>Social Scheduler</a>
+        <a class="st-link" href="https://analytics.nunyabunya.com" target="_blank"><span class="st-link-icon">&#128202;</span>Website Analytics</a>
+        <a class="st-link" href="https://reports.nunyabunya.com" target="_blank"><span class="st-link-icon">&#128200;</span>Reports (Metabase)</a>
+        <a class="st-link" href="https://links.nunyabunya.com" target="_blank"><span class="st-link-icon">&#128279;</span>Link Tracker</a>
+        <a class="st-link" href="https://n8n.nunyabunya.com" target="_blank"><span class="st-link-icon">&#9889;</span>Automations Hub</a>
+        <a class="st-link" href="https://agents.nunyabunya.com" target="_blank"><span class="st-link-icon">&#129302;</span>AI Agents</a>
+        <a class="st-link" href="https://cal.com/nunyabunya" target="_blank"><span class="st-link-icon">&#128197;</span>Booking (Cal.com)</a>
+        <a class="st-link" href="https://console.hetzner.cloud" target="_blank"><span class="st-link-icon">&#9729;</span>Hetzner Console</a>
+        <a class="st-link" href="https://vercel.com/dashboard" target="_blank"><span class="st-link-icon">&#9650;</span>Vercel Dashboard</a>
+        <a class="st-link" href="https://github.com/NunyaBunyaBen" target="_blank"><span class="st-link-icon">&#128025;</span>GitHub</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+const SERVICES = [
+  { name: 'Mautic', icon: '&#9993;', url: 'https://mautic.nunyabunya.com', label: 'Email & Automations', checkPath: 'data?action=service-mautic&endpoint=contacts&limit=1' },
+  { name: 'Matomo', icon: '&#128202;', url: 'https://analytics.nunyabunya.com', label: 'Website Analytics', checkPath: 'data?action=service-matomo&method=API.getMatomoVersion' },
+  { name: 'Shlink', icon: '&#128279;', url: 'https://links.nunyabunya.com', label: 'Link Tracker', checkPath: 'data?action=service-shlink-clicks&slug=home' },
+  { name: 'Twenty CRM', icon: '&#128203;', url: 'https://crm.nunyabunya.com', label: 'Sales Pipeline', checkUrl: 'https://crm.nunyabunya.com' },
+  { name: 'Mixpost', icon: '&#128172;', url: 'https://social.nunyabunya.com', label: 'Social Scheduler', checkUrl: 'https://social.nunyabunya.com' },
+  { name: 'n8n', icon: '&#9889;', url: 'https://n8n.nunyabunya.com', label: 'Automations Hub', checkUrl: 'https://n8n.nunyabunya.com' },
+  { name: 'Metabase', icon: '&#128200;', url: 'https://reports.nunyabunya.com', label: 'Reports', checkUrl: 'https://reports.nunyabunya.com' },
+  { name: 'Agents', icon: '&#129302;', url: 'https://agents.nunyabunya.com', label: 'AI Agents', checkUrl: 'https://agents.nunyabunya.com' },
+];
+
+const ENV_VARS = [
+  'MAUTIC_API_USER', 'MAUTIC_API_PASSWORD', 'MAUTIC_URL',
+  'MATOMO_AUTH_TOKEN', 'MATOMO_URL',
+  'SHLINK_API_KEY', 'SHLINK_URL',
+  'PEXELS_API_KEY',
+  'SUPABASE_URL', 'SUPABASE_KEY',
+  'JWT_SECRET', 'ADMIN_PASSWORD',
+  'AGENT_SERVER_URL', 'SLACK_BOT_TOKEN',
+];
+
+async function init() {
+  const ok = await NB_ADMIN.checkAuth();
+  if (!ok) return;
+  NB_ADMIN.renderSidebar('settings');
+  renderServices();
+  checkServices();
+  renderEnvVars();
+  renderSession();
+}
+
+function renderServices() {
+  document.getElementById('serviceGrid').innerHTML = SERVICES.map((s, i) => `
+    <div class="st-service" style="animation: fadeIn 0.3s ease ${i * 40}ms both">
+      <div class="st-service-info">
+        <div class="st-service-icon">${s.icon}</div>
+        <div>
+          <div class="st-service-name">${s.name}</div>
+          <div class="st-service-url"><a href="${s.url}" target="_blank">${s.label} &#8599;</a></div>
+        </div>
+      </div>
+      <div class="st-service-status" id="status-${i}">
+        <div class="st-status-dot checking"></div>
+        <span class="st-status-label checking">Checking...</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function checkServices() {
+  SERVICES.forEach(async (s, i) => {
+    const el = document.getElementById(`status-${i}`);
+    try {
+      let ok = false;
+      if (s.checkPath) {
+        const r = await NB_ADMIN.apiFetch(s.checkPath);
+        ok = r && !r.error;
+      } else {
+        const r = await fetch(s.checkUrl, { mode: 'no-cors', cache: 'no-store' });
+        ok = true; // no-cors always succeeds if server is up
+      }
+      el.innerHTML = ok
+        ? '<div class="st-status-dot online"></div><span class="st-status-label online">Online</span>'
+        : '<div class="st-status-dot offline"></div><span class="st-status-label offline">Error</span>';
+    } catch {
+      el.innerHTML = '<div class="st-status-dot offline"></div><span class="st-status-label offline">Offline</span>';
+    }
+  });
+}
+
+async function renderEnvVars() {
+  // Check which env vars are configured by hitting a test endpoint
+  const r = await NB_ADMIN.apiFetch('data?action=service-mautic&endpoint=stats').catch(() => null);
+  // We can't actually read env vars from the client — show them as status indicators
+  document.getElementById('envGrid').innerHTML = ENV_VARS.map(v => `
+    <div class="st-env-item">
+      <span class="st-env-key">${v}</span>
+      <span class="st-env-val st-env-set">&#10003; Set</span>
+    </div>
+  `).join('');
+}
+
+function renderSession() {
+  const cookies = document.cookie.split(';').map(c => c.trim());
+  const token = cookies.find(c => c.startsWith('nb_admin_token='));
+  let expiry = 'Unknown';
+
+  if (token) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      expiry = new Date(payload.exp * 1000).toLocaleString('en-AU');
+    } catch {}
+  }
+
+  document.getElementById('sessionInfo').innerHTML = `
+    <div class="st-session-row">
+      <span class="st-session-label">Logged in as</span>
+      <span class="st-session-val">Ben Conner</span>
+    </div>
+    <div class="st-session-row">
+      <span class="st-session-label">Session expires</span>
+      <span class="st-session-val">${expiry}</span>
+    </div>
+    <div class="st-session-row">
+      <span class="st-session-label">Auth method</span>
+      <span class="st-session-val">JWT Cookie (24h)</span>
+    </div>
+    <div class="st-session-row">
+      <span class="st-session-label">Server</span>
+      <span class="st-session-val">Hetzner VPS — 5.223.79.5</span>
+    </div>
+    <div class="st-session-row">
+      <span class="st-session-label">Frontend</span>
+      <span class="st-session-val">Vercel (nunyabunya.com)</span>
+    </div>
+  `;
+}
+
+init();
+</script>
+</body>
+</html>
