@@ -40,6 +40,7 @@ const NB_ADMIN = {
       { id: 'benchmark', label: 'Benchmark', icon: '&#9201;', href: '/nb-admin-benchmark' },
       { id: 'landing-pages', label: 'Landing Pages', icon: '&#9873;', href: '/nb-admin-landing-pages' },
       { id: 'lead-magnets', label: 'Lead Magnets', icon: '&#9883;', href: '/nb-admin-lead-magnets' },
+      { id: 'brand-docs', label: 'Brand Docs', icon: '&#9997;', href: '/nb-admin-brand-docs' },
     ];
 
     const sidebar = document.getElementById('sidebar');
