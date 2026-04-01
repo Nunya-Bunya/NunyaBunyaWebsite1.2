@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activity Log | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  .al-filters { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
+  .al-filter-btn {
+    padding: 8px 14px; border-radius: 8px; border: 1px solid var(--subtle);
+    background: transparent; color: var(--muted); font-size: 12px; cursor: pointer;
+    font-family: var(--font-heading); font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; transition: all 0.2s;
+  }
+  .al-filter-btn:hover { color: var(--white); border-color: var(--white); }
+  .al-filter-btn.active { color: var(--teal); border-color: var(--teal); background: rgba(0,229,204,0.05); }
+
+  .al-timeline { max-width: 800px; }
+  .al-day-group { margin-bottom: 32px; }
+  .al-day-label {
+    font-family: var(--font-heading); font-size: 14px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+    margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--subtle);
+  }
+
+  .al-item {
+    display: flex; gap: 16px; padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    animation: fadeIn 0.3s ease both;
+  }
+  .al-item:last-child { border-bottom: none; }
+
+  .al-icon {
+    width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+  }
+  .al-icon.contact { background: rgba(0,229,204,0.12); }
+  .al-icon.form { background: rgba(255,77,221,0.12); }
+  .al-icon.email { background: rgba(74,144,217,0.12); }
+  .al-icon.workflow { background: rgba(255,183,0,0.12); }
+  .al-icon.pipeline { background: rgba(153,89,182,0.12); }
+  .al-icon.error { background: rgba(255,45,120,0.12); }
+  .al-icon.lead { background: rgba(0,229,204,0.12); }
+
+  .al-body { flex: 1; }
+  .al-title { font-size: 14px; color: rgba(255,255,255,0.85); font-weight: 400; line-height: 1.4; }
+  .al-title strong { color: var(--white); font-weight: 600; }
+  .al-meta { font-size: 12px; color: var(--muted); margin-top: 2px; display: flex; gap: 12px; }
+  .al-source {
+    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 2px 8px; border-radius: 4px;
+  }
+  .al-source.mautic { background: rgba(0,229,204,0.1); color: var(--teal); }
+  .al-source.n8n { background: rgba(255,183,0,0.1); color: #FFB800; }
+  .al-source.supabase { background: rgba(153,89,182,0.1); color: #9B59B6; }
+
+  .al-time { font-size: 12px; color: var(--muted); white-space: nowrap; flex-shrink: 0; padding-top: 2px; }
+
+  .al-empty { text-align: center; padding: 60px; color: var(--muted); }
+
+  .al-refresh {
+    background: none; border: 1px solid var(--subtle); color: var(--muted);
+    padding: 8px 16px; border-radius: 8px; font-family: var(--font-heading);
+    font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .al-refresh:hover { color: var(--teal); border-color: var(--teal); }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Activity <span>Log</span></h1>
+        <div class="date">Recent events across all systems</div>
+      </div>
+      <button class="al-refresh" onclick="loadAll()">Refresh</button>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="num" id="kpiTotal">—</div><div class="label">Events Today</div></div>
+      <div class="kpi-card"><div class="num" id="kpiContacts">—</div><div class="label">New Contacts</div></div>
+      <div class="kpi-card magenta"><div class="num" id="kpiErrors">—</div><div class="label">Errors</div></div>
+      <div class="kpi-card"><div class="num" id="kpiWorkflows">—</div><div class="label">Workflow Runs</div></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="al-filters">
+      <button class="al-filter-btn active" data-source="all">All</button>
+      <button class="al-filter-btn" data-source="mautic">Mautic</button>
+      <button class="al-filter-btn" data-source="n8n">n8n</button>
+      <button class="al-filter-btn" data-source="supabase">Pipelines</button>
+      <button class="al-filter-btn" data-source="error">Errors Only</button>
+    </div>
+
+    <!-- Timeline -->
+    <div class="al-timeline" id="timeline"></div>
+
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading activity...</p></div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+let allEvents = [];
+let activeSource = 'all';
+
+async function init() {
+  const ok = await NB_ADMIN.checkAuth();
+  if (!ok) return;
+  NB_ADMIN.renderSidebar('activity');
+  await loadAll();
+  setupFilters();
+}
+
+async function mautic(endpoint, params = {}) {
+  const qs = new URLSearchParams({ action: 'service-mautic', endpoint, ...params });
+  return NB_ADMIN.apiFetch(`data?${qs.toString()}`);
+}
+
+async function loadAll() {
+  document.getElementById('loading').style.display = 'flex';
+  allEvents = [];
+
+  // Fetch from multiple sources in parallel
+  const [contacts, pipelines, n8nExecs] = await Promise.allSettled([
+    mautic('contacts', { search: '!is:anonymous', limit: '20', orderBy: 'date_added', orderByDir: 'desc' }),
+    NB_ADMIN.apiFetch('data?action=deliverables'),
+    // n8n executions not available through our proxy — we'll add later
+    Promise.resolve(null),
+  ]);
+
+  // Parse Mautic contacts into events
+  const contactData = contacts.value || {};
+  const contactList = contactData.contacts || {};
+  const contactEntries = typeof contactList === 'object' && !Array.isArray(contactList) ? Object.values(contactList) : contactList;
+  (contactEntries || []).forEach(c => {
+    const core = c.fields?.core || {};
+    const name = [core.firstname?.value, core.lastname?.value].filter(Boolean).join(' ') || 'Anonymous';
+    const email = core.email?.value || '';
+    allEvents.push({
+      type: 'contact', source: 'mautic', icon: '&#128100;', iconClass: 'contact',
+      title: `<strong>${name}</strong> added as a contact${email ? ` (${email})` : ''}`,
+      time: c.dateAdded, points: c.points || 0,
+    });
+  });
+
+  // Parse Supabase pipeline deliverables into events
+  const pipelineData = pipelines.value || {};
+  (pipelineData.deliverables || []).slice(0, 20).forEach(d => {
+    let iconClass = 'pipeline', icon = '&#9881;';
+    if (d.type === 'social_post') { iconClass = 'contact'; icon = '&#128172;'; }
+    if (d.type === 'blog_post') { iconClass = 'form'; icon = '&#128196;'; }
+    if (d.type === 'weekly_report' || d.type === 'seo_report') { iconClass = 'email'; icon = '&#128202;'; }
+
+    allEvents.push({
+      type: d.type, source: 'supabase', icon, iconClass,
+      title: `<strong>${d.title || d.type.replace(/_/g, ' ')}</strong> — ${d.status || 'created'}`,
+      time: d.created_at,
+    });
+  });
+
+  // Sort all events by time descending
+  allEvents.sort((a, b) => new Date(b.time || 0) - new Date(a.time || 0));
+
+  document.getElementById('loading').style.display = 'none';
+  render();
+}
+
+function render() {
+  let filtered = allEvents;
+  if (activeSource === 'error') {
+    filtered = allEvents.filter(e => e.type === 'error' || e.status === 'error');
+  } else if (activeSource !== 'all') {
+    filtered = allEvents.filter(e => e.source === activeSource);
+  }
+
+  // KPIs
+  const today = new Date().toISOString().slice(0, 10);
+  const todayEvents = allEvents.filter(e => (e.time || '').startsWith(today));
+  document.getElementById('kpiTotal').textContent = todayEvents.length;
+  document.getElementById('kpiContacts').textContent = allEvents.filter(e => e.type === 'contact').length;
+  document.getElementById('kpiErrors').textContent = allEvents.filter(e => e.type === 'error' || e.status === 'error').length;
+  document.getElementById('kpiWorkflows').textContent = allEvents.filter(e => e.source === 'n8n').length;
+
+  const timeline = document.getElementById('timeline');
+
+  if (!filtered.length) {
+    timeline.innerHTML = '<div class="al-empty">No activity found.</div>';
+    return;
+  }
+
+  // Group by day
+  const days = {};
+  filtered.forEach(e => {
+    const day = (e.time || '').slice(0, 10) || 'Unknown';
+    if (!days[day]) days[day] = [];
+    days[day].push(e);
+  });
+
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const yesterdayStr = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+
+  timeline.innerHTML = Object.entries(days).map(([day, events]) => {
+    let label = day;
+    if (day === todayStr) label = 'Today';
+    else if (day === yesterdayStr) label = 'Yesterday';
+    else label = new Date(day + 'T00:00:00').toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' });
+
+    return `
+      <div class="al-day-group">
+        <div class="al-day-label">${label}</div>
+        ${events.map((e, i) => {
+          const time = e.time ? new Date(e.time).toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' }) : '';
+          return `
+            <div class="al-item" style="animation-delay: ${i * 30}ms">
+              <div class="al-icon ${e.iconClass}">${e.icon}</div>
+              <div class="al-body">
+                <div class="al-title">${e.title}</div>
+                <div class="al-meta">
+                  <span class="al-source ${e.source}">${e.source}</span>
+                  ${e.points ? `<span>Score: ${e.points}</span>` : ''}
+                </div>
+              </div>
+              <div class="al-time">${time}</div>
+            </div>`;
+        }).join('')}
+      </div>`;
+  }).join('');
+}
+
+function setupFilters() {
+  document.querySelectorAll('.al-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.al-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeSource = btn.dataset.source;
+      render();
+    });
+  });
+}
+
+init();
+</script>
+</body>
+</html>
