@@ -378,18 +378,7 @@
     <div class="lm-form-card">
       <h2>Download the Free Guide</h2>
       <p class="form-sub">Get the complete setup guide as a PDF &mdash; delivered instantly.</p>
-      <form id="leadForm" onsubmit="return handleSubmit(event)">
-        <div class="form-group">
-          <label class="form-label" for="name">First Name</label>
-          <input class="form-input" type="text" id="name" name="name" placeholder="Your first name" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="email">Email Address</label>
-          <input class="form-input" type="email" id="email" name="email" placeholder="you@company.com" required>
-        </div>
-        <button type="submit" class="btn-submit" id="submitBtn">Send Me the Guide</button>
-        <p class="form-error" id="formError"></p>
-      </form>
+      <script type="text/javascript" src="https://mautic.nunyabunya.com/form/generate.js?id=22"></script>
       <p class="form-footer">No spam. Unsubscribe anytime.</p>
     </div>
   </div>
@@ -454,43 +443,7 @@
   document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
 
   // Form submission
-  async function handleSubmit(e) {
-    e.preventDefault();
-    const btn = document.getElementById('submitBtn');
-    const errorEl = document.getElementById('formError');
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-
-    if (!name || !email) return;
-
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-    errorEl.style.display = 'none';
-
-    try {
-      const res = await fetch('https://n8n.nunyabunya.com/webhook/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, source: 'open-source-stack-guide' })
-      });
-
-      if (res.ok) {
-        // Redirect to PDF download + thank you
-        window.location.href = '/assets/open-source-stack-thankyou.html';
-      } else {
-        const data = await res.json().catch(() => ({}));
-        errorEl.textContent = data.error || 'Something went wrong. Please try again.';
-        errorEl.style.display = 'block';
-        btn.disabled = false;
-        btn.textContent = 'Send Me the Guide';
-      }
-    } catch (err) {
-      errorEl.textContent = 'Network error. Please try again.';
-      errorEl.style.display = 'block';
-      btn.disabled = false;
-      btn.textContent = 'Send Me the Guide';
-    }
-  }
+  // Form handled by Mautic embed (form ID 22)
 </script>
 
 <!-- Matomo -->

@@ -134,12 +134,19 @@ const MATOMO_URL = 'https://analytics.nunyabunya.com';
 const MATOMO_TOKEN = 'b922b22fa942389ee37e3373456e8dfb';
 
 const PAGES = [
-  { business: 'Nunya Bunya', bizId: 'nunya-bunya', color: '#00E5CC', name: 'Free Strategy Session', slug: 'free-strategy-session', formId: 15, shortLink: 'strategy' },
-  { business: 'Nunya Bunya', bizId: 'nunya-bunya', color: '#00E5CC', name: 'Free Marketing Audit', slug: 'free-marketing-audit', formId: 16, shortLink: 'nb-audit' },
-  { business: 'Power Portraits', bizId: 'power-portraits', color: '#FFB800', name: 'Book Portrait Session', slug: 'book-portrait-session', formId: 17, shortLink: 'pp-book' },
-  { business: 'Power Portraits', bizId: 'power-portraits', color: '#FFB800', name: 'Portrait Day Waitlist', slug: 'portrait-day-waitlist', formId: 18, shortLink: 'pp-waitlist' },
-  { business: 'Ben Alek Conner', bizId: 'ben-alek-conner', color: '#9B59B6', name: 'Work With Me', slug: 'work-with-me', formId: 19, shortLink: 'bac-work' },
-  { business: 'Ben Alek Conner', bizId: 'ben-alek-conner', color: '#9B59B6', name: 'Free Consultation', slug: 'free-consultation', formId: 20, shortLink: 'bac-consult' },
+  // Mautic-hosted pages
+  { business: 'Nunya Bunya', bizId: 'nunya-bunya', color: '#00E5CC', name: 'Free Strategy Session', slug: 'free-strategy-session', formId: 15, shortLink: 'strategy', host: 'mautic' },
+  { business: 'Nunya Bunya', bizId: 'nunya-bunya', color: '#00E5CC', name: 'Free Marketing Audit', slug: 'free-marketing-audit', formId: 16, shortLink: 'nb-audit', host: 'mautic' },
+  { business: 'Power Portraits', bizId: 'power-portraits', color: '#FFB800', name: 'Book Portrait Session', slug: 'book-portrait-session', formId: 17, shortLink: 'pp-book', host: 'mautic' },
+  { business: 'Power Portraits', bizId: 'power-portraits', color: '#FFB800', name: 'Portrait Day Waitlist', slug: 'portrait-day-waitlist', formId: 18, shortLink: 'pp-waitlist', host: 'mautic' },
+  { business: 'Ben Alek Conner', bizId: 'ben-alek-conner', color: '#9B59B6', name: 'Work With Me', slug: 'work-with-me', formId: 19, shortLink: 'bac-work', host: 'mautic' },
+  { business: 'Ben Alek Conner', bizId: 'ben-alek-conner', color: '#9B59B6', name: 'Free Consultation', slug: 'free-consultation', formId: 20, shortLink: 'bac-consult', host: 'mautic' },
+  // Vercel-hosted pages (forms embedded via Mautic JS)
+  { business: 'Nunya Bunya', bizId: 'nunya-bunya', color: '#00E5CC', name: 'Lead Magnet Download', slug: 'lead-magnet', formId: 15, shortLink: null, host: 'vercel' },
+  { business: 'Nunya Bunya', bizId: 'nunya-bunya', color: '#00E5CC', name: 'Social Media Special', slug: 'social-media-special', formId: 21, shortLink: 'social', host: 'vercel' },
+  { business: 'Nunya Bunya', bizId: 'nunya-bunya', color: '#00E5CC', name: 'Open Source Stack Guide', slug: 'open-source-stack', formId: 22, shortLink: null, host: 'vercel' },
+  { business: 'Nunya Bunya', bizId: 'nunya-bunya', color: '#00E5CC', name: 'Free Audit', slug: 'free-audit', formId: 23, shortLink: 'audit', host: 'vercel' },
+  { business: 'Nunya Bunya', bizId: 'nunya-bunya', color: '#00E5CC', name: 'Landing Page', slug: 'landing', formId: 24, shortLink: null, host: 'vercel' },
 ];
 
 let pageData = [];
@@ -225,21 +232,23 @@ function render() {
   grid.innerHTML = filtered.map((p, i) => {
     const conv = p.views > 0 ? ((p.submissions / p.views) * 100).toFixed(1) : '0.0';
     const convColor = conv >= 5 ? 'var(--teal)' : conv >= 2 ? 'var(--yellow)' : 'var(--magenta)';
-    const previewUrl = `${MAUTIC_URL}/${p.slug}`;
+    const previewUrl = p.host === 'mautic' ? `${MAUTIC_URL}/${p.slug}` : `https://www.nunyabunya.com/${p.slug}`;
+    const hostLabel = p.host === 'mautic' ? 'Mautic' : 'Vercel';
+    const hostColor = p.host === 'mautic' ? 'var(--magenta)' : 'var(--teal)';
+    const shortLinkHtml = p.shortLink ? `<a href="https://go.nunyabunya.com/${p.shortLink}" target="_blank">go.nunyabunya.com/${p.shortLink}</a><span class="sep">|</span>` : '';
     return `
       <div class="lp-card" style="animation: fadeIn 0.3s ease ${i * 60}ms both">
         <div class="lp-preview">
           <iframe src="${previewUrl}" loading="lazy" sandbox="allow-same-origin"></iframe>
           <a class="lp-preview-overlay" href="${previewUrl}" target="_blank"></a>
-          <div class="lp-preview-label">Click to open</div>
+          <div class="lp-preview-label" style="color: ${hostColor};">${hostLabel}</div>
         </div>
         <div class="lp-card-top">
           <div class="lp-card-title">${p.name}</div>
           <div class="lp-card-biz" style="background: ${p.color}18; color: ${p.color};">${p.business}</div>
         </div>
         <div class="lp-card-links">
-          <a href="https://go.nunyabunya.com/${p.shortLink}" target="_blank">go.nunyabunya.com/${p.shortLink}</a>
-          <span class="sep">|</span>
+          ${shortLinkHtml}
           <a href="${previewUrl}" target="_blank">Full Preview</a>
           <span class="sep">|</span>
           <a href="${MAUTIC_URL}/s/forms/view/${p.formId}" target="_blank">Form</a>
