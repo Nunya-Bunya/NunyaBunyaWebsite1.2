@@ -290,6 +290,25 @@ export default async function handler(req, res) {
       } catch { return res.status(200).json({ clicks: 0 }); }
     }
 
+    // Generic Matomo API proxy — any method, server-side auth
+    if (action === 'service-matomo') {
+      const MATOMO_URL = process.env.MATOMO_URL || 'https://analytics.nunyabunya.com';
+      const MATOMO_TOKEN = process.env.MATOMO_AUTH_TOKEN;
+      if (!MATOMO_TOKEN) return res.status(200).json({ error: 'Matomo not configured' });
+      const { method: matomoMethod, ...rest } = req.query;
+      if (!matomoMethod) return res.status(400).json({ error: 'method required' });
+      const params = new URLSearchParams({ module: 'API', method: matomoMethod, format: 'JSON', token_auth: MATOMO_TOKEN, force_api_session: '1' });
+      // Forward all other query params
+      for (const [k, v] of Object.entries(rest)) {
+        if (k !== 'action') params.set(k, v);
+      }
+      try {
+        const r = await fetch(MATOMO_URL, { method: 'POST', body: params });
+        if (!r.ok) return res.status(200).json([]);
+        return res.status(200).json(await r.json());
+      } catch { return res.status(200).json([]); }
+    }
+
     if (action === 'service-matomo-views') {
       const MATOMO_URL = process.env.MATOMO_URL || 'https://analytics.nunyabunya.com';
       const MATOMO_TOKEN = process.env.MATOMO_AUTH_TOKEN;
