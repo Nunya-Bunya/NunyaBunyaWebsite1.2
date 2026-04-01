@@ -156,8 +156,8 @@
   async function refreshAll() {
     try {
       const [leadsData, contactsData] = await Promise.all([
-        NB_ADMIN.apiFetch('services?service=leads'),
-        NB_ADMIN.apiFetch('services?service=contacts'),
+        NB_ADMIN.apiFetch('data?action=service-leads'),
+        NB_ADMIN.apiFetch('data?action=service-contacts'),
       ]);
       allLeads = leadsData?.leads || [];
       allContacts = contactsData?.contacts || [];

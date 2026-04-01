@@ -258,7 +258,80 @@ export default async function handler(req, res) {
       return res.status(201).json(result);
     }
 
-    return res.status(400).json({ error: 'Unknown action. Use ?action=documents|benchmark|onboard' });
+    // ── External Service Proxies (keeps credentials server-side) ──
+
+    if (action === 'service-mautic-submissions') {
+      const MAUTIC_URL = process.env.MAUTIC_URL || 'https://mautic.nunyabunya.com';
+      const MAUTIC_USER = process.env.MAUTIC_API_USER;
+      const MAUTIC_PASS = process.env.MAUTIC_API_PASSWORD;
+      if (!MAUTIC_USER || !MAUTIC_PASS) return res.status(200).json({ total: 0 });
+      const auth = Buffer.from(`${MAUTIC_USER}:${MAUTIC_PASS}`).toString('base64');
+      const { formId } = req.query;
+      if (!formId) return res.status(200).json({ total: 0 });
+      try {
+        const r = await fetch(`${MAUTIC_URL}/api/forms/${formId}/submissions?limit=1`, { headers: { 'Authorization': `Basic ${auth}` } });
+        if (!r.ok) return res.status(200).json({ total: 0 });
+        const d = await r.json();
+        return res.status(200).json({ total: parseInt(d.total) || 0 });
+      } catch { return res.status(200).json({ total: 0 }); }
+    }
+
+    if (action === 'service-shlink-clicks') {
+      const SHLINK_URL = process.env.SHLINK_URL || 'https://go.nunyabunya.com';
+      const SHLINK_KEY = process.env.SHLINK_API_KEY;
+      if (!SHLINK_KEY) return res.status(200).json({ clicks: 0 });
+      const { slug } = req.query;
+      if (!slug) return res.status(200).json({ clicks: 0 });
+      try {
+        const r = await fetch(`${SHLINK_URL}/rest/v3/short-urls/${slug}`, { headers: { 'X-Api-Key': SHLINK_KEY } });
+        if (!r.ok) return res.status(200).json({ clicks: 0 });
+        const d = await r.json();
+        return res.status(200).json({ clicks: d.visitsSummary?.total || d.visitsCount || 0 });
+      } catch { return res.status(200).json({ clicks: 0 }); }
+    }
+
+    if (action === 'service-matomo-views') {
+      const MATOMO_URL = process.env.MATOMO_URL || 'https://analytics.nunyabunya.com';
+      const MATOMO_TOKEN = process.env.MATOMO_AUTH_TOKEN;
+      if (!MATOMO_TOKEN) return res.status(200).json({ views: 0 });
+      const { path: pagePath, siteId, period, date } = req.query;
+      if (!pagePath) return res.status(200).json({ views: 0 });
+      try {
+        const params = new URLSearchParams({
+          module: 'API', method: 'Actions.getPageUrl', pageUrl: pagePath,
+          idSite: siteId || '1', period: period || 'month', date: date || 'today',
+          format: 'JSON', token_auth: MATOMO_TOKEN, force_api_session: '1',
+        });
+        const r = await fetch(MATOMO_URL, { method: 'POST', body: params });
+        if (!r.ok) return res.status(200).json({ views: 0 });
+        const d = await r.json();
+        return res.status(200).json({ views: (d[0] && d[0].nb_visits) || 0 });
+      } catch { return res.status(200).json({ views: 0 }); }
+    }
+
+    if (action === 'service-pexels-search') {
+      const PEXELS_KEY = process.env.PEXELS_API_KEY;
+      if (!PEXELS_KEY) return res.status(200).json({ photos: [] });
+      const { query: q, per_page, orientation } = req.query;
+      if (!q) return res.status(200).json({ photos: [] });
+      try {
+        const r = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}&per_page=${per_page || 9}&orientation=${orientation || 'landscape'}`, { headers: { 'Authorization': PEXELS_KEY } });
+        if (!r.ok) return res.status(200).json({ photos: [] });
+        return res.status(200).json(await r.json());
+      } catch { return res.status(200).json({ photos: [] }); }
+    }
+
+    if (action === 'service-leads') {
+      const leads = await supabaseFetch('leads?order=created_at.desc&limit=200').catch(() => []);
+      return res.status(200).json({ total: (leads || []).length, leads: leads || [] });
+    }
+
+    if (action === 'service-contacts') {
+      const contacts = await supabaseFetch('contacts?order=created_at.desc&limit=200').catch(() => []);
+      return res.status(200).json({ total: (contacts || []).length, contacts: contacts || [] });
+    }
+
+    return res.status(400).json({ error: 'Unknown action.' });
   } catch (err) {
     console.error('Data API error:', err);
     return res.status(500).json({ error: 'Internal error.', details: err.message });

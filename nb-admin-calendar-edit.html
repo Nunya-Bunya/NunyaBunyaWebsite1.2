@@ -500,7 +500,7 @@
 
     // Use Pexels via backend proxy
     try {
-      const data = await NB_ADMIN.apiFetch(`services?service=pexels&action=search&query=${encodeURIComponent(topic)}&per_page=6&orientation=${orientation}`);
+      const data = await NB_ADMIN.apiFetch(`data?action=service-pexels-search&query=${encodeURIComponent(topic)}&per_page=6&orientation=${orientation}`);
       if (data.photos && data.photos.length) {
         // Show a simple picker
         const urls = data.photos.map(p => p.src.large2x);

@@ -172,21 +172,21 @@ async function loadData() {
 
 async function fetchClicks(shortLink) {
   try {
-    const r = await NB_ADMIN.apiFetch(`services?service=shlink&action=clicks&slug=${shortLink}`);
+    const r = await NB_ADMIN.apiFetch(`data?action=service-shlink-clicks&slug=${shortLink}`);
     return r?.clicks || 0;
   } catch { return 0; }
 }
 
 async function fetchViews(slug) {
   try {
-    const r = await NB_ADMIN.apiFetch(`services?service=matomo&action=page-views&path=/${slug}`);
+    const r = await NB_ADMIN.apiFetch(`data?action=service-matomo-views&path=/${slug}`);
     return r?.views || 0;
   } catch { return 0; }
 }
 
 async function fetchSubmissions(formId) {
   try {
-    const r = await NB_ADMIN.apiFetch(`services?service=mautic&action=form-submissions&formId=${formId}`);
+    const r = await NB_ADMIN.apiFetch(`data?action=service-mautic-submissions&formId=${formId}`);
     return r?.total || 0;
   } catch { return 0; }
 }
