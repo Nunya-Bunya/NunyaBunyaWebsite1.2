@@ -6,7 +6,7 @@
 <title>Brand Docs | NBHQ</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="/nb-admin-style.css">
 <style>
@@ -28,46 +28,48 @@
     display: flex; align-items: center; gap: 12px;
   }
   .bd-biz-dot { width: 10px; height: 10px; border-radius: 50%; }
-
   .bd-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
   @media (max-width: 1000px) { .bd-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 600px) { .bd-grid { grid-template-columns: 1fr; } }
-
   .bd-card {
     background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
     padding: 24px; transition: border-color 0.2s, transform 0.2s; cursor: pointer;
     text-decoration: none; color: inherit; display: block;
   }
   .bd-card:hover { border-color: var(--teal); transform: translateY(-2px); }
-
   .bd-card-icon { font-size: 28px; margin-bottom: 12px; }
-  .bd-card-title {
-    font-family: var(--font-heading); font-size: 16px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;
-  }
+  .bd-card-title { font-family: var(--font-heading); font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
   .bd-card-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.5; }
 
+  /* ===== VIEWER ===== */
   .bd-viewer {
     display: none; position: fixed; top: 0; left: 240px; right: 0; bottom: 0;
-    background: var(--dark); z-index: 50; overflow-y: auto; padding: 40px;
+    background: var(--dark); z-index: 50; overflow-y: auto;
   }
   .bd-viewer.show { display: block; }
   .bd-viewer-header {
+    position: sticky; top: 0; z-index: 10; background: var(--dark);
     display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--subtle);
+    padding: 20px 40px; border-bottom: 1px solid var(--subtle);
   }
-  .bd-viewer-title { font-family: var(--font-heading); font-size: 24px; font-weight: 700; text-transform: uppercase; }
-  .bd-viewer-close {
+  .bd-viewer-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; text-transform: uppercase; }
+  .bd-viewer-nav { display: flex; gap: 8px; align-items: center; }
+  .bd-viewer-btn {
     background: none; border: 1px solid var(--subtle); color: var(--muted);
-    padding: 8px 20px; border-radius: 8px; font-family: var(--font-heading);
+    padding: 8px 16px; border-radius: 8px; font-family: var(--font-heading);
     font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em;
-    cursor: pointer; transition: all 0.2s;
+    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;
   }
-  .bd-viewer-close:hover { color: var(--teal); border-color: var(--teal); }
+  .bd-viewer-btn:hover { color: var(--teal); border-color: var(--teal); }
+  .bd-viewer-btn:disabled { opacity: 0.3; cursor: default; }
+  .bd-viewer-btn:disabled:hover { color: var(--muted); border-color: var(--subtle); }
+  .bd-viewer-counter { font-size: 12px; color: var(--muted); padding: 0 8px; }
+  .bd-viewer-body { padding: 40px; }
   .bd-viewer-content {
     max-width: 800px; font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.8); font-weight: 300;
   }
   .bd-viewer-content h1 { font-family: var(--font-heading); font-size: 28px; font-weight: 900; text-transform: uppercase; color: var(--white); margin: 32px 0 16px; }
+  .bd-viewer-content h1:first-child { margin-top: 0; }
   .bd-viewer-content h2 { font-family: var(--font-heading); font-size: 20px; font-weight: 700; text-transform: uppercase; color: var(--teal); margin: 28px 0 12px; }
   .bd-viewer-content h3 { font-family: var(--font-heading); font-size: 16px; font-weight: 700; text-transform: uppercase; color: var(--white); margin: 20px 0 8px; }
   .bd-viewer-content p { margin-bottom: 12px; }
@@ -78,11 +80,53 @@
   .bd-viewer-content table { width: 100%; border-collapse: collapse; margin: 16px 0; }
   .bd-viewer-content th { text-align: left; padding: 10px 12px; background: var(--dark3); font-family: var(--font-heading); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); border-bottom: 1px solid var(--subtle); }
   .bd-viewer-content td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 14px; }
-  .bd-viewer-content pre { background: var(--dark3); padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 13px; margin: 12px 0; }
-  .bd-viewer-content blockquote { border-left: 3px solid var(--teal); padding-left: 16px; color: var(--muted); font-style: italic; margin: 12px 0; }
   .bd-viewer-content hr { border: none; border-top: 1px solid var(--subtle); margin: 24px 0; }
 
+  /* ===== VISUAL STYLE GUIDE ELEMENTS ===== */
+  .sg-section { margin: 32px 0; }
+  .sg-section-title {
+    font-family: var(--font-heading); font-size: 14px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
+    margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--subtle);
+  }
+
+  /* Colour swatches */
+  .sg-swatches { display: flex; flex-wrap: wrap; gap: 12px; }
+  .sg-swatch {
+    width: 100px; border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--subtle);
+  }
+  .sg-swatch-color { height: 64px; }
+  .sg-swatch-info { padding: 8px; background: var(--dark2); }
+  .sg-swatch-name { font-size: 11px; font-weight: 500; color: var(--white); }
+  .sg-swatch-hex { font-size: 10px; color: var(--muted); font-family: monospace; }
+
+  /* Type specimens */
+  .sg-type-specimen { margin-bottom: 20px; padding: 24px; background: var(--dark2); border-radius: 12px; border: 1px solid var(--subtle); }
+  .sg-type-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; font-family: var(--font-body); }
+
+  /* Component examples */
+  .sg-components { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+  .sg-component-box {
+    padding: 24px; background: var(--dark2); border-radius: 12px;
+    border: 1px solid var(--subtle); min-width: 200px;
+  }
+  .sg-component-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+
+  /* Signature element preview */
+  .sg-signature {
+    padding: 32px; border-radius: 16px; margin: 20px 0;
+    border: 1px solid var(--subtle); position: relative; overflow: hidden;
+  }
+  .sg-signature-label {
+    position: absolute; top: 12px; right: 12px; font-size: 9px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.1em; background: rgba(0,0,0,0.5);
+    padding: 3px 8px; border-radius: 4px;
+  }
+
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes counter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes grain { 0%,100% { transform: translate(0,0); } 10% { transform: translate(-2%,-3%); } 30% { transform: translate(3%,2%); } 50% { transform: translate(-1%,3%); } 70% { transform: translate(2%,-2%); } 90% { transform: translate(-3%,1%); } }
 </style>
 </head>
 <body>
@@ -95,13 +139,8 @@
         <div class="date">Foundational documents for every business</div>
       </div>
     </div>
-
-    <!-- Filters -->
     <div class="bd-filters" id="filterBar"></div>
-
-    <!-- Document Grid -->
     <div id="docsGrid"></div>
-
   </main>
 </div>
 
@@ -109,42 +148,43 @@
 <div class="bd-viewer" id="viewer">
   <div class="bd-viewer-header">
     <div class="bd-viewer-title" id="viewerTitle"></div>
-    <button class="bd-viewer-close" onclick="closeViewer()">Close</button>
+    <div class="bd-viewer-nav">
+      <button class="bd-viewer-btn" id="btnPrev" onclick="navDoc(-1)">&#8592; Prev</button>
+      <span class="bd-viewer-counter" id="docCounter"></span>
+      <button class="bd-viewer-btn" id="btnNext" onclick="navDoc(1)">Next &#8594;</button>
+      <button class="bd-viewer-btn" onclick="closeViewer()" style="margin-left: 12px;">Close &#10005;</button>
+    </div>
   </div>
-  <div class="bd-viewer-content" id="viewerContent"></div>
+  <div class="bd-viewer-body">
+    <div class="bd-viewer-content" id="viewerContent"></div>
+  </div>
 </div>
 
 <script src="/nb-admin-shared.js"></script>
 <script>
 const BRANDS = [
   {
-    name: 'Nunya Bunya',
-    id: 'nunya-bunya',
-    color: '#00E5CC',
+    name: 'Nunya Bunya', id: 'nunya-bunya', color: '#00E5CC',
     docs: [
-      { title: 'Style Guide', icon: '&#127912;', desc: 'Visual identity, colours, typography, motion, voice', file: 'nunya-bunya/style-guide.md' },
+      { title: 'Style Guide', icon: '&#127912;', desc: 'Visual identity, colours, typography, motion, voice', file: 'nunya-bunya/style-guide.md', visual: 'nb' },
       { title: 'Business Plan', icon: '&#128196;', desc: 'Mission, revenue model, targets, operations', file: 'nunya-bunya/business-plan.md' },
       { title: 'Competitive Analysis', icon: '&#128269;', desc: 'Market positioning, competitors, differentiators', file: 'nunya-bunya/competitive-analysis.md' },
       { title: 'SWOT Analysis', icon: '&#9878;', desc: 'Strengths, weaknesses, opportunities, threats', file: 'nunya-bunya/swot.md' },
     ]
   },
   {
-    name: 'Power Portraits',
-    id: 'power-portraits',
-    color: '#FFB800',
+    name: 'Power Portraits', id: 'power-portraits', color: '#FFB800',
     docs: [
-      { title: 'Style Guide', icon: '&#127912;', desc: 'Visual identity, photography direction, voice', file: 'power-portraits/style-guide.md' },
+      { title: 'Style Guide', icon: '&#127912;', desc: 'Visual identity, photography direction, voice', file: 'power-portraits/style-guide.md', visual: 'pp' },
       { title: 'Business Plan', icon: '&#128196;', desc: 'Two-tier pricing, targets, marketing strategy', file: 'power-portraits/business-plan.md' },
       { title: 'Competitive Analysis', icon: '&#128269;', desc: 'Brisbane headshot market, positioning', file: 'power-portraits/competitive-analysis.md' },
       { title: 'SWOT Analysis', icon: '&#9878;', desc: 'Strengths, weaknesses, opportunities, threats', file: 'power-portraits/swot.md' },
     ]
   },
   {
-    name: 'Ben Alek Conner',
-    id: 'ben-alek-conner',
-    color: '#9B59B6',
+    name: 'Ben Alek Conner', id: 'ben-alek-conner', color: '#9B59B6',
     docs: [
-      { title: 'Style Guide', icon: '&#127912;', desc: 'Cinematic identity, film grain, voice', file: 'ben-alek-conner/style-guide.md' },
+      { title: 'Style Guide', icon: '&#127912;', desc: 'Cinematic identity, film grain, voice', file: 'ben-alek-conner/style-guide.md', visual: 'bac' },
       { title: 'Business Plan', icon: '&#128196;', desc: 'Dual creative/business model, revenue streams', file: 'ben-alek-conner/business-plan.md' },
       { title: 'Competitive Analysis', icon: '&#128269;', desc: 'Director + consultant positioning, market gaps', file: 'ben-alek-conner/competitive-analysis.md' },
       { title: 'SWOT Analysis', icon: '&#9878;', desc: 'Strengths, weaknesses, opportunities, threats', file: 'ben-alek-conner/swot.md' },
@@ -152,6 +192,9 @@ const BRANDS = [
   },
 ];
 
+// Flat list of all docs for navigation
+const ALL_DOCS = BRANDS.flatMap(b => b.docs.map(d => ({ ...d, brand: b.name, brandColor: b.color })));
+let currentDocIndex = 0;
 let activeFilter = 'all';
 
 async function init() {
@@ -171,46 +214,261 @@ function renderFilters() {
 
 function render() {
   const filtered = activeFilter === 'all' ? BRANDS : BRANDS.filter(b => b.id === activeFilter);
-  const grid = document.getElementById('docsGrid');
-
-  grid.innerHTML = filtered.map((brand, gi) => `
+  document.getElementById('docsGrid').innerHTML = filtered.map((brand, gi) => `
     <div class="bd-biz-group" style="animation: fadeIn 0.3s ease ${gi * 80}ms both">
       <div class="bd-biz-label">
         <div class="bd-biz-dot" style="background: ${brand.color};"></div>
         ${brand.name}
       </div>
       <div class="bd-grid">
-        ${brand.docs.map((doc, di) => `
-          <a class="bd-card" onclick="openDoc('${doc.file}', '${brand.name} — ${doc.title}')" style="animation: fadeIn 0.3s ease ${(gi * 4 + di) * 60}ms both">
+        ${brand.docs.map((doc, di) => {
+          const globalIdx = ALL_DOCS.findIndex(d => d.file === doc.file);
+          return `<a class="bd-card" onclick="openDocByIndex(${globalIdx})" style="animation: fadeIn 0.3s ease ${(gi * 4 + di) * 60}ms both">
             <div class="bd-card-icon">${doc.icon}</div>
             <div class="bd-card-title">${doc.title}</div>
             <div class="bd-card-desc">${doc.desc}</div>
-          </a>
-        `).join('')}
+          </a>`;
+        }).join('')}
       </div>
     </div>
   `).join('');
 }
 
-async function openDoc(file, title) {
-  document.getElementById('viewerTitle').textContent = title;
+async function openDocByIndex(idx) {
+  currentDocIndex = idx;
+  const doc = ALL_DOCS[idx];
+  document.getElementById('viewerTitle').textContent = `${doc.brand} — ${doc.title}`;
+  document.getElementById('docCounter').textContent = `${idx + 1} / ${ALL_DOCS.length}`;
+  document.getElementById('btnPrev').disabled = (idx === 0);
+  document.getElementById('btnNext').disabled = (idx === ALL_DOCS.length - 1);
   document.getElementById('viewerContent').innerHTML = '<p style="color: var(--muted);">Loading...</p>';
   document.getElementById('viewer').classList.add('show');
+  document.getElementById('viewer').scrollTop = 0;
 
   try {
-    const res = await fetch(`/brand-docs/${file}`);
-    if (!res.ok) throw new Error('Failed to load');
+    const res = await fetch(`/brand-docs/${doc.file}`);
+    if (!res.ok) throw new Error('Failed');
     const md = await res.text();
-    document.getElementById('viewerContent').innerHTML = renderMarkdown(md);
+    let html = renderMarkdown(md);
+    if (doc.visual) html = renderVisualStyleGuide(doc.visual) + '<hr>' + html;
+    document.getElementById('viewerContent').innerHTML = html;
   } catch (e) {
     document.getElementById('viewerContent').innerHTML = '<p style="color: var(--magenta);">Failed to load document.</p>';
   }
 }
 
-function closeViewer() {
-  document.getElementById('viewer').classList.remove('show');
+function navDoc(dir) {
+  const next = currentDocIndex + dir;
+  if (next >= 0 && next < ALL_DOCS.length) openDocByIndex(next);
 }
 
+function closeViewer() { document.getElementById('viewer').classList.remove('show'); }
+
+// ===== VISUAL STYLE GUIDE RENDERERS =====
+function renderVisualStyleGuide(brand) {
+  if (brand === 'nb') return renderNBVisual();
+  if (brand === 'pp') return renderPPVisual();
+  if (brand === 'bac') return renderBACVisual();
+  return '';
+}
+
+function renderNBVisual() {
+  return `
+    <div class="sg-section">
+      <div class="sg-section-title">Colour Palette</div>
+      <div class="sg-swatches">
+        ${[
+          ['Teal', '#00E5CC'], ['Teal Glow', '#00E5CC26'], ['Magenta', '#FF4DDD'],
+          ['Chartreuse', '#7FFF00'], ['Dark', '#0D0D0D'], ['Dark 2', '#141414'],
+          ['Dark 3', '#1A1A1A'], ['White', '#FFFFFF'], ['Muted', '#FFFFFF73']
+        ].map(([n, c]) => `<div class="sg-swatch"><div class="sg-swatch-color" style="background:${c}"></div><div class="sg-swatch-info"><div class="sg-swatch-name">${n}</div><div class="sg-swatch-hex">${c}</div></div></div>`).join('')}
+      </div>
+    </div>
+    <div class="sg-section">
+      <div class="sg-section-title">Type Scale</div>
+      <div class="sg-type-specimen">
+        <div class="sg-type-label">Display / H1 — Barlow Condensed 900</div>
+        <div style="font-family:'Barlow Condensed'; font-weight:900; font-size:42px; text-transform:uppercase; line-height:1.05; color:#fff;">MAKING YOUR COMPETITORS WISH <span style="color:#00E5CC">YOU DIDN'T EXIST</span></div>
+      </div>
+      <div class="sg-type-specimen">
+        <div class="sg-type-label">H2 — Barlow Condensed 800</div>
+        <div style="font-family:'Barlow Condensed'; font-weight:800; font-size:28px; text-transform:uppercase; color:#fff;">HOW WE SHOW UP</div>
+      </div>
+      <div class="sg-type-specimen">
+        <div class="sg-type-label">Label — Barlow Condensed 700, 11px</div>
+        <div style="font-family:'Barlow Condensed'; font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:0.2em; color:#00E5CC;">AI-Powered Marketing</div>
+      </div>
+      <div class="sg-type-specimen">
+        <div class="sg-type-label">Body — Plus Jakarta Sans 300</div>
+        <div style="font-family:'Plus Jakarta Sans'; font-weight:300; font-size:15px; line-height:1.7; color:rgba(255,255,255,0.7);">We use AI and open-source tools to deliver real, measurable results. No guessing. No "spray and pray" content calendars. Everything we do is backed by performance data.</div>
+      </div>
+    </div>
+    <div class="sg-section">
+      <div class="sg-section-title">Signature Element — Data + Terminal Aesthetic</div>
+      <div class="sg-signature" style="background:#0D0D0D;">
+        <div class="sg-signature-label">Live Preview</div>
+        <div style="font-family:monospace; font-size:13px; color:#00E5CC; margin-bottom:16px;">
+          <span style="color:#FF4DDD;">$</span> nb-analytics --report weekly<br>
+          <span style="color:rgba(255,255,255,0.4);">Fetching data from Matomo...</span><br>
+          <span style="color:#00E5CC;">Visitors:</span> <span style="color:#fff; font-weight:700; font-size:22px;">1,247</span>
+          &nbsp;&nbsp;<span style="color:#00E5CC;">Leads:</span> <span style="color:#fff; font-weight:700; font-size:22px;">34</span>
+          &nbsp;&nbsp;<span style="color:#00E5CC;">Conv:</span> <span style="color:#7FFF00; font-weight:700; font-size:22px;">2.7%</span>
+        </div>
+        <div style="display:flex; gap:12px; align-items:flex-end; height:60px;">
+          ${[30,45,25,60,40,75,55,80,65,90,70,85].map((h,i) => `<div style="width:20px; height:${h}%; background:linear-gradient(to top, #00E5CC, #00E5CC88); border-radius:3px 3px 0 0; animation: counter 0.5s ease ${i*60}ms both;"></div>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div class="sg-section">
+      <div class="sg-section-title">Components</div>
+      <div class="sg-components">
+        <div class="sg-component-box">
+          <div class="sg-component-label">Primary CTA</div>
+          <div style="display:inline-block; background:#00E5CC; color:#0D0D0D; padding:14px 32px; font-family:'Barlow Condensed'; font-weight:800; font-size:14px; text-transform:uppercase; letter-spacing:0.04em; border-radius:0;">BOOK YOUR FREE AUDIT</div>
+        </div>
+        <div class="sg-component-box">
+          <div class="sg-component-label">Secondary CTA</div>
+          <div style="display:inline-block; border:1px solid #00E5CC; color:#00E5CC; padding:14px 32px; font-family:'Barlow Condensed'; font-weight:700; font-size:14px; text-transform:uppercase; letter-spacing:0.04em;">SEE OUR PACKAGES</div>
+        </div>
+        <div class="sg-component-box">
+          <div class="sg-component-label">Badge / Tag</div>
+          <div style="display:inline-block; border:1px solid rgba(0,229,204,0.3); color:#00E5CC; padding:6px 16px; border-radius:100px; font-family:'Barlow Condensed'; font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:0.15em;">100% Free</div>
+        </div>
+        <div class="sg-component-box" style="background:#0D0D0D;">
+          <div class="sg-component-label">Noise Texture Overlay</div>
+          <div style="position:relative; height:60px; border-radius:8px; overflow:hidden; background:linear-gradient(135deg, rgba(0,229,204,0.08), rgba(255,77,221,0.05));">
+            <div style="position:absolute; inset:0; background-image:url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E'); background-size:180px; opacity:0.06;"></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderPPVisual() {
+  return `
+    <div class="sg-section">
+      <div class="sg-section-title">Colour Palette</div>
+      <div class="sg-swatches">
+        ${[
+          ['Black', '#080808'], ['Deep', '#0e0e0e'], ['Card', '#141414'],
+          ['Border', '#1e1e1e'], ['Gold', '#b8953f'], ['Gold Light', '#C9A84C'],
+          ['White (warm)', '#f2ede8'], ['Muted', '#6b6560']
+        ].map(([n, c]) => `<div class="sg-swatch"><div class="sg-swatch-color" style="background:${c}"></div><div class="sg-swatch-info"><div class="sg-swatch-name">${n}</div><div class="sg-swatch-hex">${c}</div></div></div>`).join('')}
+      </div>
+    </div>
+    <div class="sg-section">
+      <div class="sg-section-title">Type Scale</div>
+      <div class="sg-type-specimen" style="background:#080808;">
+        <div class="sg-type-label">Display / H1 — Cormorant Garamond Light</div>
+        <div style="font-family:'Cormorant Garamond'; font-weight:300; font-size:44px; line-height:1.1; color:#f2ede8;">Portraits That<br><em style="color:#b8953f;">Command Attention</em></div>
+      </div>
+      <div class="sg-type-specimen" style="background:#080808;">
+        <div class="sg-type-label">H2 — Cormorant Garamond Regular</div>
+        <div style="font-family:'Cormorant Garamond'; font-weight:400; font-size:30px; color:#f2ede8;">Your Image, <em style="color:#b8953f;">Elevated</em></div>
+      </div>
+      <div class="sg-type-specimen" style="background:#080808;">
+        <div class="sg-type-label">Label — Montserrat Medium, 10px</div>
+        <div style="font-family:'Montserrat'; font-weight:500; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#b8953f;">Now Booking</div>
+      </div>
+      <div class="sg-type-specimen" style="background:#080808;">
+        <div class="sg-type-label">Body — Montserrat Light</div>
+        <div style="font-family:'Montserrat'; font-weight:300; font-size:14px; line-height:1.8; color:#6b6560;">Professional portraits for leaders, creatives, and entrepreneurs who want to look as good as they are.</div>
+      </div>
+    </div>
+    <div class="sg-section">
+      <div class="sg-section-title">Signature Element — Full-Bleed Photography</div>
+      <div class="sg-signature" style="background:#080808; padding:0; height:200px; display:flex; align-items:center; justify-content:center;">
+        <div class="sg-signature-label">Concept</div>
+        <div style="text-align:center; padding:32px;">
+          <div style="font-family:'Montserrat'; font-size:9px; font-weight:500; text-transform:uppercase; letter-spacing:0.3em; color:#b8953f; margin-bottom:12px;">The image is everything</div>
+          <div style="font-family:'Cormorant Garamond'; font-size:28px; font-weight:300; color:#f2ede8; line-height:1.2;">Photography dominates.<br>Text supports.<br><em style="color:#b8953f;">Less is more.</em></div>
+        </div>
+      </div>
+    </div>
+    <div class="sg-section">
+      <div class="sg-section-title">Components</div>
+      <div class="sg-components">
+        <div class="sg-component-box" style="background:#080808;">
+          <div class="sg-component-label">Primary CTA</div>
+          <div style="display:inline-block; border:1px solid #b8953f; color:#b8953f; padding:14px 32px; font-family:'Montserrat'; font-weight:400; font-size:12px; text-transform:uppercase; letter-spacing:0.15em; border-radius:10px;">Book Your Session</div>
+        </div>
+        <div class="sg-component-box" style="background:#080808;">
+          <div class="sg-component-label">Logo Treatment</div>
+          <div style="font-family:'Cormorant Garamond'; font-size:22px; font-weight:300; letter-spacing:0.15em; text-transform:uppercase; color:#f2ede8;">Power <em style="color:#b8953f;">Portraits</em></div>
+        </div>
+        <div class="sg-component-box" style="background:#080808;">
+          <div class="sg-component-label">Urgency Badge</div>
+          <div style="display:inline-block; background:rgba(184,149,63,0.12); color:#b8953f; font-family:'Montserrat'; font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.2em; padding:8px 20px; border-radius:100px;">Limited to 8 Spots</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderBACVisual() {
+  return `
+    <div class="sg-section">
+      <div class="sg-section-title">Colour Palette</div>
+      <div class="sg-swatches">
+        ${[
+          ['Black', '#0a0a0a'], ['Surface', '#141414'], ['Surface Hover', '#1a1a1a'],
+          ['Border', '#222222'], ['Gold', '#d4a853'], ['Gold Glow', '#d4a85326'],
+          ['Foreground', '#f5f5f5'], ['Muted', '#999999']
+        ].map(([n, c]) => `<div class="sg-swatch"><div class="sg-swatch-color" style="background:${c}"></div><div class="sg-swatch-info"><div class="sg-swatch-name">${n}</div><div class="sg-swatch-hex">${c}</div></div></div>`).join('')}
+      </div>
+    </div>
+    <div class="sg-section">
+      <div class="sg-section-title">Type Scale</div>
+      <div class="sg-type-specimen" style="background:#0a0a0a;">
+        <div class="sg-type-label">Display / H1 — Barlow Condensed 900</div>
+        <div style="font-family:'Barlow Condensed'; font-weight:900; font-size:42px; text-transform:uppercase; line-height:1.05; color:#f5f5f5;">LET'S <span style="color:#d4a853;">WORK TOGETHER</span></div>
+      </div>
+      <div class="sg-type-specimen" style="background:#0a0a0a;">
+        <div class="sg-type-label">Tag — Barlow Condensed 600, 11px</div>
+        <div style="font-family:'Barlow Condensed'; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.2em; color:#d4a853;">Select Projects Only</div>
+      </div>
+      <div class="sg-type-specimen" style="background:#0a0a0a;">
+        <div class="sg-type-label">Body — Plus Jakarta Sans 300</div>
+        <div style="font-family:'Plus Jakarta Sans'; font-weight:300; font-size:16px; line-height:1.7; color:#999;">Director, consultant, and creative strategist. Available for select projects in film, content, and digital strategy.</div>
+      </div>
+    </div>
+    <div class="sg-section">
+      <div class="sg-section-title">Signature Element — Cinematic Framing</div>
+      <div class="sg-signature" style="background:#0a0a0a; padding:0; position:relative;">
+        <div class="sg-signature-label">Concept</div>
+        <!-- Letterbox bars -->
+        <div style="height:32px; background:#000;"></div>
+        <div style="padding:32px 40px; position:relative;">
+          <!-- Film grain effect -->
+          <div style="position:absolute; inset:0; background-image:url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.7%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E'); background-size:200px; opacity:0.03; animation:grain 8s steps(10) infinite;"></div>
+          <div style="position:relative; z-index:2;">
+            <div style="font-family:'Barlow Condensed'; font-weight:600; font-size:10px; text-transform:uppercase; letter-spacing:0.2em; color:#d4a853; margin-bottom:12px;">Scene 1 &mdash; Interior, Studio</div>
+            <div style="font-family:'Barlow Condensed'; font-weight:900; font-size:32px; text-transform:uppercase; line-height:1.1; color:#f5f5f5;">Every page should feel<br>like a <span style="color:#d4a853;">frame from a film</span></div>
+            <div style="font-family:'Plus Jakarta Sans'; font-weight:300; font-size:14px; color:#999; margin-top:12px;">Letterboxed. Grainy. Warm. Unhurried.</div>
+          </div>
+        </div>
+        <div style="height:32px; background:#000;"></div>
+      </div>
+    </div>
+    <div class="sg-section">
+      <div class="sg-section-title">Components</div>
+      <div class="sg-components">
+        <div class="sg-component-box" style="background:#0a0a0a;">
+          <div class="sg-component-label">Logo Treatment</div>
+          <div style="font-family:'Barlow Condensed'; font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#f5f5f5;">Ben Alek <span style="color:#d4a853;">Conner</span></div>
+        </div>
+        <div class="sg-component-box" style="background:#0a0a0a;">
+          <div class="sg-component-label">Badge</div>
+          <div style="display:inline-block; background:rgba(212,168,83,0.15); color:#d4a853; font-family:'Barlow Condensed'; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; padding:6px 18px; border-radius:100px;">15 Minutes &middot; Free</div>
+        </div>
+        <div class="sg-component-box" style="background:#0a0a0a;">
+          <div class="sg-component-label">Role Descriptor</div>
+          <div style="font-size:11px; color:#999; letter-spacing:0.1em; text-transform:uppercase;">Director &middot; Consultant</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ===== MARKDOWN RENDERER =====
 function renderMarkdown(md) {
   return md
     .replace(/^### (.+)$/gm, '<h3>$1</h3>')
@@ -245,7 +503,13 @@ function setupFilters() {
   });
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeViewer(); });
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('viewer').classList.contains('show')) return;
+  if (e.key === 'Escape') closeViewer();
+  if (e.key === 'ArrowLeft') navDoc(-1);
+  if (e.key === 'ArrowRight') navDoc(1);
+});
 
 init();
 </script>
