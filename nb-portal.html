@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Portal | Nunya Bunya</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<style>
+  :root {
+    --dark: #0D0D0D; --dark2: #141414; --dark3: #1A1A1A;
+    --teal: #00E5CC; --magenta: #FF4DDD; --white: #FFFFFF;
+    --muted: rgba(255,255,255,0.45); --subtle: rgba(255,255,255,0.07);
+    --font-heading: 'Barlow Condensed', sans-serif; --font-body: 'Plus Jakarta Sans', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-body); background: var(--dark); color: var(--white); min-height: 100vh; }
+
+  .portal-header {
+    padding: 24px 40px; border-bottom: 1px solid var(--subtle);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .portal-logo { display: flex; align-items: center; gap: 10px; }
+  .portal-logo img { height: 28px; }
+  .portal-logo span { font-family: var(--font-heading); font-size: 18px; font-weight: 700; text-transform: uppercase; }
+  .portal-logo span em { color: var(--teal); font-style: normal; }
+  .portal-client-name {
+    font-family: var(--font-heading); font-size: 14px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--teal);
+  }
+
+  .portal-main { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+
+  .portal-welcome {
+    margin-bottom: 32px;
+  }
+  .portal-welcome h1 {
+    font-family: var(--font-heading); font-size: 32px; font-weight: 900;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .portal-welcome h1 span { color: var(--teal); }
+  .portal-welcome p { font-size: 15px; color: var(--muted); font-weight: 300; }
+
+  .portal-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .portal-kpi {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px; padding: 24px;
+  }
+  .portal-kpi-num { font-family: var(--font-heading); font-weight: 900; font-size: 36px; color: var(--teal); }
+  .portal-kpi-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+  .portal-section { margin-bottom: 32px; }
+  .portal-section-title {
+    font-family: var(--font-heading); font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+    margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--subtle);
+  }
+
+  .portal-report {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
+    padding: 20px; margin-bottom: 12px;
+  }
+  .portal-report-title { font-family: var(--font-heading); font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .portal-report-date { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .portal-report-summary { font-size: 14px; color: rgba(255,255,255,0.7); font-weight: 300; line-height: 1.6; }
+
+  .portal-content-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0; border-bottom: 1px solid var(--subtle);
+  }
+  .portal-content-item:last-child { border-bottom: none; }
+  .portal-content-name { font-size: 14px; font-weight: 400; }
+  .portal-content-status {
+    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 3px 10px; border-radius: 6px;
+  }
+
+  .portal-footer {
+    text-align: center; padding: 24px; border-top: 1px solid var(--subtle);
+    font-size: 12px; color: var(--muted); margin-top: 40px;
+  }
+  .portal-footer a { color: var(--teal); text-decoration: none; }
+
+  .portal-empty { text-align: center; padding: 40px; color: var(--muted); font-size: 14px; }
+
+  .portal-error {
+    text-align: center; padding: 80px 20px; color: var(--muted);
+  }
+  .portal-error h2 { font-family: var(--font-heading); font-size: 24px; color: var(--magenta); margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="portal-header">
+  <div class="portal-logo"><img src="/images/logo-icon-white.png" alt="NB"> <span>NUNYA<em>BUNYA</em></span></div>
+  <div class="portal-client-name" id="clientName"></div>
+</div>
+
+<div class="portal-main" id="portalMain">
+  <div style="text-align:center; padding:60px; color:var(--muted);">Loading your dashboard...</div>
+</div>
+
+<div class="portal-footer">
+  Powered by <a href="https://nunyabunya.com" target="_blank">Nunya Bunya</a> &middot; Questions? <a href="mailto:ben@nunyabunya.com">ben@nunyabunya.com</a>
+</div>
+
+<script>
+const SUPABASE_URL = 'SUPABASE_URL_PLACEHOLDER';
+const SUPABASE_KEY = 'SUPABASE_KEY_PLACEHOLDER';
+
+async function init() {
+  const params = new URLSearchParams(window.location.search);
+  const clientSlug = params.get('client');
+  const token = params.get('token');
+
+  if (!clientSlug || !token) {
+    showError('Invalid portal link. Please contact your account manager for a new link.');
+    return;
+  }
+
+  // Validate token (simple base64 check)
+  try {
+    const decoded = JSON.parse(atob(token.replace(/-/g, '+').replace(/_/g, '/')));
+    if (decoded.client !== clientSlug) throw new Error('Token mismatch');
+  } catch {
+    showError('Invalid or expired portal link. Please contact your account manager.');
+    return;
+  }
+
+  document.getElementById('clientName').textContent = clientSlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+  // Fetch client data from admin API (using a public endpoint)
+  try {
+    const [clientData, reports, deliverables] = await Promise.allSettled([
+      fetchPublic(`clients?client_slug=eq.${clientSlug}&limit=1`),
+      fetchPublic(`weekly_reports?client_name=eq.${encodeURIComponent(clientSlug)}&order=report_date.desc&limit=5`),
+      fetchPublic(`content_campaigns?client_name=eq.${encodeURIComponent(clientSlug)}&order=created_at.desc&limit=10`),
+    ]);
+
+    const client = (clientData.value || [])[0];
+    const reportsList = reports.value || [];
+    const contentList = deliverables.value || [];
+
+    renderPortal(client, clientSlug, reportsList, contentList);
+  } catch (e) {
+    showError('Unable to load your dashboard. Please try again later.');
+  }
+}
+
+async function fetchPublic(path) {
+  // Try to use the anon key for read-only Supabase access
+  const url = document.querySelector('meta[name="supabase-url"]')?.content;
+  const key = document.querySelector('meta[name="supabase-key"]')?.content;
+
+  if (url && key) {
+    const res = await fetch(`${url}/rest/v1/${path}`, {
+      headers: { 'apikey': key, 'Authorization': `Bearer ${key}` },
+    });
+    if (res.ok) return res.json();
+  }
+
+  // Fallback: return empty
+  return [];
+}
+
+function renderPortal(client, slug, reports, content) {
+  const name = client?.client_name || slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  document.getElementById('clientName').textContent = name;
+
+  document.getElementById('portalMain').innerHTML = `
+    <div class="portal-welcome">
+      <h1>Welcome, <span>${name}</span></h1>
+      <p>Here's an overview of your marketing performance and recent activity.</p>
+    </div>
+
+    <div class="portal-kpis">
+      <div class="portal-kpi">
+        <div class="portal-kpi-num">${reports.length}</div>
+        <div class="portal-kpi-label">Reports Available</div>
+      </div>
+      <div class="portal-kpi">
+        <div class="portal-kpi-num">${content.length}</div>
+        <div class="portal-kpi-label">Content Pieces</div>
+      </div>
+      <div class="portal-kpi">
+        <div class="portal-kpi-num">${client?.platforms?.length || 0}</div>
+        <div class="portal-kpi-label">Active Platforms</div>
+      </div>
+      <div class="portal-kpi">
+        <div class="portal-kpi-num" style="color: var(--magenta);">${client?.tier || 'Active'}</div>
+        <div class="portal-kpi-label">Your Plan</div>
+      </div>
+    </div>
+
+    <div class="portal-section">
+      <div class="portal-section-title">Recent Reports</div>
+      ${reports.length ? reports.map(r => `
+        <div class="portal-report">
+          <div class="portal-report-title">${r.title || 'Weekly Report'}</div>
+          <div class="portal-report-date">${r.report_date ? new Date(r.report_date).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' }) : ''}</div>
+          <div class="portal-report-summary">${r.executive_summary || r.full_report?.executive_summary || 'Report available.'}</div>
+        </div>
+      `).join('') : '<div class="portal-empty">No reports yet. Your first report will appear here after your first week.</div>'}
+    </div>
+
+    <div class="portal-section">
+      <div class="portal-section-title">Recent Content</div>
+      ${content.length ? content.map(c => {
+        const status = c.status || 'draft';
+        const statusColor = status === 'published' ? 'rgba(0,229,204,0.12)' : status === 'approved' ? 'rgba(0,229,204,0.12)' : 'rgba(255,255,255,0.06)';
+        const statusTextColor = status === 'published' ? 'var(--teal)' : status === 'approved' ? 'var(--teal)' : 'var(--muted)';
+        return `
+          <div class="portal-content-item">
+            <span class="portal-content-name">${c.topic || 'Content Piece'}</span>
+            <span class="portal-content-status" style="background:${statusColor}; color:${statusTextColor};">${status}</span>
+          </div>`;
+      }).join('') : '<div class="portal-empty">No content yet. Your first content pieces will appear here soon.</div>'}
+    </div>
+
+    ${client?.platforms?.length ? `
+    <div class="portal-section">
+      <div class="portal-section-title">Active Platforms</div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        ${client.platforms.map(p => `<div style="background:var(--dark2); border:1px solid var(--subtle); border-radius:8px; padding:10px 16px; font-size:14px;">${p}</div>`).join('')}
+      </div>
+    </div>` : ''}
+  `;
+}
+
+function showError(msg) {
+  document.getElementById('portalMain').innerHTML = `
+    <div class="portal-error">
+      <h2>Access Denied</h2>
+      <p>${msg}</p>
+    </div>`;
+}
+
+init();
+</script>
+</body>
+</html>
