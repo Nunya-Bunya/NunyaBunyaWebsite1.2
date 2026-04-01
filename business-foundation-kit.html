@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Foundation Kit — $199 | Nunya Bunya</title>
+<meta name="description" content="Answer 50 questions about your business. Get 20 professionally written foundation documents back — brand strategy, sales playbook, financial model, and more. $199.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.nunyabunya.com/business-foundation-kit">
+<meta property="og:title" content="Business Foundation Kit — 20 Documents for $199 | Nunya Bunya">
+<meta property="og:description" content="Answer 50 questions. Get 20 professionally written business documents — brand strategy, sales playbook, pricing model, and more.">
+<meta property="og:image" content="https://www.nunyabunya.com/images/og-image.png">
+<meta property="og:site_name" content="Nunya Bunya">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Business Foundation Kit — 20 Documents for $199 | Nunya Bunya">
+<meta name="twitter:description" content="Answer 50 questions. Get 20 professionally written business documents — brand strategy, sales playbook, pricing model, and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="style-v2.css">
+<style>
+/* ═══════════ SURVEY-SPECIFIC STYLES ═══════════ */
+
+/* Progress Bar */
+.survey-progress {
+  position: sticky; top: 60px; z-index: 50;
+  background: var(--dark2); border-bottom: 1px solid var(--subtle);
+  padding: 16px 48px;
+}
+.progress-bar-wrap {
+  max-width: 700px; margin: 0 auto;
+}
+.progress-steps {
+  display: flex; justify-content: space-between; margin-bottom: 8px;
+}
+.progress-step-label {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.2); transition: color 0.3s;
+  text-align: center; flex: 1;
+}
+.progress-step-label.active { color: var(--teal); }
+.progress-step-label.done { color: rgba(0,229,204,0.5); }
+.progress-bar-track {
+  width: 100%; height: 3px; background: var(--subtle); position: relative;
+}
+.progress-bar-fill {
+  height: 100%; background: var(--teal); transition: width 0.4s ease;
+  box-shadow: 0 0 12px rgba(0,229,204,0.4);
+}
+.progress-counter {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); text-align: center; margin-top: 8px;
+}
+.progress-counter span { color: var(--teal); }
+
+/* Survey Container */
+.survey-container {
+  max-width: 700px; margin: 0 auto; padding: 0 24px;
+}
+
+/* Step Sections */
+.survey-step {
+  display: none;
+  animation: fadeInStep 0.4s ease;
+}
+.survey-step.active { display: block; }
+@keyframes fadeInStep {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-header {
+  margin-bottom: 40px; padding-bottom: 24px;
+  border-bottom: 1px solid var(--subtle);
+}
+.step-number {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 8px;
+}
+.step-title {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: clamp(28px, 5vw, 40px); text-transform: uppercase;
+  letter-spacing: 0.02em; line-height: 1.1; margin-bottom: 8px;
+}
+.step-subtitle {
+  font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.6;
+}
+
+/* Question styling */
+.question-block {
+  margin-bottom: 32px; padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.question-block:last-child { border-bottom: none; }
+.question-number {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 6px; display: block;
+}
+.question-text {
+  font-family: var(--font-body); font-weight: 500;
+  font-size: 16px; color: var(--white); margin-bottom: 4px;
+  line-height: 1.5;
+}
+.question-hint {
+  font-size: 12px; color: rgba(255,255,255,0.3); font-weight: 300;
+  line-height: 1.5; margin-bottom: 12px; font-style: italic;
+}
+
+/* Radio/Checkbox options */
+.option-group {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.option-item {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--dark3); border: 1px solid rgba(255,255,255,0.06);
+  padding: 14px 16px; cursor: pointer; transition: all 0.2s;
+}
+.option-item:hover {
+  border-color: rgba(0,229,204,0.3); background: rgba(0,229,204,0.04);
+}
+.option-item input[type="radio"],
+.option-item input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none;
+  width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.2);
+  background: transparent; flex-shrink: 0; cursor: pointer;
+  position: relative; transition: all 0.2s;
+}
+.option-item input[type="radio"] { border-radius: 50%; }
+.option-item input[type="checkbox"] { border-radius: 3px; }
+.option-item input[type="radio"]:checked,
+.option-item input[type="checkbox"]:checked {
+  border-color: var(--teal); background: var(--teal);
+}
+.option-item input[type="radio"]:checked::after {
+  content: ''; position: absolute;
+  top: 3px; left: 3px; width: 8px; height: 8px;
+  background: var(--dark); border-radius: 50%;
+}
+.option-item input[type="checkbox"]:checked::after {
+  content: '\2713'; position: absolute;
+  top: -1px; left: 2px; font-size: 12px;
+  color: var(--dark); font-weight: 900;
+}
+.option-item label {
+  font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.7);
+  cursor: pointer; flex: 1;
+}
+.option-item.selected {
+  border-color: rgba(0,229,204,0.4); background: rgba(0,229,204,0.06);
+}
+.option-item.selected label { color: var(--white); }
+
+/* Other input for radio/checkbox */
+.option-other-input {
+  background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.15);
+  color: var(--white); font-family: var(--font-body); font-size: 14px;
+  font-weight: 300; padding: 4px 0; outline: none; width: 200px;
+  transition: border-color 0.2s;
+}
+.option-other-input:focus { border-color: var(--teal); }
+
+/* Checkbox grid for Q43 */
+.checkbox-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+
+/* Navigation Buttons */
+.survey-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 40px 0 80px; gap: 16px;
+}
+.btn-back {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); background: none; border: 1px solid var(--subtle);
+  padding: 16px 32px; cursor: pointer; transition: all 0.2s;
+}
+.btn-back:hover { color: var(--white); border-color: rgba(255,255,255,0.3); }
+.btn-next {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--dark); background: var(--teal); border: none;
+  padding: 18px 40px; cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn-next:hover { background: var(--magenta); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255,77,221,0.3); }
+.btn-next:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Sales Hero */
+.sales-hero { padding: 160px 0 80px; position: relative; overflow: hidden; }
+.sales-hero .container { position: relative; z-index: 2; }
+.price-tag {
+  display: inline-block; background: var(--teal);
+  color: var(--dark); font-family: var(--font-heading);
+  font-weight: 900; font-size: 18px; letter-spacing: 0.1em;
+  padding: 8px 20px; margin-bottom: 24px;
+}
+
+/* Document list */
+.doc-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin: 40px 0;
+}
+.doc-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.65);
+  padding: 10px 14px; background: var(--dark3);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.doc-item::before {
+  content: '\2713'; color: var(--teal);
+  font-weight: 700; font-size: 14px; flex-shrink: 0;
+}
+
+/* How it works */
+.how-steps {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  margin: 40px 0;
+}
+.how-step {
+  text-align: center; padding: 32px 20px;
+  background: var(--dark3); border: 1px solid var(--subtle);
+}
+.how-step-num {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 48px; color: var(--teal); line-height: 1;
+  margin-bottom: 12px;
+}
+.how-step h4 {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.how-step p { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; }
+
+/* CTA section */
+.cta-begin {
+  text-align: center; padding: 60px 0 80px;
+}
+
+/* Success screen */
+.survey-success {
+  display: none; text-align: center; padding: 120px 0;
+}
+.survey-success.active { display: block; }
+.survey-success-icon {
+  font-size: 64px; margin-bottom: 24px;
+}
+.survey-success h2 {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 48px; text-transform: uppercase; letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+.survey-success h2 span { color: var(--teal); }
+.survey-success p {
+  font-size: 16px; color: var(--muted); font-weight: 300;
+  line-height: 1.7; max-width: 500px; margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .survey-progress { padding: 12px 16px; top: 56px; }
+  .progress-steps { display: none; }
+  .doc-grid { grid-template-columns: 1fr; }
+  .how-steps { grid-template-columns: 1fr; }
+  .checkbox-grid { grid-template-columns: 1fr; }
+  .survey-nav { flex-direction: column; }
+  .btn-back, .btn-next { width: 100%; text-align: center; }
+  .sales-hero { padding: 120px 0 60px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo"><img src="images/logo-icon-white.png" alt="Nunya Bunya"> NUNYA <span>BUNYA</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="portfolio.html">Work</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html" class="nav-cta">Let's Talk</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ═══════════ SALES HERO ═══════════ -->
+<section class="sales-hero" id="salesSection">
+  <div class="hero-orb-1"></div>
+  <div class="hero-orb-2"></div>
+  <div class="container">
+    <div class="section-label">New Product</div>
+    <h1 style="font-family:var(--font-heading);font-weight:900;font-size:clamp(40px,8vw,72px);text-transform:uppercase;letter-spacing:0.02em;line-height:1;">Business<br>Foundation <span style="color:var(--teal);">Kit</span></h1>
+    <p style="font-size:18px;color:var(--muted);font-weight:300;line-height:1.7;max-width:560px;margin:24px 0 32px;">Answer 50 questions about your business. We turn your answers into <strong style="color:var(--white);">20 professionally written documents</strong> that give your business a real foundation.</p>
+    <div class="price-tag">$199 AUD</div>
+
+    <div class="doc-grid">
+      <div class="doc-item">Ideal Customer Profile</div>
+      <div class="doc-item">Value Proposition Canvas</div>
+      <div class="doc-item">Offer Stack & Pricing Doc</div>
+      <div class="doc-item">Brand Positioning Statement</div>
+      <div class="doc-item">Pitch Deck (10 Slides)</div>
+      <div class="doc-item">Sales Playbook</div>
+      <div class="doc-item">Service Delivery Framework</div>
+      <div class="doc-item">CRM Pipeline Definition</div>
+      <div class="doc-item">Messaging Framework</div>
+      <div class="doc-item">Brand Voice & Tone Guide</div>
+      <div class="doc-item">Visual Style Guide</div>
+      <div class="doc-item">Content Strategy</div>
+      <div class="doc-item">Core SOPs (3 Documents)</div>
+      <div class="doc-item">Contracts & Agreements</div>
+      <div class="doc-item">Financial Model & Forecast</div>
+      <div class="doc-item">Pricing & Unit Economics</div>
+      <div class="doc-item">Competitive Analysis</div>
+      <div class="doc-item">Conversion Funnel Map</div>
+      <div class="doc-item">Lead Generation Strategy</div>
+      <div class="doc-item">Lean Business Plan</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section-dark section-pad">
+  <div class="container">
+    <div class="section-label" style="text-align:center;">How It Works</div>
+    <h2 style="font-family:var(--font-heading);font-weight:900;font-size:clamp(28px,5vw,44px);text-transform:uppercase;letter-spacing:0.02em;text-align:center;margin-bottom:8px;">Three steps. <span style="color:var(--teal);">That's it.</span></h2>
+    <p style="text-align:center;color:var(--muted);font-weight:300;max-width:480px;margin:0 auto 40px;">No back-and-forth. No meetings. Just answer honestly and we do the rest.</p>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-step-num">01</div>
+        <h4>Fill Out the Survey</h4>
+        <p>50 questions about your business, customers, brand, and goals. Takes about 30 minutes.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">02</div>
+        <h4>We Build Your Docs</h4>
+        <p>Our team turns your answers into 20 tailored, professional documents within 48 hours.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">03</div>
+        <h4>Launch With Clarity</h4>
+        <p>You get a complete business foundation — brand, sales, operations, finances — ready to execute.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA TO BEGIN -->
+<section class="section-pad cta-begin">
+  <div class="container">
+    <h2 style="font-family:var(--font-heading);font-weight:900;font-size:clamp(28px,5vw,40px);text-transform:uppercase;letter-spacing:0.02em;margin-bottom:16px;">Ready? Let's <span style="color:var(--teal);">build your foundation.</span></h2>
+    <p style="color:var(--muted);font-weight:300;max-width:480px;margin:0 auto 32px;">The survey takes about 30 minutes. Your answers are saved as you go. You'll pay after submitting.</p>
+    <button class="btn-next" onclick="startSurvey()" id="beginBtn">Start the Survey</button>
+  </div>
+</section>
+
+<!-- ═══════════ PROGRESS BAR (hidden until survey starts) ═══════════ -->
+<div class="survey-progress" id="progressBar" style="display:none;">
+  <div class="progress-bar-wrap">
+    <div class="progress-steps">
+      <div class="progress-step-label active" data-step="1">You</div>
+      <div class="progress-step-label" data-step="2">Customers</div>
+      <div class="progress-step-label" data-step="3">Offer</div>
+      <div class="progress-step-label" data-step="4">Competition</div>
+      <div class="progress-step-label" data-step="5">Brand</div>
+      <div class="progress-step-label" data-step="6">Sales</div>
+      <div class="progress-step-label" data-step="7">Operations</div>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+    <div class="progress-counter">Question <span id="currentQ">1</span> of <span>50</span></div>
+  </div>
+</div>
+
+<!-- ═══════════ SURVEY FORM ═══════════ -->
+<section class="section-pad" id="surveySection" style="display:none;">
+  <div class="survey-container">
+    <form id="surveyForm" novalidate>
+
+      <!-- ═══════════ STEP 1: YOU & YOUR BUSINESS ═══════════ -->
+      <div class="survey-step" data-step="1">
+        <div class="step-header">
+          <div class="step-number">Section 1 of 7</div>
+          <div class="step-title">You & Your Business</div>
+          <div class="step-subtitle">Let's start with the basics. Who are you and what are you building?</div>
+        </div>
+
+        <div class="question-block" data-q="1">
+          <span class="question-number">Question 1</span>
+          <div class="question-text">What is your business name?</div>
+          <div class="question-hint">If you haven't decided yet, what are you leaning toward?</div>
+          <div class="form-group"><input class="form-input" type="text" name="q1" placeholder="e.g. Bright Side Digital" required></div>
+        </div>
+
+        <div class="question-block" data-q="2">
+          <span class="question-number">Question 2</span>
+          <div class="question-text">What does your business do in one sentence?</div>
+          <div class="question-hint">Example: "I help small restaurants get more customers through social media management."</div>
+          <div class="form-group"><input class="form-input" type="text" name="q2" placeholder="We help [who] do [what] by [how]..." required></div>
+        </div>
+
+        <div class="question-block" data-q="3">
+          <span class="question-number">Question 3</span>
+          <div class="question-text">What stage is your business at?</div>
+          <div class="option-group">
+            <label class="option-item"><input type="radio" name="q3" value="Already operating and making money" required><label>Already operating and making money</label></label>
+            <label class="option-item"><input type="radio" name="q3" value="Operating but no revenue yet"><label>Operating but no revenue yet</label></label>
+            <label class="option-item"><input type="radio" name="q3" value="Still in the planning stage"><label>Still in the planning stage</label></label>
+            <label class="option-item"><input type="radio" name="q3" value="Just an idea right now"><label>Just an idea right now</label></label>
+          </div>
+        </div>
+
+        <div class="question-block" data-q="4">
+          <span class="question-number">Question 4</span>
+          <div class="question-text">What type of business is this?</div>
+          <div class="option-group">
+            <label class="option-item"><input type="radio" name="q4" value="Service-based" required><label>Service-based (you do work for clients)</label></label>
+            <label class="option-item"><input type="radio" name="q4" value="Product-based"><label>Product-based (physical or digital products)</label></label>
+            <label class="option-item"><input type="radio" name="q4" value="SaaS / Software"><label>SaaS / Software</label></label>
+            <label class="option-item"><input type="radio" name="q4" value="E-commerce"><label>E-commerce</label></label>
+            <label class="option-item"><input type="radio" name="q4" value="Content / Media"><label>Content / Media</label></label>
+            <label class="option-item"><input type="radio" name="q4" value="Other"><label>Other: <input type="text" class="option-other-input" name="q4_other" placeholder="Describe..."></label></label>
+          </div>
+        </div>
+
+        <div class="question-block" data-q="5">
+          <span class="question-number">Question 5</span>
+          <div class="question-text">Are you a solo operator, or do you have a team?</div>
+          <div class="option-group">
+            <label class="option-item"><input type="radio" name="q5" value="Just me" required><label>Just me</label></label>
+            <label class="option-item"><input type="radio" name="q5" value="Me + 1-2 people"><label>Me + 1-2 people</label></label>
+            <label class="option-item"><input type="radio" name="q5" value="Small team (3-10)"><label>Small team (3-10)</label></label>
+            <label class="option-item"><input type="radio" name="q5" value="Planning to grow a team eventually"><label>Planning to grow a team eventually</label></label>
+          </div>
+        </div>
+
+        <div class="question-block" data-q="6">
+          <span class="question-number">Question 6</span>
+          <div class="question-text">Why did you start this business?</div>
+          <div class="question-hint">The real reason, not the polished version. What problem did you see that made you say "I should build this"?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q6" placeholder="Tell us the story..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="7">
+          <span class="question-number">Question 7</span>
+          <div class="question-text">Where do you want this business to be in 3 years?</div>
+          <div class="question-hint">Revenue, lifestyle, team size, reputation — whatever matters most to you.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q7" placeholder="In 3 years, I want..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="8">
+          <span class="question-number">Question 8</span>
+          <div class="question-text">What's your single biggest fear or obstacle right now?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q8" placeholder="The thing keeping you up at night..." required></textarea></div>
+        </div>
+
+        <div class="survey-nav">
+          <div></div>
+          <button type="button" class="btn-next" onclick="nextStep()">Next: Your Customers</button>
+        </div>
+      </div>
+
+      <!-- ═══════════ STEP 2: YOUR CUSTOMERS ═══════════ -->
+      <div class="survey-step" data-step="2">
+        <div class="step-header">
+          <div class="step-number">Section 2 of 7</div>
+          <div class="step-title">Your Customers</div>
+          <div class="step-subtitle">Everything in your business flows from knowing exactly who you serve.</div>
+        </div>
+
+        <div class="question-block" data-q="9">
+          <span class="question-number">Question 9</span>
+          <div class="question-text">Who is your ideal customer? Describe them like a real person.</div>
+          <div class="question-hint">Age range, job title, income level, location, lifestyle — be as specific as possible.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q9" placeholder="My ideal customer is a 35-year-old..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="10">
+          <span class="question-number">Question 10</span>
+          <div class="question-text">What is the #1 problem your business solves for them?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q10" placeholder="The biggest pain point is..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="11">
+          <span class="question-number">Question 11</span>
+          <div class="question-text">What happens if they DON'T solve this problem?</div>
+          <div class="question-hint">What does their life or business look like if they do nothing?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q11" placeholder="If they don't fix this..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="12">
+          <span class="question-number">Question 12</span>
+          <div class="question-text">Have you already worked with customers? If yes, describe your best one.</div>
+          <div class="question-hint">What made them great? What did they buy? How did they find you?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q12" placeholder="My best customer so far was... (or 'Not yet')"></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="13">
+          <span class="question-number">Question 13</span>
+          <div class="question-text">Where do your ideal customers hang out — online and offline?</div>
+          <div class="question-hint">Social platforms, forums, events, publications, communities, etc.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q13" placeholder="They spend time on..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="14">
+          <span class="question-number">Question 14</span>
+          <div class="question-text">When searching for a solution like yours, what would they type into Google?</div>
+          <div class="question-hint">List 3-5 phrases.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q14" placeholder="1. &#10;2. &#10;3. " required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="15">
+          <span class="question-number">Question 15</span>
+          <div class="question-text">What objections do potential customers have before buying from you?</div>
+          <div class="question-hint">Price too high? Don't trust it? Already tried something similar?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q15" placeholder="They hesitate because..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="16">
+          <span class="question-number">Question 16</span>
+          <div class="question-text">Is your customer the person who pays, or do they need to convince someone else?</div>
+          <div class="question-hint">A boss, partner, spouse, committee — who else is involved in the decision?</div>
+          <div class="form-group"><input class="form-input" type="text" name="q16" placeholder="They decide alone / They need to convince..." required></div>
+        </div>
+
+        <div class="question-block" data-q="17">
+          <span class="question-number">Question 17</span>
+          <div class="question-text">How much is solving this problem worth to your customer?</div>
+          <div class="question-hint">In dollars, time saved, stress reduced — help us understand the value from their perspective.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q17" placeholder="Solving this is worth..." required></textarea></div>
+        </div>
+
+        <div class="survey-nav">
+          <button type="button" class="btn-back" onclick="prevStep()">Back</button>
+          <button type="button" class="btn-next" onclick="nextStep()">Next: What You Sell</button>
+        </div>
+      </div>
+
+      <!-- ═══════════ STEP 3: WHAT YOU SELL ═══════════ -->
+      <div class="survey-step" data-step="3">
+        <div class="step-header">
+          <div class="step-number">Section 3 of 7</div>
+          <div class="step-title">What You Sell</div>
+          <div class="step-subtitle">Define your actual products, services, and pricing.</div>
+        </div>
+
+        <div class="question-block" data-q="18">
+          <span class="question-number">Question 18</span>
+          <div class="question-text">List every product or service you offer (or plan to offer).</div>
+          <div class="question-hint">For each one: name, brief description, price (or planned price), and who it's for.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q18" placeholder="1. [Name] — [Description] — [Price] — [Who it's for]&#10;2. &#10;3. " style="min-height:160px;" required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="19">
+          <span class="question-number">Question 19</span>
+          <div class="question-text">Which single offering is your "flagship" — the one you'd want most customers to buy?</div>
+          <div class="form-group"><input class="form-input" type="text" name="q19" placeholder="Our main offer is..." required></div>
+        </div>
+
+        <div class="question-block" data-q="20">
+          <span class="question-number">Question 20</span>
+          <div class="question-text">What does a customer actually receive when they buy from you?</div>
+          <div class="question-hint">Deliverables, timeline, meetings, results — walk us through it step by step.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q20" placeholder="Step 1: ...&#10;Step 2: ...&#10;Step 3: ..." style="min-height:160px;" required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="21">
+          <span class="question-number">Question 21</span>
+          <div class="question-text">How long does it take to deliver your product/service from purchase to completion?</div>
+          <div class="form-group"><input class="form-input" type="text" name="q21" placeholder="e.g. 2 weeks, same day, ongoing monthly..." required></div>
+        </div>
+
+        <div class="question-block" data-q="22">
+          <span class="question-number">Question 22</span>
+          <div class="question-text">Do you offer different tiers or packages?</div>
+          <div class="question-hint">e.g. Basic / Pro / Premium. If yes, describe them. If no, would you consider it?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q22" placeholder="Yes: Basic ($X), Pro ($X), Premium ($X)... OR No, here's why..."></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="23">
+          <span class="question-number">Question 23</span>
+          <div class="question-text">What makes your offer different from hiring someone cheaper on Fiverr or doing it themselves?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q23" placeholder="The difference is..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="24">
+          <span class="question-number">Question 24</span>
+          <div class="question-text">Do you have any guarantees, warranties, or risk-reversals?</div>
+          <div class="question-hint">Money-back guarantee, free revisions, performance guarantees, etc.</div>
+          <div class="form-group"><input class="form-input" type="text" name="q24" placeholder="e.g. 30-day money-back guarantee, unlimited revisions..."></div>
+        </div>
+
+        <div class="question-block" data-q="25">
+          <span class="question-number">Question 25</span>
+          <div class="question-text">What's your capacity? How many customers can you realistically serve per month?</div>
+          <div class="form-group"><input class="form-input" type="text" name="q25" placeholder="e.g. 5 clients, 100 orders, unlimited digital downloads..." required></div>
+        </div>
+
+        <div class="survey-nav">
+          <button type="button" class="btn-back" onclick="prevStep()">Back</button>
+          <button type="button" class="btn-next" onclick="nextStep()">Next: Competition</button>
+        </div>
+      </div>
+
+      <!-- ═══════════ STEP 4: COMPETITION ═══════════ -->
+      <div class="survey-step" data-step="4">
+        <div class="step-header">
+          <div class="step-number">Section 4 of 7</div>
+          <div class="step-title">Your Competition</div>
+          <div class="step-subtitle">Knowing who you're up against helps us position you to win.</div>
+        </div>
+
+        <div class="question-block" data-q="26">
+          <span class="question-number">Question 26</span>
+          <div class="question-text">Name 3-5 competitors or alternatives your customers might consider instead of you.</div>
+          <div class="question-hint">Direct competitors, DIY solutions, or "do nothing" all count.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q26" placeholder="1. &#10;2. &#10;3. " required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="27">
+          <span class="question-number">Question 27</span>
+          <div class="question-text">What do your competitors do well?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q27" placeholder="They're good at..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="28">
+          <span class="question-number">Question 28</span>
+          <div class="question-text">What do your competitors do poorly or ignore?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q28" placeholder="They drop the ball on..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="29">
+          <span class="question-number">Question 29</span>
+          <div class="question-text">How is your approach fundamentally different from theirs?</div>
+          <div class="question-hint">Not just "better quality" — what's structurally different about how you operate, deliver, or think?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q29" placeholder="Our approach is different because..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="30">
+          <span class="question-number">Question 30</span>
+          <div class="question-text">What would make a customer choose you over the most popular competitor, even if you're more expensive?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q30" placeholder="They'd pick us because..." required></textarea></div>
+        </div>
+
+        <div class="survey-nav">
+          <button type="button" class="btn-back" onclick="prevStep()">Back</button>
+          <button type="button" class="btn-next" onclick="nextStep()">Next: Brand & Personality</button>
+        </div>
+      </div>
+
+      <!-- ═══════════ STEP 5: BRAND & PERSONALITY ═══════════ -->
+      <div class="survey-step" data-step="5">
+        <div class="step-header">
+          <div class="step-number">Section 5 of 7</div>
+          <div class="step-title">Brand & Personality</div>
+          <div class="step-subtitle">How your business looks, sounds, and feels to the outside world.</div>
+        </div>
+
+        <div class="question-block" data-q="31">
+          <span class="question-number">Question 31</span>
+          <div class="question-text">If your business were a person at a party, how would they talk?</div>
+          <div class="question-hint">Pick all that apply.</div>
+          <div class="option-group">
+            <label class="option-item"><input type="checkbox" name="q31" value="Professional and polished"><label>Professional and polished</label></label>
+            <label class="option-item"><input type="checkbox" name="q31" value="Friendly and casual"><label>Friendly and casual</label></label>
+            <label class="option-item"><input type="checkbox" name="q31" value="Bold and provocative"><label>Bold and provocative</label></label>
+            <label class="option-item"><input type="checkbox" name="q31" value="Warm and empathetic"><label>Warm and empathetic</label></label>
+            <label class="option-item"><input type="checkbox" name="q31" value="Witty and sharp"><label>Witty and sharp</label></label>
+            <label class="option-item"><input type="checkbox" name="q31" value="Calm and authoritative"><label>Calm and authoritative</label></label>
+            <label class="option-item"><input type="checkbox" name="q31" value="Energetic and hype"><label>Energetic and hype</label></label>
+            <label class="option-item"><input type="checkbox" name="q31" value="Other"><label>Other: <input type="text" class="option-other-input" name="q31_other" placeholder="Describe..."></label></label>
+          </div>
+        </div>
+
+        <div class="question-block" data-q="32">
+          <span class="question-number">Question 32</span>
+          <div class="question-text">What are 3 words you want people to associate with your brand?</div>
+          <div class="form-group"><input class="form-input" type="text" name="q32" placeholder="e.g. Bold, Honest, Premium" required></div>
+        </div>
+
+        <div class="question-block" data-q="33">
+          <span class="question-number">Question 33</span>
+          <div class="question-text">What brands (in any industry) do you admire and why?</div>
+          <div class="question-hint">Example: "Apple — because everything feels simple and premium."</div>
+          <div class="form-group"><textarea class="form-textarea" name="q33" placeholder="I admire [brand] because..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="34">
+          <span class="question-number">Question 34</span>
+          <div class="question-text">Is there a tone or style you absolutely do NOT want?</div>
+          <div class="question-hint">Example: "Don't sound corporate." or "Nothing cutesy."</div>
+          <div class="form-group"><input class="form-input" type="text" name="q34" placeholder="We never want to sound..."></div>
+        </div>
+
+        <div class="question-block" data-q="35">
+          <span class="question-number">Question 35</span>
+          <div class="question-text">Do you have existing brand assets?</div>
+          <div class="question-hint">Logo, brand colors, fonts, website, social media profiles — list what exists and share links.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q35" placeholder="We have:&#10;- Logo: yes/no&#10;- Colors: &#10;- Website: &#10;- Social: "></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="36">
+          <span class="question-number">Question 36</span>
+          <div class="question-text">What's your brand's origin story in 2-3 sentences?</div>
+          <div class="question-hint">How did this business come to exist? What's the human story behind it?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q36" placeholder="It started when..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="37">
+          <span class="question-number">Question 37</span>
+          <div class="question-text">Do you have a tagline or slogan?</div>
+          <div class="question-hint">If not, is there a phrase you keep coming back to when describing what you do?</div>
+          <div class="form-group"><input class="form-input" type="text" name="q37" placeholder="Our tagline is... / We keep saying..."></div>
+        </div>
+
+        <div class="survey-nav">
+          <button type="button" class="btn-back" onclick="prevStep()">Back</button>
+          <button type="button" class="btn-next" onclick="nextStep()">Next: Sales & Money</button>
+        </div>
+      </div>
+
+      <!-- ═══════════ STEP 6: SALES & MONEY ═══════════ -->
+      <div class="survey-step" data-step="6">
+        <div class="step-header">
+          <div class="step-number">Section 6 of 7</div>
+          <div class="step-title">Sales & Money</div>
+          <div class="step-subtitle">How customers find you, how you close them, and where the money flows.</div>
+        </div>
+
+        <div class="question-block" data-q="38">
+          <span class="question-number">Question 38</span>
+          <div class="question-text">How do customers currently find you?</div>
+          <div class="question-hint">Word of mouth, social media, Google, referrals, cold outreach, ads, etc.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q38" placeholder="Most people find us through..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="39">
+          <span class="question-number">Question 39</span>
+          <div class="question-text">What's your current monthly revenue?</div>
+          <div class="option-group">
+            <label class="option-item"><input type="radio" name="q39" value="$0 (pre-revenue)" required><label>$0 (pre-revenue)</label></label>
+            <label class="option-item"><input type="radio" name="q39" value="Under $1,000/mo"><label>Under $1,000/mo</label></label>
+            <label class="option-item"><input type="radio" name="q39" value="$1,000 - $5,000/mo"><label>$1,000 - $5,000/mo</label></label>
+            <label class="option-item"><input type="radio" name="q39" value="$5,000 - $20,000/mo"><label>$5,000 - $20,000/mo</label></label>
+            <label class="option-item"><input type="radio" name="q39" value="$20,000+/mo"><label>$20,000+/mo</label></label>
+          </div>
+        </div>
+
+        <div class="question-block" data-q="40">
+          <span class="question-number">Question 40</span>
+          <div class="question-text">What monthly revenue would make this business "working" for you?</div>
+          <div class="question-hint">The number where you'd feel like it's real and sustainable.</div>
+          <div class="form-group"><input class="form-input" type="text" name="q40" placeholder="e.g. $5,000/month, $10,000/month..." required></div>
+        </div>
+
+        <div class="question-block" data-q="41">
+          <span class="question-number">Question 41</span>
+          <div class="question-text">Walk us through how a stranger becomes a paying customer today.</div>
+          <div class="question-hint">Example: "They see my Instagram post, click link in bio, book a free call, I send a proposal, they pay."</div>
+          <div class="form-group"><textarea class="form-textarea" name="q41" placeholder="Step 1: They find us via...&#10;Step 2: Then they...&#10;Step 3: ..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="42">
+          <span class="question-number">Question 42</span>
+          <div class="question-text">What's your average sale value (or what do you want it to be)?</div>
+          <div class="form-group"><input class="form-input" type="text" name="q42" placeholder="e.g. $500 per project, $200/month retainer..." required></div>
+        </div>
+
+        <div class="question-block" data-q="43">
+          <span class="question-number">Question 43</span>
+          <div class="question-text">Which of these do you currently have in place?</div>
+          <div class="question-hint">Select all that apply.</div>
+          <div class="option-group checkbox-grid">
+            <label class="option-item"><input type="checkbox" name="q43" value="Email list"><label>Email list</label></label>
+            <label class="option-item"><input type="checkbox" name="q43" value="CRM or contact database"><label>CRM or contact database</label></label>
+            <label class="option-item"><input type="checkbox" name="q43" value="Booking/scheduling system"><label>Booking/scheduling system</label></label>
+            <label class="option-item"><input type="checkbox" name="q43" value="Contracts or service agreements"><label>Contracts or agreements</label></label>
+            <label class="option-item"><input type="checkbox" name="q43" value="Invoicing system"><label>Invoicing system</label></label>
+            <label class="option-item"><input type="checkbox" name="q43" value="Website with clear CTA"><label>Website with clear CTA</label></label>
+          </div>
+        </div>
+
+        <div class="question-block" data-q="44">
+          <span class="question-number">Question 44</span>
+          <div class="question-text">What's your monthly budget for marketing and tools?</div>
+          <div class="option-group">
+            <label class="option-item"><input type="radio" name="q44" value="$0 (bootstrapping)" required><label>$0 (bootstrapping)</label></label>
+            <label class="option-item"><input type="radio" name="q44" value="Under $100/mo"><label>Under $100/mo</label></label>
+            <label class="option-item"><input type="radio" name="q44" value="$100 - $500/mo"><label>$100 - $500/mo</label></label>
+            <label class="option-item"><input type="radio" name="q44" value="$500 - $2,000/mo"><label>$500 - $2,000/mo</label></label>
+            <label class="option-item"><input type="radio" name="q44" value="$2,000+/mo"><label>$2,000+/mo</label></label>
+          </div>
+        </div>
+
+        <div class="survey-nav">
+          <button type="button" class="btn-back" onclick="prevStep()">Back</button>
+          <button type="button" class="btn-next" onclick="nextStep()">Next: Operations</button>
+        </div>
+      </div>
+
+      <!-- ═══════════ STEP 7: OPERATIONS ═══════════ -->
+      <div class="survey-step" data-step="7">
+        <div class="step-header">
+          <div class="step-number">Section 7 of 7</div>
+          <div class="step-title">Operations & Delivery</div>
+          <div class="step-subtitle">Last section. How your business actually runs day-to-day.</div>
+        </div>
+
+        <div class="question-block" data-q="45">
+          <span class="question-number">Question 45</span>
+          <div class="question-text">What does a typical work week look like for you right now?</div>
+          <div class="question-hint">Hours spent on the business, what tasks eat most of your time.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q45" placeholder="I spend about X hours per week. Most of that goes to..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="46">
+          <span class="question-number">Question 46</span>
+          <div class="question-text">What tools or software do you currently use to run your business?</div>
+          <div class="question-hint">Anything — Google Docs, Canva, QuickBooks, Notion, a notebook, whatever.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q46" placeholder="I currently use..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="47">
+          <span class="question-number">Question 47</span>
+          <div class="question-text">What's the one task you wish you could hand off or automate tomorrow?</div>
+          <div class="form-group"><input class="form-input" type="text" name="q47" placeholder="I wish I didn't have to..." required></div>
+        </div>
+
+        <div class="question-block" data-q="48">
+          <span class="question-number">Question 48</span>
+          <div class="question-text">What are the key steps when you deliver your product/service?</div>
+          <div class="question-hint">From the moment someone pays to the moment they're done with you.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q48" placeholder="1. Client pays&#10;2. I send them...&#10;3. Then I...&#10;4. ..." style="min-height:160px;" required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="49">
+          <span class="question-number">Question 49</span>
+          <div class="question-text">What does an amazing customer experience look like to you?</div>
+          <div class="question-hint">How do you want people to FEEL when they work with you or buy from you?</div>
+          <div class="form-group"><textarea class="form-textarea" name="q49" placeholder="I want them to feel..." required></textarea></div>
+        </div>
+
+        <div class="question-block" data-q="50">
+          <span class="question-number">Question 50</span>
+          <div class="question-text">Is there anything else we should know about your business?</div>
+          <div class="question-hint">Anything about your customers, goals, or situation that we didn't ask. This is your space.</div>
+          <div class="form-group"><textarea class="form-textarea" name="q50" placeholder="One more thing..."></textarea></div>
+        </div>
+
+        <!-- CONTACT INFO BEFORE SUBMIT -->
+        <div style="margin-top:40px;padding-top:40px;border-top:1px solid var(--subtle);">
+          <div class="step-number">Almost Done</div>
+          <div class="question-text" style="margin-bottom:4px;">Where should we send your documents?</div>
+          <div class="question-hint" style="margin-bottom:24px;">We'll email your completed Business Foundation Kit within 48 hours.</div>
+
+          <div class="question-block">
+            <div class="form-group">
+              <label class="form-label" for="clientName">Your Full Name</label>
+              <input class="form-input" type="text" id="clientName" name="client_name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="clientEmail">Email Address</label>
+              <input class="form-input" type="email" id="clientEmail" name="client_email" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="clientPhone">Phone (Optional)</label>
+              <input class="form-input" type="tel" id="clientPhone" name="client_phone">
+            </div>
+          </div>
+        </div>
+
+        <div class="survey-nav">
+          <button type="button" class="btn-back" onclick="prevStep()">Back</button>
+          <button type="button" class="btn-next" id="submitBtn" onclick="submitSurvey()">Submit & Pay $199</button>
+        </div>
+        <p class="form-error" id="formError" style="color:#ff4444;font-size:13px;text-align:center;margin-top:12px;display:none;"></p>
+      </div>
+
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════ SUCCESS SCREEN ═══════════ -->
+<div class="survey-success" id="successScreen">
+  <div class="container">
+    <div class="survey-success-icon">&#10003;</div>
+    <h2>You're <span>all set.</span></h2>
+    <p>We've received your survey. Your 20-document Business Foundation Kit will be delivered to your inbox within 48 hours.</p>
+    <p style="margin-top:24px;font-size:13px;color:rgba(255,255,255,0.3);">Check your email for a payment confirmation and receipt.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo"><img src="images/logo-icon-white.png" alt="Nunya Bunya"> <span>NUNYA<em>BUNYA</em></span></div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="portfolio.html">Work</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+  <p class="footer-copy">&copy; 2026 Nunya Bunya Pty Ltd &middot; Brisbane, QLD &middot; All rights reserved.</p>
+</footer>
+
+<script>
+/* ═══════════ CURSOR ═══════════ */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px';
+});
+function animateRing() {
+  ringX += (mouseX - ringX) * 0.12; ringY += (mouseY - ringY) * 0.12;
+  ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+function bindHoverEffects() {
+  document.querySelectorAll('a, button, .option-item, .trust-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering'); });
+    el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering'); });
+  });
+}
+bindHoverEffects();
+
+/* ═══════════ NAV ═══════════ */
+document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
+
+/* ═══════════ REVEAL ANIMATION ═══════════ */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+
+/* ═══════════ OPTION ITEM SELECTION STYLING ═══════════ */
+document.querySelectorAll('.option-item input').forEach(input => {
+  input.addEventListener('change', () => {
+    if (input.type === 'radio') {
+      input.closest('.option-group').querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
+    }
+    if (input.checked) {
+      input.closest('.option-item').classList.add('selected');
+    } else {
+      input.closest('.option-item').classList.remove('selected');
+    }
+  });
+});
+
+/* ═══════════ SURVEY STATE ═══════════ */
+let currentStep = 1;
+const totalSteps = 7;
+const questionsPerStep = [8, 9, 8, 5, 7, 7, 6];
+const STORAGE_KEY = 'nb_bfk_survey';
+
+/* Save answers to localStorage as user types */
+function saveProgress() {
+  const form = document.getElementById('surveyForm');
+  const data = new FormData(form);
+  const saved = {};
+  for (const [key, value] of data.entries()) {
+    if (saved[key]) {
+      if (Array.isArray(saved[key])) saved[key].push(value);
+      else saved[key] = [saved[key], value];
+    } else {
+      saved[key] = value;
+    }
+  }
+  saved._step = currentStep;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+}
+
+/* Restore from localStorage */
+function restoreProgress() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+  try {
+    const saved = JSON.parse(raw);
+    const form = document.getElementById('surveyForm');
+    Object.entries(saved).forEach(([key, value]) => {
+      if (key === '_step') return;
+      const fields = form.querySelectorAll(`[name="${key}"]`);
+      if (!fields.length) return;
+      const field = fields[0];
+      if (field.type === 'radio') {
+        fields.forEach(f => {
+          if (f.value === value) {
+            f.checked = true;
+            f.closest('.option-item').classList.add('selected');
+          }
+        });
+      } else if (field.type === 'checkbox') {
+        const values = Array.isArray(value) ? value : [value];
+        fields.forEach(f => {
+          if (values.includes(f.value)) {
+            f.checked = true;
+            f.closest('.option-item').classList.add('selected');
+          }
+        });
+      } else {
+        field.value = value;
+      }
+    });
+  } catch (e) { /* ignore corrupt data */ }
+}
+
+/* Auto-save on input */
+document.getElementById('surveyForm').addEventListener('input', () => saveProgress());
+document.getElementById('surveyForm').addEventListener('change', () => saveProgress());
+
+/* ═══════════ NAVIGATION ═══════════ */
+function startSurvey() {
+  document.getElementById('salesSection').style.display = 'none';
+  document.querySelector('.section-dark.section-pad').style.display = 'none';
+  document.querySelector('.cta-begin').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'block';
+  document.getElementById('surveySection').style.display = 'block';
+  restoreProgress();
+  showStep(1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showStep(step) {
+  currentStep = step;
+  document.querySelectorAll('.survey-step').forEach(s => s.classList.remove('active'));
+  const target = document.querySelector(`.survey-step[data-step="${step}"]`);
+  if (target) target.classList.add('active');
+  updateProgress();
+  window.scrollTo({ top: document.getElementById('progressBar').offsetTop - 20, behavior: 'smooth' });
+  bindHoverEffects();
+}
+
+function nextStep() {
+  if (currentStep < totalSteps) {
+    saveProgress();
+    showStep(currentStep + 1);
+  }
+}
+
+function prevStep() {
+  if (currentStep > 1) {
+    saveProgress();
+    showStep(currentStep - 1);
+  }
+}
+
+function updateProgress() {
+  /* Calculate cumulative questions answered */
+  let questionsBefore = 0;
+  for (let i = 0; i < currentStep - 1; i++) questionsBefore += questionsPerStep[i];
+  const currentQ = questionsBefore + 1;
+  const totalQ = 50;
+  const pct = Math.round((questionsBefore / totalQ) * 100);
+
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('currentQ').textContent = currentQ;
+
+  /* Update step labels */
+  document.querySelectorAll('.progress-step-label').forEach(label => {
+    const s = parseInt(label.dataset.step);
+    label.classList.remove('active', 'done');
+    if (s === currentStep) label.classList.add('active');
+    else if (s < currentStep) label.classList.add('done');
+  });
+}
+
+/* ═══════════ SUBMIT ═══════════ */
+async function submitSurvey() {
+  const btn = document.getElementById('submitBtn');
+  const errorEl = document.getElementById('formError');
+  const name = document.getElementById('clientName').value.trim();
+  const email = document.getElementById('clientEmail').value.trim();
+
+  if (!name || !email) {
+    errorEl.textContent = 'Please enter your name and email address.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+  errorEl.style.display = 'none';
+
+  /* Gather all answers */
+  const form = document.getElementById('surveyForm');
+  const data = new FormData(form);
+  const answers = {};
+  for (const [key, value] of data.entries()) {
+    if (answers[key]) {
+      if (Array.isArray(answers[key])) answers[key].push(value);
+      else answers[key] = [answers[key], value];
+    } else {
+      answers[key] = value;
+    }
+  }
+
+  const payload = {
+    product: 'business-foundation-kit',
+    client_name: name,
+    client_email: email,
+    client_phone: document.getElementById('clientPhone').value.trim(),
+    answers: answers,
+    submitted_at: new Date().toISOString()
+  };
+
+  try {
+    const res = await fetch('https://n8n.nunyabunya.com/webhook/business-foundation-kit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      const responseData = await res.json().catch(() => ({}));
+      if (responseData.checkout_url) {
+        /* Redirect to Stripe Checkout — don't clear localStorage yet,
+           in case they hit back. It clears on success return. */
+        btn.textContent = 'Redirecting to payment...';
+        window.location.href = responseData.checkout_url;
+      } else {
+        /* Fallback if no checkout URL (e.g. Stripe not configured yet) */
+        localStorage.removeItem(STORAGE_KEY);
+        document.getElementById('surveySection').style.display = 'none';
+        document.getElementById('progressBar').style.display = 'none';
+        document.getElementById('successScreen').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } else {
+      const errData = await res.json().catch(() => ({}));
+      errorEl.textContent = errData.error || 'Something went wrong. Please try again.';
+      errorEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Submit & Pay $199';
+    }
+  } catch (err) {
+    errorEl.textContent = 'Network error. Please check your connection and try again.';
+    errorEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Submit & Pay $199';
+  }
+}
+
+/* ═══════════ HANDLE PAYMENT RETURN ═══════════ */
+(function handlePaymentReturn() {
+  const params = new URLSearchParams(window.location.search);
+  const payment = params.get('payment');
+
+  if (payment === 'success') {
+    /* Payment succeeded — show success screen, clear saved data */
+    localStorage.removeItem(STORAGE_KEY);
+    document.getElementById('salesSection').style.display = 'none';
+    document.querySelector('.section-dark.section-pad').style.display = 'none';
+    document.querySelector('.cta-begin').style.display = 'none';
+    document.getElementById('surveySection').style.display = 'none';
+    document.getElementById('progressBar').style.display = 'none';
+    document.getElementById('successScreen').classList.add('active');
+    /* Clean URL */
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+
+  if (payment === 'cancelled') {
+    /* Payment was cancelled — show survey with a message to try again */
+    document.getElementById('salesSection').style.display = 'none';
+    document.querySelector('.section-dark.section-pad').style.display = 'none';
+    document.querySelector('.cta-begin').style.display = 'none';
+    document.getElementById('progressBar').style.display = 'block';
+    document.getElementById('surveySection').style.display = 'block';
+    restoreProgress();
+    showStep(7);
+    /* Show a gentle message */
+    const errorEl = document.getElementById('formError');
+    errorEl.textContent = 'Payment was cancelled. Your answers are saved — click Submit when you\'re ready to try again.';
+    errorEl.style.display = 'block';
+    errorEl.style.color = '#f0ad4e';
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = false;
+    btn.textContent = 'Submit & Pay $199';
+    /* Clean URL */
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+})();
+</script>
+
+<!-- Matomo -->
+<script>
+var _paq = window._paq = window._paq || [];
+_paq.push(["trackPageView"]);
+_paq.push(["enableLinkTracking"]);
+(function() {
+  var u="https://analytics.nunyabunya.com/";
+  _paq.push(["setTrackerUrl", u+"matomo.php"]);
+  _paq.push(["setSiteId", "1"]);
+  var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
+  g.async=true; g.src=u+"matomo.js"; s.parentNode.insertBefore(g,s);
+})();
+</script>
+<noscript><img referrerpolicy="no-referrer-when-downgrade" src="https://analytics.nunyabunya.com/matomo.php?idsite=1&amp;rec=1" style="border:0" alt="" /></noscript>
+</body>
+</html>
