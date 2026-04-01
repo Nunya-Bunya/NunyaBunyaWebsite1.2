@@ -38,6 +38,7 @@ const NB_ADMIN = {
       { id: 'reports', label: 'Reports', icon: '&#9776;', href: '/nb-admin-reports' },
       { id: 'leads', label: 'Leads', icon: '&#9993;', href: '/nb-admin-leads' },
       { id: 'analytics', label: 'Analytics', icon: '&#9636;', href: '/nb-admin-analytics' },
+      { id: 'email-campaigns', label: 'Email Campaigns', icon: '&#9993;', href: '/nb-admin-email-campaigns' },
       { id: 'benchmark', label: 'Benchmark', icon: '&#9201;', href: '/nb-admin-benchmark' },
       { id: 'landing-pages', label: 'Landing Pages', icon: '&#9873;', href: '/nb-admin-landing-pages' },
       { id: 'lead-magnets', label: 'Lead Magnets', icon: '&#9883;', href: '/nb-admin-lead-magnets' },

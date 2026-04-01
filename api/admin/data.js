@@ -260,6 +260,26 @@ export default async function handler(req, res) {
 
     // ── External Service Proxies (keeps credentials server-side) ──
 
+    // Generic Mautic API proxy — any endpoint, server-side auth
+    if (action === 'service-mautic') {
+      const MAUTIC_URL = process.env.MAUTIC_URL || 'https://mautic.nunyabunya.com';
+      const MAUTIC_USER = process.env.MAUTIC_API_USER;
+      const MAUTIC_PASS = process.env.MAUTIC_API_PASSWORD;
+      if (!MAUTIC_USER || !MAUTIC_PASS) return res.status(200).json({ error: 'Mautic not configured' });
+      const auth = Buffer.from(`${MAUTIC_USER}:${MAUTIC_PASS}`).toString('base64');
+      const { endpoint, ...rest } = req.query;
+      if (!endpoint) return res.status(400).json({ error: 'endpoint required' });
+      // Build query string from remaining params (excluding action)
+      const params = new URLSearchParams();
+      for (const [k, v] of Object.entries(rest)) { if (k !== 'action') params.set(k, v); }
+      const qs = params.toString() ? `?${params.toString()}` : '';
+      try {
+        const r = await fetch(`${MAUTIC_URL}/api/${endpoint}${qs}`, { headers: { 'Authorization': `Basic ${auth}` } });
+        if (!r.ok) return res.status(200).json({});
+        return res.status(200).json(await r.json());
+      } catch { return res.status(200).json({}); }
+    }
+
     if (action === 'service-mautic-submissions') {
       const MAUTIC_URL = process.env.MAUTIC_URL || 'https://mautic.nunyabunya.com';
       const MAUTIC_USER = process.env.MAUTIC_API_USER;
