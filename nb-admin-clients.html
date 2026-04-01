@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clients | NB Admin</title>
+<title>Clients | NBHQ</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,10 +16,19 @@
   <main class="admin-main">
     <div class="admin-topbar">
       <h1>All <span>Clients</span></h1>
+      <a href="/nb-admin-onboard" class="btn-teal">+ New Client</a>
     </div>
 
     <div class="toolbar">
       <input type="text" id="searchInput" placeholder="Search clients..." oninput="filterClients()">
+      <select id="tierFilter" onchange="filterClients()">
+        <option value="">All Tiers</option>
+        <option value="internal">Internal</option>
+        <option value="starter">Starter</option>
+        <option value="growth">Growth</option>
+        <option value="scale">Scale</option>
+        <option value="enterprise">Enterprise</option>
+      </select>
     </div>
 
     <!-- Card View -->
@@ -77,11 +86,14 @@
 
   function filterClients() {
     const q = document.getElementById('searchInput').value.toLowerCase();
-    renderClients(allClients.filter(c =>
-      c.client_name.toLowerCase().includes(q) ||
-      (c.business_type || '').toLowerCase().includes(q) ||
-      (c.location || '').toLowerCase().includes(q)
-    ));
+    const tier = document.getElementById('tierFilter').value;
+    renderClients(allClients.filter(c => {
+      const matchesSearch = c.client_name.toLowerCase().includes(q) ||
+        (c.business_type || '').toLowerCase().includes(q) ||
+        (c.location || '').toLowerCase().includes(q);
+      const matchesTier = !tier || (c.tier || '').toLowerCase() === tier;
+      return matchesSearch && matchesTier;
+    }));
   }
 
   init();

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard | NB Admin</title>
+<title>Dashboard | NBHQ</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -26,6 +26,22 @@
 
     <!-- Two Column Layout -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+
+      <!-- Pending Approvals -->
+      <div class="section">
+        <div class="section-header">Pending Approvals <span class="badge" id="approvalCount">0</span></div>
+        <div id="pendingApprovals" class="card" style="max-height:300px;overflow-y:auto"></div>
+      </div>
+
+      <!-- Active Pipelines -->
+      <div class="section">
+        <div class="section-header">Active Pipelines <span class="badge" id="pipelineCount">0</span></div>
+        <div id="activePipelines" class="card" style="max-height:300px;overflow-y:auto"></div>
+      </div>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px">
 
       <!-- Today's Tasks -->
       <div class="section">
@@ -63,10 +79,12 @@
     document.getElementById('dateLabel').textContent = NB_ADMIN.formatDateFull(new Date());
 
     // Load all data in parallel
-    const [clientsData, tasksData, weekData] = await Promise.all([
+    const [clientsData, tasksData, weekData, approvalData, pipelineData] = await Promise.all([
       NB_ADMIN.apiFetch('clients'),
       NB_ADMIN.apiFetch('tasks?date=' + NB_ADMIN.todayStr()),
       NB_ADMIN.apiFetch('week?date=' + NB_ADMIN.todayStr()),
+      NB_ADMIN.apiFetch('approval?limit=10'),
+      NB_ADMIN.apiFetch('pipeline?status=running&limit=10'),
     ]);
 
     document.getElementById('loading').style.display = 'none';
@@ -74,25 +92,60 @@
     allClients = clientsData ? clientsData.clients : [];
     const tasks = tasksData ? tasksData.tasks : [];
     const week = weekData;
+    const approvals = approvalData ? approvalData.items : [];
+    const pipelines = pipelineData ? pipelineData.runs : [];
 
-    renderKPIs(allClients, tasks, week);
+    renderKPIs(allClients, tasks, week, approvals, pipelines);
+    renderApprovals(approvals);
+    renderPipelines(pipelines);
     renderTodayTasks(tasks);
     renderClientList(allClients);
     if (week) renderWeekSummary(week);
   }
 
-  function renderKPIs(clients, tasks, week) {
+  function renderKPIs(clients, tasks, week, approvals, pipelines) {
     const activeClients = clients.filter(c => c.active).length;
+    const pendingApprovals = approvals.length;
+    const activePipelines = pipelines.length;
     const pendingTasks = tasks.filter(t => t.status !== 'published').length;
-    const thisWeekItems = week && week.this_week ? week.this_week.items.length : 0;
-    const thisWeekDone = week && week.this_week ? week.this_week.items.filter(i => i.status === 'published').length : 0;
 
     document.getElementById('kpiGrid').innerHTML = `
       <div class="kpi-card"><div class="num">${activeClients}</div><div class="label">Active Clients</div></div>
-      <div class="kpi-card yellow"><div class="num">${pendingTasks}</div><div class="label">Tasks Today</div></div>
-      <div class="kpi-card magenta"><div class="num">${thisWeekItems}</div><div class="label">Posts This Week</div></div>
-      <div class="kpi-card purple"><div class="num">${thisWeekDone}/${thisWeekItems}</div><div class="label">Week Progress</div></div>
+      <div class="kpi-card yellow"><div class="num">${pendingApprovals}</div><div class="label">Pending Approvals</div></div>
+      <div class="kpi-card magenta"><div class="num">${activePipelines}</div><div class="label">Active Pipelines</div></div>
+      <div class="kpi-card purple"><div class="num">${pendingTasks}</div><div class="label">Tasks Today</div></div>
     `;
+  }
+
+  function renderApprovals(items) {
+    document.getElementById('approvalCount').textContent = items.length;
+    if (!items.length) {
+      document.getElementById('pendingApprovals').innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted)">All caught up!</div>';
+      return;
+    }
+    document.getElementById('pendingApprovals').innerHTML = items.slice(0, 5).map(i => `
+      <div class="task-item">
+        ${NB_ADMIN.typeBadge(i.item_type)}
+        <span class="topic">${NB_ADMIN.esc(i.title || 'Untitled')}</span>
+        <span style="font-size:11px;color:var(--muted)">${NB_ADMIN.timeAgo(i.created_at)}</span>
+      </div>
+    `).join('') + (items.length > 5 ? `<a href="/nb-admin-approval" style="display:block;text-align:center;padding:10px;font-size:13px;color:var(--teal)">View all ${items.length} items &rarr;</a>` : '');
+  }
+
+  function renderPipelines(runs) {
+    document.getElementById('pipelineCount').textContent = runs.length;
+    if (!runs.length) {
+      document.getElementById('activePipelines').innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted)">No active pipelines</div>';
+      return;
+    }
+    document.getElementById('activePipelines').innerHTML = runs.map(r => `
+      <div class="task-item" onclick="window.location='/nb-admin-pipelines'">
+        ${NB_ADMIN.pipelineBadge(r.status)}
+        <span class="topic">${NB_ADMIN.esc(r.pipeline_name)}</span>
+        <span style="font-size:11px;color:var(--muted)">${NB_ADMIN.esc(r.client_id)}</span>
+        <span style="font-size:11px;color:var(--muted)">${NB_ADMIN.timeAgo(r.started_at)}</span>
+      </div>
+    `).join('');
   }
 
   function renderTodayTasks(tasks) {

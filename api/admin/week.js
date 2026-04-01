@@ -1,4 +1,4 @@
-// Admin API: GET weekly view data, PUT weekly notes
+// Admin API: GET weekly view data, PUT weekly notes (reads from content_calendar_items + weekly_notes)
 import { requireAuth, supabaseFetch } from '../../lib/auth-utils.js';
 
 function getMonday(d) {
@@ -32,9 +32,8 @@ export default async function handler(req, res) {
     if (!client_id || !week_start) return res.status(400).json({ error: 'client_id and week_start required.' });
 
     try {
-      // Upsert using Supabase on-conflict
       const result = await supabaseFetch(
-        'dashboard_weekly_notes',
+        'weekly_notes',
         {
           method: 'POST',
           body: JSON.stringify({
@@ -66,8 +65,8 @@ export default async function handler(req, res) {
     const nextEnd = toDateStr(nextSunEnd);
 
     try {
-      let contentQuery = `dashboard_content_items?date=gte.${lastStart}&date=lte.${nextEnd}&order=date.asc,platform.asc`;
-      let notesQuery = `dashboard_weekly_notes?week_start=in.(${toDateStr(lastMon)},${toDateStr(thisMon)},${toDateStr(nextMon)})&order=week_start.asc`;
+      let contentQuery = `content_calendar_items?date=gte.${lastStart}&date=lte.${nextEnd}&order=date.asc,platform.asc`;
+      let notesQuery = `weekly_notes?week_start=in.(${toDateStr(lastMon)},${toDateStr(thisMon)},${toDateStr(nextMon)})&order=week_start.asc`;
 
       if (client && client !== 'all') {
         contentQuery += `&client_id=eq.${encodeURIComponent(client)}`;
@@ -75,17 +74,18 @@ export default async function handler(req, res) {
       }
 
       const [items, weekNotes] = await Promise.all([
-        supabaseFetch(contentQuery),
-        supabaseFetch(notesQuery),
+        supabaseFetch(contentQuery).catch(() => []),
+        supabaseFetch(notesQuery).catch(() => []),
       ]);
 
       // Group content by week
       const lastSun = toDateStr(addDays(thisMon, -1));
       const thisSun = toDateStr(addDays(thisMon, 6));
 
-      const lastWeekItems = items.filter(i => i.date >= lastStart && i.date <= lastSun);
-      const thisWeekItems = items.filter(i => i.date >= toDateStr(thisMon) && i.date <= thisSun);
-      const nextWeekItems = items.filter(i => i.date >= toDateStr(nextMon) && i.date <= nextEnd);
+      const safeItems = items || [];
+      const lastWeekItems = safeItems.filter(i => i.date >= lastStart && i.date <= lastSun);
+      const thisWeekItems = safeItems.filter(i => i.date >= toDateStr(thisMon) && i.date <= thisSun);
+      const nextWeekItems = safeItems.filter(i => i.date >= toDateStr(nextMon) && i.date <= nextEnd);
 
       // Map notes by week_start
       const notesByWeek = {};

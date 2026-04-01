@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== PRINT / PDF LAYOUT ===== */
+  @page { size: letter; margin: 0; }
+  @media print {
+    body { margin: 0; padding: 0; }
+    .no-print { display: none !important; }
+    .page { page-break-after: always; page-break-inside: avoid; }
+    .page:last-child { page-break-after: auto; }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #1B2A4A;
+    --accent: #C9A84C;
+    --bg: #FFFFFF;
+    --text: #1a1a1a;
+    --text-muted: #666666;
+    --border: #e0e0e0;
+    --heading-font: 'Montserrat', sans-serif;
+    --body-font: 'Inter', sans-serif;
+  }
+
+  body {
+    font-family: var(--body-font);
+    color: var(--text);
+    background: #f5f5f5;
+    line-height: 1.6;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ===== PAGE CONTAINER ===== */
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 20px auto;
+    background: var(--bg);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    padding: 0.75in 0.85in;
+    position: relative;
+  }
+
+  @media print { .page { margin: 0; box-shadow: none; width: 8.5in; height: 11in; } }
+
+  /* ===== COVER PAGE ===== */
+  .cover {
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 1.5in 1in;
+  }
+  .cover .accent-bar { width: 80px; height: 4px; background: var(--accent); margin-bottom: 40px; }
+  .cover .doc-type {
+    font-family: var(--heading-font); font-weight: 600; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 16px;
+  }
+  .cover h1 {
+    font-family: var(--heading-font); font-weight: 800; font-size: 38px;
+    line-height: 1.15; color: var(--primary); margin-bottom: 12px;
+  }
+  .cover .client-name {
+    font-family: var(--heading-font); font-weight: 400; font-size: 20px;
+    color: var(--text-muted); margin-bottom: 48px;
+  }
+  .cover .meta {
+    font-size: 12px; color: var(--text-muted); line-height: 1.8;
+  }
+  .cover .nb-badge {
+    margin-top: 60px; padding: 12px 28px; border: 1px solid var(--border); border-radius: 8px;
+    font-family: var(--heading-font); font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);
+  }
+
+  /* ===== CONTENT PAGES ===== */
+  .page-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 12px; margin-bottom: 28px; border-bottom: 2px solid var(--primary);
+  }
+  .page-header .doc-title { font-family: var(--heading-font); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); }
+  .page-header .client { font-size: 11px; color: var(--text-muted); }
+
+  .page-footer {
+    position: absolute; bottom: 0.5in; left: 0.85in; right: 0.85in;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 9px; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 8px;
+  }
+
+  /* ===== TYPOGRAPHY ===== */
+  h2 {
+    font-family: var(--heading-font); font-weight: 700; font-size: 20px;
+    color: var(--primary); margin-bottom: 12px; margin-top: 28px;
+    padding-bottom: 6px; border-bottom: 2px solid var(--accent);
+  }
+  h2:first-child { margin-top: 0; }
+
+  h3 {
+    font-family: var(--heading-font); font-weight: 600; font-size: 15px;
+    color: var(--primary); margin-bottom: 8px; margin-top: 20px;
+  }
+
+  p { margin-bottom: 10px; font-size: 13px; font-weight: 400; line-height: 1.7; }
+
+  /* ===== COMPONENTS ===== */
+  .summary-box {
+    background: var(--primary); color: #fff; padding: 24px 28px; border-radius: 8px;
+    margin-bottom: 24px; font-size: 14px; line-height: 1.7;
+  }
+  .summary-box .label { font-family: var(--heading-font); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .stat-box {
+    background: #f8f8f8; border-left: 3px solid var(--accent); padding: 14px 16px; border-radius: 0 6px 6px 0;
+  }
+  .stat-box .val { font-family: var(--heading-font); font-weight: 800; font-size: 22px; color: var(--primary); }
+  .stat-box .lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .doc-card {
+    border: 1px solid var(--border); border-radius: 8px; padding: 18px; background: #fafafa;
+  }
+  .doc-card h4 {
+    font-family: var(--heading-font); font-weight: 700; font-size: 14px; color: var(--primary);
+    margin-bottom: 6px;
+  }
+  .doc-card p { font-size: 12px; margin-bottom: 4px; }
+  .doc-card .tag {
+    display: inline-block; padding: 2px 8px; background: var(--accent); color: #fff;
+    border-radius: 4px; font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; margin-right: 4px; margin-top: 6px;
+  }
+
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .do-box, .dont-box { padding: 14px 16px; border-radius: 6px; font-size: 12px; line-height: 1.6; }
+  .do-box { background: #e8f5e9; border-left: 3px solid #4caf50; }
+  .dont-box { background: #fbe9e7; border-left: 3px solid #e53935; }
+  .do-box .label { color: #2e7d32; font-weight: 700; font-size: 11px; text-transform: uppercase; margin-bottom: 4px; }
+  .dont-box .label { color: #c62828; font-weight: 700; font-size: 11px; text-transform: uppercase; margin-bottom: 4px; }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 12px; }
+  thead th {
+    background: var(--primary); color: #fff; padding: 10px 14px; text-align: left;
+    font-family: var(--heading-font); font-weight: 600; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tbody tr:nth-child(even) { background: #f8f8f8; }
+
+  ul, ol { margin: 8px 0 12px 20px; font-size: 13px; }
+  li { margin-bottom: 4px; line-height: 1.6; }
+
+  .color-swatch {
+    display: inline-block; width: 40px; height: 40px; border-radius: 6px;
+    border: 1px solid var(--border); vertical-align: middle; margin-right: 10px;
+  }
+
+  .persona-card {
+    border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 16px;
+  }
+  .persona-card .header {
+    background: var(--primary); color: #fff; padding: 14px 20px;
+    font-family: var(--heading-font); font-weight: 700; font-size: 16px;
+  }
+  .persona-card .header .sub { font-weight: 400; font-size: 12px; opacity: 0.8; }
+  .persona-card .body { padding: 16px 20px; }
+  .persona-card .body h4 { font-family: var(--heading-font); font-weight: 600; font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; margin: 10px 0 4px; }
+  .persona-card .body ul { margin-left: 16px; font-size: 12px; }
+
+  /* ===== TOOLBAR (screen only) ===== */
+  .toolbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: #1a1a1a; color: #fff; padding: 12px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--heading-font); font-size: 13px;
+  }
+  .toolbar a { color: var(--accent); text-decoration: none; margin-right: 16px; }
+  .toolbar button {
+    background: var(--accent); color: #000; border: none; padding: 8px 20px;
+    border-radius: 6px; font-family: var(--heading-font); font-weight: 700;
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer;
+  }
+  .toolbar button:hover { opacity: 0.9; }
+  .doc-wrapper { padding-top: 56px; }
+
+  .loading-screen { display: flex; align-items: center; justify-content: center; min-height: 80vh; font-size: 16px; color: #999; }
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print" id="toolbar">
+  <div>
+    <a href="/nb-admin-clients">&larr; Clients</a>
+    <span id="toolbarTitle">Loading document...</span>
+  </div>
+  <button onclick="window.print()">Export PDF</button>
+</div>
+
+<div class="doc-wrapper" id="docWrapper">
+  <div class="loading-screen" id="loading">Loading document...</div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const docId = params.get('id');
+const clientSlug = params.get('client');
+
+// Brand defaults (overridden by client data)
+let brand = {
+  primary: '#1B2A4A', accent: '#C9A84C', bg: '#FFFFFF', text: '#1a1a1a',
+  headingFont: 'Montserrat', bodyFont: 'Inter', clientName: '', agencyName: 'Nunya Bunya',
+};
+
+async function apiFetch(path) {
+  const res = await fetch('/api/admin/' + path);
+  if (!res.ok) return null;
+  return res.json();
+}
+
+async function init() {
+  try {
+    // Check auth
+    const authRes = await fetch('/api/auth');
+    if (!authRes.ok) { window.location.href = '/nb-admin-login'; return; }
+
+    if (!clientSlug) {
+      document.getElementById('loading').textContent = 'Error: No client specified. URL needs ?client=slug&id=docId';
+      return;
+    }
+
+    // Load client data + documents
+    const [clientData, docsData] = await Promise.all([
+      apiFetch('client?id=' + encodeURIComponent(clientSlug)),
+      apiFetch('data?action=documents&client_id=' + encodeURIComponent(clientSlug)),
+    ]);
+
+    if (clientData && clientData.client) {
+      brand.clientName = clientData.client.client_name;
+    }
+
+    // Find the specific document
+    const docs = docsData ? docsData.documents : [];
+
+    if (!docs.length) {
+      document.getElementById('loading').textContent = 'No documents found for this client. Run a pipeline first.';
+      return;
+    }
+
+    const doc = docId ? docs.find(d => d.id === docId) : docs[0];
+
+    if (!doc) {
+      document.getElementById('loading').textContent = 'Document not found. ID: ' + docId;
+      return;
+    }
+
+    // Try to get visual_identity for brand colors
+    const viDoc = docs.find(d => d.doc_type === 'visual_identity');
+    if (viDoc) {
+      try {
+        const viJson = viDoc.content_json;
+        const vi = typeof viJson === 'string' ? JSON.parse(viJson) : viJson;
+        if (vi && vi.color_palette) {
+          brand.primary = vi.color_palette.primary?.hex || brand.primary;
+          brand.accent = vi.color_palette.accent?.hex || vi.color_palette.secondary?.hex || brand.accent;
+        }
+        if (vi && vi.typography) {
+          brand.headingFont = vi.typography.heading_font?.name || brand.headingFont;
+          brand.bodyFont = vi.typography.body_font?.name || brand.bodyFont;
+        }
+      } catch (e) { console.warn('Could not parse visual_identity:', e); }
+    }
+
+    // Apply brand to CSS vars
+    document.documentElement.style.setProperty('--primary', brand.primary);
+    document.documentElement.style.setProperty('--accent', brand.accent);
+    document.documentElement.style.setProperty('--heading-font', `'${brand.headingFont}', sans-serif`);
+    document.documentElement.style.setProperty('--body-font', `'${brand.bodyFont}', sans-serif`);
+
+    // Update toolbar
+    const docTitle = formatDocType(doc.doc_type);
+    document.getElementById('toolbarTitle').textContent = `${brand.clientName} — ${docTitle}`;
+    document.title = `${docTitle} | ${brand.clientName}`;
+
+    // Parse document content
+    let content;
+    try {
+      const raw = doc.content_json;
+      content = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    } catch (e) {
+      // If JSON parsing fails, try to display as text
+      content = { raw_content: doc.content_json || doc.content || 'No content available' };
+    }
+
+    if (!content || (typeof content === 'object' && Object.keys(content).length === 0)) {
+      content = { note: 'This document has no structured content yet.' };
+    }
+
+    // Render
+    const html = renderCover(doc) + renderDocument(doc.doc_type, content, doc);
+    document.getElementById('loading').style.display = 'none';
+    const wrapper = document.getElementById('docWrapper');
+    // Insert rendered pages after the toolbar (don't replace toolbar)
+    wrapper.insertAdjacentHTML('beforeend', html);
+
+  } catch (err) {
+    console.error('Doc view error:', err);
+    document.getElementById('loading').textContent = 'Error loading document: ' + err.message;
+  }
+}
+
+function formatDocType(t) {
+  return (t || '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function renderCover(doc) {
+  const title = formatDocType(doc.doc_type);
+  const date = new Date(doc.created_at).toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' });
+  return `
+    <div class="page cover">
+      <div class="accent-bar"></div>
+      <div class="doc-type">${doc.doc_category || 'Strategic Document'}</div>
+      <h1>${title}</h1>
+      <div class="client-name">Prepared for ${brand.clientName}</div>
+      <div class="meta">
+        ${date}<br>Version ${doc.version || 1}<br>
+        Generated by AI Marketing Intelligence
+      </div>
+      <div class="nb-badge">Produced by ${brand.agencyName}</div>
+    </div>
+  `;
+}
+
+function pageWrap(content, doc, pageNum) {
+  const title = formatDocType(doc.doc_type);
+  return `
+    <div class="page">
+      <div class="page-header">
+        <div class="doc-title">${title}</div>
+        <div class="client">${brand.clientName}</div>
+      </div>
+      ${content}
+      <div class="page-footer">
+        <span>${brand.agencyName} — Confidential</span>
+        <span>${pageNum ? 'Page ' + pageNum : ''}</span>
+      </div>
+    </div>
+  `;
+}
+
+function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function nl2br(s) { return (s || '').replace(/\n/g, '<br>'); }
+
+// ===== DOCUMENT RENDERERS =====
+
+function renderDocument(type, data, doc) {
+  const renderers = {
+    brand_voice: renderBrandVoice,
+    growth_strategy: renderGrowthStrategy,
+    offer_strategy: renderOfferStrategy,
+    audience_personas: renderPersonas,
+    messaging_framework: renderMessaging,
+    positioning: renderPositioning,
+    visual_identity: renderVisualIdentity,
+    conversion_strategy: renderGenericStrategy,
+    funnel_strategy: renderGenericStrategy,
+    business_overview: renderGenericStrategy,
+    market_research: renderGenericStrategy,
+    brand_audit: renderGenericStrategy,
+    analytics_review: renderGenericStrategy,
+    customer_pain_points: renderGenericStrategy,
+    customer_journey: renderGenericStrategy,
+    competitor_analysis: renderGenericStrategy,
+    audience_research: renderGenericStrategy,
+  };
+  const renderer = renderers[type] || renderGenericStrategy;
+  return renderer(data, doc);
+}
+
+function renderBrandVoice(data, doc) {
+  let html = '';
+
+  // Attributes
+  if (data.voice_attributes) {
+    html += `<h2>Voice Attributes</h2><div class="stat-row">${
+      data.voice_attributes.map(a => `<div class="stat-box"><div class="val" style="font-size:16px">${esc(a)}</div></div>`).join('')
+    }</div>`;
+  }
+
+  // Tone spectrum
+  if (data.tone_spectrum) {
+    html += '<h2>Tone Spectrum</h2><table><thead><tr><th>Dimension</th><th>Setting</th></tr></thead><tbody>';
+    for (const [key, val] of Object.entries(data.tone_spectrum)) {
+      const label = key.replace(/_/g, ' → ').replace(/\b\w/g, c => c.toUpperCase());
+      const bar = '<div style="background:#eee;border-radius:4px;height:10px;width:100%"><div style="background:var(--accent);border-radius:4px;height:10px;width:' + (val * 20) + '%"></div></div>';
+      html += `<tr><td><strong>${esc(label)}</strong></td><td>${bar} <span style="font-size:11px;color:var(--text-muted)">${val}/5</span></td></tr>`;
+    }
+    html += '</tbody></table>';
+  }
+
+  // Do/Don't examples
+  if (data.do_dont_examples) {
+    html += '<h2>Voice Guidelines</h2>';
+    data.do_dont_examples.forEach(ex => {
+      html += `<h3>${esc(ex.context || 'Example')}</h3><div class="do-dont">
+        <div class="do-box"><div class="label">Do</div>${esc(ex.do || ex.good || '')}</div>
+        <div class="dont-box"><div class="label">Don't</div>${esc(ex.dont || ex.bad || ex["don't"] || '')}</div>
+      </div>`;
+    });
+  }
+
+  return pageWrap(html, doc, 2);
+}
+
+function renderGrowthStrategy(data, doc) {
+  let html = '';
+
+  if (data.executive_summary) {
+    html += `<div class="summary-box"><div class="label">Executive Summary</div>${nl2br(esc(data.executive_summary))}</div>`;
+  }
+
+  if (data.growth_roadmap_90day) {
+    html += '<h2>90-Day Growth Roadmap</h2><table><thead><tr><th>Weeks</th><th>Focus</th><th>Key Actions</th></tr></thead><tbody>';
+    data.growth_roadmap_90day.forEach(phase => {
+      const actions = (phase.key_actions || []).map(a => `<li>${esc(a)}</li>`).join('');
+      html += `<tr><td><strong>${esc(phase.week_range || '')}</strong></td><td>${esc(phase.focus_area || '')}</td><td><ul style="margin:0">${actions}</ul></td></tr>`;
+    });
+    html += '</tbody></table>';
+  }
+
+  return pageWrap(html, doc, 2);
+}
+
+function renderOfferStrategy(data, doc) {
+  let html = '';
+  const offers = data.offers || (Array.isArray(data) ? data : [data]);
+
+  offers.forEach((offer, i) => {
+    html += `
+      <div class="doc-card" style="margin-bottom:20px;grid-column:1/-1">
+        <h4>Offer ${i+1}: ${esc(offer.name || 'Unnamed')}</h4>
+        <p>${esc(offer.description || '')}</p>
+        ${offer.target_persona ? `<p><strong>Target:</strong> ${esc(offer.target_persona)}</p>` : ''}
+        ${offer.price_point ? `<p><strong>Price:</strong> ${esc(offer.price_point)}</p>` : ''}
+        ${offer.value_stack ? `<h4 style="margin-top:12px">Value Stack</h4><ul>${offer.value_stack.map(v => `<li>${esc(v)}</li>`).join('')}</ul>` : ''}
+        ${offer.guarantee ? `<p><strong>Guarantee:</strong> ${esc(offer.guarantee)}</p>` : ''}
+        ${offer.urgency_element ? `<p><strong>Urgency:</strong> ${esc(offer.urgency_element)}</p>` : ''}
+        ${offer.objection_handlers ? `<h4 style="margin-top:12px">Objection Handlers</h4><table><thead><tr><th>Objection</th><th>Response</th></tr></thead><tbody>${
+          offer.objection_handlers.map(o => `<tr><td>${esc(o.objection)}</td><td>${esc(o.handler || o.response || '')}</td></tr>`).join('')
+        }</tbody></table>` : ''}
+      </div>
+    `;
+  });
+
+  return pageWrap('<h2>Offer Strategy</h2>' + html, doc, 2);
+}
+
+function renderPersonas(data, doc) {
+  let html = '';
+  const personas = data.personas || (Array.isArray(data) ? data : []);
+
+  if (data.persona_summary) {
+    html += `<div class="summary-box"><div class="label">Persona Summary</div>${nl2br(esc(data.persona_summary))}</div>`;
+  }
+
+  personas.forEach(p => {
+    html += `
+      <div class="persona-card">
+        <div class="header">${esc(p.name || 'Unnamed Persona')} <div class="sub">${esc(p.age_range || '')} | ${esc(p.occupation || '')} | ${esc(p.income_level || '')}</div></div>
+        <div class="body">
+          ${p.goals ? `<h4>Goals</h4><ul>${p.goals.map(g => `<li>${esc(g)}</li>`).join('')}</ul>` : ''}
+          ${p.pain_points ? `<h4>Pain Points</h4><ul>${p.pain_points.map(g => `<li>${esc(g)}</li>`).join('')}</ul>` : ''}
+          ${p.objections ? `<h4>Objections</h4><ul>${p.objections.map(g => `<li>${esc(g)}</li>`).join('')}</ul>` : ''}
+          ${p.preferred_channels ? `<h4>Preferred Channels</h4><p>${p.preferred_channels.map(c => `<span class="doc-card tag" style="display:inline-block">${esc(c)}</span>`).join(' ')}</p>` : ''}
+          ${p.messaging_approach ? `<h4>Messaging Approach</h4><p>${esc(p.messaging_approach)}</p>` : ''}
+        </div>
+      </div>
+    `;
+  });
+
+  return pageWrap(html, doc, 2);
+}
+
+function renderMessaging(data, doc) {
+  let html = '';
+
+  if (data.value_proposition) {
+    html += `<div class="summary-box"><div class="label">Value Proposition</div>${esc(data.value_proposition)}</div>`;
+  }
+
+  if (data.tagline_options) {
+    html += '<h2>Tagline Options</h2><div class="stat-row">';
+    data.tagline_options.forEach(t => { html += `<div class="stat-box"><div class="val" style="font-size:14px">"${esc(t)}"</div></div>`; });
+    html += '</div>';
+  }
+
+  if (data.elevator_pitch_30s) {
+    html += `<h2>Elevator Pitch (30s)</h2><div class="doc-card"><p>${esc(data.elevator_pitch_30s)}</p></div>`;
+  }
+  if (data.elevator_pitch_60s) {
+    html += `<h2>Elevator Pitch (60s)</h2><div class="doc-card"><p>${esc(data.elevator_pitch_60s)}</p></div>`;
+  }
+
+  if (data.core_messages) {
+    html += '<h2>Core Messages</h2><ol>';
+    data.core_messages.forEach(m => { html += `<li>${esc(m)}</li>`; });
+    html += '</ol>';
+  }
+
+  if (data.proof_points) {
+    html += '<h2>Proof Points</h2><table><thead><tr><th>Type</th><th>Point</th></tr></thead><tbody>';
+    data.proof_points.forEach(p => { html += `<tr><td><strong>${esc(p.type || '')}</strong></td><td>${esc(p.point || '')}</td></tr>`; });
+    html += '</tbody></table>';
+  }
+
+  return pageWrap(html, doc, 2);
+}
+
+function renderPositioning(data, doc) {
+  let html = '';
+
+  if (data.positioning_statement) {
+    html += `<div class="summary-box"><div class="label">Positioning Statement</div>${esc(data.positioning_statement)}</div>`;
+  }
+  if (data.category_definition) {
+    html += `<h2>Category Definition</h2><p>${esc(data.category_definition)}</p>`;
+  }
+  if (data.competitive_differentiation) {
+    html += '<h2>Competitive Differentiation</h2><ul>';
+    data.competitive_differentiation.forEach(d => { html += `<li>${esc(d)}</li>`; });
+    html += '</ul>';
+  }
+
+  return pageWrap(html, doc, 2);
+}
+
+function renderVisualIdentity(data, doc) {
+  let html = '<h2>Color Palette</h2>';
+
+  if (data.color_palette) {
+    html += '<div class="card-grid">';
+    for (const [name, info] of Object.entries(data.color_palette)) {
+      if (typeof info === 'object' && info.hex) {
+        html += `<div class="doc-card"><div class="color-swatch" style="background:${info.hex}"></div><strong>${esc(info.name || name)}</strong><br><span style="font-size:12px;color:var(--text-muted)">${info.hex} — ${esc(info.usage || '')}</span></div>`;
+      }
+    }
+    html += '</div>';
+  }
+
+  if (data.typography) {
+    html += '<h2>Typography</h2><div class="card-grid">';
+    if (data.typography.heading_font) {
+      const h = data.typography.heading_font;
+      html += `<div class="doc-card"><h4 style="font-family:'${esc(h.name)}',sans-serif;font-size:24px">${esc(h.name)}</h4><p>Headings — ${esc(h.style || '')} ${(h.weights || []).join(', ')}</p></div>`;
+    }
+    if (data.typography.body_font) {
+      const b = data.typography.body_font;
+      html += `<div class="doc-card"><h4 style="font-family:'${esc(b.name)}',sans-serif;font-size:24px">${esc(b.name)}</h4><p>Body — ${esc(b.style || '')} ${(b.weights || []).join(', ')}</p></div>`;
+    }
+    html += '</div>';
+  }
+
+  if (data.design_principles) {
+    html += '<h2>Design Principles</h2>';
+    if (Array.isArray(data.design_principles)) {
+      html += '<ul>' + data.design_principles.map(p => `<li>${esc(typeof p === 'string' ? p : p.name + ': ' + (p.description || ''))}</li>`).join('') + '</ul>';
+    } else {
+      html += renderAutoSections(data.design_principles);
+    }
+  }
+
+  return pageWrap(html, doc, 2);
+}
+
+// Generic renderer for any document type
+function renderGenericStrategy(data, doc) {
+  if (!data || typeof data !== 'object') return pageWrap(`<p>${esc(String(data))}</p>`, doc, 2);
+
+  let html = '';
+
+  // Check for executive_summary first
+  if (data.executive_summary) {
+    const summary = typeof data.executive_summary === 'string' ? data.executive_summary : JSON.stringify(data.executive_summary);
+    html += `<div class="summary-box"><div class="label">Executive Summary</div>${nl2br(esc(summary))}</div>`;
+  }
+
+  // Render remaining fields
+  html += renderAutoSections(data, ['executive_summary']);
+  return pageWrap(html, doc, 2);
+}
+
+function renderAutoSections(data, skip = []) {
+  let html = '';
+  for (const [key, val] of Object.entries(data)) {
+    if (skip.includes(key) || key.startsWith('_')) continue;
+    const title = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+    if (typeof val === 'string') {
+      html += `<h3>${esc(title)}</h3><p>${nl2br(esc(val))}</p>`;
+    } else if (Array.isArray(val)) {
+      html += `<h3>${esc(title)}</h3>`;
+      if (val.length && typeof val[0] === 'string') {
+        html += '<ul>' + val.map(v => `<li>${esc(v)}</li>`).join('') + '</ul>';
+      } else if (val.length && typeof val[0] === 'object') {
+        html += '<table><thead><tr>' + Object.keys(val[0]).map(k => `<th>${esc(k.replace(/_/g, ' '))}</th>`).join('') + '</tr></thead><tbody>';
+        val.forEach(row => {
+          html += '<tr>' + Object.values(row).map(v => `<td>${esc(typeof v === 'string' ? v : JSON.stringify(v))}</td>`).join('') + '</tr>';
+        });
+        html += '</tbody></table>';
+      }
+    } else if (typeof val === 'object' && val !== null) {
+      html += `<h3>${esc(title)}</h3>` + renderAutoSections(val);
+    }
+  }
+  return html;
+}
+
+init();
+</script>
+</body>
+</html>

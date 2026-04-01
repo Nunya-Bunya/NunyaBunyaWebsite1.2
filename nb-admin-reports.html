@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Client <span>Reports</span></h1>
+    </div>
+
+    <div class="toolbar">
+      <select id="clientFilter" onchange="loadReports()">
+        <option value="">All Clients</option>
+      </select>
+      <select id="typeFilter" onchange="loadReports()">
+        <option value="">All Types</option>
+        <option value="weekly">Weekly Reports</option>
+        <option value="seo">SEO Reports</option>
+        <option value="ads">Ads Reports</option>
+      </select>
+    </div>
+
+    <div id="reportsList"></div>
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading reports...</p></div>
+    <div class="empty-state" id="empty" style="display:none"><div class="icon">&#128200;</div><p>No reports found.</p></div>
+  </main>
+</div>
+
+<!-- Report Detail Modal -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal-card large">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h3 id="reportTitle"></h3>
+      <button class="btn-outline btn-small" onclick="closeReport()">Close</button>
+    </div>
+    <div id="reportMeta" class="meta"></div>
+    <div id="reportBody" class="content-preview"></div>
+  </div>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('reports');
+
+    const clientData = await NB_ADMIN.apiFetch('clients');
+    if (clientData) {
+      const sel = document.getElementById('clientFilter');
+      clientData.clients.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.client_id;
+        opt.textContent = c.client_name;
+        sel.appendChild(opt);
+      });
+    }
+
+    await loadReports();
+  }
+
+  async function loadReports() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('empty').style.display = 'none';
+
+    const client = document.getElementById('clientFilter').value;
+    const type = document.getElementById('typeFilter').value;
+
+    let query = 'reports?limit=30';
+    if (client) query += '&client=' + encodeURIComponent(client);
+    if (type) query += '&type=' + encodeURIComponent(type);
+
+    const data = await NB_ADMIN.apiFetch(query);
+    document.getElementById('loading').style.display = 'none';
+
+    const reports = data ? data.reports : [];
+    if (!reports.length) {
+      document.getElementById('reportsList').innerHTML = '';
+      document.getElementById('empty').style.display = 'block';
+      return;
+    }
+
+    const typeColors = { weekly: 'var(--teal)', seo: 'var(--purple)', ads: 'var(--yellow)' };
+
+    document.getElementById('reportsList').innerHTML = reports.map(r => {
+      const typeLabel = r.report_type || 'report';
+      const color = typeColors[typeLabel] || 'var(--muted)';
+      return `
+        <div class="card" style="margin-bottom:12px;cursor:pointer;border-left:3px solid ${color}" onclick='viewReport(${JSON.stringify(r).replace(/'/g, "&apos;")})'>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <span class="badge-type" style="background:${color}22;color:${color}">${typeLabel.toUpperCase()}</span>
+              <strong style="margin-left:8px">${NB_ADMIN.esc(r.client_name || r.client_id || 'Unknown')}</strong>
+            </div>
+            <span style="color:var(--muted);font-size:12px">${NB_ADMIN.formatDate(r.report_date)}</span>
+          </div>
+          ${r.executive_summary ? `<p style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px;font-weight:300">${NB_ADMIN.esc(typeof r.executive_summary === 'string' ? r.executive_summary.substring(0, 200) : 'View report for details...')}</p>` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+
+  function viewReport(report) {
+    document.getElementById('reportTitle').textContent = (report.report_type || 'Report').toUpperCase() + ' — ' + (report.client_name || report.client_id || '');
+    document.getElementById('reportMeta').textContent = NB_ADMIN.formatDateFull(report.report_date);
+
+    let body = '';
+    if (report.executive_summary) {
+      body += '<h2>Executive Summary</h2>';
+      body += typeof report.executive_summary === 'string'
+        ? report.executive_summary.replace(/\n/g, '<br>')
+        : '<pre style="white-space:pre-wrap">' + JSON.stringify(report.executive_summary, null, 2) + '</pre>';
+    }
+    if (report.recommendations) {
+      body += '<h2 style="margin-top:20px">Recommendations</h2>';
+      body += '<pre style="white-space:pre-wrap">' + JSON.stringify(report.recommendations, null, 2) + '</pre>';
+    }
+    if (report.full_report) {
+      body += '<h2 style="margin-top:20px">Full Report</h2>';
+      body += '<pre style="white-space:pre-wrap">' + JSON.stringify(report.full_report, null, 2) + '</pre>';
+    }
+    if (report.keyword_opportunities) {
+      body += '<h2 style="margin-top:20px">Keyword Opportunities</h2>';
+      body += '<pre style="white-space:pre-wrap">' + JSON.stringify(report.keyword_opportunities, null, 2) + '</pre>';
+    }
+
+    document.getElementById('reportBody').innerHTML = body || '<p>No report content available.</p>';
+    document.getElementById('reportModal').classList.add('show');
+  }
+
+  function closeReport() { document.getElementById('reportModal').classList.remove('show'); }
+  document.getElementById('reportModal').addEventListener('click', function(e) { if (e.target === this) closeReport(); });
+
+  init();
+</script>
+</body>
+</html>

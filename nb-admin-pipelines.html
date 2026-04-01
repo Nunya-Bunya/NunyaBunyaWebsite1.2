@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pipelines | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Pipeline <span>Control</span></h1>
+    </div>
+
+    <!-- Trigger Panel -->
+    <div class="pipeline-trigger-panel">
+      <h3>Run a Pipeline</h3>
+      <div class="pipeline-trigger-form">
+        <div class="form-group" style="margin:0">
+          <select id="clientSelect">
+            <option value="">Select Client...</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0">
+          <select id="pipelineSelect">
+            <option value="full_brand_setup">Full Brand Setup (17 steps)</option>
+            <option value="instagram_content">Instagram Content</option>
+            <option value="seo_content">SEO Content</option>
+            <option value="enterprise_month">Enterprise Month</option>
+          </select>
+        </div>
+        <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer">
+          <input type="checkbox" id="forceRefresh"> Force Refresh
+        </label>
+        <button class="btn-teal" onclick="triggerPipeline()">Run Pipeline</button>
+      </div>
+      <div id="triggerResult" style="margin-top:12px;font-size:13px;display:none"></div>
+    </div>
+
+    <!-- Filter -->
+    <div class="toolbar">
+      <select id="statusFilter" onchange="loadRuns()">
+        <option value="">All Statuses</option>
+        <option value="running">Running</option>
+        <option value="paused_review">Paused</option>
+        <option value="completed">Completed</option>
+        <option value="failed">Failed</option>
+      </select>
+      <select id="clientRunFilter" onchange="loadRuns()">
+        <option value="">All Clients</option>
+      </select>
+    </div>
+
+    <!-- Pipeline Runs -->
+    <div id="runsList"></div>
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading pipeline runs...</p></div>
+    <div class="empty-state" id="empty" style="display:none"><div class="icon">&#9881;</div><p>No pipeline runs found.</p></div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let allClients = [];
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('pipelines');
+
+    // Load clients
+    const clientData = await NB_ADMIN.apiFetch('clients');
+    if (clientData) {
+      allClients = clientData.clients;
+      [document.getElementById('clientSelect'), document.getElementById('clientRunFilter')].forEach(sel => {
+        allClients.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c.client_id;
+          opt.textContent = c.client_name;
+          sel.appendChild(opt);
+        });
+      });
+    }
+
+    // Try to load pipeline definitions from agent server
+    const defs = await NB_ADMIN.apiFetch('pipeline?action=definitions');
+    if (defs && defs.pipelines) {
+      const sel = document.getElementById('pipelineSelect');
+      sel.innerHTML = '';
+      Object.entries(defs.pipelines).forEach(([name, def]) => {
+        const opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = `${name} (${def.steps?.length || '?'} steps)`;
+        sel.appendChild(opt);
+      });
+    }
+
+    await loadRuns();
+  }
+
+  async function loadRuns() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('empty').style.display = 'none';
+
+    const status = document.getElementById('statusFilter').value;
+    const clientId = document.getElementById('clientRunFilter').value;
+
+    let query = 'pipeline?limit=50';
+    if (status) query += '&status=' + encodeURIComponent(status);
+    if (clientId) query += '&client_id=' + encodeURIComponent(clientId);
+
+    const data = await NB_ADMIN.apiFetch(query);
+    document.getElementById('loading').style.display = 'none';
+
+    const runs = data ? data.runs : [];
+    if (!runs.length) {
+      document.getElementById('runsList').innerHTML = '';
+      document.getElementById('empty').style.display = 'block';
+      return;
+    }
+
+    document.getElementById('runsList').innerHTML = runs.map(r => {
+      const client = allClients.find(c => c.client_id === r.client_id);
+      const clientName = client ? client.client_name : r.client_id;
+      const duration = r.completed_at
+        ? NB_ADMIN.formatDuration((new Date(r.completed_at) - new Date(r.started_at)) / 1000)
+        : NB_ADMIN.timeAgo(r.started_at);
+
+      return `
+        <div class="pipeline-run-card">
+          <div class="pipeline-run-header">
+            <span class="name">${NB_ADMIN.esc(r.pipeline_name)}</span>
+            ${NB_ADMIN.pipelineBadge(r.status)}
+          </div>
+          <div class="pipeline-run-meta">
+            <span>${NB_ADMIN.esc(clientName)}</span>
+            <span>Step ${r.current_step || 0}</span>
+            <span>${r.completed_at ? 'Took ' + duration : 'Started ' + duration}</span>
+            <span>${NB_ADMIN.formatDate(r.started_at)}</span>
+          </div>
+          ${r.status === 'paused_review' ? `<button class="btn-teal btn-small" style="margin-top:8px" onclick="resumeRun('${r.id}')">Resume Pipeline</button>` : ''}
+          ${r.status === 'running' ? '<div class="progress-bar" style="margin-top:8px"><div class="fill" style="width:50%;animation:pulse 2s infinite"></div></div>' : ''}
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function triggerPipeline() {
+    const clientId = document.getElementById('clientSelect').value;
+    const pipeline = document.getElementById('pipelineSelect').value;
+    const force = document.getElementById('forceRefresh').checked;
+
+    if (!clientId || !pipeline) {
+      alert('Select a client and pipeline.');
+      return;
+    }
+
+    const resultEl = document.getElementById('triggerResult');
+    resultEl.style.display = 'block';
+    resultEl.style.color = 'var(--teal)';
+    resultEl.textContent = 'Starting pipeline...';
+
+    const data = await NB_ADMIN.apiSend('pipeline', 'POST', {
+      pipeline_name: pipeline,
+      client_id: clientId,
+      force_refresh: force,
+    });
+
+    if (data) {
+      resultEl.textContent = 'Pipeline started! Run ID: ' + (data.run_id || JSON.stringify(data));
+      setTimeout(loadRuns, 2000);
+    } else {
+      resultEl.style.color = '#ff4444';
+      resultEl.textContent = 'Failed to start. Is the agent server running?';
+    }
+  }
+
+  async function resumeRun(runId) {
+    await NB_ADMIN.apiSend('pipeline?action=resume', 'POST', { run_id: runId });
+    setTimeout(loadRuns, 1000);
+  }
+
+  init();
+</script>
+</body>
+</html>

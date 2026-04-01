@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboard Client | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Onboard <span>New Client</span></h1>
+    </div>
+
+    <!-- Wizard Steps -->
+    <div class="wizard-steps" id="wizardSteps"></div>
+
+    <!-- Wizard Panels -->
+    <div id="wizardContent"></div>
+
+    <!-- Pipeline Progress (shown after launch) -->
+    <div id="pipelineProgress" style="display:none">
+      <div class="benchmark-timer" id="progressTimer">
+        <div class="label">PIPELINE RUNNING</div>
+        <div class="time" id="elapsedTime">0:00</div>
+        <div class="label" id="progressLabel">Initializing...</div>
+      </div>
+      <div id="pipelineSteps"></div>
+    </div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let currentStep = 0;
+  const steps = ['Basic Info', 'Brand & Audience', 'Platforms', 'Integrations', 'Review & Launch'];
+  const formData = {};
+  let timerInterval = null;
+  let startTime = null;
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('onboard');
+    renderWizard();
+  }
+
+  function renderWizard() {
+    // Steps indicator
+    document.getElementById('wizardSteps').innerHTML = steps.map((s, i) => `
+      <div class="wizard-step ${i < currentStep ? 'completed' : ''} ${i === currentStep ? 'active' : ''}">
+        <div class="step-num">${i < currentStep ? '&#10003;' : i + 1}</div>
+        <span class="step-label">${s}</span>
+      </div>
+      ${i < steps.length - 1 ? `<div class="wizard-connector ${i < currentStep ? 'completed' : ''}"></div>` : ''}
+    `).join('');
+
+    // Panel content
+    const panels = [renderStep1, renderStep2, renderStep3, renderStep4, renderStep5];
+    document.getElementById('wizardContent').innerHTML = panels[currentStep]();
+  }
+
+  function renderStep1() {
+    return `
+      <div class="wizard-panel">
+        <h2>Basic Information</h2>
+        <p class="desc">Enter the core details for the new client.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Client Name *</label>
+            <input type="text" id="clientName" value="${NB_ADMIN.esc(formData.client_name || '')}" placeholder="e.g. Merkel & Conner">
+          </div>
+          <div class="form-group">
+            <label>Business Type</label>
+            <select id="businessType">
+              <option value="">Select...</option>
+              <option value="law_firm" ${formData.business_type === 'law_firm' ? 'selected' : ''}>Law Firm</option>
+              <option value="agency" ${formData.business_type === 'agency' ? 'selected' : ''}>Agency</option>
+              <option value="personal_brand" ${formData.business_type === 'personal_brand' ? 'selected' : ''}>Personal Brand</option>
+              <option value="photography" ${formData.business_type === 'photography' ? 'selected' : ''}>Photography</option>
+              <option value="ecommerce" ${formData.business_type === 'ecommerce' ? 'selected' : ''}>E-Commerce</option>
+              <option value="restaurant" ${formData.business_type === 'restaurant' ? 'selected' : ''}>Restaurant</option>
+              <option value="trades" ${formData.business_type === 'trades' ? 'selected' : ''}>Trades & Services</option>
+              <option value="other" ${formData.business_type === 'other' ? 'selected' : ''}>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Website URL</label>
+            <input type="text" id="websiteUrl" value="${NB_ADMIN.esc(formData.website_url || '')}" placeholder="e.g. merkelconner.com.au">
+          </div>
+          <div class="form-group">
+            <label>Location</label>
+            <input type="text" id="location" value="${NB_ADMIN.esc(formData.location || '')}" placeholder="e.g. Brisbane, QLD">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Primary Service</label>
+            <input type="text" id="service" value="${NB_ADMIN.esc(formData.service || '')}" placeholder="e.g. Personal Injury Law">
+          </div>
+          <div class="form-group">
+            <label>Tier</label>
+            <select id="tier">
+              <option value="starter" ${formData.tier === 'starter' ? 'selected' : ''}>Starter ($1,750/mo)</option>
+              <option value="growth" ${formData.tier === 'growth' ? 'selected' : ''}>Growth ($2,999/mo)</option>
+              <option value="scale" ${formData.tier === 'scale' ? 'selected' : ''}>Scale ($4,999/mo)</option>
+              <option value="enterprise" ${formData.tier === 'enterprise' ? 'selected' : ''}>Enterprise ($7,999/mo)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Attorney/Owner Name (optional)</label>
+          <input type="text" id="attorneyName" value="${NB_ADMIN.esc(formData.attorney_name || '')}" placeholder="e.g. David Merkel">
+        </div>
+        <div class="wizard-nav">
+          <div></div>
+          <button class="btn-teal" onclick="nextStep()">Next &rarr;</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderStep2() {
+    return `
+      <div class="wizard-panel">
+        <h2>Brand & Audience</h2>
+        <p class="desc">Define the brand voice and target audience.</p>
+        <div class="form-group">
+          <label>Brand Tone / Voice</label>
+          <input type="text" id="tone" value="${NB_ADMIN.esc(formData.tone || '')}" placeholder="e.g. professional, empathetic, results-driven">
+        </div>
+        <div class="form-group">
+          <label>Target Audience</label>
+          <input type="text" id="targetAudience" value="${NB_ADMIN.esc(formData.target_audience || '')}" placeholder="e.g. Accident victims in Brisbane seeking compensation">
+        </div>
+        <div class="form-group">
+          <label>Content Pillars (press Enter to add)</label>
+          <div class="tag-input" id="pillarTags">
+            ${(formData.content_pillars || []).map(p => `<span class="tag">${NB_ADMIN.esc(p)} <span class="remove" onclick="removeTag(this,'pillar')">&times;</span></span>`).join('')}
+            <input type="text" id="pillarInput" placeholder="Type a pillar and press Enter" onkeydown="addTag(event,'pillar')">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Goals / Objectives</label>
+          <textarea id="goals" placeholder="What does this client want to achieve?">${NB_ADMIN.esc(formData.goals || '')}</textarea>
+        </div>
+        <div class="wizard-nav">
+          <button class="btn-outline" onclick="prevStep()">&larr; Back</button>
+          <button class="btn-teal" onclick="nextStep()">Next &rarr;</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderStep3() {
+    const platforms = ['instagram', 'linkedin', 'facebook', 'tiktok', 'youtube', 'pinterest'];
+    const selected = formData.platforms || [];
+    const freq = formData.posting_frequency || {};
+    return `
+      <div class="wizard-panel">
+        <h2>Platforms</h2>
+        <p class="desc">Choose social media platforms and posting frequency.</p>
+        <div class="form-group">
+          <label>Active Platforms</label>
+          <div class="checkbox-group">
+            ${platforms.map(p => `
+              <label><input type="checkbox" name="platform" value="${p}" ${selected.includes(p) ? 'checked' : ''} onchange="updatePlatforms()"> <span>${p.charAt(0).toUpperCase() + p.slice(1)}</span></label>
+            `).join('')}
+          </div>
+        </div>
+        <div id="frequencyFields">
+          ${selected.map(p => `
+            <div class="form-row" style="margin-bottom:8px">
+              <div class="form-group">
+                <label>${p.charAt(0).toUpperCase() + p.slice(1)} — posts per week</label>
+                <input type="number" min="0" max="14" value="${freq[p] || 3}" data-platform="${p}" class="freq-input">
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="form-group" style="margin-top:16px">
+          <label>Pipelines to Enable</label>
+          <div class="checkbox-group">
+            ${['content', 'seo', 'ads', 'reputation', 'reporting', 'lead_gen', 'sales'].map(p => `
+              <label><input type="checkbox" name="pipeline" value="${p}" ${(formData.pipelines || ['content', 'seo', 'ads', 'reputation', 'reporting']).includes(p) ? 'checked' : ''}> <span>${p.replace('_', ' ')}</span></label>
+            `).join('')}
+          </div>
+        </div>
+        <div class="wizard-nav">
+          <button class="btn-outline" onclick="prevStep()">&larr; Back</button>
+          <button class="btn-teal" onclick="nextStep()">Next &rarr;</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderStep4() {
+    return `
+      <div class="wizard-panel">
+        <h2>Integrations (Optional)</h2>
+        <p class="desc">Add platform IDs and credentials. These can be filled in later.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Google Place ID</label>
+            <input type="text" id="googlePlaceId" value="${NB_ADMIN.esc(formData.google_place_id || '')}" placeholder="ChIJ...">
+          </div>
+          <div class="form-group">
+            <label>Facebook Page ID</label>
+            <input type="text" id="facebookPageId" value="${NB_ADMIN.esc(formData.facebook_page_id || '')}" placeholder="123456789">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>WordPress URL</label>
+            <input type="text" id="wpUrl" value="${NB_ADMIN.esc(formData.wp_url || '')}" placeholder="https://blog.client.com">
+          </div>
+          <div class="form-group">
+            <label>CTA Link</label>
+            <input type="text" id="ctaLink" value="${NB_ADMIN.esc(formData.cta_link || '')}" placeholder="https://client.com/contact">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="notes" placeholder="Any additional notes about this client...">${NB_ADMIN.esc(formData.notes || '')}</textarea>
+        </div>
+        <div class="wizard-nav">
+          <button class="btn-outline" onclick="prevStep()">&larr; Back</button>
+          <button class="btn-teal" onclick="nextStep()">Review &rarr;</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderStep5() {
+    const f = formData;
+    const platforms = (f.platforms || []).join(', ') || 'None selected';
+    const pillars = (f.content_pillars || []).join(', ') || 'None set';
+    const pipes = (f.pipelines || []).join(', ') || 'None selected';
+    return `
+      <div class="wizard-panel">
+        <h2>Review & Launch</h2>
+        <p class="desc">Review the client details below, then launch the onboarding pipeline.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="card">
+            <div class="section-header">Basic Info</div>
+            <div style="font-size:14px;line-height:1.8">
+              <strong>${NB_ADMIN.esc(f.client_name || 'No name')}</strong><br>
+              ${NB_ADMIN.esc(f.business_type || '')} &bull; ${NB_ADMIN.esc(f.tier || 'starter')}<br>
+              ${NB_ADMIN.esc(f.location || '')} &bull; ${NB_ADMIN.esc(f.service || '')}<br>
+              ${f.website_url ? `<a href="https://${NB_ADMIN.esc(f.website_url)}" target="_blank" style="color:var(--teal)">${NB_ADMIN.esc(f.website_url)}</a>` : 'No website'}
+            </div>
+          </div>
+          <div class="card">
+            <div class="section-header">Brand & Audience</div>
+            <div style="font-size:14px;line-height:1.8">
+              <strong>Tone:</strong> ${NB_ADMIN.esc(f.tone || 'Not set')}<br>
+              <strong>Audience:</strong> ${NB_ADMIN.esc(f.target_audience || 'Not set')}<br>
+              <strong>Pillars:</strong> ${NB_ADMIN.esc(pillars)}
+            </div>
+          </div>
+          <div class="card">
+            <div class="section-header">Platforms</div>
+            <div style="font-size:14px">${NB_ADMIN.esc(platforms)}</div>
+          </div>
+          <div class="card">
+            <div class="section-header">Pipelines</div>
+            <div style="font-size:14px">${NB_ADMIN.esc(pipes)}</div>
+          </div>
+        </div>
+        <div class="wizard-nav">
+          <button class="btn-outline" onclick="prevStep()">&larr; Back</button>
+          <button class="btn-magenta" onclick="launchOnboarding()" id="launchBtn" style="font-size:16px;padding:14px 32px">
+            Launch Onboarding Pipeline
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  function saveCurrentStep() {
+    switch (currentStep) {
+      case 0:
+        formData.client_name = document.getElementById('clientName')?.value || '';
+        formData.business_type = document.getElementById('businessType')?.value || '';
+        formData.website_url = document.getElementById('websiteUrl')?.value || '';
+        formData.location = document.getElementById('location')?.value || '';
+        formData.service = document.getElementById('service')?.value || '';
+        formData.tier = document.getElementById('tier')?.value || 'starter';
+        formData.attorney_name = document.getElementById('attorneyName')?.value || '';
+        break;
+      case 1:
+        formData.tone = document.getElementById('tone')?.value || '';
+        formData.target_audience = document.getElementById('targetAudience')?.value || '';
+        formData.goals = document.getElementById('goals')?.value || '';
+        // Content pillars saved via tag system
+        break;
+      case 2:
+        updatePlatforms();
+        formData.pipelines = [...document.querySelectorAll('input[name="pipeline"]:checked')].map(el => el.value);
+        break;
+      case 3:
+        formData.google_place_id = document.getElementById('googlePlaceId')?.value || '';
+        formData.facebook_page_id = document.getElementById('facebookPageId')?.value || '';
+        formData.wp_url = document.getElementById('wpUrl')?.value || '';
+        formData.cta_link = document.getElementById('ctaLink')?.value || '';
+        formData.notes = document.getElementById('notes')?.value || '';
+        break;
+    }
+  }
+
+  function nextStep() {
+    saveCurrentStep();
+    if (currentStep === 0 && !formData.client_name) {
+      alert('Client name is required.');
+      return;
+    }
+    if (currentStep < steps.length - 1) {
+      currentStep++;
+      renderWizard();
+    }
+  }
+
+  function prevStep() {
+    saveCurrentStep();
+    if (currentStep > 0) {
+      currentStep--;
+      renderWizard();
+    }
+  }
+
+  function addTag(e, type) {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    const input = e.target;
+    const val = input.value.trim();
+    if (!val) return;
+    if (!formData.content_pillars) formData.content_pillars = [];
+    formData.content_pillars.push(val);
+    input.value = '';
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.innerHTML = `${NB_ADMIN.esc(val)} <span class="remove" onclick="removeTag(this,'pillar')">&times;</span>`;
+    input.parentElement.insertBefore(tag, input);
+  }
+
+  function removeTag(el, type) {
+    const text = el.parentElement.textContent.replace('\u00d7', '').trim();
+    formData.content_pillars = (formData.content_pillars || []).filter(p => p !== text);
+    el.parentElement.remove();
+  }
+
+  function updatePlatforms() {
+    const checked = [...document.querySelectorAll('input[name="platform"]:checked')].map(el => el.value);
+    formData.platforms = checked;
+    const freq = {};
+    document.querySelectorAll('.freq-input').forEach(el => {
+      freq[el.dataset.platform] = parseInt(el.value) || 3;
+    });
+    checked.forEach(p => { if (!freq[p]) freq[p] = 3; });
+    formData.posting_frequency = freq;
+  }
+
+  async function launchOnboarding() {
+    const btn = document.getElementById('launchBtn');
+    btn.disabled = true;
+    btn.textContent = 'Creating client...';
+
+    const payload = {
+      client_name: formData.client_name,
+      website_url: formData.website_url,
+      location: formData.location,
+      business_type: formData.business_type,
+      service: formData.service,
+      tier: formData.tier,
+      tone: formData.tone,
+      target_audience: formData.target_audience,
+      target_city: (formData.location || '').split(',')[0].trim(),
+      content_pillars: formData.content_pillars || [],
+      platforms: formData.platforms || [],
+      posting_frequency: formData.posting_frequency || {},
+      pipelines: formData.pipelines || [],
+      attorney_name: formData.attorney_name,
+      cta_link: formData.cta_link,
+      goals: formData.goals,
+      notes: formData.notes,
+      google_place_id: formData.google_place_id,
+      facebook_page_id: formData.facebook_page_id,
+      wp_url: formData.wp_url,
+      trigger_pipeline: true,
+    };
+
+    const result = await NB_ADMIN.apiSend('data?action=onboard', 'POST', payload);
+
+    if (!result || !result.success) {
+      btn.disabled = false;
+      btn.textContent = 'Launch Onboarding Pipeline';
+      alert('Failed to create client: ' + (result?.error || 'Unknown error'));
+      return;
+    }
+
+    // Show pipeline progress
+    document.getElementById('wizardContent').style.display = 'none';
+    document.getElementById('wizardSteps').style.display = 'none';
+    document.getElementById('pipelineProgress').style.display = 'block';
+
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const min = Math.floor(elapsed / 60);
+      const sec = elapsed % 60;
+      document.getElementById('elapsedTime').textContent = `${min}:${String(sec).padStart(2, '0')}`;
+    }, 1000);
+
+    if (result.pipeline_triggered && result.pipeline?.run_id) {
+      NB_ADMIN.pollPipeline(result.pipeline.run_id, (data) => {
+        document.getElementById('progressLabel').textContent =
+          `Step ${data.current_step || 0} — ${data.status}`;
+
+        if (data.status === 'completed' || data.status === 'failed') {
+          clearInterval(timerInterval);
+          document.getElementById('progressTimer').classList.remove('running');
+          document.getElementById('progressLabel').innerHTML =
+            data.status === 'completed'
+              ? 'Pipeline complete! <a href="/nb-admin-client?id=' + result.client_slug + '" style="color:var(--teal)">View Client &rarr;</a>'
+              : 'Pipeline failed. Check logs.';
+        }
+      });
+      document.getElementById('progressTimer').classList.add('running');
+    } else {
+      clearInterval(timerInterval);
+      document.getElementById('progressLabel').innerHTML =
+        'Client created! Pipeline not started (agent server may be offline). <a href="/nb-admin-client?id=' + result.client_slug + '" style="color:var(--teal)">View Client &rarr;</a>';
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>

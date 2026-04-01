@@ -1,4 +1,4 @@
-// Admin API: GET content items for calendar view
+// Admin API: GET content items for calendar view (reads from content_calendar_items view)
 import { requireAuth, supabaseFetch } from '../../lib/auth-utils.js';
 
 export default async function handler(req, res) {
@@ -10,14 +10,14 @@ export default async function handler(req, res) {
   if (!start || !end) return res.status(400).json({ error: 'start and end dates required (YYYY-MM-DD).' });
 
   try {
-    let query = `dashboard_content_items?date=gte.${start}&date=lte.${end}&order=date.asc,platform.asc`;
+    let query = `content_calendar_items?date=gte.${start}&date=lte.${end}&order=date.asc,platform.asc`;
 
     if (client && client !== 'all') {
       query += `&client_id=eq.${encodeURIComponent(client)}`;
     }
 
     const items = await supabaseFetch(query);
-    return res.status(200).json({ total: items.length, items });
+    return res.status(200).json({ total: (items || []).length, items: items || [] });
   } catch (err) {
     console.error('Calendar error:', err);
     return res.status(500).json({ error: 'Failed to fetch calendar data.' });

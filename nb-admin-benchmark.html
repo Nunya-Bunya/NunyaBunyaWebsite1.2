@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benchmark | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Enterprise <span>Benchmark</span></h1>
+      <div style="font-size:14px;color:var(--muted)">North Star: Generate a full Enterprise month and time it</div>
+    </div>
+
+    <!-- Start Benchmark -->
+    <div class="pipeline-trigger-panel" id="startPanel">
+      <h3>Run Benchmark</h3>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:16px">
+        Select a client and benchmark type. This will trigger the full pipeline and measure how long it takes to generate all deliverables.
+      </p>
+      <div class="pipeline-trigger-form">
+        <div class="form-group" style="margin:0">
+          <select id="benchClient">
+            <option value="">Select Client...</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0">
+          <select id="benchType">
+            <option value="full_enterprise_month">Full Enterprise Month</option>
+            <option value="onboarding">Onboarding Only</option>
+          </select>
+        </div>
+        <button class="btn-magenta" onclick="startBenchmark()" id="startBtn">Start Benchmark</button>
+      </div>
+    </div>
+
+    <!-- Live Timer -->
+    <div id="liveSection" style="display:none">
+      <div class="benchmark-timer running" id="timerCard">
+        <div class="label" id="timerLabel">RUNNING</div>
+        <div class="time" id="timerTime">0:00</div>
+        <div class="label" id="timerSub">Generating Enterprise month...</div>
+      </div>
+
+      <!-- Deliverable Counts -->
+      <div class="deliverable-grid" id="deliverableGrid"></div>
+
+      <!-- Step Progress -->
+      <div class="section">
+        <div class="section-header">Pipeline Steps</div>
+        <div id="stepsList" class="card"></div>
+      </div>
+    </div>
+
+    <!-- Past Benchmarks -->
+    <div class="section" style="margin-top:32px">
+      <div class="section-header">Past Benchmarks</div>
+      <div id="pastBenchmarks"></div>
+      <div class="loading" id="loading"><div class="spinner"></div><p>Loading benchmarks...</p></div>
+    </div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let timerInterval = null;
+  let benchStart = null;
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('benchmark');
+
+    // Load clients
+    const clientData = await NB_ADMIN.apiFetch('clients');
+    if (clientData) {
+      const sel = document.getElementById('benchClient');
+      clientData.clients.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.client_id;
+        opt.textContent = `${c.client_name} (${c.tier || 'client'})`;
+        sel.appendChild(opt);
+      });
+    }
+
+    await loadPastBenchmarks();
+  }
+
+  async function loadPastBenchmarks() {
+    const data = await NB_ADMIN.apiFetch('data?action=benchmark&limit=20');
+    document.getElementById('loading').style.display = 'none';
+
+    const runs = data ? data.runs : [];
+    if (!runs || !runs.length) {
+      document.getElementById('pastBenchmarks').innerHTML = '<div class="empty-state"><p>No benchmarks yet. Run one to see results here.</p></div>';
+      return;
+    }
+
+    document.getElementById('pastBenchmarks').innerHTML = runs.map(r => {
+      const duration = r.duration_seconds
+        ? NB_ADMIN.formatDuration(r.duration_seconds)
+        : (r.completed_at ? NB_ADMIN.formatDuration((new Date(r.completed_at) - new Date(r.started_at)) / 1000) : 'In progress');
+      const counts = r.deliverable_counts || {};
+      const countStr = Object.entries(counts).map(([k, v]) => `${v} ${k.replace('_', ' ')}`).join(', ');
+
+      return `
+        <div class="pipeline-run-card">
+          <div class="pipeline-run-header">
+            <span class="name">${NB_ADMIN.esc(r.client_id)} — ${NB_ADMIN.esc(r.run_type)}</span>
+            ${NB_ADMIN.pipelineBadge(r.status)}
+          </div>
+          <div class="pipeline-run-meta">
+            <span>Duration: <strong style="color:var(--teal)">${duration}</strong></span>
+            <span>${NB_ADMIN.formatDate(r.started_at)}</span>
+          </div>
+          ${countStr ? `<div style="font-size:13px;color:var(--muted);margin-top:8px">${countStr}</div>` : ''}
+          ${r.notes ? `<div style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:4px">${NB_ADMIN.esc(r.notes)}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function startBenchmark() {
+    const clientId = document.getElementById('benchClient').value;
+    const runType = document.getElementById('benchType').value;
+
+    if (!clientId) { alert('Select a client.'); return; }
+
+    const btn = document.getElementById('startBtn');
+    btn.disabled = true;
+    btn.textContent = 'Starting...';
+
+    const result = await NB_ADMIN.apiSend('data?action=benchmark', 'POST', {
+      client_id: clientId,
+      run_type: runType,
+    });
+
+    if (!result || !result.success) {
+      btn.disabled = false;
+      btn.textContent = 'Start Benchmark';
+      alert('Failed to start benchmark: ' + (result?.error || 'Unknown error'));
+      return;
+    }
+
+    // Show live section
+    document.getElementById('startPanel').style.display = 'none';
+    document.getElementById('liveSection').style.display = 'block';
+
+    // Start timer
+    benchStart = Date.now();
+    timerInterval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - benchStart) / 1000);
+      const min = Math.floor(elapsed / 60);
+      const sec = elapsed % 60;
+      document.getElementById('timerTime').textContent = `${min}:${String(sec).padStart(2, '0')}`;
+    }, 1000);
+
+    // Enterprise month expected deliverables
+    const targets = {
+      blog_posts: 10, social_posts: 85, video_scripts: 4,
+      email_campaigns: 4, seo_audit: 1, weekly_report: 1,
+    };
+    document.getElementById('deliverableGrid').innerHTML = Object.entries(targets).map(([key, target]) => `
+      <div class="deliverable-card" id="del-${key}">
+        <div class="count">0</div>
+        <div class="target">/ ${target}</div>
+        <div class="label">${key.replace(/_/g, ' ')}</div>
+      </div>
+    `).join('');
+
+    // Poll pipeline status if available
+    if (result.pipeline?.run_id) {
+      NB_ADMIN.pollPipeline(result.pipeline.run_id, (data) => {
+        document.getElementById('timerSub').textContent =
+          `Step ${data.current_step || 0} — ${data.status}`;
+
+        if (data.status === 'completed' || data.status === 'failed') {
+          clearInterval(timerInterval);
+          document.getElementById('timerCard').classList.remove('running');
+          document.getElementById('timerLabel').textContent = data.status === 'completed' ? 'COMPLETE' : 'FAILED';
+          loadPastBenchmarks();
+        }
+      });
+    } else {
+      document.getElementById('timerSub').textContent = 'Benchmark created. Agent server may be offline — pipeline not running.';
+      clearInterval(timerInterval);
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-// Admin API: GET all clients
+// Admin API: GET all clients (reads from unified clients table)
 import { requireAuth, supabaseFetch } from '../../lib/auth-utils.js';
 
 export default async function handler(req, res) {
@@ -7,8 +7,19 @@ export default async function handler(req, res) {
   if (!requireAuth(req)) return res.status(401).json({ error: 'Unauthorized' });
 
   try {
-    const clients = await supabaseFetch('dashboard_clients?select=*&order=client_name.asc');
-    return res.status(200).json({ total: clients.length, clients });
+    const { active } = req.query;
+    let query = 'clients?select=*&order=client_name.asc';
+    if (active === 'true') query += '&active=eq.true';
+
+    const clients = await supabaseFetch(query);
+
+    // Map to consistent shape for frontend (client_id = client_slug for backwards compat)
+    const mapped = (clients || []).map(c => ({
+      ...c,
+      client_id: c.client_slug || c.id,
+    }));
+
+    return res.status(200).json({ total: mapped.length, clients: mapped });
   } catch (err) {
     console.error('Clients error:', err);
     return res.status(500).json({ error: 'Failed to fetch clients.' });

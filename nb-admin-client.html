@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Client Detail | NB Admin</title>
+<title>Client Detail | NBHQ</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -42,7 +42,32 @@
       <div id="notesEditor"></div>
     </div>
 
+    <!-- Tab Content: All Deliverables -->
+    <div id="tab-deliverables" class="tab-content">
+      <div id="deliverablesList"></div>
+    </div>
+
+    <!-- Tab Content: Pipelines -->
+    <div id="tab-pipelines" class="tab-content">
+      <div id="pipelinesList"></div>
+    </div>
+
     <div class="loading" id="loading"><div class="spinner"></div><p>Loading client...</p></div>
+
+    <!-- Content Preview Modal -->
+    <div class="modal-overlay" id="previewModal">
+      <div class="modal-card large">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <h3 id="previewTitle"></h3>
+          <div style="display:flex;gap:8px">
+            <button class="btn-teal btn-small" id="downloadBtn" style="display:none" onclick="downloadPackage()">Download Package</button>
+            <button class="btn-outline btn-small" onclick="closePreview()">Close</button>
+          </div>
+        </div>
+        <div id="previewMeta" class="meta"></div>
+        <div id="previewBody" class="content-preview"></div>
+      </div>
+    </div>
   </main>
 </div>
 
@@ -87,23 +112,28 @@
     `;
 
     // KPIs
+    const pipelineCount = (clientData.pipeline_runs || []).length;
     document.getElementById('kpiGrid').innerHTML = `
       <div class="kpi-card"><div class="num">${stats.total}</div><div class="label">Total Content</div></div>
-      <div class="kpi-card yellow"><div class="num">${stats.planned}</div><div class="label">Planned</div></div>
-      <div class="kpi-card purple"><div class="num">${stats.drafted}</div><div class="label">Drafted</div></div>
-      <div class="kpi-card"><div class="num">${stats.published}</div><div class="label">Published</div></div>
+      <div class="kpi-card yellow"><div class="num">${stats.pending_review || 0}</div><div class="label">Pending Review</div></div>
+      <div class="kpi-card purple"><div class="num">${stats.approved || 0}</div><div class="label">Approved</div></div>
+      <div class="kpi-card"><div class="num">${stats.published || 0}</div><div class="label">Published</div></div>
     `;
 
     // Tabs
     document.getElementById('tabBar').innerHTML = `
       <button class="tab active" onclick="switchTab('overview')">Overview</button>
-      <button class="tab" onclick="switchTab('content')">Content (${stats.total})</button>
+      <button class="tab" onclick="switchTab('deliverables')">Deliverables</button>
+      <button class="tab" onclick="switchTab('content')">Calendar (${stats.total})</button>
+      <button class="tab" onclick="switchTab('pipelines')">Pipelines (${pipelineCount})</button>
       <button class="tab" onclick="switchTab('reports')">Reports (${clientData.reports.length})</button>
-      <button class="tab" onclick="switchTab('notes')">Weekly Notes</button>
+      <button class="tab" onclick="switchTab('notes')">Notes</button>
     `;
 
     renderOverview();
+    renderDeliverables();
     renderContent();
+    renderPipelines();
     renderReports();
     renderNotes();
   }
@@ -246,6 +276,311 @@
       const el = document.getElementById('saveStatus');
       el.style.display = 'inline';
       setTimeout(() => { el.style.display = 'none'; }, 2000);
+    }
+  }
+
+  async function renderDeliverables() {
+    const clientName = clientData.client.client_name;
+    const data = await NB_ADMIN.apiFetch('data?action=deliverables&client_id=' + encodeURIComponent(clientId) + '&client_name=' + encodeURIComponent(clientName));
+
+    if (!data || !data.total) {
+      document.getElementById('deliverablesList').innerHTML = '<div class="empty-state"><div class="icon">&#128203;</div><p>No deliverables yet. Run a pipeline to generate content.</p></div>';
+      return;
+    }
+
+    // Counts summary
+    const c = data.counts;
+    const countsHtml = `
+      <div class="kpi-grid" style="margin-bottom:24px">
+        <div class="kpi-card"><div class="num">${c.strategy_docs}</div><div class="label">Strategy Docs</div></div>
+        <div class="kpi-card yellow"><div class="num">${c.blog_posts}</div><div class="label">Blog Posts</div></div>
+        <div class="kpi-card magenta"><div class="num">${c.social_posts}</div><div class="label">Social Batches</div></div>
+        <div class="kpi-card purple"><div class="num">${c.weekly_reports + c.seo_reports}</div><div class="label">Reports</div></div>
+      </div>
+    `;
+
+    // Render by group
+    const grouped = data.grouped;
+    const sectionLabels = {
+      strategy: 'Strategy & Research Documents',
+      content: 'Content Deliverables',
+      report: 'Reports & Analytics',
+    };
+    const typeIcons = {
+      strategy_doc: '&#128203;', blog_post: '&#128221;', social_post: '&#128247;',
+      weekly_report: '&#128200;', seo_report: '&#128270;', email_campaign: '&#128231;',
+    };
+
+    let sectionsHtml = '';
+    for (const [cat, items] of Object.entries(grouped)) {
+      if (!items.length) continue;
+      sectionsHtml += `
+        <div class="section">
+          <div class="section-header">${sectionLabels[cat] || cat} <span class="badge">${items.length}</span></div>
+          ${items.map(d => {
+            const icon = typeIcons[d.type] || '&#128196;';
+            const isStratDoc = d.source_table === 'pipeline_documents';
+            const clickAction = isStratDoc
+              ? `onclick="window.open('/nb-admin-doc-view?client=${clientId}&id=${d.id}','_blank')"`
+              : `onclick="previewDeliverable('${d.id}','${NB_ADMIN.esc(d.source_table)}','${NB_ADMIN.esc(d.title)}')"`;
+            return `
+              <div class="approval-card" style="cursor:pointer" ${clickAction}>
+                <div class="approval-card-header">
+                  <div class="left">
+                    <span style="font-size:18px">${icon}</span>
+                    ${NB_ADMIN.typeBadge(d.type)}
+                    <span class="title">${NB_ADMIN.esc(d.title || 'Untitled')}</span>
+                  </div>
+                  ${NB_ADMIN.statusBadge(d.status)}
+                </div>
+                <div class="approval-card-meta">
+                  ${NB_ADMIN.esc(d.subtype || '')} &bull; by ${NB_ADMIN.esc(d.created_by || 'agent')} &bull; ${NB_ADMIN.timeAgo(d.created_at)}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    document.getElementById('deliverablesList').innerHTML = countsHtml + sectionsHtml;
+  }
+
+  async function previewDeliverable(id, sourceTable, title) {
+    const tableMap = {
+      content_campaigns: 'content_campaign',
+      social_posts: 'social_post',
+      weekly_reports: 'weekly_report',
+      seo_reports: 'seo_report',
+    };
+    const type = tableMap[sourceTable] || sourceTable;
+    const data = await NB_ADMIN.apiFetch(`approval?id=${id}&type=${type}`);
+
+    if (!data || !data.item) { alert('Could not load deliverable.'); return; }
+
+    const item = data.item;
+    document.getElementById('previewTitle').textContent = title || 'Deliverable';
+    document.getElementById('previewMeta').textContent = `${sourceTable.replace(/_/g, ' ')} | ${NB_ADMIN.formatDate(item.created_at || item.report_date || new Date())}`;
+
+    let body = '';
+
+    if (sourceTable === 'content_campaigns') {
+      const imgUrl = (item.image_prompt || '').startsWith('http') ? item.image_prompt : '';
+      if (imgUrl) {
+        body += `<img src="${imgUrl}" style="width:100%;border-radius:8px;margin-bottom:16px" alt="Hero image">`;
+      }
+      if (item.blog_post) {
+        body += '<h2>Blog Post</h2><div style="white-space:pre-wrap;line-height:1.8">' + NB_ADMIN.esc(item.blog_post).replace(/\\n/g, '\n') + '</div>';
+      }
+      if (item.social_posts && Object.keys(item.social_posts).length) {
+        body += '<h2 style="margin-top:24px">Social Posts</h2>';
+        const sp = typeof item.social_posts === 'string' ? JSON.parse(item.social_posts) : item.social_posts;
+        for (const [platform, post] of Object.entries(sp)) {
+          body += renderPlatformMockup(platform, typeof post === 'string' ? post : JSON.stringify(post), imgUrl);
+        }
+      }
+    } else if (sourceTable === 'social_posts') {
+      const posts = typeof item.posts === 'string' ? JSON.parse(item.posts) : (item.posts || {});
+      const briefs = typeof item.visual_briefs === 'string' ? JSON.parse(item.visual_briefs || '{}') : (item.visual_briefs || {});
+      const imageUrls = briefs.image_urls || {};
+
+      // Enable download button
+      currentPreviewData = { posts, imageUrls, clientName: clientData.client.client_name };
+      document.getElementById('downloadBtn').style.display = 'inline-block';
+
+      for (const [platform, post] of Object.entries(posts)) {
+        const imgUrl = imageUrls[platform] || imageUrls.instagram || '';
+        const text = typeof post === 'string' ? post : (post.text || post.caption || JSON.stringify(post));
+        body += renderPlatformMockup(platform, text, imgUrl);
+      }
+    } else if (sourceTable === 'weekly_reports') {
+      if (item.executive_summary) {
+        const summary = typeof item.executive_summary === 'string' ? item.executive_summary : JSON.stringify(item.executive_summary, null, 2);
+        body += '<h2>Executive Summary</h2><pre style="white-space:pre-wrap">' + NB_ADMIN.esc(summary) + '</pre>';
+      }
+      if (item.full_report) {
+        body += '<h2>Full Report</h2><pre style="white-space:pre-wrap">' + NB_ADMIN.esc(JSON.stringify(typeof item.full_report === 'string' ? JSON.parse(item.full_report) : item.full_report, null, 2)) + '</pre>';
+      }
+    } else {
+      body = '<pre style="white-space:pre-wrap">' + NB_ADMIN.esc(JSON.stringify(item, null, 2)) + '</pre>';
+    }
+
+    document.getElementById('previewBody').innerHTML = body || '<p>No content available.</p>';
+    document.getElementById('previewModal').classList.add('show');
+  }
+
+  function renderPlatformMockup(platform, text, imageUrl) {
+    const p = platform.toLowerCase();
+    const clientName = clientData.client.client_name;
+    const esc = NB_ADMIN.esc;
+
+    if (p.includes('instagram')) {
+      return `
+        <div style="max-width:400px;margin:16px auto;background:#000;border-radius:12px;overflow:hidden;font-family:-apple-system,sans-serif">
+          <div style="padding:12px 14px;display:flex;align-items:center;gap:10px">
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:12px;font-weight:700">${esc(clientName.charAt(0))}</span></div>
+            <span style="color:#fff;font-size:13px;font-weight:600">${esc(clientName.toLowerCase().replace(/[^a-z0-9]/g,''))}</span>
+          </div>
+          ${imageUrl ? `<img src="${imageUrl}" style="width:100%;aspect-ratio:1;object-fit:cover" alt="">` : '<div style="width:100%;aspect-ratio:1;background:#1a1a1a;display:flex;align-items:center;justify-content:center;color:#555">No image</div>'}
+          <div style="padding:12px 14px">
+            <div style="display:flex;gap:16px;margin-bottom:10px">
+              <span style="color:#fff;font-size:20px">&#9825;</span>
+              <span style="color:#fff;font-size:20px">&#128172;</span>
+              <span style="color:#fff;font-size:20px">&#9992;</span>
+            </div>
+            <div style="color:#fff;font-size:13px;line-height:1.5"><strong>${esc(clientName.toLowerCase().replace(/[^a-z0-9]/g,''))}</strong> ${esc(text).substring(0, 300)}${text.length > 300 ? '...' : ''}</div>
+          </div>
+        </div>`;
+    }
+
+    if (p.includes('linkedin')) {
+      return `
+        <div style="max-width:500px;margin:16px auto;background:#1b1f23;border:1px solid #333;border-radius:8px;overflow:hidden;font-family:-apple-system,sans-serif">
+          <div style="padding:14px 16px;display:flex;align-items:center;gap:10px">
+            <div style="width:40px;height:40px;border-radius:50%;background:#0a66c2;display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:16px;font-weight:700">${esc(clientName.charAt(0))}</span></div>
+            <div><div style="color:#fff;font-size:14px;font-weight:600">${esc(clientName)}</div><div style="color:#999;font-size:12px">Company &bull; Just now</div></div>
+          </div>
+          <div style="padding:0 16px 12px;color:#ccc;font-size:14px;line-height:1.6">${esc(text).substring(0, 400)}${text.length > 400 ? '...' : ''}</div>
+          ${imageUrl ? `<img src="${imageUrl}" style="width:100%;aspect-ratio:1.91;object-fit:cover" alt="">` : ''}
+          <div style="padding:10px 16px;border-top:1px solid #333;display:flex;gap:24px;color:#999;font-size:12px">
+            <span>&#128077; Like</span><span>&#128172; Comment</span><span>&#8634; Repost</span><span>&#9992; Send</span>
+          </div>
+        </div>`;
+    }
+
+    if (p.includes('facebook')) {
+      return `
+        <div style="max-width:500px;margin:16px auto;background:#242526;border-radius:8px;overflow:hidden;font-family:-apple-system,sans-serif">
+          <div style="padding:14px 16px;display:flex;align-items:center;gap:10px">
+            <div style="width:40px;height:40px;border-radius:50%;background:#1877f2;display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:16px;font-weight:700">${esc(clientName.charAt(0))}</span></div>
+            <div><div style="color:#e4e6eb;font-size:14px;font-weight:600">${esc(clientName)}</div><div style="color:#999;font-size:12px">Just now &bull; &#127758;</div></div>
+          </div>
+          <div style="padding:0 16px 12px;color:#e4e6eb;font-size:14px;line-height:1.5">${esc(text).substring(0, 400)}${text.length > 400 ? '...' : ''}</div>
+          ${imageUrl ? `<img src="${imageUrl}" style="width:100%;aspect-ratio:1.91;object-fit:cover" alt="">` : ''}
+          <div style="padding:10px 16px;border-top:1px solid #3a3b3c;display:flex;justify-content:space-around;color:#b0b3b8;font-size:13px;font-weight:600">
+            <span>&#128077; Like</span><span>&#128172; Comment</span><span>&#8634; Share</span>
+          </div>
+        </div>`;
+    }
+
+    // Default / TikTok / other
+    return `
+      <div style="max-width:400px;margin:16px auto;background:#111;border-radius:12px;overflow:hidden;font-family:-apple-system,sans-serif;position:relative">
+        ${imageUrl ? `<img src="${imageUrl}" style="width:100%;aspect-ratio:9/16;object-fit:cover;opacity:0.7" alt="">` : '<div style="width:100%;aspect-ratio:9/16;background:#111"></div>'}
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(0,0,0,0.8))">
+          <div style="color:#fff;font-size:14px;font-weight:600;margin-bottom:6px">@${esc(clientName.toLowerCase().replace(/[^a-z0-9]/g,''))}</div>
+          <div style="color:#fff;font-size:13px;line-height:1.5">${esc(text).substring(0, 200)}${text.length > 200 ? '...' : ''}</div>
+        </div>
+      </div>`;
+  }
+
+  let currentPreviewData = null;
+
+  function closePreview() {
+    document.getElementById('previewModal').classList.remove('show');
+    document.getElementById('downloadBtn').style.display = 'none';
+    currentPreviewData = null;
+  }
+
+  function downloadPackage() {
+    if (!currentPreviewData) return;
+    const { posts, imageUrls, clientName } = currentPreviewData;
+
+    // Build a text file with all captions + image URLs
+    let content = `Social Media Package — ${clientName}\nGenerated: ${new Date().toLocaleDateString()}\n${'='.repeat(50)}\n\n`;
+
+    for (const [platform, text] of Object.entries(posts)) {
+      const imgUrl = imageUrls[platform] || '';
+      content += `--- ${platform.toUpperCase()} ---\n`;
+      content += `Caption:\n${typeof text === 'string' ? text : JSON.stringify(text)}\n\n`;
+      if (imgUrl) content += `Image URL: ${imgUrl}\n(Right-click and save the image from this URL)\n`;
+      content += `\n`;
+    }
+
+    // Download as text file
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${clientName.replace(/[^a-zA-Z0-9]/g, '-')}-social-package.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById('previewModal').addEventListener('click', function(e) {
+    if (e.target === this) closePreview();
+  });
+
+  function renderPipelines() {
+    const runs = clientData.pipeline_runs || [];
+
+    const triggerHtml = `
+      <div class="pipeline-trigger-panel">
+        <h3>Run Pipeline</h3>
+        <div class="pipeline-trigger-form">
+          <select id="pipelineSelect">
+            <option value="full_brand_setup">Full Brand Setup (17 steps)</option>
+            <option value="instagram_content">Instagram Content</option>
+            <option value="seo_content">SEO Content</option>
+            <option value="enterprise_month">Enterprise Month</option>
+          </select>
+          <button class="btn-teal" onclick="triggerPipeline()">Run</button>
+        </div>
+        <div id="triggerResult" style="margin-top:12px;font-size:13px;display:none"></div>
+      </div>
+    `;
+
+    if (!runs.length) {
+      document.getElementById('pipelinesList').innerHTML = triggerHtml + '<div class="empty-state"><div class="icon">&#9881;</div><p>No pipeline runs yet.</p></div>';
+      return;
+    }
+
+    document.getElementById('pipelinesList').innerHTML = triggerHtml + runs.map(r => `
+      <div class="pipeline-run-card">
+        <div class="pipeline-run-header">
+          <span class="name">${NB_ADMIN.esc(r.pipeline_name)}</span>
+          ${NB_ADMIN.pipelineBadge(r.status)}
+        </div>
+        <div class="pipeline-run-meta">
+          <span>Step ${r.current_step || 0}</span>
+          <span>Started ${NB_ADMIN.timeAgo(r.started_at)}</span>
+          ${r.completed_at ? `<span>Took ${NB_ADMIN.formatDuration((new Date(r.completed_at) - new Date(r.started_at)) / 1000)}</span>` : ''}
+        </div>
+        ${r.status === 'paused_review' ? `<button class="btn-teal btn-small" style="margin-top:8px" onclick="resumePipeline('${r.id}')">Resume</button>` : ''}
+      </div>
+    `).join('');
+  }
+
+  async function triggerPipeline() {
+    const pipeline = document.getElementById('pipelineSelect').value;
+    const resultEl = document.getElementById('triggerResult');
+    resultEl.style.display = 'block';
+    resultEl.style.color = 'var(--teal)';
+    resultEl.textContent = 'Starting pipeline...';
+
+    const data = await NB_ADMIN.apiSend('pipeline', 'POST', {
+      pipeline_name: pipeline,
+      client_id: clientId,
+    });
+
+    if (data) {
+      resultEl.textContent = 'Pipeline started! Run ID: ' + (data.run_id || 'unknown');
+      // Reload pipeline runs after a short delay
+      setTimeout(async () => {
+        const fresh = await NB_ADMIN.apiFetch('client?id=' + encodeURIComponent(clientId));
+        if (fresh) { clientData.pipeline_runs = fresh.pipeline_runs; renderPipelines(); }
+      }, 2000);
+    } else {
+      resultEl.style.color = '#ff4444';
+      resultEl.textContent = 'Failed to start pipeline. Is the agent server running?';
+    }
+  }
+
+  async function resumePipeline(runId) {
+    const data = await NB_ADMIN.apiSend('pipeline?action=resume', 'POST', { run_id: runId });
+    if (data) {
+      const fresh = await NB_ADMIN.apiFetch('client?id=' + encodeURIComponent(clientId));
+      if (fresh) { clientData.pipeline_runs = fresh.pipeline_runs; renderPipelines(); }
     }
   }
 

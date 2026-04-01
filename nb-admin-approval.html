@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approval Queue | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Approval <span>Queue</span></h1>
+      <div id="queueStats" style="font-size:14px;color:var(--muted)"></div>
+    </div>
+
+    <div class="toolbar">
+      <select id="clientFilter" onchange="loadQueue()">
+        <option value="">All Clients</option>
+      </select>
+      <select id="typeFilter" onchange="loadQueue()">
+        <option value="">All Types</option>
+        <option value="content_campaign">Blog Posts</option>
+        <option value="social_post">Social Posts</option>
+        <option value="review_response">Review Responses</option>
+        <option value="weekly_report">Reports</option>
+      </select>
+      <button class="btn-teal btn-small" id="bulkApproveBtn" onclick="bulkApprove()" style="display:none">
+        Approve Selected
+      </button>
+    </div>
+
+    <div id="approvalList"></div>
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading approval queue...</p></div>
+    <div class="empty-state" id="empty" style="display:none"><div class="icon">&#10003;</div><p>All caught up! Nothing to approve.</p></div>
+  </main>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal-overlay" id="previewModal">
+  <div class="modal-card large">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h3 id="previewTitle"></h3>
+      <button class="btn-outline btn-small" onclick="closePreview()">Close</button>
+    </div>
+    <div id="previewMeta" class="meta"></div>
+    <div id="previewBody" class="content-preview"></div>
+    <div style="margin-top:20px;display:flex;gap:8px" id="previewActions"></div>
+  </div>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let allItems = [];
+  let selectedItems = new Set();
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('approval');
+
+    // Load clients for filter
+    const clientData = await NB_ADMIN.apiFetch('clients');
+    if (clientData) {
+      const sel = document.getElementById('clientFilter');
+      clientData.clients.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.client_id;
+        opt.textContent = c.client_name;
+        sel.appendChild(opt);
+      });
+    }
+
+    await loadQueue();
+  }
+
+  async function loadQueue() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('empty').style.display = 'none';
+    selectedItems.clear();
+    updateBulkBtn();
+
+    const clientId = document.getElementById('clientFilter').value;
+    const itemType = document.getElementById('typeFilter').value;
+
+    let query = 'approval?limit=100';
+    if (clientId) query += '&client_id=' + encodeURIComponent(clientId);
+    if (itemType) query += '&item_type=' + encodeURIComponent(itemType);
+
+    const data = await NB_ADMIN.apiFetch(query);
+    document.getElementById('loading').style.display = 'none';
+
+    allItems = data ? data.items : [];
+    document.getElementById('queueStats').textContent = `${allItems.length} items pending`;
+
+    if (!allItems.length) {
+      document.getElementById('approvalList').innerHTML = '';
+      document.getElementById('empty').style.display = 'block';
+      return;
+    }
+
+    renderQueue();
+  }
+
+  function renderQueue() {
+    document.getElementById('approvalList').innerHTML = allItems.map(item => `
+      <div class="approval-card" id="card-${item.id}">
+        <div class="approval-card-header">
+          <div class="left">
+            <input type="checkbox" onchange="toggleSelect('${item.id}')" ${selectedItems.has(item.id) ? 'checked' : ''}>
+            ${NB_ADMIN.typeBadge(item.item_type)}
+            <span class="title">${NB_ADMIN.esc(item.title || 'Untitled')}</span>
+          </div>
+          ${NB_ADMIN.statusBadge(item.status)}
+        </div>
+        <div class="approval-card-meta">
+          ${item.client_name ? NB_ADMIN.esc(item.client_name) + ' &bull; ' : ''}
+          ${NB_ADMIN.timeAgo(item.created_at)}
+        </div>
+        <div class="approval-card-actions">
+          <button class="btn-preview" onclick="previewItem('${item.id}','${item.item_type}')">Preview</button>
+          <button class="btn-approve" onclick="approveItem('${item.id}','${item.item_type}')">Approve</button>
+          <button class="btn-reject" onclick="rejectItem('${item.id}','${item.item_type}')">Reject</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function toggleSelect(id) {
+    if (selectedItems.has(id)) selectedItems.delete(id);
+    else selectedItems.add(id);
+    updateBulkBtn();
+  }
+
+  function updateBulkBtn() {
+    const btn = document.getElementById('bulkApproveBtn');
+    btn.style.display = selectedItems.size > 0 ? 'inline-block' : 'none';
+    btn.textContent = `Approve Selected (${selectedItems.size})`;
+  }
+
+  async function approveItem(id, type) {
+    const result = await NB_ADMIN.apiSend('approval', 'PATCH', { id, item_type: type, action: 'approve' });
+    if (result) {
+      const card = document.getElementById('card-' + id);
+      if (card) card.style.opacity = '0.3';
+      allItems = allItems.filter(i => i.id !== id);
+      document.getElementById('queueStats').textContent = `${allItems.length} items pending`;
+    }
+  }
+
+  async function rejectItem(id, type) {
+    const result = await NB_ADMIN.apiSend('approval', 'PATCH', { id, item_type: type, action: 'reject' });
+    if (result) {
+      const card = document.getElementById('card-' + id);
+      if (card) card.style.opacity = '0.3';
+      allItems = allItems.filter(i => i.id !== id);
+      document.getElementById('queueStats').textContent = `${allItems.length} items pending`;
+    }
+  }
+
+  async function bulkApprove() {
+    for (const id of selectedItems) {
+      const item = allItems.find(i => i.id === id);
+      if (item) await approveItem(id, item.item_type);
+    }
+    selectedItems.clear();
+    updateBulkBtn();
+  }
+
+  async function previewItem(id, type) {
+    const data = await NB_ADMIN.apiFetch(`approval?id=${id}&type=${type}`);
+    if (!data || !data.item) return;
+
+    const item = data.item;
+    document.getElementById('previewTitle').textContent = item.topic || item.reviewer_name || 'Content Preview';
+    document.getElementById('previewMeta').textContent = `${type.replace('_', ' ')} | ${NB_ADMIN.formatDate(item.created_at || new Date())}`;
+
+    let body = '';
+    if (type === 'content_campaign') {
+      body = `<h2>Blog Post</h2>${(item.blog_post || 'No blog post content.').replace(/\n/g, '<br>')}`;
+      if (item.social_posts && Object.keys(item.social_posts).length) {
+        body += '<h2 style="margin-top:24px">Social Posts</h2><pre style="white-space:pre-wrap">' + JSON.stringify(item.social_posts, null, 2) + '</pre>';
+      }
+    } else if (type === 'social_post') {
+      body = '<pre style="white-space:pre-wrap">' + JSON.stringify(item.posts, null, 2) + '</pre>';
+    } else if (type === 'review_response') {
+      body = `<p><strong>Review (${item.rating}&#11088;):</strong> ${NB_ADMIN.esc(item.review_text || '')}</p><hr style="border-color:var(--subtle);margin:16px 0"><p><strong>Drafted Response:</strong></p><p>${NB_ADMIN.esc(item.drafted_response || '')}</p>`;
+    } else if (type === 'weekly_report') {
+      body = '<pre style="white-space:pre-wrap">' + JSON.stringify(item.full_report || item.executive_summary, null, 2) + '</pre>';
+    }
+
+    document.getElementById('previewBody').innerHTML = body;
+    document.getElementById('previewActions').innerHTML = `
+      <button class="btn-approve" onclick="approveItem('${id}','${type}');closePreview()">Approve</button>
+      <button class="btn-reject" onclick="rejectItem('${id}','${type}');closePreview()">Reject</button>
+    `;
+    document.getElementById('previewModal').classList.add('show');
+  }
+
+  function closePreview() { document.getElementById('previewModal').classList.remove('show'); }
+  document.getElementById('previewModal').addEventListener('click', function(e) { if (e.target === this) closePreview(); });
+
+  init();
+</script>
+</body>
+</html>
