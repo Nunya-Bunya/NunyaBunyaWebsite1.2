@@ -3,38 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard | NB</title>
+<title>Leads | NBHQ</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
 <style>
-  :root {
-    --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
-    --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
-    --muted: #999999; --subtle: #2a2a2a;
-    --font-heading: 'Barlow Condensed', sans-serif;
-    --font-body: 'Plus Jakarta Sans', sans-serif;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: var(--font-body); background: var(--dark); color: var(--white); min-height: 100vh; }
-
-  /* Header */
-  .admin-header {
-    background: var(--dark2); border-bottom: 1px solid var(--subtle);
-    padding: 20px 40px; display: flex; align-items: center; justify-content: space-between;
-  }
-  .admin-header h1 { font-family: var(--font-heading); font-weight: 700; font-size: 22px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .admin-header h1 span { color: var(--teal); }
-  .stats { display: flex; gap: 24px; }
-  .stat-box { text-align: center; }
-  .stat-box .num { font-family: var(--font-heading); font-weight: 900; font-size: 28px; color: var(--teal); }
-  .stat-box .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
-
-  /* Tabs */
-  .tabs { display: flex; gap: 0; padding: 0 40px; background: var(--dark2); border-bottom: 1px solid var(--subtle); }
+  .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--subtle); }
   .tab {
-    padding: 14px 28px; font-family: var(--font-heading); font-weight: 700; font-size: 14px;
+    padding: 12px 24px; font-family: var(--font-heading); font-weight: 700; font-size: 13px;
     text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; color: var(--muted);
     border-bottom: 3px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none;
   }
@@ -42,24 +20,17 @@
   .tab.active { color: var(--teal); border-bottom-color: var(--teal); }
   .tab .badge-count {
     display: inline-block; background: rgba(0,229,204,0.15); color: var(--teal);
-    padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 8px; font-weight: 500;
+    padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 6px; font-weight: 500;
   }
   .tab .badge-count.magenta { background: rgba(255,45,120,0.15); color: var(--magenta); }
 
-  /* Toolbar */
-  .admin-toolbar { padding: 20px 40px; display: flex; gap: 12px; align-items: center; }
-  .admin-toolbar input {
+  .toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; }
+  .toolbar input {
     background: var(--dark2); border: 1px solid var(--subtle); color: var(--white);
     padding: 10px 16px; border-radius: 8px; font-size: 14px; width: 300px; font-family: var(--font-body);
   }
-  .admin-toolbar input::placeholder { color: #555; }
-  .admin-toolbar input:focus { outline: none; border-color: var(--teal); }
-  .btn-teal {
-    background: var(--teal); color: var(--dark); border: none; padding: 10px 20px; border-radius: 8px;
-    font-family: var(--font-heading); font-weight: 700; font-size: 13px; text-transform: uppercase;
-    letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s;
-  }
-  .btn-teal:hover { background: #00cdb5; }
+  .toolbar input::placeholder { color: #555; }
+  .toolbar input:focus { outline: none; border-color: var(--teal); }
   .btn-outline {
     background: transparent; color: var(--teal); border: 1px solid var(--teal); padding: 10px 20px;
     border-radius: 8px; font-family: var(--font-heading); font-weight: 700; font-size: 13px;
@@ -67,8 +38,6 @@
   }
   .btn-outline:hover { background: rgba(0,229,204,0.1); }
 
-  /* Tables */
-  .table-wrap { padding: 0 40px 40px; }
   table { width: 100%; border-collapse: collapse; background: var(--dark2); border-radius: 12px; overflow: hidden; }
   thead th {
     background: var(--dark3); padding: 14px 20px; text-align: left;
@@ -79,7 +48,9 @@
   tbody tr:hover { background: rgba(0,229,204,0.03); }
   .source-badge { display: inline-block; background: rgba(0,229,204,0.1); color: var(--teal); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
   .source-badge.contact { background: rgba(255,45,120,0.1); color: var(--magenta); }
-  .msg-preview { max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); font-size: 13px; }
+  .msg-preview { max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); font-size: 13px; cursor: pointer; }
+  .pkg-badge { display: inline-block; background: rgba(255,183,0,0.12); color: #FFB800; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+
   .msg-full { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; }
   .msg-full.show { display: flex; }
   .msg-card {
@@ -89,64 +60,45 @@
   .msg-card h3 { font-family: var(--font-heading); font-weight: 700; font-size: 18px; text-transform: uppercase; margin-bottom: 4px; }
   .msg-card .meta { color: var(--muted); font-size: 13px; margin-bottom: 20px; font-weight: 300; }
   .msg-card .body { color: var(--white); font-size: 14px; line-height: 1.7; font-weight: 300; white-space: pre-wrap; }
-  .msg-card .close-btn { margin-top: 20px; }
-  .pkg-badge { display: inline-block; background: rgba(255,183,0,0.12); color: #FFB800; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
 
-  /* Login */
-  .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-  .login-card { background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px; padding: 48px 40px; width: 380px; text-align: center; }
-  .login-card h2 { font-family: var(--font-heading); font-weight: 700; font-size: 20px; text-transform: uppercase; margin-bottom: 8px; }
-  .login-card p { font-size: 13px; color: var(--muted); margin-bottom: 24px; font-weight: 300; }
-  .login-card input { width: 100%; background: var(--dark3); border: 1px solid var(--subtle); color: var(--white); padding: 14px 18px; border-radius: 10px; font-size: 14px; font-family: var(--font-body); margin-bottom: 16px; }
-  .login-card input:focus { outline: none; border-color: var(--teal); }
-  .login-card .btn-teal { width: 100%; padding: 14px; font-size: 15px; }
-  .login-error { color: #ff4444; font-size: 13px; margin-top: 10px; display: none; }
   .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
   .empty-state .icon { font-size: 48px; margin-bottom: 16px; }
-  #dashboard { display: none; }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
 </style>
 </head>
 <body>
-
-<!-- LOGIN -->
-<div id="loginScreen" class="login-screen">
-  <div class="login-card">
-    <h2>Admin Dashboard</h2>
-    <p>Enter your admin key to view leads and messages.</p>
-    <input type="password" id="adminKey" placeholder="Admin key" onkeypress="if(event.key==='Enter')login()">
-    <button class="btn-teal" onclick="login()">Access Dashboard</button>
-    <p class="login-error" id="loginError">Invalid key. Try again.</p>
-  </div>
-</div>
-
-<!-- DASHBOARD -->
-<div id="dashboard">
-  <div class="admin-header">
-    <h1>Nunya <span>Bunya</span> &mdash; Dashboard</h1>
-    <div class="stats">
-      <div class="stat-box"><div class="num" id="totalLeads">0</div><div class="label">Total Leads</div></div>
-      <div class="stat-box"><div class="num" id="totalMessages">0</div><div class="label">Messages</div></div>
-      <div class="stat-box"><div class="num" id="todayLeads">0</div><div class="label">Today</div></div>
-      <div class="stat-box"><div class="num" id="weekLeads">0</div><div class="label">This Week</div></div>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Leads & <span>Messages</span></h1>
+        <div class="date" id="dateLabel"></div>
+      </div>
     </div>
-  </div>
 
-  <!-- TABS -->
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('leads')">Email List <span class="badge-count" id="leadsCount">0</span></button>
-    <button class="tab" onclick="switchTab('messages')">Messages <span class="badge-count magenta" id="messagesCount">0</span></button>
-  </div>
-
-  <!-- LEADS TAB -->
-  <div id="tab-leads" class="tab-content active">
-    <div class="admin-toolbar">
-      <input type="text" id="searchLeads" placeholder="Search leads by name or email..." oninput="filterLeads()">
-      <button class="btn-outline" onclick="exportCSV()">Export CSV</button>
-      <button class="btn-outline" onclick="refreshAll()">Refresh</button>
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="num" id="totalLeads">0</div><div class="label">Total Leads</div></div>
+      <div class="kpi-card magenta"><div class="num" id="totalMessages">0</div><div class="label">Messages</div></div>
+      <div class="kpi-card"><div class="num" id="todayLeads">0</div><div class="label">Today</div></div>
+      <div class="kpi-card"><div class="num" id="weekLeads">0</div><div class="label">This Week</div></div>
     </div>
-    <div class="table-wrap">
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('leads')">Email List <span class="badge-count" id="leadsCount">0</span></button>
+      <button class="tab" onclick="switchTab('messages')">Messages <span class="badge-count magenta" id="messagesCount">0</span></button>
+    </div>
+
+    <!-- Leads Tab -->
+    <div id="tab-leads" class="tab-content active">
+      <div class="toolbar">
+        <input type="text" id="searchLeads" placeholder="Search leads by name or email..." oninput="filterLeads()">
+        <button class="btn-outline" onclick="exportCSV()">Export CSV</button>
+        <button class="btn-outline" onclick="refreshAll()">Refresh</button>
+      </div>
       <table>
         <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Source</th><th>Date</th></tr></thead>
         <tbody id="leadsBody"></tbody>
@@ -156,15 +108,13 @@
         <p>No leads yet. Share your lead magnet link to start collecting emails!</p>
       </div>
     </div>
-  </div>
 
-  <!-- MESSAGES TAB -->
-  <div id="tab-messages" class="tab-content">
-    <div class="admin-toolbar">
-      <input type="text" id="searchMessages" placeholder="Search messages..." oninput="filterMessages()">
-      <button class="btn-outline" onclick="refreshAll()">Refresh</button>
-    </div>
-    <div class="table-wrap">
+    <!-- Messages Tab -->
+    <div id="tab-messages" class="tab-content">
+      <div class="toolbar">
+        <input type="text" id="searchMessages" placeholder="Search messages..." oninput="filterMessages()">
+        <button class="btn-outline" onclick="refreshAll()">Refresh</button>
+      </div>
       <table>
         <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Package</th><th>Message</th><th>Date</th></tr></thead>
         <tbody id="messagesBody"></tbody>
@@ -174,7 +124,9 @@
         <p>No messages yet. Contact form submissions will appear here.</p>
       </div>
     </div>
-  </div>
+
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading leads...</p></div>
+  </main>
 </div>
 
 <!-- Message Modal -->
@@ -183,46 +135,46 @@
     <h3 id="modalName"></h3>
     <div class="meta" id="modalMeta"></div>
     <div class="body" id="modalBody"></div>
-    <button class="btn-outline close-btn" onclick="closeMsg()">Close</button>
+    <button class="btn-outline" style="margin-top:20px" onclick="closeMsg()">Close</button>
   </div>
 </div>
 
+<script src="/nb-admin-shared.js"></script>
 <script>
-  let adminKey = '';
   let allLeads = [];
   let allContacts = [];
 
-  async function login() {
-    adminKey = document.getElementById('adminKey').value.trim();
-    if (!adminKey) return;
-    try {
-      const res = await fetch('/api/leads?key=' + encodeURIComponent(adminKey));
-      if (res.ok) {
-        const data = await res.json();
-        allLeads = data.leads || [];
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-        renderLeads(allLeads);
-        loadContacts();
-        updateStats();
-      } else {
-        document.getElementById('loginError').style.display = 'block';
-      }
-    } catch (err) {
-      document.getElementById('loginError').style.display = 'block';
-    }
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('leads');
+    document.getElementById('dateLabel').textContent = NB_ADMIN.formatDateFull(new Date());
+    await refreshAll();
+    document.getElementById('loading').style.display = 'none';
   }
 
-  async function loadContacts() {
+  async function refreshAll() {
     try {
-      const res = await fetch('/api/contacts?key=' + encodeURIComponent(adminKey));
-      if (res.ok) {
-        const data = await res.json();
-        allContacts = data.contacts || [];
-        renderMessages(allContacts);
+      const [leadsData, contactsData] = await Promise.all([
+        NB_ADMIN.apiFetch('data?type=leads'),
+        NB_ADMIN.apiFetch('data?type=contacts'),
+      ]);
+      allLeads = leadsData?.leads || leadsData || [];
+      allContacts = contactsData?.contacts || contactsData || [];
+      renderLeads(allLeads);
+      renderMessages(allContacts);
+      updateStats();
+    } catch (err) {
+      console.error('Failed to load data:', err);
+      // Fallback: try the old API endpoints
+      try {
+        const lr = await fetch('/api/leads');
+        if (lr.ok) { allLeads = (await lr.json()).leads || []; renderLeads(allLeads); }
+        const cr = await fetch('/api/contacts');
+        if (cr.ok) { allContacts = (await cr.json()).contacts || []; renderMessages(allContacts); }
         updateStats();
-      }
-    } catch (err) { console.error('Failed to load contacts:', err); }
+      } catch (e) { console.error('Fallback also failed:', e); }
+    }
   }
 
   function switchTab(tab) {
@@ -235,7 +187,7 @@
   function renderLeads(leads) {
     const tbody = document.getElementById('leadsBody');
     const empty = document.getElementById('emptyLeads');
-    if (leads.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+    if (!leads || leads.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
     empty.style.display = 'none';
     tbody.innerHTML = leads.map((l, i) => {
       const dateStr = fmtDate(l.created_at);
@@ -248,12 +200,12 @@
   function renderMessages(contacts) {
     const tbody = document.getElementById('messagesBody');
     const empty = document.getElementById('emptyMessages');
-    if (contacts.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+    if (!contacts || contacts.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
     empty.style.display = 'none';
     tbody.innerHTML = contacts.map((c, i) => {
       const dateStr = fmtDate(c.created_at);
       const pkg = c.package ? `<span class="pkg-badge">${esc(c.package)}</span>` : '<span style="color:#555">--</span>';
-      const msgPreview = c.message ? `<span class="msg-preview" style="cursor:pointer" onclick='showMsg(${i})'>${esc(c.message)}</span>` : '<span style="color:#555">No message</span>';
+      const msgPreview = c.message ? `<span class="msg-preview" onclick='showMsg(${i})'>${esc(c.message)}</span>` : '<span style="color:#555">No message</span>';
       return `<tr><td>${i+1}</td><td>${esc(c.name)}</td><td>${esc(c.email)}</td><td>${esc(c.phone||'--')}</td><td>${pkg}</td><td>${msgPreview}</td><td>${dateStr}</td></tr>`;
     }).join('');
   }
@@ -273,30 +225,25 @@
 
   function filterLeads() {
     const q = document.getElementById('searchLeads').value.toLowerCase();
-    renderLeads(allLeads.filter(l => l.name.toLowerCase().includes(q) || l.email.toLowerCase().includes(q)));
+    renderLeads(allLeads.filter(l => (l.name||'').toLowerCase().includes(q) || (l.email||'').toLowerCase().includes(q)));
   }
 
   function filterMessages() {
     const q = document.getElementById('searchMessages').value.toLowerCase();
     renderMessages(allContacts.filter(c =>
-      c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q) || (c.message||'').toLowerCase().includes(q)
+      (c.name||'').toLowerCase().includes(q) || (c.email||'').toLowerCase().includes(q) || (c.message||'').toLowerCase().includes(q)
     ));
   }
 
-  async function refreshAll() {
-    try {
-      const [lr, cr] = await Promise.all([
-        fetch('/api/leads?key=' + encodeURIComponent(adminKey)),
-        fetch('/api/contacts?key=' + encodeURIComponent(adminKey))
-      ]);
-      if (lr.ok) { allLeads = (await lr.json()).leads || []; renderLeads(allLeads); }
-      if (cr.ok) { allContacts = (await cr.json()).contacts || []; renderMessages(allContacts); }
-      updateStats();
-    } catch (err) { console.error('Refresh failed:', err); }
-  }
-
   function exportCSV() {
-    window.open('/api/leads?key=' + encodeURIComponent(adminKey) + '&format=csv', '_blank');
+    if (!allLeads.length) return;
+    const header = 'Name,Email,Source,Date\n';
+    const rows = allLeads.map(l => `"${l.name}","${l.email}","${l.source||'direct'}","${l.created_at}"`).join('\n');
+    const blob = new Blob([header + rows], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `leads-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
   }
 
   function showMsg(idx) {
@@ -311,6 +258,7 @@
   function closeMsg() { document.getElementById('msgModal').classList.remove('show'); }
 
   function fmtDate(d) {
+    if (!d) return '--';
     return new Date(d).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit' });
   }
 
@@ -322,6 +270,8 @@
   }
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMsg(); });
+
+  init();
 </script>
 </body>
 </html>
