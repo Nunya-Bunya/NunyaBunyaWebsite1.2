@@ -498,12 +498,9 @@
     const platform = entries[idx].platform || 'instagram';
     const orientation = platform === 'instagram' ? 'square' : 'landscape';
 
-    // Use Pexels via a simple fetch
+    // Use Pexels via backend proxy
     try {
-      const resp = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(topic)}&per_page=6&orientation=${orientation}`, {
-        headers: { 'Authorization': 'VNdwg4H6Cy5FTgoqAccaPPdLvK61HHzA7vckp7amBfJZmBD0ebmf1vbN' }
-      });
-      const data = await resp.json();
+      const data = await NB_ADMIN.apiFetch(`services?service=pexels&action=search&query=${encodeURIComponent(topic)}&per_page=6&orientation=${orientation}`);
       if (data.photos && data.photos.length) {
         // Show a simple picker
         const urls = data.photos.map(p => p.src.large2x);

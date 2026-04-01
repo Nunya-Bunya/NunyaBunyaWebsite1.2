@@ -156,24 +156,21 @@
   async function refreshAll() {
     try {
       const [leadsData, contactsData] = await Promise.all([
-        NB_ADMIN.apiFetch('data?type=leads'),
-        NB_ADMIN.apiFetch('data?type=contacts'),
+        NB_ADMIN.apiFetch('services?service=leads'),
+        NB_ADMIN.apiFetch('services?service=contacts'),
       ]);
-      allLeads = leadsData?.leads || leadsData || [];
-      allContacts = contactsData?.contacts || contactsData || [];
+      allLeads = leadsData?.leads || [];
+      allContacts = contactsData?.contacts || [];
       renderLeads(allLeads);
       renderMessages(allContacts);
       updateStats();
     } catch (err) {
-      console.error('Failed to load data:', err);
-      // Fallback: try the old API endpoints
-      try {
-        const lr = await fetch('/api/leads');
-        if (lr.ok) { allLeads = (await lr.json()).leads || []; renderLeads(allLeads); }
-        const cr = await fetch('/api/contacts');
-        if (cr.ok) { allContacts = (await cr.json()).contacts || []; renderMessages(allContacts); }
-        updateStats();
-      } catch (e) { console.error('Fallback also failed:', e); }
+      console.error('Failed to load leads:', err);
+      allLeads = [];
+      allContacts = [];
+      renderLeads([]);
+      renderMessages([]);
+      updateStats();
     }
   }
 

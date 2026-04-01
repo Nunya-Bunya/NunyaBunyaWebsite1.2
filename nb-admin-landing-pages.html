@@ -126,12 +126,7 @@
 
 <script src="/nb-admin-shared.js"></script>
 <script>
-const MAUTIC_URL = 'https://mautic.nunyabunya.com';
-const MAUTIC_AUTH = btoa('ben@nunyabunya.com:VIVAlaR3VOLUCI0N!');
-const SHLINK_URL = 'https://go.nunyabunya.com/rest/v3';
-const SHLINK_KEY = '5cacc8944dafea3f168f216643805808';
-const MATOMO_URL = 'https://analytics.nunyabunya.com';
-const MATOMO_TOKEN = 'b922b22fa942389ee37e3373456e8dfb';
+const MAUTIC_URL = 'https://mautic.nunyabunya.com'; // Only used for preview URLs, not auth
 
 const PAGES = [
   // Nunya Bunya
@@ -177,35 +172,22 @@ async function loadData() {
 
 async function fetchClicks(shortLink) {
   try {
-    const res = await fetch(`${SHLINK_URL}/short-urls/${shortLink}`, {
-      headers: { 'X-Api-Key': SHLINK_KEY },
-    });
-    const json = await res.json();
-    return json.visitsSummary?.total || json.visitsCount || 0;
+    const r = await NB_ADMIN.apiFetch(`services?service=shlink&action=clicks&slug=${shortLink}`);
+    return r?.clicks || 0;
   } catch { return 0; }
 }
 
 async function fetchViews(slug) {
   try {
-    const params = new URLSearchParams({
-      module: 'API', method: 'Actions.getPageUrl',
-      pageUrl: `/${slug}`, idSite: '1',
-      period: 'month', date: 'today', format: 'JSON',
-      token_auth: MATOMO_TOKEN,
-    });
-    const res = await fetch(MATOMO_URL, { method: 'POST', body: params });
-    const json = await res.json();
-    return (json[0] && json[0].nb_visits) || 0;
+    const r = await NB_ADMIN.apiFetch(`services?service=matomo&action=page-views&path=/${slug}`);
+    return r?.views || 0;
   } catch { return 0; }
 }
 
 async function fetchSubmissions(formId) {
   try {
-    const res = await fetch(`${MAUTIC_URL}/api/forms/${formId}/submissions?limit=1`, {
-      headers: { 'Authorization': `Basic ${MAUTIC_AUTH}` },
-    });
-    const json = await res.json();
-    return parseInt(json.total) || 0;
+    const r = await NB_ADMIN.apiFetch(`services?service=mautic&action=form-submissions&formId=${formId}`);
+    return r?.total || 0;
   } catch { return 0; }
 }
 
