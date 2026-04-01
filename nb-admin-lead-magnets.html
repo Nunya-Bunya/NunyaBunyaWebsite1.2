@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Magnets | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  .lm-filters { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .lm-filter-btn {
+    padding: 8px 16px; border-radius: 8px; border: 1px solid var(--subtle);
+    background: transparent; color: var(--muted); font-size: 13px; cursor: pointer;
+    font-family: var(--font-heading); font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; transition: all 0.2s;
+  }
+  .lm-filter-btn:hover { color: var(--white); border-color: var(--white); }
+  .lm-filter-btn.active { color: var(--teal); border-color: var(--teal); background: rgba(0,229,204,0.05); }
+
+  .lm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .lm-grid { grid-template-columns: 1fr; } }
+
+  .lm-card {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
+    padding: 24px; transition: border-color 0.2s, transform 0.2s;
+  }
+  .lm-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+
+  .lm-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .lm-card-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; }
+  .lm-card-biz {
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 3px 10px; border-radius: 6px; white-space: nowrap;
+  }
+
+  .lm-card-type {
+    font-size: 12px; color: var(--muted); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .lm-type-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .lm-type-badge.pdf { background: rgba(255,45,120,0.1); color: var(--magenta); }
+  .lm-type-badge.html { background: rgba(0,229,204,0.1); color: var(--teal); }
+
+  .lm-card-links { display: flex; gap: 12px; margin-bottom: 16px; font-size: 13px; flex-wrap: wrap; }
+  .lm-card-links a {
+    color: var(--teal); text-decoration: none; transition: opacity 0.2s;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .lm-card-links a:hover { opacity: 0.7; }
+  .lm-card-links .sep { color: var(--subtle); }
+
+  .lm-card-connection {
+    background: var(--dark); border: 1px solid var(--subtle); border-radius: 8px;
+    padding: 12px 16px; font-size: 13px; color: var(--muted);
+  }
+  .lm-card-connection strong { color: var(--white); font-weight: 500; }
+  .lm-card-connection a { color: var(--teal); text-decoration: none; }
+
+  .lm-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .lm-stat {
+    background: var(--dark); border: 1px solid var(--subtle); border-radius: 8px;
+    padding: 14px 8px; text-align: center;
+  }
+  .lm-stat-value {
+    font-family: var(--font-heading); font-weight: 900; font-size: 28px;
+    letter-spacing: -0.5px; line-height: 1;
+  }
+  .lm-stat-label {
+    font-size: 10px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.08em; margin-top: 6px;
+  }
+
+  .lm-empty { color: var(--muted); font-size: 14px; padding: 40px; text-align: center; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Lead <span>Magnets</span></h1>
+        <div class="date">Downloadable resources across all businesses</div>
+      </div>
+    </div>
+
+    <!-- KPI Summary -->
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="num" id="totalMagnets">0</div><div class="label">Total Lead Magnets</div></div>
+      <div class="kpi-card"><div class="num" id="totalPDFs">0</div><div class="label">PDFs</div></div>
+      <div class="kpi-card magenta"><div class="num" id="totalHTML">0</div><div class="label">HTML Guides</div></div>
+      <div class="kpi-card"><div class="num" id="totalBusinesses">0</div><div class="label">Businesses</div></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="lm-filters" id="filterBar"></div>
+
+    <!-- Lead Magnet Cards -->
+    <div class="lm-grid" id="lmGrid"></div>
+
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+const LEAD_MAGNETS = [
+  {
+    name: 'Social Media Audit Checklist',
+    business: 'Nunya Bunya',
+    bizId: 'nunya-bunya',
+    color: '#00E5CC',
+    type: 'pdf',
+    filePath: '/assets/Social-Media-Audit-Checklist.pdf',
+    localPath: '03-Nunya Bunya/Lead Magnets/Social-Media-Audit-Checklist.pdf',
+    landingPage: { name: 'Free Marketing Audit', url: '/free-marketing-audit', mauticUrl: 'https://mautic.nunyabunya.com/free-marketing-audit' },
+    shortLink: 'nb-audit',
+    description: 'Step-by-step checklist for auditing a business\'s social media presence',
+  },
+  {
+    name: 'What Even Is Good Marketing?',
+    business: 'Nunya Bunya',
+    bizId: 'nunya-bunya',
+    color: '#00E5CC',
+    type: 'pdf',
+    filePath: '/assets/what-even-is-good-marketing.pdf',
+    localPath: '03-Nunya Bunya/Lead Magnets/What-Even-Is-Good-Marketing.pdf',
+    landingPage: { name: 'Lead Magnet Page', url: '/lead-magnet' },
+    shortLink: null,
+    description: 'Guide explaining what effective marketing actually looks like for small businesses',
+  },
+  {
+    name: 'The Zero Dollar Marketing Stack',
+    business: 'Nunya Bunya',
+    bizId: 'nunya-bunya',
+    color: '#00E5CC',
+    type: 'pdf',
+    filePath: '/assets/the-zero-dollar-marketing-stack.pdf',
+    localPath: '03-Nunya Bunya/Site/nunyabunya-site/assets/the-zero-dollar-marketing-stack.pdf',
+    landingPage: { name: 'Open Source Stack', url: '/open-source-stack' },
+    shortLink: null,
+    description: 'Complete guide to building a marketing stack with zero software costs',
+  },
+  {
+    name: 'How Much Should Marketing Cost?',
+    business: 'Nunya Bunya',
+    bizId: 'nunya-bunya',
+    color: '#00E5CC',
+    type: 'html',
+    filePath: '/assets/how-much-should-marketing-cost.html',
+    localPath: '03-Nunya Bunya/Site/nunyabunya-site/assets/how-much-should-marketing-cost.html',
+    landingPage: null,
+    shortLink: null,
+    description: 'Interactive guide breaking down realistic marketing budgets for SMBs',
+  },
+  {
+    name: 'Marketing Audit Guide',
+    business: 'Nunya Bunya',
+    bizId: 'nunya-bunya',
+    color: '#00E5CC',
+    type: 'html',
+    filePath: '/assets/marketing-audit-guide.html',
+    localPath: '03-Nunya Bunya/Site/nunyabunya-site/assets/marketing-audit-guide.html',
+    landingPage: { name: 'Free Audit', url: '/free-audit' },
+    shortLink: 'audit',
+    description: 'Detailed marketing audit walkthrough for prospective clients',
+  },
+  {
+    name: 'Posing Guide',
+    business: 'Power Portraits',
+    bizId: 'power-portraits',
+    color: '#FFB800',
+    type: 'pdf',
+    filePath: null,
+    localPath: '05-Power Portraits/Lead Magnets/Posing-Guide-Lead-Magnet.pdf',
+    landingPage: { name: 'Book Portrait Session', mauticUrl: 'https://mautic.nunyabunya.com/book-portrait-session' },
+    shortLink: 'pp-book',
+    description: 'Quick posing tips for clients to prepare for their portrait session',
+  },
+  {
+    name: 'Car Accident Checklist',
+    business: 'Conner Law Group',
+    bizId: 'conner-law-group',
+    color: '#4A90D9',
+    type: 'pdf',
+    filePath: null,
+    localPath: '01-Conner Law Group/Lead Magnets/Car-Accident-Checklist.pdf',
+    landingPage: null,
+    shortLink: null,
+    description: 'What to do immediately after a car accident — rights, documentation, next steps',
+  },
+  {
+    name: '50 Underseen Films Guide',
+    business: 'ORCA Film Awards',
+    bizId: 'orca-film-awards',
+    color: '#9B59B6',
+    type: 'pdf',
+    filePath: null,
+    localPath: '04-ORCA Film Awards/Lead Magnets/50-Underseen-Films-Guide.pdf',
+    landingPage: null,
+    shortLink: null,
+    description: 'Curated list of 50 overlooked films worth watching — the ORCA perspective',
+  },
+];
+
+let activeFilter = 'all';
+
+async function init() {
+  const ok = await NB_ADMIN.checkAuth();
+  if (!ok) return;
+  NB_ADMIN.renderSidebar('lead-magnets');
+  renderFilters();
+  render();
+  setupFilters();
+}
+
+function renderFilters() {
+  const businesses = [...new Set(LEAD_MAGNETS.map(m => m.business))];
+  const bar = document.getElementById('filterBar');
+  bar.innerHTML = `<button class="lm-filter-btn active" data-filter="all">All</button>` +
+    businesses.map(b => {
+      const id = LEAD_MAGNETS.find(m => m.business === b).bizId;
+      return `<button class="lm-filter-btn" data-filter="${id}">${b}</button>`;
+    }).join('');
+}
+
+function render() {
+  const filtered = activeFilter === 'all' ? LEAD_MAGNETS : LEAD_MAGNETS.filter(m => m.bizId === activeFilter);
+  const businesses = [...new Set(filtered.map(m => m.business))];
+
+  // KPIs
+  document.getElementById('totalMagnets').textContent = filtered.length;
+  document.getElementById('totalPDFs').textContent = filtered.filter(m => m.type === 'pdf').length;
+  document.getElementById('totalHTML').textContent = filtered.filter(m => m.type === 'html').length;
+  document.getElementById('totalBusinesses').textContent = businesses.length;
+
+  // Cards
+  const grid = document.getElementById('lmGrid');
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="lm-empty">No lead magnets match this filter.</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map((m, i) => {
+    const typeClass = m.type === 'pdf' ? 'pdf' : 'html';
+    const typeLabel = m.type.toUpperCase();
+
+    let linksHtml = '';
+    if (m.filePath) {
+      linksHtml += `<a href="${m.filePath}" target="_blank">&#11015; Download</a>`;
+    }
+    if (m.landingPage) {
+      const lpUrl = m.landingPage.mauticUrl || m.landingPage.url;
+      if (linksHtml) linksHtml += '<span class="sep">|</span>';
+      linksHtml += `<a href="${lpUrl}" target="_blank">&#128196; Landing Page</a>`;
+    }
+    if (m.shortLink) {
+      if (linksHtml) linksHtml += '<span class="sep">|</span>';
+      linksHtml += `<a href="https://go.nunyabunya.com/${m.shortLink}" target="_blank">&#128279; go.nunyabunya.com/${m.shortLink}</a>`;
+    }
+
+    let connectionHtml = '';
+    if (m.landingPage) {
+      connectionHtml = `
+        <div class="lm-card-connection">
+          Connected to: <strong>${m.landingPage.name}</strong>
+          ${m.shortLink ? ` &middot; Short link: <a href="https://go.nunyabunya.com/${m.shortLink}" target="_blank">go.nunyabunya.com/${m.shortLink}</a>` : ''}
+        </div>`;
+    } else {
+      connectionHtml = `<div class="lm-card-connection" style="border-color: rgba(255,45,120,0.2);">Not connected to a landing page yet</div>`;
+    }
+
+    return `
+      <div class="lm-card" style="animation: fadeIn 0.3s ease ${i * 60}ms both">
+        <div class="lm-card-top">
+          <div class="lm-card-title">${m.name}</div>
+          <div class="lm-card-biz" style="background: ${m.color}18; color: ${m.color};">${m.business}</div>
+        </div>
+        <div class="lm-card-type">
+          <span class="lm-type-badge ${typeClass}">${typeLabel}</span>
+          <span>${m.description}</span>
+        </div>
+        <div class="lm-card-links">${linksHtml || '<span style="color:var(--muted)">No public link — local file only</span>'}</div>
+        ${connectionHtml}
+      </div>`;
+  }).join('');
+}
+
+function setupFilters() {
+  document.getElementById('filterBar').addEventListener('click', (e) => {
+    if (!e.target.classList.contains('lm-filter-btn')) return;
+    document.querySelectorAll('.lm-filter-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    activeFilter = e.target.dataset.filter;
+    render();
+  });
+}
+
+init();
+</script>
+</body>
+</html>
