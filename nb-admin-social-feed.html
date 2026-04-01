@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Feed | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  .sf-controls { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }
+  .sf-select {
+    background: var(--dark2); border: 1px solid var(--subtle); color: var(--white);
+    padding: 8px 16px; border-radius: 8px; font-size: 13px; font-family: var(--font-body);
+    cursor: pointer; appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
+  }
+  .sf-filter-btn {
+    padding: 8px 14px; border-radius: 8px; border: 1px solid var(--subtle);
+    background: transparent; color: var(--muted); font-size: 12px; cursor: pointer;
+    font-family: var(--font-heading); font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; transition: all 0.2s;
+  }
+  .sf-filter-btn:hover { color: var(--white); border-color: var(--white); }
+  .sf-filter-btn.active { color: var(--teal); border-color: var(--teal); background: rgba(0,229,204,0.05); }
+
+  .sf-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 1100px) { .sf-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 700px) { .sf-grid { grid-template-columns: 1fr; } }
+
+  .sf-card {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
+    padding: 20px; transition: border-color 0.2s;
+  }
+  .sf-card:hover { border-color: var(--teal); }
+
+  .sf-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .sf-card-platform {
+    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 3px 10px; border-radius: 6px;
+  }
+  .sf-card-platform.facebook { background: rgba(66,103,178,0.15); color: #4267B2; }
+  .sf-card-platform.instagram { background: rgba(225,48,108,0.15); color: #E1306C; }
+  .sf-card-platform.linkedin { background: rgba(0,119,181,0.15); color: #0077B5; }
+  .sf-card-platform.twitter { background: rgba(29,161,242,0.15); color: #1DA1F2; }
+  .sf-card-platform.multi { background: rgba(0,229,204,0.1); color: var(--teal); }
+
+  .sf-card-status {
+    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 3px 8px; border-radius: 6px;
+  }
+  .sf-card-status.published { background: rgba(0,229,204,0.12); color: var(--teal); }
+  .sf-card-status.scheduled { background: rgba(255,183,0,0.12); color: #FFB800; }
+  .sf-card-status.draft { background: rgba(255,255,255,0.06); color: var(--muted); }
+  .sf-card-status.pending_review { background: rgba(255,77,221,0.12); color: var(--magenta); }
+  .sf-card-status.approved { background: rgba(0,229,204,0.12); color: var(--teal); }
+
+  .sf-card-client {
+    font-size: 11px; color: var(--muted); font-weight: 300; margin-bottom: 12px;
+  }
+
+  .sf-card-content {
+    font-size: 14px; color: rgba(255,255,255,0.75); font-weight: 300; line-height: 1.6;
+    max-height: 120px; overflow: hidden; position: relative; margin-bottom: 12px;
+  }
+  .sf-card-content.expanded { max-height: none; }
+  .sf-card-content-fade {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 40px;
+    background: linear-gradient(transparent, var(--dark2));
+  }
+
+  .sf-card-image {
+    width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 12px;
+  }
+
+  .sf-card-meta { display: flex; gap: 16px; font-size: 12px; color: var(--muted); }
+  .sf-card-date { font-size: 12px; color: var(--muted); }
+
+  .sf-card-expand {
+    font-size: 12px; color: var(--teal); cursor: pointer; background: none; border: none;
+    font-family: var(--font-heading); font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; margin-top: 8px; padding: 0;
+  }
+
+  .sf-empty {
+    text-align: center; padding: 60px 20px; color: var(--muted);
+  }
+  .sf-empty-icon { font-size: 48px; margin-bottom: 16px; }
+  .sf-empty a { color: var(--teal); text-decoration: none; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Social <span>Feed</span></h1>
+        <div class="date">Generated content + Mixpost scheduler</div>
+      </div>
+      <a href="https://social.nunyabunya.com" target="_blank" style="font-size:12px; color:var(--teal); text-decoration:none; font-family:var(--font-heading); text-transform:uppercase; letter-spacing:0.06em;">Open Mixpost &#8599;</a>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="num" id="kpiTotal">—</div><div class="label">Total Posts</div></div>
+      <div class="kpi-card"><div class="num" id="kpiPublished">—</div><div class="label">Published</div></div>
+      <div class="kpi-card magenta"><div class="num" id="kpiPending">—</div><div class="label">Pending Review</div></div>
+      <div class="kpi-card"><div class="num" id="kpiDraft">—</div><div class="label">Drafts</div></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="sf-controls">
+      <select class="sf-select" id="clientFilter">
+        <option value="all">All Clients</option>
+      </select>
+      <div style="display:flex; gap:4px;">
+        <button class="sf-filter-btn active" data-status="all">All</button>
+        <button class="sf-filter-btn" data-status="published">Published</button>
+        <button class="sf-filter-btn" data-status="approved">Approved</button>
+        <button class="sf-filter-btn" data-status="pending_review">Pending</button>
+        <button class="sf-filter-btn" data-status="draft">Draft</button>
+      </div>
+    </div>
+
+    <!-- Feed Grid -->
+    <div class="sf-grid" id="feedGrid"></div>
+
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading social posts...</p></div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+let allPosts = [];
+let activeStatus = 'all';
+let activeClient = 'all';
+
+async function init() {
+  const ok = await NB_ADMIN.checkAuth();
+  if (!ok) return;
+  NB_ADMIN.renderSidebar('social-feed');
+  await loadPosts();
+  setupControls();
+}
+
+async function loadPosts() {
+  document.getElementById('loading').style.display = 'flex';
+
+  // Load from Supabase social_posts table via admin API
+  const data = await NB_ADMIN.apiFetch('data?action=deliverables').catch(() => null);
+
+  if (data && data.deliverables) {
+    allPosts = data.deliverables
+      .filter(d => d.type === 'social_post')
+      .map(d => {
+        let posts = [];
+        try {
+          const content = typeof d.content_json === 'string' ? JSON.parse(d.content_json) : d.content_json;
+          if (Array.isArray(content)) {
+            posts = content;
+          } else if (content && typeof content === 'object') {
+            posts = Object.values(content).flat().filter(p => p && typeof p === 'object');
+          }
+        } catch {}
+
+        return {
+          id: d.id,
+          client: d.title || 'Unknown',
+          platform: d.subtype || 'multi',
+          status: d.status || 'draft',
+          created_at: d.created_at,
+          posts: posts,
+        };
+      });
+  }
+
+  // Populate client filter
+  const clients = [...new Set(allPosts.map(p => p.client))].sort();
+  const clientSelect = document.getElementById('clientFilter');
+  clientSelect.innerHTML = '<option value="all">All Clients</option>' +
+    clients.map(c => `<option value="${c}">${c}</option>`).join('');
+
+  document.getElementById('loading').style.display = 'none';
+  render();
+}
+
+function render() {
+  let filtered = allPosts;
+  if (activeStatus !== 'all') filtered = filtered.filter(p => p.status === activeStatus);
+  if (activeClient !== 'all') filtered = filtered.filter(p => p.client === activeClient);
+
+  // KPIs
+  document.getElementById('kpiTotal').textContent = allPosts.length;
+  document.getElementById('kpiPublished').textContent = allPosts.filter(p => p.status === 'published').length;
+  document.getElementById('kpiPending').textContent = allPosts.filter(p => p.status === 'pending_review').length;
+  document.getElementById('kpiDraft').textContent = allPosts.filter(p => p.status === 'draft').length;
+
+  const grid = document.getElementById('feedGrid');
+
+  if (!filtered.length) {
+    grid.innerHTML = `
+      <div class="sf-empty" style="grid-column: 1/-1;">
+        <div class="sf-empty-icon">&#128172;</div>
+        <p>No social posts ${activeStatus !== 'all' ? `with status "${activeStatus}"` : 'found'}.</p>
+        <p style="margin-top:8px;">Generate content via <a href="/nb-admin-pipelines">Pipelines</a> or create posts in <a href="https://social.nunyabunya.com" target="_blank">Mixpost</a>.</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map((batch, i) => {
+    const platformClass = batch.platform.toLowerCase().replace(/\s/g, '');
+    const statusClass = batch.status.replace(/\s/g, '_');
+
+    // Get first post content for preview
+    let preview = '';
+    let imageUrl = '';
+    if (batch.posts.length) {
+      const first = batch.posts[0];
+      preview = first.caption || first.content || first.text || first.body || JSON.stringify(first).slice(0, 200);
+      imageUrl = first.image_url || first.image || '';
+    } else {
+      preview = 'No content preview available';
+    }
+
+    const date = batch.created_at ? new Date(batch.created_at).toLocaleDateString('en-AU', { month: 'short', day: 'numeric' }) : '';
+
+    return `
+      <div class="sf-card" style="animation: fadeIn 0.3s ease ${i * 40}ms both">
+        <div class="sf-card-top">
+          <span class="sf-card-platform ${platformClass}">${batch.platform}</span>
+          <span class="sf-card-status ${statusClass}">${batch.status.replace(/_/g, ' ')}</span>
+        </div>
+        <div class="sf-card-client">${batch.client} &middot; ${batch.posts.length} post${batch.posts.length !== 1 ? 's' : ''}</div>
+        ${imageUrl ? `<img class="sf-card-image" src="${imageUrl}" alt="" onerror="this.style.display='none'">` : ''}
+        <div class="sf-card-content" id="content-${i}">
+          ${preview}
+          <div class="sf-card-content-fade" id="fade-${i}"></div>
+        </div>
+        <button class="sf-card-expand" onclick="toggleExpand(${i})">Show More</button>
+        <div class="sf-card-meta">
+          <span class="sf-card-date">${date}</span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function toggleExpand(idx) {
+  const content = document.getElementById(`content-${idx}`);
+  const fade = document.getElementById(`fade-${idx}`);
+  const btn = content.parentElement.querySelector('.sf-card-expand');
+  if (content.classList.contains('expanded')) {
+    content.classList.remove('expanded');
+    fade.style.display = '';
+    btn.textContent = 'Show More';
+  } else {
+    content.classList.add('expanded');
+    fade.style.display = 'none';
+    btn.textContent = 'Show Less';
+  }
+}
+
+function setupControls() {
+  document.getElementById('clientFilter').addEventListener('change', (e) => {
+    activeClient = e.target.value;
+    render();
+  });
+  document.querySelectorAll('.sf-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sf-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeStatus = btn.dataset.status;
+      render();
+    });
+  });
+}
+
+init();
+</script>
+</body>
+</html>
