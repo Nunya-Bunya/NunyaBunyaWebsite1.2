@@ -43,16 +43,35 @@
 
 <!-- Preview Modal -->
 <div class="modal-overlay" id="previewModal">
-  <div class="modal-card large">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+  <div class="modal-card large" style="max-width:700px;max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;position:sticky;top:0;background:var(--dark2);padding-bottom:12px;z-index:2;">
       <h3 id="previewTitle"></h3>
       <button class="btn-outline btn-small" onclick="closePreview()">Close</button>
     </div>
-    <div id="previewMeta" class="meta"></div>
-    <div id="previewBody" class="content-preview"></div>
-    <div style="margin-top:20px;display:flex;gap:8px" id="previewActions"></div>
+    <div id="previewMeta" class="meta" style="margin-bottom:16px;"></div>
+    <div id="previewBody"></div>
+    <div style="margin-top:20px;display:flex;gap:8px;position:sticky;bottom:0;background:var(--dark2);padding-top:12px;" id="previewActions"></div>
   </div>
 </div>
+<style>
+  .platform-card { background:var(--dark3); border:1px solid var(--subtle); border-radius:12px; padding:20px; margin-bottom:16px; }
+  .platform-label { font-family:var(--font-heading); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .platform-label.linkedin { color:#0077B5; }
+  .platform-label.instagram { color:#E1306C; }
+  .platform-label.facebook { color:#4267B2; }
+  .platform-label.twitter { color:#1DA1F2; }
+  .platform-content { font-size:15px; line-height:1.7; color:rgba(255,255,255,0.85); font-weight:300; white-space:pre-wrap; }
+  .platform-hashtags { color:var(--teal); font-size:13px; margin-top:8px; }
+  .visual-brief { background:rgba(153,89,182,0.08); border:1px solid rgba(153,89,182,0.2); border-radius:8px; padding:14px; margin-top:12px; font-size:13px; color:rgba(255,255,255,0.6); }
+  .visual-brief-label { font-size:11px; color:#9B59B6; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; font-weight:600; }
+  .blog-preview { font-size:15px; line-height:1.8; color:rgba(255,255,255,0.8); font-weight:300; }
+  .blog-preview h1,.blog-preview h2,.blog-preview h3 { font-family:var(--font-heading); color:var(--white); margin:20px 0 8px; }
+  .blog-preview h1 { font-size:24px; } .blog-preview h2 { font-size:20px; } .blog-preview h3 { font-size:16px; }
+  .blog-preview p { margin-bottom:12px; }
+  .blog-preview ul,.blog-preview ol { margin:8px 0 16px 20px; }
+  .report-section { margin-bottom:16px; }
+  .report-section-title { font-family:var(--font-heading); font-size:14px; font-weight:700; text-transform:uppercase; color:var(--teal); margin-bottom:8px; }
+</style>
 
 <script src="/nb-admin-shared.js"></script>
 <script>
@@ -182,16 +201,30 @@
 
     let body = '';
     if (type === 'content_campaign') {
-      body = `<h2>Blog Post</h2>${(item.blog_post || 'No blog post content.').replace(/\n/g, '<br>')}`;
-      if (item.social_posts && Object.keys(item.social_posts).length) {
-        body += '<h2 style="margin-top:24px">Social Posts</h2><pre style="white-space:pre-wrap">' + JSON.stringify(item.social_posts, null, 2) + '</pre>';
+      body = '<div class="blog-preview">' + (item.blog_post || 'No blog post content.').replace(/\n/g, '<br>') + '</div>';
+      if (item.social_posts && typeof item.social_posts === 'object') {
+        body += renderSocialPosts(item.social_posts);
       }
     } else if (type === 'social_post') {
-      body = '<pre style="white-space:pre-wrap">' + JSON.stringify(item.posts, null, 2) + '</pre>';
+      const posts = typeof item.posts === 'string' ? JSON.parse(item.posts) : item.posts;
+      body = renderSocialPosts(posts);
+      if (item.visual_briefs) {
+        const briefs = typeof item.visual_briefs === 'string' ? JSON.parse(item.visual_briefs) : item.visual_briefs;
+        body += renderVisualBriefs(briefs);
+      }
     } else if (type === 'review_response') {
-      body = `<p><strong>Review (${item.rating}&#11088;):</strong> ${NB_ADMIN.esc(item.review_text || '')}</p><hr style="border-color:var(--subtle);margin:16px 0"><p><strong>Drafted Response:</strong></p><p>${NB_ADMIN.esc(item.drafted_response || '')}</p>`;
+      body = `
+        <div class="platform-card">
+          <div class="platform-label" style="color:var(--yellow);">&#11088; Customer Review (${item.rating || '?'} stars)</div>
+          <div class="platform-content">${NB_ADMIN.esc(item.review_text || 'No review text')}</div>
+        </div>
+        <div class="platform-card" style="border-color:rgba(0,229,204,0.2);">
+          <div class="platform-label" style="color:var(--teal);">&#9998; Your Drafted Response</div>
+          <div class="platform-content">${NB_ADMIN.esc(item.drafted_response || 'No response drafted')}</div>
+        </div>`;
     } else if (type === 'weekly_report') {
-      body = '<pre style="white-space:pre-wrap">' + JSON.stringify(item.full_report || item.executive_summary, null, 2) + '</pre>';
+      const report = item.full_report || item;
+      body = renderReport(report, item.executive_summary);
     }
 
     document.getElementById('previewBody').innerHTML = body;
@@ -200,6 +233,71 @@
       <button class="btn-reject" onclick="rejectItem('${id}','${type}');closePreview()">Reject</button>
     `;
     document.getElementById('previewModal').classList.add('show');
+  }
+
+  function renderSocialPosts(posts) {
+    if (!posts || typeof posts !== 'object') return '<p style="color:var(--muted)">No social posts</p>';
+
+    const platformIcons = { linkedin: '&#128188;', instagram: '&#128247;', facebook: '&#128077;', twitter: '&#128038;' };
+
+    // Handle both object format {linkedin: "...", instagram: "..."} and array format [{platform, caption}]
+    if (Array.isArray(posts)) {
+      return posts.map(p => {
+        const platform = (p.platform || 'social').toLowerCase();
+        const content = p.caption || p.content || p.text || p.body || '';
+        const hashtags = p.hashtags || '';
+        return `
+          <div class="platform-card">
+            <div class="platform-label ${platform}">${platformIcons[platform] || '&#128172;'} ${platform}</div>
+            <div class="platform-content">${NB_ADMIN.esc(content)}</div>
+            ${hashtags ? `<div class="platform-hashtags">${NB_ADMIN.esc(hashtags)}</div>` : ''}
+          </div>`;
+      }).join('');
+    }
+
+    // Object format: { linkedin: "text", instagram: "text" }
+    return Object.entries(posts).map(([platform, content]) => {
+      const text = typeof content === 'string' ? content : (content?.caption || content?.content || content?.text || JSON.stringify(content));
+      const hashtags = typeof content === 'object' ? content?.hashtags : '';
+      return `
+        <div class="platform-card">
+          <div class="platform-label ${platform.toLowerCase()}">${platformIcons[platform.toLowerCase()] || '&#128172;'} ${platform}</div>
+          <div class="platform-content">${NB_ADMIN.esc(text)}</div>
+          ${hashtags ? `<div class="platform-hashtags">${NB_ADMIN.esc(hashtags)}</div>` : ''}
+        </div>`;
+    }).join('');
+  }
+
+  function renderVisualBriefs(briefs) {
+    if (!briefs || typeof briefs !== 'object') return '';
+    return '<div style="margin-top:16px;">' + Object.entries(briefs).map(([platform, brief]) => {
+      const concept = typeof brief === 'string' ? brief : (brief?.image_concept || brief?.description || JSON.stringify(brief));
+      return `
+        <div class="visual-brief">
+          <div class="visual-brief-label">&#127912; ${platform} — Visual Brief</div>
+          ${NB_ADMIN.esc(concept)}
+        </div>`;
+    }).join('') + '</div>';
+  }
+
+  function renderReport(report, execSummary) {
+    if (typeof report === 'string') {
+      try { report = JSON.parse(report); } catch { return `<div class="blog-preview">${report.replace(/\n/g, '<br>')}</div>`; }
+    }
+    if (!report || typeof report !== 'object') return `<div class="blog-preview">${NB_ADMIN.esc(execSummary || 'No report content')}</div>`;
+
+    let html = '';
+    if (execSummary || report.executive_summary) {
+      html += `<div class="report-section"><div class="report-section-title">Executive Summary</div><div class="platform-content">${NB_ADMIN.esc(execSummary || report.executive_summary)}</div></div>`;
+    }
+    // Render other sections
+    for (const [key, value] of Object.entries(report)) {
+      if (key === 'executive_summary') continue;
+      const title = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      const content = typeof value === 'string' ? value : JSON.stringify(value, null, 2);
+      html += `<div class="report-section"><div class="report-section-title">${title}</div><div class="platform-content" style="font-size:14px;">${NB_ADMIN.esc(content)}</div></div>`;
+    }
+    return html;
   }
 
   function closePreview() { document.getElementById('previewModal').classList.remove('show'); }

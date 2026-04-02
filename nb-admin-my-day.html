@@ -166,6 +166,13 @@
     <!-- Upcoming Deadlines -->
     <div class="md-urgents" id="urgentBanner" style="display:none; margin-top:32px;"></div>
 
+    <!-- Content To Create This Month -->
+    <div style="margin-top:32px; background:var(--dark2); border:1px solid var(--subtle); border-radius:12px; padding:28px;" id="contentChecklist">
+      <div style="font-family:var(--font-heading); font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--magenta); margin-bottom:4px;">Content To Create This Month</div>
+      <div style="font-size:12px; color:var(--muted); margin-bottom:20px;">Check these off as you create them. AI agents can help with starred items.</div>
+      <div id="contentGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;"></div>
+    </div>
+
     <!-- Monthly Summary -->
     <div style="margin-top:32px; background:var(--dark2); border:1px solid var(--subtle); border-radius:12px; padding:28px;" id="monthlySummary">
       <div style="font-family:var(--font-heading); font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--teal); margin-bottom:20px;">What We're Doing This Month</div>
@@ -209,6 +216,7 @@ async function init() {
   await loadDeadlines();
   await loadTasks();
   await loadMonthlySummary();
+  renderContentChecklist();
 }
 
 async function loadDeadlines() {
@@ -328,6 +336,59 @@ async function skipTask(id) {
   await NB_ADMIN.apiSend('data?action=daily-tasks', 'PATCH', { id, status: newStatus });
   if (task) task.status = newStatus;
   render();
+}
+
+function renderContentChecklist() {
+  const CONTENT_ITEMS = [
+    { category: 'YouTube', color: '#FF0000', items: [
+      { title: 'Long-form #1: "How I Built My Agency Backend for $16/month"', agent: true },
+      { title: 'Long-form #2: Topic TBD', agent: false },
+      { title: 'Short-form: "I replaced $800/month in SaaS with $16/month"', agent: false },
+    ]},
+    { category: 'Blog Posts', color: '#00E5CC', items: [
+      { title: 'SEO blog: "best marketing agency Brisbane"', agent: true },
+      { title: 'Blog post #2: Topic TBD', agent: true },
+    ]},
+    { category: 'Social Media', color: '#FF4DDD', items: [
+      { title: 'LinkedIn post: open-source marketing stack', agent: true },
+      { title: '2 Instagram captions for NB', agent: true },
+      { title: 'LinkedIn carousel for NB', agent: true },
+      { title: '2 Twitter threads (filmmaking + AI, marketing)', agent: false },
+      { title: '3 PP posts: sample portraits', agent: true },
+      { title: 'PP: Before & After content', agent: false },
+      { title: 'PP: Behind the Scenes content', agent: false },
+      { title: '5 social posts across all brands (week 3)', agent: true },
+      { title: '5 social posts across all brands (week 4)', agent: true },
+    ]},
+    { category: 'Email', color: '#4A90D9', items: [
+      { title: 'NB email newsletter (week 2)', agent: true },
+      { title: 'CLG testimonial request email', agent: false },
+    ]},
+    { category: 'Lead Magnets & Resources', color: '#FFB800', items: [
+      { title: 'New lead magnet or free resource', agent: true },
+      { title: 'Case study from free client work', agent: false },
+    ]},
+    { category: 'Creative', color: '#9B59B6', items: [
+      { title: 'Feature film logline + 1-page treatment', agent: false },
+      { title: 'Short film concept (1 page)', agent: false },
+      { title: 'Short film concept video (shot on phone)', agent: false },
+      { title: 'ORCA winner announcement', agent: false },
+      { title: 'ORCA content production', agent: false },
+    ]},
+  ];
+
+  const grid = document.getElementById('contentGrid');
+  grid.innerHTML = CONTENT_ITEMS.map(cat => `
+    <div style="background:var(--dark); border:1px solid var(--subtle); border-radius:10px; padding:16px;">
+      <div style="font-family:var(--font-heading); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:${cat.color}; margin-bottom:12px;">${cat.category} <span style="color:var(--muted); font-size:11px;">(${cat.items.length})</span></div>
+      ${cat.items.map(item => `
+        <div style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.03); font-size:13px; color:rgba(255,255,255,0.7); font-weight:300;">
+          <span style="color:var(--muted); flex-shrink:0;">&#9633;</span>
+          <span>${item.title}${item.agent ? ' <span style="color:var(--teal); font-size:10px;" title="AI agents can help generate this">&#9733;</span>' : ''}</span>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
 }
 
 async function loadMonthlySummary() {
