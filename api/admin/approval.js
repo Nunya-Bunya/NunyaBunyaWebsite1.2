@@ -74,6 +74,10 @@ export default async function handler(req, res) {
           approved_at: action === 'approve' ? now : null,
           approved_by: action === 'approve' ? 'admin' : null,
         };
+        // For content campaigns, set published_at when approved (goes live on blog)
+        if (item_type === 'content_campaign' && action === 'approve') {
+          updates.published_at = now;
+        }
       }
 
       const result = await supabaseFetch(

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | Nunya Bunya</title>
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="style-v2.css">
+<style>
+  .post-hero { padding: 140px 48px 40px; position: relative; }
+  .post-tag { font-family: var(--font-heading); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--teal); margin-bottom: 12px; }
+  .post-title { font-family: var(--font-heading); font-size: clamp(28px, 4vw, 44px); font-weight: 900; text-transform: uppercase; line-height: 1.1; max-width: 800px; }
+  .post-meta { font-size: 13px; color: var(--muted); margin-top: 12px; font-weight: 300; }
+
+  .post-content {
+    max-width: 720px; margin: 0 auto; padding: 40px 48px 80px;
+    font-size: 16px; line-height: 1.85; color: rgba(255,255,255,0.8); font-weight: 300;
+  }
+  @media (max-width: 768px) { .post-hero { padding: 120px 20px 30px; } .post-content { padding: 30px 20px 60px; } }
+
+  .post-content h1 { font-family: var(--font-heading); font-size: 28px; font-weight: 900; text-transform: uppercase; color: var(--white); margin: 40px 0 16px; }
+  .post-content h2 { font-family: var(--font-heading); font-size: 22px; font-weight: 800; text-transform: uppercase; color: var(--teal); margin: 36px 0 12px; }
+  .post-content h3 { font-family: var(--font-heading); font-size: 18px; font-weight: 700; text-transform: uppercase; color: var(--white); margin: 28px 0 8px; }
+  .post-content p { margin-bottom: 16px; }
+  .post-content ul, .post-content ol { margin: 12px 0 20px 24px; }
+  .post-content li { margin-bottom: 8px; }
+  .post-content strong { color: var(--white); font-weight: 500; }
+  .post-content blockquote { border-left: 3px solid var(--teal); padding-left: 20px; margin: 24px 0; color: var(--muted); font-style: italic; }
+  .post-content a { color: var(--teal); text-decoration: underline; }
+  .post-content img { max-width: 100%; border-radius: 12px; margin: 24px 0; }
+
+  .post-cta {
+    max-width: 720px; margin: 0 auto; padding: 0 48px 60px; text-align: center;
+  }
+  .post-cta-card {
+    background: rgba(0,229,204,0.05); border: 1px solid rgba(0,229,204,0.15);
+    border-radius: 16px; padding: 40px;
+  }
+  .post-cta h3 { font-family: var(--font-heading); font-size: 24px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
+  .post-cta h3 span { color: var(--teal); }
+  .post-cta p { font-size: 15px; color: var(--muted); font-weight: 300; margin-bottom: 20px; }
+  .post-cta a {
+    display: inline-block; background: var(--teal); color: var(--dark); padding: 14px 32px;
+    font-family: var(--font-heading); font-weight: 800; font-size: 14px; text-transform: uppercase;
+    text-decoration: none; letter-spacing: 0.04em; transition: transform 0.2s;
+  }
+  .post-cta a:hover { transform: translateY(-2px); }
+
+  .post-loading { text-align: center; padding: 200px 20px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<nav>
+  <a href="/" class="nav-logo"><img src="/images/logo-icon-white.png" alt="NB"> NUNYA<span>BUNYA</span></a>
+  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/services">Services</a></li>
+    <li><a href="/portfolio">Work</a></li>
+    <li><a href="/blog" class="active">Blog</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/free-strategy-session" class="nav-cta">Free Session</a></li>
+  </ul>
+</nav>
+<div class="hero-orb-1"></div>
+<div class="hero-orb-2"></div>
+
+<div id="postContainer">
+  <div class="post-loading">Loading article...</div>
+</div>
+
+<footer>
+  <div class="footer-logo"><img src="images/logo-icon-white.png" alt="Nunya Bunya"> <span>NUNYA<em>BUNYA</em></span></div>
+  <ul class="footer-links"><li><a href="about">About</a></li><li><a href="services">Services</a></li><li><a href="portfolio">Work</a></li><li><a href="blog">Blog</a></li><li><a href="contact">Contact</a></li></ul>
+  <p class="footer-copy">&copy; 2026 Nunya Bunya Pty Ltd &middot; Brisbane, QLD &middot; All rights reserved.</p>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor'); const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px'; });
+  function animateRing() { ringX += (mouseX - ringX) * 0.12; ringY += (mouseY - ringY) * 0.12; ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px'; requestAnimationFrame(animateRing); } animateRing();
+  document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering'); }); el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering'); }); });
+  document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+
+  async function loadPost() {
+    const id = new URLSearchParams(window.location.search).get('id');
+    if (!id) { document.getElementById('postContainer').innerHTML = '<div class="post-loading">Post not found. <a href="/blog" style="color:var(--teal);">Back to blog</a></div>'; return; }
+
+    try {
+      const res = await fetch(`/api/contacts?blog=1&id=${id}`);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      const post = data.post;
+      if (!post) throw new Error();
+
+      const title = getTitle(post.blog_post || post.topic || 'Untitled');
+      const date = new Date(post.created_at).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' });
+      const readTime = Math.max(1, Math.round((post.blog_post || '').split(/\s+/).length / 200));
+      const html = renderMarkdown(post.blog_post || '');
+
+      document.title = `${title} | Nunya Bunya Blog`;
+
+      document.getElementById('postContainer').innerHTML = `
+        <div class="post-hero"><div class="container">
+          <div class="post-tag">${esc(post.client_name || 'Nunya Bunya')}</div>
+          <h1 class="post-title">${esc(title)}</h1>
+          <div class="post-meta">${date} &middot; ${readTime} min read</div>
+        </div></div>
+        <div class="post-content">${html}</div>
+        <div class="post-cta"><div class="post-cta-card">
+          <h3>Want Results <span>Like This?</span></h3>
+          <p>Book a free 15-minute strategy session and find out what we can do for your business.</p>
+          <a href="/free-strategy-session">Book Your Free Session</a>
+        </div></div>`;
+    } catch {
+      document.getElementById('postContainer').innerHTML = '<div class="post-loading">Post not found. <a href="/blog" style="color:var(--teal);">Back to blog</a></div>';
+    }
+  }
+
+  function getTitle(md) { const m = md.match(/^#\s+(.+)$/m); return m ? m[1] : md.split('\n')[0].replace(/^#+\s*/,'').slice(0,80); }
+
+  function renderMarkdown(md) {
+    // Remove the H1 title (we render it separately)
+    md = md.replace(/^#\s+.+$/m, '');
+    return md
+      .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+      .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+      .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/^\- (.+)$/gm, '<li>$1</li>')
+      .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
+      .replace(/((<li>.+<\/li>\n?)+)/g, '<ul>$1</ul>')
+      .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+      .replace(/^(?!<[a-z])((?!<).+)$/gm, '<p>$1</p>')
+      .replace(/<p><\/p>/g, '')
+      .replace(/\n{2,}/g, '\n');
+  }
+
+  function esc(s) { if(!s)return''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+  loadPost();
+</script>
+<!-- Matomo -->
+<script>
+var _paq = window._paq = window._paq || [];
+_paq.push(["trackPageView"]); _paq.push(["enableLinkTracking"]);
+(function() { var u="https://analytics.nunyabunya.com/"; _paq.push(["setTrackerUrl", u+"matomo.php"]); _paq.push(["setSiteId", "1"]); var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.async=true; g.src=u+"matomo.js"; s.parentNode.insertBefore(g,s); })();
+</script>
+</body>
+</html>
