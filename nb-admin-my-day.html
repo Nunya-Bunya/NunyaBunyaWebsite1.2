@@ -479,10 +479,34 @@ async function seedAprilTasks() {
   ];
 
   try {
-    await NB_ADMIN.apiSend('data?action=daily-tasks', 'POST', { tasks: APRIL_TASKS });
+    // Try bulk insert first
+    const result = await NB_ADMIN.apiSend('data?action=daily-tasks', 'POST', { tasks: APRIL_TASKS });
+    console.log('Bulk result:', result);
+
+    if (!result || result.error || (result.inserted !== undefined && result.inserted === 0)) {
+      // Fallback: insert one by one
+      console.log('Bulk failed, trying one by one...');
+      let inserted = 0;
+      for (const task of APRIL_TASKS) {
+        try {
+          await NB_ADMIN.apiSend('data?action=daily-tasks', 'POST', task);
+          inserted++;
+        } catch (e2) {
+          console.error('Failed to insert task:', task.title, e2);
+        }
+      }
+      console.log(`Inserted ${inserted} / ${APRIL_TASKS.length} tasks`);
+      if (inserted === 0) {
+        alert('Failed to insert any tasks. Error: ' + JSON.stringify(result));
+        btn.textContent = 'Load April Playbook';
+        btn.disabled = false;
+        return;
+      }
+    }
     await loadTasks();
   } catch (e) {
-    alert('Failed to seed tasks. Make sure the daily_tasks table exists in Supabase.');
+    console.error('Seed error:', e);
+    alert('Failed to seed tasks: ' + e.message + '\n\nMake sure the daily_tasks table exists in Supabase.');
     btn.textContent = 'Load April Playbook';
     btn.disabled = false;
   }

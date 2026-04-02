@@ -383,23 +383,28 @@ export default async function handler(req, res) {
     }
 
     if (action === 'daily-tasks' && req.method === 'POST') {
-      const { tasks: newTasks } = req.body || {};
-      if (!newTasks || !Array.isArray(newTasks)) {
-        // Single task
-        const task = req.body;
-        if (!task.title || !task.date) return res.status(400).json({ error: 'title and date required' });
+      try {
+        const { tasks: newTasks } = req.body || {};
+        if (!newTasks || !Array.isArray(newTasks)) {
+          // Single task
+          const task = req.body;
+          if (!task.title || !task.date) return res.status(400).json({ error: 'title and date required' });
+          const created = await supabaseFetch('daily_tasks', {
+            method: 'POST',
+            body: JSON.stringify({ title: task.title, date: task.date, category: task.category || 'general', business: task.business || null, priority: task.priority || 'normal', notes: task.notes || null }),
+          });
+          return res.status(201).json(created?.[0] || { success: true });
+        }
+        // Bulk insert
         const created = await supabaseFetch('daily_tasks', {
           method: 'POST',
-          body: JSON.stringify({ title: task.title, date: task.date, category: task.category || 'general', business: task.business || null, priority: task.priority || 'normal', notes: task.notes || null }),
+          body: JSON.stringify(newTasks),
         });
-        return res.status(201).json(created?.[0] || {});
+        return res.status(201).json({ inserted: (created || []).length });
+      } catch (err) {
+        console.error('daily-tasks POST error:', err.message);
+        return res.status(500).json({ error: err.message, hint: 'Check that daily_tasks table exists in Supabase' });
       }
-      // Bulk insert
-      const created = await supabaseFetch('daily_tasks', {
-        method: 'POST',
-        body: JSON.stringify(newTasks),
-      });
-      return res.status(201).json({ inserted: (created || []).length });
     }
 
     if (action === 'daily-tasks' && req.method === 'PATCH') {
