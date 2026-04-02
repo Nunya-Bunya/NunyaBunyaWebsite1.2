@@ -10,6 +10,18 @@ export default async function handler(req, res) {
 
   const { action } = req.query;
 
+  // Debug: show what env vars are available (masked)
+  if (action === 'debug-env') {
+    const url = process.env.SUPABASE_URL || 'NOT SET';
+    const key = process.env.SUPABASE_KEY || 'NOT SET';
+    return res.status(200).json({
+      SUPABASE_URL: url,
+      SUPABASE_KEY_PREFIX: key.substring(0, 30) + '...',
+      SUPABASE_KEY_LENGTH: key.length,
+      SUPABASE_KEY_ROLE: key.includes('service_role') ? 'service_role' : key.includes('anon') ? 'anon' : 'unknown',
+    });
+  }
+
   try {
     // ── Documents (pipeline_documents only) ──
     if (action === 'documents' && req.method === 'GET') {
