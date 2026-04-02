@@ -7,16 +7,25 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  // Temporary debug endpoint — remove after fixing Supabase key
+  // Temporary debug endpoint — remove after fixing
   if (req.query.action === 'debug-env' && req.query.key === 'fix2026') {
     const url = process.env.SUPABASE_URL || 'NOT SET';
     const key = process.env.SUPABASE_KEY || 'NOT SET';
-    return res.status(200).json({
-      SUPABASE_URL: url,
-      SUPABASE_KEY_PREFIX: key.substring(0, 30) + '...',
-      SUPABASE_KEY_LENGTH: key.length,
-      SUPABASE_KEY_HAS_SERVICE: key.includes('cmVydmljZV9yb2xl'),
-    });
+    // Try a real request
+    try {
+      const testRes = await fetch(`${url}/rest/v1/daily_tasks?limit=1`, {
+        headers: { 'apikey': key, 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+      });
+      const testBody = await testRes.text();
+      return res.status(200).json({
+        SUPABASE_URL: url,
+        SUPABASE_KEY_LENGTH: key.length,
+        test_status: testRes.status,
+        test_body: testBody.substring(0, 200),
+      });
+    } catch (e) {
+      return res.status(200).json({ error: e.message, SUPABASE_URL: url });
+    }
   }
 
   if (!requireAuth(req)) return res.status(401).json({ error: 'Unauthorized' });
