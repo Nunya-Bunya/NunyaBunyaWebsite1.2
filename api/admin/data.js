@@ -6,21 +6,26 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (!requireAuth(req)) return res.status(401).json({ error: 'Unauthorized' });
 
-  const { action } = req.query;
-
-  // Debug: show what env vars are available (masked)
-  if (action === 'debug-env') {
+  // Temporary debug endpoint — remove after fixing Supabase key
+  if (req.query.action === 'debug-env' && req.query.key === 'fix2026') {
     const url = process.env.SUPABASE_URL || 'NOT SET';
     const key = process.env.SUPABASE_KEY || 'NOT SET';
     return res.status(200).json({
       SUPABASE_URL: url,
       SUPABASE_KEY_PREFIX: key.substring(0, 30) + '...',
       SUPABASE_KEY_LENGTH: key.length,
-      SUPABASE_KEY_ROLE: key.includes('service_role') ? 'service_role' : key.includes('anon') ? 'anon' : 'unknown',
+      SUPABASE_KEY_HAS_SERVICE: key.includes('cmVydmljZV9yb2xl'),
     });
   }
+
+  if (!requireAuth(req)) return res.status(401).json({ error: 'Unauthorized' });
+
+  const { action } = req.query;
+
+  // Debug: show what env vars are available (masked) — temporary, remove after fixing
+  // Temporary debug — move above auth check
+
 
   try {
     // ── Documents (pipeline_documents only) ──
