@@ -163,8 +163,14 @@
       <button class="md-add-btn" onclick="addTask()">Add</button>
     </div>
 
-    <!-- Upcoming Deadlines (at bottom) -->
+    <!-- Upcoming Deadlines -->
     <div class="md-urgents" id="urgentBanner" style="display:none; margin-top:32px;"></div>
+
+    <!-- Monthly Summary -->
+    <div style="margin-top:32px; background:var(--dark2); border:1px solid var(--subtle); border-radius:12px; padding:28px;" id="monthlySummary">
+      <div style="font-family:var(--font-heading); font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--teal); margin-bottom:20px;">What We're Doing This Month</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;" id="monthlyGrid"></div>
+    </div>
 
     <div class="loading" id="loading"><div class="spinner"></div><p>Loading tasks...</p></div>
   </main>
@@ -202,6 +208,7 @@ async function init() {
   document.getElementById('dateLabel').textContent = NB_ADMIN.formatDateFull(new Date());
   await loadDeadlines();
   await loadTasks();
+  await loadMonthlySummary();
 }
 
 async function loadDeadlines() {
@@ -321,6 +328,93 @@ async function skipTask(id) {
   await NB_ADMIN.apiSend('data?action=daily-tasks', 'PATCH', { id, status: newStatus });
   if (task) task.status = newStatus;
   render();
+}
+
+async function loadMonthlySummary() {
+  // Get ALL tasks for the current month
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const start = `${year}-${month}-01`;
+  const end = `${year}-${month}-31`;
+  const data = await NB_ADMIN.apiFetch(`data?action=daily-tasks&week=&date=&status=all`).catch(() => null);
+
+  // Actually we need a range query — let me use the raw fetch
+  let allMonthTasks = [];
+  try {
+    const r = await NB_ADMIN.apiFetch(`data?action=daily-tasks`);
+    allMonthTasks = (r?.tasks || []).filter(t => t.date >= start && t.date <= end);
+  } catch { allMonthTasks = []; }
+
+  const total = allMonthTasks.length;
+  const done = allMonthTasks.filter(t => t.status === 'done').length;
+
+  // Count by category
+  const byCat = {};
+  allMonthTasks.forEach(t => {
+    const cat = t.category || 'general';
+    if (!byCat[cat]) byCat[cat] = { total: 0, done: 0 };
+    byCat[cat].total++;
+    if (t.status === 'done') byCat[cat].done++;
+  });
+
+  // Count by business
+  const byBiz = {};
+  allMonthTasks.forEach(t => {
+    if (!t.business) return;
+    if (!byBiz[t.business]) byBiz[t.business] = { total: 0, done: 0 };
+    byBiz[t.business].total++;
+    if (t.status === 'done') byBiz[t.business].done++;
+  });
+
+  const GOALS = [
+    { label: 'Cold Outreach Messages', target: 20, icon: '&#128233;', match: t => t.category === 'revenue' && t.title.toLowerCase().includes('outreach') },
+    { label: 'YouTube Videos', target: 2, icon: '&#127909;', match: t => t.title.toLowerCase().includes('youtube') && (t.title.toLowerCase().includes('film') || t.title.toLowerCase().includes('edit')) },
+    { label: 'Social Posts Created', target: 20, icon: '&#128172;', match: t => t.title.toLowerCase().includes('social post') || t.title.toLowerCase().includes('instagram') || t.title.toLowerCase().includes('carousel') },
+    { label: 'Blog Posts', target: 2, icon: '&#128196;', match: t => t.title.toLowerCase().includes('blog post') },
+    { label: 'Demand Letters', target: 12, icon: '&#9998;', match: t => t.title.toLowerCase().includes('demand letter') },
+    { label: 'Facebook Groups', target: 8, icon: '&#128101;', match: t => t.title.toLowerCase().includes('facebook group') },
+    { label: 'PROOF Application', target: 1, icon: '&#127942;', match: t => t.title.toLowerCase().includes('proof') && t.title.toLowerCase().includes('submit') },
+    { label: 'Portrait Sessions', target: 1, icon: '&#128247;', match: t => t.title.toLowerCase().includes('portrait') && (t.title.toLowerCase().includes('photo') || t.title.toLowerCase().includes('shoot')) },
+    { label: 'Landing Pages Redesigned', target: 4, icon: '&#127912;', match: t => t.title.toLowerCase().includes('redesign') && t.title.toLowerCase().includes('landing') },
+  ];
+
+  // Calculate progress for each goal
+  const goalResults = GOALS.map(g => {
+    const matching = allMonthTasks.filter(g.match);
+    const completed = matching.filter(t => t.status === 'done').length;
+    const totalMatching = matching.length;
+    return { ...g, completed, totalMatching };
+  });
+
+  const grid = document.getElementById('monthlyGrid');
+  grid.innerHTML = goalResults.map(g => {
+    const pct = g.totalMatching > 0 ? Math.round((g.completed / g.totalMatching) * 100) : 0;
+    const barColor = pct >= 100 ? 'var(--teal)' : pct >= 50 ? '#FFB800' : 'var(--magenta)';
+    return `
+      <div style="background:var(--dark); border:1px solid var(--subtle); border-radius:10px; padding:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:14px; font-weight:400;">${g.icon} ${g.label}</span>
+          <span style="font-family:var(--font-heading); font-weight:900; font-size:18px; color:${barColor};">${g.completed}/${g.totalMatching}</span>
+        </div>
+        <div style="height:4px; background:var(--subtle); border-radius:2px; overflow:hidden;">
+          <div style="height:100%; width:${pct}%; background:${barColor}; border-radius:2px; transition:width 0.4s;"></div>
+        </div>
+      </div>`;
+  }).join('') + `
+    <div style="background:var(--dark); border:1px solid var(--subtle); border-radius:10px; padding:16px; grid-column:1/-1; display:flex; justify-content:space-around; text-align:center;">
+      <div>
+        <div style="font-family:var(--font-heading); font-weight:900; font-size:28px; color:var(--teal);">${done}</div>
+        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em;">Tasks Done</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading); font-weight:900; font-size:28px; color:var(--white);">${total}</div>
+        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em;">Total Tasks</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading); font-weight:900; font-size:28px; color:${done/total > 0.5 ? 'var(--teal)' : 'var(--magenta)'};">${total > 0 ? Math.round((done/total)*100) : 0}%</div>
+        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em;">Month Progress</div>
+      </div>
+    </div>`;
 }
 
 async function addTask() {
