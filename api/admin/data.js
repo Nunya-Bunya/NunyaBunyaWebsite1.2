@@ -403,10 +403,15 @@ export default async function handler(req, res) {
           });
           return res.status(201).json(created?.[0] || { success: true });
         }
-        // Bulk insert
+        // Bulk insert — normalize all objects to same keys
+        const normalized = newTasks.map(t => ({
+          date: t.date, title: t.title, category: t.category || 'general',
+          business: t.business || null, priority: t.priority || 'normal',
+          status: t.status || 'pending', notes: t.notes || null,
+        }));
         const created = await supabaseFetch('daily_tasks', {
           method: 'POST',
-          body: JSON.stringify(newTasks),
+          body: JSON.stringify(normalized),
         });
         return res.status(201).json({ inserted: (created || []).length });
       } catch (err) {
