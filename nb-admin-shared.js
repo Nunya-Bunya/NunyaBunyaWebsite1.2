@@ -26,6 +26,7 @@ const NB_ADMIN = {
   // Render sidebar nav
   renderSidebar(activePage) {
     const pages = [
+      { id: 'my-day', label: 'My Day', icon: '&#9728;', href: '/nb-admin-my-day' },
       { id: 'dashboard', label: 'Dashboard', icon: '&#9670;', href: '/nb-admin-dashboard' },
       { id: 'clients', label: 'Clients', icon: '&#9632;', href: '/nb-admin-clients' },
       { id: 'calendar', label: 'Calendar', icon: '&#9783;', href: '/nb-admin-calendar' },

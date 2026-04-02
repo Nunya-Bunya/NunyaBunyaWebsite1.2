@@ -360,6 +360,80 @@ export default async function handler(req, res) {
       } catch { return res.status(200).json({ photos: [] }); }
     }
 
+    // ── Daily Tasks CRUD ──
+    if (action === 'daily-tasks' && req.method === 'GET') {
+      const { date, status, week } = req.query;
+      let query = 'daily_tasks?order=priority.asc,created_at.asc';
+      if (date) query += `&date=eq.${date}`;
+      if (status && status !== 'all') query += `&status=eq.${status}`;
+      if (week) {
+        // Get tasks for a full week starting from the given date
+        const start = new Date(week);
+        const end = new Date(start);
+        end.setDate(end.getDate() + 6);
+        query += `&date=gte.${start.toISOString().slice(0,10)}&date=lte.${end.toISOString().slice(0,10)}`;
+      }
+      query += '&limit=200';
+      try {
+        const tasks = await supabaseFetch(query);
+        return res.status(200).json({ total: (tasks || []).length, tasks: tasks || [] });
+      } catch (e) {
+        return res.status(200).json({ total: 0, tasks: [], error: 'Table may not exist yet. Run supabase-create-daily-tasks.sql' });
+      }
+    }
+
+    if (action === 'daily-tasks' && req.method === 'POST') {
+      const { tasks: newTasks } = req.body || {};
+      if (!newTasks || !Array.isArray(newTasks)) {
+        // Single task
+        const task = req.body;
+        if (!task.title || !task.date) return res.status(400).json({ error: 'title and date required' });
+        const created = await supabaseFetch('daily_tasks', {
+          method: 'POST',
+          body: JSON.stringify({ title: task.title, date: task.date, category: task.category || 'general', business: task.business || null, priority: task.priority || 'normal', notes: task.notes || null }),
+        });
+        return res.status(201).json(created?.[0] || {});
+      }
+      // Bulk insert
+      const created = await supabaseFetch('daily_tasks', {
+        method: 'POST',
+        body: JSON.stringify(newTasks),
+      });
+      return res.status(201).json({ inserted: (created || []).length });
+    }
+
+    if (action === 'daily-tasks' && req.method === 'PATCH') {
+      const { id, status: newStatus, notes } = req.body || {};
+      if (!id) return res.status(400).json({ error: 'id required' });
+      const update = { updated_at: new Date().toISOString() };
+      if (newStatus) {
+        update.status = newStatus;
+        if (newStatus === 'done') update.completed_at = new Date().toISOString();
+        if (newStatus === 'pending') update.completed_at = null;
+      }
+      if (notes !== undefined) update.notes = notes;
+      await supabaseFetch(`daily_tasks?id=eq.${id}`, { method: 'PATCH', body: JSON.stringify(update) });
+      return res.status(200).json({ success: true });
+    }
+
+    if (action === 'daily-tasks' && req.method === 'DELETE') {
+      const { id } = req.query;
+      if (!id) return res.status(400).json({ error: 'id required' });
+      await supabaseFetch(`daily_tasks?id=eq.${id}`, { method: 'DELETE' });
+      return res.status(200).json({ success: true });
+    }
+
+    // ── Daily Tasks: Get urgent/upcoming deadlines ──
+    if (action === 'deadlines') {
+      try {
+        const today = new Date().toISOString().slice(0, 10);
+        const tasks = await supabaseFetch(`daily_tasks?priority=eq.urgent&status=neq.done&date=gte.${today}&order=date.asc&limit=10`);
+        return res.status(200).json({ deadlines: tasks || [] });
+      } catch {
+        return res.status(200).json({ deadlines: [] });
+      }
+    }
+
     if (action === 'service-leads') {
       const leads = await supabaseFetch('leads?order=created_at.desc&limit=200').catch(() => []);
       return res.status(200).json({ total: (leads || []).length, leads: leads || [] });

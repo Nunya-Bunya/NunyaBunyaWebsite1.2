@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Day | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  /* Urgents banner */
+  .md-urgents {
+    background: rgba(255,45,120,0.08); border: 1px solid rgba(255,45,120,0.2);
+    border-radius: 12px; padding: 16px 20px; margin-bottom: 24px;
+  }
+  .md-urgent-title {
+    font-family: var(--font-heading); font-size: 13px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--magenta); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .md-urgent-pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--magenta); animation: pulse 1.5s infinite; }
+  .md-urgent-item { font-size: 14px; color: rgba(255,255,255,0.85); padding: 6px 0; font-weight: 400; display: flex; justify-content: space-between; }
+  .md-urgent-date { font-size: 12px; color: var(--magenta); font-weight: 600; }
+
+  /* Day nav */
+  .md-day-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .md-day-btn {
+    background: none; border: 1px solid var(--subtle); color: var(--muted);
+    width: 36px; height: 36px; border-radius: 8px; font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  }
+  .md-day-btn:hover { color: var(--teal); border-color: var(--teal); }
+  .md-day-label {
+    font-family: var(--font-heading); font-size: 22px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .md-day-label span { color: var(--teal); }
+  .md-day-theme { font-size: 13px; color: var(--muted); margin-left: 12px; }
+  .md-today-btn {
+    background: none; border: 1px solid var(--teal); color: var(--teal);
+    padding: 6px 14px; border-radius: 8px; font-size: 11px; cursor: pointer;
+    font-family: var(--font-heading); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; margin-left: auto; transition: all 0.2s;
+  }
+  .md-today-btn:hover { background: rgba(0,229,204,0.1); }
+
+  /* Progress bar */
+  .md-progress { margin-bottom: 24px; }
+  .md-progress-bar { height: 8px; background: var(--subtle); border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+  .md-progress-fill { height: 100%; background: var(--teal); border-radius: 4px; transition: width 0.4s ease; }
+  .md-progress-text { font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; }
+
+  /* Task list */
+  .md-tasks { max-width: 800px; }
+  .md-category-label {
+    font-family: var(--font-heading); font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
+    margin: 20px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--subtle);
+  }
+  .md-category-label:first-child { margin-top: 0; }
+
+  .md-task {
+    display: flex; align-items: flex-start; gap: 14px; padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03); transition: opacity 0.3s;
+  }
+  .md-task.done { opacity: 0.4; }
+
+  .md-checkbox {
+    width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--subtle);
+    cursor: pointer; flex-shrink: 0; margin-top: 1px; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; background: none;
+    font-size: 12px; color: transparent;
+  }
+  .md-checkbox:hover { border-color: var(--teal); }
+  .md-checkbox.checked { background: var(--teal); border-color: var(--teal); color: var(--dark); }
+
+  .md-task-body { flex: 1; }
+  .md-task-title { font-size: 15px; color: rgba(255,255,255,0.85); font-weight: 400; line-height: 1.4; }
+  .md-task.done .md-task-title { text-decoration: line-through; color: var(--muted); }
+  .md-task-meta { display: flex; gap: 8px; margin-top: 4px; }
+  .md-task-tag {
+    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 2px 8px; border-radius: 4px;
+  }
+
+  .md-task-skip {
+    background: none; border: none; color: var(--muted); font-size: 11px; cursor: pointer;
+    font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.04em;
+    opacity: 0; transition: opacity 0.2s; padding: 4px 8px;
+  }
+  .md-task:hover .md-task-skip { opacity: 1; }
+  .md-task-skip:hover { color: var(--magenta); }
+
+  /* Add task */
+  .md-add {
+    display: flex; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--subtle);
+  }
+  .md-add-input {
+    flex: 1; background: var(--dark2); border: 1px solid var(--subtle); color: var(--white);
+    padding: 10px 16px; border-radius: 8px; font-size: 14px; font-family: var(--font-body);
+  }
+  .md-add-input::placeholder { color: #555; }
+  .md-add-input:focus { outline: none; border-color: var(--teal); }
+  .md-add-btn {
+    background: var(--teal); color: var(--dark); border: none; padding: 10px 20px;
+    border-radius: 8px; font-family: var(--font-heading); font-weight: 700;
+    font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer;
+  }
+
+  .md-empty { text-align: center; padding: 40px; color: var(--muted); }
+  .md-seed-btn {
+    background: var(--teal); color: var(--dark); border: none; padding: 12px 24px;
+    border-radius: 8px; font-family: var(--font-heading); font-weight: 700;
+    font-size: 14px; text-transform: uppercase; cursor: pointer; margin-top: 16px;
+  }
+
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>My <span>Day</span></h1>
+        <div class="date" id="dateLabel"></div>
+      </div>
+    </div>
+
+    <!-- Urgent Deadlines -->
+    <div class="md-urgents" id="urgentBanner" style="display:none;"></div>
+
+    <!-- Day Navigation -->
+    <div class="md-day-nav">
+      <button class="md-day-btn" onclick="changeDay(-1)">&#8592;</button>
+      <div class="md-day-label" id="dayLabel"></div>
+      <div class="md-day-theme" id="dayTheme"></div>
+      <button class="md-day-btn" onclick="changeDay(1)">&#8594;</button>
+      <button class="md-today-btn" onclick="goToday()">Today</button>
+    </div>
+
+    <!-- Progress -->
+    <div class="md-progress" id="progressWrap">
+      <div class="md-progress-bar"><div class="md-progress-fill" id="progressFill"></div></div>
+      <div class="md-progress-text"><span id="progressLabel"></span><span id="progressPct"></span></div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid" style="margin-bottom:24px;">
+      <div class="kpi-card"><div class="num" id="kpiDone">0</div><div class="label">Done Today</div></div>
+      <div class="kpi-card"><div class="num" id="kpiRemaining">0</div><div class="label">Remaining</div></div>
+      <div class="kpi-card magenta"><div class="num" id="kpiSkipped">0</div><div class="label">Skipped</div></div>
+      <div class="kpi-card"><div class="num" id="kpiStreak">0</div><div class="label">Day Streak</div></div>
+    </div>
+
+    <!-- Task List -->
+    <div class="md-tasks" id="taskList"></div>
+
+    <!-- Add Task -->
+    <div class="md-add">
+      <input class="md-add-input" id="newTaskInput" type="text" placeholder="Add a task for this day..." onkeypress="if(event.key==='Enter')addTask()">
+      <button class="md-add-btn" onclick="addTask()">Add</button>
+    </div>
+
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading tasks...</p></div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+const THEMES = {
+  0: { name: 'Rest + Plan', color: '#999' },
+  1: { name: 'Revenue Day', color: '#00E5CC' },
+  2: { name: 'Content Day', color: '#FF4DDD' },
+  3: { name: 'Operations Day', color: '#FFB800' },
+  4: { name: 'Content Day', color: '#FF4DDD' },
+  5: { name: 'Build Day', color: '#4A90D9' },
+  6: { name: 'Creative Day', color: '#9B59B6' },
+};
+
+const BIZ_COLORS = {
+  'nunya-bunya': '#00E5CC', 'power-portraits': '#FFB800', 'ben-alek-conner': '#9B59B6',
+  'orca': '#E17055', 'clg': '#4A90D9', 'bella-rhyder': '#FF4DDD',
+};
+
+const CAT_COLORS = {
+  revenue: '#00E5CC', content: '#FF4DDD', operations: '#FFB800',
+  build: '#4A90D9', creative: '#9B59B6', admin: '#999', general: '#666',
+};
+
+let currentDate = new Date();
+let tasks = [];
+
+async function init() {
+  const ok = await NB_ADMIN.checkAuth();
+  if (!ok) return;
+  NB_ADMIN.renderSidebar('my-day');
+  document.getElementById('dateLabel').textContent = NB_ADMIN.formatDateFull(new Date());
+  await loadDeadlines();
+  await loadTasks();
+}
+
+async function loadDeadlines() {
+  const data = await NB_ADMIN.apiFetch('data?action=deadlines').catch(() => ({ deadlines: [] }));
+  const deadlines = data?.deadlines || [];
+  const banner = document.getElementById('urgentBanner');
+  if (!deadlines.length) { banner.style.display = 'none'; return; }
+
+  banner.style.display = 'block';
+  banner.innerHTML = `
+    <div class="md-urgent-title"><div class="md-urgent-pulse"></div>Upcoming Deadlines</div>
+    ${deadlines.map(d => {
+      const daysLeft = Math.ceil((new Date(d.date) - new Date()) / 86400000);
+      const label = daysLeft === 0 ? 'TODAY' : daysLeft === 1 ? 'TOMORROW' : `${daysLeft} days`;
+      return `<div class="md-urgent-item"><span>${d.title}</span><span class="md-urgent-date">${label}</span></div>`;
+    }).join('')}`;
+}
+
+async function loadTasks() {
+  document.getElementById('loading').style.display = 'flex';
+  const dateStr = currentDate.toISOString().slice(0, 10);
+  const data = await NB_ADMIN.apiFetch(`data?action=daily-tasks&date=${dateStr}`).catch(() => ({ tasks: [] }));
+  tasks = data?.tasks || [];
+  document.getElementById('loading').style.display = 'none';
+  render();
+}
+
+function render() {
+  const dateStr = currentDate.toISOString().slice(0, 10);
+  const today = new Date().toISOString().slice(0, 10);
+  const dow = currentDate.getDay();
+  const theme = THEMES[dow];
+
+  // Day label
+  const isToday = dateStr === today;
+  const dayName = currentDate.toLocaleDateString('en-AU', { weekday: 'long', month: 'long', day: 'numeric' });
+  document.getElementById('dayLabel').innerHTML = isToday ? `Today <span>${dayName}</span>` : dayName;
+  document.getElementById('dayTheme').textContent = theme.name;
+  document.getElementById('dayTheme').style.color = theme.color;
+
+  // Progress
+  const total = tasks.length;
+  const done = tasks.filter(t => t.status === 'done').length;
+  const skipped = tasks.filter(t => t.status === 'skipped').length;
+  const remaining = total - done - skipped;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `${done} of ${total} tasks done`;
+  document.getElementById('progressPct').textContent = pct + '%';
+
+  document.getElementById('kpiDone').textContent = done;
+  document.getElementById('kpiRemaining').textContent = remaining;
+  document.getElementById('kpiSkipped').textContent = skipped;
+
+  // Task list
+  const list = document.getElementById('taskList');
+  if (!tasks.length) {
+    list.innerHTML = `
+      <div class="md-empty">
+        <p>No tasks for this day yet.</p>
+        <p style="margin-top:8px; font-size:13px;">Add tasks above, or load the April playbook:</p>
+        <button class="md-seed-btn" onclick="seedAprilTasks()">Load April Playbook</button>
+      </div>`;
+    return;
+  }
+
+  // Group by category
+  const groups = {};
+  tasks.forEach(t => {
+    const cat = t.category || 'general';
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(t);
+  });
+
+  // Sort: urgent first within each group
+  const priorityOrder = { urgent: 0, high: 1, normal: 2, low: 3 };
+
+  list.innerHTML = Object.entries(groups).map(([cat, catTasks]) => {
+    catTasks.sort((a, b) => (priorityOrder[a.priority] || 2) - (priorityOrder[b.priority] || 2));
+    const catColor = CAT_COLORS[cat] || '#666';
+    return `
+      <div class="md-category-label" style="color:${catColor};">${cat}</div>
+      ${catTasks.map((t, i) => {
+        const checked = t.status === 'done' ? 'checked' : '';
+        const doneClass = t.status === 'done' ? 'done' : t.status === 'skipped' ? 'done' : '';
+        const bizColor = BIZ_COLORS[t.business] || '';
+        return `
+          <div class="md-task ${doneClass}" style="animation: fadeIn 0.2s ease ${i * 30}ms both" id="task-${t.id}">
+            <button class="md-checkbox ${checked}" onclick="toggleTask('${t.id}', '${t.status}')">
+              ${t.status === 'done' ? '&#10003;' : ''}
+            </button>
+            <div class="md-task-body">
+              <div class="md-task-title">${t.title}</div>
+              <div class="md-task-meta">
+                ${t.priority === 'urgent' ? `<span class="md-task-tag" style="background:rgba(255,45,120,0.15); color:var(--magenta);">Urgent</span>` : ''}
+                ${t.business ? `<span class="md-task-tag" style="background:${bizColor}18; color:${bizColor};">${t.business.replace(/-/g, ' ')}</span>` : ''}
+              </div>
+            </div>
+            <button class="md-task-skip" onclick="skipTask('${t.id}')">${t.status === 'skipped' ? 'Undo' : 'Skip'}</button>
+          </div>`;
+      }).join('')}`;
+  }).join('');
+}
+
+async function toggleTask(id, currentStatus) {
+  const newStatus = currentStatus === 'done' ? 'pending' : 'done';
+  await NB_ADMIN.apiSend('data?action=daily-tasks', 'PATCH', { id, status: newStatus });
+  // Update locally for instant feedback
+  const task = tasks.find(t => t.id === id);
+  if (task) task.status = newStatus;
+  render();
+}
+
+async function skipTask(id) {
+  const task = tasks.find(t => t.id === id);
+  const newStatus = task?.status === 'skipped' ? 'pending' : 'skipped';
+  await NB_ADMIN.apiSend('data?action=daily-tasks', 'PATCH', { id, status: newStatus });
+  if (task) task.status = newStatus;
+  render();
+}
+
+async function addTask() {
+  const input = document.getElementById('newTaskInput');
+  const title = input.value.trim();
+  if (!title) return;
+  const dateStr = currentDate.toISOString().slice(0, 10);
+  const dow = currentDate.getDay();
+  const category = { 0: 'admin', 1: 'revenue', 2: 'content', 3: 'operations', 4: 'content', 5: 'build', 6: 'creative' }[dow] || 'general';
+
+  await NB_ADMIN.apiSend('data?action=daily-tasks', 'POST', { title, date: dateStr, category });
+  input.value = '';
+  await loadTasks();
+}
+
+function changeDay(dir) {
+  currentDate = new Date(currentDate.getTime() + dir * 86400000);
+  loadTasks();
+}
+
+function goToday() {
+  currentDate = new Date();
+  loadTasks();
+}
+
+async function seedAprilTasks() {
+  const btn = document.querySelector('.md-seed-btn');
+  btn.textContent = 'Loading...';
+  btn.disabled = true;
+
+  const APRIL_TASKS = [
+    // Week 1
+    { date: '2026-04-03', title: 'Write LinkedIn post about open-source marketing stack', category: 'content', business: 'nunya-bunya' },
+    { date: '2026-04-03', title: 'Write 2 Instagram captions for NB (use AI agents, then edit)', category: 'content', business: 'nunya-bunya' },
+    { date: '2026-04-03', title: 'Film 1 short-form video: "I replaced $800/month in SaaS with $16/month"', category: 'content', business: 'ben-alek-conner' },
+    { date: '2026-04-03', title: 'Post in 2 Brisbane business Facebook groups with free audit offer', category: 'revenue', business: 'nunya-bunya' },
+    { date: '2026-04-03', title: 'Review and approve any AI-generated content in Approval Queue', category: 'operations' },
+
+    { date: '2026-04-04', title: 'Review NB style guide in Brand Docs — make edits', category: 'build', business: 'nunya-bunya' },
+    { date: '2026-04-04', title: 'Review PP and BAC style guides', category: 'build' },
+    { date: '2026-04-04', title: 'Review all 3 business plans — flag anything inaccurate', category: 'build' },
+    { date: '2026-04-04', title: 'Start redesigning landing pages based on approved style guides', category: 'build' },
+    { date: '2026-04-04', title: 'Set up Google My Business for Nunya Bunya', category: 'build', business: 'nunya-bunya' },
+
+    { date: '2026-04-05', title: 'ORCA: Check voting status, plan winner announcements', category: 'creative', business: 'orca', priority: 'high' },
+    { date: '2026-04-05', title: 'Start Screen Queensland PROOF application (due April 13!)', category: 'creative', business: 'ben-alek-conner', priority: 'urgent' },
+    { date: '2026-04-05', title: 'Write short film concept (1 page)', category: 'creative', business: 'ben-alek-conner' },
+    { date: '2026-04-05', title: 'Street photography session (1 hour minimum)', category: 'creative', business: 'ben-alek-conner' },
+
+    { date: '2026-04-06', title: 'Review this week — what got done, what didn\'t', category: 'admin' },
+    { date: '2026-04-06', title: 'Check NBHQ Analytics — any traffic trends?', category: 'admin' },
+    { date: '2026-04-06', title: 'Plan Monday\'s outreach targets (find 5 Brisbane businesses)', category: 'admin', business: 'nunya-bunya' },
+
+    // Week 2
+    { date: '2026-04-07', title: 'Send 5 cold outreach messages to Brisbane businesses (LinkedIn DMs)', category: 'revenue', business: 'nunya-bunya' },
+    { date: '2026-04-07', title: 'Follow up on any free audit requests from landing pages', category: 'revenue', business: 'nunya-bunya' },
+    { date: '2026-04-07', title: 'Check Mautic for hot leads (score > 50)', category: 'revenue' },
+    { date: '2026-04-07', title: 'Post NB landing page link in 2 Facebook groups', category: 'revenue', business: 'nunya-bunya' },
+    { date: '2026-04-07', title: 'Reach out to 2 people who might know someone who needs marketing', category: 'revenue', business: 'nunya-bunya' },
+
+    { date: '2026-04-08', title: 'Film YouTube long-form video #1: "How I Built My Agency Backend for $16/month"', category: 'content', business: 'ben-alek-conner' },
+    { date: '2026-04-08', title: 'Write 3 social posts for NB (schedule via Mixpost)', category: 'content', business: 'nunya-bunya' },
+    { date: '2026-04-08', title: 'Create 1 carousel post for LinkedIn', category: 'content', business: 'nunya-bunya' },
+    { date: '2026-04-08', title: 'Take 3 portrait photos for PP portfolio', category: 'content', business: 'power-portraits' },
+
+    { date: '2026-04-09', title: 'Complete 3 demand letters for CLG', category: 'operations', business: 'clg' },
+    { date: '2026-04-09', title: 'Run NB content pipeline for all clients (NBHQ → Pipelines)', category: 'operations' },
+    { date: '2026-04-09', title: 'Review and approve generated content', category: 'operations' },
+    { date: '2026-04-09', title: 'Check all landing page stats in NBHQ → Landing Pages', category: 'operations' },
+
+    { date: '2026-04-10', title: 'Edit and publish YouTube video #1', category: 'content', business: 'ben-alek-conner' },
+    { date: '2026-04-10', title: 'Write 2 Twitter threads — filmmaking + AI, and marketing', category: 'content', business: 'ben-alek-conner' },
+    { date: '2026-04-10', title: 'Create PP social content: 3 posts showing sample portraits', category: 'content', business: 'power-portraits' },
+    { date: '2026-04-10', title: 'Write and schedule NB email newsletter for the week', category: 'content', business: 'nunya-bunya' },
+
+    { date: '2026-04-11', title: 'Redesign 2 landing pages based on approved style guides', category: 'build' },
+    { date: '2026-04-11', title: 'Set up Google My Business for Power Portraits', category: 'build', business: 'power-portraits' },
+    { date: '2026-04-11', title: 'Connect social accounts to Mixpost (FB, IG, LI, Twitter)', category: 'build' },
+    { date: '2026-04-11', title: 'Test full funnel: short link → landing page → form → drip email', category: 'build' },
+
+    { date: '2026-04-12', title: 'FINALIZE Screen Queensland PROOF application (DUE TOMORROW)', category: 'creative', business: 'ben-alek-conner', priority: 'urgent' },
+    { date: '2026-04-12', title: 'Write feature film logline + 1-page treatment', category: 'creative', business: 'ben-alek-conner' },
+    { date: '2026-04-12', title: 'Shoot 1 short film concept video', category: 'creative', business: 'ben-alek-conner' },
+
+    { date: '2026-04-13', title: 'SUBMIT Screen Queensland PROOF application BEFORE MIDNIGHT', category: 'creative', business: 'ben-alek-conner', priority: 'urgent' },
+    { date: '2026-04-13', title: 'Review week 2 — what got done, plan week 3 outreach', category: 'admin' },
+
+    // Week 3
+    { date: '2026-04-14', title: 'Send 5 more cold outreach messages', category: 'revenue', business: 'nunya-bunya' },
+    { date: '2026-04-14', title: 'Follow up on ALL week 1 + week 2 outreach', category: 'revenue', business: 'nunya-bunya' },
+    { date: '2026-04-14', title: 'Post free strategy session link in 3 Facebook groups', category: 'revenue', business: 'nunya-bunya' },
+    { date: '2026-04-14', title: 'Write and send 1 personalised proposal to hottest lead', category: 'revenue', business: 'nunya-bunya' },
+
+    { date: '2026-04-15', title: 'Film YouTube long-form video #2', category: 'content', business: 'ben-alek-conner' },
+    { date: '2026-04-15', title: 'Write 5 social posts across all brands', category: 'content' },
+    { date: '2026-04-15', title: 'Create 1 blog post for NB (SEO: "best marketing agency Brisbane")', category: 'content', business: 'nunya-bunya' },
+    { date: '2026-04-15', title: 'PP: Create Before & After content (LinkedIn selfie vs PP headshot)', category: 'content', business: 'power-portraits' },
+
+    { date: '2026-04-16', title: 'Complete 3 demand letters for CLG', category: 'operations', business: 'clg' },
+    { date: '2026-04-16', title: 'Run weekly report pipeline for all clients', category: 'operations' },
+    { date: '2026-04-16', title: 'Check drip campaigns are actually sending (Email Campaigns)', category: 'operations' },
+    { date: '2026-04-16', title: 'First Portrait Day planning: pick a date, find a location', category: 'operations', business: 'power-portraits' },
+
+    { date: '2026-04-17', title: 'Edit and publish YouTube video #2', category: 'content', business: 'ben-alek-conner' },
+    { date: '2026-04-17', title: 'Write 1 case study from free client work', category: 'content', business: 'nunya-bunya' },
+    { date: '2026-04-17', title: 'Create NB testimonial request: email CLG contacts for a quote', category: 'content', business: 'nunya-bunya' },
+    { date: '2026-04-17', title: 'Schedule week\'s social posts in Mixpost', category: 'content' },
+
+    { date: '2026-04-18', title: 'Redesign remaining landing pages', category: 'build' },
+    { date: '2026-04-18', title: 'Build NB blog page (if not live)', category: 'build', business: 'nunya-bunya' },
+    { date: '2026-04-18', title: 'Set up automated weekly email report to your inbox', category: 'build' },
+
+    { date: '2026-04-19', title: 'ORCA: Announce winners (if voting complete)', category: 'creative', business: 'orca' },
+    { date: '2026-04-19', title: 'Feature film writing session (2 hours minimum)', category: 'creative', business: 'ben-alek-conner' },
+    { date: '2026-04-19', title: 'Street photography session', category: 'creative', business: 'ben-alek-conner' },
+
+    { date: '2026-04-20', title: 'Mid-month review: leads, outreach, revenue', category: 'admin' },
+    { date: '2026-04-20', title: 'Adjust plan for weeks 3-4 if needed', category: 'admin' },
+
+    // Week 4
+    { date: '2026-04-21', title: 'Send 5 more cold outreach messages', category: 'revenue', business: 'nunya-bunya' },
+    { date: '2026-04-21', title: 'Follow up on ALL previous outreach', category: 'revenue', business: 'nunya-bunya' },
+    { date: '2026-04-21', title: 'If hot lead: schedule strategy call via Cal.com', category: 'revenue', business: 'nunya-bunya' },
+    { date: '2026-04-21', title: 'Post in 2 new Facebook groups', category: 'revenue', business: 'nunya-bunya' },
+
+    { date: '2026-04-22', title: 'Film YouTube content (shorts or long-form)', category: 'content', business: 'ben-alek-conner' },
+    { date: '2026-04-22', title: 'Write 5 social posts', category: 'content' },
+    { date: '2026-04-22', title: 'Create 1 new lead magnet or free resource', category: 'content', business: 'nunya-bunya' },
+    { date: '2026-04-22', title: 'Start planning May content calendar', category: 'content' },
+
+    { date: '2026-04-23', title: 'Complete 3 demand letters', category: 'operations', business: 'clg' },
+    { date: '2026-04-23', title: 'Run all client pipelines', category: 'operations' },
+    { date: '2026-04-23', title: 'PP: Confirm Portrait Day date and start promoting', category: 'operations', business: 'power-portraits' },
+
+    { date: '2026-04-24', title: 'Edit and publish content', category: 'content', business: 'ben-alek-conner' },
+    { date: '2026-04-24', title: 'Write NB blog post #2', category: 'content', business: 'nunya-bunya' },
+    { date: '2026-04-24', title: 'Create PP Behind the Scenes content', category: 'content', business: 'power-portraits' },
+
+    { date: '2026-04-26', title: 'Feature film writing session', category: 'creative', business: 'ben-alek-conner' },
+    { date: '2026-04-26', title: 'ORCA content production', category: 'creative', business: 'orca' },
+
+    { date: '2026-04-27', title: 'Monthly review: leads, revenue, content published, lessons', category: 'admin' },
+    { date: '2026-04-27', title: 'Create May Daily Playbook', category: 'admin' },
+
+    // Week 5
+    { date: '2026-04-28', title: 'Final outreach push for the month', category: 'revenue', business: 'nunya-bunya' },
+    { date: '2026-04-28', title: 'Follow up on everything outstanding', category: 'revenue', business: 'nunya-bunya' },
+
+    { date: '2026-04-29', title: 'Batch create content for first week of May', category: 'content' },
+    { date: '2026-04-29', title: 'Film 1 more YouTube video', category: 'content', business: 'ben-alek-conner' },
+
+    { date: '2026-04-30', title: 'Complete demand letters', category: 'operations', business: 'clg' },
+    { date: '2026-04-30', title: 'End-of-month reports for all clients', category: 'operations' },
+    { date: '2026-04-30', title: 'Update GOALS.md with April results', category: 'admin' },
+  ];
+
+  try {
+    await NB_ADMIN.apiSend('data?action=daily-tasks', 'POST', { tasks: APRIL_TASKS });
+    await loadTasks();
+  } catch (e) {
+    alert('Failed to seed tasks. Make sure the daily_tasks table exists in Supabase.');
+    btn.textContent = 'Load April Playbook';
+    btn.disabled = false;
+  }
+}
+
+init();
+</script>
+</body>
+</html>
