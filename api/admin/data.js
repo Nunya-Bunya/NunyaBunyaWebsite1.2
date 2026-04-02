@@ -7,25 +7,33 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  // Temporary debug endpoint — remove after fixing
+  // Temporary debug endpoint
   if (req.query.action === 'debug-env' && req.query.key === 'fix2026') {
     const url = process.env.SUPABASE_URL || 'NOT SET';
     const key = process.env.SUPABASE_KEY || 'NOT SET';
-    // Try a real request
+    const results = {};
+
+    // Test 1: direct fetch to Supabase
     try {
-      const testRes = await fetch(`${url}/rest/v1/daily_tasks?limit=1`, {
-        headers: { 'apikey': key, 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+      const r1 = await fetch(`${url}/rest/v1/`, { headers: { 'apikey': key } });
+      results.direct = { status: r1.status, ok: r1.ok };
+    } catch (e) { results.direct = { error: e.message, code: e.cause?.code }; }
+
+    // Test 2: try the other Supabase URL that was working before
+    try {
+      const r2 = await fetch('https://podyldvpvgqktwbqswrc.supabase.co/rest/v1/', { headers: { 'apikey': key } });
+      results.old_url = { status: r2.status };
+    } catch (e) { results.old_url = { error: e.message }; }
+
+    // Test 3: DNS resolution test
+    try {
+      const r3 = await fetch('https://dqxwrhxablsioztsyshr.supabase.co/rest/v1/', {
+        headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxeHdyaHhhYmxzaW96dHN5c2hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4OTc0NzMsImV4cCI6MjA3MTQ3MzQ3M30.-vdFiI39GjM4ftLvWAPssAQgvx30QHgfnya-SWpwPqw' }
       });
-      const testBody = await testRes.text();
-      return res.status(200).json({
-        SUPABASE_URL: url,
-        SUPABASE_KEY_LENGTH: key.length,
-        test_status: testRes.status,
-        test_body: testBody.substring(0, 200),
-      });
-    } catch (e) {
-      return res.status(200).json({ error: e.message, SUPABASE_URL: url });
-    }
+      results.hardcoded_anon = { status: r3.status, body: (await r3.text()).substring(0, 100) };
+    } catch (e) { results.hardcoded_anon = { error: e.message, code: e.cause?.code }; }
+
+    return res.status(200).json({ url, key_len: key.length, results });
   }
 
   if (!requireAuth(req)) return res.status(401).json({ error: 'Unauthorized' });
