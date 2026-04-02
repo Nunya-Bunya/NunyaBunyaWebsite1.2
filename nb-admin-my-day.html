@@ -478,9 +478,19 @@ async function seedAprilTasks() {
     { date: '2026-04-30', title: 'Update GOALS.md with April results', category: 'admin' },
   ];
 
+  // Normalize all tasks to have the same keys
+  const normalized = APRIL_TASKS.map(t => ({
+    date: t.date,
+    title: t.title,
+    category: t.category || 'general',
+    business: t.business || null,
+    priority: t.priority || 'normal',
+    notes: null,
+  }));
+
   try {
     // Try bulk insert first
-    const result = await NB_ADMIN.apiSend('data?action=daily-tasks', 'POST', { tasks: APRIL_TASKS });
+    const result = await NB_ADMIN.apiSend('data?action=daily-tasks', 'POST', { tasks: normalized });
     console.log('Bulk result:', result);
 
     if (!result || result.error || (result.inserted !== undefined && result.inserted === 0)) {
