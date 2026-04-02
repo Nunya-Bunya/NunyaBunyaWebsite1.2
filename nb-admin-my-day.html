@@ -131,9 +131,6 @@
       </div>
     </div>
 
-    <!-- Urgent Deadlines -->
-    <div class="md-urgents" id="urgentBanner" style="display:none;"></div>
-
     <!-- Day Navigation -->
     <div class="md-day-nav">
       <button class="md-day-btn" onclick="changeDay(-1)">&#8592;</button>
@@ -165,6 +162,9 @@
       <input class="md-add-input" id="newTaskInput" type="text" placeholder="Add a task for this day..." onkeypress="if(event.key==='Enter')addTask()">
       <button class="md-add-btn" onclick="addTask()">Add</button>
     </div>
+
+    <!-- Upcoming Deadlines (at bottom) -->
+    <div class="md-urgents" id="urgentBanner" style="display:none; margin-top:32px;"></div>
 
     <div class="loading" id="loading"><div class="spinner"></div><p>Loading tasks...</p></div>
   </main>
@@ -262,9 +262,8 @@ function render() {
   if (!tasks.length) {
     list.innerHTML = `
       <div class="md-empty">
-        <p>No tasks for this day yet.</p>
-        <p style="margin-top:8px; font-size:13px;">Add tasks above, or load the April playbook:</p>
-        <button class="md-seed-btn" onclick="seedAprilTasks()">Load April Playbook</button>
+        <p>No tasks for this day.</p>
+        <p style="margin-top:8px; font-size:13px;">Add a task using the input below, or navigate to a day with tasks.</p>
       </div>`;
     return;
   }

@@ -435,7 +435,21 @@ export default async function handler(req, res) {
     }
 
     if (action === 'daily-tasks' && req.method === 'DELETE') {
-      const { id } = req.query;
+      const { id, dedupe } = req.query;
+      // Dedupe: remove duplicate tasks (keep one per date+title combo)
+      if (dedupe === 'true') {
+        const all = await supabaseFetch('daily_tasks?order=created_at.asc&limit=1000');
+        const seen = new Map();
+        const toDelete = [];
+        for (const t of (all || [])) {
+          const key = `${t.date}|${t.title}`;
+          if (seen.has(key)) { toDelete.push(t.id); } else { seen.set(key, t.id); }
+        }
+        for (const delId of toDelete) {
+          await supabaseFetch(`daily_tasks?id=eq.${delId}`, { method: 'DELETE' });
+        }
+        return res.status(200).json({ removed: toDelete.length, kept: seen.size });
+      }
       if (!id) return res.status(400).json({ error: 'id required' });
       await supabaseFetch(`daily_tasks?id=eq.${id}`, { method: 'DELETE' });
       return res.status(200).json({ success: true });
