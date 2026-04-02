@@ -33,6 +33,38 @@
       <button class="btn-teal btn-small" id="bulkApproveBtn" onclick="bulkApprove()" style="display:none">
         Approve Selected
       </button>
+      <button class="btn-teal btn-small" onclick="showGenerateModal()" style="margin-left:auto;">
+        + Generate Content
+      </button>
+    </div>
+
+    <!-- Generate Content Modal -->
+    <div class="modal-overlay" id="generateModal">
+      <div class="modal-card" style="max-width:500px;">
+        <h3 style="margin-bottom:16px;">Generate Content</h3>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:4px;">Client</label>
+          <select id="genClient" style="width:100%;padding:10px 14px;background:var(--dark3);border:1px solid var(--subtle);color:var(--white);border-radius:8px;font-size:14px;font-family:var(--font-body);"></select>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:4px;">Content Type</label>
+          <select id="genType" style="width:100%;padding:10px 14px;background:var(--dark3);border:1px solid var(--subtle);color:var(--white);border-radius:8px;font-size:14px;font-family:var(--font-body);">
+            <option value="content_generator">Blog Post</option>
+            <option value="social_agent">Social Media Posts</option>
+            <option value="seo_agent">SEO Report</option>
+            <option value="reporting_agent">Weekly Report</option>
+          </select>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:4px;">Topic / Brief</label>
+          <textarea id="genTopic" rows="3" placeholder="e.g. Why small businesses should invest in SEO in 2026" style="width:100%;padding:10px 14px;background:var(--dark3);border:1px solid var(--subtle);color:var(--white);border-radius:8px;font-size:14px;font-family:var(--font-body);resize:vertical;"></textarea>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:16px;">
+          <button class="btn-teal" id="genSubmitBtn" onclick="generateContent()">Generate</button>
+          <button class="btn-outline btn-small" onclick="closeGenerateModal()">Cancel</button>
+        </div>
+        <div id="genStatus" style="margin-top:12px;font-size:13px;color:var(--muted);display:none;"></div>
+      </div>
     </div>
 
     <div id="approvalList"></div>
@@ -320,6 +352,100 @@
       html += `<div class="report-section"><div class="report-section-title">${title}</div><div class="platform-content" style="font-size:14px;">${NB_ADMIN.esc(content)}</div></div>`;
     }
     return html;
+  }
+
+  // Generate Content
+  function showGenerateModal() {
+    // Populate client dropdown from the filter
+    const genClient = document.getElementById('genClient');
+    const filterClient = document.getElementById('clientFilter');
+    genClient.innerHTML = '';
+    for (const opt of filterClient.options) {
+      if (opt.value) {
+        const o = document.createElement('option');
+        o.value = opt.value;
+        o.textContent = opt.textContent;
+        genClient.appendChild(o);
+      }
+    }
+    document.getElementById('genStatus').style.display = 'none';
+    document.getElementById('genSubmitBtn').disabled = false;
+    document.getElementById('genSubmitBtn').textContent = 'Generate';
+    document.getElementById('generateModal').classList.add('show');
+  }
+
+  function closeGenerateModal() { document.getElementById('generateModal').classList.remove('show'); }
+  document.getElementById('generateModal')?.addEventListener('click', function(e) { if (e.target === this) closeGenerateModal(); });
+
+  async function generateContent() {
+    const clientId = document.getElementById('genClient').value;
+    const clientName = document.getElementById('genClient').selectedOptions[0]?.textContent || clientId;
+    const agentType = document.getElementById('genType').value;
+    const topic = document.getElementById('genTopic').value.trim();
+
+    if (!clientId) { alert('Select a client'); return; }
+    if (!topic) { alert('Enter a topic or brief'); return; }
+
+    const btn = document.getElementById('genSubmitBtn');
+    const status = document.getElementById('genStatus');
+    btn.disabled = true;
+    btn.textContent = 'Generating...';
+    status.style.display = 'block';
+    status.style.color = 'var(--teal)';
+    status.textContent = 'Sending to AI agent... This runs in the background. Check back in 1-2 minutes.';
+
+    try {
+      // Get client details for the agent
+      const clientData = await NB_ADMIN.apiFetch(`client?id=${clientId}`);
+      const client = clientData?.client || {};
+
+      const payload = {
+        client_name: clientName,
+        client_id: clientId,
+        topic: topic,
+        content_source: topic,
+        location: client.location || 'Brisbane',
+        service: client.service || 'Marketing',
+        tone: client.tone || 'professional, direct',
+        platforms: client.platforms || ['linkedin', 'instagram', 'facebook'],
+        cta_link: client.cta_link || 'https://nunyabunya.com',
+      };
+
+      const result = await NB_ADMIN.apiSend(`pipeline`, 'POST', {
+        pipeline_name: agentType === 'content_generator' ? 'seo_content' : agentType,
+        client_id: clientId,
+        input: payload,
+      });
+
+      if (result) {
+        status.style.color = 'var(--teal)';
+        status.textContent = 'Agent is running! Content will appear in this queue when ready. This usually takes 1-2 minutes.';
+        btn.textContent = 'Sent!';
+
+        // Also try direct agent call as fallback
+        try {
+          await fetch(`/api/admin/data?action=service-mautic&endpoint=stats`, { method: 'GET' }); // just a ping
+        } catch {}
+      } else {
+        throw new Error('No response from pipeline');
+      }
+    } catch (e) {
+      // Fallback: call agent server directly through our proxy
+      try {
+        const agentResult = await NB_ADMIN.apiSend('pipeline', 'POST', {
+          pipeline_name: agentType,
+          client_id: clientId,
+        });
+        status.style.color = 'var(--teal)';
+        status.textContent = 'Agent triggered! Content will appear in this queue shortly.';
+        btn.textContent = 'Sent!';
+      } catch (e2) {
+        status.style.color = 'var(--magenta)';
+        status.textContent = `Error: ${e2.message || 'Could not reach agent server'}. Try running from Pipelines page instead.`;
+        btn.disabled = false;
+        btn.textContent = 'Retry';
+      }
+    }
   }
 
   function closePreview() { document.getElementById('previewModal').classList.remove('show'); }
