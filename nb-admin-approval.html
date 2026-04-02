@@ -259,9 +259,11 @@
     return Object.entries(posts).map(([platform, content]) => {
       const text = typeof content === 'string' ? content : (content?.caption || content?.content || content?.text || JSON.stringify(content));
       const hashtags = typeof content === 'object' ? content?.hashtags : '';
+      const imageUrl = typeof content === 'object' ? (content?.image_url || content?.image || content?.media_url || '') : '';
       return `
         <div class="platform-card">
           <div class="platform-label ${platform.toLowerCase()}">${platformIcons[platform.toLowerCase()] || '&#128172;'} ${platform}</div>
+          ${imageUrl ? `<img src="${imageUrl}" alt="" style="width:100%; max-height:250px; object-fit:cover; border-radius:8px; margin-bottom:12px;" onerror="this.style.display='none'">` : ''}
           <div class="platform-content">${NB_ADMIN.esc(text)}</div>
           ${hashtags ? `<div class="platform-hashtags">${NB_ADMIN.esc(hashtags)}</div>` : ''}
         </div>`;
@@ -271,11 +273,31 @@
   function renderVisualBriefs(briefs) {
     if (!briefs || typeof briefs !== 'object') return '';
     return '<div style="margin-top:16px;">' + Object.entries(briefs).map(([platform, brief]) => {
-      const concept = typeof brief === 'string' ? brief : (brief?.image_concept || brief?.description || JSON.stringify(brief));
+      let concept = '';
+      let imageUrl = '';
+
+      if (typeof brief === 'string') {
+        // Could be a URL or text
+        if (brief.startsWith('http')) {
+          imageUrl = brief;
+        } else {
+          concept = brief;
+        }
+      } else if (brief && typeof brief === 'object') {
+        concept = brief.image_concept || brief.description || '';
+        imageUrl = brief.url || brief.image_url || brief.src || '';
+        // Check if the concept itself is a URL
+        if (!imageUrl && concept.startsWith('http')) {
+          imageUrl = concept;
+          concept = '';
+        }
+      }
+
       return `
         <div class="visual-brief">
-          <div class="visual-brief-label">&#127912; ${platform} — Visual Brief</div>
-          ${NB_ADMIN.esc(concept)}
+          <div class="visual-brief-label">&#127912; ${platform} — Visual</div>
+          ${imageUrl ? `<img src="${imageUrl}" alt="${platform} visual" style="width:100%; max-height:300px; object-fit:cover; border-radius:8px; margin:8px 0;">` : ''}
+          ${concept ? `<div style="margin-top:6px;">${NB_ADMIN.esc(concept)}</div>` : ''}
         </div>`;
     }).join('') + '</div>';
   }
