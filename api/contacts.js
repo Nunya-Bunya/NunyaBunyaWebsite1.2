@@ -19,8 +19,10 @@ export default async function handler(req, res) {
         const posts = await r.json();
         return res.status(200).json({ post: posts[0] || null });
       }
-      // List all published posts
-      const r = await fetch(`${SUPABASE_URL}/rest/v1/content_campaigns?status=eq.approved&order=created_at.desc&limit=50&select=id,topic,client_name,blog_post,image_prompt,created_at,status`, { headers });
+      // List published posts — filter by client if specified (default: Nunya Bunya)
+      const client = req.query.client || 'Nunya Bunya';
+      const clientFilter = client === 'all' ? '' : `&client_name=eq.${encodeURIComponent(client)}`;
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/content_campaigns?status=eq.approved${clientFilter}&order=created_at.desc&limit=50&select=id,topic,client_name,blog_post,image_prompt,created_at,status`, { headers });
       if (!r.ok) return res.status(200).json({ posts: [] });
       const posts = await r.json();
       return res.status(200).json({ posts });
