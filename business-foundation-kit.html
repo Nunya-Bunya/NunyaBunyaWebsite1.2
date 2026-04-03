@@ -1009,6 +1009,21 @@
   </div>
 </div>
 
+<!-- ═══════════ UPGRADE FROM EMAIL ═══════════ -->
+<section class="section-pad" id="upgradeFromEmail" style="display:none;">
+  <div class="container" style="max-width:500px;text-align:center;">
+    <div class="survey-success-icon">&#9889;</div>
+    <h2 style="font-family:var(--font-heading);font-weight:900;font-size:clamp(28px,5vw,40px);text-transform:uppercase;letter-spacing:0.02em;margin-bottom:8px;">Upgrade to the<br><span style="color:var(--teal);" id="upgradeTierName">Foundation Kit</span></h2>
+    <p style="color:var(--muted);font-weight:300;margin-bottom:32px;">Enter the email you used for the survey and we'll take you straight to checkout. No need to fill anything out again.</p>
+    <div class="form-group">
+      <label class="form-label" for="upgradeEmail">Your Email Address</label>
+      <input class="form-input" type="email" id="upgradeEmail" placeholder="The email you used for the survey" required>
+    </div>
+    <button class="btn-next" id="upgradeBtn" onclick="handleEmailUpgrade()" style="width:100%;margin-top:8px;">Go to Checkout</button>
+    <p class="form-error" id="upgradeError" style="color:#ff4444;font-size:13px;text-align:center;margin-top:12px;display:none;"></p>
+  </div>
+</section>
+
 <footer>
   <div class="footer-logo"><img src="images/logo-icon-white.png" alt="Nunya Bunya"> <span>NUNYA<em>BUNYA</em></span></div>
   <ul class="footer-links">
@@ -1187,6 +1202,50 @@ function skipUpsell() {
   document.getElementById('upsellSection').style.display = 'none';
   document.getElementById('successFreeScreen').classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* Handle upgrade from email link — lookup by email */
+async function handleEmailUpgrade() {
+  const email = document.getElementById('upgradeEmail').value.trim();
+  const btn = document.getElementById('upgradeBtn');
+  const errorEl = document.getElementById('upgradeError');
+  const tier = document.getElementById('upgradeFromEmail').dataset.tier || 'foundation';
+
+  if (!email) {
+    errorEl.textContent = 'Please enter your email address.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Looking up your survey...';
+  errorEl.style.display = 'none';
+
+  try {
+    const res = await fetch('https://n8n.nunyabunya.com/webhook/bfk-upgrade-by-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, tier: tier })
+    });
+    if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      if (data.checkout_url) {
+        btn.textContent = 'Redirecting to payment...';
+        window.location.href = data.checkout_url;
+        return;
+      }
+      errorEl.textContent = data.error || 'We couldn\'t find a survey for that email. Did you use a different address?';
+      errorEl.style.display = 'block';
+    } else {
+      errorEl.textContent = 'Something went wrong. Please try again.';
+      errorEl.style.display = 'block';
+    }
+  } catch (err) {
+    errorEl.textContent = 'Network error. Please check your connection.';
+    errorEl.style.display = 'block';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Go to Checkout';
 }
 
 function showStep(step) {
@@ -1368,12 +1427,24 @@ async function submitSurvey() {
   }
 
   if (payment === 'cancelled') {
-    /* Payment cancelled — show upsell screen again so they can retry */
     document.getElementById('salesSection').style.display = 'none';
     document.getElementById('freeDetailsSection').style.display = 'none';
     document.getElementById('howSection').style.display = 'none';
     document.getElementById('upsellSection').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+
+  /* Handle ?upgrade=foundation or ?upgrade=launch from email links */
+  const upgradeTier = params.get('upgrade');
+  if (upgradeTier === 'foundation' || upgradeTier === 'launch') {
+    document.getElementById('salesSection').style.display = 'none';
+    document.getElementById('freeDetailsSection').style.display = 'none';
+    document.getElementById('howSection').style.display = 'none';
+    document.getElementById('upgradeFromEmail').style.display = 'block';
+    document.getElementById('upgradeFromEmail').dataset.tier = upgradeTier;
+    const tierName = upgradeTier === 'launch' ? 'Launch Kit ($1,000)' : 'Foundation Kit ($199)';
+    document.getElementById('upgradeTierName').textContent = tierName;
     window.history.replaceState({}, '', window.location.pathname);
   }
 })();
