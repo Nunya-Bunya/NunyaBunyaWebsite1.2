@@ -116,6 +116,112 @@
     font-size: 14px; text-transform: uppercase; cursor: pointer; margin-top: 16px;
   }
 
+  /* === MORNING LAUNCHPAD === */
+  .ml-section {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
+    padding: 20px 24px; margin-bottom: 16px;
+  }
+  .ml-section-title {
+    font-family: var(--font-heading); font-size: 13px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* Non-Negotiables */
+  .ml-nn { border-left: 3px solid var(--magenta); }
+  .ml-nn .ml-section-title { color: var(--magenta); }
+  .ml-nn-item {
+    display: flex; align-items: center; gap: 12px; padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 14px; color: rgba(255,255,255,0.8);
+  }
+  .ml-nn-item:last-child { border-bottom: none; }
+  .ml-nn-check {
+    width: 20px; height: 20px; border-radius: 5px; border: 2px solid var(--subtle);
+    cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    background: none; font-size: 11px; color: transparent; transition: all 0.2s;
+  }
+  .ml-nn-check:hover { border-color: var(--magenta); }
+  .ml-nn-check.checked { background: var(--magenta); border-color: var(--magenta); color: var(--dark); }
+  .ml-nn-item.done { opacity: 0.4; }
+  .ml-nn-item.done .ml-nn-label { text-decoration: line-through; color: var(--muted); }
+  .ml-nn-time { font-size: 11px; color: var(--muted); margin-left: auto; font-family: var(--font-heading); font-weight: 600; }
+
+  /* Today's Content Assignment */
+  .ml-content { border-left: 3px solid var(--teal); }
+  .ml-content .ml-section-title { color: var(--teal); }
+  .ml-content-card {
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .ml-content-biz {
+    font-family: var(--font-heading); font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; padding: 4px 10px;
+    border-radius: 6px; white-space: nowrap;
+  }
+  .ml-content-detail { flex: 1; }
+  .ml-content-platform { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .ml-content-type { font-size: 15px; color: rgba(255,255,255,0.9); font-weight: 500; }
+  .ml-content-time { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .ml-content-cta {
+    background: rgba(0,229,204,0.1); border: 1px solid rgba(0,229,204,0.3);
+    color: var(--teal); padding: 8px 16px; border-radius: 8px; font-size: 12px;
+    font-family: var(--font-heading); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; margin-top: 12px;
+    display: inline-block; text-decoration: none;
+  }
+  .ml-content-cta:hover { background: rgba(0,229,204,0.2); }
+
+  /* Current Focus */
+  .ml-focus { border-left: 3px solid var(--yellow); }
+  .ml-focus .ml-section-title { color: var(--yellow); }
+  .ml-focus-blocks {
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px;
+  }
+  .ml-block {
+    background: var(--dark); border: 1px solid var(--subtle); border-radius: 8px;
+    padding: 12px; text-align: center; cursor: default;
+  }
+  .ml-block-label {
+    font-family: var(--font-heading); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px;
+  }
+  .ml-block-task { font-size: 13px; color: rgba(255,255,255,0.8); font-weight: 400; }
+  .ml-block-time { font-size: 11px; color: var(--muted); margin-top: 4px; font-family: var(--font-heading); }
+  .ml-block.active { border-color: var(--yellow); background: rgba(255,184,0,0.05); }
+  .ml-block.active .ml-block-label { color: var(--yellow); }
+
+  /* Pomodoro Timer */
+  .ml-timer { border-left: 3px solid var(--blue); }
+  .ml-timer .ml-section-title { color: var(--blue); }
+  .ml-timer-row { display: flex; align-items: center; gap: 16px; }
+  .ml-timer-display {
+    font-family: var(--font-heading); font-size: 48px; font-weight: 900;
+    letter-spacing: 0.02em; color: var(--white); min-width: 160px;
+  }
+  .ml-timer-display.running { color: var(--blue); }
+  .ml-timer-display.break-mode { color: var(--teal); }
+  .ml-timer-controls { display: flex; gap: 8px; }
+  .ml-timer-btn {
+    background: none; border: 1px solid var(--subtle); color: var(--muted);
+    padding: 8px 16px; border-radius: 8px; font-size: 12px; cursor: pointer;
+    font-family: var(--font-heading); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; transition: all 0.2s;
+  }
+  .ml-timer-btn:hover { color: var(--blue); border-color: var(--blue); }
+  .ml-timer-btn.active { background: var(--blue); color: var(--dark); border-color: var(--blue); }
+  .ml-timer-meta { margin-left: auto; text-align: right; }
+  .ml-timer-label { font-size: 13px; color: var(--muted); }
+  .ml-timer-session {
+    font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--blue);
+  }
+  .ml-timer-presets { display: flex; gap: 6px; margin-top: 12px; }
+  .ml-timer-preset {
+    background: var(--dark); border: 1px solid var(--subtle); color: var(--muted);
+    padding: 4px 12px; border-radius: 6px; font-size: 11px; cursor: pointer;
+    font-family: var(--font-heading); font-weight: 600; transition: all 0.2s;
+  }
+  .ml-timer-preset:hover { color: var(--blue); border-color: var(--blue); }
+  .ml-timer-preset.selected { background: rgba(74,144,217,0.15); color: var(--blue); border-color: var(--blue); }
+
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 </style>
@@ -153,6 +259,52 @@
       <div class="kpi-card magenta"><div class="num" id="kpiSkipped">0</div><div class="label">Skipped</div></div>
       <div class="kpi-card"><div class="num" id="kpiStreak">0</div><div class="label">Day Streak</div></div>
     </div>
+
+    <!-- ============ MORNING LAUNCHPAD ============ -->
+
+    <!-- Daily Non-Negotiables -->
+    <div class="ml-section ml-nn" id="nonNegotiables">
+      <div class="ml-section-title"><div class="md-urgent-pulse"></div> Daily Non-Negotiables</div>
+      <div id="nnList"></div>
+      <div style="font-size:11px; color:var(--muted); margin-top:8px; font-style:italic;">These reset every day. Do them before anything else.</div>
+    </div>
+
+    <!-- Today's Content Assignment -->
+    <div class="ml-section ml-content" id="contentAssignment">
+      <div class="ml-section-title">Today's Content Assignment</div>
+      <div id="contentAssignmentBody"></div>
+    </div>
+
+    <!-- Work Blocks -->
+    <div class="ml-section ml-focus" id="workBlocks">
+      <div class="ml-section-title">Today's Work Blocks</div>
+      <div class="ml-focus-blocks" id="blockGrid"></div>
+    </div>
+
+    <!-- Pomodoro Timer -->
+    <div class="ml-section ml-timer" id="pomodoroSection">
+      <div class="ml-section-title">Focus Timer</div>
+      <div class="ml-timer-row">
+        <div class="ml-timer-display" id="timerDisplay">25:00</div>
+        <div class="ml-timer-controls">
+          <button class="ml-timer-btn" id="timerStartBtn" onclick="toggleTimer()">Start</button>
+          <button class="ml-timer-btn" onclick="resetTimer()">Reset</button>
+          <button class="ml-timer-btn" onclick="skipToBreak()">Skip to Break</button>
+        </div>
+        <div class="ml-timer-meta">
+          <div class="ml-timer-label" id="timerPhaseLabel">Work Session</div>
+          <div class="ml-timer-session" id="timerSessionCount">Session 1 of 4</div>
+        </div>
+      </div>
+      <div class="ml-timer-presets">
+        <button class="ml-timer-preset selected" onclick="setPreset(25,5)">25/5</button>
+        <button class="ml-timer-preset" onclick="setPreset(30,5)">30/5</button>
+        <button class="ml-timer-preset" onclick="setPreset(45,10)">45/10</button>
+        <button class="ml-timer-preset" onclick="setPreset(60,15)">60/15</button>
+      </div>
+    </div>
+
+    <!-- ============ END MORNING LAUNCHPAD ============ -->
 
     <!-- Task List -->
     <div class="md-tasks" id="taskList"></div>
@@ -213,6 +365,10 @@ async function init() {
   if (!ok) return;
   NB_ADMIN.renderSidebar('my-day');
   document.getElementById('dateLabel').textContent = NB_ADMIN.formatDateFull(new Date());
+  renderNonNegotiables();
+  renderContentAssignment();
+  renderWorkBlocks();
+  initTimer();
   await loadDeadlines();
   await loadTasks();
   await loadMonthlySummary();
@@ -537,7 +693,7 @@ async function seedAprilTasks() {
     { date: '2026-04-07', title: 'Reach out to 2 people who might know someone who needs marketing', category: 'revenue', business: 'nunya-bunya' },
 
     { date: '2026-04-08', title: 'Film YouTube long-form video #1: "How I Built My Agency Backend for $16/month"', category: 'content', business: 'ben-alek-conner' },
-    { date: '2026-04-08', title: 'Write 3 social posts for NB (schedule via Mixpost)', category: 'content', business: 'nunya-bunya' },
+    { date: '2026-04-08', title: 'Write 3 social posts for NB (schedule via Postiz)', category: 'content', business: 'nunya-bunya' },
     { date: '2026-04-08', title: 'Create 1 carousel post for LinkedIn', category: 'content', business: 'nunya-bunya' },
     { date: '2026-04-08', title: 'Take 3 portrait photos for PP portfolio', category: 'content', business: 'power-portraits' },
 
@@ -553,7 +709,7 @@ async function seedAprilTasks() {
 
     { date: '2026-04-11', title: 'Redesign 2 landing pages based on approved style guides', category: 'build' },
     { date: '2026-04-11', title: 'Set up Google My Business for Power Portraits', category: 'build', business: 'power-portraits' },
-    { date: '2026-04-11', title: 'Connect social accounts to Mixpost (FB, IG, LI, Twitter)', category: 'build' },
+    { date: '2026-04-11', title: 'Connect social accounts to Postiz (FB, IG, LI, Twitter)', category: 'build' },
     { date: '2026-04-11', title: 'Test full funnel: short link → landing page → form → drip email', category: 'build' },
 
     { date: '2026-04-12', title: 'FINALIZE Screen Queensland PROOF application (DUE TOMORROW)', category: 'creative', business: 'ben-alek-conner', priority: 'urgent' },
@@ -582,7 +738,7 @@ async function seedAprilTasks() {
     { date: '2026-04-17', title: 'Edit and publish YouTube video #2', category: 'content', business: 'ben-alek-conner' },
     { date: '2026-04-17', title: 'Write 1 case study from free client work', category: 'content', business: 'nunya-bunya' },
     { date: '2026-04-17', title: 'Create NB testimonial request: email CLG contacts for a quote', category: 'content', business: 'nunya-bunya' },
-    { date: '2026-04-17', title: 'Schedule week\'s social posts in Mixpost', category: 'content' },
+    { date: '2026-04-17', title: 'Schedule week\'s social posts in Postiz', category: 'content' },
 
     { date: '2026-04-18', title: 'Redesign remaining landing pages', category: 'build' },
     { date: '2026-04-18', title: 'Build NB blog page (if not live)', category: 'build', business: 'nunya-bunya' },
@@ -674,6 +830,263 @@ async function seedAprilTasks() {
     btn.textContent = 'Load April Playbook';
     btn.disabled = false;
   }
+}
+
+// ============ DAILY NON-NEGOTIABLES ============
+const NON_NEGOTIABLES = [
+  { id: 'nn-fb', label: 'Post in 1 Facebook Group (free advice, link to nunyabunya.com)', time: '2 min' },
+  { id: 'nn-li', label: 'Engage on LinkedIn (comment on 3-5 posts)', time: '5 min' },
+  { id: 'nn-slack', label: 'Check Slack for leads & notifications', time: '3 min' },
+];
+
+function getNNKey() {
+  return 'nn-' + new Date().toISOString().slice(0, 10);
+}
+
+function getNNState() {
+  try { return JSON.parse(localStorage.getItem(getNNKey()) || '{}'); } catch { return {}; }
+}
+
+function renderNonNegotiables() {
+  const state = getNNState();
+  const list = document.getElementById('nnList');
+  list.innerHTML = NON_NEGOTIABLES.map(nn => {
+    const done = state[nn.id] || false;
+    return `
+      <div class="ml-nn-item ${done ? 'done' : ''}">
+        <button class="ml-nn-check ${done ? 'checked' : ''}" onclick="toggleNN('${nn.id}')">
+          ${done ? '&#10003;' : ''}
+        </button>
+        <span class="ml-nn-label">${nn.label}</span>
+        <span class="ml-nn-time">${nn.time}</span>
+      </div>`;
+  }).join('');
+}
+
+function toggleNN(id) {
+  const state = getNNState();
+  state[id] = !state[id];
+  localStorage.setItem(getNNKey(), JSON.stringify(state));
+  renderNonNegotiables();
+}
+
+// ============ TODAY'S CONTENT ASSIGNMENT ============
+const CONTENT_ROTATION = {
+  0: { biz: 'Bella Rhyder', bizColor: '#FF4DDD', platform: 'Instagram + TikTok', type: 'Product showcase', time: '~15 min' },
+  1: { biz: 'Nunya Bunya', bizColor: '#00E5CC', platform: 'LinkedIn + FB Groups', type: 'Marketing tip / free advice post', time: '~20 min' },
+  2: { biz: 'Ben Alek Conner', bizColor: '#9B59B6', platform: 'LinkedIn + Twitter', type: 'Personal story / lesson', time: '~20 min' },
+  3: { biz: 'Flex Day', bizColor: '#FFB800', platform: 'Catch-up / Client work', type: 'No content required — use this for revenue or build work', time: '—' },
+  4: { biz: 'Flex Day', bizColor: '#FFB800', platform: 'Catch-up / Client work', type: 'Clear the backlog or get ahead on content', time: '—' },
+  5: { biz: 'Power Portraits', bizColor: '#FFB800', platform: 'Instagram + LinkedIn', type: 'Photography tip / portfolio showcase', time: '~20 min' },
+  6: { biz: 'Ben Alek Conner', bizColor: '#9B59B6', platform: 'YouTube Short / Reel', type: 'Short-form video', time: '~30 min' },
+};
+
+function renderContentAssignment() {
+  const dow = currentDate.getDay();
+  const dateStr = currentDate.toISOString().slice(0, 10);
+  const today = new Date().toISOString().slice(0, 10);
+  const c = CONTENT_ROTATION[dow];
+  const body = document.getElementById('contentAssignmentBody');
+
+  const isFlexDay = c.biz === 'Flex Day';
+  body.innerHTML = `
+    <div class="ml-content-card">
+      <span class="ml-content-biz" style="background:${c.bizColor}18; color:${c.bizColor};">${c.biz}</span>
+      <div class="ml-content-detail">
+        <div class="ml-content-platform">${c.platform}</div>
+        <div class="ml-content-type">${c.type}</div>
+        <div class="ml-content-time">${c.time}</div>
+        ${!isFlexDay && dateStr === today ? '<button class="ml-content-cta" onclick="draftContent()">Draft with AI</button>' : ''}
+      </div>
+    </div>`;
+}
+
+function draftContent() {
+  const dow = currentDate.getDay();
+  const c = CONTENT_ROTATION[dow];
+  const input = document.getElementById('newTaskInput');
+  if (input) {
+    input.value = `Draft ${c.type.toLowerCase()} for ${c.biz} (${c.platform})`;
+    input.focus();
+  }
+}
+
+// ============ WORK BLOCKS ============
+const WORK_BLOCKS = [
+  { label: 'Block 1', task: 'Demand Letters', time: '30 min', color: '#00E5CC', desc: 'Your only income — do this first' },
+  { label: 'Block 2', task: 'Content', time: '20 min', color: '#FF4DDD', desc: 'Post today\'s content assignment' },
+  { label: 'Block 3', task: 'Engage', time: '10 min', color: '#9B59B6', desc: 'LinkedIn comments, FB group, Slack' },
+  { label: 'Block 4', task: 'Build', time: '60-90 min', color: '#4A90D9', desc: 'Current MASTER PLAN task' },
+];
+
+function renderWorkBlocks() {
+  const grid = document.getElementById('blockGrid');
+  const activeBlock = getActiveBlock();
+  grid.innerHTML = WORK_BLOCKS.map((b, i) => `
+    <div class="ml-block ${i === activeBlock ? 'active' : ''}" title="${b.desc}">
+      <div class="ml-block-label">${b.label}</div>
+      <div class="ml-block-task" style="color:${b.color}; font-weight:500;">${b.task}</div>
+      <div class="ml-block-time">${b.time}</div>
+    </div>
+  `).join('');
+}
+
+function getActiveBlock() {
+  // Highlight based on localStorage tracker (user clicks to advance)
+  const key = 'block-' + new Date().toISOString().slice(0, 10);
+  return parseInt(localStorage.getItem(key) || '0');
+}
+
+// ============ POMODORO TIMER ============
+let timerInterval = null;
+let timerSeconds = 25 * 60;
+let timerRunning = false;
+let timerWorkMin = 25;
+let timerBreakMin = 5;
+let timerIsBreak = false;
+let timerSession = 1;
+
+function initTimer() {
+  // Restore state from localStorage
+  const saved = localStorage.getItem('pomo-state');
+  if (saved) {
+    try {
+      const s = JSON.parse(saved);
+      timerWorkMin = s.work || 25;
+      timerBreakMin = s.brk || 5;
+      timerSession = s.session || 1;
+    } catch {}
+  }
+  timerSeconds = timerWorkMin * 60;
+  updateTimerDisplay();
+  updatePresetButtons();
+}
+
+function updateTimerDisplay() {
+  const mins = Math.floor(timerSeconds / 60);
+  const secs = timerSeconds % 60;
+  const display = document.getElementById('timerDisplay');
+  display.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  display.className = 'ml-timer-display' + (timerRunning ? (timerIsBreak ? ' break-mode' : ' running') : '');
+
+  document.getElementById('timerPhaseLabel').textContent = timerIsBreak ? 'Break Time' : 'Work Session';
+  document.getElementById('timerSessionCount').textContent = `Session ${timerSession} of 4`;
+  document.getElementById('timerStartBtn').textContent = timerRunning ? 'Pause' : 'Start';
+  document.getElementById('timerStartBtn').classList.toggle('active', timerRunning);
+
+  // Update page title with timer when running
+  if (timerRunning) {
+    document.title = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')} ${timerIsBreak ? 'Break' : 'Focus'} | My Day`;
+  } else {
+    document.title = 'My Day | NBHQ';
+  }
+}
+
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+  } else {
+    timerRunning = true;
+    timerInterval = setInterval(() => {
+      timerSeconds--;
+      if (timerSeconds <= 0) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        onTimerComplete();
+      }
+      updateTimerDisplay();
+    }, 1000);
+  }
+  updateTimerDisplay();
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerIsBreak = false;
+  timerSeconds = timerWorkMin * 60;
+  updateTimerDisplay();
+}
+
+function skipToBreak() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  if (timerIsBreak) {
+    // Skip break, go to next work session
+    timerIsBreak = false;
+    timerSession++;
+    if (timerSession > 4) timerSession = 1;
+    timerSeconds = timerWorkMin * 60;
+  } else {
+    // Skip to break
+    timerIsBreak = true;
+    timerSeconds = (timerSession % 4 === 0) ? 15 * 60 : timerBreakMin * 60;
+  }
+  updateTimerDisplay();
+  saveTimerState();
+}
+
+function onTimerComplete() {
+  // Play a notification sound via Web Audio
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = timerIsBreak ? 880 : 660;
+    gain.gain.value = 0.3;
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1);
+    osc.stop(ctx.currentTime + 1);
+  } catch {}
+
+  if (timerIsBreak) {
+    // Break done — start next work session
+    timerIsBreak = false;
+    timerSession++;
+    if (timerSession > 4) timerSession = 1;
+    timerSeconds = timerWorkMin * 60;
+  } else {
+    // Work done — start break (longer every 4th)
+    timerIsBreak = true;
+    timerSeconds = (timerSession % 4 === 0) ? 15 * 60 : timerBreakMin * 60;
+    // Advance work block
+    const key = 'block-' + new Date().toISOString().slice(0, 10);
+    const current = parseInt(localStorage.getItem(key) || '0');
+    if (current < WORK_BLOCKS.length - 1) {
+      localStorage.setItem(key, String(current + 1));
+      renderWorkBlocks();
+    }
+  }
+  saveTimerState();
+  updateTimerDisplay();
+}
+
+function setPreset(work, brk) {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerWorkMin = work;
+  timerBreakMin = brk;
+  timerIsBreak = false;
+  timerSeconds = work * 60;
+  saveTimerState();
+  updateTimerDisplay();
+  updatePresetButtons();
+}
+
+function updatePresetButtons() {
+  document.querySelectorAll('.ml-timer-preset').forEach(btn => {
+    const [w, b] = btn.textContent.split('/').map(Number);
+    btn.classList.toggle('selected', w === timerWorkMin && b === timerBreakMin);
+  });
+}
+
+function saveTimerState() {
+  localStorage.setItem('pomo-state', JSON.stringify({
+    work: timerWorkMin, brk: timerBreakMin, session: timerSession
+  }));
 }
 
 init();
