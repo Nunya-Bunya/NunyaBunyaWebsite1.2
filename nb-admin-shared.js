@@ -25,33 +25,66 @@ const NB_ADMIN = {
 
   // Render sidebar nav
   renderSidebar(activePage) {
-    const pages = [
-      { id: 'my-day', label: 'My Day', icon: '&#9728;', href: '/nb-admin-my-day' },
-      { id: 'dashboard', label: 'Dashboard', icon: '&#9670;', href: '/nb-admin-dashboard' },
-      { id: 'clients', label: 'Clients', icon: '&#9632;', href: '/nb-admin-clients' },
-      { id: 'calendar', label: 'Calendar', icon: '&#9783;', href: '/nb-admin-calendar' },
-      { id: 'calendar-edit', label: 'Calendar Editor', icon: '&#128197;', href: '/nb-admin-calendar-edit' },
-      { id: 'week', label: 'This Week', icon: '&#9776;', href: '/nb-admin-week' },
-      { id: 'tasks', label: "Today's Tasks", icon: '&#10003;', href: '/nb-admin-tasks' },
-      { id: 'approval', label: 'Approval Queue', icon: '&#9998;', href: '/nb-admin-approval' },
-      { id: 'pipelines', label: 'Pipelines', icon: '&#9881;', href: '/nb-admin-pipelines' },
-      { id: 'onboard', label: 'Onboard Client', icon: '&#10010;', href: '/nb-admin-onboard' },
-      { id: 'reports', label: 'Reports', icon: '&#9776;', href: '/nb-admin-reports' },
-      { id: 'leads', label: 'Leads', icon: '&#9993;', href: '/nb-admin-leads' },
-      { id: 'analytics', label: 'Analytics', icon: '&#9636;', href: '/nb-admin-analytics' },
-      { id: 'email-campaigns', label: 'Email Campaigns', icon: '&#9993;', href: '/nb-admin-email-campaigns' },
-      { id: 'social-feed', label: 'Social Feed', icon: '&#128172;', href: '/nb-admin-social-feed' },
-      { id: 'activity', label: 'Activity Log', icon: '&#9200;', href: '/nb-admin-activity' },
-      { id: 'benchmark', label: 'Benchmark', icon: '&#9201;', href: '/nb-admin-benchmark' },
-      { id: 'landing-pages', label: 'Landing Pages', icon: '&#9873;', href: '/nb-admin-landing-pages' },
-      { id: 'lead-magnets', label: 'Lead Magnets', icon: '&#9883;', href: '/nb-admin-lead-magnets' },
-      { id: 'brand-docs', label: 'Brand Docs', icon: '&#9997;', href: '/nb-admin-brand-docs' },
-      { id: 'client-portal', label: 'Client Portal', icon: '&#128101;', href: '/nb-admin-client-portal' },
-      { id: 'settings', label: 'Settings', icon: '&#9881;', href: '/nb-admin-settings' },
+    // ADHD-friendly sidebar: grouped + collapsible
+    // Daily section always visible. Everything else collapsed by default.
+    const sections = [
+      {
+        label: null, // No label = always visible, no header
+        pages: [
+          { id: 'my-day', label: 'My Day', icon: '&#9728;', href: '/nb-admin-my-day' },
+          { id: 'approval', label: 'Approve Content', icon: '&#9998;', href: '/nb-admin-approval' },
+          { id: 'dashboard', label: 'Dashboard', icon: '&#9670;', href: '/nb-admin-dashboard' },
+        ]
+      },
+      {
+        label: 'Clients',
+        pages: [
+          { id: 'clients', label: 'All Clients', icon: '&#9632;', href: '/nb-admin-clients' },
+          { id: 'onboard', label: 'Onboard New', icon: '&#10010;', href: '/nb-admin-onboard' },
+          { id: 'client-portal', label: 'Client Portal', icon: '&#128101;', href: '/nb-admin-client-portal' },
+        ]
+      },
+      {
+        label: 'Content',
+        pages: [
+          { id: 'calendar', label: 'Calendar', icon: '&#9783;', href: '/nb-admin-calendar' },
+          { id: 'calendar-edit', label: 'Calendar Editor', icon: '&#128197;', href: '/nb-admin-calendar-edit' },
+          { id: 'social-feed', label: 'Social Feed', icon: '&#128172;', href: '/nb-admin-social-feed' },
+          { id: 'pipelines', label: 'Pipelines', icon: '&#9881;', href: '/nb-admin-pipelines' },
+        ]
+      },
+      {
+        label: 'Marketing',
+        pages: [
+          { id: 'analytics', label: 'Analytics', icon: '&#9636;', href: '/nb-admin-analytics' },
+          { id: 'email-campaigns', label: 'Email Campaigns', icon: '&#9993;', href: '/nb-admin-email-campaigns' },
+          { id: 'leads', label: 'Leads', icon: '&#9993;', href: '/nb-admin-leads' },
+          { id: 'landing-pages', label: 'Landing Pages', icon: '&#9873;', href: '/nb-admin-landing-pages' },
+          { id: 'lead-magnets', label: 'Lead Magnets', icon: '&#9883;', href: '/nb-admin-lead-magnets' },
+        ]
+      },
+      {
+        label: 'Reference',
+        pages: [
+          { id: 'brand-docs', label: 'Brand Docs', icon: '&#9997;', href: '/nb-admin-brand-docs' },
+          { id: 'reports', label: 'Reports', icon: '&#9776;', href: '/nb-admin-reports' },
+          { id: 'activity', label: 'Activity Log', icon: '&#9200;', href: '/nb-admin-activity' },
+          { id: 'settings', label: 'Settings', icon: '&#9881;', href: '/nb-admin-settings' },
+        ]
+      },
     ];
+
+    // Flatten for backward compatibility
+    const pages = sections.flatMap(s => s.pages);
 
     const sidebar = document.getElementById('sidebar');
     if (!sidebar) return;
+
+    // Check which section the active page is in
+    const activeSection = sections.find(s => s.pages.some(p => p.id === activePage));
+
+    // Load collapsed state from localStorage
+    const collapsed = JSON.parse(localStorage.getItem('nbhq_collapsed') || '{}');
 
     sidebar.innerHTML = `
       <div class="sidebar-logo">
@@ -59,16 +92,62 @@ const NB_ADMIN = {
       </div>
       <div class="sidebar-label">NBHQ</div>
       <nav class="sidebar-nav">
-        ${pages.map(p => `
-          <a href="${p.href}" class="sidebar-link ${p.id === activePage ? 'active' : ''}">
-            <span class="icon">${p.icon}</span> ${p.label}
-          </a>
-        `).join('')}
+        ${sections.map((section, si) => {
+          if (!section.label) {
+            // Top-level pages — always visible
+            return section.pages.map(p => `
+              <a href="${p.href}" class="sidebar-link ${p.id === activePage ? 'active' : ''}">
+                <span class="icon">${p.icon}</span> ${p.label}
+              </a>
+            `).join('');
+          }
+
+          // Collapsible section — open if active page is inside, or if user expanded it
+          const hasActive = section.pages.some(p => p.id === activePage);
+          const isCollapsed = hasActive ? false : (collapsed[section.label] !== false);
+
+          return `
+            <div class="sidebar-section ${isCollapsed ? 'collapsed' : ''}" data-section="${section.label}">
+              <div class="sidebar-section-header" onclick="NB_ADMIN.toggleSection('${section.label}')">
+                <span>${section.label}</span>
+                <span class="sidebar-chevron">${isCollapsed ? '+' : '-'}</span>
+              </div>
+              <div class="sidebar-section-links" style="${isCollapsed ? 'display:none' : ''}">
+                ${section.pages.map(p => `
+                  <a href="${p.href}" class="sidebar-link ${p.id === activePage ? 'active' : ''}">
+                    <span class="icon">${p.icon}</span> ${p.label}
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }).join('')}
       </nav>
       <div class="sidebar-footer">
         <button onclick="NB_ADMIN.logout()">Logout</button>
       </div>
     `;
+  },
+
+  // Toggle sidebar sections
+  toggleSection(label) {
+    const collapsed = JSON.parse(localStorage.getItem('nbhq_collapsed') || '{}');
+    collapsed[label] = collapsed[label] === false ? true : false;
+    localStorage.setItem('nbhq_collapsed', JSON.stringify(collapsed));
+    const section = document.querySelector(`[data-section="${label}"]`);
+    if (section) {
+      const links = section.querySelector('.sidebar-section-links');
+      const chevron = section.querySelector('.sidebar-chevron');
+      if (links.style.display === 'none') {
+        links.style.display = '';
+        chevron.textContent = '-';
+        section.classList.remove('collapsed');
+      } else {
+        links.style.display = 'none';
+        chevron.textContent = '+';
+        section.classList.add('collapsed');
+      }
+    }
   },
 
   // Fetch from admin API with auth cookie
