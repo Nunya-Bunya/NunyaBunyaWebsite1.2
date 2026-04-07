@@ -49,6 +49,7 @@ const NB_ADMIN = {
         pages: [
           { id: 'calendar', label: 'Calendar', icon: '&#9783;', href: '/nb-admin-calendar' },
           { id: 'calendar-edit', label: 'Calendar Editor', icon: '&#128197;', href: '/nb-admin-calendar-edit' },
+          { id: 'voice-memos', label: 'Voice Memos', icon: '&#127908;', href: '/nb-admin-voice-memos' },
           { id: 'social-feed', label: 'Social Feed', icon: '&#128172;', href: '/nb-admin-social-feed' },
           { id: 'pipelines', label: 'Pipelines', icon: '&#9881;', href: '/nb-admin-pipelines' },
         ]
@@ -269,6 +270,7 @@ const NB_ADMIN = {
     const labels = {
       content_campaign: 'Blog', social_post: 'Social', review_response: 'Review',
       weekly_report: 'Report', blog_post: 'Blog', social: 'Social',
+      voice_memo: 'Voice Memo', email_draft: 'Email', task: 'Task',
     };
     return `<span class="badge-type ${t.replace('_', '-')}">${labels[t] || type}</span>`;
   },

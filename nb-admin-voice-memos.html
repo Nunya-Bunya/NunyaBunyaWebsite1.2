@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Memos | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Voice <span>Memos</span></h1>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <div id="memoCount" style="font-size:14px;color:var(--muted)"></div>
+        <button class="btn-teal btn-small" onclick="showLinkModal()">Get Client Link</button>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <select id="clientFilter" onchange="loadMemos()">
+        <option value="">All Clients</option>
+      </select>
+      <select id="statusFilter" onchange="loadMemos()">
+        <option value="">All Status</option>
+        <option value="pending_review">Pending Review</option>
+        <option value="processed">Processed</option>
+        <option value="archived">Archived</option>
+      </select>
+    </div>
+
+    <!-- Client Link Modal -->
+    <div class="modal-overlay" id="linkModal">
+      <div class="modal-card" style="max-width:500px;">
+        <h3 style="margin-bottom:16px;">Client Voice Memo Link</h3>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:16px;">Send this link to a client so they can record voice memos from their phone.</p>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:4px;">Client</label>
+          <select id="linkClient" onchange="updateLink()" style="width:100%;padding:10px 14px;background:var(--dark3);border:1px solid var(--subtle);color:var(--white);border-radius:8px;font-size:14px;font-family:var(--font-body);"></select>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:4px;">Link</label>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="linkUrl" readonly style="flex:1;padding:10px 14px;background:var(--dark3);border:1px solid var(--subtle);color:var(--teal);border-radius:8px;font-size:13px;font-family:monospace;">
+            <button class="btn-teal btn-small" onclick="copyLink()">Copy</button>
+          </div>
+        </div>
+        <div id="linkCopied" style="font-size:13px;color:var(--teal);display:none;margin-bottom:8px;">Copied!</div>
+        <button class="btn-outline btn-small" onclick="closeLinkModal()" style="margin-top:8px;">Close</button>
+      </div>
+    </div>
+
+    <!-- Memo Detail Modal -->
+    <div class="modal-overlay" id="detailModal">
+      <div class="modal-card large" style="max-width:750px;max-height:90vh;overflow-y:auto;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;position:sticky;top:0;background:var(--dark2);padding-bottom:12px;z-index:2;">
+          <h3 id="detailTitle"></h3>
+          <button class="btn-outline btn-small" onclick="closeDetail()">Close</button>
+        </div>
+        <div id="detailContent"></div>
+      </div>
+    </div>
+
+    <div id="memoList"></div>
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading voice memos...</p></div>
+    <div class="empty-state" id="empty" style="display:none">
+      <div class="icon">&#127908;</div>
+      <p>No voice memos yet.</p>
+      <p style="font-size:14px;color:var(--muted);margin-top:8px;">Send a client the recording link to get started.</p>
+    </div>
+  </main>
+</div>
+
+<style>
+  .memo-card {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
+    padding: 20px; margin-bottom: 12px; cursor: pointer; transition: border-color 0.2s;
+  }
+  .memo-card:hover { border-color: rgba(75,191,180,0.3); }
+  .memo-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .memo-client { font-family: var(--font-heading); font-size: 14px; font-weight: 700; }
+  .memo-time { font-size: 12px; color: var(--muted); }
+  .memo-summary { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.5; margin-bottom: 10px; font-weight: 300; }
+  .memo-transcript {
+    font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.5; font-style: italic;
+    max-height: 40px; overflow: hidden; margin-bottom: 10px;
+  }
+  .memo-stats { display: flex; gap: 12px; font-size: 12px; color: var(--muted); }
+  .memo-stat { display: flex; align-items: center; gap: 4px; }
+  .memo-stat .count { color: var(--teal); font-weight: 600; }
+  .memo-badge {
+    font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .memo-badge.pending_review { background: rgba(241,196,15,0.12); color: #F1C40F; }
+  .memo-badge.processed { background: rgba(75,191,180,0.12); color: #4BBFB4; }
+  .memo-badge.archived { background: rgba(255,255,255,0.06); color: var(--muted); }
+
+  /* Detail view */
+  .detail-section { margin-bottom: 20px; }
+  .detail-label {
+    font-family: var(--font-heading); font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 8px;
+  }
+  .detail-transcript {
+    background: var(--dark3); border-radius: 8px; padding: 16px;
+    font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.7; font-style: italic;
+  }
+  .item-card {
+    background: var(--dark3); border: 1px solid var(--subtle); border-radius: 10px;
+    padding: 16px; margin-bottom: 10px;
+  }
+  .item-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .item-type { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase; }
+  .item-type.social_post { background: rgba(29,161,242,0.12); color: #1DA1F2; }
+  .item-type.blog_post { background: rgba(153,89,182,0.12); color: #9B59B6; }
+  .item-type.email { background: rgba(46,204,113,0.12); color: #2ECC71; }
+  .item-type.task { background: rgba(241,196,15,0.12); color: #F1C40F; }
+  .item-type.ad_idea { background: rgba(214,57,107,0.12); color: #D6396B; }
+  .item-priority { font-size: 11px; color: var(--muted); }
+  .item-priority.high { color: #D6396B; }
+  .item-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .item-content { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.6; font-weight: 300; white-space: pre-wrap; }
+  .item-meta { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .item-meta span { margin-right: 12px; }
+  .item-actions { display: flex; gap: 6px; margin-top: 10px; }
+  .btn-sm {
+    font-size: 12px; padding: 5px 12px; border-radius: 6px; border: none;
+    cursor: pointer; font-weight: 600;
+  }
+  .btn-sm.approve { background: rgba(75,191,180,0.15); color: #4BBFB4; }
+  .btn-sm.reject { background: rgba(214,57,107,0.1); color: #D6396B; }
+</style>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let memos = [];
+  let clients = [];
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('voice-memos');
+
+    // Load clients
+    const clientData = await NB_ADMIN.apiFetch('clients');
+    if (clientData) {
+      clients = clientData.clients || [];
+      const sel = document.getElementById('clientFilter');
+      const linkSel = document.getElementById('linkClient');
+      clients.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.client_id;
+        opt.textContent = c.client_name;
+        sel.appendChild(opt.cloneNode(true));
+        linkSel.appendChild(opt);
+      });
+    }
+
+    await loadMemos();
+    updateLink();
+  }
+
+  async function loadMemos() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('empty').style.display = 'none';
+
+    const clientId = document.getElementById('clientFilter').value;
+    const status = document.getElementById('statusFilter').value;
+
+    let query = 'voice-memo?limit=50';
+    if (clientId) query += '&client_id=' + encodeURIComponent(clientId);
+
+    const data = await NB_ADMIN.apiFetch(query);
+    document.getElementById('loading').style.display = 'none';
+
+    memos = data ? data.memos : [];
+
+    // Client-side status filter
+    if (status) {
+      memos = memos.filter(m => m.status === status);
+    }
+
+    document.getElementById('memoCount').textContent = `${memos.length} memos`;
+
+    if (!memos.length) {
+      document.getElementById('memoList').innerHTML = '';
+      document.getElementById('empty').style.display = 'block';
+      return;
+    }
+
+    renderMemos();
+  }
+
+  function renderMemos() {
+    document.getElementById('memoList').innerHTML = memos.map(m => {
+      const items = typeof m.items === 'string' ? JSON.parse(m.items || '[]') : (m.items || []);
+      return `
+        <div class="memo-card" onclick="showDetail('${m.id}')">
+          <div class="memo-header">
+            <div>
+              <span class="memo-client">${NB_ADMIN.esc(m.client_name)}</span>
+              <span class="memo-badge ${m.status}">${m.status.replace('_', ' ')}</span>
+            </div>
+            <span class="memo-time">${NB_ADMIN.timeAgo(m.created_at)}</span>
+          </div>
+          ${m.summary ? `<div class="memo-summary">${NB_ADMIN.esc(m.summary)}</div>` : ''}
+          <div class="memo-transcript">"${NB_ADMIN.esc((m.transcript || '').substring(0, 150))}${(m.transcript || '').length > 150 ? '...' : ''}"</div>
+          <div class="memo-stats">
+            <div class="memo-stat"><span class="count">${items.length}</span> items generated</div>
+            ${m.duration_ms ? `<div class="memo-stat">${formatDuration(m.duration_ms)}</div>` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function showDetail(id) {
+    const m = memos.find(x => x.id === id);
+    if (!m) return;
+
+    const items = typeof m.items === 'string' ? JSON.parse(m.items || '[]') : (m.items || []);
+
+    document.getElementById('detailTitle').textContent = `${m.client_name} — ${NB_ADMIN.formatDate(m.created_at)}`;
+
+    let html = `
+      <div class="detail-section">
+        <div class="detail-label">Transcript</div>
+        <div class="detail-transcript">"${NB_ADMIN.esc(m.transcript)}"</div>
+      </div>
+      ${m.summary ? `
+      <div class="detail-section">
+        <div class="detail-label">AI Summary</div>
+        <div style="font-size:14px;color:rgba(255,255,255,0.75);line-height:1.6;">${NB_ADMIN.esc(m.summary)}</div>
+      </div>` : ''}
+      <div class="detail-section">
+        <div class="detail-label">Generated Items (${items.length})</div>
+        ${items.map((item, i) => `
+          <div class="item-card">
+            <div class="item-card-header">
+              <span class="item-type ${item.type}">${item.type.replace('_', ' ')}</span>
+              <span class="item-priority ${item.priority}">${item.priority} priority</span>
+            </div>
+            <div class="item-title">${NB_ADMIN.esc(item.title)}</div>
+            <div class="item-content">${NB_ADMIN.esc(item.content)}</div>
+            <div class="item-meta">
+              ${item.platform ? `<span>Platform: ${item.platform}</span>` : ''}
+              ${item.hashtags ? `<span style="color:var(--teal)">${NB_ADMIN.esc(item.hashtags)}</span>` : ''}
+            </div>
+            ${item.image_suggestion ? `
+            <div style="background:rgba(153,89,182,0.06);border:1px solid rgba(153,89,182,0.15);border-radius:6px;padding:10px;margin-top:8px;font-size:13px;color:rgba(255,255,255,0.5);">
+              <span style="color:#9B59B6;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;font-weight:600;">Image idea:</span> ${NB_ADMIN.esc(item.image_suggestion)}
+            </div>` : ''}
+            ${item.reasoning ? `
+            <div style="font-size:12px;color:var(--muted);margin-top:6px;font-style:italic;">${NB_ADMIN.esc(item.reasoning)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    document.getElementById('detailContent').innerHTML = html;
+    document.getElementById('detailModal').classList.add('show');
+  }
+
+  function closeDetail() { document.getElementById('detailModal').classList.remove('show'); }
+  document.getElementById('detailModal')?.addEventListener('click', function(e) { if (e.target === this) closeDetail(); });
+
+  // Client link generation
+  function showLinkModal() { document.getElementById('linkModal').classList.add('show'); }
+  function closeLinkModal() { document.getElementById('linkModal').classList.remove('show'); }
+  document.getElementById('linkModal')?.addEventListener('click', function(e) { if (e.target === this) closeLinkModal(); });
+
+  function updateLink() {
+    const sel = document.getElementById('linkClient');
+    const clientId = sel.value;
+    const clientName = sel.selectedOptions[0]?.textContent || '';
+    const base = window.location.origin + '/voice-memo/';
+    const url = `${base}?client=${encodeURIComponent(clientId)}&name=${encodeURIComponent(clientName)}`;
+    document.getElementById('linkUrl').value = url;
+  }
+
+  function copyLink() {
+    const input = document.getElementById('linkUrl');
+    navigator.clipboard.writeText(input.value);
+    document.getElementById('linkCopied').style.display = 'block';
+    setTimeout(() => { document.getElementById('linkCopied').style.display = 'none'; }, 2000);
+  }
+
+  function formatDuration(ms) {
+    const s = Math.round(ms / 1000);
+    if (s < 60) return `${s}s`;
+    return `${Math.floor(s / 60)}m ${s % 60}s`;
+  }
+
+  init();
+</script>
+</body>
+</html>
