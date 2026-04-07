@@ -5,19 +5,29 @@ import { requireAuth, supabaseFetch } from '../../lib/auth-utils.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (!requireAuth(req)) return res.status(401).json({ error: 'Unauthorized' });
 
-  // GET: List voice memos
+  // GET: List voice memos (optionally with their items)
   if (req.method === 'GET') {
-    const { client_id, limit } = req.query;
-    let query = 'voice_memos?order=created_at.desc';
-    if (client_id) query += `&client_id=eq.${encodeURIComponent(client_id)}`;
-    query += `&limit=${limit || 50}`;
+    const { client_id, limit, id } = req.query;
 
     try {
+      // Single memo detail with items
+      if (id) {
+        const memos = await supabaseFetch(`voice_memos?id=eq.${encodeURIComponent(id)}`);
+        if (!memos || memos.length === 0) return res.status(404).json({ error: 'Not found' });
+        const memo = memos[0];
+        const memoItems = await supabaseFetch(`voice_memo_items?memo_id=eq.${id}&order=created_at.asc`);
+        return res.status(200).json({ memo, items: memoItems || [] });
+      }
+
+      // List memos
+      let query = 'voice_memos?order=created_at.desc';
+      if (client_id) query += `&client_id=eq.${encodeURIComponent(client_id)}`;
+      query += `&limit=${limit || 50}`;
       const memos = await supabaseFetch(query);
       return res.status(200).json({ memos: memos || [] });
     } catch (err) {
@@ -55,30 +65,26 @@ export default async function handler(req, res) {
 
       const memoId = savedMemo?.[0]?.id;
 
-      // Push items to approval queue
-      const approvalItems = (items || []).map(item => ({
+      // Push items to voice_memo_items table
+      const memoItems = (items || []).map(item => ({
+        memo_id: memoId,
         client_id: client_id || null,
         client_name: client_name || 'Unknown',
         item_type: mapItemType(item.type),
         title: item.title,
+        content: item.content || '',
+        platform: item.platform || 'general',
+        hashtags: item.hashtags || '',
+        image_suggestion: item.image_suggestion || '',
+        reasoning: item.reasoning || '',
+        priority: item.priority || 'medium',
         status: 'pending',
-        source: 'voice_memo',
-        source_id: memoId,
-        metadata: JSON.stringify({
-          content: item.content,
-          platform: item.platform,
-          hashtags: item.hashtags,
-          image_suggestion: item.image_suggestion,
-          reasoning: item.reasoning,
-          priority: item.priority,
-          original_type: item.type,
-        }),
       }));
 
-      if (approvalItems.length > 0) {
-        await supabaseFetch('approval_queue', {
+      if (memoItems.length > 0) {
+        await supabaseFetch('voice_memo_items', {
           method: 'POST',
-          body: JSON.stringify(approvalItems),
+          body: JSON.stringify(memoItems),
           prefer: 'return=minimal',
         });
       }
@@ -93,6 +99,32 @@ export default async function handler(req, res) {
     } catch (err) {
       console.error('Voice memo storage error:', err);
       return res.status(500).json({ error: 'Storage failed: ' + err.message });
+    }
+  }
+
+  // PATCH: Approve or reject a voice memo item
+  if (req.method === 'PATCH') {
+    const { item_id, action } = req.body || {};
+    if (!item_id || !['approve', 'reject'].includes(action)) {
+      return res.status(400).json({ error: 'item_id and action (approve/reject) required.' });
+    }
+
+    const now = new Date().toISOString();
+    const updates = {
+      status: action === 'approve' ? 'approved' : 'rejected',
+      approved_at: action === 'approve' ? now : null,
+      approved_by: action === 'approve' ? 'admin' : null,
+    };
+
+    try {
+      await supabaseFetch(`voice_memo_items?id=eq.${encodeURIComponent(item_id)}`, {
+        method: 'PATCH',
+        body: JSON.stringify(updates),
+        prefer: 'return=minimal',
+      });
+      return res.status(200).json({ success: true });
+    } catch (err) {
+      return res.status(500).json({ error: 'Failed to update item.' });
     }
   }
 

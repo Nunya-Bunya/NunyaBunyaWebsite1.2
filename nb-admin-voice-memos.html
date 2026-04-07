@@ -220,13 +220,17 @@
     }).join('');
   }
 
-  function showDetail(id) {
+  async function showDetail(id) {
     const m = memos.find(x => x.id === id);
     if (!m) return;
 
-    const items = typeof m.items === 'string' ? JSON.parse(m.items || '[]') : (m.items || []);
-
     document.getElementById('detailTitle').textContent = `${m.client_name} — ${NB_ADMIN.formatDate(m.created_at)}`;
+    document.getElementById('detailContent').innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading items...</p></div>';
+    document.getElementById('detailModal').classList.add('show');
+
+    // Fetch items from API
+    const data = await NB_ADMIN.apiFetch(`voice-memo?id=${id}`);
+    const items = data?.items || [];
 
     let html = `
       <div class="detail-section">
@@ -240,10 +244,10 @@
       </div>` : ''}
       <div class="detail-section">
         <div class="detail-label">Generated Items (${items.length})</div>
-        ${items.map((item, i) => `
-          <div class="item-card">
+        ${items.map(item => `
+          <div class="item-card" id="item-${item.id}">
             <div class="item-card-header">
-              <span class="item-type ${item.type}">${item.type.replace('_', ' ')}</span>
+              <span class="item-type ${item.item_type}">${(item.item_type || '').replace('_', ' ')}</span>
               <span class="item-priority ${item.priority}">${item.priority} priority</span>
             </div>
             <div class="item-title">${NB_ADMIN.esc(item.title)}</div>
@@ -258,13 +262,36 @@
             </div>` : ''}
             ${item.reasoning ? `
             <div style="font-size:12px;color:var(--muted);margin-top:6px;font-style:italic;">${NB_ADMIN.esc(item.reasoning)}</div>` : ''}
+            ${item.status === 'pending' ? `
+            <div class="item-actions">
+              <button class="btn-sm approve" onclick="event.stopPropagation();approveItem('${item.id}')">Approve</button>
+              <button class="btn-sm reject" onclick="event.stopPropagation();rejectItem('${item.id}')">Reject</button>
+            </div>` : `
+            <div style="margin-top:8px;font-size:12px;color:${item.status === 'approved' ? 'var(--teal)' : 'var(--magenta)'};">${item.status === 'approved' ? 'Approved' : 'Rejected'}${item.approved_at ? ' ' + NB_ADMIN.timeAgo(item.approved_at) : ''}</div>`}
           </div>
         `).join('')}
       </div>
     `;
 
     document.getElementById('detailContent').innerHTML = html;
-    document.getElementById('detailModal').classList.add('show');
+  }
+
+  async function approveItem(itemId) {
+    await NB_ADMIN.apiSend('voice-memo', 'PATCH', { item_id: itemId, action: 'approve' });
+    const card = document.getElementById('item-' + itemId);
+    if (card) {
+      const actions = card.querySelector('.item-actions');
+      if (actions) actions.innerHTML = '<div style="font-size:12px;color:var(--teal);">Approved</div>';
+    }
+  }
+
+  async function rejectItem(itemId) {
+    await NB_ADMIN.apiSend('voice-memo', 'PATCH', { item_id: itemId, action: 'reject' });
+    const card = document.getElementById('item-' + itemId);
+    if (card) {
+      const actions = card.querySelector('.item-actions');
+      if (actions) actions.innerHTML = '<div style="font-size:12px;color:var(--magenta);">Rejected</div>';
+    }
   }
 
   function closeDetail() { document.getElementById('detailModal').classList.remove('show'); }
