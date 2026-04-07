@@ -86,7 +86,7 @@
   }
 
   async function loadClient() {
-    const data = await NB_ADMIN.apiFetch('client?id=' + encodeURIComponent(clientId));
+    const data = await NB_ADMIN.apiFetch('clients?id=' + encodeURIComponent(clientId));
     document.getElementById('loading').style.display = 'none';
     if (!data || !data.client) {
       document.getElementById('clientHeader').innerHTML = '<h1>Client not found</h1>';
@@ -567,7 +567,7 @@
       resultEl.textContent = 'Pipeline started! Run ID: ' + (data.run_id || 'unknown');
       // Reload pipeline runs after a short delay
       setTimeout(async () => {
-        const fresh = await NB_ADMIN.apiFetch('client?id=' + encodeURIComponent(clientId));
+        const fresh = await NB_ADMIN.apiFetch('clients?id=' + encodeURIComponent(clientId));
         if (fresh) { clientData.pipeline_runs = fresh.pipeline_runs; renderPipelines(); }
       }, 2000);
     } else {
@@ -579,7 +579,7 @@
   async function resumePipeline(runId) {
     const data = await NB_ADMIN.apiSend('pipeline?action=resume', 'POST', { run_id: runId });
     if (data) {
-      const fresh = await NB_ADMIN.apiFetch('client?id=' + encodeURIComponent(clientId));
+      const fresh = await NB_ADMIN.apiFetch('clients?id=' + encodeURIComponent(clientId));
       if (fresh) { clientData.pipeline_runs = fresh.pipeline_runs; renderPipelines(); }
     }
   }
