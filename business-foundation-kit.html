@@ -15,7 +15,7 @@
 <meta name="twitter:title" content="Business Foundation Kit — Free Business Plan | Nunya Bunya">
 <meta name="twitter:description" content="Answer 50 questions. Get a free custom business plan — covering your market, positioning, revenue model, and growth strategy. Delivered within minutes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="style-v2.css">
 <style>
@@ -370,6 +370,253 @@
     </div>
   </div>
 </section>
+
+<!-- SAMPLE PREVIEW — FLIPBOOK -->
+<section class="section-pad" id="sampleSection">
+  <div class="container">
+    <div class="section-label" style="text-align:center;">See What You'll Get</div>
+    <h2 style="font-family:var(--font-heading);font-weight:900;font-size:clamp(28px,5vw,44px);text-transform:uppercase;letter-spacing:0.02em;text-align:center;margin-bottom:8px;">A real sample. <span style="color:var(--teal);">Not a mockup.</span></h2>
+    <p style="text-align:center;color:var(--muted);font-weight:300;max-width:520px;margin:0 auto 40px;">This is an actual business plan we generated for a dog walking business in Brisbane. Click to turn pages — yours will be just as detailed.</p>
+
+    <style>
+      .sample-book-wrap { position: relative; padding: 20px 0; display: flex; justify-content: center; }
+      .sample-book-wrap::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-45%,-50%); width: 900px; height: 700px; background: radial-gradient(ellipse, rgba(0,229,204,0.05) 0%, transparent 70%); pointer-events: none; }
+      .sample-book-container { perspective: 1800px; width: 520px; height: 715px; position: relative; margin-left: 60px; }
+      .sample-book { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
+      .sample-book::before { content: ''; position: absolute; left: -3px; top: 5px; bottom: 5px; width: 24px; background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0.15), transparent); z-index: 1000; pointer-events: none; }
+      .sp-wrapper { position: absolute; width: 100%; height: 100%; transform-origin: left center; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1); cursor: pointer; }
+      .sp-wrapper.flipped { transform: rotateY(-180deg); }
+      .sp-front, .sp-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 0 8px 8px 0; box-shadow: 4px 4px 30px rgba(0,0,0,0.4), 0 0 60px rgba(0,0,0,0.15); overflow: hidden; }
+      .sp-front { background: #FAF8F5; padding-left: 16px; }
+      .sp-back { transform: rotateY(180deg); }
+      .sp-front img { width: 100%; height: 100%; object-fit: contain; object-position: right top; background: #FAF8F5; }
+      /* Leather cover */
+      .leather-cover {
+        width: 100%; height: 100%; padding: 0;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        text-align: center; position: relative; overflow: hidden;
+        background:
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"),
+          linear-gradient(170deg, #3a2518 0%, #2a1a10 30%, #1e120a 60%, #2a1a10 100%);
+        background-blend-mode: overlay;
+        border-right: 3px solid rgba(0,0,0,0.3);
+      }
+      .leather-cover::before {
+        content: ''; position: absolute; inset: 12px;
+        border: 1px solid rgba(196,167,125,0.2);
+        pointer-events: none;
+      }
+      .leather-cover::after {
+        content: ''; position: absolute; inset: 16px;
+        border: 1px solid rgba(196,167,125,0.1);
+        pointer-events: none;
+      }
+      .leather-title {
+        font-family: 'Playfair Display', Georgia, serif; font-weight: 800;
+        font-size: 32px; line-height: 1.15;
+        color: #C4A77D;
+        text-shadow: 0 1px 0 rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(196,167,125,0.15);
+        letter-spacing: 0.5px;
+      }
+      .leather-subtitle {
+        font-family: 'Playfair Display', Georgia, serif; font-weight: 600;
+        font-size: 16px; color: #C4A77D; opacity: 0.7;
+        margin-top: 8px; letter-spacing: 1px;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+      }
+      .leather-line { width: 60px; height: 1px; background: rgba(196,167,125,0.35); margin: 20px auto; }
+      .leather-tagline {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 12px; color: rgba(196,167,125,0.45);
+        max-width: 260px; line-height: 1.5;
+      }
+      .leather-meta {
+        font-size: 8px; color: rgba(196,167,125,0.3);
+        letter-spacing: 3px; text-transform: uppercase;
+        margin-top: 6px;
+      }
+      .leather-emblem {
+        width: 50px; height: 50px; margin-bottom: 20px;
+        border: 1px solid rgba(196,167,125,0.25); border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-family: 'Playfair Display', Georgia, serif; font-weight: 800;
+        font-size: 18px; color: rgba(196,167,125,0.4);
+        text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      }
+      .sample-controls { display: flex; gap: 24px; align-items: center; justify-content: center; margin-top: 24px; }
+      .sample-controls button { background: rgba(255,255,255,0.04); border: 1px solid rgba(0,229,204,0.25); color: var(--teal); padding: 12px 28px; font-family: var(--font-heading); font-weight: 700; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; border-radius: 4px; }
+      .sample-controls button:hover { background: rgba(0,229,204,0.08); border-color: rgba(0,229,204,0.5); }
+      .sample-controls button:disabled { opacity: 0.2; cursor: not-allowed; }
+      .sample-counter { color: rgba(255,255,255,0.4); font-size: 13px; font-weight: 300; min-width: 110px; text-align: center; font-family: var(--font-heading); letter-spacing: 0.1em; }
+      @media (max-width: 640px) { .sample-book-container { width: 340px; height: 468px; } }
+    </style>
+
+    <style>
+      .flipbook-layout { display: flex; align-items: center; gap: 80px; max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+      .flipbook-sidebar { flex: 0 0 340px; }
+      .flipbook-sidebar .sidebar-label { font-family: var(--font-heading); font-weight: 900; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
+      .flipbook-sidebar h3 { font-family: var(--font-heading); font-weight: 900; font-size: clamp(20px,3vw,28px); text-transform: uppercase; letter-spacing: 0.02em; color: var(--white); line-height: 1.2; margin-bottom: 20px; }
+      .sidebar-point { display: flex; gap: 14px; margin-bottom: 20px; align-items: flex-start; }
+      .sidebar-check { color: var(--teal); font-size: 16px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+      .sidebar-point p { font-size: 13px; color: rgba(255,255,255,0.55); font-weight: 300; line-height: 1.6; margin: 0; }
+      .sidebar-point strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+      @media (max-width: 960px) { .flipbook-layout { flex-direction: column; } .flipbook-sidebar { flex: none; max-width: 500px; text-align: center; } .sidebar-point { justify-content: center; } }
+    </style>
+
+    <div class="flipbook-layout">
+      <div class="sample-book-wrap">
+        <div class="sample-book-container">
+          <div class="sample-book" id="sampleBook"></div>
+        </div>
+      </div>
+
+      <div class="flipbook-sidebar">
+        <div class="sidebar-label">Why You Need This</div>
+        <h3>Every great business starts with a plan.</h3>
+        <div class="sidebar-point"><span class="sidebar-check">&#10003;</span><p><strong>Know your customer</strong> — demographics, pain points, where to find them, and exactly what makes them buy.</p></div>
+        <div class="sidebar-point"><span class="sidebar-check">&#10003;</span><p><strong>Outposition competitors</strong> — see who you're up against, what they're missing, and how to win.</p></div>
+        <div class="sidebar-point"><span class="sidebar-check">&#10003;</span><p><strong>Price with confidence</strong> — revenue scenarios based on your real numbers, not guesswork.</p></div>
+        <div class="sidebar-point"><span class="sidebar-check">&#10003;</span><p><strong>Launch in 90 days</strong> — a week-by-week action plan with costs, expected results, and quick wins.</p></div>
+        <div class="sidebar-point"><span class="sidebar-check">&#10003;</span><p><strong>Scale without breaking</strong> — systems, bottleneck analysis, and a hiring roadmap tailored to you.</p></div>
+        <div class="sidebar-point"><span class="sidebar-check">&#10003;</span><p><strong>Back it with data</strong> — real industry stats from Australian sources to validate your opportunity.</p></div>
+        <div style="margin-top:28px;">
+          <button class="btn-next" onclick="selectTier('free')" style="width:100%;">Get Mine Free</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sample-controls">
+      <button id="spPrev" onclick="spPrev()">&#8592; Prev</button>
+      <span class="sample-counter" id="spCounter">Page 1 of 19</span>
+      <button id="spNext" onclick="spNext()">Next &#8594;</button>
+    </div>
+
+    <div style="text-align:center;margin-top:32px;">
+      <button class="btn-next" onclick="selectTier('free')">Get My Free Business Plan</button>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  const SP_TOTAL = 19;
+  let spCur = 0;
+  const P = '#F4B942', S = '#2D6A4F', DK = '#241b09';
+
+  const BACKS = [
+    // 1: Cover back
+    { type:'quote', text:'"Your brand is what people say about you when you\'re not in the room."', attr:'Jeff Bezos', bg:DK, color:P },
+    // 2: TOC back
+    { type:'stat', number:'8', label:'Custom Sections', desc:'Every section written specifically for your business, your market, your customers.', bg:S, color:'#fff' },
+    // 3: Exec Summary back
+    { type:'pattern', shape:'circles', bg:DK, accent:P },
+    // 4: Founder back
+    { type:'quote', text:'"The two most important days in your life are the day you are born and the day you find out why."', attr:'Mark Twain', bg:'#FAF8F5', color:S },
+    // 5: Customer profile back
+    { type:'stat', number:'64%', label:'of consumers', desc:'say shared values are the primary reason they have a relationship with a brand.', bg:DK, color:P },
+    // 6: Customer cost/discovery back
+    { type:'pattern', shape:'dots', bg:S, accent:P },
+    // 7: Customer story back
+    { type:'quote', text:'"People don\'t buy what you do. They buy why you do it."', attr:'Simon Sinek', bg:DK, color:'#fff' },
+    // 8: Positioning table back
+    { type:'stat', number:'80%', label:'brand recognition', desc:'increases when you use a signature colour consistently across all materials.', bg:'#FAF8F5', color:S },
+    // 9: Positioning unfair advantage back
+    { type:'pattern', shape:'lines', bg:DK, accent:S },
+    // 10: Revenue offerings back
+    { type:'quote', text:'"Price is what you pay. Value is what you get."', attr:'Warren Buffett', bg:S, color:'#fff' },
+    // 11: Revenue flagship back
+    { type:'stat', number:'73%', label:'of consumers', desc:'are willing to pay more for a brand that offers complete transparency.', bg:DK, color:P },
+    // 12: Revenue scenarios back
+    { type:'pattern', shape:'circles', bg:'#FAF8F5', accent:S },
+    // 13: GTM phase 1 back
+    { type:'stat', number:'90', label:'Day Action Plan', desc:'Your roadmap from where you are today to where you need to be. No guessing.', bg:DK, color:P },
+    // 14: GTM phases 2-3 back
+    { type:'quote', text:'"If you\'re talking to everyone, you\'re talking to no one."', attr:'Seth Godin', bg:S, color:'#fff' },
+    // 15: GTM channels back
+    { type:'pattern', shape:'dots', bg:DK, accent:P },
+    // 16: Operations current back
+    { type:'quote', text:'"The aim of marketing is to know the customer so well the product sells itself."', attr:'Peter Drucker', bg:'#FAF8F5', color:S },
+    // 17: Operations systems back
+    { type:'stat', number:'5\u00d7', label:'cheaper to retain', desc:'It costs 5\u00d7 more to acquire a new customer than to keep an existing one.', bg:DK, color:P },
+    // 18: Industry insights back
+    { type:'stat', number:'$2.4B', label:'Australian pet care market', desc:'Growing at 8.2% annually. The opportunity is massive and expanding.', bg:S, color:'#fff' },
+  ];
+
+  function renderBack(data) {
+    const d = document.createElement('div');
+    d.style.cssText = 'width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px;text-align:center;background:'+data.bg+';';
+    if (data.type === 'quote') {
+      d.innerHTML = '<div style="max-width:340px;"><div style="font-size:48px;line-height:1;color:'+data.color+';opacity:0.2;font-family:Georgia,serif;margin-bottom:12px;">\u201C</div><div style="font-family:Georgia,serif;font-size:19px;font-style:italic;line-height:1.6;color:'+data.color+';letter-spacing:0.3px;">'+data.text+'</div><div style="margin-top:18px;font-size:11px;color:'+data.color+';opacity:0.5;letter-spacing:2.5px;text-transform:uppercase;">\u2014 '+data.attr+'</div></div>';
+    } else if (data.type === 'stat') {
+      d.innerHTML = '<div style="max-width:300px;"><div style="font-family:Georgia,serif;font-size:68px;font-weight:700;color:'+data.color+';line-height:1;">'+data.number+'</div><div style="font-size:13px;font-weight:700;color:'+data.color+';letter-spacing:2.5px;text-transform:uppercase;margin-top:8px;">'+data.label+'</div><div style="font-size:13px;color:'+data.color+';opacity:0.65;margin-top:12px;line-height:1.6;">'+data.desc+'</div></div>';
+    } else if (data.type === 'pattern') {
+      let svg = '';
+      const a = data.accent;
+      if (data.shape === 'circles') {
+        svg = '<svg width="280" height="280" viewBox="0 0 280 280" style="opacity:0.12;"><circle cx="140" cy="140" r="130" fill="none" stroke="'+a+'" stroke-width="1"/><circle cx="140" cy="140" r="90" fill="none" stroke="'+a+'" stroke-width="1"/><circle cx="140" cy="140" r="50" fill="none" stroke="'+a+'" stroke-width="1"/><circle cx="140" cy="140" r="10" fill="'+a+'"/></svg>';
+      } else if (data.shape === 'dots') {
+        let dots = '';
+        for(let r=0;r<9;r++) for(let c=0;c<9;c++) dots += '<circle cx="'+(20+c*32)+'" cy="'+(20+r*32)+'" r="2.5" fill="'+a+'"/>';
+        svg = '<svg width="300" height="300" viewBox="0 0 300 300" style="opacity:0.15;">'+dots+'</svg>';
+      } else {
+        let lines = '';
+        for(let i=0;i<10;i++) lines += '<line x1="0" y1="'+(i*30)+'" x2="300" y2="'+(i*30)+'" stroke="'+a+'" stroke-width="1"/>';
+        svg = '<svg width="300" height="270" viewBox="0 0 300 270" style="opacity:0.1;">'+lines+'</svg>';
+      }
+      d.innerHTML = svg;
+    }
+    return d;
+  }
+
+  const book = document.getElementById('sampleBook');
+  for(let i = 0; i < SP_TOTAL; i++){
+    const w = document.createElement('div'); w.className = 'sp-wrapper'; w.style.zIndex = SP_TOTAL - i; w.dataset.index = i;
+    // Front: leather cover for page 1, images for rest
+    const f = document.createElement('div'); f.className = 'sp-front';
+    if (i === 0) {
+      f.style.paddingLeft = '0';
+      f.innerHTML = '<div class="leather-cover"><div class="leather-emblem">PW</div><div class="leather-title">Business<br>Plan</div><div class="leather-subtitle">Pawsome Walks Brisbane</div><div class="leather-line"></div><div class="leather-tagline">\u201CHappy dogs. Guilty-free owners.\u201D</div><div class="leather-line"></div><div class="leather-meta">Prepared by Nunya Bunya</div><div class="leather-meta">April 2026</div></div>';
+    } else {
+      const img = document.createElement('img'); img.src = 'sample-plan-pages/page_'+String(i+1).padStart(2,'0')+'.png'; img.alt = 'Page '+(i+1);
+      f.appendChild(img);
+    }
+    // Back: rich content
+    const b = document.createElement('div'); b.className = 'sp-back';
+    if (i < BACKS.length) {
+      b.appendChild(renderBack(BACKS[i]));
+    } else {
+      // Last page back — NB branding
+      const nb = document.createElement('div');
+      nb.style.cssText = 'width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0D0D0D;text-align:center;padding:50px;';
+      nb.innerHTML = '<div style="width:40px;height:3px;background:#00E5CC;margin-bottom:20px;"></div><div style="font-family:Georgia,serif;font-size:22px;color:white;font-weight:700;margin-bottom:12px;">Ready to build yours?</div><div style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;max-width:280px;">Answer 50 questions.<br>Get your personalised business plan.<br>Free. No credit card.</div><div style="margin-top:24px;font-size:11px;color:#00E5CC;letter-spacing:2.5px;text-transform:uppercase;font-weight:700;">NUNYA BUNYA</div>';
+      b.appendChild(nb);
+    }
+    w.appendChild(f); w.appendChild(b);
+    w.addEventListener('click', () => { if(parseInt(w.dataset.index) === spCur) spNext(); });
+    book.appendChild(w);
+  }
+
+  function updateSp(){
+    document.getElementById('spCounter').textContent = 'Page '+(spCur+1)+' of '+SP_TOTAL;
+    document.getElementById('spPrev').disabled = spCur === 0;
+    document.getElementById('spNext').disabled = spCur >= SP_TOTAL - 1;
+  }
+  window.spNext = function(){
+    if(spCur >= SP_TOTAL - 1) return;
+    const ws = document.querySelectorAll('.sp-wrapper');
+    ws[spCur].classList.add('flipped'); spCur++;
+    setTimeout(() => { ws.forEach((w,i) => { w.style.zIndex = i < spCur ? i : SP_TOTAL - i; }); }, 400);
+    updateSp();
+  };
+  window.spPrev = function(){
+    if(spCur <= 0) return; spCur--;
+    const ws = document.querySelectorAll('.sp-wrapper');
+    ws[spCur].classList.remove('flipped');
+    setTimeout(() => { ws.forEach((w,i) => { w.style.zIndex = i < spCur ? i : SP_TOTAL - i; }); }, 400);
+    updateSp();
+  };
+  document.addEventListener('keydown', (e) => { if(e.key==='ArrowRight') spNext(); if(e.key==='ArrowLeft') spPrev(); });
+})();
+</script>
 
 <!-- HOW IT WORKS -->
 <section class="section-pad" id="howSection">
