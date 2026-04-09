@@ -50,6 +50,7 @@ const NB_ADMIN = {
           { id: 'calendar', label: 'Calendar', icon: '&#9783;', href: '/nb-admin-calendar' },
           { id: 'calendar-edit', label: 'Calendar Editor', icon: '&#128197;', href: '/nb-admin-calendar-edit' },
           { id: 'voice-memos', label: 'Voice Memos', icon: '&#127908;', href: '/nb-admin-voice-memos' },
+          { id: 'content-tracker', label: 'Content Tracker', icon: '&#128203;', href: '/nb-admin-content-tracker' },
           { id: 'social-feed', label: 'Social Feed', icon: '&#128172;', href: '/nb-admin-social-feed' },
           { id: 'pipelines', label: 'Pipelines', icon: '&#9881;', href: '/nb-admin-pipelines' },
         ]

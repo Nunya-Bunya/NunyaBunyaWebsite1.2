@@ -466,6 +466,79 @@ export default async function handler(req, res) {
       }
     }
 
+    // ── Content Tracker — all published content with goals and metrics ──
+    if (action === 'content-tracker' && req.method === 'GET') {
+      const { client_id: ctClient, limit: ctLimit } = req.query;
+
+      let blogQuery = 'content_campaigns?status=eq.approved&order=published_at.desc.nullsfirst,created_at.desc';
+      if (ctClient) blogQuery += `&client_name=eq.${encodeURIComponent(ctClient)}`;
+      blogQuery += `&limit=${ctLimit || 50}`;
+      const blogs = await supabaseFetch(blogQuery);
+
+      let socialQuery = 'social_posts?or=(status.eq.approved,status.eq.scheduled,status.eq.published)&order=created_at.desc';
+      if (ctClient) socialQuery += `&client_name=eq.${encodeURIComponent(ctClient)}`;
+      socialQuery += `&limit=${ctLimit || 50}`;
+      const socials = await supabaseFetch(socialQuery);
+
+      const items = [];
+
+      for (const b of (blogs || [])) {
+        const topic = (b.topic || '').toLowerCase();
+        const kw = b.seo_keywords || [];
+        let goal;
+        if (kw.length > 0 || topic.includes('seo') || topic.includes('rank')) goal = { type: 'seo', label: 'SEO Ranking', description: `Rank for: ${kw[0] || b.topic}` };
+        else if (topic.includes('lead') || topic.includes('free') || topic.includes('audit')) goal = { type: 'lead_gen', label: 'Lead Generation', description: 'Drive form submissions and booking requests' };
+        else if (topic.includes('case study') || topic.includes('testimonial')) goal = { type: 'conversion', label: 'Conversion', description: 'Build trust and convert warm leads' };
+        else if (topic.includes('how to') || topic.includes('guide') || topic.includes('tips') || topic.includes('mistakes')) goal = { type: 'authority', label: 'Authority Building', description: 'Establish expertise through education' };
+        else goal = { type: 'awareness', label: 'Brand Awareness', description: 'Build visibility and introduce the brand' };
+
+        const campaign = topic.includes('seo') || kw.length ? { name: `${b.client_name} — SEO Content`, type: 'seo_campaign' }
+          : b.location ? { name: `${b.client_name} — Local ${b.location}`, type: 'local_marketing' }
+          : { name: `${b.client_name} — Content Marketing`, type: 'content_marketing' };
+
+        const titleMatch = (b.blog_post || '').match(/^#\s+(.+)/m);
+        const title = titleMatch ? titleMatch[1].trim() : b.topic || 'Untitled';
+        const lines = (b.blog_post || '').split('\n').filter(l => l.trim() && !l.startsWith('#'));
+        const excerpt = lines.slice(0, 3).join(' ').replace(/[*_`]/g, '').trim().slice(0, 200);
+        const wordCount = (b.blog_post || '').split(/\s+/).filter(w => w.length > 0).length;
+
+        items.push({
+          id: b.id, type: 'blog', title, client_name: b.client_name || 'Unknown', topic: b.topic,
+          status: b.status, published_at: b.published_at || b.approved_at, created_at: b.created_at,
+          goal, campaign,
+          metrics: { target_keyword: kw[0] || b.topic || null, has_social: !!b.social_posts, has_newsletter: !!b.newsletter, has_ads: !!b.ad_pack, has_image: !!b.image_prompt, word_count: wordCount },
+          content_preview: excerpt, seo_keywords: b.seo_keywords, location: b.location, service: b.service,
+        });
+      }
+
+      for (const s of (socials || [])) {
+        let posts = s.posts;
+        if (typeof posts === 'string') try { posts = JSON.parse(posts); } catch { posts = null; }
+        const platforms = posts ? Object.keys(posts) : [];
+        const preview = posts ? (posts.instagram || posts.linkedin || posts.facebook || '') : '';
+
+        items.push({
+          id: s.id, type: 'social', title: s.topic || `Social — ${platforms.join(', ')}`,
+          client_name: s.client_name || 'Unknown', topic: s.topic, status: s.status,
+          published_at: s.approved_at || s.created_at, created_at: s.created_at,
+          goal: { type: 'awareness', label: 'Brand Awareness', description: 'Build visibility and engagement on social platforms' },
+          campaign: { name: `${s.client_name || 'NB'} Social`, type: 'organic_social' },
+          metrics: { platforms, platform_count: platforms.length },
+          content_preview: typeof preview === 'string' ? preview.slice(0, 200) : '',
+        });
+      }
+
+      items.sort((a, b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
+
+      const stats = { total: items.length, blogs: items.filter(i => i.type === 'blog').length, social: items.filter(i => i.type === 'social').length, by_client: {}, by_goal: {} };
+      for (const item of items) {
+        stats.by_client[item.client_name] = (stats.by_client[item.client_name] || 0) + 1;
+        stats.by_goal[item.goal.type] = (stats.by_goal[item.goal.type] || 0) + 1;
+      }
+
+      return res.status(200).json({ stats, items });
+    }
+
     if (action === 'service-leads') {
       const leads = await supabaseFetch('leads?order=created_at.desc&limit=200').catch(() => []);
       return res.status(200).json({ total: (leads || []).length, leads: leads || [] });

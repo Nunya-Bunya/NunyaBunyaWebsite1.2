@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Tracker | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Content <span>Tracker</span></h1>
+      <div id="dateLabel" class="date"></div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid" id="kpis"></div>
+
+    <!-- Filters -->
+    <div class="toolbar">
+      <select id="clientFilter" onchange="loadTracker()">
+        <option value="">All Clients</option>
+      </select>
+      <select id="typeFilter" onchange="filterItems()">
+        <option value="">All Types</option>
+        <option value="blog">Blog Posts</option>
+        <option value="social">Social Posts</option>
+      </select>
+      <select id="goalFilter" onchange="filterItems()">
+        <option value="">All Goals</option>
+        <option value="seo">SEO Ranking</option>
+        <option value="lead_gen">Lead Generation</option>
+        <option value="authority">Authority Building</option>
+        <option value="awareness">Brand Awareness</option>
+        <option value="conversion">Conversion</option>
+      </select>
+    </div>
+
+    <!-- Content List -->
+    <div id="trackerList"></div>
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading content tracker...</p></div>
+    <div class="empty-state" id="empty" style="display:none"><div class="icon">&#128203;</div><p>No published content yet.</p></div>
+  </main>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-card large" style="max-width:760px;max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;position:sticky;top:0;background:var(--dark2);padding-bottom:12px;z-index:2;">
+      <h3 id="detailTitle"></h3>
+      <button class="btn-outline btn-small" onclick="closeDetail()">Close</button>
+    </div>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<style>
+.tracker-card {
+  background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
+  padding: 24px; margin-bottom: 16px; cursor: pointer; transition: border-color 0.2s;
+}
+.tracker-card:hover { border-color: var(--teal); }
+.tracker-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.tracker-title { font-family: var(--font-heading); font-size: 18px; font-weight: 700; color: var(--white); }
+.tracker-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; font-size: 13px; color: var(--muted); }
+.tracker-meta .sep { color: var(--subtle); }
+.tracker-excerpt { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.6); font-weight: 300; margin-bottom: 16px; }
+.tracker-footer { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+/* Badges */
+.badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.badge-blog { background: rgba(0,229,204,0.12); color: var(--teal); }
+.badge-social { background: rgba(153,89,182,0.12); color: var(--purple); }
+.badge-seo { background: rgba(74,144,217,0.12); color: var(--blue); }
+.badge-lead_gen { background: rgba(255,45,120,0.12); color: var(--magenta); }
+.badge-authority { background: rgba(255,184,0,0.12); color: var(--yellow); }
+.badge-awareness { background: rgba(0,229,204,0.12); color: var(--teal); }
+.badge-conversion { background: rgba(255,45,120,0.12); color: var(--magenta); }
+.badge-client { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+
+/* Metric chips */
+.metric-chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 6px; font-size: 11px; color: var(--muted); background: var(--dark3); border: 1px solid var(--subtle); }
+.metric-chip .val { color: var(--white); font-weight: 600; }
+
+/* Detail sections */
+.detail-section { margin-bottom: 24px; }
+.detail-section-label { font-family: var(--font-heading); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--teal); margin-bottom: 10px; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.detail-card { background: var(--dark3); border: 1px solid var(--subtle); border-radius: 8px; padding: 16px; }
+.detail-card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.detail-card .value { font-size: 16px; font-weight: 600; color: var(--white); }
+.detail-card .desc { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+.goal-banner { background: var(--dark3); border-left: 3px solid var(--teal); padding: 16px 20px; border-radius: 0 8px 8px 0; margin-bottom: 20px; }
+.goal-banner .goal-type { font-size: 11px; color: var(--teal); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.goal-banner .goal-desc { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.5; }
+.content-preview-box { background: var(--dark3); border: 1px solid var(--subtle); border-radius: 8px; padding: 20px; font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.75); max-height: 300px; overflow-y: auto; }
+.content-preview-box h1,.content-preview-box h2,.content-preview-box h3 { font-family:var(--font-heading); color:var(--white); margin:16px 0 8px; }
+.content-preview-box h1 { font-size:22px; } .content-preview-box h2 { font-size:18px; } .content-preview-box h3 { font-size:15px; }
+.content-preview-box p { margin-bottom:10px; }
+.platform-tag { display:inline-block; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:600; margin-right:4px; }
+.platform-tag.instagram { background:rgba(225,48,108,0.15); color:#E1306C; }
+.platform-tag.linkedin { background:rgba(0,119,181,0.15); color:#0077B5; }
+.platform-tag.facebook { background:rgba(66,103,178,0.15); color:#4267B2; }
+.platform-tag.twitter { background:rgba(29,161,242,0.15); color:#1DA1F2; }
+</style>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+let allItems = [];
+
+async function init() {
+  const ok = await NB_ADMIN.checkAuth();
+  if (!ok) return;
+  NB_ADMIN.renderSidebar('content-tracker');
+  document.getElementById('dateLabel').textContent = new Date().toLocaleDateString('en-AU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  // Load clients for filter
+  const clientData = await NB_ADMIN.apiFetch('clients');
+  if (clientData && clientData.clients) {
+    const sel = document.getElementById('clientFilter');
+    const seen = new Set();
+    clientData.clients.forEach(c => {
+      if (!seen.has(c.client_name)) {
+        seen.add(c.client_name);
+        const opt = document.createElement('option');
+        opt.value = c.client_name;
+        opt.textContent = c.client_name;
+        sel.appendChild(opt);
+      }
+    });
+  }
+
+  await loadTracker();
+}
+
+async function loadTracker() {
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('empty').style.display = 'none';
+
+  const clientId = document.getElementById('clientFilter').value;
+  let query = 'data?action=content-tracker&limit=100';
+  if (clientId) query += '&client_id=' + encodeURIComponent(clientId);
+
+  const data = await NB_ADMIN.apiFetch(query);
+  document.getElementById('loading').style.display = 'none';
+
+  allItems = data ? data.items || [] : [];
+  renderKPIs(data ? data.stats : null);
+  filterItems();
+}
+
+function renderKPIs(stats) {
+  if (!stats) { document.getElementById('kpis').innerHTML = ''; return; }
+  document.getElementById('kpis').innerHTML = `
+    <div class="kpi-card"><div class="num">${stats.total}</div><div class="label">Published</div></div>
+    <div class="kpi-card"><div class="num">${stats.blogs}</div><div class="label">Blog Posts</div></div>
+    <div class="kpi-card purple"><div class="num">${stats.social}</div><div class="label">Social Posts</div></div>
+    <div class="kpi-card yellow"><div class="num">${Object.keys(stats.by_client || {}).length}</div><div class="label">Clients Active</div></div>
+  `;
+}
+
+function filterItems() {
+  const typeFilter = document.getElementById('typeFilter').value;
+  const goalFilter = document.getElementById('goalFilter').value;
+
+  let filtered = allItems;
+  if (typeFilter) filtered = filtered.filter(i => i.type === typeFilter);
+  if (goalFilter) filtered = filtered.filter(i => i.goal && i.goal.type === goalFilter);
+
+  if (!filtered.length) {
+    document.getElementById('trackerList').innerHTML = '';
+    document.getElementById('empty').style.display = 'block';
+    return;
+  }
+  document.getElementById('empty').style.display = 'none';
+  renderList(filtered);
+}
+
+function renderList(items) {
+  document.getElementById('trackerList').innerHTML = items.map(item => `
+    <div class="tracker-card" onclick="showDetail('${item.id}')">
+      <div class="tracker-header">
+        <div class="tracker-title">${esc(item.title)}</div>
+        <span class="badge badge-${item.type}">${item.type}</span>
+      </div>
+      <div class="tracker-meta">
+        <span class="badge badge-client">${esc(item.client_name)}</span>
+        <span class="badge badge-${item.goal.type}">${item.goal.label}</span>
+        ${item.campaign ? `<span>${esc(item.campaign.name)}</span>` : ''}
+        <span class="sep">|</span>
+        <span>${formatDate(item.published_at || item.created_at)}</span>
+      </div>
+      ${item.content_preview ? `<div class="tracker-excerpt">${esc(item.content_preview)}</div>` : ''}
+      <div class="tracker-footer">
+        ${item.type === 'blog' ? renderBlogChips(item) : renderSocialChips(item)}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderBlogChips(item) {
+  const m = item.metrics || {};
+  let chips = [];
+  if (m.word_count) chips.push(`<span class="metric-chip"><span class="val">${m.word_count.toLocaleString()}</span> words</span>`);
+  if (m.target_keyword) chips.push(`<span class="metric-chip">Keyword: <span class="val">${esc(m.target_keyword)}</span></span>`);
+  if (m.has_social) chips.push(`<span class="metric-chip">+ Social</span>`);
+  if (m.has_newsletter) chips.push(`<span class="metric-chip">+ Newsletter</span>`);
+  if (m.has_ads) chips.push(`<span class="metric-chip">+ Ad Pack</span>`);
+  return chips.join('');
+}
+
+function renderSocialChips(item) {
+  const m = item.metrics || {};
+  let chips = (m.platforms || []).map(p => `<span class="platform-tag ${p}">${p}</span>`);
+  return chips.join('');
+}
+
+function showDetail(id) {
+  const item = allItems.find(i => i.id === id);
+  if (!item) return;
+
+  document.getElementById('detailTitle').textContent = item.title;
+
+  let html = '';
+
+  // Goal banner
+  html += `<div class="goal-banner">
+    <div class="goal-type">${item.goal.label}</div>
+    <div class="goal-desc">${esc(item.goal.description)}</div>
+  </div>`;
+
+  // Campaign & Metadata
+  html += `<div class="detail-section">
+    <div class="detail-section-label">Campaign & Context</div>
+    <div class="detail-grid">
+      <div class="detail-card">
+        <div class="label">Campaign</div>
+        <div class="value">${esc(item.campaign ? item.campaign.name : 'Uncategorized')}</div>
+      </div>
+      <div class="detail-card">
+        <div class="label">Client</div>
+        <div class="value">${esc(item.client_name)}</div>
+      </div>
+      <div class="detail-card">
+        <div class="label">Type</div>
+        <div class="value">${item.type === 'blog' ? 'Blog Post' : 'Social Post'}</div>
+      </div>
+      <div class="detail-card">
+        <div class="label">Published</div>
+        <div class="value">${formatDate(item.published_at || item.created_at)}</div>
+      </div>
+    </div>
+  </div>`;
+
+  // Metrics section
+  if (item.type === 'blog') {
+    const m = item.metrics || {};
+    html += `<div class="detail-section">
+      <div class="detail-section-label">Tracking Metrics</div>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <div class="label">Target Keyword</div>
+          <div class="value">${esc(m.target_keyword || 'None set')}</div>
+          <div class="desc">Track ranking position in Google Search Console</div>
+        </div>
+        <div class="detail-card">
+          <div class="label">Word Count</div>
+          <div class="value">${m.word_count ? m.word_count.toLocaleString() : '—'}</div>
+        </div>
+        <div class="detail-card">
+          <div class="label">Companion Assets</div>
+          <div class="value">${[m.has_social && 'Social', m.has_newsletter && 'Newsletter', m.has_ads && 'Ads'].filter(Boolean).join(', ') || 'None'}</div>
+          <div class="desc">Other content created alongside this blog post</div>
+        </div>
+        <div class="detail-card">
+          <div class="label">SEO Keywords</div>
+          <div class="value">${(item.seo_keywords || []).join(', ') || 'None set'}</div>
+        </div>
+      </div>
+    </div>`;
+
+    html += `<div class="detail-section">
+      <div class="detail-section-label">What to Track</div>
+      <div style="background:var(--dark3);border:1px solid var(--subtle);border-radius:8px;padding:16px;">
+        <ul style="margin:0;padding-left:18px;font-size:14px;color:rgba(255,255,255,0.7);line-height:1.8;">
+          <li><strong style="color:var(--white)">Organic traffic</strong> — Matomo page views for this blog URL</li>
+          <li><strong style="color:var(--white)">Keyword ranking</strong> — Google Search Console position for "${esc(m.target_keyword || item.topic || 'target keyword')}"</li>
+          <li><strong style="color:var(--white)">Time on page</strong> — Are people actually reading it? Target: 2+ minutes</li>
+          <li><strong style="color:var(--white)">CTA clicks</strong> — Track clicks on any booking or contact links</li>
+          ${m.has_social ? '<li><strong style="color:var(--white)">Social engagement</strong> — Likes, comments, shares on companion social posts</li>' : ''}
+          ${m.has_newsletter ? '<li><strong style="color:var(--white)">Email performance</strong> — Open rate and click rate on newsletter version</li>' : ''}
+        </ul>
+      </div>
+    </div>`;
+  }
+
+  if (item.type === 'social') {
+    const m = item.metrics || {};
+    html += `<div class="detail-section">
+      <div class="detail-section-label">Platforms</div>
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        ${(m.platforms || []).map(p => `<span class="platform-tag ${p}">${p}</span>`).join('')}
+      </div>
+    </div>`;
+
+    html += `<div class="detail-section">
+      <div class="detail-section-label">What to Track</div>
+      <div style="background:var(--dark3);border:1px solid var(--subtle);border-radius:8px;padding:16px;">
+        <ul style="margin:0;padding-left:18px;font-size:14px;color:rgba(255,255,255,0.7);line-height:1.8;">
+          <li><strong style="color:var(--white)">Reach</strong> — How many unique accounts saw this post</li>
+          <li><strong style="color:var(--white)">Engagement rate</strong> — (likes + comments + shares) / reach</li>
+          <li><strong style="color:var(--white)">Link clicks</strong> — If the post has a CTA link, track clicks via Shlink</li>
+          <li><strong style="color:var(--white)">Profile visits</strong> — Did this post drive people to the profile?</li>
+          <li><strong style="color:var(--white)">Followers gained</strong> — Net follower change within 48 hours of posting</li>
+        </ul>
+      </div>
+    </div>`;
+  }
+
+  // Content preview
+  html += `<div class="detail-section">
+    <div class="detail-section-label">Content Preview</div>
+    <div class="content-preview-box">${item.content_preview ? esc(item.content_preview) : '<em>No preview available</em>'}</div>
+  </div>`;
+
+  document.getElementById('detailContent').innerHTML = html;
+  document.getElementById('detailModal').classList.add('active');
+}
+
+function closeDetail() {
+  document.getElementById('detailModal').classList.remove('active');
+}
+
+// Close modal on overlay click
+document.getElementById('detailModal').addEventListener('click', function(e) {
+  if (e.target === this) closeDetail();
+});
+
+function esc(s) { return NB_ADMIN.esc ? NB_ADMIN.esc(s || '') : String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function formatDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+init();
+</script>
+</body>
+</html>
