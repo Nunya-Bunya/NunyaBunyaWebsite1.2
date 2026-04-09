@@ -289,7 +289,7 @@ async function showDetail(id) {
 
   document.getElementById('detailTitle').textContent = item.title;
   document.getElementById('detailContent').innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)"><div class="spinner"></div><p>Loading preview...</p></div>';
-  document.getElementById('detailModal').classList.add('active');
+  document.getElementById('detailModal').classList.add('show');
 
   // Fetch full content from API
   const sourceType = item.type === 'blog' ? 'content_campaign' : 'social_post';
@@ -491,7 +491,7 @@ function escHtml(s) {
 }
 
 function closeDetail() {
-  document.getElementById('detailModal').classList.remove('active');
+  document.getElementById('detailModal').classList.remove('show');
 }
 
 // Close modal on overlay click
