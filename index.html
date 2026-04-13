@@ -126,6 +126,7 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
   <ul class="nav-links" id="navLinks">
     <li><a href="about.html">About</a></li>
     <li><a href="services.html">Services</a></li>
+    <li><a href="products.html">Products</a></li>
     <li><a href="portfolio.html">Work</a></li>
     <li><a href="blog.html">Blog</a></li>
     <li><a href="contact.html" class="nav-cta">Let's Talk</a></li>
@@ -145,8 +146,8 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
   </h1>
   <p class="hero-sub">Brand strategy. Web design. SEO. Ads. Social. Content. Email. <strong>All of it. Under one roof.</strong> I don't outsource. I don't cut corners. And I don't do work I'm not proud of. If I can't outperform your current agency in 30 days — <strong>you get every cent back.</strong></p>
   <div class="hero-actions">
-    <a href="contact.html" class="btn-primary">Get Your Free Marketing Audit</a>
-    <a href="#services" class="btn-ghost">See What I Do &darr;</a>
+    <a href="https://booking.nunyabunya.com/ben/bfk-review" target="_blank" class="btn-primary">Get Your Free Marketing Audit</a>
+    <a href="business-foundation-kit.html?start=1" class="btn-ghost">Get a Free Business Plan &darr;</a>
   </div>
 </section>
 
@@ -236,7 +237,7 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
       <div class="section-label">Brisbane Born</div>
       <h2 class="section-heading">I run<br><span>Brisbane's</span><br>marketing.</h2>
       <p class="section-sub">From Fortitude Valley startups to Southside tradies — if you're in Brisbane and your marketing isn't working, that's embarrassing. I'll fix it. Strategy, creative, execution. The whole thing. No hand-offs, no middlemen, no waiting three weeks for a social post.</p>
-      <a href="contact.html" class="btn-primary">Book Your Free Audit</a>
+      <a href="https://booking.nunyabunya.com/ben/bfk-review" target="_blank" class="btn-primary">Book Your Free Audit</a>
     </div>
     <div class="brisbane-assets">
       <div class="floating-asset asset-1">
@@ -411,6 +412,17 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
   </div>
 </section>
 
+<!-- FREE BUSINESS PLAN CTA -->
+<section class="section-pad" style="text-align:center;background:linear-gradient(180deg, var(--dark) 0%, #0a1a18 50%, var(--dark) 100%);">
+  <div class="container" style="max-width:600px;">
+    <div class="section-label" style="justify-content:center;">Free for You</div>
+    <h2 class="section-heading" style="text-align:center;">Get a free<br><span>business plan.</span></h2>
+    <p class="section-sub" style="text-align:center;max-width:460px;margin:0 auto 32px;">Answer a few questions about your business. We'll build you a custom business plan — market positioning, revenue model, growth strategy — delivered to your inbox.</p>
+    <a href="business-foundation-kit.html?start=1" class="btn-primary" style="display:inline-block;margin-bottom:12px;">Start the Survey</a>
+    <p style="font-size:12px;color:rgba(255,255,255,0.25);">Takes about 20 minutes. Use code <strong style="color:var(--teal);">FREEBP26</strong> at the end.</p>
+  </div>
+</section>
+
 <!-- LEAD MAGNET -->
 <section class="lead-magnet-section">
   <div class="container" style="text-align: center;">
@@ -436,7 +448,7 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
       <div>
         <h3 style="font-family: var(--font-heading); font-weight: 700; font-size: 18px; text-transform: uppercase; color: var(--white); letter-spacing: 0.04em; margin-bottom: 24px;">Prefer to just talk?</h3>
         <p style="font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.7; margin-bottom: 32px;">15-minute call. I'll rip apart your current marketing and tell you what's actually working. If it's a fit, great. If not — you still walk away knowing more than your current agency ever told you.</p>
-        <a href="https://cal.com/nunyabunya" target="_blank" class="btn-primary" style="margin-bottom: 48px; display: inline-block;">Book a Free Call</a>
+        <a href="https://booking.nunyabunya.com/ben/bfk-review" target="_blank" class="btn-primary" style="margin-bottom: 48px; display: inline-block;">Book a Free Call</a>
 
         <div class="contact-detail">
           <div class="contact-icon">&#9993;</div>
@@ -454,7 +466,7 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
         </div>
       </div>
 
-      <form id="contactForm" action="https://formspree.io/f/PLACEHOLDER_ID" method="POST">
+      <form id="contactForm">
         <div class="form-group">
           <label class="form-label" for="name">Your Name</label>
           <input class="form-input" type="text" id="name" name="name" placeholder="What should I call you?" required>
@@ -562,9 +574,33 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(r => observer.observe(r));
 
-  // Form submit
-  document.getElementById('contactForm').addEventListener('submit', function(e) {
+  // Contact form — sends to Mautic + Slack directly
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var interest = document.getElementById('interest').value;
+    var message = document.getElementById('message').value.trim();
+    if (!name || !email) return;
+
+    // Send to Mautic
+    try {
+      await fetch('https://mautic.nunyabunya.com/form/submit?formId=1', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'mauticform[email]=' + encodeURIComponent(email) + '&mauticform[firstname]=' + encodeURIComponent(name) + '&mauticform[formId]=1'
+      }).catch(function(){});
+    } catch(err) {}
+
+    // Send to Slack via webhook server
+    try {
+      await fetch('https://webhooks.nunyabunya.com/webhook/lead-magnet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, email: email, source: 'homepage-contact', business: 'Nunya Bunya', interest: interest, message: message })
+      }).catch(function(){});
+    } catch(err) {}
+
     this.style.display = 'none';
     document.getElementById('formSuccess').style.display = 'block';
   });
