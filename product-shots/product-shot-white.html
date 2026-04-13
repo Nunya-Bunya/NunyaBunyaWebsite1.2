@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>Brand Starter Kit — Clean & Modern</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1080px; overflow:hidden; background:#f0f4ff; font-family:'Inter',sans-serif; color:#0f172a; }
+
+.bg {
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 700px 500px at 85% 90%, rgba(99,102,241,0.08) 0%, transparent 65%),
+    radial-gradient(ellipse 600px 500px at 10% 5%, rgba(6,182,212,0.07) 0%, transparent 65%),
+    #f8faff;
+}
+/* Dot grid texture */
+.bg::before {
+  content:''; position:absolute; inset:0;
+  background-image: radial-gradient(circle, rgba(99,102,241,0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Hard accent lines — architecture vibes */
+.rule-h { position:absolute; left:0; right:0; height:1px; background:linear-gradient(90deg, transparent, rgba(99,102,241,0.15), transparent); }
+.rule-v { position:absolute; top:0; bottom:0; width:1px; background:linear-gradient(180deg, transparent, rgba(99,102,241,0.12), transparent); }
+
+/* Top colour bar */
+.top-bar-stripe { position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, #6366F1 0%, #06B6D4 50%, #10B981 100%); z-index:10; }
+
+.doc {
+  position:absolute; background:#ffffff;
+  border-radius:4px; overflow:hidden;
+  box-shadow: 0 4px 24px rgba(15,23,42,0.09), 0 1px 4px rgba(15,23,42,0.06);
+  border:1px solid rgba(15,23,42,0.07);
+}
+.doc-inner { padding:16px; height:100%; display:flex; flex-direction:column; gap:7px; }
+.doc-logo-row { display:flex; align-items:center; gap:7px; margin-bottom:2px; }
+.doc-logo { width:18px; height:18px; border-radius:4px; flex-shrink:0; }
+.doc-brand { font-family:'DM Mono',monospace; font-size:7px; font-weight:400; letter-spacing:0.12em; color:rgba(15,23,42,0.3); text-transform:uppercase; }
+.doc-title { font-family:'Inter',sans-serif; font-size:13px; font-weight:700; color:#0f172a; letter-spacing:-0.3px; line-height:1.2; }
+.doc-sub { font-family:'DM Mono',monospace; font-size:7px; font-weight:400; color:rgba(15,23,42,0.3); letter-spacing:0.08em; text-transform:uppercase; }
+.doc-rule { height:1px; background:rgba(99,102,241,0.15); margin:2px 0; }
+.line { height:4px; background:rgba(15,23,42,0.06); border-radius:100px; }
+.line.s { width:60%; }
+.line.xs { width:38%; }
+.kpi { background:rgba(99,102,241,0.05); border:1px solid rgba(99,102,241,0.12); border-radius:4px; padding:7px; text-align:center; }
+.kpi.c { background:rgba(6,182,212,0.05); border-color:rgba(6,182,212,0.15); }
+.kpi-num { font-family:'Inter',sans-serif; font-weight:700; font-size:15px; color:#6366F1; letter-spacing:-0.5px; }
+.kpi.c .kpi-num { color:#0891B2; }
+.kpi-lbl { font-family:'DM Mono',monospace; font-size:6px; color:rgba(15,23,42,0.3); letter-spacing:0.08em; text-transform:uppercase; margin-top:2px; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:5px; }
+.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+.cal-day { height:12px; background:rgba(15,23,42,0.04); border-radius:2px; }
+.cal-day.p { background:rgba(99,102,241,0.12); border-left:2px solid #6366F1; }
+.cal-day.c { background:rgba(6,182,212,0.10); border-left:2px solid #06B6D4; }
+.tag { display:inline-block; padding:2px 7px; border-radius:100px; font-family:'DM Mono',monospace; font-size:6px; letter-spacing:0.06em; text-transform:uppercase; }
+.tag.v { background:rgba(99,102,241,0.1); color:#6366F1; border:1px solid rgba(99,102,241,0.2); }
+.tag.c { background:rgba(6,182,212,0.08); color:#0891B2; border:1px solid rgba(6,182,212,0.18); }
+.tag.g { background:rgba(16,185,129,0.08); color:#059669; border:1px solid rgba(16,185,129,0.18); }
+
+.social { position:absolute; border-radius:4px; overflow:hidden; box-shadow:0 4px 24px rgba(15,23,42,0.12); border:1px solid rgba(15,23,42,0.07); }
+
+.hero-text { position:absolute; z-index:30; text-align:center; pointer-events:none; }
+.hero-eyebrow { font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:#6366F1; margin-bottom:14px; }
+.hero-title { font-family:'Inter',sans-serif; font-weight:800; font-size:76px; line-height:0.88; color:#0f172a; letter-spacing:-3px; text-shadow:0 2px 40px rgba(240,244,255,0.9); }
+.hero-title .hi { color:#6366F1; }
+.hero-sub { font-family:'DM Mono',monospace; font-size:11px; font-weight:400; color:rgba(15,23,42,0.35); margin-top:14px; letter-spacing:0.12em; text-transform:uppercase; }
+.hero-price { font-family:'Inter',sans-serif; font-size:40px; font-weight:800; color:#0f172a; margin-top:12px; letter-spacing:-2px; }
+.hero-price .unit { font-size:22px; font-weight:500; color:#6366F1; }
+
+.bottom-bar { position:absolute; bottom:0; left:0; right:0; height:52px; background:rgba(248,250,255,0.95); border-top:1px solid rgba(15,23,42,0.08); display:flex; align-items:center; justify-content:space-between; padding:0 52px; z-index:25; backdrop-filter:blur(8px); }
+.bar-name { font-family:'Inter',sans-serif; font-size:13px; font-weight:700; color:rgba(15,23,42,0.4); letter-spacing:-0.3px; }
+.bar-url { font-family:'DM Mono',monospace; font-size:10px; color:#6366F1; letter-spacing:0.1em; text-transform:uppercase; }
+.bar-tag { font-family:'DM Mono',monospace; font-size:9px; color:rgba(15,23,42,0.2); letter-spacing:0.08em; text-transform:uppercase; }
+</style></head><body>
+<div class="bg"></div>
+<div class="top-bar-stripe"></div>
+
+<!-- Rule lines -->
+<div class="rule-h" style="top:360px;"></div>
+<div class="rule-h" style="top:720px;"></div>
+<div class="rule-v" style="left:340px;"></div>
+<div class="rule-v" style="right:340px;"></div>
+
+<!-- INVOICE -->
+<div class="doc" style="width:210px;height:268px;top:58px;left:54px;transform:rotate(-2.5deg);z-index:5;">
+  <div style="height:3px;background:#6366F1;"></div>
+  <div class="doc-inner">
+    <div class="doc-logo-row">
+      <div class="doc-logo" style="background:linear-gradient(135deg,#6366F1,#818CF8);"></div>
+      <div class="doc-brand">Arcadia Studio</div>
+    </div>
+    <div class="doc-title">Invoice</div>
+    <div class="doc-sub">INV-2026-041</div>
+    <div class="doc-rule"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(15,23,42,0.05);"><div style="font-size:8px;color:rgba(15,23,42,0.4);">Brand Strategy</div><div style="font-size:9px;font-weight:600;">$4,800</div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(15,23,42,0.05);"><div style="font-size:8px;color:rgba(15,23,42,0.4);">Web Design</div><div style="font-size:9px;font-weight:600;">$6,200</div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(15,23,42,0.05);"><div style="font-size:8px;color:rgba(15,23,42,0.4);">SEO Setup</div><div style="font-size:9px;font-weight:600;">$1,500</div></div>
+    <div style="background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.15);border-radius:4px;padding:10px;margin-top:auto;">
+      <div style="font-size:20px;font-weight:800;color:#6366F1;letter-spacing:-1px;">$13,750</div>
+      <div style="font-family:'DM Mono',monospace;font-size:6px;color:rgba(15,23,42,0.3);letter-spacing:0.08em;margin-top:2px;text-transform:uppercase;">Total Due incl. GST</div>
+    </div>
+    <div style="display:flex;gap:5px;">
+      <span class="tag v">Sent</span><span class="tag g">Due 7 days</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROPOSAL -->
+<div class="doc" style="width:188px;height:238px;top:78px;left:116px;transform:rotate(2deg);z-index:4;">
+  <div style="height:3px;background:#06B6D4;"></div>
+  <div class="doc-inner">
+    <div class="doc-logo-row">
+      <div class="doc-logo" style="background:linear-gradient(135deg,#06B6D4,#38BDF8);"></div>
+      <div class="doc-brand">Arcadia Studio</div>
+    </div>
+    <div class="doc-title">Project Proposal</div>
+    <div class="doc-rule"></div>
+    <div class="line"></div><div class="line s"></div><div class="line"></div><div class="line xs"></div>
+    <div style="background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.15);border-radius:4px;padding:9px;margin-top:auto;">
+      <div style="font-family:'DM Mono',monospace;font-size:7px;color:#0891B2;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px;">Brand Package</div>
+      <div style="font-size:18px;font-weight:800;color:#0891B2;letter-spacing:-1px;">$7,400</div>
+    </div>
+  </div>
+</div>
+
+<!-- MONTHLY REPORT -->
+<div class="doc" style="width:222px;height:268px;top:54px;right:54px;transform:rotate(3deg);z-index:5;">
+  <div style="height:3px;background:#10B981;"></div>
+  <div class="doc-inner">
+    <div class="doc-logo-row">
+      <div class="doc-logo" style="background:linear-gradient(135deg,#10B981,#34D399);"></div>
+      <div class="doc-brand">Arcadia Studio</div>
+    </div>
+    <div class="doc-title">Monthly Report</div>
+    <div class="doc-sub">April 2026</div>
+    <div class="doc-rule"></div>
+    <div class="grid2" style="margin-top:4px;">
+      <div class="kpi"><div class="kpi-num">12.4K</div><div class="kpi-lbl">Reach</div></div>
+      <div class="kpi c"><div class="kpi-num">94%</div><div class="kpi-lbl">Satisfaction</div></div>
+      <div class="kpi c"><div class="kpi-num">38</div><div class="kpi-lbl">Leads</div></div>
+      <div class="kpi"><div class="kpi-num">$82K</div><div class="kpi-lbl">Pipeline</div></div>
+    </div>
+    <div class="line" style="margin-top:6px;"></div><div class="line s"></div>
+    <div style="margin-top:auto;display:flex;gap:3px;height:30px;align-items:flex-end;">
+      <div style="flex:1;background:rgba(99,102,241,0.15);border-radius:2px 2px 0 0;height:35%;"></div>
+      <div style="flex:1;background:rgba(99,102,241,0.25);border-radius:2px 2px 0 0;height:55%;"></div>
+      <div style="flex:1;background:rgba(99,102,241,0.4);border-radius:2px 2px 0 0;height:48%;"></div>
+      <div style="flex:1;background:#6366F1;border-radius:2px 2px 0 0;height:90%;"></div>
+      <div style="flex:1;background:#06B6D4;border-radius:2px 2px 0 0;height:72%;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT CALENDAR -->
+<div class="doc" style="width:192px;height:218px;top:72px;right:122px;transform:rotate(-2deg);z-index:4;">
+  <div style="height:3px;background:#6366F1;"></div>
+  <div class="doc-inner" style="gap:6px;">
+    <div class="doc-logo-row">
+      <div class="doc-logo" style="background:linear-gradient(135deg,#6366F1,#818CF8);"></div>
+      <div class="doc-brand">Arcadia</div>
+    </div>
+    <div class="doc-title">Content Calendar</div>
+    <div class="doc-rule"></div>
+    <div class="cal-grid">
+      <div style="font-family:'DM Mono',monospace;font-size:6px;color:rgba(15,23,42,0.2);text-align:center;padding-bottom:2px;">M</div><div style="font-family:'DM Mono',monospace;font-size:6px;color:rgba(15,23,42,0.2);text-align:center;padding-bottom:2px;">T</div><div style="font-family:'DM Mono',monospace;font-size:6px;color:rgba(15,23,42,0.2);text-align:center;padding-bottom:2px;">W</div><div style="font-family:'DM Mono',monospace;font-size:6px;color:rgba(15,23,42,0.2);text-align:center;padding-bottom:2px;">T</div><div style="font-family:'DM Mono',monospace;font-size:6px;color:rgba(15,23,42,0.2);text-align:center;padding-bottom:2px;">F</div><div style="font-family:'DM Mono',monospace;font-size:6px;color:rgba(15,23,42,0.2);text-align:center;padding-bottom:2px;">S</div><div style="font-family:'DM Mono',monospace;font-size:6px;color:rgba(15,23,42,0.2);text-align:center;padding-bottom:2px;">S</div>
+      <div class="cal-day"></div><div class="cal-day p"></div><div class="cal-day"></div><div class="cal-day c"></div><div class="cal-day p"></div><div class="cal-day"></div><div class="cal-day"></div>
+      <div class="cal-day c"></div><div class="cal-day p"></div><div class="cal-day"></div><div class="cal-day c"></div><div class="cal-day"></div><div class="cal-day p"></div><div class="cal-day c"></div>
+      <div class="cal-day p"></div><div class="cal-day"></div><div class="cal-day c"></div><div class="cal-day p"></div><div class="cal-day c"></div><div class="cal-day"></div><div class="cal-day p"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTRACT -->
+<div class="doc" style="width:198px;height:248px;bottom:88px;left:56px;transform:rotate(2deg);z-index:6;">
+  <div style="height:3px;background:#6366F1;"></div>
+  <div class="doc-inner">
+    <div class="doc-logo-row">
+      <div class="doc-logo" style="background:linear-gradient(135deg,#6366F1,#818CF8);"></div>
+      <div class="doc-brand">Arcadia Studio</div>
+    </div>
+    <div class="doc-title">Service Agreement</div>
+    <div class="doc-sub">Digital Services</div>
+    <div class="doc-rule"></div>
+    <div class="line"></div><div class="line s"></div><div class="line"></div><div class="line xs"></div><div class="line"></div><div class="line s"></div>
+    <div style="margin-top:auto;display:flex;gap:10px;border-top:1px solid rgba(15,23,42,0.06);padding-top:10px;">
+      <div style="flex:1;"><div style="height:1px;background:rgba(15,23,42,0.12);margin-bottom:4px;"></div><div style="font-family:'DM Mono',monospace;font-size:6px;color:rgba(15,23,42,0.25);text-transform:uppercase;letter-spacing:0.08em;">Client</div></div>
+      <div style="flex:1;"><div style="height:1px;background:#6366F1;margin-bottom:4px;"></div><div style="font-family:'DM Mono',monospace;font-size:6px;color:rgba(99,102,241,0.6);text-transform:uppercase;letter-spacing:0.08em;">Studio</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ONBOARDING PACK -->
+<div class="doc" style="width:200px;height:244px;bottom:86px;right:56px;transform:rotate(-2deg);z-index:6;">
+  <div style="height:3px;background:#06B6D4;"></div>
+  <div class="doc-inner">
+    <div class="doc-logo-row">
+      <div class="doc-logo" style="background:linear-gradient(135deg,#06B6D4,#38BDF8);"></div>
+      <div class="doc-brand">Arcadia Studio</div>
+    </div>
+    <div class="doc-title">Welcome Guide</div>
+    <div class="doc-rule"></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:4px 0;">
+      <div style="background:rgba(99,102,241,0.06);border-radius:3px;padding:6px 3px;text-align:center;border-bottom:2px solid #6366F1;"><div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:#6366F1;">01</div><div style="font-family:'DM Mono',monospace;font-size:5px;color:rgba(15,23,42,0.3);letter-spacing:0.06em;margin-top:2px;">Kick</div></div>
+      <div style="background:rgba(6,182,212,0.05);border-radius:3px;padding:6px 3px;text-align:center;border-bottom:2px solid #06B6D4;"><div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:#06B6D4;">02</div><div style="font-family:'DM Mono',monospace;font-size:5px;color:rgba(15,23,42,0.3);letter-spacing:0.06em;margin-top:2px;">Build</div></div>
+      <div style="background:rgba(99,102,241,0.06);border-radius:3px;padding:6px 3px;text-align:center;border-bottom:2px solid #6366F1;"><div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:#6366F1;">03</div><div style="font-family:'DM Mono',monospace;font-size:5px;color:rgba(15,23,42,0.3);letter-spacing:0.06em;margin-top:2px;">Test</div></div>
+      <div style="background:rgba(6,182,212,0.05);border-radius:3px;padding:6px 3px;text-align:center;border-bottom:2px solid #06B6D4;"><div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:#06B6D4;">04</div><div style="font-family:'DM Mono',monospace;font-size:5px;color:rgba(15,23,42,0.3);letter-spacing:0.06em;margin-top:2px;">Ship</div></div>
+    </div>
+    <div class="line"></div><div class="line s"></div>
+    <div style="margin-top:auto;background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.15);border-radius:4px;padding:8px;">
+      <div style="font-family:'DM Mono',monospace;font-size:7px;font-weight:500;color:#6366F1;letter-spacing:0.08em;">// let's build something great</div>
+    </div>
+  </div>
+</div>
+
+<!-- MEETING NOTES -->
+<div class="doc" style="width:162px;height:180px;bottom:80px;left:184px;transform:rotate(-1deg);z-index:5;">
+  <div style="height:3px;background:#10B981;"></div>
+  <div class="doc-inner" style="gap:5px;">
+    <div class="doc-logo-row">
+      <div class="doc-logo" style="background:#10B981;width:14px;height:14px;border-radius:3px;"></div>
+      <div class="doc-brand" style="font-size:7px;">Arcadia</div>
+    </div>
+    <div class="doc-title" style="font-size:11px;">Meeting Notes</div>
+    <div class="doc-rule"></div>
+    <div class="line"></div><div class="line s"></div>
+    <div style="display:flex;gap:5px;align-items:center;"><div style="width:5px;height:5px;border-radius:50%;background:#6366F1;flex-shrink:0;"></div><div class="line" style="margin:0;flex:1;height:3px;"></div></div>
+    <div style="display:flex;gap:5px;align-items:center;"><div style="width:5px;height:5px;border-radius:50%;background:#06B6D4;flex-shrink:0;"></div><div class="line" style="margin:0;flex:1;height:3px;width:65%;"></div></div>
+    <div style="display:flex;gap:5px;align-items:center;"><div style="width:5px;height:5px;border-radius:50%;background:#10B981;flex-shrink:0;"></div><div class="line" style="margin:0;flex:1;height:3px;width:45%;"></div></div>
+  </div>
+</div>
+
+<!-- CLIENT BRIEF -->
+<div class="doc" style="width:166px;height:184px;bottom:78px;right:190px;transform:rotate(1.5deg);z-index:5;">
+  <div style="height:3px;background:#6366F1;"></div>
+  <div class="doc-inner" style="gap:5px;">
+    <div class="doc-logo-row">
+      <div class="doc-logo" style="background:#6366F1;width:14px;height:14px;border-radius:3px;"></div>
+      <div class="doc-brand" style="font-size:7px;">Arcadia</div>
+    </div>
+    <div class="doc-title" style="font-size:11px;">Client Brief</div>
+    <div class="doc-rule"></div>
+    <div class="line"></div><div class="line s"></div><div class="line"></div>
+    <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;">
+      <span class="tag v">SaaS</span>
+      <span class="tag c">B2B</span>
+      <span class="tag g">Scale-up</span>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL: Announcement card -->
+<div class="social" style="width:118px;height:118px;left:28px;top:394px;transform:rotate(-3.5deg);z-index:8;background:#ffffff;">
+  <div style="height:3px;background:linear-gradient(90deg,#6366F1,#06B6D4);"></div>
+  <div style="padding:14px;text-align:center;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div style="font-family:'DM Mono',monospace;font-size:7px;color:rgba(15,23,42,0.3);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:5px;">New Drop</div>
+    <div style="font-family:'Inter',sans-serif;font-size:14px;font-weight:800;color:#0f172a;line-height:1.1;letter-spacing:-0.5px;margin-bottom:6px;">Platform<br>v2.0</div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;color:#6366F1;letter-spacing:0.06em;">Launch →</div>
+  </div>
+</div>
+
+<!-- SOCIAL: Metric card -->
+<div class="social" style="width:132px;height:112px;right:28px;top:386px;transform:rotate(3deg);z-index:8;background:#ffffff;">
+  <div style="height:3px;background:#6366F1;"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;height:100%;">
+    <div style="background:rgba(99,102,241,0.04);display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:1px solid rgba(15,23,42,0.06);">
+      <div style="font-family:'DM Mono',monospace;font-size:6px;color:rgba(15,23,42,0.3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;">Before</div>
+      <div style="font-family:'Inter',sans-serif;font-size:20px;font-weight:800;color:rgba(15,23,42,0.2);letter-spacing:-1px;">3</div>
+      <div style="font-family:'DM Mono',monospace;font-size:5px;color:rgba(15,23,42,0.2);text-transform:uppercase;letter-spacing:0.06em;">leads/wk</div>
+    </div>
+    <div style="background:rgba(99,102,241,0.06);display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <div style="font-family:'DM Mono',monospace;font-size:6px;color:#6366F1;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;">After</div>
+      <div style="font-family:'Inter',sans-serif;font-size:20px;font-weight:800;color:#6366F1;letter-spacing:-1px;">24</div>
+      <div style="font-family:'DM Mono',monospace;font-size:5px;color:rgba(99,102,241,0.6);text-transform:uppercase;letter-spacing:0.06em;">leads/wk</div>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL: Review card -->
+<div class="social" style="width:122px;height:122px;bottom:93px;left:50%;transform:translateX(-50%) rotate(1.5deg);z-index:7;background:#ffffff;">
+  <div style="height:3px;background:linear-gradient(90deg,#6366F1,#06B6D4,#10B981);"></div>
+  <div style="padding:16px;text-align:center;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div style="font-size:16px;color:#F59E0B;letter-spacing:1px;margin-bottom:6px;">★★★★★</div>
+    <div style="font-family:'Inter',sans-serif;font-size:8px;color:rgba(15,23,42,0.5);line-height:1.5;margin-bottom:7px;">"Looked enterprise-grade from day one."</div>
+    <div style="font-family:'DM Mono',monospace;font-size:7px;color:#6366F1;text-transform:uppercase;letter-spacing:0.08em;padding-top:7px;border-top:1px solid rgba(15,23,42,0.06);">— Mia T., Arcadia</div>
+  </div>
+</div>
+
+<!-- HERO TEXT -->
+<div class="hero-text" style="top:50%;left:50%;transform:translate(-50%,-50%);">
+  <div style="position:absolute;inset:-90px;background:radial-gradient(ellipse 400px 300px at 50% 50%, rgba(240,244,255,0.98), transparent);z-index:-1;"></div>
+  <div class="hero-eyebrow">// Brand Starter Kit</div>
+  <div class="hero-title">Brand<br><span class="hi">Starter</span><br>Kit</div>
+  <div class="hero-sub">13 templates · 48hr delivery · yours forever</div>
+  <div class="hero-price"><span class="unit">AUD </span>497</div>
+  <div style="margin-top:14px;display:inline-flex;align-items:center;gap:8px;padding:7px 18px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:100px;">
+    <div style="width:6px;height:6px;border-radius:50%;background:#10B981;"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(15,23,42,0.4);letter-spacing:0.1em;text-transform:uppercase;">nunyabunya.com</div>
+  </div>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+  <div class="bar-name">Nunya Bunya</div>
+  <div class="bar-tag">13 Templates · 48hr Delivery · Yours Forever</div>
+  <div class="bar-url">nunyabunya.com</div>
+</div>
+
+</body></html>

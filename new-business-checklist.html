@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The New Business Launch Checklist — Nunya Bunya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<style>
+  :root {
+    --dark:   #0a0a0a;
+    --dark2:  #111111;
+    --dark3:  #181818;
+    --subtle: rgba(255,255,255,0.07);
+    --muted:  rgba(255,255,255,0.35);
+    --white:  #ffffff;
+    --teal:   #2DD4BF;
+    --font-heading: 'Barlow Condensed', sans-serif;
+    --font-body:    'Plus Jakarta Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  .doc-header {
+    background: var(--dark2);
+    border-bottom: 1px solid var(--subtle);
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .doc-header-brand {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  .doc-header-title h1 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(28px, 4vw, 48px);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+    margin-bottom: 8px;
+  }
+  .doc-header-title h1 span { color: var(--teal); }
+  .doc-header-title p {
+    font-size: 13px;
+    color: var(--muted);
+    max-width: 480px;
+  }
+  .doc-header-badge {
+    background: var(--teal);
+    color: var(--dark);
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    flex-shrink: 0;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: var(--dark2);
+    border-bottom: 1px solid var(--subtle);
+    padding: 16px 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .progress-label {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .progress-track {
+    flex: 1;
+    height: 3px;
+    background: var(--subtle);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--teal);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  .progress-count {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal);
+    white-space: nowrap;
+  }
+
+  /* ── CONTENT ── */
+  .doc-body {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 48px 80px;
+  }
+
+  /* ── INTRO ── */
+  .intro-box {
+    background: var(--dark2);
+    border: 1px solid var(--subtle);
+    border-left: 3px solid var(--teal);
+    padding: 24px 28px;
+    margin-bottom: 56px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+  }
+  .intro-box strong { color: var(--white); }
+
+  /* ── SECTION ── */
+  .checklist-section {
+    margin-bottom: 56px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--subtle);
+  }
+  .section-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--dark3);
+    border: 1px solid var(--subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .section-num {
+    font-family: var(--font-heading);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .section-title {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  /* ── CHECKLIST ITEMS ── */
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-radius: 2px;
+  }
+  .checklist li:hover { background: var(--dark3); }
+  .checklist li.done { opacity: 0.4; }
+  .checklist li.done .item-text { text-decoration: line-through; }
+
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    border-radius: 2px;
+  }
+  .checklist li.done .check-box {
+    background: var(--teal);
+    border-color: var(--teal);
+  }
+  .check-box svg { display: none; }
+  .checklist li.done .check-box svg { display: block; }
+
+  .item-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.85);
+  }
+  .item-note {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .item-tag {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    margin-left: 8px;
+    vertical-align: middle;
+    border-radius: 2px;
+  }
+  .tag-required { background: rgba(239,68,68,0.15); color: #f87171; }
+  .tag-free     { background: rgba(45,212,191,0.12); color: var(--teal); }
+  .tag-asap     { background: rgba(251,191,36,0.12); color: #fbbf24; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: rgba(45,212,191,0.06);
+    border: 1px solid rgba(45,212,191,0.2);
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+  .callout strong { color: var(--teal); }
+
+  /* ── FINAL CTA ── */
+  .doc-cta {
+    background: var(--dark2);
+    border: 1px solid var(--subtle);
+    border-top: 3px solid var(--teal);
+    padding: 40px 48px;
+    text-align: center;
+    margin-top: 64px;
+  }
+  .doc-cta-label {
+    font-family: var(--font-heading);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+  .doc-cta h2 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(28px, 4vw, 42px);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+    margin-bottom: 16px;
+  }
+  .doc-cta h2 span { color: var(--teal); }
+  .doc-cta p {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0 auto 28px;
+    line-height: 1.6;
+  }
+  .doc-cta-btn {
+    display: inline-block;
+    background: var(--teal);
+    color: var(--dark);
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 40px;
+    transition: opacity 0.2s;
+  }
+  .doc-cta-btn:hover { opacity: 0.85; }
+  .doc-cta-price {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ── PRINT STYLES ── */
+  @media print {
+    body { background: #fff; color: #1a1a1a; }
+    .progress-bar-wrap { display: none; }
+    .doc-header { background: #1a1a1a; color: #fff; }
+    .doc-header-brand, .doc-header-title h1 span { color: #2DD4BF; }
+    .checklist-section, .checklist li { break-inside: avoid; }
+    .doc-cta-btn { background: #1a1a1a; color: #fff; }
+    .callout { border-color: #2DD4BF; background: #f0fdfb; color: #1a1a1a; }
+    .item-text { color: #1a1a1a; }
+    .section-title { color: #1a1a1a; }
+    .item-note { color: #666; }
+  }
+
+  @media (max-width: 640px) {
+    .doc-header { padding: 28px 24px; }
+    .progress-bar-wrap { padding: 12px 24px; }
+    .doc-body { padding: 40px 24px 60px; }
+    .doc-cta { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="doc-header">
+  <div>
+    <div class="doc-header-brand">Nunya Bunya — Free Resource</div>
+    <div class="doc-header-title">
+      <h1>The New Business<br><span>Launch Checklist</span></h1>
+      <p>63 things every new Australian business owner needs to do — including the ones nobody tells you about.</p>
+    </div>
+  </div>
+  <div class="doc-header-badge">Free Download</div>
+</header>
+
+<!-- STICKY PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <span class="progress-label">Your progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-count" id="progressCount">0 / 63</span>
+</div>
+
+<!-- BODY -->
+<div class="doc-body">
+
+  <!-- INTRO -->
+  <div class="intro-box">
+    <strong>How to use this checklist:</strong> Click each item to mark it done. Work through it section by section — don't skip ahead. Most new businesses fail not because of bad ideas, but because of things they didn't know they didn't know. This checklist exists so you don't learn the hard way. <strong>Start with Section 1 and work forward.</strong>
+  </div>
+
+
+  <!-- ═══ SECTION 1 ═══ -->
+  <div class="checklist-section">
+    <div class="section-header">
+      <div class="section-icon">⚖️</div>
+      <div>
+        <span class="section-num">Section 01</span>
+        <div class="section-title">Legal & Business Structure</div>
+      </div>
+    </div>
+    <ul class="checklist" id="section1">
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Choose your business structure <span class="item-tag tag-required">Do First</span>
+          <span class="item-note">Sole trader is simplest and cheapest to start. Company (Pty Ltd) costs more but limits personal liability. Get advice from an accountant before you decide.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Register for an ABN at abr.gov.au <span class="item-tag tag-free">Free</span>
+          <span class="item-note">Takes 10 minutes online. You need this before you can legally invoice anyone. Required if you expect to earn over $75,000/year — or just get it now anyway.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Register your business name with ASIC (if you're trading under a name that isn't your own)
+          <span class="item-note">~$39/year or ~$92 for 3 years. You don't need this if you're trading as "Jane Smith" — but you do if you're "Smith Creative Co."</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Check if your business name is available as a domain AND on every major social platform <span class="item-tag tag-asap">ASAP</span>
+          <span class="item-note">Do this before you fall in love with a name. Search simultaneously at namechk.com.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Search IP Australia for trademark conflicts before committing to your name
+          <span class="item-note">Free to search at ipaustralia.gov.au. Finding out your name is trademarked after you've printed 500 business cards is expensive.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Consider a trademark application if your brand name is your main asset
+          <span class="item-note">~$250 per class. Not essential at day one, but worth doing before a competitor copies you.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Research your industry's specific licencing requirements
+          <span class="item-note">Trades, food, health, financial services, real estate — most regulated industries require state licences. Check your state government website.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Apply for a Director ID if forming a company <span class="item-tag tag-required">Required</span>
+          <span class="item-note">New legal requirement. Every company director must have one. Apply at abrs.gov.au — free and quick.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- ═══ SECTION 2 ═══ -->
+  <div class="checklist-section">
+    <div class="section-header">
+      <div class="section-icon">🏦</div>
+      <div>
+        <span class="section-num">Section 02</span>
+        <div class="section-title">Banking & Finance</div>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>The number one mistake new business owners make:</strong> running business money through their personal account. The ATO expects clean separation, and your accountant will charge you extra to untangle it. Open a business account before your first invoice.
+    </div>
+    <ul class="checklist" id="section2">
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Open a dedicated business bank account — never mix personal and business money <span class="item-tag tag-asap">ASAP</span>
+          <span class="item-note">ANZ, NAB, and Westpac all have business accounts. Qonto and Tyro are solid digital alternatives with lower fees.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Set up accounting software from day one
+          <span class="item-note">Xero (~$35/mo) or QuickBooks (~$25/mo). Both connect to your bank and automate most of your bookkeeping. The time you save is worth more than the subscription.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Register for GST if your projected turnover exceeds $75,000 (or just do it now)
+          <span class="item-note">Once registered, you add 10% GST to your invoices and claim it back on your expenses. Registering early signals that you're serious. You have to lodge BAS quarterly.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Set BAS reminders in your calendar <span class="item-tag tag-required">Required</span>
+          <span class="item-note">BAS is due quarterly: 28 Oct, 28 Feb, 28 Apr, 28 Jul. Missing it gets you an ATO fine. Set the reminders now.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Set aside 28–30% of every invoice payment into a separate "tax savings" account
+          <span class="item-note">Open a second savings account. Every time you get paid, transfer 28–30% straight in. Do this religiously and tax time will never hurt you.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Apply for a business credit card for expenses
+          <span class="item-note">Easier expense tracking, earns points, and gives you a buffer. Pay it in full each month.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Set clear payment terms on all invoices — and a process for following up late payments
+          <span class="item-note">14 days is standard in Australia. 7 days if you're doing project work. Have a polite but firm follow-up email ready to send on day 15. Most people just forget.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- ═══ SECTION 3 ═══ -->
+  <div class="checklist-section">
+    <div class="section-header">
+      <div class="section-icon">📄</div>
+      <div>
+        <span class="section-num">Section 03</span>
+        <div class="section-title">Documents & Templates</div>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>No contract = no protection.</strong> One nightmare client without a signed agreement can cost you more than a year's worth of clients paid. Get these documents sorted before you take your first booking.
+    </div>
+    <ul class="checklist" id="section3">
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Client Service Agreement / Contract — signed before any work begins <span class="item-tag tag-required">Required</span>
+          <span class="item-note">Covers: scope of work, payment terms, revision limits, cancellation policy, ownership of work, dispute resolution. If you don't have one, your client makes the rules.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Proposal template (the offer — what you'll do, how, when, and for how much)
+          <span class="item-note">This is what you send before the contract. A good proposal wins the job. It should show the problem, your solution, deliverables, timeline, and price.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Invoice template — with all legally required fields <span class="item-tag tag-required">Required</span>
+          <span class="item-note">Must include: your full name/company name, ABN, invoice number, date, description of work, subtotal, GST amount (if registered), total, and your bank BSB/account number.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Quote / estimate template (different from invoice — this is the offer, before agreement)
+          <span class="item-note">Include an expiry date on all quotes. Prices change. A quote without an expiry is a quote you might be held to forever.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Client onboarding welcome pack — what happens after they say yes
+          <span class="item-note">Sets expectations, collects what you need (logo, passwords, brief), and makes you look professional from the very first touchpoint.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Non-Disclosure Agreement (NDA) template
+          <span class="item-note">Needed when sharing confidential information — pricing, processes, client data, IP. Simple one-pagers are fine for most situations.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Refund / cancellation policy — in writing, before your first difficult client
+          <span class="item-note">Decide now: do you offer refunds? Under what conditions? How much notice for cancellation? Write it down. Add it to your contract and website.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Privacy Policy for your website <span class="item-tag tag-required">Required</span>
+          <span class="item-note">If your website has a contact form, you're collecting personal data. The Privacy Act 1988 requires you to tell people how you'll use it. Free generators exist, but get it reviewed by a lawyer if you handle sensitive data.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Website Terms & Conditions
+          <span class="item-note">Limits your liability, sets the rules of engagement for people using your site, and protects your content from being copied.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- ═══ SECTION 4 ═══ -->
+  <div class="checklist-section">
+    <div class="section-header">
+      <div class="section-icon">📊</div>
+      <div>
+        <span class="section-num">Section 04</span>
+        <div class="section-title">Tax & Compliance</div>
+      </div>
+    </div>
+    <ul class="checklist" id="section4">
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Get an accountant <span class="item-tag tag-asap">Worth It</span>
+          <span class="item-note">Their fee is tax-deductible, and a good accountant saves you more than they cost. Find one who specialises in small business. Interview two before you decide.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Keep all receipts for 5 years <span class="item-tag tag-required">ATO Law</span>
+          <span class="item-note">Digital is fine. Take a photo the day you receive the receipt and upload it to your accounting software. Don't let them pile up — it takes 30 seconds now vs 3 hours at tax time.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Know what's tax-deductible — and start claiming from day one
+          <span class="item-note">Home office, phone (business %), internet (business %), equipment, software subscriptions, marketing, professional development, accountant fees, business travel, and more. If in doubt, ask your accountant.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Register for PAYG Withholding before you pay any employees or some contractors <span class="item-tag tag-required">Required</span>
+          <span class="item-note">Do this at ato.gov.au before you process a single payment to staff. Failure to withhold = personal liability.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Pay superannuation on time: 11.5% of gross wages, due quarterly <span class="item-tag tag-required">Required</span>
+          <span class="item-note">Late super payments attract a Superannuation Guarantee Charge that costs significantly more than the original amount. Due by 28th of the month after each quarter.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Understand the employee vs contractor distinction before you hire anyone
+          <span class="item-note">Getting this wrong has cost Australian businesses millions in back-payments and fines. The ATO has a decision tool at ato.gov.au — use it for every person you bring on.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Register for Single Touch Payroll (STP) if you hire employees <span class="item-tag tag-required">Required</span>
+          <span class="item-note">Your payroll software should handle this automatically, but you need to be registered with the ATO. Xero and QuickBooks both have STP built in.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- ═══ SECTION 5 ═══ -->
+  <div class="checklist-section">
+    <div class="section-header">
+      <div class="section-icon">🛡️</div>
+      <div>
+        <span class="section-num">Section 05</span>
+        <div class="section-title">Insurance</div>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>Insurance feels like money for nothing — until you need it.</strong> One lawsuit, one accident, one data breach without cover can end a business. Get the ones marked Required before you take your first client.
+    </div>
+    <ul class="checklist" id="section5">
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Public liability insurance ($5M–$20M cover) <span class="item-tag tag-required">Required</span>
+          <span class="item-note">Most venues, events, and corporate clients will ask for proof of this. Covers injury or property damage caused by your business. Budget ~$500–$1,500/year depending on risk level.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Professional indemnity insurance — essential if you give advice, design, or consult
+          <span class="item-note">Covers you if a client claims your advice or work caused them financial loss. Designers, consultants, accountants, marketers, coaches — you need this.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Product liability insurance — if you sell physical products
+          <span class="item-note">Covers claims that your product caused injury or damage. Required in most retail arrangements and e-commerce platforms.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Workers compensation insurance — mandatory if you hire anyone in Queensland <span class="item-tag tag-required">QLD Law</span>
+          <span class="item-note">Register with WorkCover Queensland before your first hire. Non-compliance can result in penalties up to 3× the premium you should have paid.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Income protection insurance — for yourself <span class="item-tag tag-asap">Critical</span>
+          <span class="item-note">As a business owner, you have no sick leave. If you can't work for 3 months, income protection pays you a percentage of your income. Talk to a financial adviser — premiums are often tax-deductible.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Check your home and car insurance policies cover business use
+          <span class="item-note">Most personal policies exclude business activity. If you work from home or drive for work, call your insurer and check. You might be uninsured and not know it.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- ═══ SECTION 6 ═══ -->
+  <div class="checklist-section">
+    <div class="section-header">
+      <div class="section-icon">🌐</div>
+      <div>
+        <span class="section-num">Section 06</span>
+        <div class="section-title">Online Presence</div>
+      </div>
+    </div>
+    <ul class="checklist" id="section6">
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Register your .com.au domain — and grab the .com as backup <span class="item-tag tag-asap">Do Now</span>
+          <span class="item-note">.com.au requires an ABN. ~$20–$30/year. Don't wait — domains get taken fast and squatters are real.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Set up a professional email address: you@yourbusiness.com.au <span class="item-tag tag-asap">Do Now</span>
+          <span class="item-note">Gmail or Hotmail looks amateur. Google Workspace starts at ~$8/month. It's the cheapest credibility upgrade you'll ever make.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Claim and verify your Google Business Profile <span class="item-tag tag-free">Free</span>
+          <span class="item-note">Critical for local search. When someone Googles your business name, this is what shows up on the right side. Set it up at business.google.com. Add photos, hours, and your first post.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Secure your handle on every major social platform — even the ones you won't use <span class="item-tag tag-free">Free</span>
+          <span class="item-note">Instagram, Facebook, LinkedIn, TikTok, X, YouTube, Pinterest, Threads. Takes 20 minutes. Prevents someone else from taking your name later.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Get a basic website live — even just one page
+          <span class="item-note">A well-designed one-pager beats a half-finished five-page site every time. At minimum: what you do, who you help, how to contact you.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Install Google Analytics on your website from day one <span class="item-tag tag-free">Free</span>
+          <span class="item-note">You can't optimise what you don't measure. Even if you don't look at the data yet, having historical data from day one will matter later.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          List your business on relevant directories: True Local, Yellow Pages, industry-specific sites
+          <span class="item-note">Free citations help your local Google ranking. Spend an afternoon doing this once and it pays off for years.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- ═══ SECTION 7 ═══ -->
+  <div class="checklist-section">
+    <div class="section-header">
+      <div class="section-icon">🎨</div>
+      <div>
+        <span class="section-num">Section 07</span>
+        <div class="section-title">Brand & Marketing</div>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>Your brand is your first impression — and you only get one.</strong> People decide whether to trust you within seconds of seeing your materials. Inconsistent branding makes you look small. Consistent branding makes you look like you've been doing this for years.
+    </div>
+    <ul class="checklist" id="section7">
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Design a logo — or commission one
+          <span class="item-note">It doesn't need to be expensive, but it needs to be intentional. A DIY logo made in Canva with default fonts looks like a DIY logo made in Canva with default fonts.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Lock in your brand colours (HEX codes) and fonts — and use them consistently everywhere
+          <span class="item-note">Pick 2 main colours and 1 accent. Pick 1 heading font and 1 body font. Write them down. Use them on every single touchpoint.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Create a professional email signature with logo, title, phone, and website
+          <span class="item-note">Every email is a branding touchpoint. A professional signature takes 10 minutes to set up and makes every email look polished.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Get a professional headshot — or at least a well-lit, high-quality phone photo
+          <span class="item-note">People buy from people. A great headshot on LinkedIn, your website, and Google Business profile builds trust before you've said a word.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Write your bio in two lengths: a 50-word version and a 200-word version
+          <span class="item-note">You'll be asked for both constantly — conference programmes, directory listings, guest blog posts, podcast intros. Write them now so you're never scrambling.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Design branded social media profile images and cover photos (consistent across platforms)
+          <span class="item-note">Use the same profile photo across all platforms so people recognise you. Match your cover photos to your brand palette.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Start an email list from day one — even if you have 5 subscribers <span class="item-tag tag-asap">Start Now</span>
+          <span class="item-note">Social media platforms can disappear, get banned, or change their algorithm. Your email list is the only audience you actually own. Start now, even with a free Mailchimp account.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- ═══ SECTION 8 ═══ -->
+  <div class="checklist-section">
+    <div class="section-header">
+      <div class="section-icon">⚙️</div>
+      <div>
+        <span class="section-num">Section 08</span>
+        <div class="section-title">Operations & Systems</div>
+      </div>
+    </div>
+    <ul class="checklist" id="section8">
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Set up a CRM — even a spreadsheet counts to start
+          <span class="item-note">Track every lead and client: name, contact details, status, last contact, next action. If it's not written down, it doesn't exist.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Create a client onboarding checklist — the same process every time
+          <span class="item-note">From "they said yes" to "work begins." Every step. A consistent onboarding process prevents miscommunication and makes you look established even if you're brand new.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Set up a calendar booking link so clients can book without the back-and-forth
+          <span class="item-note">Cal.com is free. Calendly is free up to 1 calendar. It makes you look organised and saves hours of "does Tuesday work for you?" emails.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Set a weekly "CEO hour" — review revenue, invoices, and upcoming deadlines
+          <span class="item-note">Pick a time each week: Monday morning, Friday afternoon. Sit down and look at your numbers. Know exactly what's owed, what's overdue, and what's coming.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Write out-of-office and late-payment follow-up email templates
+          <span class="item-note">Templated emails take 5 minutes to personalise and send, vs 20 minutes to write from scratch every time. Set boundaries on response times from day one — it's much harder to change later.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Build a referral ask process — your first 10 clients come from people who already know you
+          <span class="item-note">After every successful job, ask: "Do you know anyone else who could use this?" Most people need to be asked. They won't send referrals unprompted, even if they loved your work.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Ask your first clients for Google reviews — while the experience is fresh
+          <span class="item-note">Send a direct link to your Google Business Profile review page. Make it one click. Ask within 48 hours of finishing the job. Social proof compounds over time.</span>
+        </div>
+      </li>
+      <li onclick="toggle(this)">
+        <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-text">
+          Set a monthly revenue target — and actually track it
+          <span class="item-note">You can't hit a goal you haven't set. Write a number down. Track it. Adjust your activity if you're behind. This is the difference between running a business and hoping.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- FINAL CTA -->
+  <div class="doc-cta">
+    <div class="doc-cta-label">Next Step</div>
+    <h2>Now get your documents<br><span>looking the part.</span></h2>
+    <p>You've got the checklist. Section 3 covers all the documents you need. We build every single one of them — custom-branded, ready to send — in 48 hours.</p>
+    <a href="https://buy.stripe.com/bJe6oIe65gKyete7ti8k800" target="_blank" rel="noopener" class="doc-cta-btn">Get My Brand Starter Kit — $497</a>
+    <div class="doc-cta-price">13 custom-branded templates · Delivered in 48 hours · 100% satisfaction guarantee</div>
+  </div>
+
+</div><!-- /doc-body -->
+
+<script>
+  const TOTAL = 63;
+
+  function toggle(li) {
+    li.classList.toggle('done');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const done = document.querySelectorAll('.checklist li.done').length;
+    const pct = Math.round((done / TOTAL) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressCount').textContent = done + ' / ' + TOTAL;
+  }
+
+  // Count total items on load
+  document.addEventListener('DOMContentLoaded', function() {
+    const actual = document.querySelectorAll('.checklist li').length;
+    document.getElementById('progressCount').textContent = '0 / ' + actual;
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cockpit — Brisbane Zinia Massage</title>
+<base href="/clients/demo/">
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ══ BRAND TOKENS (swapped per client by generator) ══ */
+:root {
+  --brand-p:   #A67C5B;
+  --brand-s:   #6BAF92;
+  --brand-bg:  #0c0e0d;
+  --brand-name: "Brisbane Zinia Massage";
+
+  /* System */
+  --surface:   #131615;
+  --surface2:  #1a1d1b;
+  --surface3:  #212420;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.11);
+  --text:      #f0ede8;
+  --muted:     rgba(240,237,232,0.4);
+  --muted2:    rgba(240,237,232,0.2);
+  --sidebar-w: 220px;
+  --topbar-h:  60px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body { background:var(--brand-bg); color:var(--text); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; overflow:hidden; }
+
+/* ══ LAYOUT ══ */
+.layout { display:flex; height:100vh; }
+
+/* ══ SIDEBAR ══ */
+.sidebar {
+  width:var(--sidebar-w); flex-shrink:0;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex; flex-direction:column;
+  height:100vh; overflow:hidden;
+}
+.sidebar-logo {
+  padding:20px 18px 16px;
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:10px;
+}
+.client-mark {
+  width:32px; height:32px; border-radius:7px; flex-shrink:0;
+  background:linear-gradient(135deg,var(--brand-p),var(--brand-s));
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:700; color:#fff; letter-spacing:-0.5px;
+}
+.sidebar-client-name { font-size:12px; font-weight:600; color:var(--text); line-height:1.2; }
+.sidebar-sub { font-family:'DM Mono',monospace; font-size:9px; color:var(--muted2); letter-spacing:0.06em; text-transform:uppercase; margin-top:1px; }
+
+.nav { flex:1; padding:12px 10px; overflow-y:auto; }
+.nav-section { margin-bottom:20px; }
+.nav-label {
+  font-family:'DM Mono',monospace; font-size:9px; font-weight:500;
+  color:var(--muted2); letter-spacing:0.12em; text-transform:uppercase;
+  padding:0 8px; margin-bottom:4px;
+}
+.nav-item {
+  display:flex; align-items:center; gap:10px;
+  padding:8px 10px; border-radius:6px; cursor:pointer;
+  font-size:13px; font-weight:500; color:var(--muted);
+  transition:all 0.15s; user-select:none; margin-bottom:1px;
+}
+.nav-item:hover { background:var(--surface2); color:var(--text); }
+.nav-item.active { background:rgba(255,255,255,0.06); color:var(--text); }
+.nav-item.active .nav-dot { background:var(--brand-p); }
+.nav-dot { width:6px; height:6px; border-radius:50%; background:var(--muted2); flex-shrink:0; transition:background 0.15s; }
+.nav-icon { font-size:15px; width:18px; text-align:center; flex-shrink:0; }
+
+.nav-badge {
+  margin-left:auto; background:var(--brand-p); color:#fff;
+  font-family:'DM Mono',monospace; font-size:9px; font-weight:500;
+  padding:1px 6px; border-radius:100px;
+}
+
+.sidebar-footer {
+  padding:14px 18px; border-top:1px solid var(--border);
+  display:flex; align-items:center; gap:8px;
+}
+.nb-mark {
+  width:22px; height:22px; border-radius:4px; background:#e8176a;
+  display:flex; align-items:center; justify-content:center;
+  font-size:8px; font-weight:900; color:#fff; letter-spacing:-0.5px; flex-shrink:0;
+}
+.nb-label { font-family:'DM Mono',monospace; font-size:9px; color:var(--muted2); letter-spacing:0.06em; text-transform:uppercase; }
+.nb-support { margin-left:auto; font-size:10px; color:var(--brand-p); text-decoration:none; font-weight:500; }
+.nb-support:hover { opacity:0.7; }
+
+/* ══ MAIN ══ */
+.main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+
+/* Topbar */
+.topbar {
+  height:var(--topbar-h); flex-shrink:0;
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; padding:0 28px;
+  gap:16px; background:var(--surface);
+}
+.topbar-title { font-size:14px; font-weight:600; color:var(--text); flex:1; }
+.topbar-date { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted2); letter-spacing:0.06em; }
+
+.request-btn {
+  display:flex; align-items:center; gap:7px;
+  padding:8px 16px; border-radius:6px;
+  background:var(--brand-p); color:#fff;
+  font-size:12px; font-weight:600; cursor:pointer; border:none;
+  transition:opacity 0.15s; letter-spacing:-0.2px;
+}
+.request-btn:hover { opacity:0.85; }
+
+/* Content */
+.content { flex:1; overflow-y:auto; padding:28px; }
+
+/* ══ VIEWS ══ */
+.view { display:none; }
+.view.active { display:block; }
+
+/* ══ DASHBOARD VIEW ══ */
+.dash-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; margin-bottom:24px; }
+
+.kpi-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:18px 20px;
+}
+.kpi-label { font-family:'DM Mono',monospace; font-size:9px; color:var(--muted2); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:10px; }
+.kpi-value { font-size:28px; font-weight:800; color:var(--text); letter-spacing:-1.5px; line-height:1; }
+.kpi-value .unit { font-size:14px; font-weight:500; color:var(--muted); }
+.kpi-change { font-family:'DM Mono',monospace; font-size:10px; margin-top:6px; }
+.kpi-change.up { color:var(--brand-s); }
+.kpi-change.down { color:#f87171; }
+
+.two-col { display:grid; grid-template-columns:1.4fr 1fr; gap:16px; }
+.three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:16px; }
+
+.panel {
+  background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden;
+}
+.panel-header {
+  padding:14px 18px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.panel-title { font-size:12px; font-weight:600; color:var(--text); letter-spacing:-0.2px; }
+.panel-action { font-family:'DM Mono',monospace; font-size:9px; color:var(--brand-p); letter-spacing:0.06em; text-transform:uppercase; cursor:pointer; }
+.panel-body { padding:14px 18px; }
+
+/* Activity feed */
+.activity-list { display:flex; flex-direction:column; gap:0; }
+.activity-item {
+  display:flex; align-items:flex-start; gap:12px;
+  padding:12px 0; border-bottom:1px solid var(--border);
+  position:relative;
+}
+.activity-item:last-child { border-bottom:none; }
+.activity-dot {
+  width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:4px;
+  background:var(--brand-p);
+}
+.activity-dot.s { background:var(--brand-s); }
+.activity-dot.m { background:var(--muted2); }
+.activity-text { font-size:12px; color:var(--text); line-height:1.5; flex:1; }
+.activity-text strong { font-weight:600; }
+.activity-time { font-family:'DM Mono',monospace; font-size:9px; color:var(--muted2); flex-shrink:0; margin-top:3px; letter-spacing:0.04em; }
+
+/* Quick actions / AI */
+.ai-panel {
+  background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden;
+  margin-bottom:16px;
+}
+.ai-header {
+  padding:14px 18px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:10px;
+}
+.ai-badge {
+  font-family:'DM Mono',monospace; font-size:9px; font-weight:500;
+  color:var(--brand-p); background:rgba(166,124,91,0.1); border:1px solid rgba(166,124,91,0.2);
+  padding:2px 8px; border-radius:100px; letter-spacing:0.06em; text-transform:uppercase;
+}
+.ai-body { padding:16px 18px; }
+.ai-input-row { display:flex; gap:8px; }
+.ai-input {
+  flex:1; background:var(--surface2); border:1px solid var(--border2);
+  border-radius:6px; padding:10px 14px;
+  font-size:13px; color:var(--text); font-family:'Inter',sans-serif;
+  outline:none; transition:border-color 0.15s;
+}
+.ai-input::placeholder { color:var(--muted2); }
+.ai-input:focus { border-color:var(--brand-p); }
+.ai-send {
+  padding:10px 18px; background:var(--brand-p); color:#fff;
+  border:none; border-radius:6px; font-size:12px; font-weight:600;
+  cursor:pointer; transition:opacity 0.15s; white-space:nowrap;
+}
+.ai-send:hover { opacity:0.85; }
+.ai-chips { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+.ai-chip {
+  padding:5px 12px; border:1px solid var(--border2); border-radius:100px;
+  font-size:11px; color:var(--muted); cursor:pointer; transition:all 0.15s;
+  font-weight:500;
+}
+.ai-chip:hover { border-color:var(--brand-p); color:var(--brand-p); background:rgba(166,124,91,0.06); }
+.ai-result {
+  margin-top:12px; padding:12px 14px;
+  background:var(--surface2); border:1px solid var(--border2); border-radius:6px;
+  font-size:12px; color:var(--text); line-height:1.6; display:none;
+}
+.ai-result a { color:var(--brand-p); font-weight:600; text-decoration:none; }
+.ai-result a:hover { opacity:0.8; }
+
+/* Requests */
+.request-list { display:flex; flex-direction:column; gap:8px; }
+.request-item {
+  display:flex; align-items:center; gap:12px;
+  padding:10px 12px; background:var(--surface2); border-radius:6px;
+  border:1px solid var(--border);
+}
+.req-status {
+  font-family:'DM Mono',monospace; font-size:9px; font-weight:500;
+  padding:2px 8px; border-radius:100px; letter-spacing:0.04em; text-transform:uppercase;
+  flex-shrink:0;
+}
+.req-status.open    { background:rgba(166,124,91,0.12); color:var(--brand-p); border:1px solid rgba(166,124,91,0.25); }
+.req-status.doing   { background:rgba(107,175,146,0.12); color:var(--brand-s); border:1px solid rgba(107,175,146,0.25); }
+.req-status.done    { background:rgba(255,255,255,0.04); color:var(--muted); border:1px solid var(--border); }
+.req-text { font-size:12px; color:var(--text); flex:1; }
+.req-date { font-family:'DM Mono',monospace; font-size:9px; color:var(--muted2); flex-shrink:0; }
+
+/* ══ DOCUMENTS VIEW ══ */
+.doc-section-label {
+  font-family:'DM Mono',monospace; font-size:9px; font-weight:500;
+  color:var(--muted2); letter-spacing:0.12em; text-transform:uppercase;
+  margin:20px 0 10px; padding-bottom:8px; border-bottom:1px solid var(--border);
+}
+.doc-section-label:first-child { margin-top:0; }
+.doc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:8px; }
+.doc-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:7px;
+  padding:16px; cursor:pointer; transition:all 0.15s; text-decoration:none; color:inherit;
+  display:flex; flex-direction:column; gap:0; position:relative; overflow:hidden;
+}
+.doc-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--brand-p),var(--brand-s)); opacity:0; transition:opacity 0.15s;
+}
+.doc-card:hover { background:var(--surface2); border-color:var(--border2); transform:translateY(-1px); }
+.doc-card:hover::before { opacity:1; }
+.doc-card-icon { font-size:20px; margin-bottom:10px; }
+.doc-card-name { font-size:12px; font-weight:600; color:var(--text); margin-bottom:4px; letter-spacing:-0.2px; }
+.doc-card-desc { font-size:11px; color:var(--muted); line-height:1.5; }
+.doc-card-open {
+  margin-top:12px; font-family:'DM Mono',monospace; font-size:9px;
+  color:var(--brand-p); letter-spacing:0.06em; text-transform:uppercase; opacity:0; transition:opacity 0.15s;
+}
+.doc-card:hover .doc-card-open { opacity:1; }
+
+/* ══ REQUESTS VIEW ══ */
+.request-form {
+  background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px;
+  max-width:600px;
+}
+.form-group { margin-bottom:16px; }
+.form-label { font-family:'DM Mono',monospace; font-size:10px; font-weight:500; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:6px; display:block; }
+.form-input, .form-select, .form-textarea {
+  width:100%; background:var(--surface2); border:1px solid var(--border2); border-radius:6px;
+  padding:10px 14px; font-size:13px; color:var(--text); font-family:'Inter',sans-serif; outline:none;
+  transition:border-color 0.15s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color:var(--brand-p); }
+.form-textarea { resize:vertical; min-height:100px; line-height:1.6; }
+.form-select { cursor:pointer; }
+option { background:var(--surface2); }
+.form-submit {
+  width:100%; padding:12px; background:var(--brand-p); color:#fff; border:none;
+  border-radius:6px; font-size:13px; font-weight:600; cursor:pointer; transition:opacity 0.15s;
+  letter-spacing:-0.2px;
+}
+.form-submit:hover { opacity:0.85; }
+
+/* Past requests table */
+.req-table { width:100%; border-collapse:collapse; margin-top:20px; }
+.req-table th {
+  font-family:'DM Mono',monospace; font-size:9px; color:var(--muted2); letter-spacing:0.1em;
+  text-transform:uppercase; text-align:left; padding:8px 12px; border-bottom:1px solid var(--border);
+  font-weight:500;
+}
+.req-table td { padding:11px 12px; font-size:12px; border-bottom:1px solid var(--border); vertical-align:middle; }
+.req-table tr:last-child td { border-bottom:none; }
+.req-table tr:hover td { background:var(--surface2); }
+
+/* ══ REPORTS VIEW ══ */
+.report-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:8px;
+  padding:20px; display:flex; align-items:center; gap:16px; margin-bottom:10px;
+  cursor:pointer; transition:all 0.15s;
+}
+.report-card:hover { background:var(--surface2); border-color:var(--border2); }
+.report-icon { font-size:24px; flex-shrink:0; }
+.report-name { font-size:13px; font-weight:600; color:var(--text); margin-bottom:3px; }
+.report-meta { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted2); letter-spacing:0.04em; }
+.report-open { margin-left:auto; font-family:'DM Mono',monospace; font-size:10px; color:var(--brand-p); letter-spacing:0.06em; text-transform:uppercase; }
+
+/* ══ EMPTY / TOAST ══ */
+.empty { padding:40px; text-align:center; color:var(--muted); font-size:13px; }
+.toast {
+  position:fixed; bottom:24px; right:24px; z-index:1000;
+  background:var(--surface2); border:1px solid var(--border2); border-radius:8px;
+  padding:12px 18px; font-size:13px; font-weight:500; color:var(--text);
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  transform:translateY(80px); opacity:0; transition:all 0.3s;
+}
+.toast.show { transform:translateY(0); opacity:1; }
+
+/* ══ MODAL ══ */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:500;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity 0.2s;
+}
+.modal-overlay.open { opacity:1; pointer-events:all; }
+.modal {
+  background:var(--surface); border:1px solid var(--border2); border-radius:10px;
+  padding:28px; width:480px; max-width:90vw;
+  transform:scale(0.95); transition:transform 0.2s;
+}
+.modal-overlay.open .modal { transform:scale(1); }
+.modal-title { font-size:16px; font-weight:700; margin-bottom:6px; letter-spacing:-0.4px; }
+.modal-sub { font-size:13px; color:var(--muted); margin-bottom:20px; line-height:1.5; }
+.modal-close { float:right; background:none; border:none; color:var(--muted); font-size:18px; cursor:pointer; margin-top:-4px; }
+
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="client-mark" id="clientMark">BZ</div>
+      <div>
+        <div class="sidebar-client-name" id="clientNameSidebar">Brisbane Zinia Massage</div>
+        <div class="sidebar-sub">Business Cockpit</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-section">
+        <div class="nav-label">Overview</div>
+        <div class="nav-item active" onclick="showView('dashboard',this)">
+          <span class="nav-icon">◈</span> Dashboard
+        </div>
+        <div class="nav-item" onclick="showView('activity',this)">
+          <span class="nav-icon">◎</span> Activity Log
+        </div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">Your Tools</div>
+        <div class="nav-item" onclick="showView('documents',this)">
+          <span class="nav-icon">◻</span> Documents
+        </div>
+        <div class="nav-item" onclick="showView('reports',this)">
+          <span class="nav-icon">◑</span> Reports
+        </div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">Work with NB</div>
+        <div class="nav-item" onclick="showView('requests',this)">
+          <span class="nav-icon">◇</span> Requests
+          <span class="nav-badge" id="reqBadge">2</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="nb-mark">NB</div>
+      <div class="nb-label">Nunya Bunya</div>
+      <a href="mailto:ben@nunyabunya.com" class="nb-support">Help →</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title" id="viewTitle">Dashboard</div>
+      <div class="topbar-date" id="topbarDate"></div>
+      <button class="request-btn" onclick="showView('requests', document.querySelector('[onclick*=requests]'))">
+        + Request Work
+      </button>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- ══ DASHBOARD VIEW ══ -->
+      <div class="view active" id="view-dashboard">
+
+        <!-- AI Quick Actions -->
+        <div class="ai-panel">
+          <div class="ai-header">
+            <div class="panel-title">AI Assistant</div>
+            <div class="ai-badge">Powered by Claude</div>
+          </div>
+          <div class="ai-body">
+            <div class="ai-input-row">
+              <input class="ai-input" id="aiInput" placeholder="e.g. Make me an invoice for Dunwoody's Bar, 3hr event photography + short reel…" onkeydown="if(event.key==='Enter')runAI()">
+              <button class="ai-send" onclick="runAI()">Go →</button>
+            </div>
+            <div class="ai-chips">
+              <div class="ai-chip" onclick="fillAI('Invoice for a new client')">📄 New invoice</div>
+              <div class="ai-chip" onclick="fillAI('Draft a proposal for a new project')">📋 New proposal</div>
+              <div class="ai-chip" onclick="fillAI('Write a social post announcing my new offer')">📱 Social post</div>
+              <div class="ai-chip" onclick="fillAI('Create onboarding pack for a new client')">👋 Onboarding pack</div>
+              <div class="ai-chip" onclick="fillAI('Prepare meeting notes template for tomorrow')">📝 Meeting notes</div>
+            </div>
+            <div class="ai-result" id="aiResult"></div>
+          </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="dash-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Monthly Revenue</div>
+            <div class="kpi-value">$<span id="kpiRev">3,500</span></div>
+            <div class="kpi-change up" id="kpiRevChange">↑ Active retainer</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Docs Generated</div>
+            <div class="kpi-value" id="kpiDocs">13</div>
+            <div class="kpi-change up">↑ This month</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Requests Done</div>
+            <div class="kpi-value" id="kpiReqs">4</div>
+            <div class="kpi-change up">↑ Last 30 days</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Account Manager</div>
+            <div class="kpi-value" style="font-size:18px;letter-spacing:-0.5px;">Ben</div>
+            <div class="kpi-change" style="color:var(--brand-s);">● Online now</div>
+          </div>
+        </div>
+
+        <!-- Two columns -->
+        <div class="two-col">
+
+          <!-- Activity Feed -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Recent Activity</div>
+              <div class="panel-action" onclick="showView('activity',null)">View all →</div>
+            </div>
+            <div class="panel-body">
+              <div class="activity-list">
+                <div class="activity-item">
+                  <div class="activity-dot s"></div>
+                  <div class="activity-text"><strong>Brand Starter Kit delivered</strong> — 13 custom documents live at your portal URL</div>
+                  <div class="activity-time">Today</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-dot"></div>
+                  <div class="activity-text"><strong>Invoice template updated</strong> — Added GST line + payment terms</div>
+                  <div class="activity-time">2d ago</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-dot s"></div>
+                  <div class="activity-text"><strong>Content Calendar published</strong> — May 2026 planned across IG, FB, Google</div>
+                  <div class="activity-time">4d ago</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-dot m"></div>
+                  <div class="activity-text"><strong>Onboarding Pack sent</strong> — Delivered to new client: Ashford Wellness</div>
+                  <div class="activity-time">1wk ago</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-dot"></div>
+                  <div class="activity-text"><strong>Monthly Report — March 2026</strong> — 5.2K reach, 68 enquiries, 4.9★</div>
+                  <div class="activity-time">2wk ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Requests -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Active Requests</div>
+              <div class="panel-action" onclick="showView('requests', document.querySelector('[onclick*=requests]'))">+ New request</div>
+            </div>
+            <div class="panel-body">
+              <div class="request-list">
+                <div class="request-item">
+                  <div class="req-status doing">In progress</div>
+                  <div class="req-text">April social media content pack</div>
+                  <div class="req-date">Due 20 Apr</div>
+                </div>
+                <div class="request-item">
+                  <div class="req-status open">Submitted</div>
+                  <div class="req-text">Update service menu with new prices</div>
+                  <div class="req-date">12 Apr</div>
+                </div>
+                <div class="request-item">
+                  <div class="req-status done">Done</div>
+                  <div class="req-text">Case study — Ashford Wellness results</div>
+                  <div class="req-date">8 Apr</div>
+                </div>
+                <div class="request-item">
+                  <div class="req-status done">Done</div>
+                  <div class="req-text">New testimonial social card — Claire M.</div>
+                  <div class="req-date">3 Apr</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ══ ACTIVITY LOG VIEW ══ -->
+      <div class="view" id="view-activity">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">Full Activity Log</div></div>
+          <div class="panel-body">
+            <div class="activity-list">
+              <div class="activity-item"><div class="activity-dot s"></div><div class="activity-text"><strong>Brand Starter Kit delivered</strong> — 13 custom documents live at your portal URL. Includes Invoice, Proposal, Contract, Onboarding Pack, Case Study, Content Calendar, 4 Social Cards, and more.</div><div class="activity-time">14 Apr 2026</div></div>
+              <div class="activity-item"><div class="activity-dot"></div><div class="activity-text"><strong>Invoice template updated</strong> — Added GST line, payment terms section, and bank transfer details.</div><div class="activity-time">12 Apr 2026</div></div>
+              <div class="activity-item"><div class="activity-dot s"></div><div class="activity-text"><strong>May Content Calendar published</strong> — 22 posts planned across Instagram, Facebook, Google Business. Includes wellness tips, offers, and behind-the-scenes content.</div><div class="activity-time">10 Apr 2026</div></div>
+              <div class="activity-item"><div class="activity-dot m"></div><div class="activity-text"><strong>Onboarding Pack sent</strong> — Custom pack for new client Ashford Wellness. Includes welcome letter, booking guide, and cancellation policy.</div><div class="activity-time">8 Apr 2026</div></div>
+              <div class="activity-item"><div class="activity-dot"></div><div class="activity-text"><strong>Case study completed</strong> — Ashford Wellness: 18 new bookings in first month after referral program launch.</div><div class="activity-time">8 Apr 2026</div></div>
+              <div class="activity-item"><div class="activity-dot s"></div><div class="activity-text"><strong>Testimonial social card created</strong> — "An experience as beautiful as the final product" — Claire M. Posted to Instagram 9 Apr.</div><div class="activity-time">3 Apr 2026</div></div>
+              <div class="activity-item"><div class="activity-dot m"></div><div class="activity-text"><strong>Monthly Report — March 2026</strong> — 5.2K reach, 68 enquiries, 4.9★ average review, 92% client retention.</div><div class="activity-time">1 Apr 2026</div></div>
+              <div class="activity-item"><div class="activity-dot"></div><div class="activity-text"><strong>Google Business profile updated</strong> — New photos, updated services, added booking link.</div><div class="activity-time">28 Mar 2026</div></div>
+              <div class="activity-item"><div class="activity-dot s"></div><div class="activity-text"><strong>Brand kit generated</strong> — Colors, fonts, and logo applied across all 13 templates.</div><div class="activity-time">20 Mar 2026</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ DOCUMENTS VIEW ══ -->
+      <div class="view" id="view-documents">
+        <div class="doc-section-label">Business Documents</div>
+        <div class="doc-grid">
+          <a class="doc-card" href="invoice-template.html" target="_blank"><div class="doc-card-icon">🧾</div><div class="doc-card-name">Invoice</div><div class="doc-card-desc">Get paid on time. Branded, GST-ready.</div><div class="doc-card-open">Open →</div></a>
+          <a class="doc-card" href="proposal-template.html" target="_blank"><div class="doc-card-icon">📋</div><div class="doc-card-name">Client Proposal</div><div class="doc-card-desc">Win new business with a polished pitch.</div><div class="doc-card-open">Open →</div></a>
+          <a class="doc-card" href="contract-template.html" target="_blank"><div class="doc-card-icon">📜</div><div class="doc-card-name">Service Agreement</div><div class="doc-card-desc">Protect your business. Clear terms.</div><div class="doc-card-open">Open →</div></a>
+          <a class="doc-card" href="monthly-report-template.html" target="_blank"><div class="doc-card-icon">📊</div><div class="doc-card-name">Monthly Report</div><div class="doc-card-desc">Show clients results. Build trust.</div><div class="doc-card-open">Open →</div></a>
+        </div>
+
+        <div class="doc-section-label">Client Experience</div>
+        <div class="doc-grid">
+          <a class="doc-card" href="client-brief-template.html" target="_blank"><div class="doc-card-icon">📝</div><div class="doc-card-name">Client Brief</div><div class="doc-card-desc">Capture everything before a project starts.</div><div class="doc-card-open">Open →</div></a>
+          <a class="doc-card" href="onboarding-pack-template.html" target="_blank"><div class="doc-card-icon">👋</div><div class="doc-card-name">Onboarding Pack</div><div class="doc-card-desc">Wow new clients from day one.</div><div class="doc-card-open">Open →</div></a>
+          <a class="doc-card" href="meeting-notes-template.html" target="_blank"><div class="doc-card-icon">🗒️</div><div class="doc-card-name">Meeting Notes</div><div class="doc-card-desc">Capture decisions and next steps.</div><div class="doc-card-open">Open →</div></a>
+          <a class="doc-card" href="case-study-template.html" target="_blank"><div class="doc-card-icon">🏆</div><div class="doc-card-name">Case Study</div><div class="doc-card-desc">Turn results into a sales tool.</div><div class="doc-card-open">Open →</div></a>
+        </div>
+
+        <div class="doc-section-label">Brand &amp; Social</div>
+        <div class="doc-grid">
+          <a class="doc-card" href="content-calendar-template.html" target="_blank"><div class="doc-card-icon">📅</div><div class="doc-card-name">Content Calendar</div><div class="doc-card-desc">Plan a full month. Never post at random.</div><div class="doc-card-open">Open →</div></a>
+          <a class="doc-card" href="announcement-card-template.html" target="_blank"><div class="doc-card-icon">📢</div><div class="doc-card-name">Social — Announcement</div><div class="doc-card-desc">1080×1080 Instagram card.</div><div class="doc-card-open">Open →</div></a>
+          <a class="doc-card" href="testimonial-template.html" target="_blank"><div class="doc-card-icon">⭐</div><div class="doc-card-name">Social — Testimonial</div><div class="doc-card-desc">Turn 5-star reviews into content.</div><div class="doc-card-open">Open →</div></a>
+          <a class="doc-card" href="before-after-card-template.html" target="_blank"><div class="doc-card-icon">↔️</div><div class="doc-card-name">Social — Before/After</div><div class="doc-card-desc">Show the transformation.</div><div class="doc-card-open">Open →</div></a>
+          <a class="doc-card" href="quote-tip-card-template.html" target="_blank"><div class="doc-card-icon">💬</div><div class="doc-card-name">Social — Quote/Tip</div><div class="doc-card-desc">Share your expertise. Build authority.</div><div class="doc-card-open">Open →</div></a>
+        </div>
+      </div>
+
+      <!-- ══ REPORTS VIEW ══ -->
+      <div class="view" id="view-reports">
+        <div class="report-card" onclick="toast('Opening April 2026 report…')">
+          <div class="report-icon">📊</div>
+          <div><div class="report-name">Monthly Report — April 2026</div><div class="report-meta">Generated 14 Apr 2026 · 5 pages</div></div>
+          <div class="report-open">View →</div>
+        </div>
+        <div class="report-card" onclick="toast('Opening March 2026 report…')">
+          <div class="report-icon">📊</div>
+          <div><div class="report-name">Monthly Report — March 2026</div><div class="report-meta">Generated 1 Apr 2026 · 5 pages · 5.2K reach · 68 enquiries</div></div>
+          <div class="report-open">View →</div>
+        </div>
+        <div class="report-card" onclick="toast('Opening February 2026 report…')">
+          <div class="report-icon">📊</div>
+          <div><div class="report-name">Monthly Report — February 2026</div><div class="report-meta">Generated 1 Mar 2026 · 5 pages</div></div>
+          <div class="report-open">View →</div>
+        </div>
+        <div style="margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:12px;color:var(--muted);line-height:1.7;">Reports are generated monthly by your Nunya Bunya account manager and delivered here automatically. Questions about your numbers? <a href="mailto:ben@nunyabunya.com" style="color:var(--brand-p);text-decoration:none;font-weight:500;">Email Ben →</a></div>
+        </div>
+      </div>
+
+      <!-- ══ REQUESTS VIEW ══ -->
+      <div class="view" id="view-requests">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
+
+          <div class="request-form">
+            <div style="font-size:15px;font-weight:700;margin-bottom:4px;letter-spacing:-0.4px;">Submit a Request</div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6;">Tell us what you need — we'll get back to you within 1 business day.</div>
+            <div class="form-group">
+              <label class="form-label">What do you need?</label>
+              <select class="form-select" id="reqType">
+                <option value="">Select a type…</option>
+                <option>Create a new document</option>
+                <option>Update an existing document</option>
+                <option>Social media content</option>
+                <option>Monthly report</option>
+                <option>Brand update (logo, colours)</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tell us more</label>
+              <textarea class="form-textarea" id="reqDetail" placeholder="e.g. I need an invoice for Dunwoody's Bar — 3hr event photography + short reel, $1,200 total…"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">When do you need it?</label>
+              <input class="form-input" type="date" id="reqDate">
+            </div>
+            <button class="form-submit" onclick="submitRequest()">Submit Request →</button>
+          </div>
+
+          <div>
+            <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted2);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;">Your Requests</div>
+            <table class="req-table">
+              <thead><tr><th>Request</th><th>Status</th><th>Date</th></tr></thead>
+              <tbody>
+                <tr><td>April social media content pack</td><td><span class="req-status doing">In progress</span></td><td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2);">12 Apr</td></tr>
+                <tr><td>Update service menu with new prices</td><td><span class="req-status open">Submitted</span></td><td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2);">12 Apr</td></tr>
+                <tr><td>Case study — Ashford Wellness</td><td><span class="req-status done">Done</span></td><td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2);">8 Apr</td></tr>
+                <tr><td>Testimonial card — Claire M.</td><td><span class="req-status done">Done</span></td><td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2);">3 Apr</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Brand config (generator replaces these) ──
+const BRAND = {
+  name: 'Brisbane Zinia Massage',
+  initials: 'BZ',
+  primary: '#A67C5B',
+  secondary: '#6BAF92',
+};
+
+// ── Boot ──
+document.getElementById('clientMark').textContent = BRAND.initials;
+document.getElementById('clientNameSidebar').textContent = BRAND.name;
+document.getElementById('topbarDate').textContent = new Date().toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+// ── Nav ──
+function showView(id, el) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+  const titles = {dashboard:'Dashboard',activity:'Activity Log',documents:'Documents',reports:'Reports',requests:'Requests'};
+  document.getElementById('viewTitle').textContent = titles[id] || id;
+}
+
+// ── Toast ──
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── AI Quick Action ──
+const KNOWN_CLIENTS = {
+  "dunwoody": { name: "Dunwoody's Bar and Restaurant", address: "123 Ann St, Brisbane QLD 4000", email: "info@dunwoodys.com.au" },
+  "ashford":  { name: "Ashford Wellness",              address: "45 Park Rd, Milton QLD 4064",  email: "hello@ashfordwellness.com.au" },
+};
+const SERVICES = {
+  "event photography": 800, "photography": 600, "short reel": 400, "video": 400,
+  "massage": 120, "consultation": 180, "social media": 500, "content": 300,
+};
+
+function fillAI(text) {
+  document.getElementById('aiInput').value = text;
+  document.getElementById('aiInput').focus();
+}
+
+function runAI() {
+  const input = document.getElementById('aiInput').value.trim();
+  if (!input) return;
+  const lower = input.toLowerCase();
+  const result = document.getElementById('aiResult');
+
+  // Invoice intent
+  if (lower.includes('invoice') || lower.includes('bill') || lower.includes('charge')) {
+    let clientMatch = null;
+    for (const [key, val] of Object.entries(KNOWN_CLIENTS)) {
+      if (lower.includes(key)) { clientMatch = val; break; }
+    }
+    let services = [];
+    let total = 0;
+    for (const [svc, price] of Object.entries(SERVICES)) {
+      if (lower.includes(svc)) { services.push({ name: svc, price }); total += price; }
+    }
+    // Try to extract custom amount
+    const amtMatch = input.match(/\$?([\d,]+)/);
+    if (amtMatch && services.length === 0) { total = parseInt(amtMatch[1].replace(',','')); services.push({name:'Services rendered',price:total}); }
+
+    const params = new URLSearchParams();
+    if (clientMatch) { params.set('client_name', clientMatch.name); params.set('client_email', clientMatch.email); params.set('client_address', clientMatch.address); }
+    if (services.length) { params.set('services', JSON.stringify(services)); params.set('total', total); }
+    const url = 'invoice-template.html' + (params.toString() ? '?' + params.toString() : '');
+
+    result.style.display = 'block';
+    result.innerHTML = `✓ Invoice ready${clientMatch ? ' for <strong>' + clientMatch.name + '</strong>' : ''}${total ? ' — <strong>$' + total.toLocaleString() + '</strong>' : ''}.<br><br><a href="${url}" target="_blank">→ Open invoice to review &amp; send</a>`;
+    return;
+  }
+
+  // Proposal intent
+  if (lower.includes('proposal') || lower.includes('quote') || lower.includes('pitch')) {
+    result.style.display = 'block';
+    result.innerHTML = `✓ Opening your proposal template — fill in the client details and scope.<br><br><a href="proposal-template.html" target="_blank">→ Open proposal template</a>`;
+    return;
+  }
+
+  // Social post
+  if (lower.includes('social') || lower.includes('instagram') || lower.includes('post') || lower.includes('announce')) {
+    result.style.display = 'block';
+    result.innerHTML = `✓ Which social card would you like?<br><br>
+      <a href="announcement-card-template.html" target="_blank">→ Announcement card</a> &nbsp;·&nbsp;
+      <a href="testimonial-template.html" target="_blank">→ Testimonial card</a> &nbsp;·&nbsp;
+      <a href="quote-tip-card-template.html" target="_blank">→ Quote / Tip card</a>`;
+    return;
+  }
+
+  // Onboarding
+  if (lower.includes('onboard') || lower.includes('welcome') || lower.includes('new client')) {
+    result.style.display = 'block';
+    result.innerHTML = `✓ Opening your onboarding pack — update the client name and details.<br><br><a href="onboarding-pack-template.html" target="_blank">→ Open onboarding pack</a>`;
+    return;
+  }
+
+  // Fallback — submit as request
+  result.style.display = 'block';
+  result.innerHTML = `✓ Got it. I've logged this as a work request for Ben to handle — you'll hear back within 1 business day.<br><small style="color:var(--muted);margin-top:6px;display:block;">"${input}"</small>`;
+}
+
+// ── Request form ──
+function submitRequest() {
+  const type = document.getElementById('reqType').value;
+  const detail = document.getElementById('reqDetail').value.trim();
+  if (!type || !detail) { toast('Please fill in all fields.'); return; }
+  const subject = encodeURIComponent(`[Cockpit Request] ${type}`);
+  const body = encodeURIComponent(`Type: ${type}\n\nDetails:\n${detail}\n\nDue: ${document.getElementById('reqDate').value || 'ASAP'}\n\n— Submitted from Business Cockpit`);
+  window.location.href = `mailto:ben@nunyabunya.com?subject=${subject}&body=${body}`;
+  toast('✓ Request submitted — we\'ll be in touch soon.');
+}
+</script>
+</body>
+</html>
