@@ -9,6 +9,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+.q-card { background: var(--dark2); border: 1px solid var(--subtle); padding: 24px; margin-bottom: 16px; transition: border-color 0.2s; }
+.q-card:hover { border-color: rgba(0,229,204,0.15); }
+.q-card.pending_review { border-left: 3px solid #F59E0B; }
+.q-card.approved { border-left: 3px solid var(--teal); }
+.q-card.rejected { border-left: 3px solid #EF4444; }
+.q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.q-type { font-family: var(--font-heading); font-weight: 700; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 8px; display: inline-block; margin-bottom: 6px; }
+.q-type.bfk { background: rgba(0,229,204,0.1); color: var(--teal); }
+.q-type.blog { background: rgba(99,102,241,0.1); color: #6366f1; }
+.q-type.tweet { background: rgba(59,130,246,0.1); color: #3B82F6; }
+.q-type.email { background: rgba(245,158,11,0.1); color: #F59E0B; }
+.q-type.social { background: rgba(168,85,247,0.1); color: #A855F7; }
+.q-type.ad { background: rgba(255,77,221,0.1); color: var(--magenta); }
+.q-title { font-family: var(--font-heading); font-weight: 900; font-size: 18px; text-transform: uppercase; color: var(--white); margin-bottom: 4px; }
+.q-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; margin-bottom: 12px; }
+.q-meta { font-size: 11px; color: rgba(255,255,255,0.25); margin-bottom: 12px; }
+.q-actions-preview { background: var(--dark3); border: 1px solid rgba(255,255,255,0.04); padding: 14px 18px; margin-bottom: 16px; }
+.q-actions-title { font-family: var(--font-heading); font-weight: 700; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
+.q-action-item { font-size: 12px; color: rgba(255,255,255,0.5); padding: 3px 0; display: flex; gap: 8px; }
+.q-action-item span { color: var(--teal); }
+.q-buttons { display: flex; gap: 8px; }
+.q-btn { padding: 10px 24px; font-family: var(--font-heading); font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; }
+.q-btn.approve { background: var(--teal); color: var(--dark); }
+.q-btn.reject { background: transparent; color: #EF4444; border: 1px solid #EF4444; }
+.q-btn.preview { background: transparent; color: var(--muted); border: 1px solid var(--subtle); }
+.q-status { font-family: var(--font-heading); font-weight: 700; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; }
+.q-status.pending_review { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.q-status.approved { background: rgba(0,229,204,0.1); color: var(--teal); }
+.q-status.rejected { background: rgba(239,68,68,0.1); color: #EF4444; }
+.filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.filter-btn { padding: 8px 16px; font-family: var(--font-heading); font-weight: 700; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; background: var(--dark2); border: 1px solid var(--subtle); color: var(--muted); cursor: pointer; }
+.filter-btn.active { border-color: var(--teal); color: var(--teal); }
+.count-badge { background: var(--teal); color: var(--dark); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 10px; margin-left: 4px; }
+</style>
 </head>
 <body>
 <div class="admin-layout">
@@ -19,440 +54,176 @@
       <div id="queueStats" style="font-size:14px;color:var(--muted)"></div>
     </div>
 
-    <div class="toolbar">
-      <select id="clientFilter" onchange="loadQueue()">
-        <option value="">All Clients</option>
-      </select>
-      <select id="typeFilter" onchange="loadQueue()">
-        <option value="">All Types</option>
-        <option value="content_campaign">Blog Posts</option>
-        <option value="social_post">Social Posts</option>
-        <option value="review_response">Review Responses</option>
-        <option value="weekly_report">Reports</option>
-        <option value="voice_memo">Voice Memos</option>
-      </select>
-      <button class="btn-teal btn-small" id="bulkApproveBtn" onclick="bulkApprove()" style="display:none">
-        Approve Selected
-      </button>
-      <button class="btn-teal btn-small" onclick="showGenerateModal()" style="margin-left:auto;">
-        + Generate Content
-      </button>
-    </div>
-
-    <!-- Generate Content Modal -->
-    <div class="modal-overlay" id="generateModal">
-      <div class="modal-card" style="max-width:500px;">
-        <h3 style="margin-bottom:16px;">Generate Content</h3>
-        <div style="margin-bottom:12px;">
-          <label style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:4px;">Client</label>
-          <select id="genClient" style="width:100%;padding:10px 14px;background:var(--dark3);border:1px solid var(--subtle);color:var(--white);border-radius:8px;font-size:14px;font-family:var(--font-body);"></select>
-        </div>
-        <div style="margin-bottom:12px;">
-          <label style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:4px;">Content Type</label>
-          <select id="genType" style="width:100%;padding:10px 14px;background:var(--dark3);border:1px solid var(--subtle);color:var(--white);border-radius:8px;font-size:14px;font-family:var(--font-body);">
-            <option value="content_generator">Blog Post</option>
-            <option value="social_agent">Social Media Posts</option>
-            <option value="seo_agent">SEO Report</option>
-            <option value="reporting_agent">Weekly Report</option>
-          </select>
-        </div>
-        <div style="margin-bottom:12px;">
-          <label style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:4px;">Topic / Brief</label>
-          <textarea id="genTopic" rows="3" placeholder="e.g. Why small businesses should invest in SEO in 2026" style="width:100%;padding:10px 14px;background:var(--dark3);border:1px solid var(--subtle);color:var(--white);border-radius:8px;font-size:14px;font-family:var(--font-body);resize:vertical;"></textarea>
-        </div>
-        <div style="display:flex;gap:8px;margin-top:16px;">
-          <button class="btn-teal" id="genSubmitBtn" onclick="generateContent()">Generate</button>
-          <button class="btn-outline btn-small" onclick="closeGenerateModal()">Cancel</button>
-        </div>
-        <div id="genStatus" style="margin-top:12px;font-size:13px;color:var(--muted);display:none;"></div>
-      </div>
-    </div>
-
-    <div id="approvalList"></div>
-    <div class="loading" id="loading"><div class="spinner"></div><p>Loading approval queue...</p></div>
-    <div class="empty-state" id="empty" style="display:none"><div class="icon">&#10003;</div><p>All caught up! Nothing to approve.</p></div>
+    <div class="filter-bar" id="filterBar"></div>
+    <div id="queueList"></div>
+    <div id="empty" style="display:none;text-align:center;padding:60px;color:var(--muted);">Nothing to approve. You're all caught up.</div>
   </main>
 </div>
 
-<!-- Preview Modal -->
-<div class="modal-overlay" id="previewModal">
-  <div class="modal-card large" style="max-width:700px;max-height:90vh;overflow-y:auto;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;position:sticky;top:0;background:var(--dark2);padding-bottom:12px;z-index:2;">
-      <h3 id="previewTitle"></h3>
-      <button class="btn-outline btn-small" onclick="closePreview()">Close</button>
-    </div>
-    <div id="previewMeta" class="meta" style="margin-bottom:16px;"></div>
-    <div id="previewBody"></div>
-    <div style="margin-top:20px;display:flex;gap:8px;position:sticky;bottom:0;background:var(--dark2);padding-top:12px;" id="previewActions"></div>
-  </div>
-</div>
-<style>
-  .platform-card { background:var(--dark3); border:1px solid var(--subtle); border-radius:12px; padding:20px; margin-bottom:16px; }
-  .platform-label { font-family:var(--font-heading); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-  .platform-label.linkedin { color:#0077B5; }
-  .platform-label.instagram { color:#E1306C; }
-  .platform-label.facebook { color:#4267B2; }
-  .platform-label.twitter { color:#1DA1F2; }
-  .platform-content { font-size:15px; line-height:1.7; color:rgba(255,255,255,0.85); font-weight:300; white-space:pre-wrap; }
-  .platform-hashtags { color:var(--teal); font-size:13px; margin-top:8px; }
-  .visual-brief { background:rgba(153,89,182,0.08); border:1px solid rgba(153,89,182,0.2); border-radius:8px; padding:14px; margin-top:12px; font-size:13px; color:rgba(255,255,255,0.6); }
-  .visual-brief-label { font-size:11px; color:#9B59B6; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; font-weight:600; }
-  .blog-preview { font-size:15px; line-height:1.8; color:rgba(255,255,255,0.8); font-weight:300; }
-  .blog-preview h1,.blog-preview h2,.blog-preview h3 { font-family:var(--font-heading); color:var(--white); margin:20px 0 8px; }
-  .blog-preview h1 { font-size:24px; } .blog-preview h2 { font-size:20px; } .blog-preview h3 { font-size:16px; }
-  .blog-preview p { margin-bottom:12px; }
-  .blog-preview ul,.blog-preview ol { margin:8px 0 16px 20px; }
-  .report-section { margin-bottom:16px; }
-  .report-section-title { font-family:var(--font-heading); font-size:14px; font-weight:700; text-transform:uppercase; color:var(--teal); margin-bottom:8px; }
-</style>
-
 <script src="/nb-admin-shared.js"></script>
 <script>
-  let allItems = [];
-  let selectedItems = new Set();
+const ADMIN_KEY = localStorage.getItem('nb_admin_key') || '';
+const SUPABASE_URL = 'https://podyldvpvgqktwbqswrc.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvZHlsZHZwdmdxa3R3YnFzd3JjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2OTcxOTQsImV4cCI6MjA3OTI3MzE5NH0.PzDWh-KSAfdGHDWDB45Zw9_94m5HgQTj6x4PSU-uuMc';
 
-  async function init() {
-    const ok = await NB_ADMIN.checkAuth();
-    if (!ok) return;
-    NB_ADMIN.renderSidebar('approval');
+let allItems = [];
+let activeFilter = 'all';
 
-    // Load clients for filter
-    const clientData = await NB_ADMIN.apiFetch('clients');
-    if (clientData) {
-      const sel = document.getElementById('clientFilter');
-      clientData.clients.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c.client_id;
-        opt.textContent = c.client_name;
-        sel.appendChild(opt);
-      });
-    }
+const TYPE_LABELS = {
+  bfk: '📋 BFK',
+  blog: '📝 Blog Post',
+  tweet: '🐦 Tweet',
+  email: '📧 Email',
+  social: '📱 Social Post',
+  ad: '🎨 Ad Creative',
+};
 
-    await loadQueue();
+async function supaGet(query) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${query}`, {
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+  });
+  return r.json();
+}
+
+async function supaPatch(table, id, data) {
+  await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
+    method: 'PATCH',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+}
+
+async function loadQueue() {
+  allItems = await supaGet('approval_items?order=created_at.desc&limit=100');
+
+  // Count by type
+  const counts = {};
+  const pendingCount = allItems.filter(i => i.status === 'pending_review').length;
+  allItems.forEach(i => { counts[i.item_type] = (counts[i.item_type] || 0) + 1; });
+
+  document.getElementById('queueStats').textContent = `${pendingCount} pending review`;
+
+  // Build filter buttons
+  const filterBar = document.getElementById('filterBar');
+  let filterHtml = `<button class="filter-btn ${activeFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All<span class="count-badge">${allItems.length}</span></button>`;
+  for (const [type, count] of Object.entries(counts)) {
+    const label = TYPE_LABELS[type] || type;
+    filterHtml += `<button class="filter-btn ${activeFilter === type ? 'active' : ''}" onclick="setFilter('${type}')">${label}<span class="count-badge">${count}</span></button>`;
   }
+  filterBar.innerHTML = filterHtml;
 
-  async function loadQueue() {
-    document.getElementById('loading').style.display = 'block';
-    document.getElementById('empty').style.display = 'none';
-    selectedItems.clear();
-    updateBulkBtn();
+  renderQueue();
+}
 
-    const clientId = document.getElementById('clientFilter').value;
-    const itemType = document.getElementById('typeFilter').value;
+function setFilter(type) {
+  activeFilter = type;
+  loadQueue();
+}
 
-    let query = 'approval?limit=100';
-    if (clientId) query += '&client_id=' + encodeURIComponent(clientId);
-    if (itemType) query += '&item_type=' + encodeURIComponent(itemType);
+function renderQueue() {
+  let items = allItems;
+  if (activeFilter !== 'all') items = items.filter(i => i.item_type === activeFilter);
 
-    const data = await NB_ADMIN.apiFetch(query);
-    document.getElementById('loading').style.display = 'none';
+  const list = document.getElementById('queueList');
+  const empty = document.getElementById('empty');
 
-    allItems = data ? data.items : [];
-    document.getElementById('queueStats').textContent = `${allItems.length} items pending`;
-
-    if (!allItems.length) {
-      document.getElementById('approvalList').innerHTML = '';
-      document.getElementById('empty').style.display = 'block';
-      return;
-    }
-
-    renderQueue();
+  if (!items.length) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
   }
+  empty.style.display = 'none';
 
-  function renderQueue() {
-    document.getElementById('approvalList').innerHTML = allItems.map(item => `
-      <div class="approval-card" id="card-${item.id}">
-        <div class="approval-card-header">
-          <div class="left">
-            <input type="checkbox" onchange="toggleSelect('${item.id}')" ${selectedItems.has(item.id) ? 'checked' : ''}>
-            ${NB_ADMIN.typeBadge(item.item_type)}
-            <span class="title">${NB_ADMIN.esc(item.title || 'Untitled')}</span>
+  list.innerHTML = items.map(item => {
+    const typeLabel = TYPE_LABELS[item.item_type] || item.item_type;
+    const typeClass = item.item_type || 'social';
+    const status = item.status || 'pending_review';
+    const actions = item.approve_actions || [];
+    const date = new Date(item.created_at).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+
+    const actionsHtml = actions.length ? `
+      <div class="q-actions-preview">
+        <div class="q-actions-title">When you approve</div>
+        ${actions.map(a => `<div class="q-action-item"><span>→</span> ${a}</div>`).join('')}
+      </div>` : '';
+
+    const buttonsHtml = status === 'pending_review' ? `
+      <div class="q-buttons">
+        ${item.preview_url ? `<button class="q-btn preview" onclick="window.open('${item.preview_url}','_blank')">Preview</button>` : ''}
+        <button class="q-btn approve" onclick="approveItem('${item.id}')">Approve</button>
+        <button class="q-btn reject" onclick="rejectItem('${item.id}')">Reject</button>
+      </div>` : `<div style="font-size:12px;margin-top:8px;"><span class="q-status ${status}">${status.replace('_', ' ')}</span></div>`;
+
+    return `
+      <div class="q-card ${status}">
+        <div class="q-header">
+          <div>
+            <span class="q-type ${typeClass}">${typeLabel}</span>
+            <div class="q-title">${item.title || 'Untitled'}</div>
           </div>
-          ${NB_ADMIN.statusBadge(item.status)}
+          <div class="q-meta">${item.client_name ? item.client_name + ' · ' : ''}${date}</div>
         </div>
-        <div class="approval-card-meta">
-          ${item.client_name ? NB_ADMIN.esc(item.client_name) + ' &bull; ' : ''}
-          ${NB_ADMIN.timeAgo(item.created_at)}
-        </div>
-        <div class="approval-card-actions">
-          <button class="btn-preview" onclick="previewItem('${item.id}','${item.item_type}')">Preview</button>
-          <button class="btn-approve" onclick="approveItem('${item.id}','${item.item_type}')">Approve</button>
-          <button class="btn-reject" onclick="rejectItem('${item.id}','${item.item_type}')">Reject</button>
-        </div>
-      </div>
-    `).join('');
-  }
+        ${item.description ? `<div class="q-desc">${item.description}</div>` : ''}
+        ${actionsHtml}
+        ${buttonsHtml}
+      </div>`;
+  }).join('');
+}
 
-  function toggleSelect(id) {
-    if (selectedItems.has(id)) selectedItems.delete(id);
-    else selectedItems.add(id);
-    updateBulkBtn();
-  }
+async function approveItem(id) {
+  const item = allItems.find(i => i.id === id);
+  if (!item) return;
 
-  function updateBulkBtn() {
-    const btn = document.getElementById('bulkApproveBtn');
-    btn.style.display = selectedItems.size > 0 ? 'inline-block' : 'none';
-    btn.textContent = `Approve Selected (${selectedItems.size})`;
-  }
+  const actions = (item.approve_actions || []).join('\n  → ');
+  if (!confirm(`Approve "${item.title}"?\n\nThis will:\n  → ${actions || 'Mark as approved'}`)) return;
 
-  async function approveItem(id, type) {
-    const result = await NB_ADMIN.apiSend('approval', 'PATCH', { id, item_type: type, action: 'approve' });
-    if (result) {
-      const card = document.getElementById('card-' + id);
-      if (card) card.style.opacity = '0.3';
-      allItems = allItems.filter(i => i.id !== id);
-      document.getElementById('queueStats').textContent = `${allItems.length} items pending`;
-    }
-  }
+  await supaPatch('approval_items', id, {
+    status: 'approved',
+    approved_at: new Date().toISOString(),
+    approved_by: 'admin'
+  });
 
-  async function rejectItem(id, type) {
-    const result = await NB_ADMIN.apiSend('approval', 'PATCH', { id, item_type: type, action: 'reject' });
-    if (result) {
-      const card = document.getElementById('card-' + id);
-      if (card) card.style.opacity = '0.3';
-      allItems = allItems.filter(i => i.id !== id);
-      document.getElementById('queueStats').textContent = `${allItems.length} items pending`;
-    }
-  }
-
-  async function bulkApprove() {
-    for (const id of selectedItems) {
-      const item = allItems.find(i => i.id === id);
-      if (item) await approveItem(id, item.item_type);
-    }
-    selectedItems.clear();
-    updateBulkBtn();
-  }
-
-  async function previewItem(id, type) {
-    const data = await NB_ADMIN.apiFetch(`approval?id=${id}&type=${type}`);
-    if (!data || !data.item) return;
-
-    const item = data.item;
-    document.getElementById('previewTitle').textContent = item.topic || item.reviewer_name || 'Content Preview';
-    document.getElementById('previewMeta').textContent = `${type.replace('_', ' ')} | ${NB_ADMIN.formatDate(item.created_at || new Date())}`;
-
-    let body = '';
-    if (type === 'content_campaign') {
-      body = '<div class="blog-preview">' + (item.blog_post || 'No blog post content.').replace(/\n/g, '<br>') + '</div>';
-      if (item.social_posts && typeof item.social_posts === 'object') {
-        body += renderSocialPosts(item.social_posts);
-      }
-    } else if (type === 'social_post') {
-      const posts = typeof item.posts === 'string' ? JSON.parse(item.posts) : item.posts;
-      body = renderSocialPosts(posts);
-      if (item.visual_briefs) {
-        const briefs = typeof item.visual_briefs === 'string' ? JSON.parse(item.visual_briefs) : item.visual_briefs;
-        body += renderVisualBriefs(briefs);
-      }
-    } else if (type === 'review_response') {
-      body = `
-        <div class="platform-card">
-          <div class="platform-label" style="color:var(--yellow);">&#11088; Customer Review (${item.rating || '?'} stars)</div>
-          <div class="platform-content">${NB_ADMIN.esc(item.review_text || 'No review text')}</div>
-        </div>
-        <div class="platform-card" style="border-color:rgba(0,229,204,0.2);">
-          <div class="platform-label" style="color:var(--teal);">&#9998; Your Drafted Response</div>
-          <div class="platform-content">${NB_ADMIN.esc(item.drafted_response || 'No response drafted')}</div>
-        </div>`;
-    } else if (type === 'weekly_report') {
-      const report = item.full_report || item;
-      body = renderReport(report, item.executive_summary);
-    }
-
-    document.getElementById('previewBody').innerHTML = body;
-    document.getElementById('previewActions').innerHTML = `
-      <button class="btn-approve" onclick="approveItem('${id}','${type}');closePreview()">Approve</button>
-      <button class="btn-reject" onclick="rejectItem('${id}','${type}');closePreview()">Reject</button>
-    `;
-    document.getElementById('previewModal').classList.add('show');
-  }
-
-  function renderSocialPosts(posts) {
-    if (!posts || typeof posts !== 'object') return '<p style="color:var(--muted)">No social posts</p>';
-
-    const platformIcons = { linkedin: '&#128188;', instagram: '&#128247;', facebook: '&#128077;', twitter: '&#128038;' };
-
-    // Handle both object format {linkedin: "...", instagram: "..."} and array format [{platform, caption}]
-    if (Array.isArray(posts)) {
-      return posts.map(p => {
-        const platform = (p.platform || 'social').toLowerCase();
-        const content = p.caption || p.content || p.text || p.body || '';
-        const hashtags = p.hashtags || '';
-        return `
-          <div class="platform-card">
-            <div class="platform-label ${platform}">${platformIcons[platform] || '&#128172;'} ${platform}</div>
-            <div class="platform-content">${NB_ADMIN.esc(content)}</div>
-            ${hashtags ? `<div class="platform-hashtags">${NB_ADMIN.esc(hashtags)}</div>` : ''}
-          </div>`;
-      }).join('');
-    }
-
-    // Object format: { linkedin: "text", instagram: "text" }
-    return Object.entries(posts).map(([platform, content]) => {
-      const text = typeof content === 'string' ? content : (content?.caption || content?.content || content?.text || JSON.stringify(content));
-      const hashtags = typeof content === 'object' ? content?.hashtags : '';
-      const imageUrl = typeof content === 'object' ? (content?.image_url || content?.image || content?.media_url || '') : '';
-      return `
-        <div class="platform-card">
-          <div class="platform-label ${platform.toLowerCase()}">${platformIcons[platform.toLowerCase()] || '&#128172;'} ${platform}</div>
-          ${imageUrl ? `<img src="${imageUrl}" alt="" style="width:100%; max-height:250px; object-fit:cover; border-radius:8px; margin-bottom:12px;" onerror="this.style.display='none'">` : ''}
-          <div class="platform-content">${NB_ADMIN.esc(text)}</div>
-          ${hashtags ? `<div class="platform-hashtags">${NB_ADMIN.esc(hashtags)}</div>` : ''}
-        </div>`;
-    }).join('');
-  }
-
-  function renderVisualBriefs(briefs) {
-    if (!briefs || typeof briefs !== 'object') return '';
-    return '<div style="margin-top:16px;">' + Object.entries(briefs).map(([platform, brief]) => {
-      let concept = '';
-      let imageUrl = '';
-
-      if (typeof brief === 'string') {
-        // Could be a URL or text
-        if (brief.startsWith('http')) {
-          imageUrl = brief;
-        } else {
-          concept = brief;
-        }
-      } else if (brief && typeof brief === 'object') {
-        concept = brief.image_concept || brief.description || '';
-        imageUrl = brief.url || brief.image_url || brief.src || '';
-        // Check if the concept itself is a URL
-        if (!imageUrl && concept.startsWith('http')) {
-          imageUrl = concept;
-          concept = '';
-        }
-      }
-
-      return `
-        <div class="visual-brief">
-          <div class="visual-brief-label">&#127912; ${platform} — Visual</div>
-          ${imageUrl ? `<img src="${imageUrl}" alt="${platform} visual" style="width:100%; max-height:300px; object-fit:cover; border-radius:8px; margin:8px 0;">` : ''}
-          ${concept ? `<div style="margin-top:6px;">${NB_ADMIN.esc(concept)}</div>` : ''}
-        </div>`;
-    }).join('') + '</div>';
-  }
-
-  function renderReport(report, execSummary) {
-    if (typeof report === 'string') {
-      try { report = JSON.parse(report); } catch { return `<div class="blog-preview">${report.replace(/\n/g, '<br>')}</div>`; }
-    }
-    if (!report || typeof report !== 'object') return `<div class="blog-preview">${NB_ADMIN.esc(execSummary || 'No report content')}</div>`;
-
-    let html = '';
-    if (execSummary || report.executive_summary) {
-      html += `<div class="report-section"><div class="report-section-title">Executive Summary</div><div class="platform-content">${NB_ADMIN.esc(execSummary || report.executive_summary)}</div></div>`;
-    }
-    // Render other sections
-    for (const [key, value] of Object.entries(report)) {
-      if (key === 'executive_summary') continue;
-      const title = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-      const content = typeof value === 'string' ? value : JSON.stringify(value, null, 2);
-      html += `<div class="report-section"><div class="report-section-title">${title}</div><div class="platform-content" style="font-size:14px;">${NB_ADMIN.esc(content)}</div></div>`;
-    }
-    return html;
-  }
-
-  // Generate Content
-  function showGenerateModal() {
-    // Populate client dropdown from the filter
-    const genClient = document.getElementById('genClient');
-    const filterClient = document.getElementById('clientFilter');
-    genClient.innerHTML = '';
-    for (const opt of filterClient.options) {
-      if (opt.value) {
-        const o = document.createElement('option');
-        o.value = opt.value;
-        o.textContent = opt.textContent;
-        genClient.appendChild(o);
-      }
-    }
-    document.getElementById('genStatus').style.display = 'none';
-    document.getElementById('genSubmitBtn').disabled = false;
-    document.getElementById('genSubmitBtn').textContent = 'Generate';
-    document.getElementById('generateModal').classList.add('show');
-  }
-
-  function closeGenerateModal() { document.getElementById('generateModal').classList.remove('show'); }
-  document.getElementById('generateModal')?.addEventListener('click', function(e) { if (e.target === this) closeGenerateModal(); });
-
-  async function generateContent() {
-    const clientId = document.getElementById('genClient').value;
-    const clientName = document.getElementById('genClient').selectedOptions[0]?.textContent || clientId;
-    const agentType = document.getElementById('genType').value;
-    const topic = document.getElementById('genTopic').value.trim();
-
-    if (!clientId) { alert('Select a client'); return; }
-    if (!topic) { alert('Enter a topic or brief'); return; }
-
-    const btn = document.getElementById('genSubmitBtn');
-    const status = document.getElementById('genStatus');
-    btn.disabled = true;
-    btn.textContent = 'Generating...';
-    status.style.display = 'block';
-    status.style.color = 'var(--teal)';
-    status.textContent = 'Sending to AI agent... This runs in the background. Check back in 1-2 minutes.';
-
+  // If there's a webhook, call it
+  if (item.approve_webhook) {
     try {
-      // Get client details for the agent
-      const clientData = await NB_ADMIN.apiFetch(`clients?id=${clientId}`);
-      const client = clientData?.client || {};
-
-      const payload = {
-        client_name: clientName,
-        client_id: clientId,
-        topic: topic,
-        content_source: topic,
-        location: client.location || 'Brisbane',
-        service: client.service || 'Marketing',
-        tone: client.tone || 'professional, direct',
-        platforms: client.platforms || ['linkedin', 'instagram', 'facebook'],
-        cta_link: client.cta_link || 'https://nunyabunya.com',
-      };
-
-      const result = await NB_ADMIN.apiSend(`pipeline`, 'POST', {
-        pipeline_name: agentType === 'content_generator' ? 'seo_content' : agentType,
-        client_id: clientId,
-        input: payload,
+      await fetch(item.approve_webhook, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item_id: id, source_table: item.source_table, source_id: item.source_id })
       });
-
-      if (result) {
-        status.style.color = 'var(--teal)';
-        status.textContent = 'Agent is running! Content will appear in this queue when ready. This usually takes 1-2 minutes.';
-        btn.textContent = 'Sent!';
-
-        // Also try direct agent call as fallback
-        try {
-          await fetch(`/api/admin/data?action=service-mautic&endpoint=stats`, { method: 'GET' }); // just a ping
-        } catch {}
-      } else {
-        throw new Error('No response from pipeline');
-      }
-    } catch (e) {
-      // Fallback: call agent server directly through our proxy
-      try {
-        const agentResult = await NB_ADMIN.apiSend('pipeline', 'POST', {
-          pipeline_name: agentType,
-          client_id: clientId,
-        });
-        status.style.color = 'var(--teal)';
-        status.textContent = 'Agent triggered! Content will appear in this queue shortly.';
-        btn.textContent = 'Sent!';
-      } catch (e2) {
-        status.style.color = 'var(--magenta)';
-        status.textContent = `Error: ${e2.message || 'Could not reach agent server'}. Try running from Pipelines page instead.`;
-        btn.disabled = false;
-        btn.textContent = 'Retry';
-      }
-    }
+    } catch (e) {}
   }
 
-  function closePreview() { document.getElementById('previewModal').classList.remove('show'); }
-  document.getElementById('previewModal').addEventListener('click', function(e) { if (e.target === this) closePreview(); });
+  // Also update the source table if specified
+  if (item.source_table && item.source_id) {
+    try {
+      await supaPatch(item.source_table, item.source_id, { status: 'approved', approved_at: new Date().toISOString() });
+    } catch (e) {}
+  }
 
-  init();
+  loadQueue();
+}
+
+async function rejectItem(id) {
+  const reason = prompt('Reason for rejection (optional):');
+  if (reason === null) return;
+
+  await supaPatch('approval_items', id, {
+    status: 'rejected',
+    rejection_reason: reason
+  });
+
+  if (allItems.find(i => i.id === id)?.source_table) {
+    const item = allItems.find(i => i.id === id);
+    try {
+      await supaPatch(item.source_table, item.source_id, { status: 'rejected' });
+    } catch (e) {}
+  }
+
+  loadQueue();
+}
+
+loadQueue();
 </script>
 </body>
 </html>

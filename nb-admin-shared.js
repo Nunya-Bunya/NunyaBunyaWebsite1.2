@@ -33,6 +33,7 @@ const NB_ADMIN = {
         pages: [
           { id: 'my-day', label: 'My Day', icon: '&#9728;', href: '/nb-admin-my-day' },
           { id: 'approval', label: 'Approve Content', icon: '&#9998;', href: '/nb-admin-approval' },
+          { id: 'bfk', label: 'BFK Submissions', icon: '&#128218;', href: '/nb-admin-bfk' },
           { id: 'dashboard', label: 'Dashboard', icon: '&#9670;', href: '/nb-admin-dashboard' },
         ]
       },

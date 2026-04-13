@@ -549,6 +549,92 @@ export default async function handler(req, res) {
       return res.status(200).json({ total: (contacts || []).length, contacts: contacts || [] });
     }
 
+    // ── BFK Submissions (list all) ──
+    if (action === 'bfk-submissions' && req.method === 'GET') {
+      const subs = await supabaseFetch('bfk_submissions?order=created_at.desc&limit=50').catch(() => []);
+      return res.status(200).json({ total: (subs || []).length, submissions: subs || [] });
+    }
+
+    // ── BFK: Insert into approval queue when new submission arrives ──
+    if (action === 'bfk-to-queue' && req.method === 'POST') {
+      const { submission_id } = req.body || {};
+      if (!submission_id) return res.status(400).json({ error: 'submission_id required.' });
+
+      const sub = await supabaseFetch(`bfk_submissions?id=eq.${encodeURIComponent(submission_id)}&select=*`).catch(() => []);
+      if (!sub || !sub.length) return res.status(404).json({ error: 'Submission not found.' });
+
+      const s = sub[0];
+      const answers = s.answers || {};
+
+      await supabaseFetch('approval_items', {
+        method: 'POST',
+        body: JSON.stringify({
+          client_name: s.client_name || 'Unknown',
+          item_type: 'bfk',
+          title: answers.q1 || s.client_name || 'BFK Submission',
+          description: `${answers.q2 || 'No description'}\nClient: ${s.client_name} (${s.client_email})\nStage: ${answers.q3 || '?'} · Type: ${answers.q4 || '?'} · ${Object.keys(answers).length} answers`,
+          source_table: 'bfk_submissions',
+          source_id: submission_id,
+          approve_actions: [
+            'Generate business plan from survey answers',
+            `Email plan to ${s.client_email}`,
+            'Start $899 upsell email sequence (14 days)',
+            'Add to Mautic BFK segment',
+            'Slack notification: plan delivered'
+          ],
+          approve_webhook: 'https://webhooks.nunyabunya.com/webhook/lead-magnet',
+          status: 'pending_review',
+        }),
+      });
+
+      return res.status(200).json({ success: true, message: 'Added to approval queue.' });
+    }
+
+    // ── BFK: Approve & Generate Documents ──
+    if (action === 'bfk-generate' && req.method === 'POST') {
+      const { submission_id } = req.body || {};
+      if (!submission_id) return res.status(400).json({ error: 'submission_id required.' });
+
+      // Update status to approved
+      await supabaseFetch(`bfk_submissions?id=eq.${encodeURIComponent(submission_id)}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status: 'approved', approved_at: new Date().toISOString() }),
+      });
+
+      // Notify Slack
+      try {
+        const sub = await supabaseFetch(`bfk_submissions?id=eq.${encodeURIComponent(submission_id)}&select=client_name,client_email`).catch(() => []);
+        const name = sub?.[0]?.client_name || 'Unknown';
+        const email = sub?.[0]?.client_email || '';
+
+        await fetch('https://slack.com/api/chat.postMessage', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + (process.env.SLACK_BOT_TOKEN || 'xoxb-10755237382436-10749606199814-bRCC6xDwjeVZ7UODIdBdxEeK'),
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            channel: 'C0AN3KML1DG',
+            text: `✅ *BFK Approved: ${name}*\nEmail: ${email}\nID: ${submission_id}\n\nGenerate locally:\n\`\`\`python3 generate_bfk.py --id ${submission_id}\`\`\``
+          })
+        });
+      } catch (e) {}
+
+      return res.status(200).json({ success: true, message: 'Approved! Check Slack for the generation command.' });
+    }
+
+    // ── BFK: Reject submission ──
+    if (action === 'bfk-reject' && req.method === 'POST') {
+      const { submission_id, reason } = req.body || {};
+      if (!submission_id) return res.status(400).json({ error: 'submission_id required.' });
+
+      await supabaseFetch(`bfk_submissions?id=eq.${encodeURIComponent(submission_id)}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status: 'rejected', rejection_reason: reason || '' }),
+      });
+      return res.status(200).json({ success: true, message: 'Submission rejected.' });
+    }
+
     return res.status(400).json({ error: 'Unknown action.' });
   } catch (err) {
     console.error('Data API error:', err);

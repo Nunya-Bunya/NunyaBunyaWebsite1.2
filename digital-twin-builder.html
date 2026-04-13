@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Twin Builder | Nunya Bunya — Create Your AI Clone</title>
+<meta name="description" content="Upload your photos and voice. Get a realistic AI clone — portrait images in any setting and talking-head videos with your own voice. Delivered in minutes.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.nunyabunya.com/digital-twin-builder">
+<meta property="og:title" content="Digital Twin Builder — Create Your AI Clone | Nunya Bunya">
+<meta property="og:description" content="Upload your photos and voice. Get a realistic AI clone — portrait images in any setting and talking-head videos with your own voice. Delivered in minutes.">
+<meta property="og:image" content="https://www.nunyabunya.com/images/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="style-v2.css">
+<style>
+/* ═══════════ DTB-SPECIFIC STYLES ═══════════ */
+
+/* Progress */
+.dtb-progress {
+  position: sticky; top: 60px; z-index: 50;
+  background: var(--dark2); border-bottom: 1px solid var(--subtle);
+  padding: 16px 48px;
+}
+.progress-bar-wrap { max-width: 700px; margin: 0 auto; }
+.progress-steps { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.progress-step-label {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.2); transition: color 0.3s;
+  text-align: center; flex: 1;
+}
+.progress-step-label.active { color: var(--teal); }
+.progress-step-label.done { color: rgba(0,229,204,0.5); }
+.progress-bar-track { width: 100%; height: 3px; background: var(--subtle); }
+.progress-bar-fill {
+  height: 100%; background: var(--teal); transition: width 0.4s ease;
+  box-shadow: 0 0 12px rgba(0,229,204,0.4);
+}
+.progress-counter {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); text-align: center; margin-top: 8px;
+}
+.progress-counter span { color: var(--teal); }
+
+/* Container */
+.dtb-container { max-width: 700px; margin: 0 auto; padding: 0 24px; }
+
+/* Steps */
+.dtb-step { display: none; animation: fadeInStep 0.4s ease; }
+.dtb-step.active { display: block; }
+@keyframes fadeInStep {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--subtle); }
+.step-number {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 8px;
+}
+.step-title {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: clamp(28px, 5vw, 40px); text-transform: uppercase;
+  letter-spacing: 0.02em; line-height: 1.1; margin-bottom: 8px;
+}
+.step-subtitle { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.6; }
+
+/* Upload zone (fallback) */
+.upload-zone {
+  border: 2px dashed rgba(0,229,204,0.3); border-radius: 12px;
+  padding: 48px 24px; text-align: center; cursor: pointer;
+  transition: all 0.3s; margin-bottom: 24px; position: relative;
+}
+.upload-zone:hover, .upload-zone.dragover {
+  border-color: var(--teal); background: rgba(0,229,204,0.05);
+}
+.upload-zone input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+}
+.upload-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.6; }
+.upload-label {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--teal);
+}
+.upload-hint { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+/* Preview thumbnails */
+.upload-previews {
+  display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px;
+}
+.upload-previews .thumb {
+  width: 80px; height: 80px; border-radius: 8px; object-fit: cover;
+  border: 2px solid var(--subtle);
+}
+.upload-previews .thumb-wrap {
+  position: relative; display: inline-block;
+}
+.upload-previews .thumb-delete {
+  position: absolute; top: -6px; right: -6px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #e94560; color: #fff; border: none;
+  font-size: 11px; font-weight: 900; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Guided Photoshoot */
+.photoshoot-wrap {
+  border: 2px solid var(--subtle); border-radius: 16px;
+  overflow: hidden; margin-bottom: 24px; background: #000;
+}
+.photoshoot-video-container {
+  position: relative; width: 100%; aspect-ratio: 4/3; background: #0a0a0a;
+}
+.photoshoot-video-container video {
+  width: 100%; height: 100%; object-fit: cover;
+  transform: scaleX(-1); /* mirror */
+}
+.photoshoot-overlay {
+  position: absolute; inset: 0; pointer-events: none;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 20px;
+}
+.photoshoot-guide {
+  position: absolute; inset: 0; pointer-events: none;
+  border: 3px solid rgba(0,229,204,0.3); border-radius: 50%;
+  width: 55%; height: 75%; margin: auto;
+}
+.photoshoot-pose {
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  border-radius: 12px; padding: 16px 24px; text-align: center;
+  align-self: center; max-width: 90%;
+}
+.photoshoot-pose .pose-instruction {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 20px; text-transform: uppercase;
+  letter-spacing: 0.05em; color: #fff; margin-bottom: 4px;
+}
+.photoshoot-pose .pose-detail {
+  font-size: 13px; color: var(--muted); line-height: 1.4;
+}
+.photoshoot-counter {
+  align-self: flex-end; background: rgba(0,0,0,0.6);
+  border-radius: 8px; padding: 8px 14px;
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--teal);
+}
+.photoshoot-controls {
+  display: flex; justify-content: center; align-items: center;
+  gap: 16px; padding: 20px; background: rgba(13,13,13,0.95);
+}
+.photoshoot-capture {
+  width: 64px; height: 64px; border-radius: 50%;
+  border: 4px solid var(--teal); background: transparent;
+  cursor: pointer; position: relative; transition: all 0.2s;
+}
+.photoshoot-capture::after {
+  content: ''; position: absolute; inset: 6px;
+  background: var(--teal); border-radius: 50%;
+  transition: all 0.15s;
+}
+.photoshoot-capture:hover::after { background: #00ccb8; }
+.photoshoot-capture:active::after { transform: scale(0.85); }
+.photoshoot-capture.flash::after {
+  background: #fff;
+}
+.photoshoot-skip {
+  background: transparent; border: 1px solid var(--subtle);
+  color: var(--muted); padding: 10px 20px; border-radius: 8px;
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.3s;
+}
+.photoshoot-skip:hover { border-color: var(--teal); color: var(--teal); }
+
+/* Flash animation */
+.photoshoot-flash {
+  position: absolute; inset: 0; background: #fff;
+  opacity: 0; pointer-events: none; z-index: 10;
+  transition: opacity 0.1s;
+}
+.photoshoot-flash.active { opacity: 0.8; transition: none; }
+
+/* Mode toggle */
+.mode-toggle {
+  display: flex; gap: 8px; margin-bottom: 20px; justify-content: center;
+}
+.mode-toggle button {
+  padding: 10px 20px; border-radius: 8px; cursor: pointer;
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  transition: all 0.3s; border: 1px solid var(--subtle);
+  background: transparent; color: var(--muted);
+}
+.mode-toggle button.active {
+  border-color: var(--teal); color: var(--teal);
+  background: rgba(0,229,204,0.08);
+}
+
+/* Environment grid */
+.env-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px; margin-bottom: 24px;
+}
+.env-card {
+  border: 2px solid var(--subtle); border-radius: 12px;
+  padding: 20px 16px; text-align: center; cursor: pointer;
+  transition: all 0.3s; position: relative;
+}
+.env-card:hover { border-color: rgba(0,229,204,0.4); }
+.env-card.selected { border-color: var(--teal); background: rgba(0,229,204,0.08); }
+.env-card .env-icon { font-size: 32px; margin-bottom: 8px; }
+.env-card .env-name {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.env-card .checkmark {
+  position: absolute; top: 8px; right: 8px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--teal); color: #0D0D0D;
+  font-size: 12px; font-weight: 900;
+  display: none; align-items: center; justify-content: center;
+}
+.env-card.selected .checkmark { display: flex; }
+
+/* Audio recorder */
+.recorder-wrap {
+  border: 2px solid var(--subtle); border-radius: 12px;
+  padding: 32px; text-align: center; margin-bottom: 24px;
+}
+.recorder-wrap .rec-status {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.recorder-wrap .rec-time {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 48px; color: var(--teal); margin-bottom: 16px;
+}
+.recorder-wrap .rec-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; border-radius: 8px;
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase;
+  cursor: pointer; border: none; transition: all 0.3s;
+}
+.rec-btn.start { background: var(--teal); color: #0D0D0D; }
+.rec-btn.stop { background: #e94560; color: #fff; }
+.rec-btn.start:hover { background: #00ccb8; }
+.rec-prompt {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--subtle);
+  border-radius: 8px; padding: 20px; margin-bottom: 20px;
+  font-size: 15px; line-height: 1.7; color: var(--muted);
+}
+.rec-prompt strong { color: #fff; }
+.audio-preview { margin-top: 16px; }
+.audio-preview audio { width: 100%; max-width: 400px; }
+
+/* Input fields */
+.dtb-input {
+  width: 100%; padding: 14px 18px; border-radius: 8px;
+  border: 1px solid var(--subtle); background: rgba(255,255,255,0.03);
+  color: #fff; font-family: var(--font-body); font-size: 14px;
+  margin-bottom: 16px; transition: border-color 0.3s;
+}
+.dtb-input:focus { outline: none; border-color: var(--teal); }
+.dtb-input::placeholder { color: var(--muted); }
+
+/* Tier cards */
+.tier-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.tier-card {
+  border: 2px solid var(--subtle); border-radius: 12px;
+  padding: 24px; cursor: pointer; transition: all 0.3s; position: relative;
+}
+.tier-card:hover { border-color: rgba(0,229,204,0.4); }
+.tier-card.selected { border-color: var(--teal); background: rgba(0,229,204,0.08); }
+.tier-card.recommended::before {
+  content: 'MOST POPULAR'; position: absolute; top: -12px; left: 50%;
+  transform: translateX(-50%); background: var(--teal); color: #0D0D0D;
+  font-family: var(--font-heading); font-weight: 900; font-size: 9px;
+  letter-spacing: 0.2em; padding: 4px 12px; border-radius: 4px;
+}
+.tier-name {
+  font-family: var(--font-heading); font-weight: 900; font-size: 16px;
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;
+}
+.tier-price {
+  font-family: var(--font-heading); font-weight: 900; font-size: 32px;
+  color: var(--teal); margin-bottom: 12px;
+}
+.tier-price .currency { font-size: 16px; vertical-align: super; }
+.tier-features { list-style: none; padding: 0; margin: 0; }
+.tier-features li {
+  font-size: 13px; color: var(--muted); padding: 4px 0;
+  padding-left: 20px; position: relative;
+}
+.tier-features li::before { content: '✓'; position: absolute; left: 0; color: var(--teal); font-weight: 700; }
+
+/* Nav buttons */
+.step-nav { display: flex; justify-content: space-between; margin-top: 40px; padding: 32px 0; border-top: 1px solid var(--subtle); }
+.btn-back, .btn-next, .btn-submit {
+  padding: 14px 32px; border-radius: 8px; cursor: pointer; border: none;
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase;
+  transition: all 0.3s;
+}
+.btn-back { background: transparent; color: var(--muted); border: 1px solid var(--subtle); }
+.btn-back:hover { border-color: var(--teal); color: var(--teal); }
+.btn-next, .btn-submit { background: var(--teal); color: #0D0D0D; }
+.btn-next:hover, .btn-submit:hover { background: #00ccb8; }
+.btn-next:disabled, .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Processing screen */
+.processing-screen {
+  display: none; text-align: center; padding: 80px 24px;
+}
+.processing-screen.active { display: block; }
+.processing-spinner {
+  width: 64px; height: 64px; border: 3px solid var(--subtle);
+  border-top-color: var(--teal); border-radius: 50%;
+  animation: spin 1s linear infinite; margin: 0 auto 24px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.processing-title {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: 28px; text-transform: uppercase; margin-bottom: 12px;
+}
+.processing-subtitle { font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ PROGRESS BAR ═══════════ -->
+<div class="dtb-progress">
+  <div class="progress-bar-wrap">
+    <div class="progress-steps">
+      <div class="progress-step-label active" data-step="1">Choose</div>
+      <div class="progress-step-label" data-step="2">Your Look</div>
+      <div class="progress-step-label" data-step="3">Voice</div>
+      <div class="progress-step-label" data-step="4">Settings</div>
+      <div class="progress-step-label" data-step="5">Package</div>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" style="width: 20%"></div>
+    </div>
+    <div class="progress-counter">Step <span>1</span> of 5</div>
+  </div>
+</div>
+
+<!-- ═══════════ MAIN CONTENT ═══════════ -->
+<section style="padding: 48px 0 120px;">
+<div class="dtb-container">
+
+  <!-- STEP 1: CHOOSE PRODUCT + INFO -->
+  <div class="dtb-step active" data-step="1">
+    <div class="step-header">
+      <div class="step-number">Step 01</div>
+      <h1 class="step-title">What Are You<br>Building?</h1>
+      <p class="step-subtitle">Create a digital clone of yourself — or design an AI influencer from scratch that you own and control.</p>
+    </div>
+
+    <!-- Product Choice Cards -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;">
+      <div class="tier-card selected" data-product="twin" onclick="selectProduct(this)" style="padding:28px;">
+        <div style="font-size:36px;margin-bottom:12px;text-align:center;">🪞</div>
+        <div class="tier-name" style="text-align:center;">Digital Twin</div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5;margin-top:12px;text-align:center;">Clone yourself. Upload your photos and voice — get an AI version of YOU for marketing, social media, and content.</p>
+      </div>
+      <div class="tier-card" data-product="influencer" onclick="selectProduct(this)" style="padding:28px;">
+        <div style="font-size:36px;margin-bottom:12px;text-align:center;">✨</div>
+        <div class="tier-name" style="text-align:center;">AI Influencer</div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5;margin-top:12px;text-align:center;">Design a character from scratch. Choose their look, style, and personality — your own AI influencer to use however you want.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom:24px;">
+      <label style="font-family:var(--font-heading);font-weight:700;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:8px;">Your Name</label>
+      <input type="text" id="dtb-name" class="dtb-input" placeholder="e.g. Sarah Johnson" required>
+    </div>
+    <div style="margin-bottom:24px;">
+      <label style="font-family:var(--font-heading);font-weight:700;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:8px;">Email Address</label>
+      <input type="email" id="dtb-email" class="dtb-input" placeholder="you@example.com" required>
+    </div>
+
+    <div class="step-nav" style="justify-content:flex-end;">
+      <button class="btn-next" onclick="goToStep(2)">Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: GUIDED PHOTOSHOOT -->
+  <div class="dtb-step" data-step="2">
+    <div class="step-header">
+      <div class="step-number">Step 02</div>
+      <h1 class="step-title">Your AI<br>Photoshoot</h1>
+      <p class="step-subtitle">We'll guide you through a quick photoshoot using your camera. Follow the prompts and we'll capture the perfect shots for your digital twin.</p>
+    </div>
+
+    <div class="mode-toggle">
+      <button class="active" onclick="setPhotoMode('camera')">Use Camera</button>
+      <button onclick="setPhotoMode('upload')">Upload Instead</button>
+    </div>
+
+    <!-- CAMERA MODE -->
+    <div id="camera-mode">
+      <div class="photoshoot-wrap" id="photoshoot-wrap" style="display:none;">
+        <div class="photoshoot-video-container">
+          <video id="photoshoot-video" autoplay playsinline></video>
+          <div class="photoshoot-guide"></div>
+          <div class="photoshoot-flash" id="photoshoot-flash"></div>
+          <div class="photoshoot-overlay">
+            <div class="photoshoot-counter" id="photo-counter">0 / 8 shots</div>
+            <div class="photoshoot-pose" id="pose-prompt">
+              <div class="pose-instruction" id="pose-instruction">Loading camera...</div>
+              <div class="pose-detail" id="pose-detail">Please allow camera access when prompted</div>
+            </div>
+          </div>
+        </div>
+        <div class="photoshoot-controls">
+          <button class="photoshoot-skip" onclick="skipPose()">Skip</button>
+          <button class="photoshoot-capture" id="capture-btn" onclick="capturePhoto()"></button>
+          <button class="photoshoot-skip" onclick="finishPhotoshoot()" id="finish-btn" style="visibility:hidden;">Done</button>
+        </div>
+      </div>
+
+      <div id="camera-start" style="text-align:center;padding:40px 0;">
+        <button class="btn-next" onclick="startPhotoshoot()" style="font-size:15px;padding:18px 40px;">Start Photoshoot</button>
+        <p style="font-size:12px;color:var(--muted);margin-top:12px;">Make sure you're in a well-lit area</p>
+      </div>
+    </div>
+
+    <!-- UPLOAD MODE (hidden by default) -->
+    <div id="upload-mode" style="display:none;">
+      <div class="upload-zone" id="face-upload-zone">
+        <input type="file" id="face-photos" accept="image/*" multiple>
+        <div class="upload-icon">📸</div>
+        <div class="upload-label">Drop photos here or click to browse</div>
+        <div class="upload-hint">JPG or PNG · 3-10 photos · Multiple angles recommended</div>
+      </div>
+    </div>
+
+    <div class="upload-previews" id="face-previews"></div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goToStep(1)">Back</button>
+      <button class="btn-next" id="step2-next" onclick="goToStep(3)" disabled>Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 2B: AI INFLUENCER DESIGNER (shown when product=influencer) -->
+  <div class="dtb-step" data-step="2b">
+    <div class="step-header">
+      <div class="step-number">Step 02</div>
+      <h1 class="step-title">Design Your<br>AI Influencer</h1>
+      <p class="step-subtitle">Describe the person you want to create. We'll generate preview options for you to choose from, then lock in their look permanently.</p>
+    </div>
+
+    <div style="margin-bottom:24px;">
+      <label style="font-family:var(--font-heading);font-weight:700;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:8px;">Gender</label>
+      <div class="mode-toggle" style="justify-content:flex-start;">
+        <button class="active" onclick="setInfluencerOption(this,'influencer-gender')">Female</button>
+        <button onclick="setInfluencerOption(this,'influencer-gender')">Male</button>
+        <button onclick="setInfluencerOption(this,'influencer-gender')">Non-binary</button>
+      </div>
+      <input type="hidden" id="influencer-gender" value="Female">
+    </div>
+
+    <div style="margin-bottom:24px;">
+      <label style="font-family:var(--font-heading);font-weight:700;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:8px;">Age Range</label>
+      <div class="mode-toggle" style="justify-content:flex-start;">
+        <button onclick="setInfluencerOption(this,'influencer-age')">18-25</button>
+        <button class="active" onclick="setInfluencerOption(this,'influencer-age')">25-35</button>
+        <button onclick="setInfluencerOption(this,'influencer-age')">35-45</button>
+        <button onclick="setInfluencerOption(this,'influencer-age')">45+</button>
+      </div>
+      <input type="hidden" id="influencer-age" value="25-35">
+    </div>
+
+    <div style="margin-bottom:24px;">
+      <label style="font-family:var(--font-heading);font-weight:700;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:8px;">Ethnicity / Look</label>
+      <div class="mode-toggle" style="justify-content:flex-start;flex-wrap:wrap;">
+        <button onclick="setInfluencerOption(this,'influencer-ethnicity')">Caucasian</button>
+        <button onclick="setInfluencerOption(this,'influencer-ethnicity')">Black</button>
+        <button onclick="setInfluencerOption(this,'influencer-ethnicity')">Asian</button>
+        <button onclick="setInfluencerOption(this,'influencer-ethnicity')">Latino</button>
+        <button onclick="setInfluencerOption(this,'influencer-ethnicity')">Middle Eastern</button>
+        <button class="active" onclick="setInfluencerOption(this,'influencer-ethnicity')">Mixed</button>
+      </div>
+      <input type="hidden" id="influencer-ethnicity" value="Mixed">
+    </div>
+
+    <div style="margin-bottom:24px;">
+      <label style="font-family:var(--font-heading);font-weight:700;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:8px;">Style / Vibe</label>
+      <div class="mode-toggle" style="justify-content:flex-start;flex-wrap:wrap;">
+        <button class="active" onclick="setInfluencerOption(this,'influencer-style')">Professional</button>
+        <button onclick="setInfluencerOption(this,'influencer-style')">Casual</button>
+        <button onclick="setInfluencerOption(this,'influencer-style')">Glamorous</button>
+        <button onclick="setInfluencerOption(this,'influencer-style')">Athletic</button>
+        <button onclick="setInfluencerOption(this,'influencer-style')">Edgy</button>
+        <button onclick="setInfluencerOption(this,'influencer-style')">Bohemian</button>
+      </div>
+      <input type="hidden" id="influencer-style" value="Professional">
+    </div>
+
+    <div style="margin-bottom:24px;">
+      <label style="font-family:var(--font-heading);font-weight:700;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:8px;">Additional Details (optional)</label>
+      <textarea id="influencer-details" class="dtb-input" rows="3" placeholder="e.g. Short curly hair, warm smile, tattoo on left arm, fitness model build..." style="resize:vertical;"></textarea>
+    </div>
+
+    <div style="margin-bottom:24px;">
+      <label style="font-family:var(--font-heading);font-weight:700;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:8px;">Give them a name</label>
+      <input type="text" id="influencer-name" class="dtb-input" placeholder="e.g. Alex Rivera">
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goToStep(1)">Back</button>
+      <button class="btn-next" onclick="goToStep(3)">Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: VOICE RECORDING -->
+  <div class="dtb-step" data-step="3">
+    <div class="step-header">
+      <div class="step-number">Step 03</div>
+      <h1 class="step-title" id="voice-step-title">Record<br>Your Voice</h1>
+      <p class="step-subtitle" id="voice-step-subtitle">Read the prompts below aloud. We need about 60 seconds of your natural speaking voice to create a realistic voice clone.</p>
+    </div>
+
+    <!-- Voice picker for AI Influencer (hidden by default) -->
+    <div id="voice-picker" style="display:none;margin-bottom:24px;">
+      <label style="font-family:var(--font-heading);font-weight:700;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:12px;">Choose a voice for your influencer</label>
+      <div class="env-grid" style="grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));">
+        <div class="env-card selected" data-voice="Adam" onclick="selectVoice(this)">
+          <div class="checkmark">✓</div>
+          <div class="env-icon">🎙️</div>
+          <div class="env-name">Adam</div>
+          <div style="font-size:10px;color:var(--muted);">Deep, warm</div>
+        </div>
+        <div class="env-card" data-voice="Rachel" onclick="selectVoice(this)">
+          <div class="checkmark">✓</div>
+          <div class="env-icon">🎙️</div>
+          <div class="env-name">Rachel</div>
+          <div style="font-size:10px;color:var(--muted);">Confident, clear</div>
+        </div>
+        <div class="env-card" data-voice="Domi" onclick="selectVoice(this)">
+          <div class="checkmark">✓</div>
+          <div class="env-icon">🎙️</div>
+          <div class="env-name">Domi</div>
+          <div style="font-size:10px;color:var(--muted);">Strong, direct</div>
+        </div>
+        <div class="env-card" data-voice="Bella" onclick="selectVoice(this)">
+          <div class="checkmark">✓</div>
+          <div class="env-icon">🎙️</div>
+          <div class="env-name">Bella</div>
+          <div style="font-size:10px;color:var(--muted);">Soft, engaging</div>
+        </div>
+        <div class="env-card" data-voice="Antoni" onclick="selectVoice(this)">
+          <div class="checkmark">✓</div>
+          <div class="env-icon">🎙️</div>
+          <div class="env-name">Antoni</div>
+          <div style="font-size:10px;color:var(--muted);">Friendly, casual</div>
+        </div>
+        <div class="env-card" data-voice="Elli" onclick="selectVoice(this)">
+          <div class="checkmark">✓</div>
+          <div class="env-icon">🎙️</div>
+          <div class="env-name">Elli</div>
+          <div style="font-size:10px;color:var(--muted);">Young, upbeat</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Voice recorder for Digital Twin -->
+    <div id="voice-recorder-section">
+    <div class="rec-prompt">
+      <strong>Read this aloud:</strong><br><br>
+      "Hi, my name is <span id="voice-name-placeholder">___</span> and I'm excited to build my digital twin today. I believe technology can help us connect with more people and share our message at scale. The future of personal branding is here, and I'm ready to embrace it."
+    </div>
+
+    <div class="recorder-wrap">
+      <div class="rec-status" id="rec-status">Ready to record</div>
+      <div class="rec-time" id="rec-time">0:00</div>
+      <button class="rec-btn start" id="rec-btn" onclick="toggleRecording()">
+        <span id="rec-btn-icon">⏺</span> <span id="rec-btn-text">Start Recording</span>
+      </button>
+      <div class="audio-preview" id="audio-preview" style="display:none;">
+        <audio id="audio-playback" controls></audio>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goToStep(2)">Back</button>
+      <button class="btn-next" id="step3-next" onclick="goToStep(4)" disabled>Next</button>
+    </div>
+    </div><!-- /voice-recorder-section -->
+  </div>
+
+  <!-- STEP 4: ENVIRONMENTS -->
+  <div class="dtb-step" data-step="4">
+    <div class="step-header">
+      <div class="step-number">Step 04</div>
+      <h1 class="step-title">Choose Your<br>Settings</h1>
+      <p class="step-subtitle">Where do you want your digital twin to appear? Pick 3-5 environments. We'll generate portrait images and talking-head videos in each setting.</p>
+    </div>
+
+    <div class="env-grid" id="env-grid">
+      <div class="env-card" data-env="professional_office" onclick="toggleEnv(this)">
+        <div class="checkmark">✓</div>
+        <div class="env-icon">🏢</div>
+        <div class="env-name">Professional Office</div>
+      </div>
+      <div class="env-card" data-env="beach_sunset" onclick="toggleEnv(this)">
+        <div class="checkmark">✓</div>
+        <div class="env-icon">🏖️</div>
+        <div class="env-name">Beach Sunset</div>
+      </div>
+      <div class="env-card" data-env="city_street" onclick="toggleEnv(this)">
+        <div class="checkmark">✓</div>
+        <div class="env-icon">🌆</div>
+        <div class="env-name">City Street</div>
+      </div>
+      <div class="env-card" data-env="studio_portrait" onclick="toggleEnv(this)">
+        <div class="checkmark">✓</div>
+        <div class="env-icon">📷</div>
+        <div class="env-name">Studio Portrait</div>
+      </div>
+      <div class="env-card" data-env="coffee_shop" onclick="toggleEnv(this)">
+        <div class="checkmark">✓</div>
+        <div class="env-icon">☕</div>
+        <div class="env-name">Coffee Shop</div>
+      </div>
+      <div class="env-card" data-env="outdoor_park" onclick="toggleEnv(this)">
+        <div class="checkmark">✓</div>
+        <div class="env-icon">🌳</div>
+        <div class="env-name">Outdoor Park</div>
+      </div>
+      <div class="env-card" data-env="red_carpet" onclick="toggleEnv(this)">
+        <div class="checkmark">✓</div>
+        <div class="env-icon">🎭</div>
+        <div class="env-name">Red Carpet</div>
+      </div>
+      <div class="env-card" data-env="podcast_studio" onclick="toggleEnv(this)">
+        <div class="checkmark">✓</div>
+        <div class="env-icon">🎙️</div>
+        <div class="env-name">Podcast Studio</div>
+      </div>
+      <div class="env-card" data-env="gym_fitness" onclick="toggleEnv(this)">
+        <div class="checkmark">✓</div>
+        <div class="env-icon">💪</div>
+        <div class="env-name">Gym / Fitness</div>
+      </div>
+      <div class="env-card" data-env="kitchen" onclick="toggleEnv(this)">
+        <div class="checkmark">✓</div>
+        <div class="env-icon">🍳</div>
+        <div class="env-name">Kitchen</div>
+      </div>
+      <div class="env-card" data-env="conference_stage" onclick="toggleEnv(this)">
+        <div class="checkmark">✓</div>
+        <div class="env-icon">🎤</div>
+        <div class="env-name">Conference Stage</div>
+      </div>
+      <div class="env-card" data-env="rooftop_bar" onclick="toggleEnv(this)">
+        <div class="checkmark">✓</div>
+        <div class="env-icon">🌃</div>
+        <div class="env-name">Rooftop Bar</div>
+      </div>
+    </div>
+
+    <div id="env-count" style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:16px;">0 selected — pick at least 3</div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goToStep(3)">Back</button>
+      <button class="btn-next" id="step4-next" onclick="goToStep(5)" disabled>Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: PLAN SELECTION + SUBMIT -->
+  <div class="dtb-step" data-step="5">
+    <div class="step-header">
+      <div class="step-number">Step 05</div>
+      <h1 class="step-title">Choose Your<br>Package</h1>
+      <p class="step-subtitle">Select the package that fits your needs. Every tier includes AI-generated portrait images and talking-head videos with your cloned voice.</p>
+    </div>
+
+    <div class="tier-cards">
+      <div class="tier-card" data-tier="free" onclick="selectTier(this)">
+        <div class="tier-name">Free Preview</div>
+        <div class="tier-price"><span class="currency">$</span>0</div>
+        <ul class="tier-features">
+          <li>1 talking head clip (10s)</li>
+          <li>2 AI portrait images</li>
+          <li>Voice clone preview</li>
+          <li>Delivered in ~5 minutes</li>
+        </ul>
+      </div>
+      <div class="tier-card recommended selected" data-tier="standard" onclick="selectTier(this)">
+        <div class="tier-name">Digital Twin</div>
+        <div class="tier-price"><span class="currency">$</span>49</div>
+        <ul class="tier-features">
+          <li>3 talking head videos (30s)</li>
+          <li>5 AI portrait images</li>
+          <li>Full voice clone</li>
+          <li>Choose your settings</li>
+          <li>Delivered in ~15 minutes</li>
+        </ul>
+      </div>
+      <div class="tier-card" data-tier="pro" onclick="selectTier(this)">
+        <div class="tier-name">Digital Twin Pro</div>
+        <div class="tier-price"><span class="currency">$</span>149</div>
+        <ul class="tier-features">
+          <li>5 talking head videos (60s)</li>
+          <li>10 AI portrait images</li>
+          <li>LoRA-trained AI model</li>
+          <li>Full voice clone</li>
+          <li>Raw assets included</li>
+          <li>Delivered in ~30 minutes</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Promo Code -->
+    <div style="margin-bottom:32px;">
+      <label style="font-family:var(--font-heading);font-weight:700;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px;">Have a promo code?</label>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input type="text" id="promo-code" class="dtb-input" placeholder="Enter code" style="margin-bottom:0;flex:1;text-transform:uppercase;">
+        <button onclick="applyPromo()" style="padding:14px 24px;border-radius:8px;border:1px solid var(--subtle);background:transparent;color:var(--teal);font-family:var(--font-heading);font-weight:700;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;" id="promo-apply-btn">Apply</button>
+      </div>
+      <div id="promo-status" style="font-size:12px;margin-top:8px;display:none;"></div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goToStep(4)">Back</button>
+      <button class="btn-submit" id="submit-btn" onclick="submitForm()">Build My Digital Twin</button>
+    </div>
+  </div>
+
+  <!-- PROCESSING SCREEN -->
+  <div class="processing-screen" id="processing-screen">
+    <div class="processing-spinner"></div>
+    <h2 class="processing-title">Building Your<br>Digital Twin</h2>
+    <p class="processing-subtitle">We're generating your AI portraits and talking-head videos now.<br>You'll receive an email at <strong id="processing-email"></strong> when it's ready.</p>
+    <p style="font-size:13px;color:var(--muted);margin-top:24px;">Free Preview: ~5 min · Digital Twin: ~15 min · Pro: ~30 min</p>
+  </div>
+
+</div>
+</section>
+
+<script>
+// ═══════════ CONFIG ═══════════
+const SUPABASE_URL = 'https://podyldvpvgqktwbqswrc.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvZHlsZHZwdmdxa3R3YnFzd3JjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2OTcxOTQsImV4cCI6MjA3OTI3MzE5NH0.PzDWh-KSAfdGHDWDB45Zw9_94m5HgQTj6x4PSU-uuMc';
+// Direct to task server for now (bypass n8n until workflow is built)
+const TASK_SERVER_URL = 'http://5.223.79.5:8090/generate-twin';
+
+// ═══════════ STATE ═══════════
+let currentStep = 1;
+let selectedProduct = 'twin'; // 'twin' or 'influencer'
+let selectedTier = 'standard';
+let selectedEnvironments = [];
+let faceFiles = [];       // File objects (from upload or canvas blobs)
+let faceDataUrls = [];    // For previews
+let voiceBlob = null;
+let photoMode = 'camera'; // 'camera' or 'upload'
+
+// Photoshoot state
+let cameraStream = null;
+let currentPoseIndex = 0;
+const POSES = [
+  { instruction: 'Look straight at the camera', detail: 'Relax your face, slight smile. This is your primary reference photo.' },
+  { instruction: 'Slight smile', detail: 'Think of something that makes you happy. Natural, warm smile.' },
+  { instruction: 'Turn slightly left', detail: 'Rotate your head about 30 degrees to the left. Eyes stay on camera.' },
+  { instruction: 'Turn slightly right', detail: 'Rotate your head about 30 degrees to the right. Eyes stay on camera.' },
+  { instruction: 'Chin up slightly', detail: 'Tilt your chin up just a little. Confident, open posture.' },
+  { instruction: 'Chin down slightly', detail: 'Tilt your chin down a touch. Thoughtful, approachable look.' },
+  { instruction: 'Serious expression', detail: 'Drop the smile. Professional, determined look.' },
+  { instruction: 'Big genuine smile', detail: 'Full smile, show some teeth. This is for the fun shots.' },
+];
+
+// ═══════════ NAVIGATION ═══════════
+// ═══════════ PRODUCT SELECTION ═══════════
+function selectProduct(card) {
+  document.querySelectorAll('[data-product]').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedProduct = card.dataset.product;
+}
+
+function setInfluencerOption(btn, inputId) {
+  btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(inputId).value = btn.textContent.trim();
+}
+
+function goToStep(step) {
+  // Route to the right Step 2 based on product choice
+  if (step === 2 && selectedProduct === 'influencer') step = '2b';
+  if (step === 2 && currentStep === '2b') step = '2b'; // back button from step 3
+
+  const numericStep = (step === '2b') ? 2 : Number(step);
+  const numericCurrent = (currentStep === '2b') ? 2 : Number(currentStep);
+
+  // Validate current step before moving forward
+  if (numericStep > numericCurrent) {
+    if (numericCurrent === 1 && !validateStep1()) return;
+    if (currentStep === 2 && selectedProduct === 'twin' && faceFiles.length < 1) return;
+    if (numericCurrent === 3 && !voiceBlob && selectedProduct === 'twin') return;
+    if (numericCurrent === 4 && selectedEnvironments.length < 3) return;
+  }
+
+  // Stop camera when leaving step 2
+  if (currentStep === 2 && step !== 2) stopCamera();
+
+  document.querySelectorAll('.dtb-step').forEach(el => el.classList.remove('active'));
+  const target = document.querySelector(`.dtb-step[data-step="${step}"]`);
+  if (target) target.classList.add('active');
+
+  currentStep = step;
+
+  // Update progress bar using numeric step
+  document.querySelector('.progress-bar-fill').style.width = `${(numericStep / 5) * 100}%`;
+  document.querySelector('.progress-counter span').textContent = numericStep;
+  document.querySelectorAll('.progress-step-label').forEach(el => {
+    const s = parseInt(el.dataset.step);
+    el.classList.toggle('active', s === step);
+    el.classList.toggle('done', s < step);
+  });
+
+  // Adapt step 3 for product type
+  if (numericStep === 3) {
+    if (selectedProduct === 'influencer') {
+      document.getElementById('voice-step-title').innerHTML = 'Choose a<br>Voice';
+      document.getElementById('voice-step-subtitle').textContent = 'Pick a voice for your AI influencer. This is the voice they\'ll use in talking-head videos.';
+      document.getElementById('voice-picker').style.display = 'block';
+      document.getElementById('voice-recorder-section').style.display = 'none';
+      document.getElementById('step3-next').disabled = false; // voice picker always has a selection
+    } else {
+      document.getElementById('voice-step-title').innerHTML = 'Record<br>Your Voice';
+      document.getElementById('voice-step-subtitle').textContent = 'Read the prompts below aloud. We need about 60 seconds of your natural speaking voice to create a realistic voice clone.';
+      document.getElementById('voice-picker').style.display = 'none';
+      document.getElementById('voice-recorder-section').style.display = 'block';
+      const name = document.getElementById('dtb-name').value.split(' ')[0] || '___';
+      document.getElementById('voice-name-placeholder').textContent = name;
+    }
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function validateStep1() {
+  const name = document.getElementById('dtb-name').value.trim();
+  const email = document.getElementById('dtb-email').value.trim();
+  if (!name || !email || !email.includes('@')) {
+    alert('Please enter your name and a valid email address.');
+    return false;
+  }
+  return true;
+}
+
+// ═══════════ PHOTO MODE TOGGLE ═══════════
+function setPhotoMode(mode) {
+  photoMode = mode;
+  document.querySelectorAll('.mode-toggle button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+
+  document.getElementById('camera-mode').style.display = mode === 'camera' ? 'block' : 'none';
+  document.getElementById('upload-mode').style.display = mode === 'upload' ? 'block' : 'none';
+
+  if (mode === 'camera') {
+    // Stop camera if switching back but not shooting
+  } else {
+    stopCamera();
+    // Set up file upload handlers
+    const faceInput = document.getElementById('face-photos');
+    const faceZone = document.getElementById('face-upload-zone');
+    faceInput.onchange = handleFaceFiles;
+    faceZone.ondragover = (e) => { e.preventDefault(); faceZone.classList.add('dragover'); };
+    faceZone.ondragleave = () => faceZone.classList.remove('dragover');
+    faceZone.ondrop = (e) => {
+      e.preventDefault(); faceZone.classList.remove('dragover');
+      faceInput.files = e.dataTransfer.files; handleFaceFiles();
+    };
+  }
+}
+
+function handleFaceFiles() {
+  const files = Array.from(document.getElementById('face-photos').files);
+  files.slice(0, 10).forEach(file => {
+    faceFiles.push(file);
+    faceDataUrls.push(URL.createObjectURL(file));
+  });
+  renderPreviews();
+}
+
+// ═══════════ GUIDED PHOTOSHOOT ═══════════
+async function startPhotoshoot() {
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { width: { ideal: 1280 }, height: { ideal: 960 }, facingMode: 'user' },
+      audio: false
+    });
+
+    const video = document.getElementById('photoshoot-video');
+    video.srcObject = cameraStream;
+
+    document.getElementById('camera-start').style.display = 'none';
+    document.getElementById('photoshoot-wrap').style.display = 'block';
+
+    currentPoseIndex = 0;
+    showPose();
+
+  } catch (err) {
+    alert('Could not access camera. Please allow camera access or use "Upload Instead".');
+  }
+}
+
+function showPose() {
+  const pose = POSES[currentPoseIndex];
+  if (!pose) { finishPhotoshoot(); return; }
+
+  document.getElementById('pose-instruction').textContent = pose.instruction;
+  document.getElementById('pose-detail').textContent = pose.detail;
+  document.getElementById('photo-counter').textContent = `${faceFiles.length} / 8 shots`;
+
+  // Show finish button after 3+ photos
+  document.getElementById('finish-btn').style.visibility = faceFiles.length >= 3 ? 'visible' : 'hidden';
+}
+
+function capturePhoto() {
+  const video = document.getElementById('photoshoot-video');
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  // Mirror the image to match what user sees
+  ctx.translate(canvas.width, 0);
+  ctx.scale(-1, 1);
+  ctx.drawImage(video, 0, 0);
+
+  // Flash effect
+  const flash = document.getElementById('photoshoot-flash');
+  flash.classList.add('active');
+  setTimeout(() => flash.classList.remove('active'), 150);
+
+  // Convert to blob and store
+  canvas.toBlob((blob) => {
+    const file = new File([blob], `face_${faceFiles.length}.jpg`, { type: 'image/jpeg' });
+    faceFiles.push(file);
+    faceDataUrls.push(canvas.toDataURL('image/jpeg', 0.9));
+    renderPreviews();
+
+    // Next pose
+    currentPoseIndex++;
+    if (currentPoseIndex < POSES.length) {
+      showPose();
+    } else {
+      finishPhotoshoot();
+    }
+  }, 'image/jpeg', 0.9);
+}
+
+function skipPose() {
+  currentPoseIndex++;
+  if (currentPoseIndex < POSES.length) {
+    showPose();
+  } else {
+    finishPhotoshoot();
+  }
+}
+
+function finishPhotoshoot() {
+  stopCamera();
+  document.getElementById('photoshoot-wrap').style.display = 'none';
+  document.getElementById('camera-start').style.display = 'block';
+
+  if (faceFiles.length > 0) {
+    document.getElementById('camera-start').innerHTML = `
+      <div style="font-family:var(--font-heading);font-weight:900;font-size:20px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;">
+        Photoshoot Complete
+      </div>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:16px;">${faceFiles.length} photo${faceFiles.length !== 1 ? 's' : ''} captured</p>
+      <button class="photoshoot-skip" onclick="retakePhotos()" style="margin-right:8px;">Retake All</button>
+      <button class="photoshoot-skip" onclick="addMorePhotos()">Add More</button>
+    `;
+  }
+}
+
+function retakePhotos() {
+  faceFiles = [];
+  faceDataUrls = [];
+  renderPreviews();
+  currentPoseIndex = 0;
+  document.getElementById('camera-start').innerHTML = `
+    <button class="btn-next" onclick="startPhotoshoot()" style="font-size:15px;padding:18px 40px;">Start Photoshoot</button>
+    <p style="font-size:12px;color:var(--muted);margin-top:12px;">Make sure you're in a well-lit area</p>
+  `;
+}
+
+function addMorePhotos() {
+  startPhotoshoot();
+}
+
+function stopCamera() {
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(t => t.stop());
+    cameraStream = null;
+  }
+}
+
+// ═══════════ PHOTO PREVIEWS ═══════════
+function renderPreviews() {
+  const previews = document.getElementById('face-previews');
+  previews.innerHTML = '';
+
+  faceDataUrls.forEach((url, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'thumb-wrap';
+
+    const img = document.createElement('img');
+    img.className = 'thumb';
+    img.src = url;
+
+    const del = document.createElement('button');
+    del.className = 'thumb-delete';
+    del.textContent = '×';
+    del.onclick = () => removePhoto(i);
+
+    wrap.appendChild(img);
+    wrap.appendChild(del);
+    previews.appendChild(wrap);
+  });
+
+  document.getElementById('step2-next').disabled = faceFiles.length < 1;
+}
+
+function removePhoto(index) {
+  faceFiles.splice(index, 1);
+  faceDataUrls.splice(index, 1);
+  renderPreviews();
+}
+
+// ═══════════ VOICE RECORDER ═══════════
+let mediaRecorder = null;
+let audioChunks = [];
+let recordingTimer = null;
+let recordingSeconds = 0;
+
+async function toggleRecording() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    stopRecording();
+  } else {
+    startRecording();
+  }
+}
+
+async function startRecording() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+    audioChunks = [];
+    recordingSeconds = 0;
+
+    mediaRecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) audioChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = () => {
+      voiceBlob = new Blob(audioChunks, { type: 'audio/webm' });
+      const audioUrl = URL.createObjectURL(voiceBlob);
+      const playback = document.getElementById('audio-playback');
+      playback.src = audioUrl;
+      document.getElementById('audio-preview').style.display = 'block';
+      document.getElementById('step3-next').disabled = false;
+      stream.getTracks().forEach(t => t.stop());
+    };
+
+    mediaRecorder.start(1000);
+    updateRecorderUI(true);
+
+    recordingTimer = setInterval(() => {
+      recordingSeconds++;
+      document.getElementById('rec-time').textContent =
+        `${Math.floor(recordingSeconds / 60)}:${String(recordingSeconds % 60).padStart(2, '0')}`;
+    }, 1000);
+
+  } catch (err) {
+    alert('Could not access microphone. Please allow microphone access and try again.');
+  }
+}
+
+function stopRecording() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    mediaRecorder.stop();
+    clearInterval(recordingTimer);
+    updateRecorderUI(false);
+  }
+}
+
+function updateRecorderUI(isRecording) {
+  const btn = document.getElementById('rec-btn');
+  const icon = document.getElementById('rec-btn-icon');
+  const text = document.getElementById('rec-btn-text');
+  const status = document.getElementById('rec-status');
+
+  if (isRecording) {
+    btn.className = 'rec-btn stop';
+    icon.textContent = '⏹';
+    text.textContent = 'Stop Recording';
+    status.textContent = 'Recording...';
+    status.style.color = '#e94560';
+  } else {
+    btn.className = 'rec-btn start';
+    icon.textContent = '⏺';
+    text.textContent = 'Record Again';
+    status.textContent = 'Recording saved';
+    status.style.color = 'var(--teal)';
+  }
+}
+
+// ═══════════ ENVIRONMENTS ═══════════
+function toggleEnv(card) {
+  const env = card.dataset.env;
+  const idx = selectedEnvironments.indexOf(env);
+
+  if (idx >= 0) {
+    selectedEnvironments.splice(idx, 1);
+    card.classList.remove('selected');
+  } else {
+    selectedEnvironments.push(env);
+    card.classList.add('selected');
+  }
+
+  const count = selectedEnvironments.length;
+  document.getElementById('env-count').textContent =
+    count === 0 ? '0 selected — pick at least 3' :
+    count < 3 ? `${count} selected — pick at least ${3 - count} more` :
+    `${count} selected`;
+  document.getElementById('step4-next').disabled = count < 3;
+}
+
+// ═══════════ TIER SELECTION ═══════════
+function selectTier(card) {
+  document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedTier = card.dataset.tier;
+}
+
+// ═══════════ VOICE PICKER (Influencer) ═══════════
+let selectedVoice = 'Adam';
+
+function selectVoice(card) {
+  document.querySelectorAll('#voice-picker .env-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedVoice = card.dataset.voice;
+}
+
+// ═══════════ PROMO CODES ═══════════
+let appliedPromo = null;
+
+async function applyPromo() {
+  const code = document.getElementById('promo-code').value.trim().toUpperCase();
+  const status = document.getElementById('promo-status');
+  const btn = document.getElementById('promo-apply-btn');
+
+  if (!code) return;
+
+  btn.textContent = '...';
+  status.style.display = 'none';
+
+  try {
+    const resp = await fetch(
+      `${SUPABASE_URL}/rest/v1/promo_codes?code=eq.${code}&is_active=eq.true`,
+      {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        }
+      }
+    );
+    const promos = await resp.json();
+
+    if (promos.length === 0) {
+      status.textContent = 'Invalid code';
+      status.style.color = '#e94560';
+      status.style.display = 'block';
+      appliedPromo = null;
+    } else {
+      const promo = promos[0];
+      if (promo.max_uses && promo.times_used >= promo.max_uses) {
+        status.textContent = 'Code has expired';
+        status.style.color = '#e94560';
+        status.style.display = 'block';
+        appliedPromo = null;
+      } else if (promo.valid_until && new Date(promo.valid_until) < new Date()) {
+        status.textContent = 'Code has expired';
+        status.style.color = '#e94560';
+        status.style.display = 'block';
+        appliedPromo = null;
+      } else {
+        appliedPromo = promo;
+        const discount = promo.discount_percent;
+        status.innerHTML = discount === 100
+          ? `<strong style="color:var(--teal);">✓ ${code}</strong> — 100% off! All tiers are free.`
+          : `<strong style="color:var(--teal);">✓ ${code}</strong> — ${discount}% off applied.`;
+        status.style.color = 'var(--teal)';
+        status.style.display = 'block';
+
+        // Update tier card prices visually
+        document.querySelectorAll('.tier-card').forEach(card => {
+          const priceEl = card.querySelector('.tier-price');
+          const originalPrice = parseInt(priceEl.dataset.original || priceEl.textContent.replace(/[^0-9]/g, ''));
+          priceEl.dataset.original = originalPrice;
+          const newPrice = Math.round(originalPrice * (1 - discount / 100));
+          if (originalPrice > 0) {
+            priceEl.innerHTML = newPrice === 0
+              ? `<span class="currency">$</span>0 <span style="font-size:14px;color:var(--muted);text-decoration:line-through;">$${originalPrice}</span>`
+              : `<span class="currency">$</span>${newPrice} <span style="font-size:14px;color:var(--muted);text-decoration:line-through;">$${originalPrice}</span>`;
+          }
+        });
+      }
+    }
+  } catch (err) {
+    status.textContent = 'Error checking code';
+    status.style.color = '#e94560';
+    status.style.display = 'block';
+  }
+
+  btn.textContent = 'Apply';
+}
+
+// ═══════════ SUBMISSION ═══════════
+async function submitForm() {
+  const name = document.getElementById('dtb-name').value.trim();
+  const email = document.getElementById('dtb-email').value.trim();
+  const submitBtn = document.getElementById('submit-btn');
+
+  if (!name || !email) { alert('Please fill in your name and email.'); return; }
+  if (selectedProduct === 'twin' && faceFiles.length < 1) { alert('Please upload at least one face photo.'); return; }
+  if (selectedProduct === 'twin' && !voiceBlob) { alert('Please record your voice.'); return; }
+  if (selectedEnvironments.length < 3) { alert('Please select at least 3 environments.'); return; }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Uploading...';
+
+  try {
+    // 1. Generate submission ID
+    const submissionId = crypto.randomUUID();
+
+    // 2. Upload face photos to Supabase Storage (twin only)
+    const facePhotoPaths = [];
+    if (selectedProduct === 'twin') {
+    for (let i = 0; i < faceFiles.length; i++) {
+      const file = faceFiles[i];
+      const ext = file.name.split('.').pop() || 'jpg';
+      const storagePath = `uploads/${submissionId}/face_${i}.${ext}`;
+
+      const uploadResp = await fetch(
+        `${SUPABASE_URL}/storage/v1/object/dtb/${storagePath}`,
+        {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': file.type,
+          },
+          body: file,
+        }
+      );
+      if (uploadResp.ok) facePhotoPaths.push(storagePath);
+    }
+
+    } // end twin photo upload
+
+    // 3. Upload voice recording (twin only)
+    const voicePath = `uploads/${submissionId}/voice_0.webm`;
+    if (selectedProduct === 'twin' && voiceBlob) {
+    await fetch(
+      `${SUPABASE_URL}/storage/v1/object/dtb/${voicePath}`,
+      {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'audio/webm',
+        },
+        body: voiceBlob,
+      }
+    );
+
+    } // end twin voice upload
+
+    // 4. Insert submission into Supabase
+    // If promo code covers 100%, skip payment
+    const promoCovers = appliedPromo && appliedPromo.discount_percent === 100;
+    const needsPayment = selectedTier !== 'free' && !promoCovers;
+
+    // Build influencer config if applicable
+    const influencerConfig = selectedProduct === 'influencer' ? {
+      gender: document.getElementById('influencer-gender').value,
+      age: document.getElementById('influencer-age').value,
+      ethnicity: document.getElementById('influencer-ethnicity').value,
+      style: document.getElementById('influencer-style').value,
+      details: document.getElementById('influencer-details').value,
+      character_name: document.getElementById('influencer-name').value,
+      voice: selectedVoice,
+    } : null;
+
+    const submission = {
+      id: submissionId,
+      name: name,
+      email: email,
+      tier: selectedTier,
+      environments: selectedEnvironments,
+      face_photos: selectedProduct === 'twin' ? facePhotoPaths : [],
+      body_photos: [],
+      voice_samples: selectedProduct === 'twin' ? [voicePath] : [],
+      status: 'pending',
+      payment_status: needsPayment ? 'pending' : (promoCovers ? 'promo_100' : 'none'),
+      custom_prompt: influencerConfig ? JSON.stringify(influencerConfig) : null,
+    };
+
+    await fetch(`${SUPABASE_URL}/rest/v1/dtb_submissions`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal',
+      },
+      body: JSON.stringify(submission),
+    });
+
+    // 5. Increment promo code usage if applied
+    if (appliedPromo) {
+      await fetch(
+        `${SUPABASE_URL}/rest/v1/promo_codes?id=eq.${appliedPromo.id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal',
+          },
+          body: JSON.stringify({ times_used: appliedPromo.times_used + 1 }),
+        }
+      );
+    }
+
+    // 6. Pipeline trigger — logged to console for manual kickoff
+    console.log('═══════════════════════════════════════');
+    console.log('DTB SUBMISSION SAVED — Run pipeline with:');
+    console.log(`  submission_id: ${submissionId}`);
+    console.log(`  tier: ${selectedTier}`);
+    console.log('═══════════════════════════════════════');
+
+    // 6. Show processing screen
+    document.querySelectorAll('.dtb-step').forEach(el => el.classList.remove('active'));
+    document.querySelector('.dtb-progress').style.display = 'none';
+    document.getElementById('processing-email').textContent = email;
+    document.getElementById('processing-screen').classList.add('active');
+
+  } catch (err) {
+    console.error('Submission error:', err);
+    alert('Something went wrong. Please try again.');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Build My Digital Twin';
+  }
+}
+</script>
+
+</body>
+</html>

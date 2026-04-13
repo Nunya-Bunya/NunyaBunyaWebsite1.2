@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BFK Submissions | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+.submission-card { background: var(--dark2); border: 1px solid var(--subtle); padding: 24px; margin-bottom: 16px; }
+.submission-card.pending { border-left: 3px solid #F59E0B; }
+.submission-card.approved { border-left: 3px solid var(--teal); }
+.submission-card.rejected { border-left: 3px solid #EF4444; }
+.sub-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.sub-name { font-family: var(--font-heading); font-weight: 900; font-size: 18px; text-transform: uppercase; color: var(--white); }
+.sub-email { font-size: 13px; color: var(--muted); }
+.sub-date { font-size: 11px; color: rgba(255,255,255,0.3); }
+.sub-status { font-family: var(--font-heading); font-weight: 700; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; }
+.sub-status.pending { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.sub-status.approved { background: rgba(0,229,204,0.1); color: var(--teal); }
+.sub-status.rejected { background: rgba(239,68,68,0.1); color: #EF4444; }
+.sub-answers { margin-top: 16px; display: none; }
+.sub-answers.visible { display: block; }
+.answer-row { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 13px; }
+.answer-label { color: var(--teal); font-weight: 600; min-width: 30px; }
+.answer-text { color: var(--muted); font-weight: 300; }
+.sub-actions { display: flex; gap: 8px; margin-top: 16px; }
+.btn-approve { padding: 10px 24px; background: var(--teal); color: var(--dark); font-family: var(--font-heading); font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; }
+.btn-reject { padding: 10px 24px; background: transparent; color: #EF4444; font-family: var(--font-heading); font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid #EF4444; cursor: pointer; }
+.btn-toggle { padding: 8px 16px; background: transparent; color: var(--muted); font-size: 12px; border: 1px solid var(--subtle); cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>BFK <span>Submissions</span></h1>
+      <div id="subStats" style="font-size:14px;color:var(--muted)"></div>
+    </div>
+
+    <div class="toolbar">
+      <select id="statusFilter" onchange="loadSubmissions()">
+        <option value="">All</option>
+        <option value="pending_review" selected>Pending Review</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+    </div>
+
+    <div id="submissionsList"></div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+const ADMIN_KEY = localStorage.getItem('nb_admin_key') || '';
+
+async function loadSubmissions() {
+  const status = document.getElementById('statusFilter').value;
+  const res = await fetch(`/api/admin/data?action=bfk-submissions&key=${ADMIN_KEY}`);
+  const data = await res.json();
+
+  let subs = data.submissions || [];
+  if (status) subs = subs.filter(s => (s.status || 'pending_review') === status);
+
+  const pending = (data.submissions || []).filter(s => (s.status || 'pending_review') === 'pending_review').length;
+  document.getElementById('subStats').textContent = `${pending} pending review`;
+
+  const list = document.getElementById('submissionsList');
+  if (!subs.length) {
+    list.innerHTML = '<div style="text-align:center;padding:60px;color:var(--muted);">No submissions found.</div>';
+    return;
+  }
+
+  list.innerHTML = subs.map(sub => {
+    const st = sub.status || 'pending_review';
+    const stLabel = st === 'pending_review' ? 'pending' : st;
+    const answers = sub.answers || {};
+    const answerKeys = Object.keys(answers).sort((a,b) => {
+      const na = parseInt(a.replace('q','')) || 0;
+      const nb = parseInt(b.replace('q','')) || 0;
+      return na - nb;
+    });
+    const date = new Date(sub.created_at).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+    return `
+      <div class="submission-card ${stLabel}">
+        <div class="sub-header">
+          <div>
+            <div class="sub-name">${sub.client_name || 'Unknown'}</div>
+            <div class="sub-email">${sub.client_email || 'No email'} ${sub.client_phone ? '· ' + sub.client_phone : ''}</div>
+          </div>
+          <div style="text-align:right;">
+            <span class="sub-status ${stLabel}">${stLabel}</span>
+            <div class="sub-date">${date}</div>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">
+          <strong style="color:var(--white);">${answers.q1 || 'Unnamed Business'}</strong> — ${answers.q2 || 'No description'}
+        </div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.3);">Stage: ${answers.q3 || '?'} · Type: ${answers.q4 || '?'} · ${answerKeys.length} answers</div>
+
+        <button class="btn-toggle" onclick="toggleAnswers('${sub.id}')">View All Answers</button>
+
+        <div class="sub-answers" id="answers-${sub.id}">
+          ${answerKeys.map(k => `<div class="answer-row"><span class="answer-label">${k}</span><span class="answer-text">${typeof answers[k] === 'object' ? JSON.stringify(answers[k]) : answers[k]}</span></div>`).join('')}
+        </div>
+
+        ${st === 'pending_review' ? `
+        <div class="sub-actions">
+          <button class="btn-approve" onclick="approveSubmission('${sub.id}')">Approve & Generate</button>
+          <button class="btn-reject" onclick="rejectSubmission('${sub.id}')">Reject</button>
+        </div>` : ''}
+        ${st === 'approved' ? '<div style="font-size:12px;color:var(--teal);margin-top:12px;">✓ Approved — documents generating</div>' : ''}
+        ${st === 'rejected' ? '<div style="font-size:12px;color:#EF4444;margin-top:12px;">✗ Rejected' + (sub.rejection_reason ? ': ' + sub.rejection_reason : '') + '</div>' : ''}
+      </div>`;
+  }).join('');
+}
+
+function toggleAnswers(id) {
+  document.getElementById('answers-' + id).classList.toggle('visible');
+}
+
+async function approveSubmission(id) {
+  if (!confirm('Approve this submission and generate documents?')) return;
+  const res = await fetch(`/api/admin/data?action=bfk-generate&key=${ADMIN_KEY}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ submission_id: id })
+  });
+  const data = await res.json();
+  alert(data.message || 'Approved!');
+  loadSubmissions();
+}
+
+async function rejectSubmission(id) {
+  const reason = prompt('Reason for rejection (optional):');
+  if (reason === null) return;
+  await fetch(`/api/admin/data?action=bfk-reject&key=${ADMIN_KEY}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ submission_id: id, reason })
+  });
+  loadSubmissions();
+}
+
+loadSubmissions();
+</script>
+</body>
+</html>
