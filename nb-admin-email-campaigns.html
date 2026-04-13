@@ -10,77 +10,131 @@
 <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="/nb-admin-style.css">
 <style>
-  .ec-tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--subtle); }
-  .ec-tab {
-    padding: 12px 24px; font-family: var(--font-heading); font-weight: 700; font-size: 13px;
-    text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; color: var(--muted);
-    border-bottom: 3px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none;
-  }
-  .ec-tab:hover { color: var(--white); }
-  .ec-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
-  .ec-tab .badge-count {
-    display: inline-block; background: rgba(0,229,204,0.15); color: var(--teal);
-    padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 6px; font-weight: 500;
-  }
-
-  .ec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 900px) { .ec-grid { grid-template-columns: 1fr; } }
-
-  .ec-card {
+  /* Campaign card */
+  .camp-card {
     background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
-    padding: 20px; transition: border-color 0.2s;
+    padding: 24px; margin-bottom: 20px; transition: border-color 0.2s;
   }
-  .ec-card:hover { border-color: var(--teal); }
+  .camp-card:hover { border-color: rgba(0,229,204,0.3); }
+  .camp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .camp-name { font-family: var(--font-heading); font-size: 20px; font-weight: 700; }
+  .camp-desc { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .camp-meta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .camp-meta-item { font-size: 12px; color: var(--muted); }
+  .camp-meta-item strong { color: var(--teal); font-weight: 600; }
 
-  .ec-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-  .ec-card-name { font-family: var(--font-heading); font-size: 16px; font-weight: 700; max-width: 80%; }
-  .ec-card-status {
-    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
-    padding: 3px 10px; border-radius: 6px; white-space: nowrap;
+  /* Toggle switch */
+  .toggle-wrap { display: flex; align-items: center; gap: 10px; }
+  .toggle-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; font-family: var(--font-heading); font-weight: 700; }
+  .toggle-label.live { color: var(--teal); }
+  .toggle-label.paused { color: var(--magenta); }
+  .toggle {
+    position: relative; width: 44px; height: 24px; background: var(--subtle); border-radius: 12px;
+    cursor: pointer; transition: background 0.3s; border: none; padding: 0;
   }
-  .ec-card-status.published { background: rgba(0,229,204,0.12); color: var(--teal); }
-  .ec-card-status.draft { background: rgba(255,255,255,0.06); color: var(--muted); }
-
-  .ec-stats { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-top: 12px; }
-  .ec-stat {
-    text-align: center; padding: 10px 4px; background: var(--dark);
-    border-radius: 8px; border: 1px solid var(--subtle);
+  .toggle.on { background: var(--teal); }
+  .toggle::after {
+    content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px;
+    background: white; border-radius: 50%; transition: transform 0.3s;
   }
-  .ec-stat-val { font-family: var(--font-heading); font-weight: 900; font-size: 20px; line-height: 1; }
-  .ec-stat-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+  .toggle.on::after { transform: translateX(20px); }
 
-  .ec-rate-bar { height: 4px; background: var(--subtle); border-radius: 2px; margin-top: 12px; overflow: hidden; }
-  .ec-rate-fill { height: 100%; border-radius: 2px; }
-
-  .ec-segment-list { margin-top: 16px; }
-  .ec-segment {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
+  /* Sequence timeline */
+  .seq-timeline { margin-top: 20px; }
+  .seq-step {
+    display: grid; grid-template-columns: 60px 1fr 100px 100px 100px 100px 50px;
+    align-items: center; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px; transition: background 0.15s;
   }
-  .ec-segment:last-child { border-bottom: none; }
-  .ec-segment-name { font-size: 14px; color: rgba(255,255,255,0.7); font-weight: 300; }
-  .ec-segment-count { font-family: var(--font-heading); font-weight: 700; font-size: 16px; color: var(--teal); }
-
-  .ec-campaign-events { margin-top: 12px; padding-left: 16px; border-left: 2px solid var(--subtle); }
-  .ec-event {
-    padding: 6px 0; font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 300;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .ec-event-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-
-  .ec-table-wrap {
-    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px; padding: 24px;
-  }
-  .ec-table { width: 100%; border-collapse: collapse; }
-  .ec-table th {
-    text-align: left; padding: 8px 12px; font-family: var(--font-heading); font-size: 11px;
-    font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+  .seq-step:hover { background: rgba(255,255,255,0.02); }
+  .seq-step-header {
+    display: grid; grid-template-columns: 60px 1fr 100px 100px 100px 100px 50px;
+    padding: 8px 16px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--muted); font-family: var(--font-heading); font-weight: 700;
     border-bottom: 1px solid var(--subtle);
   }
-  .ec-table td { padding: 10px 12px; font-size: 14px; color: rgba(255,255,255,0.8); border-bottom: 1px solid rgba(255,255,255,0.03); font-weight: 300; }
+  .seq-day {
+    font-family: var(--font-heading); font-weight: 900; font-size: 16px; color: var(--teal);
+  }
+  .seq-name { font-weight: 400; color: rgba(255,255,255,0.8); }
+  .seq-subject { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .seq-stat { text-align: center; font-family: var(--font-heading); font-weight: 700; }
+  .seq-stat.zero { color: var(--muted); }
+  .seq-preview-btn {
+    background: none; border: 1px solid var(--subtle); border-radius: 6px; padding: 4px 8px;
+    font-size: 10px; color: var(--muted); cursor: pointer; text-transform: uppercase;
+    letter-spacing: 0.04em; font-family: var(--font-heading); transition: all 0.2s;
+  }
+  .seq-preview-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* Contact list */
+  .contacts-section { margin-top: 20px; }
+  .contacts-toggle {
+    background: none; border: none; color: var(--teal); cursor: pointer;
+    font-size: 13px; font-family: var(--font-heading); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 0;
+  }
+  .contacts-toggle:hover { text-decoration: underline; }
+  .contacts-list { display: none; margin-top: 8px; }
+  .contacts-list.open { display: block; }
+  .contact-row {
+    display: grid; grid-template-columns: 1fr 1fr 120px 100px;
+    padding: 8px 16px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .contact-row-header {
+    display: grid; grid-template-columns: 1fr 1fr 120px 100px;
+    padding: 6px 16px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--muted); font-family: var(--font-heading); font-weight: 700;
+    border-bottom: 1px solid var(--subtle);
+  }
+  .contact-email { color: rgba(255,255,255,0.7); font-weight: 300; }
+  .contact-company { color: var(--muted); font-weight: 300; }
+  .contact-stage { font-family: var(--font-heading); font-weight: 600; color: var(--teal); text-align: center; }
+  .contact-added { font-size: 11px; color: var(--muted); text-align: center; }
+
+  /* KPI row */
+  .camp-kpis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px; }
+  .camp-kpi {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 10px;
+    padding: 16px; text-align: center;
+  }
+  .camp-kpi-val { font-family: var(--font-heading); font-weight: 900; font-size: 28px; line-height: 1; }
+  .camp-kpi-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 6px; }
+  @media (max-width: 800px) { .camp-kpis { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 500px) {
+    .seq-step, .seq-step-header { grid-template-columns: 40px 1fr 60px 60px 60px; }
+    .seq-step > :nth-child(6), .seq-step-header > :nth-child(6),
+    .seq-step > :nth-child(7), .seq-step-header > :nth-child(7) { display: none; }
+  }
+
+  /* Preview modal */
+  .preview-overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;
+  }
+  .preview-overlay.open { display: flex; }
+  .preview-box {
+    background: white; border-radius: 12px; width: 90%; max-width: 700px; max-height: 80vh;
+    overflow: auto; position: relative;
+  }
+  .preview-close {
+    position: absolute; top: 12px; right: 16px; background: #333; color: white;
+    border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 18px;
+    cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center;
+  }
+  .preview-header {
+    padding: 20px 24px; background: var(--dark2); color: white; border-radius: 12px 12px 0 0;
+  }
+  .preview-header h3 { font-family: var(--font-heading); font-size: 16px; margin: 0; }
+  .preview-header .subject { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .preview-iframe { width: 100%; min-height: 500px; border: none; }
+
+  /* Section divider */
+  .section-divider {
+    margin: 32px 0 24px; padding-bottom: 8px; border-bottom: 1px solid var(--subtle);
+    font-family: var(--font-heading); font-size: 14px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+  }
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 </style>
@@ -92,58 +146,41 @@
     <div class="admin-topbar">
       <div>
         <h1>Email <span>Campaigns</span></h1>
-        <div class="date">Powered by Mautic</div>
+        <div class="date">Live data from Mautic &middot; Refresh to update</div>
       </div>
       <a href="https://mautic.nunyabunya.com" target="_blank" style="font-size:12px; color:var(--teal); text-decoration:none; font-family:var(--font-heading); text-transform:uppercase; letter-spacing:0.06em;">Open Mautic &#8599;</a>
     </div>
 
-    <!-- KPI Cards -->
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="num" id="kpiEmails">—</div><div class="label">Total Emails</div></div>
-      <div class="kpi-card"><div class="num" id="kpiCampaigns">—</div><div class="label">Active Campaigns</div></div>
-      <div class="kpi-card magenta"><div class="num" id="kpiContacts">—</div><div class="label">Total Contacts</div></div>
-      <div class="kpi-card"><div class="num" id="kpiSegments">—</div><div class="label">Segments</div></div>
-    </div>
+    <!-- Global KPIs -->
+    <div class="camp-kpis" id="globalKpis"></div>
 
-    <!-- Tabs -->
-    <div class="ec-tabs">
-      <button class="ec-tab active" onclick="switchTab('emails')">Emails <span class="badge-count" id="emailCount">0</span></button>
-      <button class="ec-tab" onclick="switchTab('campaigns')">Campaigns <span class="badge-count" id="campaignCount">0</span></button>
-      <button class="ec-tab" onclick="switchTab('segments')">Segments <span class="badge-count" id="segmentCount">0</span></button>
-      <button class="ec-tab" onclick="switchTab('forms')">Forms <span class="badge-count" id="formCount">0</span></button>
-    </div>
+    <!-- Campaign cards rendered here -->
+    <div id="campaignList"></div>
 
-    <!-- Emails Tab -->
-    <div id="tab-emails" class="tab-content active">
-      <div class="ec-grid" id="emailGrid"></div>
-    </div>
-
-    <!-- Campaigns Tab -->
-    <div id="tab-campaigns" class="tab-content">
-      <div class="ec-grid" id="campaignGrid"></div>
-    </div>
-
-    <!-- Segments Tab -->
-    <div id="tab-segments" class="tab-content">
-      <div class="ec-table-wrap">
-        <table class="ec-table">
-          <thead><tr><th>Segment</th><th>Contacts</th><th>Status</th></tr></thead>
-          <tbody id="segmentBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Forms Tab -->
-    <div id="tab-forms" class="tab-content">
-      <div class="ec-grid" id="formGrid"></div>
-    </div>
-
-    <div class="loading" id="loading"><div class="spinner"></div><p>Loading email data...</p></div>
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading campaign data...</p></div>
   </main>
+</div>
+
+<!-- Email preview modal -->
+<div class="preview-overlay" id="previewOverlay" onclick="if(event.target===this)closePreview()">
+  <div class="preview-box">
+    <button class="preview-close" onclick="closePreview()">&times;</button>
+    <div class="preview-header">
+      <h3 id="previewName"></h3>
+      <div class="subject" id="previewSubject"></div>
+    </div>
+    <iframe class="preview-iframe" id="previewFrame" sandbox="allow-same-origin"></iframe>
+  </div>
 </div>
 
 <script src="/nb-admin-shared.js"></script>
 <script>
+// Revenue campaigns we care about
+const REVENUE_CAMPAIGNS = [20, 21, 22, 23];
+let allCampaigns = {};
+let allEmails = {};
+let allContacts = {};
+
 async function init() {
   const ok = await NB_ADMIN.checkAuth();
   if (!ok) return;
@@ -156,173 +193,291 @@ async function mautic(endpoint, params = {}) {
   return NB_ADMIN.apiFetch(`data?${qs.toString()}`);
 }
 
+async function mauticPatch(endpoint, body) {
+  const qs = new URLSearchParams({ action: 'service-mautic-patch', endpoint });
+  return NB_ADMIN.apiSend(`data?${qs.toString()}`, 'PATCH', body);
+}
+
 async function loadAll() {
   document.getElementById('loading').style.display = 'flex';
 
-  const [emails, campaigns, segments, forms, contacts] = await Promise.allSettled([
-    mautic('emails', { limit: '50', orderBy: 'id', orderByDir: 'desc' }),
-    mautic('campaigns', { limit: '20' }),
-    mautic('segments', { limit: '30' }),
-    mautic('forms', { limit: '30' }),
-    mautic('contacts', { search: '!is:anonymous', limit: '1' }),
-  ]);
+  // Load all campaigns
+  const campaignData = await mautic('campaigns', { limit: '50' });
+  const campaigns = campaignData.campaigns || {};
 
-  const emailData = emails.value || {};
-  const campaignData = campaigns.value || {};
-  const segmentData = segments.value || {};
-  const formData = forms.value || {};
-  const contactData = contacts.value || {};
+  // Load email details + contacts for revenue campaigns in parallel
+  const tasks = [];
+  for (const id of REVENUE_CAMPAIGNS) {
+    if (campaigns[id]) {
+      tasks.push(loadCampaignDetails(id, campaigns[id]));
+    }
+  }
+  await Promise.all(tasks);
 
-  // KPIs
-  document.getElementById('kpiEmails').textContent = emailData.total || 0;
-  const activeCampaigns = Object.values(campaignData.campaigns || {}).filter(c => c.isPublished).length;
-  document.getElementById('kpiCampaigns').textContent = activeCampaigns;
-  document.getElementById('kpiContacts').textContent = contactData.total || 0;
-  const segList = segmentData.lists || {};
-  document.getElementById('kpiSegments').textContent = Object.keys(segList).length;
+  // Also load other published campaigns
+  for (const [id, c] of Object.entries(campaigns)) {
+    if (!REVENUE_CAMPAIGNS.includes(parseInt(id)) && c.isPublished) {
+      allCampaigns[id] = { ...c, contacts: [], contactTotal: 0, emailDetails: {} };
+    }
+  }
 
-  // Tab counts
-  document.getElementById('emailCount').textContent = emailData.total || 0;
-  document.getElementById('campaignCount').textContent = Object.keys(campaignData.campaigns || {}).length;
-  document.getElementById('segmentCount').textContent = Object.keys(segList).length;
-  document.getElementById('formCount').textContent = formData.total || 0;
-
-  renderEmails(emailData.emails || {});
-  renderCampaigns(campaignData.campaigns || {});
-  renderSegments(segList);
-  renderForms(formData.forms || {});
-
+  renderGlobalKpis();
+  renderCampaigns();
   document.getElementById('loading').style.display = 'none';
 }
 
-function renderEmails(emails) {
-  const grid = document.getElementById('emailGrid');
-  const arr = Object.values(emails);
-  if (!arr.length) { grid.innerHTML = '<p style="color:var(--muted);padding:20px;">No emails found.</p>'; return; }
+async function loadCampaignDetails(id, campaign) {
+  // Fetch contacts for this campaign
+  const contactData = await mautic(`campaigns/${id}/contacts`, { limit: '200' });
+  const contacts = contactData.contacts || [];
+  const contactTotal = parseInt(contactData.total) || 0;
 
-  grid.innerHTML = arr.map((e, i) => {
-    const sent = e.sentCount || 0;
-    const read = e.readCount || 0;
-    const clicked = e.clickCount || 0;
-    const openRate = sent > 0 ? ((read / sent) * 100).toFixed(1) : '0.0';
-    const clickRate = sent > 0 ? ((clicked / sent) * 100).toFixed(1) : '0.0';
-    const openColor = openRate >= 25 ? 'var(--teal)' : openRate >= 15 ? 'var(--yellow)' : 'var(--magenta)';
-    const status = e.isPublished ? 'published' : 'draft';
+  // Fetch full contact details (name, email, company)
+  const contactDetails = [];
+  if (contacts.length > 0) {
+    const contactIds = contacts.map(c => c.lead_id).slice(0, 50);
+    const detailTasks = contactIds.map(cid =>
+      mautic(`contacts/${cid}`).then(d => d.contact || null).catch(() => null)
+    );
+    const details = await Promise.all(detailTasks);
+    for (const d of details) {
+      if (d) contactDetails.push(d);
+    }
+  }
 
-    return `
-      <div class="ec-card" style="animation: fadeIn 0.3s ease ${i * 40}ms both">
-        <div class="ec-card-top">
-          <div class="ec-card-name">${e.name || 'Untitled'}</div>
-          <div class="ec-card-status ${status}">${status}</div>
+  // Fetch email details for each event
+  const emailDetails = {};
+  const events = campaign.events || [];
+  for (const ev of events) {
+    if (ev.channelId && ev.type === 'email.send') {
+      try {
+        const emailData = await mautic(`emails/${ev.channelId}`);
+        emailDetails[ev.channelId] = emailData.email || {};
+      } catch { /* skip */ }
+    }
+  }
+
+  allCampaigns[id] = {
+    ...campaign,
+    contacts: contactDetails,
+    contactTotal,
+    emailDetails,
+  };
+}
+
+function renderGlobalKpis() {
+  let totalSent = 0, totalOpened = 0, totalClicked = 0, totalContacts = 0, activeCampaigns = 0;
+
+  for (const c of Object.values(allCampaigns)) {
+    totalContacts += c.contactTotal || 0;
+    if (c.isPublished) activeCampaigns++;
+    for (const email of Object.values(c.emailDetails || {})) {
+      totalSent += email.sentCount || 0;
+      totalOpened += email.readCount || 0;
+    }
+  }
+
+  const openRate = totalSent > 0 ? ((totalOpened / totalSent) * 100).toFixed(1) : '0';
+
+  document.getElementById('globalKpis').innerHTML = `
+    <div class="camp-kpi"><div class="camp-kpi-val" style="color:var(--teal)">${activeCampaigns}</div><div class="camp-kpi-label">Live Campaigns</div></div>
+    <div class="camp-kpi"><div class="camp-kpi-val" style="color:var(--white)">${totalContacts}</div><div class="camp-kpi-label">Total Contacts</div></div>
+    <div class="camp-kpi"><div class="camp-kpi-val" style="color:var(--white)">${totalSent}</div><div class="camp-kpi-label">Emails Sent</div></div>
+    <div class="camp-kpi"><div class="camp-kpi-val" style="color:${totalOpened > 0 ? 'var(--teal)' : 'var(--muted)'}">${totalOpened}</div><div class="camp-kpi-label">Opened</div></div>
+    <div class="camp-kpi"><div class="camp-kpi-val" style="color:${parseFloat(openRate) >= 20 ? 'var(--teal)' : parseFloat(openRate) >= 10 ? 'var(--yellow)' : 'var(--magenta)'}">${openRate}%</div><div class="camp-kpi-label">Open Rate</div></div>
+  `;
+}
+
+function renderCampaigns() {
+  const list = document.getElementById('campaignList');
+
+  // Revenue campaigns first
+  let html = '<div class="section-divider">Revenue Campaigns</div>';
+
+  for (const id of REVENUE_CAMPAIGNS) {
+    const c = allCampaigns[id];
+    if (!c) continue;
+    html += renderCampaignCard(id, c);
+  }
+
+  // Other published campaigns
+  const others = Object.entries(allCampaigns).filter(([id]) => !REVENUE_CAMPAIGNS.includes(parseInt(id)));
+  if (others.length) {
+    html += '<div class="section-divider">Other Campaigns</div>';
+    for (const [id, c] of others) {
+      html += renderCampaignCard(id, c, true);
+    }
+  }
+
+  list.innerHTML = html;
+}
+
+function renderCampaignCard(id, campaign, compact = false) {
+  const isLive = campaign.isPublished;
+  const events = (campaign.events || []).sort((a, b) => a.order - b.order);
+  const contacts = campaign.contacts || [];
+  const contactTotal = campaign.contactTotal || 0;
+  const emailDetails = campaign.emailDetails || {};
+
+  // Calculate cumulative day for each step
+  let cumulativeDay = 0;
+  const stepsWithDay = events.filter(e => e.type === 'email.send').map(e => {
+    if (e.triggerMode === 'immediate') {
+      cumulativeDay = 0;
+    } else {
+      const interval = e.triggerInterval || 0;
+      const unit = e.triggerIntervalUnit;
+      if (unit === 'd') cumulativeDay += interval;
+      else if (unit === 'h') cumulativeDay += interval / 24;
+    }
+    return { ...e, day: cumulativeDay };
+  });
+
+  let html = `
+    <div class="camp-card" style="animation: fadeIn 0.3s ease both" id="camp-${id}">
+      <div class="camp-header">
+        <div>
+          <div class="camp-name">${esc(campaign.name)}</div>
+          ${campaign.description ? `<div class="camp-desc">${esc(campaign.description)}</div>` : ''}
+          <div class="camp-meta">
+            <div class="camp-meta-item">Segment: <strong>${(campaign.lists || []).map(l => l.name).join(', ') || 'None'}</strong></div>
+            <div class="camp-meta-item">Contacts: <strong>${contactTotal}</strong></div>
+            <div class="camp-meta-item">Emails: <strong>${stepsWithDay.length}</strong></div>
+          </div>
         </div>
-        <div class="ec-stats">
-          <div class="ec-stat">
-            <div class="ec-stat-val" style="color: var(--white);">${sent}</div>
-            <div class="ec-stat-label">Sent</div>
-          </div>
-          <div class="ec-stat">
-            <div class="ec-stat-val" style="color: ${openColor};">${read}</div>
-            <div class="ec-stat-label">Opened</div>
-          </div>
-          <div class="ec-stat">
-            <div class="ec-stat-val" style="color: var(--teal);">${clicked}</div>
-            <div class="ec-stat-label">Clicked</div>
-          </div>
-          <div class="ec-stat">
-            <div class="ec-stat-val" style="color: ${openColor};">${openRate}%</div>
-            <div class="ec-stat-label">Open Rate</div>
-          </div>
-        </div>
-        <div class="ec-rate-bar">
-          <div class="ec-rate-fill" style="width: ${openRate}%; background: ${openColor};"></div>
+        <div class="toggle-wrap">
+          <span class="toggle-label ${isLive ? 'live' : 'paused'}">${isLive ? 'Live' : 'Paused'}</span>
+          <button class="toggle ${isLive ? 'on' : ''}" onclick="toggleCampaign(${id}, ${!isLive})" title="${isLive ? 'Pause campaign' : 'Go live'}"></button>
         </div>
       </div>`;
-  }).join('');
-}
 
-function renderCampaigns(campaigns) {
-  const grid = document.getElementById('campaignGrid');
-  const arr = Object.values(campaigns);
-  if (!arr.length) { grid.innerHTML = '<p style="color:var(--muted);padding:20px;">No campaigns found.</p>'; return; }
+  // Email sequence timeline
+  if (stepsWithDay.length && !compact) {
+    html += `
+      <div class="seq-timeline">
+        <div class="seq-step-header">
+          <div>Day</div><div>Email</div><div>Sent</div><div>Opened</div><div>Open %</div><div>Clicked</div><div></div>
+        </div>`;
 
-  grid.innerHTML = arr.map((c, i) => {
-    const status = c.isPublished ? 'published' : 'draft';
-    const events = c.events || [];
-    const lists = c.lists || [];
+    for (const step of stepsWithDay) {
+      const email = emailDetails[step.channelId] || {};
+      const sent = email.sentCount || 0;
+      const read = email.readCount || 0;
+      const clicked = email.clickCount || 0;
+      const openPct = sent > 0 ? ((read / sent) * 100).toFixed(0) : '—';
+      const openColor = sent === 0 ? 'var(--muted)' : (read / sent >= 0.25 ? 'var(--teal)' : read / sent >= 0.15 ? 'var(--yellow)' : 'var(--magenta)');
 
-    return `
-      <div class="ec-card" style="animation: fadeIn 0.3s ease ${i * 60}ms both">
-        <div class="ec-card-top">
-          <div class="ec-card-name">${c.name || 'Untitled'}</div>
-          <div class="ec-card-status ${status}">${status}</div>
-        </div>
-        <div style="font-size:13px; color:var(--muted); margin-bottom:8px;">${c.description || ''}</div>
-        ${lists.length ? `<div style="font-size:12px; color:var(--muted); margin-bottom:8px;">Segments: ${lists.map(l => `<span style="color:var(--teal);">${l.name || l.id}</span>`).join(', ')}</div>` : ''}
-        ${events.length ? `
-          <div class="ec-campaign-events">
-            ${events.slice(0, 8).map(e => {
-              const color = e.eventType === 'action' ? 'var(--teal)' : e.eventType === 'condition' ? 'var(--yellow)' : 'var(--magenta)';
-              return `<div class="ec-event"><div class="ec-event-dot" style="background:${color};"></div>${e.name || e.type}</div>`;
-            }).join('')}
-            ${events.length > 8 ? `<div class="ec-event" style="color:var(--muted);">+${events.length - 8} more steps</div>` : ''}
-          </div>` : '<div style="font-size:12px; color:var(--muted);">No events configured</div>'}
-      </div>`;
-  }).join('');
-}
-
-function renderSegments(segments) {
-  const body = document.getElementById('segmentBody');
-  const arr = Object.values(segments);
-  if (!arr.length) { body.innerHTML = '<tr><td colspan="3" style="color:var(--muted)">No segments</td></tr>'; return; }
-
-  body.innerHTML = arr.map(s => {
-    const status = s.isPublished ? 'Active' : 'Draft';
-    const statusColor = s.isPublished ? 'var(--teal)' : 'var(--muted)';
-    return `
-      <tr>
-        <td>${s.name}</td>
-        <td style="font-family:var(--font-heading); font-weight:700; color:var(--teal);">${s.alias || '—'}</td>
-        <td style="color:${statusColor}; font-size:12px; text-transform:uppercase;">${status}</td>
-      </tr>`;
-  }).join('');
-}
-
-function renderForms(forms) {
-  const grid = document.getElementById('formGrid');
-  const arr = typeof forms === 'object' && !Array.isArray(forms) ? Object.values(forms) : (forms || []);
-  if (!arr.length) { grid.innerHTML = '<p style="color:var(--muted);padding:20px;">No forms found.</p>'; return; }
-
-  grid.innerHTML = arr.map((f, i) => {
-    const status = f.isPublished ? 'published' : 'draft';
-    const subs = f.submissionCount || 0;
-    const fields = (f.fields || []).length;
-
-    return `
-      <div class="ec-card" style="animation: fadeIn 0.3s ease ${i * 40}ms both">
-        <div class="ec-card-top">
-          <div class="ec-card-name">${f.name || 'Untitled'}</div>
-          <div class="ec-card-status ${status}">${status}</div>
-        </div>
-        <div class="ec-stats" style="grid-template-columns: 1fr 1fr;">
-          <div class="ec-stat">
-            <div class="ec-stat-val" style="color: var(--teal);">${subs}</div>
-            <div class="ec-stat-label">Submissions</div>
+      html += `
+        <div class="seq-step">
+          <div class="seq-day">${step.day}</div>
+          <div>
+            <div class="seq-name">${esc(step.name)}</div>
+            <div class="seq-subject">${esc(email.subject || '')}</div>
           </div>
-          <div class="ec-stat">
-            <div class="ec-stat-val" style="color: var(--white);">${fields}</div>
-            <div class="ec-stat-label">Fields</div>
-          </div>
-        </div>
-      </div>`;
-  }).join('');
+          <div class="seq-stat ${sent === 0 ? 'zero' : ''}" style="color: var(--white)">${sent}</div>
+          <div class="seq-stat ${read === 0 ? 'zero' : ''}" style="color: ${openColor}">${read}</div>
+          <div class="seq-stat" style="color: ${openColor}">${openPct}${openPct !== '—' ? '%' : ''}</div>
+          <div class="seq-stat ${clicked === 0 ? 'zero' : ''}" style="color: var(--teal)">${clicked}</div>
+          <div><button class="seq-preview-btn" onclick="previewEmail(${step.channelId})">View</button></div>
+        </div>`;
+    }
+
+    html += '</div>';
+  }
+
+  // Contacts section
+  if (contacts.length && !compact) {
+    html += `
+      <div class="contacts-section">
+        <button class="contacts-toggle" onclick="toggleContacts(${id})">
+          Show ${contactTotal} contacts &#9662;
+        </button>
+        <div class="contacts-list" id="contacts-${id}">
+          <div class="contact-row-header">
+            <div>Email</div><div>Company</div><div>Added</div><div>Stage</div>
+          </div>`;
+
+    for (const contact of contacts) {
+      const fields = contact.fields || {};
+      const core = fields.core || {};
+      const email = core.email ? core.email.value : '—';
+      const company = core.company ? core.company.value : '—';
+      const added = contact.dateAdded ? new Date(contact.dateAdded).toLocaleDateString() : '—';
+
+      // Figure out what stage they're at based on event log
+      // For now show enrollment date - we'd need event log API for precise stage
+      const stage = '—';
+
+      html += `
+          <div class="contact-row">
+            <div class="contact-email">${esc(email)}</div>
+            <div class="contact-company">${esc(company)}</div>
+            <div class="contact-added">${added}</div>
+            <div class="contact-stage">${stage}</div>
+          </div>`;
+    }
+
+    html += '</div></div>';
+  }
+
+  html += '</div>';
+  return html;
 }
 
-function switchTab(tab) {
-  document.querySelectorAll('.ec-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
-  document.getElementById('tab-' + tab).classList.add('active');
+function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+async function toggleCampaign(id, publish) {
+  const label = publish ? 'GO LIVE' : 'PAUSE';
+  if (!confirm(`${label} this campaign? ${publish ? 'Emails will start sending to enrolled contacts.' : 'No more emails will be sent until you unpause.'}`)) return;
+
+  const card = document.getElementById(`camp-${id}`);
+  card.style.opacity = '0.5';
+
+  try {
+    await mauticPatch(`campaigns/${id}/edit`, { isPublished: publish });
+    // Reload to reflect changes
+    await loadAll();
+  } catch (err) {
+    alert('Failed to update campaign. Check console.');
+    console.error(err);
+    card.style.opacity = '1';
+  }
 }
+
+function toggleContacts(id) {
+  const list = document.getElementById(`contacts-${id}`);
+  list.classList.toggle('open');
+  const btn = list.previousElementSibling;
+  btn.innerHTML = list.classList.contains('open')
+    ? `Hide contacts &#9652;`
+    : `Show ${allCampaigns[id]?.contactTotal || 0} contacts &#9662;`;
+}
+
+async function previewEmail(emailId) {
+  const overlay = document.getElementById('previewOverlay');
+  const frame = document.getElementById('previewFrame');
+
+  // Fetch email HTML
+  const data = await mautic(`emails/${emailId}`);
+  const email = data.email || {};
+
+  document.getElementById('previewName').textContent = email.name || 'Untitled';
+  document.getElementById('previewSubject').textContent = `Subject: ${email.subject || 'No subject'}`;
+
+  // Write HTML into iframe
+  const html = email.customHtml || '<p style="padding:20px;color:#999;">No HTML content found for this email.</p>';
+  frame.srcdoc = html;
+
+  overlay.classList.add('open');
+}
+
+function closePreview() {
+  document.getElementById('previewOverlay').classList.remove('open');
+  document.getElementById('previewFrame').srcdoc = '';
+}
+
+// Close preview on escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePreview(); });
 
 init();
 </script>
