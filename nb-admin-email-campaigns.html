@@ -176,7 +176,8 @@
 <script src="/nb-admin-shared.js"></script>
 <script>
 // Revenue campaigns we care about
-const REVENUE_CAMPAIGNS = [20, 21, 22, 23];
+// All campaigns: 1-7 = existing, 8-11 = new
+const REVENUE_CAMPAIGNS = [20, 21, 22, 23, 19, 15, 18, 24, 25, 26, 27];
 let allCampaigns = {};
 let allEmails = {};
 let allContacts = {};
@@ -404,16 +405,33 @@ function renderCampaignCard(id, campaign, compact = false) {
       const company = core.company ? core.company.value : '—';
       const added = contact.dateAdded ? new Date(contact.dateAdded).toLocaleDateString() : '—';
 
-      // Figure out what stage they're at based on event log
-      // For now show enrollment date - we'd need event log API for precise stage
-      const stage = '—';
+      // Calculate expected stage based on days since enrollment and campaign timing
+      let stage = 'Enrolled';
+      let stageColor = 'var(--muted)';
+      if (!isLive) {
+        stage = 'Paused';
+        stageColor = 'var(--magenta)';
+      } else if (stepsWithDay.length > 0 && contact.dateAdded) {
+        const daysSinceAdded = Math.floor((Date.now() - new Date(contact.dateAdded).getTime()) / 86400000);
+        let currentStep = 0;
+        for (let i = 0; i < stepsWithDay.length; i++) {
+          if (daysSinceAdded >= stepsWithDay[i].day) currentStep = i + 1;
+        }
+        if (currentStep >= stepsWithDay.length) {
+          stage = 'Complete';
+          stageColor = 'var(--teal)';
+        } else {
+          stage = `Step ${currentStep}/${stepsWithDay.length}`;
+          stageColor = 'var(--yellow)';
+        }
+      }
 
       html += `
           <div class="contact-row">
             <div class="contact-email">${esc(email)}</div>
             <div class="contact-company">${esc(company)}</div>
             <div class="contact-added">${added}</div>
-            <div class="contact-stage">${stage}</div>
+            <div class="contact-stage" style="color:${stageColor}">${stage}</div>
           </div>`;
     }
 
