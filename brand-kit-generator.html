@@ -396,6 +396,43 @@
   </main>
 </div><!-- end cfg-wrap -->
 
+<!-- STICKY BUY BAR — appears after user first interacts with the configurator -->
+<div id="stickyBuyBar" style="
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+  background: linear-gradient(90deg, #0a1a18 0%, #0d1a16 100%);
+  border-top: 1px solid rgba(0,229,204,0.25);
+  padding: 16px 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+">
+  <div style="display: flex; align-items: center; gap: 16px; min-width: 0;">
+    <div style="width: 10px; height: 10px; border-radius: 50%; background: var(--teal); flex-shrink: 0; box-shadow: 0 0 8px rgba(0,229,204,0.6);"></div>
+    <div style="min-width: 0;">
+      <div style="font-family: var(--font-heading); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 2px;">Looking good</div>
+      <div id="stickyBarName" style="font-family: var(--font-heading); font-weight: 900; font-size: 18px; text-transform: uppercase; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Your Business</div>
+    </div>
+  </div>
+  <div style="display: flex; align-items: center; gap: 16px; flex-shrink: 0;">
+    <div style="text-align: right; display: none;" id="stickyColors">
+      <div id="stickyPrimary" style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #e8176a; margin-right: 4px; vertical-align: middle;"></div>
+      <div id="stickySecondary" style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #00d4c8; vertical-align: middle;"></div>
+    </div>
+    <div style="font-family: var(--font-heading); font-weight: 900; font-size: 20px; color: var(--teal);">$497</div>
+    <button onclick="document.querySelector('.cfg-submit').scrollIntoView({behavior:'smooth', block:'center'}); document.querySelector('.cfg-submit').classList.add('pulse');" style="
+      background: var(--teal); color: #000; border: none; padding: 12px 28px;
+      font-family: var(--font-heading); font-weight: 900; font-size: 13px;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: 2px;
+    ">Order This Kit &rarr;</button>
+    <button onclick="document.getElementById('stickyBuyBar').style.transform='translateY(100%)'" style="background: none; border: none; color: rgba(255,255,255,0.25); cursor: pointer; font-size: 18px; padding: 4px 8px; line-height: 1;">&times;</button>
+  </div>
+</div>
+
+<style>
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(0,229,204,0.4)} 50%{box-shadow:0 0 0 8px rgba(0,229,204,0)} }
+.pulse { animation: pulse 0.8s ease; }
+</style>
+
 <script>
 // ─── CURSOR ───────────────────────────────────────────────────────
 const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
@@ -478,6 +515,30 @@ function updatePreview() {
 // Real-time input listeners
 ['f-name','f-email','f-phone','f-website','f-abn'].forEach(id => {
   document.getElementById(id).addEventListener('input', updatePreview);
+});
+
+// ─── STICKY BUY BAR ───────────────────────────────────────────────
+let stickyShown = false;
+function showStickyBar() {
+  if (stickyShown) return;
+  stickyShown = true;
+  document.getElementById('stickyBuyBar').style.transform = 'translateY(0)';
+  document.getElementById('stickyColors').style.display = 'inline-block';
+}
+// Show on any field interaction
+document.querySelectorAll('.field-input, input[type=color]').forEach(el => {
+  el.addEventListener('input', () => {
+    showStickyBar();
+    // Keep name in sync
+    const name = document.getElementById('f-name').value || 'Your Business';
+    document.getElementById('stickyBarName').textContent = name;
+    document.getElementById('stickyPrimary').style.background = document.getElementById('f-primary').value;
+    document.getElementById('stickySecondary').style.background = document.getElementById('f-secondary').value;
+  });
+});
+// Also sync when business name changes
+document.getElementById('f-name').addEventListener('input', function() {
+  document.getElementById('stickyBarName').textContent = this.value || 'Your Business';
 });
 
 // ─── ORDER SUBMIT ─────────────────────────────────────────────────
