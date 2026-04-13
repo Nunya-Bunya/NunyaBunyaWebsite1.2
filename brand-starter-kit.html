@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Starter Kit — Nunya Bunya</title>
+<meta name="description" content="13 custom-branded business templates. Your logo. Your colours. Invoice, content calendar, proposals, contracts, social cards — all matching your brand. Ready in 48 hours.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="style-v2.css">
+
+<style>
+/* ── PAGE-SPECIFIC OVERRIDES ── */
+.bsk-hero {
+  padding: 140px 48px 80px;
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+.bsk-hero-eyebrow {
+  font-family: var(--font-heading); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.bsk-hero-eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--teal); }
+.bsk-h1 {
+  font-family: var(--font-heading); font-weight: 900;
+  font-size: clamp(48px, 6vw, 80px); text-transform: uppercase;
+  line-height: 0.95; letter-spacing: 0.01em;
+  margin-bottom: 24px;
+}
+.bsk-h1 .accent { color: var(--teal); }
+.bsk-h1 .accent2 { color: var(--magenta); }
+.bsk-hero-sub {
+  font-size: 17px; color: rgba(255,255,255,0.6); font-weight: 300;
+  line-height: 1.7; margin-bottom: 40px; max-width: 480px;
+}
+.bsk-hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-teal {
+  display: inline-block; padding: 18px 40px;
+  font-family: var(--font-heading); font-weight: 900; font-size: 15px;
+  letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
+  background: var(--teal); color: var(--dark);
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-teal:hover { background: var(--teal-dark); transform: translateY(-2px); }
+.btn-outline {
+  display: inline-block; padding: 18px 40px;
+  font-family: var(--font-heading); font-weight: 900; font-size: 15px;
+  letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
+  background: transparent; color: var(--white);
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+/* TEMPLATE PREVIEW STACK */
+.preview-stack {
+  position: relative; height: 460px;
+}
+.preview-card {
+  position: absolute; border-radius: 4px; overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  transition: transform 0.4s ease;
+}
+.preview-card:hover { transform: translateY(-8px) !important; z-index: 10 !important; }
+.preview-card-1 { width: 300px; height: 380px; top: 0; right: 0; z-index: 3; background: #1a1a1e; border: 1px solid rgba(232,23,106,0.3); }
+.preview-card-2 { width: 260px; height: 330px; top: 60px; right: 80px; z-index: 2; background: #141418; border: 1px solid rgba(0,212,200,0.2); transform: rotate(-3deg); }
+.preview-card-3 { width: 240px; height: 300px; top: 120px; right: 150px; z-index: 1; background: #111115; border: 1px solid rgba(255,255,255,0.06); transform: rotate(-6deg); }
+.preview-inner { padding: 20px; height: 100%; display: flex; flex-direction: column; }
+.preview-logo-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+.preview-logo-dot { width: 20px; height: 20px; background: linear-gradient(135deg, #e8176a, #00d4c8); border-radius: 2px; }
+.preview-logo-text { font-family: var(--font-heading); font-size: 10px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+.preview-title-bar { height: 3px; background: linear-gradient(90deg, #e8176a, #00d4c8); margin-bottom: 14px; width: 60%; }
+.preview-line { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; margin-bottom: 8px; }
+.preview-line.short { width: 60%; }
+.preview-line.xshort { width: 40%; }
+.preview-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; flex: 1; }
+.preview-box { background: rgba(232,23,106,0.08); border: 1px solid rgba(232,23,106,0.15); border-radius: 3px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.preview-box.teal { background: rgba(0,212,200,0.08); border-color: rgba(0,212,200,0.15); }
+.preview-box-num { font-family: var(--font-heading); font-weight: 900; font-size: 18px; color: #e8176a; }
+.preview-box.teal .preview-box-num { color: #00d4c8; }
+.preview-box-label { font-size: 7px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+/* SOCIAL CARDS ROW */
+.social-preview { display: flex; gap: 12px; margin-top: 20px; }
+.social-card { width: 80px; height: 80px; border-radius: 4px; position: relative; overflow: hidden; }
+.social-card-ig { background: linear-gradient(135deg, #1a1a1e, #2a0a18); border: 1px solid rgba(232,23,106,0.4); }
+.social-card-tl { background: linear-gradient(135deg, #0a1a1e, #001a18); border: 1px solid rgba(0,212,200,0.4); }
+.social-card-ba { background: linear-gradient(90deg, #1a1a1e 50%, #0a1a18 50%); border: 1px solid rgba(255,255,255,0.1); }
+.social-card-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px; }
+.social-card-text { font-family: var(--font-heading); font-size: 7px; text-align: center; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.5); }
+.social-card-accent { font-family: var(--font-heading); font-size: 22px; font-weight: 900; color: #e8176a; line-height: 1; }
+.social-card-accent.teal { color: #00d4c8; }
+
+/* WHAT'S INCLUDED */
+.bsk-section { max-width: 1100px; margin: 0 auto; padding: 80px 48px; }
+.bsk-section-label { font-family: var(--font-heading); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.bsk-section-label::before { content:''; display:block; width:24px; height:1px; background:var(--teal); }
+.bsk-section-h2 { font-family: var(--font-heading); font-weight: 900; font-size: clamp(36px, 5vw, 60px); text-transform: uppercase; letter-spacing: 0.01em; margin-bottom: 48px; line-height: 0.95; }
+
+/* TEMPLATE GRID */
+.template-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;
+  margin-bottom: 60px;
+}
+.template-tile {
+  background: var(--dark2); border: 1px solid var(--subtle);
+  padding: 20px; border-radius: 4px;
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: default;
+}
+.template-tile:hover { border-color: rgba(0,229,204,0.2); transform: translateY(-3px); }
+.template-tile-icon { font-size: 24px; margin-bottom: 10px; }
+.template-tile-name { font-family: var(--font-heading); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--white); margin-bottom: 4px; }
+.template-tile-desc { font-size: 11px; color: var(--muted); font-weight: 300; line-height: 1.5; }
+.template-tile-tag { display: inline-block; margin-top: 8px; font-family: var(--font-heading); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 8px; }
+.tag-doc { background: rgba(0,229,204,0.1); color: var(--teal); }
+.tag-social { background: rgba(255,77,221,0.1); color: var(--magenta); }
+
+/* HOW IT WORKS */
+.how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+.how-step { padding: 48px 36px; border: 1px solid var(--subtle); margin: -1px -1px 0 0; position: relative; }
+.how-step-num {
+  font-family: var(--font-heading); font-weight: 900; font-size: 72px;
+  color: rgba(255,255,255,0.04); line-height: 1; margin-bottom: -8px;
+  position: absolute; top: 24px; right: 24px;
+}
+.how-step-title { font-family: var(--font-heading); font-weight: 900; font-size: 22px; text-transform: uppercase; letter-spacing: 0.02em; color: var(--white); margin-bottom: 10px; margin-top: 32px; }
+.how-step-desc { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.7; }
+.how-step-badge { display: inline-block; width: 36px; height: 36px; background: var(--teal); color: var(--dark); font-family: var(--font-heading); font-weight: 900; font-size: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+
+/* WHAT YOU GET */
+.value-strip {
+  background: var(--dark2); border-top: 1px solid var(--subtle); border-bottom: 1px solid var(--subtle);
+  padding: 60px 48px;
+}
+.value-strip-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; }
+.value-item { padding: 32px; border-right: 1px solid var(--subtle); }
+.value-item:last-child { border-right: none; }
+.value-num { font-family: var(--font-heading); font-weight: 900; font-size: 52px; color: var(--teal); line-height: 1; }
+.value-label { font-size: 13px; color: var(--muted); font-weight: 300; margin-top: 4px; line-height: 1.5; }
+
+/* PRICING */
+.pricing-card {
+  max-width: 680px; margin: 0 auto;
+  background: var(--dark2); border: 1px solid rgba(0,229,204,0.2);
+  padding: 60px;
+}
+.pricing-badge { font-family: var(--font-heading); font-weight: 700; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+.pricing-name { font-family: var(--font-heading); font-weight: 900; font-size: 36px; text-transform: uppercase; color: var(--white); margin-bottom: 4px; }
+.pricing-price { font-family: var(--font-heading); font-weight: 900; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 8px; }
+.pricing-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+.pricing-features { list-style: none; padding: 0; margin: 0 0 40px; border-top: 1px solid var(--subtle); }
+.pricing-features li { padding: 14px 0; border-bottom: 1px solid var(--subtle); display: flex; gap: 12px; font-size: 14px; color: rgba(255,255,255,0.75); font-weight: 300; }
+.pricing-features li .check { color: var(--teal); font-weight: 700; flex-shrink: 0; }
+.pricing-guarantee { margin-top: 24px; display: flex; align-items: flex-start; gap: 12px; padding: 20px; background: rgba(0,229,204,0.05); border: 1px solid rgba(0,229,204,0.1); }
+.pricing-guarantee-icon { font-size: 24px; flex-shrink: 0; }
+.pricing-guarantee-text { font-size: 12px; color: var(--muted); font-weight: 300; line-height: 1.6; }
+.pricing-guarantee-text strong { color: var(--white); font-weight: 500; }
+
+/* FAQ */
+.faq-list { max-width: 720px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid var(--subtle); padding: 24px 0; cursor: pointer; }
+.faq-q { font-family: var(--font-heading); font-size: 17px; font-weight: 700; letter-spacing: 0.02em; color: var(--white); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.faq-q-arrow { color: var(--teal); font-size: 20px; flex-shrink: 0; transition: transform 0.2s; }
+.faq-item.open .faq-q-arrow { transform: rotate(45deg); }
+.faq-a { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.7; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, margin 0.2s; }
+.faq-item.open .faq-a { max-height: 200px; margin-top: 12px; }
+
+/* FINAL CTA */
+.final-cta {
+  text-align: center; padding: 100px 48px;
+  background: linear-gradient(135deg, #0a0a0a 0%, #0d0d12 100%);
+  border-top: 1px solid var(--subtle);
+}
+.final-cta h2 { font-family: var(--font-heading); font-weight: 900; font-size: clamp(36px, 6vw, 72px); text-transform: uppercase; line-height: 0.95; margin-bottom: 20px; }
+.final-cta p { font-size: 16px; color: var(--muted); font-weight: 300; max-width: 480px; margin: 0 auto 40px; line-height: 1.7; }
+
+/* DEMO VIDEO SECTION */
+.demo-section { background: var(--dark2); border-top: 1px solid var(--subtle); border-bottom: 1px solid var(--subtle); padding: 80px 48px; }
+.demo-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.demo-screen {
+  background: #111; border: 1px solid var(--subtle); border-radius: 8px; overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+}
+.demo-screen-top { background: #1a1a1e; padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--subtle); }
+.demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+.demo-dot-r { background: #ff5f57; }
+.demo-dot-y { background: #febc2e; }
+.demo-dot-g { background: #28c840; }
+.demo-screen-url { font-size: 11px; color: rgba(255,255,255,0.2); margin-left: 8px; font-family: monospace; }
+.demo-screen-body { padding: 20px; }
+.demo-form-group { margin-bottom: 14px; }
+.demo-form-label { font-size: 9px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-family: var(--font-heading); }
+.demo-form-input { background: #1a1a20; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 8px 12px; width: 100%; display: flex; align-items: center; gap: 8px; }
+.demo-form-input-text { font-size: 11px; color: rgba(255,255,255,0.5); font-family: monospace; }
+.demo-color-row { display: flex; gap: 8px; }
+.demo-color-swatch { width: 28px; height: 28px; border-radius: 4px; flex-shrink: 0; }
+.demo-generate-btn { width: 100%; background: var(--teal); color: #000; font-family: var(--font-heading); font-weight: 900; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 12px; border: none; border-radius: 4px; margin-top: 4px; text-align: center; }
+.demo-arrow { font-size: 32px; color: var(--teal); opacity: 0.5; position: absolute; }
+.demo-output { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.demo-output-card { background: #1a1a20; border: 1px solid rgba(255,255,255,0.06); border-radius: 3px; padding: 8px; aspect-ratio: 3/4; display: flex; flex-direction: column; gap: 4px; }
+.demo-output-bar { height: 3px; border-radius: 2px; }
+.demo-output-line { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; }
+.demo-output-line.half { width: 60%; }
+
+@media (max-width: 900px) {
+  .bsk-hero { grid-template-columns: 1fr; gap: 48px; }
+  .how-steps { grid-template-columns: 1fr; }
+  .value-strip-inner { grid-template-columns: 1fr 1fr; }
+  .value-item { border-right: none; border-bottom: 1px solid var(--subtle); }
+  .demo-inner { grid-template-columns: 1fr; }
+  .pricing-card { padding: 36px 24px; }
+  .bsk-hero, .bsk-section { padding: 100px 24px 60px; }
+  .demo-section { padding: 60px 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="urgency-strip">
+  Brand Starter Kit — Currently accepting new orders. Delivered in 48 hours. <span>Order Now</span>
+</div>
+
+<nav style="top: 37px;">
+  <a href="index.html" class="nav-logo">
+    <img src="images/logo-icon-white.png" alt="Nunya Bunya">
+    NUNYA<span>BUNYA</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="portfolio.html">Work</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html" class="nav-cta">Let's Talk</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="bsk-hero">
+  <div>
+    <div class="bsk-hero-eyebrow">Brand Starter Kit</div>
+    <h1 class="bsk-h1">
+      Your brand.<br>
+      Your logo.<br>
+      <span class="accent">13 templates.</span><br>
+      <span class="accent2">Ready to use.</span>
+    </h1>
+    <p class="bsk-hero-sub">Stop sending invoices from a Google Doc. Stop using Canva every time you need a proposal. Get a full set of beautiful, branded business documents — built to your exact colours, your logo, your contact details. Open in browser. Fill in. Export PDF. Done.</p>
+    <div class="bsk-hero-actions">
+      <a href="#order" class="btn-teal">Get My Brand Kit — $497</a>
+      <a href="#whats-included" class="btn-outline">See What's Inside ↓</a>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:16px;font-weight:300;">⚡ Delivered within 48 hours &nbsp;·&nbsp; 100% satisfaction guarantee &nbsp;·&nbsp; No subscription</p>
+  </div>
+  <div class="preview-stack">
+    <div class="preview-card preview-card-3">
+      <div class="preview-inner">
+        <div class="preview-logo-bar"><div class="preview-logo-dot"></div><div class="preview-logo-text">Your Brand</div></div>
+        <div class="preview-title-bar"></div>
+        <div class="preview-line"></div>
+        <div class="preview-line short"></div>
+        <div class="preview-line"></div>
+        <div class="preview-line xshort"></div>
+      </div>
+    </div>
+    <div class="preview-card preview-card-2">
+      <div class="preview-inner">
+        <div class="preview-logo-bar"><div class="preview-logo-dot"></div><div class="preview-logo-text">Your Brand</div></div>
+        <div class="preview-title-bar" style="background:linear-gradient(90deg,#00d4c8,#e8176a)"></div>
+        <div class="preview-line"></div>
+        <div class="preview-line short"></div>
+        <div class="preview-grid-2">
+          <div class="preview-box teal"><div class="preview-box-num">12</div><div class="preview-box-label">Posts</div></div>
+          <div class="preview-box"><div class="preview-box-num">4</div><div class="preview-box-label">Reels</div></div>
+          <div class="preview-box"><div class="preview-box-num">2</div><div class="preview-box-label">Emails</div></div>
+          <div class="preview-box teal"><div class="preview-box-num">88%</div><div class="preview-box-label">Open rate</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="preview-card preview-card-1">
+      <div class="preview-inner">
+        <div class="preview-logo-bar"><div class="preview-logo-dot"></div><div class="preview-logo-text">Your Brand</div></div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.8);margin-bottom:10px;">Invoice #001</div>
+        <div class="preview-title-bar" style="width:100%;height:2px;margin-bottom:16px;"></div>
+        <div class="preview-line xshort" style="margin-bottom:12px;"></div>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:4px;margin-bottom:4px;">
+          <div class="preview-line short" style="margin:0"></div>
+          <div class="preview-line" style="width:50px;margin:0"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:4px;margin-bottom:4px;">
+          <div class="preview-line short" style="margin:0;opacity:0.5"></div>
+          <div class="preview-line" style="width:50px;margin:0;opacity:0.5"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:4px;margin-bottom:14px;">
+          <div class="preview-line short" style="margin:0;opacity:0.3"></div>
+          <div class="preview-line" style="width:50px;margin:0;opacity:0.3"></div>
+        </div>
+        <div style="background:rgba(232,23,106,0.15);border:1px solid rgba(232,23,106,0.3);padding:10px;border-radius:2px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;color:#e8176a;">$3,850.00</div>
+          <div style="font-size:8px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px;">Total Due</div>
+        </div>
+        <div class="social-preview" style="margin-top:auto;">
+          <div class="social-card social-card-ig"><div class="social-card-inner"><div class="social-card-accent">"</div><div class="social-card-text">Testimonial</div></div></div>
+          <div class="social-card social-card-tl"><div class="social-card-inner"><div class="social-card-accent teal">→</div><div class="social-card-text">Before/After</div></div></div>
+          <div class="social-card social-card-ba"><div class="social-card-inner" style="flex-direction:row;gap:4px;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:8px;color:rgba(255,255,255,0.3);font-weight:700;">BEFORE</div><div style="width:1px;height:30px;background:rgba(255,255,255,0.1)"></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:8px;color:rgba(0,212,200,0.6);font-weight:700;">AFTER</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ STATS STRIP ═══════════════ -->
+<div class="value-strip">
+  <div class="value-strip-inner">
+    <div class="value-item">
+      <div class="value-num">13</div>
+      <div class="value-label">Custom-branded<br>HTML templates</div>
+    </div>
+    <div class="value-item">
+      <div class="value-num">48h</div>
+      <div class="value-label">Delivery from<br>order to inbox</div>
+    </div>
+    <div class="value-item">
+      <div class="value-num" style="color:var(--magenta);">∞</div>
+      <div class="value-label">Uses — yours<br>forever, no licence</div>
+    </div>
+    <div class="value-item">
+      <div class="value-num">$0</div>
+      <div class="value-label">Extra software<br>needed. Just a browser.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ WHAT'S INCLUDED ═══════════════ -->
+<section class="bsk-section" id="whats-included">
+  <div class="bsk-section-label">What's Inside</div>
+  <h2 class="bsk-section-h2">13 templates.<br><span style="color:var(--teal);">Every document you need.</span></h2>
+
+  <div class="template-grid">
+    <div class="template-tile">
+      <div class="template-tile-icon">🧾</div>
+      <div class="template-tile-name">Invoice</div>
+      <div class="template-tile-desc">Auto-calculating GST, line items, discount handling, professional totals table.</div>
+      <span class="template-tile-tag tag-doc">Business Doc</span>
+    </div>
+    <div class="template-tile">
+      <div class="template-tile-icon">📋</div>
+      <div class="template-tile-name">Proposal</div>
+      <div class="template-tile-desc">Client name header, opportunity, solution, packages, timeline, why you section.</div>
+      <span class="template-tile-tag tag-doc">Business Doc</span>
+    </div>
+    <div class="template-tile">
+      <div class="template-tile-icon">📅</div>
+      <div class="template-tile-name">Content Calendar</div>
+      <div class="template-tile-desc">Full monthly grid, colour-coded by platform, click to add posts with status tracking.</div>
+      <span class="template-tile-tag tag-doc">Business Doc</span>
+    </div>
+    <div class="template-tile">
+      <div class="template-tile-icon">📈</div>
+      <div class="template-tile-name">Monthly Report</div>
+      <div class="template-tile-desc">6 KPI highlights, traffic table, social bar chart, email stats, deliverables checklist.</div>
+      <span class="template-tile-tag tag-doc">Business Doc</span>
+    </div>
+    <div class="template-tile">
+      <div class="template-tile-icon">✍️</div>
+      <div class="template-tile-name">Contract</div>
+      <div class="template-tile-desc">Full legal agreement, package tier selector, platform checkboxes, signature fields.</div>
+      <span class="template-tile-tag tag-doc">Business Doc</span>
+    </div>
+    <div class="template-tile">
+      <div class="template-tile-icon">🎉</div>
+      <div class="template-tile-name">Onboarding Pack</div>
+      <div class="template-tile-desc">4-step timeline, how-we-work grid, access checklist, welcome message.</div>
+      <span class="template-tile-tag tag-doc">Business Doc</span>
+    </div>
+    <div class="template-tile">
+      <div class="template-tile-icon">📝</div>
+      <div class="template-tile-name">Client Brief</div>
+      <div class="template-tile-desc">Business info, goals, audience, brand personality selector, budget, competitors.</div>
+      <span class="template-tile-tag tag-doc">Business Doc</span>
+    </div>
+    <div class="template-tile">
+      <div class="template-tile-icon">🗒️</div>
+      <div class="template-tile-name">Meeting Notes</div>
+      <div class="template-tile-desc">Attendees, agenda, discussion, action items with High/Med/Low priority dots.</div>
+      <span class="template-tile-tag tag-doc">Business Doc</span>
+    </div>
+    <div class="template-tile">
+      <div class="template-tile-icon">⭐</div>
+      <div class="template-tile-name">Testimonial Card</div>
+      <div class="template-tile-desc">Square social card, teal quote marks, editable client name and title.</div>
+      <span class="template-tile-tag tag-social">Social Card</span>
+    </div>
+    <div class="template-tile">
+      <div class="template-tile-icon">📣</div>
+      <div class="template-tile-name">Announcement Card</div>
+      <div class="template-tile-desc">Headline, body text, CTA link, starburst accent — ready for Instagram.</div>
+      <span class="template-tile-tag tag-social">Social Card</span>
+    </div>
+    <div class="template-tile">
+      <div class="template-tile-icon">🔄</div>
+      <div class="template-tile-name">Before/After Card</div>
+      <div class="template-tile-desc">Split design: before metric (dark/pink) vs after metric (teal), arrow divider.</div>
+      <span class="template-tile-tag tag-social">Social Card</span>
+    </div>
+    <div class="template-tile">
+      <div class="template-tile-icon">💬</div>
+      <div class="template-tile-name">Quote/Tip Card</div>
+      <div class="template-tile-desc">Tag selector (Tip/Quote/Stat/Fact), big decorative quote mark, editable source.</div>
+      <span class="template-tile-tag tag-social">Social Card</span>
+    </div>
+    <div class="template-tile">
+      <div class="template-tile-icon">🏆</div>
+      <div class="template-tile-name">Case Study Card</div>
+      <div class="template-tile-desc">Hexagon accents, editable client name and 3 result metrics for social.</div>
+      <span class="template-tile-tag tag-social">Social Card</span>
+    </div>
+  </div>
+
+  <div style="background:var(--dark2);border:1px solid rgba(0,229,204,0.1);padding:32px 36px;display:flex;gap:24px;align-items:flex-start;">
+    <div style="font-size:32px;flex-shrink:0;">🎁</div>
+    <div>
+      <div style="font-family:var(--font-heading);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:4px;">Bonus: Brand Configuration File</div>
+      <p style="font-size:14px;color:var(--muted);font-weight:300;line-height:1.7;max-width:600px;">You also get a <code style="background:#1a1a1e;padding:2px 6px;font-size:12px;color:var(--teal);">brand.json</code> file with your exact colours, fonts, and contact info pre-filled. If you ever need more templates built, we just plug this in and you're done in minutes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+<section class="bsk-section" style="background:var(--dark2);border-top:1px solid var(--subtle);border-bottom:1px solid var(--subtle);max-width:100%;padding:80px 48px;" id="how-it-works">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="bsk-section-label">The Process</div>
+    <h2 class="bsk-section-h2">Three steps.<br><span style="color:var(--teal);">Zero hassle.</span></h2>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-step-num">01</div>
+        <div class="how-step-badge">1</div>
+        <div class="how-step-title">You fill in the brief</div>
+        <p class="how-step-desc">Tell us your business name, brand colours, logo, and contact details. Takes about 3 minutes. You can email it or fill in our online form.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">02</div>
+        <div class="how-step-badge" style="background:var(--magenta);">2</div>
+        <div class="how-step-title">We build your kit</div>
+        <p class="how-step-desc">We take your brand details and generate all 13 templates with your exact colours, your logo, and your contact info embedded throughout. Every single document.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">03</div>
+        <div class="how-step-badge">3</div>
+        <div class="how-step-title">You receive a ZIP</div>
+        <p class="how-step-desc">Within 48 hours you get a ZIP file with all 13 HTML templates. Open any of them in Chrome, fill in the details for that document, and export to PDF. That's it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ DEMO VISUAL ═══════════════ -->
+<section class="demo-section">
+  <div class="demo-inner">
+    <div>
+      <div class="bsk-section-label">How It Works</div>
+      <h2 style="font-family:var(--font-heading);font-weight:900;font-size:clamp(32px,5vw,52px);text-transform:uppercase;line-height:0.95;margin-bottom:20px;">You fill in.<br><span style="color:var(--teal);">We generate.</span><br>You download.</h2>
+      <p style="font-size:15px;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:32px;">You give us your brand details once. We build every template to match. Open any file in your browser, type in the details, hit export. It takes seconds.</p>
+      <ul style="list-style:none;padding:0;margin:0 0 36px;">
+        <li style="display:flex;gap:12px;margin-bottom:14px;font-size:14px;color:rgba(255,255,255,0.7);font-weight:300;align-items:flex-start;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span> Works in any modern browser — Chrome, Safari, Firefox</li>
+        <li style="display:flex;gap:12px;margin-bottom:14px;font-size:14px;color:rgba(255,255,255,0.7);font-weight:300;align-items:flex-start;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span> Export to PDF with one click — File → Print → Save as PDF</li>
+        <li style="display:flex;gap:12px;margin-bottom:14px;font-size:14px;color:rgba(255,255,255,0.7);font-weight:300;align-items:flex-start;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span> No accounts, no subscriptions, no internet required</li>
+        <li style="display:flex;gap:12px;font-size:14px;color:rgba(255,255,255,0.7);font-weight:300;align-items:flex-start;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span> Update your details anytime — just edit the HTML</li>
+      </ul>
+    </div>
+    <div class="demo-screen">
+      <div class="demo-screen-top">
+        <div class="demo-dot demo-dot-r"></div>
+        <div class="demo-dot demo-dot-y"></div>
+        <div class="demo-dot demo-dot-g"></div>
+        <span class="demo-screen-url">nunyabunya.com/brand-kit-generator</span>
+      </div>
+      <div class="demo-screen-body">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:14px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.6);margin-bottom:16px;">Brand Kit Generator</div>
+        <div class="demo-form-group">
+          <div class="demo-form-label">Business Name</div>
+          <div class="demo-form-input"><div class="demo-form-input-text">Brisbane Zinia Massage</div></div>
+        </div>
+        <div class="demo-form-group">
+          <div class="demo-form-label">Primary Colour</div>
+          <div class="demo-color-row">
+            <div class="demo-color-swatch" style="background:#5B7C5E;"></div>
+            <div class="demo-form-input" style="flex:1;"><div class="demo-form-input-text">#5B7C5E</div></div>
+          </div>
+        </div>
+        <div class="demo-form-group">
+          <div class="demo-form-label">Secondary Colour</div>
+          <div class="demo-color-row">
+            <div class="demo-color-swatch" style="background:#C4A77D;"></div>
+            <div class="demo-form-input" style="flex:1;"><div class="demo-form-input-text">#C4A77D</div></div>
+          </div>
+        </div>
+        <div class="demo-generate-btn">⚡ Generate My 13 Templates</div>
+        <div style="margin-top:14px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;color:rgba(0,229,204,0.6);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Preview:</div>
+          <div class="demo-output">
+            <div class="demo-output-card">
+              <div class="demo-output-bar" style="background:#5B7C5E;"></div>
+              <div class="demo-output-line"></div>
+              <div class="demo-output-line half"></div>
+              <div class="demo-output-line"></div>
+              <div style="margin-top:auto;height:20px;background:rgba(91,124,94,0.2);border-radius:2px;border:1px solid rgba(91,124,94,0.3);"></div>
+            </div>
+            <div class="demo-output-card">
+              <div class="demo-output-bar" style="background:linear-gradient(90deg,#5B7C5E,#C4A77D);"></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;flex:1;">
+                <div style="background:rgba(91,124,94,0.15);border-radius:2px;"></div>
+                <div style="background:rgba(196,167,125,0.15);border-radius:2px;"></div>
+                <div style="background:rgba(196,167,125,0.15);border-radius:2px;"></div>
+                <div style="background:rgba(91,124,94,0.15);border-radius:2px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PRICING ═══════════════ -->
+<section class="bsk-section" id="order" style="text-align:center;">
+  <div class="bsk-section-label" style="justify-content:center;">Pricing</div>
+  <h2 class="bsk-section-h2" style="margin-bottom:48px;">One price.<br><span style="color:var(--teal);">Everything included.</span></h2>
+
+  <div class="pricing-card">
+    <div class="pricing-badge">Brand Starter Kit</div>
+    <div class="pricing-name">Complete Document Suite</div>
+    <div class="pricing-price">$497</div>
+    <div class="pricing-sub" style="color:var(--muted)">One-time payment &nbsp;·&nbsp; +GST &nbsp;·&nbsp; Delivered in 48 hours</div>
+    <ul class="pricing-features">
+      <li><span class="check">✓</span> 13 custom-branded HTML templates — every document your business needs</li>
+      <li><span class="check">✓</span> Your logo embedded in every single template</li>
+      <li><span class="check">✓</span> Your exact brand colours applied throughout</li>
+      <li><span class="check">✓</span> Your contact details, ABN, and website pre-filled</li>
+      <li><span class="check">✓</span> Editable in any browser — no account, no software</li>
+      <li><span class="check">✓</span> Export to PDF with one click</li>
+      <li><span class="check">✓</span> Yours forever — no licence, no renewal, no subscription</li>
+      <li><span class="check">✓</span> <code style="background:var(--dark3);padding:1px 6px;font-size:12px;color:var(--teal);">brand.json</code> config file included for future updates</li>
+    </ul>
+    <a href="https://cal.com/nunyabunya/nb-free-audit" class="btn-teal" style="display:block;text-align:center;font-size:16px;padding:20px 40px;">Order Now — $497 + GST</a>
+    <div class="pricing-guarantee">
+      <div class="pricing-guarantee-icon">🛡️</div>
+      <div class="pricing-guarantee-text"><strong>100% satisfaction guarantee.</strong> If the templates aren't built to your brand spec, we fix them — no questions asked. If you're still not happy, full refund. Simple as that.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FAQ ═══════════════ -->
+<section class="bsk-section" style="border-top:1px solid var(--subtle);">
+  <div class="bsk-section-label">FAQ</div>
+  <h2 class="bsk-section-h2" style="margin-bottom:48px;">Questions?<br><span style="color:var(--teal);">Answered.</span></h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">Do I need any design software or subscriptions? <span class="faq-q-arrow">+</span></div>
+      <div class="faq-a">Nope. You just need a web browser — Chrome, Safari, Firefox, Edge, whatever you use. The templates are HTML files. Open them, type in your content, and print to PDF. That's the entire workflow. No Canva, no Adobe, no Word, nothing.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What exactly do I send you to get started? <span class="faq-q-arrow">+</span></div>
+      <div class="faq-a">Your logo file (PNG or SVG on a transparent or dark background), your primary and secondary brand colours (hex codes if you have them, or just describe them and we'll pick), your business name, ABN, email, phone, and website. That's it.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How long does it actually take? <span class="faq-q-arrow">+</span></div>
+      <div class="faq-a">We quote 48 hours from when we receive your brand details, but in practice it's usually faster. You'll get a ZIP in your inbox with all 13 files ready to open.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I change the templates after I receive them? <span class="faq-q-arrow">+</span></div>
+      <div class="faq-a">Yes, completely. They're HTML files — if you know a little HTML you can change anything you want. If you don't, we can make edits for you. Your brand.json file also means if you rebrand, we can update the whole kit quickly for a small fee.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What if they don't match my brand? <span class="faq-q-arrow">+</span></div>
+      <div class="faq-a">If the templates don't look right, we fix them — end of story. We build to the exact brand details you give us. If something's off, we rebuild it. If after revisions you're still not satisfied, full refund, no questions asked.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this just for marketing agencies or any business? <span class="faq-q-arrow">+</span></div>
+      <div class="faq-a">Any business. The templates cover invoicing, proposals, contracts, reporting, meeting notes, onboarding — every business needs these. Tradies, cafes, coaches, consultants, agencies, gyms, legal firms — it doesn't matter what industry you're in, you need professional documents.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FINAL CTA ═══════════════ -->
+<div class="final-cta">
+  <h2>Ready to look<br><span style="color:var(--teal);">like a pro</span><br>from day one?</h2>
+  <p>13 templates. Your brand. 48 hours. One payment, yours forever. No subscription, no software, no hassle.</p>
+  <a href="#order" class="btn-teal" style="font-size:16px;padding:20px 48px;">Get My Brand Kit — $497 + GST</a>
+  <p style="margin-top:16px;font-size:12px;color:var(--muted);">Questions? Email <a href="mailto:hello@nunyabunya.com" style="color:var(--teal);">hello@nunyabunya.com</a></p>
+</div>
+
+<footer>
+  <div class="footer-logo"><img src="images/logo-icon-white.png" alt="Nunya Bunya"> <span>NUNYA<em>BUNYA</em></span></div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="products.html">Products</a></li><li><a href="portfolio.html">Work</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+  <p class="footer-copy">&copy; 2026 Nunya Bunya Pty Ltd &middot; Brisbane, QLD &middot; ABN 48 890 965 530 &middot; All rights reserved.</p>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+  setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 80);
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering'); });
+  el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering'); });
+});
+
+// NAV
+document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+
+// FAQ
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Kit Configurator — Nunya Bunya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="style-v2.css">
+<style>
+.cfg-wrap { display:grid; grid-template-columns:380px 1fr; min-height:100vh; padding-top:80px; }
+.cfg-sidebar {
+  background:#0a0a0a; border-right:1px solid rgba(255,255,255,0.06);
+  padding:40px 32px; position:sticky; top:80px; height:calc(100vh - 80px);
+  overflow-y:auto; display:flex; flex-direction:column; gap:20px;
+}
+.cfg-main { padding:40px 48px; background:#0d0d0d; }
+.cfg-eyebrow { font-family:var(--font-heading); font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--teal); margin-bottom:6px; }
+.cfg-title { font-family:var(--font-heading); font-weight:900; font-size:28px; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:4px; }
+.cfg-sub { font-size:13px; color:var(--muted); font-weight:300; line-height:1.6; margin-bottom:24px; }
+.field-group { display:flex; flex-direction:column; gap:6px; }
+.field-label { font-family:var(--font-heading); font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:rgba(255,255,255,0.4); }
+.field-input {
+  background:#141414; border:1px solid rgba(255,255,255,0.08); color:#fff;
+  padding:10px 14px; font-family:var(--font-body); font-size:13px; border-radius:2px;
+  transition:border-color 0.2s; width:100%;
+}
+.field-input:focus { outline:none; border-color:var(--teal); }
+.color-row { display:flex; gap:8px; align-items:center; }
+.color-swatch { width:36px; height:36px; border-radius:2px; border:1px solid rgba(255,255,255,0.1); cursor:pointer; flex-shrink:0; }
+.color-swatch input[type=color] { width:100%; height:100%; opacity:0; cursor:pointer; position:absolute; inset:0; }
+.color-swatch-wrap { position:relative; width:36px; height:36px; flex-shrink:0; }
+.divider { height:1px; background:rgba(255,255,255,0.06); margin:4px 0; }
+.cfg-submit {
+  background:var(--teal); color:#000; border:none; padding:16px 24px;
+  font-family:var(--font-heading); font-weight:900; font-size:14px; letter-spacing:0.1em;
+  text-transform:uppercase; cursor:pointer; width:100%; border-radius:2px;
+  transition:background 0.2s;
+}
+.cfg-submit:hover { background:var(--teal-dark); }
+.cfg-submit-note { font-size:11px; color:var(--muted); text-align:center; margin-top:8px; font-weight:300; }
+
+/* PREVIEW AREA */
+.preview-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
+.preview-header h2 { font-family:var(--font-heading); font-size:18px; font-weight:900; text-transform:uppercase; letter-spacing:0.05em; }
+.preview-tabs { display:flex; gap:2px; }
+.preview-tab {
+  font-family:var(--font-heading); font-size:10px; font-weight:700; letter-spacing:0.1em;
+  text-transform:uppercase; padding:6px 14px; background:#141414; border:1px solid rgba(255,255,255,0.08);
+  color:rgba(255,255,255,0.4); cursor:pointer; transition:all 0.2s; border-radius:2px;
+}
+.preview-tab.active { background:rgba(0,229,204,0.1); border-color:var(--teal); color:var(--teal); }
+.preview-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; }
+
+/* TEMPLATE PREVIEW CARDS */
+.tpl-preview {
+  background:#111115; border:1px solid rgba(255,255,255,0.06); border-radius:4px;
+  overflow:hidden; transition:border-color 0.2s, transform 0.2s;
+}
+.tpl-preview:hover { border-color:rgba(0,229,204,0.15); transform:translateY(-2px); }
+.tpl-preview-header { padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; align-items:center; justify-content:space-between; }
+.tpl-name { font-family:var(--font-heading); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; }
+.tpl-tag { font-size:9px; font-family:var(--font-heading); font-weight:700; text-transform:uppercase; letter-spacing:0.1em; padding:2px 8px; border-radius:10px; }
+.tpl-tag-doc { background:rgba(0,229,204,0.1); color:var(--teal); }
+.tpl-tag-social { background:rgba(255,77,221,0.1); color:var(--magenta); }
+.tpl-preview-body { padding:16px; min-height:160px; position:relative; overflow:hidden; }
+
+/* Live preview shapes */
+.lp-logo-row { display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+.lp-logo-box { width:28px; height:28px; border-radius:3px; flex-shrink:0; background:var(--preview-primary,#e8176a); }
+.lp-biz-name { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.7); }
+.lp-gradient-bar { height:2px; border-radius:1px; margin-bottom:12px; }
+.lp-line { height:5px; background:rgba(255,255,255,0.07); border-radius:2px; margin-bottom:6px; }
+.lp-line.short { width:55%; }
+.lp-line.xshort { width:35%; }
+.lp-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:10px; }
+.lp-box { border-radius:3px; height:36px; display:flex; align-items:center; justify-content:center; }
+.lp-box-num { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:14px; }
+
+/* Square preview */
+.lp-square { aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:4px; padding:16px; text-align:center; }
+.lp-quote-mark { font-size:40px; font-family:'Barlow Condensed',sans-serif; font-weight:900; line-height:0.8; margin-bottom:8px; }
+.lp-quote-text { font-size:9px; color:rgba(255,255,255,0.5); line-height:1.5; }
+
+/* Calendar mini */
+.lp-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-top:8px; }
+.lp-cal-day { height:16px; background:rgba(255,255,255,0.04); border-radius:1px; }
+.lp-cal-day.has-post { border-left:2px solid; }
+
+/* Order confirmation box */
+.order-box {
+  background:rgba(0,229,204,0.05); border:1px solid rgba(0,229,204,0.15); border-radius:4px;
+  padding:24px; text-align:center; margin-top:32px;
+}
+.order-box h3 { font-family:var(--font-heading); font-weight:900; font-size:20px; text-transform:uppercase; color:var(--teal); margin-bottom:8px; }
+.order-box p { font-size:13px; color:var(--muted); font-weight:300; line-height:1.7; max-width:440px; margin:0 auto 16px; }
+
+@media (max-width:900px) {
+  .cfg-wrap { grid-template-columns:1fr; }
+  .cfg-sidebar { position:static; height:auto; }
+  .cfg-main { padding:24px; }
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="images/logo-icon-white.png" alt="Nunya Bunya">
+    NUNYA<span>BUNYA</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="portfolio.html">Work</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html" class="nav-cta">Let's Talk</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="cfg-wrap">
+
+  <!-- ── SIDEBAR FORM ── -->
+  <aside class="cfg-sidebar">
+    <div>
+      <div class="cfg-eyebrow">Brand Kit Generator</div>
+      <div class="cfg-title">Build Your Kit</div>
+      <div class="cfg-sub">Enter your brand details and watch the templates update live. When you're happy, submit your order and we'll deliver your full ZIP in 48 hours.</div>
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Business Name</div>
+      <input class="field-input" id="f-name" type="text" placeholder="e.g. Sunrise Coffee Co." value="Your Business">
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Tagline <span style="color:rgba(255,255,255,0.2);font-weight:300;">(optional)</span></div>
+      <input class="field-input" id="f-tagline" type="text" placeholder="e.g. Brisbane's best brew">
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field-group">
+      <div class="field-label">Primary Colour</div>
+      <div class="color-row">
+        <div class="color-swatch-wrap" id="swatch1">
+          <div class="color-swatch" id="swatch1-bg" style="background:#e8176a;"></div>
+          <input type="color" id="f-primary" value="#e8176a" oninput="updatePreview()">
+        </div>
+        <input class="field-input" id="f-primary-hex" type="text" value="#e8176a" placeholder="#e8176a"
+          oninput="syncHexToColor('f-primary','f-primary-hex','swatch1-bg'); updatePreview();">
+      </div>
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Secondary Colour</div>
+      <div class="color-row">
+        <div class="color-swatch-wrap" id="swatch2">
+          <div class="color-swatch" id="swatch2-bg" style="background:#00d4c8;"></div>
+          <input type="color" id="f-secondary" value="#00d4c8" oninput="updatePreview()">
+        </div>
+        <input class="field-input" id="f-secondary-hex" type="text" value="#00d4c8" placeholder="#00d4c8"
+          oninput="syncHexToColor('f-secondary','f-secondary-hex','swatch2-bg'); updatePreview();">
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field-group">
+      <div class="field-label">Email Address</div>
+      <input class="field-input" id="f-email" type="email" placeholder="hello@yourbusiness.com">
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Phone</div>
+      <input class="field-input" id="f-phone" type="text" placeholder="+61 400 000 000">
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Website</div>
+      <input class="field-input" id="f-website" type="text" placeholder="yourbusiness.com">
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">ABN</div>
+      <input class="field-input" id="f-abn" type="text" placeholder="12 345 678 901">
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Logo URL <span style="color:rgba(255,255,255,0.2);font-weight:300;">(optional)</span></div>
+      <input class="field-input" id="f-logo" type="url" placeholder="https://yoursite.com/logo.png">
+    </div>
+
+    <div style="margin-top:auto;">
+      <button class="cfg-submit" onclick="submitOrder()">Order My Brand Kit — $497 + GST</button>
+      <p class="cfg-submit-note">Delivered to your inbox within 48 hours</p>
+    </div>
+  </aside>
+
+  <!-- ── PREVIEW MAIN ── -->
+  <main class="cfg-main">
+    <div class="preview-header">
+      <h2>Live Preview</h2>
+      <div class="preview-tabs">
+        <div class="preview-tab active" onclick="setTab('docs',this)">Documents</div>
+        <div class="preview-tab" onclick="setTab('social',this)">Social Cards</div>
+      </div>
+    </div>
+
+    <div class="preview-grid" id="previewDocs">
+
+      <div class="tpl-preview">
+        <div class="tpl-preview-header"><div class="tpl-name">Invoice</div><span class="tpl-tag tpl-tag-doc">Document</span></div>
+        <div class="tpl-preview-body">
+          <div class="lp-logo-row"><div class="lp-logo-box primary-bg"></div><div class="lp-biz-name brand-name-el">Your Business</div></div>
+          <div class="lp-gradient-bar primary-secondary-gradient"></div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.5);margin-bottom:10px;">Invoice #001</div>
+          <div style="display:grid;grid-template-columns:1fr auto;gap:4px;margin-bottom:4px;"><div class="lp-line short" style="margin:0"></div><div style="font-size:9px;color:rgba(255,255,255,0.3);">$1,500.00</div></div>
+          <div style="display:grid;grid-template-columns:1fr auto;gap:4px;margin-bottom:4px;"><div class="lp-line short" style="margin:0;opacity:0.5"></div><div style="font-size:9px;color:rgba(255,255,255,0.2);">$800.00</div></div>
+          <div style="margin-top:12px;padding:8px;border-radius:2px;border:1px solid;" class="primary-border primary-bg-faint">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:900;" class="primary-color">$2,585.00</div>
+            <div style="font-size:8px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px;">Total Due incl. GST</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tpl-preview">
+        <div class="tpl-preview-header"><div class="tpl-name">Content Calendar</div><span class="tpl-tag tpl-tag-doc">Document</span></div>
+        <div class="tpl-preview-body">
+          <div class="lp-logo-row"><div class="lp-logo-box primary-bg"></div><div class="lp-biz-name brand-name-el">Your Business</div></div>
+          <div class="lp-gradient-bar primary-secondary-gradient"></div>
+          <div class="lp-cal-grid">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:7px;color:rgba(255,255,255,0.2);text-align:center;">M</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:7px;color:rgba(255,255,255,0.2);text-align:center;">T</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:7px;color:rgba(255,255,255,0.2);text-align:center;">W</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:7px;color:rgba(255,255,255,0.2);text-align:center;">T</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:7px;color:rgba(255,255,255,0.2);text-align:center;">F</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:7px;color:rgba(255,255,255,0.2);text-align:center;">S</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:7px;color:rgba(255,255,255,0.2);text-align:center;">S</div>
+            <div class="lp-cal-day"></div>
+            <div class="lp-cal-day has-post primary-border-left"></div>
+            <div class="lp-cal-day"></div>
+            <div class="lp-cal-day has-post secondary-border-left"></div>
+            <div class="lp-cal-day has-post primary-border-left"></div>
+            <div class="lp-cal-day"></div>
+            <div class="lp-cal-day"></div>
+            <div class="lp-cal-day has-post secondary-border-left"></div>
+            <div class="lp-cal-day"></div>
+            <div class="lp-cal-day has-post primary-border-left"></div>
+            <div class="lp-cal-day"></div>
+            <div class="lp-cal-day has-post secondary-border-left"></div>
+            <div class="lp-cal-day has-post primary-border-left"></div>
+            <div class="lp-cal-day"></div>
+            <div class="lp-cal-day has-post secondary-border-left"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tpl-preview">
+        <div class="tpl-preview-header"><div class="tpl-name">Monthly Report</div><span class="tpl-tag tpl-tag-doc">Document</span></div>
+        <div class="tpl-preview-body">
+          <div class="lp-logo-row"><div class="lp-logo-box primary-bg"></div><div class="lp-biz-name brand-name-el">Your Business</div></div>
+          <div class="lp-gradient-bar primary-secondary-gradient"></div>
+          <div class="lp-grid-2">
+            <div class="lp-box primary-bg-faint primary-border"><div class="lp-box-num primary-color">4.2K</div></div>
+            <div class="lp-box secondary-bg-faint secondary-border"><div class="lp-box-num secondary-color">87%</div></div>
+            <div class="lp-box primary-bg-faint primary-border"><div class="lp-box-num primary-color">126</div></div>
+            <div class="lp-box secondary-bg-faint secondary-border"><div class="lp-box-num secondary-color">23</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tpl-preview">
+        <div class="tpl-preview-header"><div class="tpl-name">Proposal</div><span class="tpl-tag tpl-tag-doc">Document</span></div>
+        <div class="tpl-preview-body">
+          <div class="lp-logo-row"><div class="lp-logo-box primary-bg"></div><div class="lp-biz-name brand-name-el">Your Business</div></div>
+          <div class="lp-gradient-bar primary-secondary-gradient"></div>
+          <div class="lp-line"></div><div class="lp-line short"></div><div class="lp-line"></div>
+          <div style="margin-top:12px;padding:8px;border-radius:2px;" class="secondary-bg-faint secondary-border">
+            <div style="font-size:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:1px;" class="secondary-color">Bedrock Package — $3,500</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tpl-preview">
+        <div class="tpl-preview-header"><div class="tpl-name">Contract</div><span class="tpl-tag tpl-tag-doc">Document</span></div>
+        <div class="tpl-preview-body">
+          <div class="lp-logo-row"><div class="lp-logo-box primary-bg"></div><div class="lp-biz-name brand-name-el">Your Business</div></div>
+          <div class="lp-gradient-bar primary-secondary-gradient"></div>
+          <div class="lp-line"></div><div class="lp-line short"></div><div class="lp-line"></div><div class="lp-line xshort"></div>
+          <div style="margin-top:auto;display:flex;gap:8px;padding-top:12px;">
+            <div style="flex:1;height:24px;border-top:1px solid rgba(255,255,255,0.1);"></div>
+            <div style="flex:1;height:24px;border-top:1px solid;margin-top:0;" class="primary-border-top"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tpl-preview">
+        <div class="tpl-preview-header"><div class="tpl-name">Onboarding Pack</div><span class="tpl-tag tpl-tag-doc">Document</span></div>
+        <div class="tpl-preview-body">
+          <div class="lp-logo-row"><div class="lp-logo-box secondary-bg"></div><div class="lp-biz-name brand-name-el">Your Business</div></div>
+          <div class="lp-gradient-bar secondary-primary-gradient"></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:8px;">
+            <div style="background:rgba(255,255,255,0.04);border-radius:2px;padding:6px;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;" class="secondary-color">1</div><div style="font-size:7px;color:rgba(255,255,255,0.2);">Brief</div></div>
+            <div style="background:rgba(255,255,255,0.04);border-radius:2px;padding:6px;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;" class="primary-color">2</div><div style="font-size:7px;color:rgba(255,255,255,0.2);">Build</div></div>
+            <div style="background:rgba(255,255,255,0.04);border-radius:2px;padding:6px;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;" class="secondary-color">3</div><div style="font-size:7px;color:rgba(255,255,255,0.2);">Review</div></div>
+            <div style="background:rgba(255,255,255,0.04);border-radius:2px;padding:6px;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;" class="primary-color">4</div><div style="font-size:7px;color:rgba(255,255,255,0.2);">Launch</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end docs -->
+
+    <div class="preview-grid" id="previewSocial" style="display:none;">
+
+      <div class="tpl-preview">
+        <div class="tpl-preview-header"><div class="tpl-name">Testimonial Card</div><span class="tpl-tag tpl-tag-social">Social</span></div>
+        <div class="tpl-preview-body" style="padding:0;">
+          <div class="lp-square" style="background:#111115;">
+            <div class="lp-quote-mark secondary-color">"</div>
+            <div class="lp-quote-text">This changed everything for our business.<br>Best investment we made.</div>
+            <div style="margin-top:10px;font-size:9px;font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);" class="primary-color brand-name-el">Client Name</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tpl-preview">
+        <div class="tpl-preview-header"><div class="tpl-name">Before / After Card</div><span class="tpl-tag tpl-tag-social">Social</span></div>
+        <div class="tpl-preview-body" style="padding:0;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;height:160px;">
+            <div style="background:#0a0a0e;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;">
+              <div style="font-size:8px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Before</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;" class="primary-color">3%</div>
+              <div style="font-size:7px;color:rgba(255,255,255,0.25);">conversion</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;" class="secondary-bg-faint">
+              <div style="font-size:8px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;" class="secondary-color">After</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;" class="secondary-color">18%</div>
+              <div style="font-size:7px;color:rgba(255,255,255,0.4);">conversion</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tpl-preview">
+        <div class="tpl-preview-header"><div class="tpl-name">Announcement Card</div><span class="tpl-tag tpl-tag-social">Social</span></div>
+        <div class="tpl-preview-body" style="padding:0;">
+          <div class="lp-square" style="background:#111115;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;opacity:0.15;" class="primary-bg"></div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;line-height:1.1;" class="primary-color">Big News.</div>
+            <div class="lp-quote-text">Something exciting is happening. Stay tuned for the full announcement.</div>
+            <div style="margin-top:10px;padding:4px 12px;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;" class="secondary-bg-faint secondary-color">Learn More →</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tpl-preview">
+        <div class="tpl-preview-header"><div class="tpl-name">Quote / Tip Card</div><span class="tpl-tag tpl-tag-social">Social</span></div>
+        <div class="tpl-preview-body" style="padding:0;">
+          <div class="lp-square" style="background:#111115;">
+            <div style="font-size:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:2px;margin-bottom:10px;" class="primary-bg-faint primary-color">💡 TIP</div>
+            <div class="lp-quote-mark" style="font-size:32px;margin-bottom:4px;" class="secondary-color">"</div>
+            <div class="lp-quote-text">Your next insight goes here. Make it punchy, make it shareable.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tpl-preview">
+        <div class="tpl-preview-header"><div class="tpl-name">Case Study Card</div><span class="tpl-tag tpl-tag-social">Social</span></div>
+        <div class="tpl-preview-body" style="padding:0;">
+          <div class="lp-square" style="background:#111115;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);margin-bottom:8px;">Case Study</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;">
+              <div style="text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;" class="primary-color">3x</div><div style="font-size:7px;color:rgba(255,255,255,0.3);">Traffic</div></div>
+              <div style="text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;" class="secondary-color">40%</div><div style="font-size:7px;color:rgba(255,255,255,0.3);">Leads</div></div>
+              <div style="text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;" class="primary-color">$12K</div><div style="font-size:7px;color:rgba(255,255,255,0.3);">Revenue</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end social -->
+
+    <div class="order-box" id="orderConfirm" style="display:none;">
+      <div style="font-size:40px;margin-bottom:12px;">🎉</div>
+      <h3>Order Submitted!</h3>
+      <p>We've received your brand details and will have your custom kit ready within 48 hours. Check your inbox — we'll send a confirmation now and your ZIP when it's done.</p>
+      <a href="brand-starter-kit.html" style="display:inline-block;margin-top:8px;font-family:var(--font-heading);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);">← Back to Product Page</a>
+    </div>
+
+  </main>
+</div><!-- end cfg-wrap -->
+
+<script>
+// ─── CURSOR ───────────────────────────────────────────────────────
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';
+  setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},80);
+});
+document.querySelectorAll('a,button,input').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.classList.add('hovering');ring.classList.add('hovering');});
+  el.addEventListener('mouseleave',()=>{cursor.classList.remove('hovering');ring.classList.remove('hovering');});
+});
+document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+
+// ─── TAB SWITCHING ─────────────────────────────────────────────────
+function setTab(tab, el) {
+  document.querySelectorAll('.preview-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('previewDocs').style.display  = tab==='docs'   ? 'grid' : 'none';
+  document.getElementById('previewSocial').style.display = tab==='social' ? 'grid' : 'none';
+}
+
+// ─── HEX ↔ COLOR INPUT SYNC ──────────────────────────────────────
+function syncHexToColor(colorId, hexId, swatchId) {
+  const hex = document.getElementById(hexId).value.trim();
+  if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
+    document.getElementById(colorId).value = hex;
+    document.getElementById(swatchId).style.background = hex;
+  }
+}
+document.getElementById('f-primary').addEventListener('input', function() {
+  document.getElementById('f-primary-hex').value = this.value;
+  document.getElementById('swatch1-bg').style.background = this.value;
+  updatePreview();
+});
+document.getElementById('f-secondary').addEventListener('input', function() {
+  document.getElementById('f-secondary-hex').value = this.value;
+  document.getElementById('swatch2-bg').style.background = this.value;
+  updatePreview();
+});
+
+// ─── LIVE PREVIEW UPDATE ──────────────────────────────────────────
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  return {r,g,b};
+}
+
+function updatePreview() {
+  const primary   = document.getElementById('f-primary').value   || '#e8176a';
+  const secondary = document.getElementById('f-secondary').value || '#00d4c8';
+  const name      = document.getElementById('f-name').value      || 'Your Business';
+
+  const p = hexToRgb(primary), s = hexToRgb(secondary);
+  const pa = (a) => `rgba(${p.r},${p.g},${p.b},${a})`;
+  const sa = (a) => `rgba(${s.r},${s.g},${s.b},${a})`;
+
+  // Build a dynamic stylesheet
+  let css = `
+    .primary-bg       { background: ${primary} !important; }
+    .primary-bg-faint { background: ${pa(0.12)} !important; }
+    .secondary-bg     { background: ${secondary} !important; }
+    .secondary-bg-faint { background: ${sa(0.1)} !important; }
+    .primary-color    { color: ${primary} !important; }
+    .secondary-color  { color: ${secondary} !important; }
+    .primary-border   { border-color: ${pa(0.3)} !important; }
+    .secondary-border { border-color: ${sa(0.25)} !important; }
+    .primary-border-left { border-left-color: ${primary} !important; }
+    .secondary-border-left { border-left-color: ${secondary} !important; }
+    .primary-border-top { border-top-color: ${primary} !important; }
+    .primary-secondary-gradient { background: linear-gradient(90deg, ${primary}, ${secondary}) !important; }
+    .secondary-primary-gradient { background: linear-gradient(90deg, ${secondary}, ${primary}) !important; }
+  `;
+  let sheet = document.getElementById('dynamic-css');
+  if (!sheet) { sheet=document.createElement('style'); sheet.id='dynamic-css'; document.head.appendChild(sheet); }
+  sheet.textContent = css;
+
+  // Update business name
+  document.querySelectorAll('.brand-name-el').forEach(el => { el.textContent = name; });
+}
+
+// Real-time input listeners
+['f-name','f-email','f-phone','f-website','f-abn'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updatePreview);
+});
+
+// ─── ORDER SUBMIT ─────────────────────────────────────────────────
+function submitOrder() {
+  const brand = {
+    name:      document.getElementById('f-name').value,
+    tagline:   document.getElementById('f-tagline').value,
+    primary:   document.getElementById('f-primary').value,
+    secondary: document.getElementById('f-secondary').value,
+    email:     document.getElementById('f-email').value,
+    phone:     document.getElementById('f-phone').value,
+    website:   document.getElementById('f-website').value,
+    abn:       document.getElementById('f-abn').value,
+    logo:      document.getElementById('f-logo').value,
+  };
+
+  if (!brand.name || brand.name === 'Your Business') {
+    alert('Please enter your business name before ordering.');
+    document.getElementById('f-name').focus();
+    return;
+  }
+  if (!brand.email) {
+    alert('Please enter your email address so we can deliver the kit.');
+    document.getElementById('f-email').focus();
+    return;
+  }
+
+  // Build mailto link as fallback (replace with form service later)
+  const body = Object.entries(brand).map(([k,v])=>k+': '+v).join('\n');
+  const subject = encodeURIComponent('Brand Starter Kit Order — ' + brand.name);
+  const bodyEnc = encodeURIComponent('Brand Kit Order Details:\n\n' + Object.entries(brand).map(([k,v])=>k.toUpperCase()+': '+v).join('\n'));
+  window.location.href = `mailto:hello@nunyabunya.com?subject=${subject}&body=${bodyEnc}`;
+
+  document.getElementById('orderConfirm').style.display = 'block';
+  document.getElementById('orderConfirm').scrollIntoView({behavior:'smooth'});
+}
+
+// Init
+updatePreview();
+</script>
+</body>
+</html>
