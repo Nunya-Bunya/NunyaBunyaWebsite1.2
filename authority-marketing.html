@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Authority Marketing Brisbane — Build Your Personal Brand | Nunya Bunya</title>
+<meta name="description" content="You are the brand. Nunya Bunya builds the marketing system that makes people seek you out — before you even pitch. Coaches, founders, executives, speakers, consultants.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="style-v2.css">
+<style>
+  .am-hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 140px 48px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .am-eyebrow {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .am-eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--teal); }
+  .am-h1 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(56px, 9vw, 120px);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.88;
+    margin-bottom: 40px;
+  }
+  .am-h1 .accent { color: var(--teal); }
+  .am-hero-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  .am-hero-p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.65);
+    max-width: 480px;
+  }
+  .am-hero-p strong { color: var(--white); }
+  .am-hero-actions { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+
+  .am-section { max-width: 1100px; margin: 0 auto; padding: 80px 48px; }
+  .am-section-label {
+    font-family: var(--font-heading);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .am-section-label::before { content:''; display:block; width:24px; height:1px; background:var(--teal); }
+  .am-h2 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(40px, 5vw, 72px);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.9;
+    margin-bottom: 40px;
+  }
+  .am-h2 span { color: var(--teal); }
+  .am-h2 .mg { color: var(--magenta); }
+
+  /* WHO THIS IS FOR */
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 48px;
+  }
+  .audience-card {
+    background: var(--dark2);
+    padding: 32px 28px;
+    border-top: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .audience-card:hover { border-color: var(--teal); }
+  .audience-icon { font-size: 28px; margin-bottom: 16px; }
+  .audience-title {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .audience-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* PROBLEM SECTION */
+  .problem-list { display: flex; flex-direction: column; gap: 0; margin-top: 48px; }
+  .problem-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 32px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--subtle);
+    align-items: start;
+  }
+  .problem-num {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 64px;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+  }
+  .problem-text h3 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 22px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .problem-text p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  /* WHAT YOU GET */
+  .deliverable-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-top: 48px;
+  }
+  .deliverable-item {
+    background: var(--dark2);
+    padding: 28px 32px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .deliverable-check {
+    width: 20px;
+    height: 20px;
+    background: var(--teal);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+    font-size: 10px;
+    color: var(--dark);
+    font-weight: 900;
+  }
+  .deliverable-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .deliverable-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* QUOTE PULL */
+  .pull-quote {
+    border-left: 3px solid var(--teal);
+    padding: 32px 40px;
+    margin: 64px 0;
+    background: var(--dark2);
+  }
+  .pull-quote blockquote {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(24px, 3vw, 40px);
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .pull-quote blockquote span { color: var(--teal); }
+  .pull-quote cite { font-size: 12px; color: var(--muted); font-style: normal; }
+
+  /* PRICING */
+  .am-pricing {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .am-price-card {
+    background: var(--dark2);
+    border: 1px solid var(--subtle);
+    padding: 40px 36px;
+    position: relative;
+  }
+  .am-price-card.featured {
+    border-color: rgba(0,229,204,0.3);
+  }
+  .am-price-card.featured::before {
+    content: 'Most Popular';
+    position: absolute;
+    top: -1px; right: 24px;
+    background: var(--teal);
+    color: var(--dark);
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+  }
+  .am-price-label {
+    font-family: var(--font-heading);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .am-price-name {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 28px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .am-price-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+  .am-price-num {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 48px;
+    color: var(--teal);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .am-price-term { font-size: 12px; color: var(--muted); margin-bottom: 28px; }
+  .am-price-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 32px; }
+  .am-price-list li { display: flex; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.65); }
+  .am-price-list li::before { content:'✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; }
+
+  /* FINAL CTA */
+  .am-final {
+    background: var(--dark2);
+    border-top: 3px solid var(--teal);
+    padding: 80px 48px;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .am-hero { padding: 120px 24px 60px; }
+    .am-hero-body { grid-template-columns: 1fr; gap: 32px; }
+    .am-section { padding: 60px 24px; }
+    .audience-grid { grid-template-columns: 1fr; }
+    .deliverable-grid { grid-template-columns: 1fr; }
+    .am-pricing { grid-template-columns: 1fr; }
+    .problem-item { grid-template-columns: 48px 1fr; gap: 16px; }
+    .problem-num { font-size: 40px; }
+    .am-final { padding: 60px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="urgency-strip">
+  Authority Marketing · Personal Brand Strategy · Brisbane &amp; Remote <span>Taking New Clients</span>
+</div>
+
+<nav style="top: 37px;">
+  <a href="index.html" class="nav-logo">
+    <img src="images/logo-icon-white.png" alt="Nunya Bunya">
+    NUNYA<span>BUNYA</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="portfolio.html">Work</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html" class="nav-cta">Let's Talk</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="am-hero">
+  <div class="hero-orb-1"></div>
+  <div class="hero-orb-2"></div>
+  <div class="am-eyebrow">Authority Marketing · Personal Brand</div>
+  <h1 class="am-h1">People should<br>be finding<br><span class="accent">you.</span></h1>
+  <div class="am-hero-body">
+    <p class="am-hero-p">You're good at what you do. Probably great. But your marketing doesn't reflect it — and the people who need you most have never heard of you. <strong>Authority marketing fixes that.</strong> It's the system that makes your name mean something before you're even in the room.</p>
+    <div class="am-hero-actions">
+      <a href="https://buy.stripe.com/bJe6oIe65gKyete7ti8k800" target="_blank" rel="noopener" class="btn-primary">Start with the Brand Kit — $497</a>
+      <a href="https://cal.com/nunyabunya/nb-free-audit" target="_blank" rel="noopener" class="btn-ghost">Ready to go all-in — Book a Call &rarr;</a>
+      <p style="font-size:12px;color:var(--muted);margin-top:4px;">Retainers from $3,500/mo · 5 spots available</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHO THIS IS FOR -->
+<section style="background:var(--dark2);border-top:1px solid var(--subtle);border-bottom:1px solid var(--subtle);padding:80px 48px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="am-section-label">Who This Is For</div>
+    <h2 class="am-h2">You've built something real.<br><span>Now the world needs to know.</span></h2>
+    <div class="audience-grid">
+      <div class="audience-card">
+        <div class="audience-icon">🎬</div>
+        <div class="audience-title">Filmmakers &amp; Directors</div>
+        <div class="audience-desc">Building a name in the industry. Getting into festivals. Attracting collaborators and commissioners who need to find you online before they ever call.</div>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">🎤</div>
+        <div class="audience-title">Speakers &amp; Coaches</div>
+        <div class="audience-desc">Your stage presence is undeniable. Your digital presence should match. A brand that commands the room before you walk in.</div>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">⚡</div>
+        <div class="audience-title">Founders &amp; Executives</div>
+        <div class="audience-desc">You are the face of your company. Your personal brand either opens doors or costs you deals. Let's make sure it's doing the right one.</div>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">✍️</div>
+        <div class="audience-title">Consultants &amp; Advisors</div>
+        <div class="audience-desc">Expertise isn't enough. Clients need to see you as the obvious choice before they Google anyone else. Authority content makes that happen.</div>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">📸</div>
+        <div class="audience-title">Creatives Going Pro</div>
+        <div class="audience-desc">Photographers, DPs, designers, artists — your portfolio is world-class. Your business presence should be too.</div>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">🏆</div>
+        <div class="audience-title">Industry Experts</div>
+        <div class="audience-desc">You have 10+ years of knowledge that other people would pay serious money to access. Let's build the platform that gets you paid for it.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE PROBLEM -->
+<div class="am-section">
+  <div class="am-section-label">The Problem</div>
+  <h2 class="am-h2">Why brilliant people<br>stay <span class="mg">invisible.</span></h2>
+  <div class="problem-list">
+    <div class="problem-item">
+      <div class="problem-num">01</div>
+      <div class="problem-text">
+        <h3>Your name doesn't show up when people look</h3>
+        <p>Someone hears about you at an event. They Google your name. They find a LinkedIn from 2019, a half-finished website, and nothing that tells them why they should hire you. They move on. You never knew they were there.</p>
+      </div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-num">02</div>
+      <div class="problem-text">
+        <h3>Your brand doesn't match your actual quality</h3>
+        <p>Your work is excellent. Your business documents look like they were made in Microsoft Word in 2014. Your social feed is a mess of inconsistent posts and stock photos. There's a gap between how good you are and how good you look — and it's costing you work.</p>
+      </div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-num">03</div>
+      <div class="problem-text">
+        <h3>Every client comes from who you know</h3>
+        <p>Referrals are great. Until they dry up. Authority marketing means clients find you — through your content, your search presence, your reputation. You shouldn't have to work your network every time you need a new project.</p>
+      </div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-num">04</div>
+      <div class="problem-text">
+        <h3>You're competing on price instead of authority</h3>
+        <p>When people don't know who you are, they compare your quote to everyone else's. When you're seen as the authority in your space, the conversation shifts. They come to you asking what it costs, not asking why you cost more.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PULL QUOTE -->
+<div style="max-width:1100px;margin:0 auto;padding:0 48px;">
+  <div class="pull-quote">
+    <blockquote>"Authority isn't something you claim.<br><span>It's something you build — systematically,</span><br>visibly, and consistently."</blockquote>
+    <cite>— Ben Conner, Nunya Bunya</cite>
+  </div>
+</div>
+
+<!-- WHAT YOU GET -->
+<section style="background:var(--dark2);border-top:1px solid var(--subtle);border-bottom:1px solid var(--subtle);padding:80px 48px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="am-section-label">The System</div>
+    <h2 class="am-h2">What authority<br><span>actually looks like.</span></h2>
+    <div class="deliverable-grid">
+      <div class="deliverable-item">
+        <div class="deliverable-check">✓</div>
+        <div>
+          <div class="deliverable-title">Personal Brand Strategy</div>
+          <div class="deliverable-desc">Who you are, who you serve, what you stand for, and how you talk about it. The foundation everything else is built on.</div>
+        </div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-check">✓</div>
+        <div>
+          <div class="deliverable-title">Visual Identity System</div>
+          <div class="deliverable-desc">Logo, colour palette, typography, photography direction. Consistent across every touchpoint — online and in person.</div>
+        </div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-check">✓</div>
+        <div>
+          <div class="deliverable-title">Authority Content Engine</div>
+          <div class="deliverable-desc">LinkedIn, Instagram, or wherever your audience lives. A content system that positions you as the go-to expert — written, scheduled, and posted for you.</div>
+        </div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-check">✓</div>
+        <div>
+          <div class="deliverable-title">Professional Document Suite</div>
+          <div class="deliverable-desc">Custom-branded invoices, proposals, contracts, and pitch documents. The first thing a new client sees should not be a Word template from 2016.</div>
+        </div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-check">✓</div>
+        <div>
+          <div class="deliverable-title">Website &amp; Digital Presence</div>
+          <div class="deliverable-desc">A personal website that does the selling while you're doing the work. Clear, fast, designed to convert interest into enquiries.</div>
+        </div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-check">✓</div>
+        <div>
+          <div class="deliverable-title">SEO &amp; Searchability</div>
+          <div class="deliverable-desc">When someone searches your name, your niche, or your location — you show up. We build the content and backlinks that make that happen.</div>
+        </div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-check">✓</div>
+        <div>
+          <div class="deliverable-title">Email Marketing &amp; Nurture</div>
+          <div class="deliverable-desc">A list of people who want to hear from you. A sequence that keeps you front of mind. Clients from your inbox, not just your referral network.</div>
+        </div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-check">✓</div>
+        <div>
+          <div class="deliverable-title">Monthly Strategy &amp; Reporting</div>
+          <div class="deliverable-desc">What's working, what's not, and what we're doing about it. No vanity metrics. Real data, real decisions, real growth.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<div class="am-section" id="pricing">
+  <div class="am-section-label">Pricing</div>
+  <h2 class="am-h2">Start where<br><span>you are.</span></h2>
+  <div class="am-pricing">
+
+    <div class="am-price-card">
+      <div class="am-price-label">Step One</div>
+      <div class="am-price-name">Brand Starter Kit</div>
+      <div class="am-price-desc">The fastest way to look like the professional you already are. 13 custom-branded documents — your colours, your logo, your details. Delivered in 48 hours.</div>
+      <div class="am-price-num">$497</div>
+      <div class="am-price-term">One-time · Yours forever · No subscription</div>
+      <ul class="am-price-list">
+        <li>Invoice &amp; quote templates</li>
+        <li>Proposal &amp; contract templates</li>
+        <li>Social cards, onboarding pack &amp; more</li>
+        <li>Built to your exact brand spec</li>
+        <li>100% satisfaction guarantee</li>
+      </ul>
+      <a href="https://buy.stripe.com/bJe6oIe65gKyete7ti8k800" target="_blank" rel="noopener" class="btn-primary" style="display:block;text-align:center;">Order Now — $497 + GST</a>
+    </div>
+
+    <div class="am-price-card featured">
+      <div class="am-price-label">Full Authority System</div>
+      <div class="am-price-name">Authority Retainer</div>
+      <div class="am-price-desc">I run your entire personal brand — content, design, SEO, email, strategy. You show up and do the work. I make sure the world knows about it.</div>
+      <div class="am-price-num">$3,500<span style="font-size:20px;color:var(--muted);">/mo</span></div>
+      <div class="am-price-term">3-month minimum · Full ownership of all assets · Cancel after min.</div>
+      <ul class="am-price-list">
+        <li>Full brand strategy &amp; positioning</li>
+        <li>Content creation &amp; social management</li>
+        <li>Website design &amp; ongoing SEO</li>
+        <li>Email marketing &amp; lead nurture</li>
+        <li>Monthly strategy calls with Ben</li>
+        <li>Full document suite, updated monthly</li>
+        <li>30-day money-back guarantee</li>
+      </ul>
+      <a href="https://cal.com/nunyabunya/nb-free-audit" target="_blank" rel="noopener" class="btn-primary" style="display:block;text-align:center;">Book a Free Strategy Call</a>
+    </div>
+
+  </div>
+  <div class="guarantee-banner reveal" style="margin-top:32px;">
+    <h3>🛡️ The Nunya Bunya Guarantee</h3>
+    <p>Every engagement comes with <strong style="color:var(--white);">unlimited revisions</strong>, a <strong style="color:var(--white);">30-day money-back guarantee</strong>, and <strong style="color:var(--white);">full ownership of everything</strong>. You own your brand — not me. No lock-in. No hostage assets. No excuses.</p>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="am-final">
+  <div style="max-width:600px;margin:0 auto;">
+    <div class="am-section-label" style="justify-content:center;">Ready?</div>
+    <h2 class="am-h2" style="text-align:center;margin-bottom:16px;">Stop being<br><span>the best kept secret</span><br>in your industry.</h2>
+    <p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:40px;">Start with the Brand Starter Kit for $497 and look the part. Or book a call and we'll build the whole system. Either way — the best time to start was yesterday.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://buy.stripe.com/bJe6oIe65gKyete7ti8k800" target="_blank" rel="noopener" class="btn-primary" style="font-size:15px;padding:18px 36px;">Get the Brand Kit — $497</a>
+      <a href="https://cal.com/nunyabunya/nb-free-audit" target="_blank" rel="noopener" class="btn-ghost" style="font-size:15px;padding:18px 36px;">Book a Call &rarr;</a>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:20px;">Questions? <a href="mailto:ben@nunyabunya.com" style="color:var(--teal);">ben@nunyabunya.com</a></p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo"><img src="images/logo-icon-white.png" alt="Nunya Bunya"> <span>NUNYA<em>BUNYA</em></span></div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="products.html">Products</a></li><li><a href="portfolio.html">Work</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+  <p class="footer-copy">&copy; 2026 Nunya Bunya Pty Ltd &middot; Brisbane, QLD &middot; ABN 48 890 965 530</p>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+  setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 80);
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering'); });
+  el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering'); });
+});
+document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+</script>
+</body>
+</html>

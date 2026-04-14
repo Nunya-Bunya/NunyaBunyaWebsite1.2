@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing for Creatives — Filmmakers, Artists &amp; Creative Entrepreneurs | Nunya Bunya</title>
+<meta name="description" content="You make extraordinary work. Your marketing should be extraordinary too. Nunya Bunya builds brands for filmmakers, photographers, musicians, artists and creative entrepreneurs in Brisbane and beyond.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="style-v2.css">
+<style>
+  /* ── HERO ── */
+  .fc-hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding: 140px 48px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 64px;
+    position: relative;
+  }
+  .fc-eyebrow {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--magenta);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .fc-eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--magenta); }
+  .fc-h1 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(56px, 8vw, 108px);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.88;
+  }
+  .fc-h1 .accent { color: var(--magenta); }
+  .fc-hero-right { display: flex; flex-direction: column; justify-content: flex-end; gap: 24px; }
+  .fc-hero-p { font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.65); }
+  .fc-hero-p strong { color: var(--white); }
+
+  /* ── TRUTH STRIP ── */
+  .truth-strip {
+    background: var(--magenta);
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    overflow: hidden;
+  }
+  .truth-item {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dark);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .truth-item::after { content:'·'; color: rgba(0,0,0,0.3); font-size: 20px; }
+  .truth-item:last-child::after { display: none; }
+
+  /* ── SECTION ── */
+  .fc-section { max-width: 1100px; margin: 0 auto; padding: 80px 48px; }
+  .fc-label {
+    font-family: var(--font-heading);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--magenta);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .fc-label::before { content:''; display:block; width:24px; height:1px; background:var(--magenta); }
+  .fc-h2 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(40px, 5vw, 68px);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.9;
+    margin-bottom: 40px;
+  }
+  .fc-h2 .tl { color: var(--teal); }
+  .fc-h2 .mg { color: var(--magenta); }
+
+  /* ── WHO ── */
+  .who-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  .who-card {
+    background: var(--dark2);
+    padding: 32px 24px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .who-card:hover { border-color: var(--magenta); }
+  .who-icon { font-size: 32px; margin-bottom: 16px; }
+  .who-title {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1.1;
+  }
+  .who-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* ── THE HONEST TRUTH ── */
+  .truth-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 48px;
+  }
+  .truth-card {
+    padding: 40px 36px;
+    background: var(--dark2);
+  }
+  .truth-card.bad { border-left: 3px solid rgba(255,0,127,0.4); }
+  .truth-card.good { border-left: 3px solid rgba(0,229,204,0.4); }
+  .truth-card-label {
+    font-family: var(--font-heading);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .truth-card.bad .truth-card-label { color: var(--magenta); }
+  .truth-card.good .truth-card-label { color: var(--teal); }
+  .truth-card h3 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+  .truth-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .truth-list li { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; display: flex; gap: 10px; }
+  .truth-list.bad li::before { content:'✗'; color: var(--magenta); font-weight: 700; flex-shrink: 0; }
+  .truth-list.good li::before { content:'✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; }
+
+  /* ── FESTIVAL SECTION ── */
+  .festival-section {
+    background: linear-gradient(135deg, #0d0d0d 0%, #120a1a 50%, #0d0d0d 100%);
+    border-top: 1px solid rgba(255,0,127,0.15);
+    border-bottom: 1px solid rgba(255,0,127,0.15);
+    padding: 80px 48px;
+  }
+  .festival-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .festival-stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+  .festival-stat {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,0,127,0.12);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .festival-stat-num {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 40px;
+    color: var(--magenta);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .festival-stat-label { font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
+
+  /* ── WHAT YOU GET ── */
+  .get-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 48px;
+  }
+  .get-card {
+    background: var(--dark2);
+    padding: 32px 28px;
+    border-top: 2px solid var(--subtle);
+    transition: border-color 0.2s;
+  }
+  .get-card:hover { border-color: var(--magenta); }
+  .get-num {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 40px;
+    color: rgba(255,0,127,0.15);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .get-title {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .get-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* ── PRICING ── */
+  .fc-pricing {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .fc-price-card {
+    background: var(--dark2);
+    border: 1px solid var(--subtle);
+    padding: 40px 36px;
+    position: relative;
+  }
+  .fc-price-card.featured { border-color: rgba(255,0,127,0.3); }
+  .fc-price-card.featured::before {
+    content: 'Most Popular';
+    position: absolute;
+    top: -1px; right: 24px;
+    background: var(--magenta);
+    color: var(--white);
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+  }
+  .fc-price-label { font-family: var(--font-heading); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .fc-price-name { font-family: var(--font-heading); font-weight: 900; font-size: 26px; text-transform: uppercase; color: var(--white); margin-bottom: 8px; }
+  .fc-price-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+  .fc-price-num { font-family: var(--font-heading); font-weight: 900; font-size: 48px; color: var(--magenta); line-height: 1; margin-bottom: 4px; }
+  .fc-price-term { font-size: 12px; color: var(--muted); margin-bottom: 28px; }
+  .fc-price-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 32px; }
+  .fc-price-list li { display: flex; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.65); }
+  .fc-price-list li::before { content:'✓'; color: var(--magenta); font-weight: 700; flex-shrink: 0; }
+
+  /* ── FINAL ── */
+  .fc-final {
+    background: var(--dark2);
+    border-top: 3px solid var(--magenta);
+    padding: 80px 48px;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .fc-hero { grid-template-columns: 1fr; padding: 120px 24px 60px; gap: 32px; }
+    .fc-section { padding: 60px 24px; }
+    .who-grid { grid-template-columns: 1fr 1fr; }
+    .truth-grid { grid-template-columns: 1fr; }
+    .festival-inner { grid-template-columns: 1fr; gap: 40px; }
+    .festival-stat-grid { grid-template-columns: 1fr 1fr; }
+    .get-grid { grid-template-columns: 1fr; }
+    .fc-pricing { grid-template-columns: 1fr; }
+    .fc-final { padding: 60px 24px; }
+    .truth-strip { flex-wrap: wrap; gap: 16px; }
+  }
+  @media (max-width: 600px) {
+    .who-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="urgency-strip" style="background:var(--magenta);">
+  For Filmmakers &amp; Creative Entrepreneurs · Brisbane &amp; Remote <span style="background:rgba(0,0,0,0.2);">Taking New Clients</span>
+</div>
+
+<nav style="top: 37px;">
+  <a href="index.html" class="nav-logo">
+    <img src="images/logo-icon-white.png" alt="Nunya Bunya">
+    NUNYA<span>BUNYA</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="portfolio.html">Work</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html" class="nav-cta">Let's Talk</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section style="position:relative;">
+  <div class="hero-orb-1" style="background:radial-gradient(circle, rgba(255,0,127,0.12) 0%, transparent 70%);"></div>
+  <div class="hero-orb-2"></div>
+  <div class="fc-hero">
+    <div>
+      <div class="fc-eyebrow">For Creatives &amp; Filmmakers</div>
+      <h1 class="fc-h1">Your work<br>deserves a<br>brand that<br><span class="accent">matches it.</span></h1>
+    </div>
+    <div class="fc-hero-right">
+      <p class="fc-hero-p">You've spent years developing your craft. Your films, your photos, your art — they're extraordinary. But your business presence? <strong>That's the thing that gets you hired. Or doesn't.</strong></p>
+      <p class="fc-hero-p">Nunya Bunya builds the brand and marketing system around your creative practice — so the industry finds you, respects you, and pays you accordingly.</p>
+      <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
+        <a href="https://buy.stripe.com/bJe6oIe65gKyete7ti8k800" target="_blank" rel="noopener" class="btn-magenta" style="font-size:15px;padding:18px 36px;">Start with the Brand Kit — $497</a>
+        <a href="https://cal.com/nunyabunya/nb-free-audit" target="_blank" rel="noopener" class="btn-ghost" style="font-size:15px;padding:18px 36px;">Book a Strategy Call &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUTH STRIP -->
+<div class="truth-strip">
+  <div class="truth-item">Film Festivals</div>
+  <div class="truth-item">Production Companies</div>
+  <div class="truth-item">Independent Filmmakers</div>
+  <div class="truth-item">Photographers &amp; DPs</div>
+  <div class="truth-item">Musicians &amp; Artists</div>
+  <div class="truth-item">Creative Agencies</div>
+  <div class="truth-item">Film Festivals</div>
+  <div class="truth-item">Production Companies</div>
+  <div class="truth-item">Independent Filmmakers</div>
+</div>
+
+<!-- WHO -->
+<section style="background:var(--dark2);border-bottom:1px solid var(--subtle);padding:80px 48px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="fc-label">Who This Is For</div>
+    <h2 class="fc-h2">If you make things<br><span class="mg">for a living</span> — this is for you.</h2>
+    <div class="who-grid">
+      <div class="who-card">
+        <div class="who-icon">🎬</div>
+        <div class="who-title">Filmmakers &amp; Directors</div>
+        <div class="who-desc">Short films, features, documentaries, music videos. You need a brand that opens festival doors and attracts commissioners.</div>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">📷</div>
+        <div class="who-title">Photographers &amp; DPs</div>
+        <div class="who-desc">Commercial, editorial, narrative. Your visual eye is your product. Your business presence should reflect that precision.</div>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🎵</div>
+        <div class="who-title">Musicians &amp; Producers</div>
+        <div class="who-desc">Labels, sync licensing, live bookings. The music business is a marketing game. The right brand gets you in the right rooms.</div>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🎨</div>
+        <div class="who-title">Artists &amp; Designers</div>
+        <div class="who-desc">Gallery representation, commissions, licensing. Your art has a market. Your marketing should help you reach it.</div>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🎭</div>
+        <div class="who-title">Film Festivals &amp; Events</div>
+        <div class="who-desc">Running a festival, screening series, or creative event? You need submissions, audiences, sponsors — and a brand that earns all three.</div>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🏢</div>
+        <div class="who-title">Production Companies</div>
+        <div class="who-desc">Starting or scaling a production company? From your first slate to your first commission, your brand is your pitch.</div>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">✍️</div>
+        <div class="who-title">Screenwriters &amp; Writers</div>
+        <div class="who-desc">Your words are your product. But your profile is how people find them. Build the platform that gets your work in front of the right people.</div>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">⚙️</div>
+        <div class="who-title">Creative Service Businesses</div>
+        <div class="who-desc">Post-production, colour grading, sound design, animation. Niche creative services need niche creative marketing.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE HONEST TRUTH -->
+<div class="fc-section">
+  <div class="fc-label">The Honest Truth</div>
+  <h2 class="fc-h2">Talent alone<br>doesn't get you <span class="tl">hired.</span></h2>
+  <div class="truth-grid">
+    <div class="truth-card bad">
+      <div class="truth-card-label">Without a real brand</div>
+      <h3>You're the best filmmaker<br>no one's heard of</h3>
+      <ul class="truth-list bad">
+        <li>You rely entirely on word of mouth and who you know</li>
+        <li>Your pitch documents look like everyone else's</li>
+        <li>Festival programmers can't find anything about you online</li>
+        <li>Commissioners hire the filmmaker with the bigger profile, not the better reel</li>
+        <li>You compete on price because you haven't established your value</li>
+        <li>Your business runs on vibes, not systems</li>
+      </ul>
+    </div>
+    <div class="truth-card good">
+      <div class="truth-card-label">With Nunya Bunya in your corner</div>
+      <h3>Your reputation<br>precedes you</h3>
+      <ul class="truth-list good">
+        <li>People find you before you find them</li>
+        <li>Your proposals, invoices, and pitch decks look like the work you make</li>
+        <li>Festivals, labels, and commissioners can see exactly who you are</li>
+        <li>Your content builds credibility between projects</li>
+        <li>You charge what your work is worth — and people pay it</li>
+        <li>Your creative business runs on systems, not luck</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- FILM FESTIVAL ANGLE -->
+<section class="festival-section">
+  <div class="festival-inner">
+    <div>
+      <div class="fc-label" style="color:var(--magenta);">The Film World Specifically</div>
+      <h2 class="fc-h2" style="margin-bottom:24px;">The festival circuit<br>runs on <span class="mg">reputation.</span></h2>
+      <p style="font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;margin-bottom:20px;">Film festivals, commissioning editors, and distribution partners all do the same thing before they call you: they Google you. They check your website. They look at your Instagram. They see your last three posts.</p>
+      <p style="font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;margin-bottom:32px;">If what they find doesn't match the quality of your work — they move on. The reel gets you interested. The brand gets you hired.</p>
+      <a href="https://cal.com/nunyabunya/nb-free-audit" target="_blank" rel="noopener" class="btn-magenta" style="font-size:14px;padding:16px 32px;">Talk to Ben About Your Project</a>
+    </div>
+    <div class="festival-stat-grid">
+      <div class="festival-stat">
+        <div class="festival-stat-num">48h</div>
+        <div class="festival-stat-label">Brand Kit turnaround</div>
+      </div>
+      <div class="festival-stat">
+        <div class="festival-stat-num">13</div>
+        <div class="festival-stat-label">Custom branded templates</div>
+      </div>
+      <div class="festival-stat">
+        <div class="festival-stat-num">$497</div>
+        <div class="festival-stat-label">To look the part, instantly</div>
+      </div>
+      <div class="festival-stat">
+        <div class="festival-stat-num">100%</div>
+        <div class="festival-stat-label">Satisfaction guarantee</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<div class="fc-section">
+  <div class="fc-label">What We Build Together</div>
+  <h2 class="fc-h2">Everything your<br>creative business <span class="tl">needs.</span></h2>
+  <div class="get-grid">
+    <div class="get-card">
+      <div class="get-num">01</div>
+      <div class="get-title">Brand Identity</div>
+      <div class="get-desc">Logo, colour palette, typography, visual direction. A brand that reflects the quality and tone of your creative work — not a generic template.</div>
+    </div>
+    <div class="get-card">
+      <div class="get-num">02</div>
+      <div class="get-title">Professional Documents</div>
+      <div class="get-desc">Custom-branded invoices, proposals, contracts, pitch decks, treatment templates. Everything you send to a client or commissioner, looking exactly right.</div>
+    </div>
+    <div class="get-card">
+      <div class="get-num">03</div>
+      <div class="get-title">Website &amp; Portfolio</div>
+      <div class="get-desc">A site that showcases your work without getting in the way of it. Fast, clean, built to convert visits into enquiries.</div>
+    </div>
+    <div class="get-card">
+      <div class="get-num">04</div>
+      <div class="get-title">Content Strategy</div>
+      <div class="get-desc">What to post, where, and how often — to build an audience that cares about your work and becomes a source of ongoing work and referrals.</div>
+    </div>
+    <div class="get-card">
+      <div class="get-num">05</div>
+      <div class="get-title">Authority Positioning</div>
+      <div class="get-desc">Interviews, press, speaking opportunities, festival submissions strategy. Getting your name known in the rooms that matter.</div>
+    </div>
+    <div class="get-card">
+      <div class="get-num">06</div>
+      <div class="get-title">Business Systems</div>
+      <div class="get-desc">CRM, client onboarding, follow-up processes, email marketing. So your creative business runs properly — even between projects.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section style="background:var(--dark2);border-top:1px solid var(--subtle);border-bottom:1px solid var(--subtle);padding:80px 48px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="fc-label">Pricing</div>
+    <h2 class="fc-h2">Start where<br>you <span class="tl">are.</span></h2>
+    <div class="fc-pricing">
+
+      <div class="fc-price-card">
+        <div class="fc-price-label">The Foundation</div>
+        <div class="fc-price-name">Brand Starter Kit</div>
+        <div class="fc-price-desc">For filmmakers and creatives who need to look professional — now. 13 custom-branded templates built to your brand, delivered in 48 hours.</div>
+        <div class="fc-price-num">$497</div>
+        <div class="fc-price-term">One-time · No subscription · Yours forever</div>
+        <ul class="fc-price-list">
+          <li>Invoice, quote &amp; proposal templates</li>
+          <li>Contract &amp; client brief templates</li>
+          <li>Social announcement cards</li>
+          <li>Onboarding pack &amp; monthly report</li>
+          <li>Built to your exact colours &amp; logo</li>
+          <li>100% satisfaction guarantee</li>
+        </ul>
+        <a href="https://buy.stripe.com/bJe6oIe65gKyete7ti8k800" target="_blank" rel="noopener" class="btn-primary" style="display:block;text-align:center;">Order Now — $497 + GST</a>
+      </div>
+
+      <div class="fc-price-card featured">
+        <div class="fc-price-label">Full Creative Marketing</div>
+        <div class="fc-price-name">Creative Retainer</div>
+        <div class="fc-price-desc">I run the marketing side of your creative practice. Brand, content, social, website, email, authority positioning — so you can focus on making the work.</div>
+        <div class="fc-price-num">$3,500<span style="font-size:20px;color:var(--muted);">/mo</span></div>
+        <div class="fc-price-term">3-month minimum · Full ownership · Cancel after min.</div>
+        <ul class="fc-price-list">
+          <li>Brand strategy &amp; visual identity</li>
+          <li>Content creation &amp; social management</li>
+          <li>Website design &amp; ongoing updates</li>
+          <li>Festival &amp; industry profile building</li>
+          <li>Email marketing &amp; audience growth</li>
+          <li>Monthly strategy call with Ben</li>
+          <li>Full document suite updated monthly</li>
+          <li>30-day money-back guarantee</li>
+        </ul>
+        <a href="https://cal.com/nunyabunya/nb-free-audit" target="_blank" rel="noopener" class="btn-magenta" style="display:block;text-align:center;">Book a Free Strategy Call</a>
+      </div>
+
+    </div>
+    <div class="guarantee-banner reveal" style="margin-top:32px;">
+      <h3>🛡️ The Nunya Bunya Guarantee</h3>
+      <p>Every engagement. <strong style="color:var(--white);">Unlimited revisions</strong> until it's right. <strong style="color:var(--white);">30-day money-back</strong> if you're not satisfied. <strong style="color:var(--white);">Full ownership</strong> of every file, forever. I don't hold your brand hostage — that's not how this works.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="fc-final">
+  <div style="max-width:600px;margin:0 auto;">
+    <div class="fc-label" style="justify-content:center;">Let's work together</div>
+    <h2 class="fc-h2" style="text-align:center;margin-bottom:16px;">Your work is<br><span class="mg">already great.</span><br>Let's make sure<br>everyone knows it.</h2>
+    <p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:40px;">Start with the Brand Starter Kit and look the part in 48 hours. Or book a call and let's build the whole system around your creative practice.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://buy.stripe.com/bJe6oIe65gKyete7ti8k800" target="_blank" rel="noopener" class="btn-magenta" style="font-size:15px;padding:18px 36px;">Get the Brand Kit — $497</a>
+      <a href="https://cal.com/nunyabunya/nb-free-audit" target="_blank" rel="noopener" class="btn-ghost" style="font-size:15px;padding:18px 36px;">Book a Call &rarr;</a>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:20px;">Questions? DM on Instagram <a href="https://instagram.com/benalekconner" target="_blank" style="color:var(--magenta);">@benalekconner</a> or email <a href="mailto:ben@nunyabunya.com" style="color:var(--magenta);">ben@nunyabunya.com</a></p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo"><img src="images/logo-icon-white.png" alt="Nunya Bunya"> <span>NUNYA<em>BUNYA</em></span></div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="products.html">Products</a></li><li><a href="portfolio.html">Work</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+  <p class="footer-copy">&copy; 2026 Nunya Bunya Pty Ltd &middot; Brisbane, QLD &middot; ABN 48 890 965 530</p>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+  setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 80);
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering'); });
+  el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering'); });
+});
+document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+</script>
+</body>
+</html>
