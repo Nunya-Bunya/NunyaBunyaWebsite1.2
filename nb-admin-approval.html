@@ -10,6 +10,7 @@
 <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="/nb-admin-style.css">
 <style>
+/* ── Existing approval queue styles ── */
 .q-card { background: var(--dark2); border: 1px solid var(--subtle); padding: 24px; margin-bottom: 16px; transition: border-color 0.2s; }
 .q-card:hover { border-color: rgba(0,229,204,0.15); }
 .q-card.pending_review { border-left: 3px solid #F59E0B; }
@@ -43,6 +44,113 @@
 .filter-btn { padding: 8px 16px; font-family: var(--font-heading); font-weight: 700; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; background: var(--dark2); border: 1px solid var(--subtle); color: var(--muted); cursor: pointer; }
 .filter-btn.active { border-color: var(--teal); color: var(--teal); }
 .count-badge { background: var(--teal); color: var(--dark); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 10px; margin-left: 4px; }
+
+/* ── View switcher tabs ── */
+.view-tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--subtle); }
+.view-tab { padding: 12px 24px; font-family: var(--font-heading); font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; }
+.view-tab:hover { color: var(--white); }
+.view-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+/* ── Monthly content grid ── */
+.mc-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.mc-stat { background: var(--dark2); border: 1px solid var(--subtle); padding: 16px; text-align: center; }
+.mc-stat-num { font-family: var(--font-heading); font-weight: 900; font-size: 28px; color: var(--teal); }
+.mc-stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-heading); font-weight: 700; margin-top: 4px; }
+
+.mc-batch-bar { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+.mc-batch-btn { padding: 8px 16px; font-family: var(--font-heading); font-weight: 700; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; border: 1px solid var(--subtle); background: var(--dark2); color: var(--muted); }
+.mc-batch-btn:hover { border-color: var(--teal); color: var(--teal); }
+.mc-batch-btn.danger:hover { border-color: #EF4444; color: #EF4444; }
+
+/* ── Post card (Instagram-style preview) ── */
+.mc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+
+.post-card { background: var(--dark2); border: 1px solid var(--subtle); overflow: hidden; transition: border-color 0.2s, opacity 0.3s; }
+.post-card:hover { border-color: rgba(0,229,204,0.2); }
+.post-card.kept { border-color: var(--teal); }
+.post-card.cut { opacity: 0.35; border-color: #EF4444; }
+.post-card.tweaked { border-color: var(--yellow); }
+
+.post-card-img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: var(--dark3); }
+.post-card-img-placeholder { width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: var(--dark3); color: var(--muted); font-size: 12px; padding: 20px; text-align: center; font-style: italic; }
+
+/* Inline card previews (quote/stat/text/shoot) */
+.card-preview { width: 100%; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 28px; position: relative; overflow: hidden; }
+.card-preview .card-accent { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.card-preview .card-pillar-label { font-family: var(--font-heading); font-weight: 700; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+.card-preview .card-text { font-family: var(--font-heading); font-weight: 900; text-transform: uppercase; text-align: center; line-height: 1.15; padding: 0 12px; }
+.card-preview .card-text.lg { font-size: 22px; }
+.card-preview .card-text.md { font-size: 18px; }
+.card-preview .card-text.sm { font-size: 15px; }
+.card-preview .card-stat-num { font-family: var(--font-heading); font-weight: 900; font-size: 48px; line-height: 1; margin-bottom: 8px; }
+.card-preview .card-stat-label { font-family: var(--font-body); font-weight: 300; font-size: 13px; text-align: center; opacity: 0.7; padding: 0 16px; }
+
+/* Shoot needed badge */
+.shoot-badge { position: absolute; top: 12px; right: 12px; background: var(--magenta); color: white; font-family: var(--font-heading); font-weight: 700; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; }
+.shoot-brief { font-size: 11px; color: rgba(255,255,255,0.5); font-style: italic; margin-top: 10px; text-align: center; padding: 0 16px; }
+
+/* Text-only preview */
+.text-only-preview { width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0D0D0D 0%, #1a1a2e 100%); padding: 28px; }
+.text-only-preview .text-content { font-family: var(--font-body); font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.6; text-align: center; font-weight: 400; max-height: 100%; overflow: hidden; }
+
+/* Format badge */
+.format-badge { font-family: var(--font-heading); font-weight: 700; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; }
+.format-badge.quote_card { background: rgba(201,168,76,0.15); color: #C9A84C; }
+.format-badge.stat_card { background: rgba(0,212,170,0.15); color: #00D4AA; }
+.format-badge.stock_photo { background: rgba(99,102,241,0.12); color: #818cf8; }
+.format-badge.text_only { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+.format-badge.shoot_needed { background: rgba(255,45,120,0.15); color: var(--magenta); }
+
+.post-card-body { padding: 14px 16px; }
+.post-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.post-tag { font-family: var(--font-heading); font-weight: 700; font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; padding: 2px 7px; }
+.post-tag.pillar { background: rgba(99,102,241,0.12); color: #818cf8; }
+.post-tag.hook { background: rgba(245,158,11,0.12); color: #F59E0B; }
+.post-tag.platform { background: rgba(0,229,204,0.1); color: var(--teal); }
+
+.post-card-text { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.6; font-weight: 300; max-height: 120px; overflow: hidden; position: relative; margin-bottom: 8px; white-space: pre-line; }
+.post-card-text.expanded { max-height: none; }
+.post-card-expand { font-size: 11px; color: var(--teal); cursor: pointer; margin-bottom: 10px; font-weight: 600; }
+
+.post-card-cta { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+.post-card-cta strong { color: var(--teal); }
+
+.post-card-actions { display: flex; gap: 6px; border-top: 1px solid var(--subtle); padding-top: 12px; }
+.pc-btn { flex: 1; padding: 8px 4px; font-family: var(--font-heading); font-weight: 700; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; border: 1px solid var(--subtle); background: transparent; color: var(--muted); text-align: center; transition: all 0.15s; }
+.pc-btn:hover { color: var(--white); }
+.pc-btn.keep:hover, .pc-btn.keep.active { background: rgba(0,229,204,0.1); border-color: var(--teal); color: var(--teal); }
+.pc-btn.tweak:hover, .pc-btn.tweak.active { background: rgba(255,184,0,0.1); border-color: var(--yellow); color: var(--yellow); }
+.pc-btn.cut:hover, .pc-btn.cut.active { background: rgba(239,68,68,0.1); border-color: #EF4444; color: #EF4444; }
+
+/* ── Reel script card ── */
+.reel-card { background: var(--dark2); border: 1px solid var(--subtle); padding: 20px; margin-bottom: 12px; transition: border-color 0.2s, opacity 0.3s; }
+.reel-card:hover { border-color: rgba(0,229,204,0.15); }
+.reel-card.kept { border-color: var(--teal); }
+.reel-card.cut { opacity: 0.35; border-color: #EF4444; }
+.reel-hook { font-family: var(--font-heading); font-weight: 900; font-size: 16px; text-transform: uppercase; color: var(--white); margin-bottom: 8px; line-height: 1.3; }
+.reel-body { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; font-weight: 300; margin-bottom: 10px; }
+.reel-meta { font-size: 11px; color: var(--muted); margin-bottom: 8px; display: flex; gap: 16px; flex-wrap: wrap; }
+.reel-meta span { display: flex; align-items: center; gap: 4px; }
+.reel-notes { background: var(--dark3); padding: 10px 14px; font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+.reel-notes strong { color: rgba(255,255,255,0.6); }
+
+/* ── Calendar view ── */
+.cal-day { background: var(--dark2); border: 1px solid var(--subtle); padding: 8px; min-height: 120px; }
+.cal-day-header { font-family: var(--font-heading); font-weight: 700; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 8px; }
+.cal-date { font-family: var(--font-heading); font-weight: 700; font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
+.cal-post { font-size: 10px; padding: 4px 6px; margin-bottom: 3px; border-left: 2px solid var(--subtle); color: rgba(255,255,255,0.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cal-post.instagram { border-left-color: #E1306C; }
+.cal-post.linkedin { border-left-color: #0A66C2; }
+.cal-post.facebook { border-left-color: #1877F2; }
+.cal-post.tiktok { border-left-color: #00F2EA; }
+
+/* ── Edit modal ── */
+.edit-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; display: flex; align-items: center; justify-content: center; }
+.edit-modal { background: var(--dark2); border: 1px solid var(--subtle); width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; padding: 24px; }
+.edit-modal h3 { font-family: var(--font-heading); font-weight: 900; font-size: 18px; text-transform: uppercase; margin-bottom: 16px; }
+.edit-modal textarea { width: 100%; background: var(--dark3); border: 1px solid var(--subtle); color: var(--white); font-family: var(--font-body); font-size: 14px; padding: 12px; min-height: 200px; resize: vertical; line-height: 1.6; }
+.edit-modal textarea:focus { outline: none; border-color: var(--teal); }
+.edit-modal-actions { display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end; }
 </style>
 </head>
 <body>
@@ -54,30 +162,95 @@
       <div id="queueStats" style="font-size:14px;color:var(--muted)"></div>
     </div>
 
-    <div class="filter-bar" id="filterBar"></div>
-    <div id="queueList"></div>
-    <div id="empty" style="display:none;text-align:center;padding:60px;color:var(--muted);">Nothing to approve. You're all caught up.</div>
+    <!-- View tabs -->
+    <div class="view-tabs">
+      <button class="view-tab active" onclick="switchView('queue')">General Queue</button>
+      <button class="view-tab" onclick="switchView('monthly')">Monthly Content</button>
+      <button class="view-tab" onclick="switchView('reels')">Reel Scripts</button>
+      <button class="view-tab" onclick="switchView('calendar')">Calendar</button>
+    </div>
+
+    <!-- General Queue View (existing) -->
+    <div id="queueView">
+      <div class="filter-bar" id="filterBar"></div>
+      <div id="queueList"></div>
+      <div id="empty" style="display:none;text-align:center;padding:60px;color:var(--muted);">Nothing to approve. You're all caught up.</div>
+    </div>
+
+    <!-- Monthly Content View (new) -->
+    <div id="monthlyView" style="display:none;">
+      <div class="mc-stats" id="mcStats"></div>
+      <div class="mc-batch-bar" id="mcBatchBar"></div>
+      <div class="filter-bar" id="mcFilterBar"></div>
+      <div class="mc-grid" id="mcGrid"></div>
+      <div id="mcEmpty" style="display:none;text-align:center;padding:60px;color:var(--muted);">No caption drafts found. Run the monthly content pipeline first.</div>
+    </div>
+
+    <!-- Reel Scripts View (new) -->
+    <div id="reelsView" style="display:none;">
+      <div class="mc-stats" id="reelStats"></div>
+      <div class="mc-batch-bar" id="reelBatchBar"></div>
+      <div id="reelList"></div>
+      <div id="reelEmpty" style="display:none;text-align:center;padding:60px;color:var(--muted);">No reel scripts found. Run the monthly content pipeline first.</div>
+    </div>
+
+    <!-- Calendar View -->
+    <div id="calendarView" style="display:none;">
+      <div class="mc-stats" id="calStats"></div>
+      <div id="calGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;"></div>
+      <div id="calEmpty" style="display:none;text-align:center;padding:60px;color:var(--muted);">No calendar slots found. Run the calendar assembler first.</div>
+    </div>
   </main>
+</div>
+
+<!-- Edit modal -->
+<div id="editOverlay" class="edit-overlay" style="display:none;" onclick="if(event.target===this)closeEdit()">
+  <div class="edit-modal">
+    <h3 id="editTitle">Edit Caption</h3>
+    <textarea id="editText"></textarea>
+    <div class="edit-modal-actions">
+      <button class="q-btn preview" onclick="closeEdit()">Cancel</button>
+      <button class="q-btn approve" onclick="saveEdit()">Save &amp; Keep</button>
+    </div>
+  </div>
 </div>
 
 <script src="/nb-admin-shared.js"></script>
 <script>
-const ADMIN_KEY = localStorage.getItem('nb_admin_key') || '';
 const SUPABASE_URL = 'https://podyldvpvgqktwbqswrc.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvZHlsZHZwdmdxa3R3YnFzd3JjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2OTcxOTQsImV4cCI6MjA3OTI3MzE5NH0.PzDWh-KSAfdGHDWDB45Zw9_94m5HgQTj6x4PSU-uuMc';
+const SUPABASE_KEY = 'sb_secret_7G4kmywzGey6j3PyeT9wnw_Q1aN2dep';
 
+// ── State ──
 let allItems = [];
 let activeFilter = 'all';
+let captions = [];
+let reels = [];
+let calendarSlots = [];
+let mcFilter = 'all';
+let mcPillarFilter = 'all';
+let mcFormatFilter = 'all';
+let editingItem = null;
+let editingTable = '';
 
 const TYPE_LABELS = {
-  bfk: '📋 BFK',
-  blog: '📝 Blog Post',
-  tweet: '🐦 Tweet',
-  email: '📧 Email',
-  social: '📱 Social Post',
-  ad: '🎨 Ad Creative',
+  bfk: 'BFK', blog: 'Blog Post', tweet: 'Tweet',
+  email: 'Email', social: 'Social Post', ad: 'Ad Creative',
 };
 
+const PILLAR_COLORS = {
+  'AI Marketing Education': '#818cf8',
+  'Client Results & Case Studies': '#34d399',
+  'Behind the Agency': '#f472b6',
+  'Industry Commentary': '#fb923c',
+  'Offers & Services': '#facc15',
+};
+
+const HOOK_LABELS = {
+  question_hook: 'Question', bold_claim: 'Bold Claim', story_opener: 'Story',
+  stat_lead: 'Stat Lead', controversy: 'Hot Take',
+};
+
+// ── Supabase helpers ──
 async function supaGet(query) {
   const r = await fetch(`${SUPABASE_URL}/rest/v1/${query}`, {
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
@@ -88,22 +261,41 @@ async function supaGet(query) {
 async function supaPatch(table, id, data) {
   await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
     method: 'PATCH',
-    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
     body: JSON.stringify(data)
   });
 }
 
-async function loadQueue() {
-  allItems = await supaGet('approval_items?order=created_at.desc&limit=100');
+// ── View switching ──
+function switchView(view) {
+  document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('queueView').style.display = view === 'queue' ? '' : 'none';
+  document.getElementById('monthlyView').style.display = view === 'monthly' ? '' : 'none';
+  document.getElementById('reelsView').style.display = view === 'reels' ? '' : 'none';
+  document.getElementById('calendarView').style.display = view === 'calendar' ? '' : 'none';
 
-  // Count by type
+  if (view === 'monthly' && !captions.length) loadMonthlyCaptions();
+  if (view === 'reels' && !reels.length) loadReelScripts();
+  if (view === 'calendar' && !calendarSlots.length) loadCalendar();
+}
+
+// ══════════════════════════════════════════════════════════════
+// GENERAL QUEUE (existing functionality)
+// ══════════════════════════════════════════════════════════════
+
+async function loadQueue() {
+  try {
+    allItems = await supaGet('approval_items?order=created_at.desc&limit=100');
+    if (!Array.isArray(allItems)) allItems = [];
+  } catch { allItems = []; }
+
   const counts = {};
   const pendingCount = allItems.filter(i => i.status === 'pending_review').length;
   allItems.forEach(i => { counts[i.item_type] = (counts[i.item_type] || 0) + 1; });
 
   document.getElementById('queueStats').textContent = `${pendingCount} pending review`;
 
-  // Build filter buttons
   const filterBar = document.getElementById('filterBar');
   let filterHtml = `<button class="filter-btn ${activeFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All<span class="count-badge">${allItems.length}</span></button>`;
   for (const [type, count] of Object.entries(counts)) {
@@ -111,27 +303,17 @@ async function loadQueue() {
     filterHtml += `<button class="filter-btn ${activeFilter === type ? 'active' : ''}" onclick="setFilter('${type}')">${label}<span class="count-badge">${count}</span></button>`;
   }
   filterBar.innerHTML = filterHtml;
-
   renderQueue();
 }
 
-function setFilter(type) {
-  activeFilter = type;
-  loadQueue();
-}
+function setFilter(type) { activeFilter = type; loadQueue(); }
 
 function renderQueue() {
   let items = allItems;
   if (activeFilter !== 'all') items = items.filter(i => i.item_type === activeFilter);
-
   const list = document.getElementById('queueList');
   const empty = document.getElementById('empty');
-
-  if (!items.length) {
-    list.innerHTML = '';
-    empty.style.display = 'block';
-    return;
-  }
+  if (!items.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
   empty.style.display = 'none';
 
   list.innerHTML = items.map(item => {
@@ -140,20 +322,17 @@ function renderQueue() {
     const status = item.status || 'pending_review';
     const actions = item.approve_actions || [];
     const date = new Date(item.created_at).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-
     const actionsHtml = actions.length ? `
       <div class="q-actions-preview">
         <div class="q-actions-title">When you approve</div>
-        ${actions.map(a => `<div class="q-action-item"><span>→</span> ${a}</div>`).join('')}
+        ${actions.map(a => `<div class="q-action-item"><span>&rarr;</span> ${a}</div>`).join('')}
       </div>` : '';
-
     const buttonsHtml = status === 'pending_review' ? `
       <div class="q-buttons">
         ${item.preview_url ? `<button class="q-btn preview" onclick="window.open('${item.preview_url}','_blank')">Preview</button>` : ''}
         <button class="q-btn approve" onclick="approveItem('${item.id}')">Approve</button>
         <button class="q-btn reject" onclick="rejectItem('${item.id}')">Reject</button>
       </div>` : `<div style="font-size:12px;margin-top:8px;"><span class="q-status ${status}">${status.replace('_', ' ')}</span></div>`;
-
     return `
       <div class="q-card ${status}">
         <div class="q-header">
@@ -161,7 +340,7 @@ function renderQueue() {
             <span class="q-type ${typeClass}">${typeLabel}</span>
             <div class="q-title">${item.title || 'Untitled'}</div>
           </div>
-          <div class="q-meta">${item.client_name ? item.client_name + ' · ' : ''}${date}</div>
+          <div class="q-meta">${item.client_name ? item.client_name + ' &middot; ' : ''}${date}</div>
         </div>
         ${item.description ? `<div class="q-desc">${item.description}</div>` : ''}
         ${actionsHtml}
@@ -173,57 +352,477 @@ function renderQueue() {
 async function approveItem(id) {
   const item = allItems.find(i => i.id === id);
   if (!item) return;
-
-  const actions = (item.approve_actions || []).join('\n  → ');
+  const actions = (item.approve_actions || []).join('\n  &rarr; ');
   if (!confirm(`Approve "${item.title}"?\n\nThis will:\n  → ${actions || 'Mark as approved'}`)) return;
-
-  await supaPatch('approval_items', id, {
-    status: 'approved',
-    approved_at: new Date().toISOString(),
-    approved_by: 'admin'
-  });
-
-  // If there's a webhook, call it
+  await supaPatch('approval_items', id, { status: 'approved', approved_at: new Date().toISOString(), approved_by: 'admin' });
   if (item.approve_webhook) {
-    try {
-      await fetch(item.approve_webhook, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item_id: id, source_table: item.source_table, source_id: item.source_id })
-      });
-    } catch (e) {}
+    try { await fetch(item.approve_webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ item_id: id, source_table: item.source_table, source_id: item.source_id }) }); } catch {}
   }
-
-  // Also update the source table if specified
   if (item.source_table && item.source_id) {
-    try {
-      await supaPatch(item.source_table, item.source_id, { status: 'approved', approved_at: new Date().toISOString() });
-    } catch (e) {}
+    try { await supaPatch(item.source_table, item.source_id, { status: 'approved', approved_at: new Date().toISOString() }); } catch {}
   }
-
   loadQueue();
 }
 
 async function rejectItem(id) {
   const reason = prompt('Reason for rejection (optional):');
   if (reason === null) return;
-
-  await supaPatch('approval_items', id, {
-    status: 'rejected',
-    rejection_reason: reason
-  });
-
-  if (allItems.find(i => i.id === id)?.source_table) {
-    const item = allItems.find(i => i.id === id);
-    try {
-      await supaPatch(item.source_table, item.source_id, { status: 'rejected' });
-    } catch (e) {}
+  await supaPatch('approval_items', id, { status: 'rejected', rejection_reason: reason });
+  const item = allItems.find(i => i.id === id);
+  if (item?.source_table) {
+    try { await supaPatch(item.source_table, item.source_id, { status: 'rejected' }); } catch {}
   }
-
   loadQueue();
 }
 
+// ══════════════════════════════════════════════════════════════
+// MONTHLY CONTENT — CAPTIONS
+// ══════════════════════════════════════════════════════════════
+
+async function loadMonthlyCaptions() {
+  captions = await supaGet('draft_captions?order=pillar,hook_style&limit=500');
+  if (!Array.isArray(captions)) captions = [];
+  renderMcStats();
+  renderMcFilters();
+  renderMcGrid();
+}
+
+function renderMcStats() {
+  const total = captions.length;
+  const kept = captions.filter(c => c.status === 'kept' || c.status === 'tweaked').length;
+  const cut = captions.filter(c => c.status === 'cut').length;
+  const pending = captions.filter(c => c.status === 'draft').length;
+  const pillars = [...new Set(captions.map(c => c.pillar))].length;
+
+  document.getElementById('mcStats').innerHTML = `
+    <div class="mc-stat"><div class="mc-stat-num">${total}</div><div class="mc-stat-label">Total Drafts</div></div>
+    <div class="mc-stat"><div class="mc-stat-num" style="color:var(--yellow)">${pending}</div><div class="mc-stat-label">Pending Review</div></div>
+    <div class="mc-stat"><div class="mc-stat-num" style="color:var(--teal)">${kept}</div><div class="mc-stat-label">Kept</div></div>
+    <div class="mc-stat"><div class="mc-stat-num" style="color:#EF4444">${cut}</div><div class="mc-stat-label">Cut</div></div>
+    <div class="mc-stat"><div class="mc-stat-num">${pillars}</div><div class="mc-stat-label">Pillars</div></div>
+  `;
+
+  // Batch action bar
+  document.getElementById('mcBatchBar').innerHTML = `
+    <button class="mc-batch-btn" onclick="batchAction('draft_captions','kept','all')">Keep All Pending</button>
+    <button class="mc-batch-btn danger" onclick="batchAction('draft_captions','cut','all')">Cut All Pending</button>
+    <span style="color:var(--muted);font-size:11px;margin-left:8px;">or filter by pillar then batch:</span>
+  `;
+}
+
+function renderMcFilters() {
+  const pillars = [...new Set(captions.map(c => c.pillar).filter(Boolean))];
+  const hooks = [...new Set(captions.map(c => c.hook_style).filter(Boolean))];
+  const statuses = ['all', 'draft', 'kept', 'tweaked', 'cut'];
+
+  let html = '';
+  // Status filters
+  statuses.forEach(s => {
+    const count = s === 'all' ? captions.length : captions.filter(c => c.status === s).length;
+    html += `<button class="filter-btn ${mcFilter === s ? 'active' : ''}" onclick="setMcFilter('${s}')">${s}<span class="count-badge">${count}</span></button>`;
+  });
+  html += '<span style="width:1px;height:24px;background:var(--subtle);margin:0 4px"></span>';
+  // Pillar filters
+  html += `<button class="filter-btn ${mcPillarFilter === 'all' ? 'active' : ''}" onclick="setMcPillarFilter('all')">All Pillars</button>`;
+  pillars.forEach(p => {
+    const count = captions.filter(c => c.pillar === p).length;
+    const short = p.length > 20 ? p.substring(0, 18) + '..' : p;
+    html += `<button class="filter-btn ${mcPillarFilter === p ? 'active' : ''}" onclick="setMcPillarFilter('${p.replace(/'/g, "\\'")}')">${short}<span class="count-badge">${count}</span></button>`;
+  });
+
+  // Format filters
+  const formats = [...new Set(captions.map(c => c.content_format || c.suggested_format || 'stock_photo').filter(Boolean))];
+  if (formats.length > 1) {
+    html += '<span style="width:1px;height:24px;background:var(--subtle);margin:0 4px"></span>';
+    html += `<button class="filter-btn ${mcFormatFilter === 'all' ? 'active' : ''}" onclick="setMcFormatFilter('all')">All Formats</button>`;
+    formats.forEach(f => {
+      const count = captions.filter(c => (c.content_format || c.suggested_format || 'stock_photo') === f).length;
+      html += `<button class="filter-btn ${mcFormatFilter === f ? 'active' : ''}" onclick="setMcFormatFilter('${f}')">${f.replace('_',' ')}<span class="count-badge">${count}</span></button>`;
+    });
+  }
+
+  document.getElementById('mcFilterBar').innerHTML = html;
+}
+
+function setMcFilter(f) { mcFilter = f; renderMcFilters(); renderMcGrid(); }
+function setMcPillarFilter(p) { mcPillarFilter = p; renderMcFilters(); renderMcGrid(); }
+function setMcFormatFilter(f) { mcFormatFilter = f; renderMcFilters(); renderMcGrid(); }
+
+function renderMcGrid() {
+  let filtered = captions;
+  if (mcFilter !== 'all') filtered = filtered.filter(c => c.status === mcFilter);
+  if (mcPillarFilter !== 'all') filtered = filtered.filter(c => c.pillar === mcPillarFilter);
+  if (mcFormatFilter !== 'all') filtered = filtered.filter(c => (c.content_format || c.suggested_format || 'stock_photo') === mcFormatFilter);
+
+  const grid = document.getElementById('mcGrid');
+  const empty = document.getElementById('mcEmpty');
+
+  if (!filtered.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  grid.innerHTML = filtered.map(c => {
+    const pillarColor = PILLAR_COLORS[c.pillar] || '#818cf8';
+    const hookLabel = HOOK_LABELS[c.hook_style] || c.hook_style || '';
+    const statusClass = c.status === 'kept' || c.status === 'tweaked' ? 'kept' : c.status === 'cut' ? 'cut' : '';
+    const text = (c.caption_text || '').replace(/</g, '&lt;');
+    const hashtags = Array.isArray(c.hashtags) ? c.hashtags : (typeof c.hashtags === 'string' ? JSON.parse(c.hashtags || '[]') : []);
+    const fmt = c.content_format || c.suggested_format || 'stock_photo';
+    const headline = (c.card_headline || '').replace(/</g, '&lt;');
+
+    // Format-aware image/preview area
+    let previewHtml = '';
+    if (fmt === 'quote_card') {
+      const displayText = headline || text.split('\\n')[0].substring(0, 80);
+      const sizeClass = displayText.length <= 40 ? 'lg' : displayText.length <= 80 ? 'md' : 'sm';
+      previewHtml = `
+        <div class="card-preview" style="background:#0D0D0D;">
+          <div class="card-accent" style="background:${pillarColor};"></div>
+          <div class="card-pillar-label" style="color:${pillarColor};">${c.pillar || ''}</div>
+          <div class="card-text ${sizeClass}" style="color:#fff;">${displayText}</div>
+        </div>`;
+    } else if (fmt === 'stat_card') {
+      const displayText = headline || text.split('\\n')[0].substring(0, 80);
+      // Try to extract number
+      const numMatch = displayText.match(/(\\d[\\d,.%x]+[%+]?)/);
+      if (numMatch) {
+        const num = numMatch[1];
+        const label = displayText.replace(num, '').trim().replace(/^[\\s\\-–—:]+/, '');
+        previewHtml = `
+          <div class="card-preview" style="background:#0D0D0D;">
+            <div class="card-accent" style="background:var(--teal);"></div>
+            <div class="card-pillar-label" style="color:var(--teal);">${c.pillar || ''}</div>
+            <div class="card-stat-num" style="color:var(--teal);">${num}</div>
+            <div class="card-stat-label" style="color:#fff;">${label}</div>
+          </div>`;
+      } else {
+        // Fallback to quote style
+        const sizeClass = displayText.length <= 40 ? 'lg' : 'md';
+        previewHtml = `
+          <div class="card-preview" style="background:#0D0D0D;">
+            <div class="card-accent" style="background:var(--teal);"></div>
+            <div class="card-pillar-label" style="color:var(--teal);">${c.pillar || ''}</div>
+            <div class="card-text ${sizeClass}" style="color:#fff;">${displayText}</div>
+          </div>`;
+      }
+    } else if (fmt === 'text_only') {
+      const preview = text.substring(0, 200) + (text.length > 200 ? '...' : '');
+      previewHtml = `
+        <div class="text-only-preview">
+          <div class="text-content">${preview}</div>
+        </div>`;
+    } else if (fmt === 'shoot_needed') {
+      const brief = (c.visual_brief || 'Photo needed').replace(/</g, '&lt;');
+      previewHtml = `
+        <div class="card-preview" style="background:linear-gradient(135deg,#1a1a2e,#16213e);">
+          <div class="shoot-badge">SHOOT NEEDED</div>
+          <div style="font-size:36px;margin-bottom:12px;">&#128247;</div>
+          <div class="card-text sm" style="color:rgba(255,255,255,0.4);">Custom Photo Required</div>
+          <div class="shoot-brief">${brief}</div>
+        </div>`;
+    } else {
+      // stock_photo or unknown — show image or placeholder
+      previewHtml = c.image_url
+        ? `<img class="post-card-img" src="${c.image_url}" alt="" loading="lazy" onerror="this.outerHTML='<div class=post-card-img-placeholder>${(c.visual_brief||'No image').replace(/'/g,'&#39;')}</div>'">`
+        : `<div class="post-card-img-placeholder">${c.visual_brief || 'No visual brief'}</div>`;
+    }
+
+    return `
+      <div class="post-card ${statusClass}" id="pc-${c.id}">
+        ${previewHtml}
+        <div class="post-card-body">
+          <div class="post-card-tags">
+            <span class="format-badge ${fmt}">${fmt.replace('_', ' ')}</span>
+            <span class="post-tag pillar" style="background:${pillarColor}22;color:${pillarColor}">${c.pillar || ''}</span>
+            <span class="post-tag hook">${hookLabel}</span>
+            ${c.platform ? `<span class="post-tag platform">${c.platform}</span>` : ''}
+          </div>
+          <div class="post-card-text" id="text-${c.id}">${text}</div>
+          <div class="post-card-expand" onclick="toggleExpand('${c.id}')">show more</div>
+          ${c.cta ? `<div class="post-card-cta"><strong>CTA:</strong> ${c.cta}</div>` : ''}
+          ${hashtags.length ? `<div style="font-size:11px;color:rgba(99,102,241,0.6);margin-bottom:8px;">${hashtags.join(' ')}</div>` : ''}
+          <div class="post-card-actions">
+            <button class="pc-btn keep ${c.status === 'kept' ? 'active' : ''}" onclick="setCaptionStatus('${c.id}','kept')">Keep</button>
+            <button class="pc-btn tweak ${c.status === 'tweaked' ? 'active' : ''}" onclick="openEdit('${c.id}','draft_captions')">Tweak</button>
+            <button class="pc-btn cut ${c.status === 'cut' ? 'active' : ''}" onclick="setCaptionStatus('${c.id}','cut')">Cut</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function toggleExpand(id) {
+  const el = document.getElementById('text-' + id);
+  if (el) el.classList.toggle('expanded');
+}
+
+async function setCaptionStatus(id, status) {
+  await supaPatch('draft_captions', id, { status, updated_at: new Date().toISOString() });
+  const c = captions.find(x => x.id === id);
+  if (c) c.status = status;
+  renderMcStats();
+  renderMcFilters();
+  // Update card in place without full re-render
+  const card = document.getElementById('pc-' + id);
+  if (card) {
+    card.className = 'post-card ' + (status === 'kept' || status === 'tweaked' ? 'kept' : status === 'cut' ? 'cut' : '');
+    card.querySelectorAll('.pc-btn').forEach(b => b.classList.remove('active'));
+    if (status === 'kept') card.querySelector('.pc-btn.keep')?.classList.add('active');
+    if (status === 'tweaked') card.querySelector('.pc-btn.tweak')?.classList.add('active');
+    if (status === 'cut') card.querySelector('.pc-btn.cut')?.classList.add('active');
+  }
+}
+
+async function batchAction(table, status, scope) {
+  const target = scope === 'all'
+    ? captions.filter(c => c.status === 'draft')
+    : captions.filter(c => c.status === 'draft' && c.pillar === scope);
+
+  if (!target.length) return;
+  if (!confirm(`${status === 'kept' ? 'Keep' : 'Cut'} ${target.length} pending drafts?`)) return;
+
+  for (const item of target) {
+    await supaPatch(table, item.id, { status, updated_at: new Date().toISOString() });
+    item.status = status;
+  }
+  renderMcStats();
+  renderMcFilters();
+  renderMcGrid();
+}
+
+// ══════════════════════════════════════════════════════════════
+// REEL SCRIPTS
+// ══════════════════════════════════════════════════════════════
+
+async function loadReelScripts() {
+  reels = await supaGet('reel_scripts?order=pillar,video_format&limit=200');
+  if (!Array.isArray(reels)) reels = [];
+  renderReelStats();
+  renderReelList();
+}
+
+function renderReelStats() {
+  const total = reels.length;
+  const kept = reels.filter(r => r.status === 'kept').length;
+  const cut = reels.filter(r => r.status === 'cut').length;
+  const filming = reels.filter(r => r.selected_for_filming).length;
+
+  document.getElementById('reelStats').innerHTML = `
+    <div class="mc-stat"><div class="mc-stat-num">${total}</div><div class="mc-stat-label">Total Scripts</div></div>
+    <div class="mc-stat"><div class="mc-stat-num" style="color:var(--teal)">${kept}</div><div class="mc-stat-label">Kept</div></div>
+    <div class="mc-stat"><div class="mc-stat-num" style="color:#EF4444">${cut}</div><div class="mc-stat-label">Cut</div></div>
+    <div class="mc-stat"><div class="mc-stat-num" style="color:var(--magenta)">${filming}</div><div class="mc-stat-label">Filming List</div></div>
+  `;
+
+  document.getElementById('reelBatchBar').innerHTML = `
+    <button class="mc-batch-btn" onclick="batchReelAction('kept')">Keep All Pending</button>
+    <button class="mc-batch-btn danger" onclick="batchReelAction('cut')">Cut All Pending</button>
+  `;
+}
+
+function renderReelList() {
+  const list = document.getElementById('reelList');
+  const empty = document.getElementById('reelEmpty');
+  if (!reels.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  list.innerHTML = reels.map(r => {
+    const pillarColor = PILLAR_COLORS[r.pillar] || '#818cf8';
+    const statusClass = r.status === 'kept' ? 'kept' : r.status === 'cut' ? 'cut' : '';
+    const formatLabel = (r.video_format || '').replace(/_/g, ' ');
+
+    return `
+      <div class="reel-card ${statusClass}" id="reel-${r.id}">
+        <div class="post-card-tags" style="margin-bottom:10px;">
+          <span class="post-tag pillar" style="background:${pillarColor}22;color:${pillarColor}">${r.pillar || ''}</span>
+          <span class="post-tag hook">${formatLabel}</span>
+          <span class="post-tag platform">${r.duration_target || '45-60s'}</span>
+          ${r.selected_for_filming ? '<span class="post-tag" style="background:rgba(255,45,120,0.15);color:var(--magenta)">FILMING</span>' : ''}
+        </div>
+        <div class="reel-hook">"${(r.hook || '').replace(/</g, '&lt;')}"</div>
+        <div class="reel-body">${(r.body || '').replace(/</g, '&lt;')}</div>
+        <div class="post-card-cta"><strong>CTA:</strong> ${r.cta || ''}</div>
+        <div class="reel-notes">
+          <strong>Shot notes:</strong> ${r.shot_notes || 'None'}<br>
+          <strong>B-roll:</strong> ${r.broll_suggestions || 'None'}<br>
+          <strong>Style:</strong> ${r.speaking_vs_text || 'speaking'}
+        </div>
+        <div class="post-card-actions">
+          <button class="pc-btn keep ${r.status === 'kept' ? 'active' : ''}" onclick="setReelStatus('${r.id}','kept')">Keep</button>
+          <button class="pc-btn tweak ${r.selected_for_filming ? 'active' : ''}" onclick="toggleFilming('${r.id}')" style="color:var(--magenta);border-color:${r.selected_for_filming ? 'var(--magenta)' : 'var(--subtle)'}">Film This</button>
+          <button class="pc-btn cut ${r.status === 'cut' ? 'active' : ''}" onclick="setReelStatus('${r.id}','cut')">Cut</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+async function setReelStatus(id, status) {
+  await supaPatch('reel_scripts', id, { status, updated_at: new Date().toISOString() });
+  const r = reels.find(x => x.id === id);
+  if (r) r.status = status;
+  renderReelStats();
+  const card = document.getElementById('reel-' + id);
+  if (card) {
+    card.className = 'reel-card ' + (status === 'kept' ? 'kept' : status === 'cut' ? 'cut' : '');
+    card.querySelectorAll('.pc-btn').forEach(b => b.classList.remove('active'));
+    if (status === 'kept') card.querySelector('.pc-btn.keep')?.classList.add('active');
+    if (status === 'cut') card.querySelector('.pc-btn.cut')?.classList.add('active');
+  }
+}
+
+async function toggleFilming(id) {
+  const r = reels.find(x => x.id === id);
+  if (!r) return;
+  const newVal = !r.selected_for_filming;
+  await supaPatch('reel_scripts', id, { selected_for_filming: newVal, status: newVal ? 'kept' : r.status });
+  r.selected_for_filming = newVal;
+  if (newVal) r.status = 'kept';
+  renderReelStats();
+  renderReelList();
+}
+
+async function batchReelAction(status) {
+  const target = reels.filter(r => r.status === 'draft');
+  if (!target.length) return;
+  if (!confirm(`${status === 'kept' ? 'Keep' : 'Cut'} ${target.length} pending scripts?`)) return;
+  for (const r of target) {
+    await supaPatch('reel_scripts', r.id, { status });
+    r.status = status;
+  }
+  renderReelStats();
+  renderReelList();
+}
+
+// ══════════════════════════════════════════════════════════════
+// EDIT MODAL (for Tweak action)
+// ══════════════════════════════════════════════════════════════
+
+function openEdit(id, table) {
+  editingTable = table;
+  if (table === 'draft_captions') {
+    editingItem = captions.find(c => c.id === id);
+    if (!editingItem) return;
+    document.getElementById('editTitle').textContent = 'Edit Caption';
+    document.getElementById('editText').value = editingItem.caption_text || '';
+  } else {
+    editingItem = reels.find(r => r.id === id);
+    if (!editingItem) return;
+    document.getElementById('editTitle').textContent = 'Edit Script';
+    document.getElementById('editText').value = `HOOK:\n${editingItem.hook || ''}\n\nBODY:\n${editingItem.body || ''}\n\nCTA:\n${editingItem.cta || ''}`;
+  }
+  document.getElementById('editOverlay').style.display = 'flex';
+  document.getElementById('editText').focus();
+}
+
+function closeEdit() {
+  document.getElementById('editOverlay').style.display = 'none';
+  editingItem = null;
+}
+
+async function saveEdit() {
+  if (!editingItem) return;
+  const text = document.getElementById('editText').value;
+
+  if (editingTable === 'draft_captions') {
+    await supaPatch('draft_captions', editingItem.id, {
+      caption_text: text,
+      status: 'tweaked',
+      human_notes: 'Edited in curation',
+      updated_at: new Date().toISOString()
+    });
+    editingItem.caption_text = text;
+    editingItem.status = 'tweaked';
+    renderMcStats();
+    renderMcFilters();
+    renderMcGrid();
+  }
+  closeEdit();
+}
+
+// ══════════════════════════════════════════════════════════════
+// CALENDAR VIEW
+// ══════════════════════════════════════════════════════════════
+
+async function loadCalendar() {
+  calendarSlots = await supaGet('calendar_slots?order=scheduled_date,scheduled_time&limit=500');
+  if (!Array.isArray(calendarSlots)) calendarSlots = [];
+  renderCalStats();
+  renderCalGrid();
+}
+
+function renderCalStats() {
+  const total = calendarSlots.length;
+  const byPlatform = {};
+  const byType = {};
+  calendarSlots.forEach(s => {
+    byPlatform[s.platform] = (byPlatform[s.platform] || 0) + 1;
+    byType[s.content_type] = (byType[s.content_type] || 0) + 1;
+  });
+
+  let statsHtml = `<div class="mc-stat"><div class="mc-stat-num">${total}</div><div class="mc-stat-label">Total Posts</div></div>`;
+  for (const [p, c] of Object.entries(byPlatform)) {
+    statsHtml += `<div class="mc-stat"><div class="mc-stat-num">${c}</div><div class="mc-stat-label">${p}</div></div>`;
+  }
+  document.getElementById('calStats').innerHTML = statsHtml;
+}
+
+function renderCalGrid() {
+  const grid = document.getElementById('calGrid');
+  const empty = document.getElementById('calEmpty');
+  if (!calendarSlots.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  // Group slots by date
+  const byDate = {};
+  calendarSlots.forEach(s => {
+    const d = s.scheduled_date;
+    if (!byDate[d]) byDate[d] = [];
+    byDate[d].push(s);
+  });
+
+  const dates = Object.keys(byDate).sort();
+  if (!dates.length) return;
+
+  // Header row
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  let html = days.map(d => `<div class="cal-day-header">${d}</div>`).join('');
+
+  // Find the first date and pad to start on Monday
+  const firstDate = new Date(dates[0] + 'T00:00:00');
+  let dayOfWeek = firstDate.getDay();
+  if (dayOfWeek === 0) dayOfWeek = 7;
+  for (let i = 1; i < dayOfWeek; i++) {
+    html += '<div class="cal-day" style="opacity:0.3;"></div>';
+  }
+
+  // Render each day
+  const lastDate = new Date(dates[dates.length - 1] + 'T00:00:00');
+  const current = new Date(firstDate);
+  while (current <= lastDate) {
+    const dateStr = current.toISOString().split('T')[0];
+    const slots = byDate[dateStr] || [];
+    const dayNum = current.getDate();
+
+    html += `<div class="cal-day">
+      <div class="cal-date">${dayNum}</div>
+      ${slots.map(s => {
+        const shortTopic = (s.topic || s.content_type || '').substring(0, 30);
+        return `<div class="cal-post ${s.platform}" title="${s.scheduled_time} ${s.platform}: ${(s.topic||'').substring(0,80)}">${s.scheduled_time || ''} ${shortTopic}</div>`;
+      }).join('')}
+    </div>`;
+
+    current.setDate(current.getDate() + 1);
+  }
+
+  grid.innerHTML = html;
+}
+
+// ── Init ──
 loadQueue();
+
+// Render sidebar
+if (typeof NB_ADMIN !== 'undefined' && NB_ADMIN.renderSidebar) {
+  NB_ADMIN.renderSidebar('approval');
+}
 </script>
 </body>
 </html>

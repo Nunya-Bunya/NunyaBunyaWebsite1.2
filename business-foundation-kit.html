@@ -2,18 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url=/bedrock-survey">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Business Foundation Kit | Nunya Bunya — Start Free</title>
 <meta name="description" content="Answer a few questions about your business. Get a custom business plan — covering your market, positioning, revenue model, and growth strategy. Delivered within minutes.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.nunyabunya.com/business-foundation-kit">
-<meta property="og:title" content="Business Foundation Kit — Free Business Plan | Nunya Bunya">
+<meta property="og:title" content="Business Foundation Kit — Plan + Style Guide | Nunya Bunya">
 <meta property="og:description" content="Answer a few questions about your business. Get a custom business plan — covering your market, positioning, revenue model, and growth strategy. Delivered within minutes.">
 <meta property="og:image" content="https://www.nunyabunya.com/images/og-image.png">
 <meta property="og:site_name" content="Nunya Bunya">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Business Foundation Kit — Free Business Plan | Nunya Bunya">
+<meta name="twitter:title" content="Business Foundation Kit — Plan + Style Guide | Nunya Bunya">
 <meta name="twitter:description" content="Answer a few questions about your business. Get a custom business plan — covering your market, positioning, revenue model, and growth strategy. Delivered within minutes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
@@ -391,7 +390,7 @@
     </div>
 
     <div style="text-align:center;margin-top:40px;">
-      <p style="font-size:13px;color:rgba(255,255,255,0.3);margin-bottom:16px;">Not ready for the full kit? You can get just the Business Plan for free with a promo code.</p>
+      <p style="font-size:13px;color:rgba(255,255,255,0.3);margin-bottom:16px;">Not ready for the full kit? The essentials package is the Plan + Style Guide for $499, or free with a promo code.</p>
       <button class="btn-next" onclick="selectTier('free')">Start the Survey</button>
     </div>
   </div>
@@ -518,7 +517,7 @@
     </div>
 
     <div style="text-align:center;margin-top:32px;">
-      <button class="btn-next" onclick="selectTier('free')">Get My Free Business Plan</button>
+      <button class="btn-next" onclick="selectTier('free')">Start My Plan + Style Guide</button>
     </div>
   </div>
 </section>
@@ -659,7 +658,7 @@
       <div class="how-step">
         <div class="how-step-num">02</div>
         <h4>Choose Your Package</h4>
-        <p>Get the full Business Foundation Kit for $999, or just the Business Plan for free with a promo code.</p>
+        <p>Get the full Business Foundation Kit for $999, or the Plan + Style Guide for $499. Promo codes can make the essentials package free.</p>
       </div>
       <div class="how-step">
         <div class="how-step-num">03</div>
@@ -1286,14 +1285,18 @@
           <div class="form-group"><textarea class="form-textarea" name="q62" placeholder="I'm sick of seeing..."></textarea></div>
         </div>
 
-        <!-- Hidden fields for checkout to populate later -->
-        <input type="hidden" id="clientName" name="client_name" value="">
-        <input type="hidden" id="clientEmail" name="client_email" value="">
-        <input type="hidden" id="clientPhone" name="client_phone" value="">
+        <div class="question-block" data-q="63">
+          <span class="question-number">Your Details</span>
+          <div class="question-text">Where should we send your finished Plan + Style Guide?</div>
+          <div class="question-hint">Your answers are useless if we cannot get the finished documents back to you.</div>
+          <div class="form-group"><input class="form-input" type="text" id="clientName" name="client_name" placeholder="Your full name" required></div>
+          <div class="form-group"><input class="form-input" type="email" id="clientEmail" name="client_email" placeholder="you@email.com" required></div>
+          <div class="form-group"><input class="form-input" type="tel" id="clientPhone" name="client_phone" placeholder="Phone number (optional)"></div>
+        </div>
 
         <div class="survey-nav">
           <button type="button" class="btn-back" onclick="prevStep()">Back</button>
-          <button type="button" class="btn-next" id="submitBtn" onclick="showChoices()">See My Options</button>
+          <button type="button" class="btn-next" id="submitBtn" onclick="submitSurvey()">Save My Answers & See Options</button>
         </div>
         <p class="form-error" id="formError" style="color:#ff4444;font-size:13px;text-align:center;margin-top:12px;display:none;"></p>
       </div>
@@ -1326,15 +1329,15 @@
         <button onclick="showCheckoutModal()" style="width:100%;padding:14px;background:var(--teal);color:var(--dark);font-family:var(--font-heading);font-weight:900;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;">Buy Now — $999</button>
       </div>
 
-      <!-- OPTION 2: BUSINESS PLAN ONLY ($199 or free with code) -->
+      <!-- OPTION 2: PLAN + STYLE GUIDE ($499 or free with code) -->
       <div style="padding:36px 28px;background:var(--dark3);border:1px solid var(--subtle);">
-        <div style="font-family:var(--font-heading);font-weight:700;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Just the Plan</div>
-        <div style="font-family:var(--font-heading);font-weight:900;font-size:24px;text-transform:uppercase;color:var(--white);margin-bottom:8px;">Business Plan Only</div>
-        <div id="bpPriceDisplay" style="font-family:var(--font-heading);font-weight:900;font-size:36px;color:var(--muted);margin-bottom:16px;">$199</div>
+        <div style="font-family:var(--font-heading);font-weight:700;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Essentials</div>
+        <div style="font-family:var(--font-heading);font-weight:900;font-size:24px;text-transform:uppercase;color:var(--white);margin-bottom:8px;">Plan + Style Guide</div>
+        <div id="bpPriceDisplay" style="font-family:var(--font-heading);font-weight:900;font-size:36px;color:var(--muted);margin-bottom:16px;">$499</div>
         <ul style="list-style:none;padding:0;margin:0 0 24px;">
           <li style="font-size:13px;color:rgba(255,255,255,0.6);padding:6px 0;display:flex;gap:8px;"><span style="color:var(--teal);">&#10003;</span> Business Plan</li>
+          <li style="font-size:13px;color:rgba(255,255,255,0.6);padding:6px 0;display:flex;gap:8px;"><span style="color:var(--teal);">&#10003;</span> Visual Style Guide</li>
           <li style="font-size:13px;color:rgba(255,255,255,0.2);padding:6px 0;display:flex;gap:8px;"><span style="color:rgba(255,255,255,0.15);">&mdash;</span> Brand Bible</li>
-          <li style="font-size:13px;color:rgba(255,255,255,0.2);padding:6px 0;display:flex;gap:8px;"><span style="color:rgba(255,255,255,0.15);">&mdash;</span> Style Guide</li>
           <li style="font-size:13px;color:rgba(255,255,255,0.2);padding:6px 0;display:flex;gap:8px;"><span style="color:rgba(255,255,255,0.15);">&mdash;</span> Logo Package</li>
           <li style="font-size:13px;color:rgba(255,255,255,0.2);padding:6px 0;display:flex;gap:8px;"><span style="color:rgba(255,255,255,0.15);">&mdash;</span> Printed Brand Bible</li>
         </ul>
@@ -1346,7 +1349,7 @@
           <div id="bpPromoMessage" style="font-size:11px;color:var(--teal);margin-top:6px;display:none;"></div>
           <div id="freeClaimError" style="font-size:11px;color:var(--magenta);margin-top:6px;display:none;"></div>
         </div>
-        <button onclick="checkoutBP()" id="bpCheckoutBtn" style="width:100%;padding:14px;background:transparent;color:var(--teal);font-family:var(--font-heading);font-weight:700;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--teal);cursor:pointer;">Buy Business Plan — $199</button>
+        <button onclick="checkoutBP()" id="bpCheckoutBtn" style="width:100%;padding:14px;background:transparent;color:var(--teal);font-family:var(--font-heading);font-weight:700;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--teal);cursor:pointer;">Buy Plan + Style Guide — $499</button>
       </div>
     </div>
 
@@ -1461,13 +1464,14 @@ document.querySelectorAll('.option-item input').forEach(input => {
 /* ═══════════ TIER & SURVEY STATE ═══════════ */
 let selectedTier = 'free';
 const TIER_LABELS = {
-  free: 'See My Options'
+  free: 'Save My Answers & See Options'
 };
 
 let currentStep = 1;
 const totalSteps = 8;
 const questionsPerStep = [8, 9, 8, 5, 7, 7, 6, 10];
 const STORAGE_KEY = 'nb_bfk_survey';
+const PLAN_STYLE_PRICE = 499;
 let businessStage = 'startup'; /* 'startup' or 'existing' */
 
 /* ═══════════ ADAPTIVE SURVEY — SHOW/HIDE BASED ON STAGE ═══════════ */
@@ -1531,6 +1535,21 @@ function saveProgress() {
   }
   saved._step = currentStep;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+}
+
+function collectSurveyAnswers() {
+  const form = document.getElementById('surveyForm');
+  const data = new FormData(form);
+  const answers = {};
+  for (const [key, value] of data.entries()) {
+    if (answers[key]) {
+      if (Array.isArray(answers[key])) answers[key].push(value);
+      else answers[key] = [answers[key], value];
+    } else {
+      answers[key] = value;
+    }
+  }
+  return answers;
 }
 
 /* Restore from localStorage */
@@ -1655,7 +1674,7 @@ function nextStep() {
       step.querySelector('.survey-nav').before(errorEl);
     }
     errorEl.textContent = 'Please fill in the required fields before continuing.';
-    return;
+    return false;
   }
   if (currentStep < totalSteps) {
     saveProgress();
@@ -1707,31 +1726,21 @@ async function submitSurvey() {
   btn.textContent = 'Submitting...';
   errorEl.style.display = 'none';
 
-  /* Gather all answers */
-  const form = document.getElementById('surveyForm');
-  const data = new FormData(form);
-  const answers = {};
-  for (const [key, value] of data.entries()) {
-    if (answers[key]) {
-      if (Array.isArray(answers[key])) answers[key].push(value);
-      else answers[key] = [answers[key], value];
-    } else {
-      answers[key] = value;
-    }
-  }
+  const answers = collectSurveyAnswers();
 
   const payload = {
-    product: 'free-business-plan',
-    tier: selectedTier,
+    product: bpPromoApplied ? 'plan-style-guide' : 'free-business-plan',
+    tier: bpPromoApplied ? 'essentials' : selectedTier,
     client_name: name,
     client_email: email,
     client_phone: document.getElementById('clientPhone').value.trim(),
     answers: answers,
+    payment_status: bpPromoApplied ? 'promo_free' : 'free',
     submitted_at: new Date().toISOString()
   };
 
   try {
-    const res = await fetch('https://n8n.nunyabunya.com/webhook/business-foundation-kit', {
+    const res = await fetch('/api/webhook?type=business-foundation-kit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -1747,22 +1756,25 @@ async function submitSurvey() {
 
       /* Track conversion — Matomo Goal ID 8 (Survey Completed) */
       if (typeof _paq !== 'undefined') {
-        _paq.push(['trackEvent', 'Survey', 'Submit', 'Free Business Plan']);
+        _paq.push(['trackEvent', 'Survey', 'Submit', bpPromoApplied ? 'Promo Plan + Style Guide' : 'Free Business Plan']);
         _paq.push(['trackGoal', 8]);
       }
       if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+      return true;
     } else {
       const errData = await res.json().catch(() => ({}));
       errorEl.textContent = errData.error || 'Something went wrong. Please try again.';
       errorEl.style.display = 'block';
       btn.disabled = false;
       btn.textContent = TIER_LABELS.free;
+      return false;
     }
   } catch (err) {
     errorEl.textContent = 'Network error. Please check your connection and try again.';
     errorEl.style.display = 'block';
     btn.disabled = false;
     btn.textContent = TIER_LABELS.free;
+    return false;
   }
 }
 
@@ -1831,15 +1843,15 @@ async function applyBPPromo() {
     }
 
     bpPromoApplied = promo;
-    const newPrice = Math.round(199 * (1 - promo.discount_percent / 100));
+    const newPrice = Math.round(PLAN_STYLE_PRICE * (1 - promo.discount_percent / 100));
 
     if (newPrice === 0) {
-      document.getElementById('bpPriceDisplay').innerHTML = '<span style="text-decoration:line-through;color:rgba(255,255,255,0.2);font-size:24px;">$199</span> Free';
-      document.getElementById('bpCheckoutBtn').textContent = 'Get Business Plan — Free';
-      msgEl.textContent = 'Code applied! Your business plan is free.';
+      document.getElementById('bpPriceDisplay').innerHTML = '<span style="text-decoration:line-through;color:rgba(255,255,255,0.2);font-size:24px;">$499</span> Free';
+      document.getElementById('bpCheckoutBtn').textContent = 'Get Plan + Style Guide — Free';
+      msgEl.textContent = 'Code applied! Your Plan + Style Guide is free.';
     } else {
-      document.getElementById('bpPriceDisplay').innerHTML = '<span style="text-decoration:line-through;color:rgba(255,255,255,0.2);font-size:24px;">$199</span> $' + newPrice;
-      document.getElementById('bpCheckoutBtn').textContent = 'Buy Business Plan — $' + newPrice;
+      document.getElementById('bpPriceDisplay').innerHTML = '<span style="text-decoration:line-through;color:rgba(255,255,255,0.2);font-size:24px;">$499</span> $' + newPrice;
+      document.getElementById('bpCheckoutBtn').textContent = 'Buy Plan + Style Guide — $' + newPrice;
       msgEl.textContent = promo.discount_percent + '% off applied!';
     }
     msgEl.style.display = 'block';
@@ -1855,7 +1867,7 @@ async function applyBPPromo() {
 }
 
 async function checkoutBP() {
-  const finalPrice = bpPromoApplied ? Math.round(199 * (1 - bpPromoApplied.discount_percent / 100)) : 199;
+  const finalPrice = bpPromoApplied ? Math.round(PLAN_STYLE_PRICE * (1 - bpPromoApplied.discount_percent / 100)) : PLAN_STYLE_PRICE;
 
   if (finalPrice === 0 && bpPromoApplied) {
     /* Free — submit survey and show success */
@@ -1869,27 +1881,42 @@ async function checkoutBP() {
   btn.textContent = 'Processing...';
 
   try {
-    const res = await fetch('https://n8n.nunyabunya.com/webhook/upsell-checkout', {
+    const name = document.getElementById('clientName').value.trim();
+    const email = document.getElementById('clientEmail').value.trim();
+    const answers = collectSurveyAnswers();
+    const res = await fetch('/api/webhook?type=business-foundation-kit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product: 'business-plan', price_id: 'price_1TLGCvJGGLPcHaTXS55zntCk', amount: finalPrice * 100 })
+      body: JSON.stringify({
+        product: 'plan-style-guide',
+        tier: 'essentials',
+        client_name: name,
+        client_email: email,
+        client_phone: document.getElementById('clientPhone').value.trim(),
+        answers: answers,
+        amount: finalPrice * 100,
+        payment_status: 'pending',
+        submitted_at: new Date().toISOString()
+      })
     });
     const data = await res.json();
-    if (data.url) window.location.href = data.url;
-    else { btn.disabled = false; btn.textContent = 'Buy Business Plan — $' + finalPrice; }
+    if (data.checkout_url) window.location.href = data.checkout_url;
+    else { btn.disabled = false; btn.textContent = 'Buy Plan + Style Guide — $' + finalPrice; }
   } catch (e) {
     btn.disabled = false;
-    btn.textContent = 'Buy Business Plan — $' + finalPrice;
+    btn.textContent = 'Buy Plan + Style Guide — $' + finalPrice;
   }
 }
 
 /* ═══════════ BFK CHECKOUT ═══════════ */
 let appliedPromo = null;
 const BFK_PRICE = 999;
-const SUPABASE_URL = 'https://podyldvpvgqktwbqswrc.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvZHlsZHZwdmdxa3R3YnFzd3JjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2OTcxOTQsImV4cCI6MjA3OTI3MzE5NH0.PzDWh-KSAfdGHDWDB45Zw9_94m5HgQTj6x4PSU-uuMc';
 
 function showCheckoutModal() {
+  const savedEmail = document.getElementById('clientEmail') ? document.getElementById('clientEmail').value.trim() : '';
+  if (savedEmail && !document.getElementById('checkoutEmail').value.trim()) {
+    document.getElementById('checkoutEmail').value = savedEmail;
+  }
   document.getElementById('checkoutModal').style.display = 'flex';
 }
 function hideCheckoutModal() {
@@ -1908,31 +1935,17 @@ async function applyPromoCode() {
   errEl.style.display = 'none';
 
   try {
-    const res = await fetch(SUPABASE_URL + '/rest/v1/promo_codes?code=eq.' + encodeURIComponent(code) + '&is_active=eq.true&select=*', {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-    });
-    const promos = await res.json();
+    const res = await fetch('/api/validate-promo?code=' + encodeURIComponent(code));
+    const data = await res.json();
 
-    if (!promos || promos.length === 0) {
-      errEl.textContent = 'Invalid promo code.';
+    if (!data.ok) {
+      errEl.textContent = data.error || 'Invalid promo code.';
       errEl.style.display = 'block';
       btn.textContent = 'Apply';
       return;
     }
 
-    const promo = promos[0];
-    if (promo.valid_until && new Date(promo.valid_until) < new Date()) {
-      errEl.textContent = 'This code has expired.';
-      errEl.style.display = 'block';
-      btn.textContent = 'Apply';
-      return;
-    }
-    if (promo.max_uses && promo.times_used >= promo.max_uses) {
-      errEl.textContent = 'This code has already been used.';
-      errEl.style.display = 'block';
-      btn.textContent = 'Apply';
-      return;
-    }
+    const promo = data.promo;
 
     appliedPromo = promo;
     const newPrice = Math.round(BFK_PRICE * (1 - promo.discount_percent / 100));
@@ -1960,7 +1973,8 @@ async function applyPromoCode() {
 
 async function checkoutBFK() {
   const btn = document.getElementById('checkoutBtn');
-  const email = document.getElementById('checkoutEmail').value.trim();
+  const savedEmail = document.getElementById('clientEmail') ? document.getElementById('clientEmail').value.trim() : '';
+  const email = document.getElementById('checkoutEmail').value.trim() || savedEmail;
   if (!email) { alert('Please enter your email.'); return; }
 
   btn.disabled = true;
@@ -1971,6 +1985,23 @@ async function checkoutBFK() {
   /* If 100% off — mark code as used + grant access */
   if (finalPrice === 0 && appliedPromo) {
     try {
+      const name = document.getElementById('clientName') ? document.getElementById('clientName').value.trim() : '';
+      const answers = collectSurveyAnswers();
+      await fetch('/api/webhook?type=business-foundation-kit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          product: 'business-foundation-kit',
+          tier: 'foundation',
+          client_name: name || email,
+          client_email: email,
+          client_phone: document.getElementById('clientPhone') ? document.getElementById('clientPhone').value.trim() : '',
+          answers: answers,
+          promo_code: appliedPromo ? appliedPromo.code : null,
+          payment_status: 'promo_free',
+          submitted_at: new Date().toISOString()
+        })
+      });
       await fetch(SUPABASE_URL + '/rest/v1/promo_codes?id=eq.' + appliedPromo.id, {
         method: 'PATCH',
         headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
@@ -1988,19 +2019,26 @@ async function checkoutBFK() {
 
   /* Paid checkout via n8n → Stripe */
   try {
-    const res = await fetch('https://n8n.nunyabunya.com/webhook/upsell-checkout', {
+    const name = document.getElementById('clientName') ? document.getElementById('clientName').value.trim() : '';
+    const answers = collectSurveyAnswers();
+    const res = await fetch('/api/webhook?type=business-foundation-kit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        product: 'bfk-full',
-        price_id: 'price_1TLGCuJGGLPcHaTXxSacnWUr',
-        email: email,
+        product: 'business-foundation-kit',
+        tier: 'foundation',
+        client_name: name || email,
+        client_email: email,
+        client_phone: document.getElementById('clientPhone') ? document.getElementById('clientPhone').value.trim() : '',
+        answers: answers,
         promo_code: appliedPromo ? appliedPromo.code : null,
         amount: finalPrice * 100,
+        payment_status: 'pending',
+        submitted_at: new Date().toISOString()
       })
     });
     const data = await res.json();
-    if (data.url) {
+    if (data.checkout_url) {
       /* Mark promo as used if applicable */
       if (appliedPromo) {
         fetch(SUPABASE_URL + '/rest/v1/promo_codes?id=eq.' + appliedPromo.id, {
@@ -2009,7 +2047,7 @@ async function checkoutBFK() {
           body: JSON.stringify({ times_used: (appliedPromo.times_used || 0) + 1 })
         });
       }
-      window.location.href = data.url;
+      window.location.href = data.checkout_url;
     } else {
       window.location.href = 'https://cal.com/nunyabunya/bfk-strategy-call';
     }

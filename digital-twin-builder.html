@@ -750,8 +750,6 @@
 
 <script>
 // ═══════════ CONFIG ═══════════
-const SUPABASE_URL = 'https://podyldvpvgqktwbqswrc.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvZHlsZHZwdmdxa3R3YnFzd3JjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2OTcxOTQsImV4cCI6MjA3OTI3MzE5NH0.PzDWh-KSAfdGHDWDB45Zw9_94m5HgQTj6x4PSU-uuMc';
 // Direct to task server for now (bypass n8n until workflow is built)
 const TASK_SERVER_URL = 'http://5.223.79.5:8090/generate-twin';
 
@@ -1169,35 +1167,16 @@ async function applyPromo() {
   status.style.display = 'none';
 
   try {
-    const resp = await fetch(
-      `${SUPABASE_URL}/rest/v1/promo_codes?code=eq.${code}&is_active=eq.true`,
-      {
-        headers: {
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-        }
-      }
-    );
-    const promos = await resp.json();
+    const resp = await fetch('/api/validate-promo?code=' + encodeURIComponent(code));
+    const data = await resp.json();
 
-    if (promos.length === 0) {
-      status.textContent = 'Invalid code';
+    if (!data.ok) {
+      status.textContent = data.error || 'Invalid code';
       status.style.color = '#e94560';
       status.style.display = 'block';
       appliedPromo = null;
     } else {
-      const promo = promos[0];
-      if (promo.max_uses && promo.times_used >= promo.max_uses) {
-        status.textContent = 'Code has expired';
-        status.style.color = '#e94560';
-        status.style.display = 'block';
-        appliedPromo = null;
-      } else if (promo.valid_until && new Date(promo.valid_until) < new Date()) {
-        status.textContent = 'Code has expired';
-        status.style.color = '#e94560';
-        status.style.display = 'block';
-        appliedPromo = null;
-      } else {
+      const promo = data.promo;
         appliedPromo = promo;
         const discount = promo.discount_percent;
         status.innerHTML = discount === 100

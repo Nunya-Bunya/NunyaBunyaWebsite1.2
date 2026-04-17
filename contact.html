@@ -192,12 +192,22 @@
     const message = document.getElementById('message').value.trim();
     if (!name || !email) return;
     btn.disabled = true; btn.textContent = 'Sending...'; errorEl.style.display = 'none';
+
     try {
-      const res = await fetch('https://n8n.nunyabunya.com/webhook/jCOHnLXLshLuK3IM/webhook/contact-form', {
+      const res = await fetch('/api/submit-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, package: pkg, message })
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          interest: pkg,
+          message,
+          source: 'contact-page',
+          page: 'contact'
+        })
       });
+
       if (res.ok) {
         form.style.display = 'none';
         document.getElementById('formSuccess').style.display = 'block';
@@ -208,6 +218,7 @@
         btn.disabled = false; btn.textContent = 'Send Message';
       }
     } catch (err) {
+      console.error('Contact submit error:', err);
       errorEl.textContent = 'Network error. Please try again.';
       errorEl.style.display = 'block';
       btn.disabled = false; btn.textContent = 'Send Message';

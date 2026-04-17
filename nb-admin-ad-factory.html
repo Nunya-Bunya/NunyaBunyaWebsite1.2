@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ad Factory | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+/* Ad Factory Styles */
+.factory-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.factory-topbar .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-btn { padding: 6px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; border: 1px solid var(--border, #2a2f3e); background: transparent; color: var(--muted, #6b7280); cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+.filter-btn:hover { border-color: var(--teal, #00D4AA); color: var(--teal, #00D4AA); }
+.filter-btn.active { background: var(--teal, #00D4AA); color: #000; border-color: var(--teal, #00D4AA); }
+.new-ad-btn { padding: 10px 24px; border-radius: 8px; font-size: 13px; font-weight: 600; border: none; background: var(--teal, #00D4AA); color: #000; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; align-items: center; gap: 8px; }
+.new-ad-btn:hover { opacity: 0.9; }
+
+/* Stats strip */
+.stats-strip { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.stat-card { background: var(--card-bg, #1a1f2e); border: 1px solid var(--border, #2a2f3e); border-radius: 10px; padding: 16px 20px; flex: 1; min-width: 140px; }
+.stat-card .stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: var(--teal, #00D4AA); }
+.stat-card .stat-label { font-size: 11px; color: var(--muted, #6b7280); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+/* Ad grid */
+.ad-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.ad-card { background: var(--card-bg, #1a1f2e); border: 1px solid var(--border, #2a2f3e); border-radius: 12px; overflow: hidden; transition: all 0.2s; cursor: pointer; }
+.ad-card:hover { border-color: var(--teal, #00D4AA); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.ad-card .ad-preview { width: 100%; aspect-ratio: 1; background: #0d1117; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.ad-card .ad-preview img { width: 100%; height: 100%; object-fit: cover; }
+.ad-card .ad-preview .ad-placeholder { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--muted, #6b7280); }
+.ad-card .ad-preview .ad-placeholder .ph-icon { font-size: 32px; }
+.ad-card .ad-preview .ad-placeholder .ph-text { font-size: 12px; }
+.ad-card .ad-preview .ad-overlay { position: absolute; top: 8px; right: 8px; display: flex; gap: 4px; }
+.ad-card .ad-preview .platform-badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px; background: rgba(0,0,0,0.6); color: #fff; backdrop-filter: blur(4px); }
+.ad-card .ad-meta { padding: 14px 16px; }
+.ad-card .ad-meta .ad-title { font-size: 14px; font-weight: 600; color: var(--text, #e5e7eb); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ad-card .ad-meta .ad-brand-row { display: flex; justify-content: space-between; align-items: center; }
+.ad-card .ad-meta .ad-brand { font-size: 12px; color: var(--teal, #00D4AA); font-weight: 600; }
+.ad-card .ad-meta .ad-date { font-size: 11px; color: var(--muted, #6b7280); }
+.ad-card .ad-meta .ad-dims { font-size: 11px; color: var(--muted, #6b7280); margin-top: 4px; }
+.ad-card .ad-meta .ad-status { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-top: 6px; }
+.status-draft { background: rgba(255,208,47,0.12); color: #FFD02F; }
+.status-approved { background: rgba(0,212,170,0.12); color: #00D4AA; }
+.status-live { background: rgba(99,102,241,0.12); color: #818CF8; }
+.status-archived { background: rgba(107,114,128,0.12); color: #6B7280; }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 80px 40px; }
+.empty-state .empty-icon { font-size: 48px; margin-bottom: 16px; }
+.empty-state h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; color: var(--text, #e5e7eb); margin-bottom: 8px; }
+.empty-state p { font-size: 14px; color: var(--muted, #6b7280); max-width: 400px; margin: 0 auto 24px; }
+
+/* Modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--card-bg, #1a1f2e); border: 1px solid var(--border, #2a2f3e); border-radius: 16px; padding: 32px; width: 500px; max-width: 90vw; max-height: 90vh; overflow-y: auto; }
+.modal h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px; color: var(--teal, #00D4AA); }
+.modal .form-group { margin-bottom: 16px; }
+.modal label { display: block; font-size: 12px; font-weight: 600; color: var(--text, #e5e7eb); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.modal input, .modal select, .modal textarea { width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border, #2a2f3e); background: rgba(0,0,0,0.3); color: var(--text, #e5e7eb); font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; }
+.modal input:focus, .modal select:focus, .modal textarea:focus { border-color: var(--teal, #00D4AA); }
+.modal textarea { min-height: 80px; resize: vertical; }
+.modal .btn-row { display: flex; gap: 10px; margin-top: 24px; }
+.modal .btn-save { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; background: var(--teal, #00D4AA); color: #000; font-family: 'Plus Jakarta Sans', sans-serif; }
+.modal .btn-cancel { flex: 1; padding: 12px; border: 1px solid var(--border, #2a2f3e); border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; background: transparent; color: var(--muted, #6b7280); font-family: 'Plus Jakarta Sans', sans-serif; }
+.modal .btn-delete { padding: 12px; border: 1px solid #EF4444; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; background: transparent; color: #EF4444; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* View modal */
+.view-modal .ad-full-preview { width: 100%; background: #0d1117; border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+.view-modal .ad-full-preview img { width: 100%; display: block; }
+.view-modal .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.view-modal .detail-item { }
+.view-modal .detail-item .dl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.view-modal .detail-item .dv { font-size: 14px; color: var(--text); margin-top: 2px; }
+
+/* Drag and drop zone */
+.drop-zone { border: 2px dashed var(--border, #2a2f3e); border-radius: 10px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s; margin-top: 4px; }
+.drop-zone:hover, .drop-zone.dragover { border-color: var(--teal, #00D4AA); background: rgba(0,212,170,0.03); }
+.drop-zone .dz-text { font-size: 13px; color: var(--muted, #6b7280); }
+.drop-zone .dz-text strong { color: var(--teal, #00D4AA); }
+.drop-zone .preview-img { max-width: 100%; max-height: 200px; border-radius: 6px; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Ad Factory</h1>
+        <div class="date">All ads across all brands. Create, review, approve.</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-strip" id="statsStrip"></div>
+
+    <!-- Toolbar -->
+    <div class="factory-topbar">
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="nunya-bunya">Nunya Bunya</button>
+        <button class="filter-btn" data-filter="power-portraits">Power Portraits</button>
+        <button class="filter-btn" data-filter="conner-law">Conner Law</button>
+        <button class="filter-btn" data-filter="pawesome">Pawesome</button>
+        <button class="filter-btn" data-filter="orca">ORCA</button>
+        <button class="filter-btn" data-filter="bella-rhyder">Bella Rhyder</button>
+        <button class="filter-btn" data-filter="ben-alek-conner">Ben Alek Conner</button>
+        <span style="width:1px;height:24px;background:var(--border);margin:0 4px"></span>
+        <button class="filter-btn" data-status="draft">Draft</button>
+        <button class="filter-btn" data-status="approved">Approved</button>
+        <button class="filter-btn" data-status="live">Live</button>
+      </div>
+      <button class="new-ad-btn" onclick="openNewAdModal()">+ New Ad</button>
+    </div>
+
+    <!-- Ad Grid -->
+    <div class="ad-grid" id="adGrid"></div>
+    <div class="empty-state" id="emptyState" style="display:none">
+      <div class="empty-icon">🏭</div>
+      <h3>Your Ad Factory is Empty</h3>
+      <p>Start adding ads you create for your brands. They'll all live here, organized and searchable.</p>
+      <button class="new-ad-btn" onclick="openNewAdModal()" style="margin:0 auto">+ Create Your First Ad</button>
+    </div>
+
+  </main>
+</div>
+
+<!-- New / Edit Ad Modal -->
+<div class="modal-overlay" id="adModal">
+  <div class="modal">
+    <h2 id="modalTitle">New Ad</h2>
+    <input type="hidden" id="adId">
+    <div class="form-group">
+      <label>Ad Title / Headline</label>
+      <input type="text" id="adTitle" placeholder="e.g. Spring Launch — Instagram Feed">
+    </div>
+    <div class="form-group">
+      <label>Brand</label>
+      <select id="adBrand">
+        <option value="nunya-bunya">Nunya Bunya</option>
+        <option value="power-portraits">Power Portraits</option>
+        <option value="conner-law">Conner Injury Law</option>
+        <option value="pawesome">Pawesome Dog Walkers</option>
+        <option value="orca">ORCA Film Awards</option>
+        <option value="bella-rhyder">Bella Rhyder</option>
+        <option value="ben-alek-conner">Ben Alek Conner</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Platform</label>
+      <select id="adPlatform">
+        <option value="instagram-feed">Instagram Feed (1080x1080)</option>
+        <option value="instagram-story">Instagram Story (1080x1920)</option>
+        <option value="instagram-reel">Instagram Reel Cover (1080x1920)</option>
+        <option value="facebook-feed">Facebook Feed (1200x628)</option>
+        <option value="facebook-story">Facebook Story (1080x1920)</option>
+        <option value="linkedin">LinkedIn (1200x627)</option>
+        <option value="twitter">Twitter/X (1600x900)</option>
+        <option value="google-display">Google Display (300x250)</option>
+        <option value="google-banner">Google Banner (728x90)</option>
+        <option value="youtube-thumb">YouTube Thumbnail (1280x720)</option>
+        <option value="tiktok">TikTok (1080x1920)</option>
+        <option value="other">Other / Custom</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Ad Type</label>
+      <select id="adType">
+        <option value="image">Static Image</option>
+        <option value="carousel">Carousel</option>
+        <option value="video-cover">Video Cover / Thumbnail</option>
+        <option value="html">HTML Ad</option>
+        <option value="text-only">Text Only (copy)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Status</label>
+      <select id="adStatus">
+        <option value="draft">Draft</option>
+        <option value="approved">Approved</option>
+        <option value="live">Live</option>
+        <option value="archived">Archived</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Copy / Description</label>
+      <textarea id="adCopy" placeholder="Ad copy, caption, or notes..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Ad Image</label>
+      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <div class="dz-text">Drop image here or <strong>click to upload</strong></div>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" style="display:none">
+    </div>
+    <div class="form-group">
+      <label>Tags (comma-separated)</label>
+      <input type="text" id="adTags" placeholder="e.g. retainer, lead gen, seasonal, A/B test">
+    </div>
+    <div class="btn-row">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-delete" id="deleteBtn" onclick="deleteAd()" style="display:none">Delete</button>
+      <button class="btn-save" onclick="saveAd()">Save Ad</button>
+    </div>
+  </div>
+</div>
+
+<!-- View Ad Modal -->
+<div class="modal-overlay" id="viewModal">
+  <div class="modal view-modal" style="width:600px">
+    <h2 id="viewTitle"></h2>
+    <div class="ad-full-preview" id="viewPreview"></div>
+    <div class="detail-grid" id="viewDetails"></div>
+    <div class="form-group" style="margin-top:16px">
+      <div class="dl" style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Copy</div>
+      <div id="viewCopy" style="font-size:14px;color:var(--text);line-height:1.6;white-space:pre-wrap"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-cancel" onclick="closeViewModal()">Close</button>
+      <button class="btn-save" onclick="editFromView()">Edit</button>
+    </div>
+  </div>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+const BRANDS = {
+  'nunya-bunya': 'Nunya Bunya',
+  'power-portraits': 'Power Portraits',
+  'conner-law': 'Conner Injury Law',
+  'pawesome': 'Pawesome Dog Walkers',
+  'orca': 'ORCA Film Awards',
+  'bella-rhyder': 'Bella Rhyder',
+  'ben-alek-conner': 'Ben Alek Conner',
+};
+
+const PLATFORMS = {
+  'instagram-feed': 'IG Feed',
+  'instagram-story': 'IG Story',
+  'instagram-reel': 'IG Reel',
+  'facebook-feed': 'FB Feed',
+  'facebook-story': 'FB Story',
+  'linkedin': 'LinkedIn',
+  'twitter': 'Twitter/X',
+  'google-display': 'GDN Display',
+  'google-banner': 'GDN Banner',
+  'youtube-thumb': 'YouTube',
+  'tiktok': 'TikTok',
+  'other': 'Other',
+};
+
+const DIMS = {
+  'instagram-feed': '1080×1080',
+  'instagram-story': '1080×1920',
+  'instagram-reel': '1080×1920',
+  'facebook-feed': '1200×628',
+  'facebook-story': '1080×1920',
+  'linkedin': '1200×627',
+  'twitter': '1600×900',
+  'google-display': '300×250',
+  'google-banner': '728×90',
+  'youtube-thumb': '1280×720',
+  'tiktok': '1080×1920',
+  'other': 'Custom',
+};
+
+let ads = [];
+let currentFilter = 'all';
+let currentStatusFilter = null;
+let currentImageData = null;
+let viewingAdId = null;
+
+function loadAds() {
+  ads = JSON.parse(localStorage.getItem('nbhq_ads') || '[]');
+}
+
+function saveAds() {
+  localStorage.setItem('nbhq_ads', JSON.stringify(ads));
+}
+
+function renderStats() {
+  const total = ads.length;
+  const draft = ads.filter(a => a.status === 'draft').length;
+  const approved = ads.filter(a => a.status === 'approved').length;
+  const live = ads.filter(a => a.status === 'live').length;
+  const brands = new Set(ads.map(a => a.brand)).size;
+  document.getElementById('statsStrip').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-label">Total Ads</div></div>
+    <div class="stat-card"><div class="stat-num">${brands}</div><div class="stat-label">Brands</div></div>
+    <div class="stat-card"><div class="stat-num">${draft}</div><div class="stat-label">Drafts</div></div>
+    <div class="stat-card"><div class="stat-num">${approved}</div><div class="stat-label">Approved</div></div>
+    <div class="stat-card"><div class="stat-num">${live}</div><div class="stat-label">Live</div></div>
+  `;
+}
+
+function renderGrid() {
+  let filtered = ads;
+  if (currentFilter !== 'all') filtered = filtered.filter(a => a.brand === currentFilter);
+  if (currentStatusFilter) filtered = filtered.filter(a => a.status === currentStatusFilter);
+
+  // Sort newest first
+  filtered.sort((a, b) => new Date(b.created) - new Date(a.created));
+
+  if (filtered.length === 0) {
+    document.getElementById('adGrid').innerHTML = '';
+    document.getElementById('emptyState').style.display = 'block';
+    return;
+  }
+
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('adGrid').innerHTML = filtered.map(ad => `
+    <div class="ad-card" onclick="viewAd('${ad.id}')">
+      <div class="ad-preview">
+        ${ad.image
+          ? `<img src="${ad.image}" alt="${esc(ad.title)}">`
+          : `<div class="ad-placeholder"><div class="ph-icon">${ad.type === 'text-only' ? '📝' : '🖼️'}</div><div class="ph-text">${ad.type === 'text-only' ? 'Text Ad' : 'No image yet'}</div></div>`
+        }
+        <div class="ad-overlay">
+          <span class="platform-badge">${PLATFORMS[ad.platform] || ad.platform}</span>
+        </div>
+      </div>
+      <div class="ad-meta">
+        <div class="ad-title">${esc(ad.title)}</div>
+        <div class="ad-brand-row">
+          <span class="ad-brand">${BRANDS[ad.brand] || ad.brand}</span>
+          <span class="ad-date">${formatDate(ad.created)}</span>
+        </div>
+        <div class="ad-dims">${DIMS[ad.platform] || ''} · ${ad.type}</div>
+        <span class="ad-status status-${ad.status}">${ad.status.toUpperCase()}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openNewAdModal() {
+  document.getElementById('modalTitle').textContent = 'New Ad';
+  document.getElementById('adId').value = '';
+  document.getElementById('adTitle').value = '';
+  document.getElementById('adBrand').value = 'nunya-bunya';
+  document.getElementById('adPlatform').value = 'instagram-feed';
+  document.getElementById('adType').value = 'image';
+  document.getElementById('adStatus').value = 'draft';
+  document.getElementById('adCopy').value = '';
+  document.getElementById('adTags').value = '';
+  document.getElementById('deleteBtn').style.display = 'none';
+  currentImageData = null;
+  document.getElementById('dropZone').innerHTML = '<div class="dz-text">Drop image here or <strong>click to upload</strong></div>';
+  document.getElementById('adModal').classList.add('active');
+}
+
+function openEditModal(ad) {
+  document.getElementById('modalTitle').textContent = 'Edit Ad';
+  document.getElementById('adId').value = ad.id;
+  document.getElementById('adTitle').value = ad.title;
+  document.getElementById('adBrand').value = ad.brand;
+  document.getElementById('adPlatform').value = ad.platform;
+  document.getElementById('adType').value = ad.type;
+  document.getElementById('adStatus').value = ad.status;
+  document.getElementById('adCopy').value = ad.copy || '';
+  document.getElementById('adTags').value = (ad.tags || []).join(', ');
+  document.getElementById('deleteBtn').style.display = 'block';
+  currentImageData = ad.image || null;
+  if (ad.image) {
+    document.getElementById('dropZone').innerHTML = `<img class="preview-img" src="${ad.image}" alt="Preview"><div class="dz-text" style="margin-top:8px">Click to replace</div>`;
+  } else {
+    document.getElementById('dropZone').innerHTML = '<div class="dz-text">Drop image here or <strong>click to upload</strong></div>';
+  }
+  document.getElementById('adModal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('adModal').classList.remove('active');
+}
+
+function saveAd() {
+  const id = document.getElementById('adId').value || crypto.randomUUID();
+  const ad = {
+    id,
+    title: document.getElementById('adTitle').value || 'Untitled Ad',
+    brand: document.getElementById('adBrand').value,
+    platform: document.getElementById('adPlatform').value,
+    type: document.getElementById('adType').value,
+    status: document.getElementById('adStatus').value,
+    copy: document.getElementById('adCopy').value,
+    tags: document.getElementById('adTags').value.split(',').map(t => t.trim()).filter(Boolean),
+    image: currentImageData,
+    created: ads.find(a => a.id === id)?.created || new Date().toISOString(),
+    updated: new Date().toISOString(),
+  };
+
+  const idx = ads.findIndex(a => a.id === id);
+  if (idx >= 0) ads[idx] = ad;
+  else ads.push(ad);
+
+  saveAds();
+  closeModal();
+  renderStats();
+  renderGrid();
+}
+
+function deleteAd() {
+  const id = document.getElementById('adId').value;
+  if (!id) return;
+  if (!confirm('Delete this ad?')) return;
+  ads = ads.filter(a => a.id !== id);
+  saveAds();
+  closeModal();
+  renderStats();
+  renderGrid();
+}
+
+function viewAd(id) {
+  const ad = ads.find(a => a.id === id);
+  if (!ad) return;
+  viewingAdId = id;
+  document.getElementById('viewTitle').textContent = ad.title;
+  document.getElementById('viewPreview').innerHTML = ad.image
+    ? `<img src="${ad.image}" alt="${esc(ad.title)}">`
+    : `<div style="padding:60px;text-align:center;color:var(--muted)">${ad.type === 'text-only' ? '📝 Text-only ad' : '🖼️ No image uploaded'}</div>`;
+  document.getElementById('viewDetails').innerHTML = `
+    <div class="detail-item"><div class="dl">Brand</div><div class="dv">${BRANDS[ad.brand]}</div></div>
+    <div class="detail-item"><div class="dl">Platform</div><div class="dv">${PLATFORMS[ad.platform]} (${DIMS[ad.platform]})</div></div>
+    <div class="detail-item"><div class="dl">Type</div><div class="dv">${ad.type}</div></div>
+    <div class="detail-item"><div class="dl">Status</div><div class="dv"><span class="ad-status status-${ad.status}">${ad.status.toUpperCase()}</span></div></div>
+    <div class="detail-item"><div class="dl">Created</div><div class="dv">${formatDate(ad.created)}</div></div>
+    <div class="detail-item"><div class="dl">Tags</div><div class="dv">${(ad.tags || []).join(', ') || '—'}</div></div>
+  `;
+  document.getElementById('viewCopy').textContent = ad.copy || '(no copy)';
+  document.getElementById('viewModal').classList.add('active');
+}
+
+function closeViewModal() {
+  document.getElementById('viewModal').classList.remove('active');
+}
+
+function editFromView() {
+  closeViewModal();
+  const ad = ads.find(a => a.id === viewingAdId);
+  if (ad) openEditModal(ad);
+}
+
+// File handling
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', () => { if (fileInput.files.length) handleFile(fileInput.files[0]); });
+
+function handleFile(file) {
+  if (!file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    currentImageData = e.target.result;
+    dropZone.innerHTML = `<img class="preview-img" src="${currentImageData}" alt="Preview"><div class="dz-text" style="margin-top:8px">Click to replace</div>`;
+  };
+  reader.readAsDataURL(file);
+}
+
+// Filters
+document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderGrid();
+  });
+});
+
+document.querySelectorAll('.filter-btn[data-status]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('active')) {
+      btn.classList.remove('active');
+      currentStatusFilter = null;
+    } else {
+      document.querySelectorAll('.filter-btn[data-status]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentStatusFilter = btn.dataset.status;
+    }
+    renderGrid();
+  });
+});
+
+// Close modals on overlay click
+document.getElementById('adModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+document.getElementById('viewModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeViewModal(); });
+
+// Helpers
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function formatDate(iso) { const d = new Date(iso); return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' }); }
+
+// Init
+async function init() {
+  const ok = await NB_ADMIN.checkAuth();
+  if (!ok) return;
+  NB_ADMIN.renderSidebar('ad-factory');
+  loadAds();
+  renderStats();
+  renderGrid();
+}
+init();
+</script>
+</body>
+</html>

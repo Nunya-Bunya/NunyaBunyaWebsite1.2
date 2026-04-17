@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d0d0d">
 <title>Nunya Bunya — Marketing for Founders & Growing Businesses</title>
 <meta name="description" content="From your first business plan to a full marketing operation. Brand Bible from $999 for founders building their brand. Full-stack retainers from $3,500/mo for businesses ready to scale.">
 
@@ -23,6 +24,7 @@
 <meta name="twitter:image" content="https://www.nunyabunya.com/images/og-image.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="style-v2.css">
@@ -141,11 +143,11 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
 <section class="hero" id="home">
   <div class="hero-orb-1"></div>
   <div class="hero-orb-2"></div>
-  <div class="hero-eyebrow">For Founders &amp; Growing Businesses</div>
+  <div class="hero-eyebrow">If you're not in business, it's none of your business.</div>
   <h1 class="hero-title">
     From your<br>first invoice<br>to your first<br><span class="accent">million.</span>
   </h1>
-  <p class="hero-sub">Whether you're launching tomorrow or scaling right now — Nunya Bunya meets you where you are. <strong>Starter products for founders getting their footing.</strong> Full-stack marketing for businesses ready to go harder. Brisbane-based. No outsourcing. No excuses.</p>
+  <p class="hero-sub">Nunya Bunya is for founders, operators, and small business owners building something real. Whether you're launching tomorrow or scaling right now, I meet you where you are: starter products for getting your footing, and full-stack marketing for businesses ready to go harder.</p>
   <div class="hero-actions" style="flex-wrap:wrap;gap:12px;">
     <a href="/bedrock-survey" class="btn-primary">Just Starting Out — Take the Survey</a>
     <a href="https://cal.com/nunyabunya/nb-free-audit" target="_blank" rel="noopener" class="btn-ghost">Ready to Scale — Book a Call &rarr;</a>
@@ -277,7 +279,7 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
 <section class="brisbane-showcase">
   <div class="brisbane-bg">
     <!-- Replace images/brisbane-skyline.jpg with your Brisbane photo -->
-    <img src="images/brisbane-skyline.jpg" alt="Brisbane city skyline" class="brisbane-bg-img">
+    <img src="images/brisbane-skyline.jpg" alt="Brisbane city skyline" class="brisbane-bg-img" loading="lazy" decoding="async">
     <div class="brisbane-overlay"></div>
   </div>
   <div class="container brisbane-content">
@@ -499,6 +501,19 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
   </div>
 </section>
 
+<!-- FEATURED ARTICLES -->
+<section class="section-pad" id="featured-articles">
+  <div class="container">
+    <div class="section-label" style="justify-content:center;">Featured Articles</div>
+    <h2 class="section-heading" style="text-align:center;">Ideas that<br><span>move the needle.</span></h2>
+    <p class="section-sub" style="text-align:center;max-width:640px;margin:0 auto 40px;">Read the thinking behind our local marketing stack, campaign optimization, and content strategy for founders who want more than noise.</p>
+    <div id="featuredArticlesGrid" class="featured-grid">
+      <div class="featured-card featured-card-loading">Loading featured articles…</div>
+    </div>
+    <div style="text-align:center;margin-top:32px;"><a href="blog.html" class="btn-primary">Browse the blog</a></div>
+  </div>
+</section>
+
 <!-- PRODUCTS SHOP TEASER -->
 <section class="section-dark section-pad" id="products">
   <div class="container">
@@ -694,7 +709,7 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(r => observer.observe(r));
 
-  // Contact form — sends to Mautic + Slack directly
+  // Contact form — submit through the Nunya Bunya backend so leads are stored in Supabase and Slack is notified.
   document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     var name = document.getElementById('name').value.trim();
@@ -703,26 +718,28 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
     var message = document.getElementById('message').value.trim();
     if (!name || !email) return;
 
-    // Send to Mautic
     try {
-      await fetch('https://mautic.nunyabunya.com/form/submit?formId=1', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: 'mauticform[email]=' + encodeURIComponent(email) + '&mauticform[firstname]=' + encodeURIComponent(name) + '&mauticform[formId]=1'
-      }).catch(function(){});
-    } catch(err) {}
-
-    // Send to Slack via webhook server
-    try {
-      await fetch('https://webhooks.nunyabunya.com/webhook/lead-magnet', {
+      const res = await fetch('/api/submit-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, email: email, source: 'homepage-contact', business: 'Nunya Bunya', interest: interest, message: message })
-      }).catch(function(){});
-    } catch(err) {}
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          interest: interest,
+          message: message,
+          source: 'homepage-contact',
+          page: 'homepage'
+        })
+      });
 
-    this.style.display = 'none';
-    document.getElementById('formSuccess').style.display = 'block';
+      if (!res.ok) throw new Error('Submit failed');
+
+      this.style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    } catch (err) {
+      console.error('Contact submit error:', err);
+      alert('Sorry, something went wrong. Please try again or email ben@nunyabunya.com');
+    }
   });
 
   // FAQ toggle
@@ -731,6 +748,50 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
       btn.parentElement.classList.toggle('open');
     });
   });
+
+  // Featured articles block
+  async function loadFeaturedArticles() {
+    const grid = document.getElementById('featuredArticlesGrid');
+    try {
+      const res = await fetch('/api/contacts?blog=1');
+      if (!res.ok) throw new Error('Failed to fetch articles');
+      const data = await res.json();
+      const posts = (data.posts || []).slice(0, 3);
+      if (!posts.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;padding:60px 20px;text-align:center;color:var(--muted);border:1px solid rgba(255,255,255,0.08);border-radius:20px;">No featured articles available yet. <a href="blog.html" style="color:var(--teal);">Visit the blog</a> for updates.</div>';
+        return;
+      }
+      grid.innerHTML = posts.map(post => {
+        const title = getPostTitle(post.blog_post || post.topic || 'Untitled');
+        const excerpt = getPostExcerpt(post.blog_post || '', 140);
+        const date = new Date(post.created_at).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' });
+        return `<a href="/blog-post?id=${encodeURIComponent(post.id)}" style="display:block;padding:28px 24px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:22px;text-decoration:none;color:inherit;transition:transform 0.2s,border-color 0.2s;"><div style="display:flex;flex-direction:column;height:100%;">
+            <span style="font-family:var(--font-heading);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;color:var(--teal);margin-bottom:18px;">${escapeHtml(post.client_name || 'Nunya Bunya')}</span>
+            <h3 style="font-family:var(--font-heading);font-size:24px;font-weight:900;line-height:1.1;margin-bottom:16px;">${escapeHtml(title)}</h3>
+            <p style="color:var(--muted);font-size:14px;line-height:1.8;flex:1;margin-bottom:20px;">${escapeHtml(excerpt)}</p>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,0.55);"><span>${date}</span><span>${Math.max(1, Math.round((post.blog_post || '').split(/\s+/).length / 200))} min read</span></div>
+          </div></a>`;
+      }).join('');
+    } catch (err) {
+      grid.innerHTML = '<div style="grid-column:1/-1;padding:60px 20px;text-align:center;color:var(--muted);border:1px solid rgba(255,255,255,0.08);border-radius:20px;">Unable to load featured articles. <a href="blog.html" style="color:var(--teal);">Visit the blog</a> for updates.</div>';
+    }
+  }
+
+  function getPostTitle(md) {
+    const match = md.match(/^#\s+(.+)$/m);
+    return match ? match[1] : md.split('\n')[0].replace(/^#+\s*/,'').slice(0,80);
+  }
+
+  function getPostExcerpt(md, maxLength) {
+    const text = md.split('\n').filter(line => line.trim() && !line.startsWith('#')).join(' ').replace(/[*_`\[\]]/g, '').trim();
+    return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div'); div.textContent = str || ''; return div.innerHTML;
+  }
+
+  loadFeaturedArticles();
 
   // ═══════════ LEAD MAGNET POPUP ═══════════
   (function() {
@@ -793,7 +854,7 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
       errorEl.style.display = 'none';
 
       try {
-        const res = await fetch('https://n8n.nunyabunya.com/webhook/subscribe', {
+        const res = await fetch('/api/webhook?type=subscribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, source: 'homepage-popup' })
@@ -840,7 +901,7 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
       btn.textContent = 'Sending...';
 
       try {
-        const res = await fetch('https://n8n.nunyabunya.com/webhook/subscribe', {
+        const res = await fetch('/api/webhook?type=subscribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: '', email, source: 'homepage-inline' })

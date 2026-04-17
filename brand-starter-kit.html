@@ -824,9 +824,9 @@ function getLead() {
   // Show success
   document.getElementById('lm-form').style.display = 'none';
   document.getElementById('lm-success').style.display = 'block';
-  // Fire and forget to n8n (wire up later for email delivery)
+  // Send to backend webhook endpoint
   try {
-    fetch('https://n8n.nunyabunya.com/webhook/lead-magnet', {
+    fetch('/api/webhook?type=lead-magnet', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email, source: 'brand-starter-kit-page', offer: 'new-business-checklist' })

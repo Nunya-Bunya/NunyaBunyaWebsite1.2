@@ -35,6 +35,7 @@ const NB_ADMIN = {
           { id: 'approval', label: 'Approve Content', icon: '&#9998;', href: '/nb-admin-approval' },
           { id: 'bfk', label: 'BFK Submissions', icon: '&#128218;', href: '/nb-admin-bfk' },
           { id: 'dashboard', label: 'Dashboard', icon: '&#9670;', href: '/nb-admin-dashboard' },
+          { id: 'playbook', label: 'Playbook', icon: '&#9889;', href: '/nb-admin-playbook' },
         ]
       },
       {
@@ -54,6 +55,8 @@ const NB_ADMIN = {
           { id: 'content-tracker', label: 'Content Tracker', icon: '&#128203;', href: '/nb-admin-content-tracker' },
           { id: 'social-feed', label: 'Social Feed', icon: '&#128172;', href: '/nb-admin-social-feed' },
           { id: 'pipelines', label: 'Pipelines', icon: '&#9881;', href: '/nb-admin-pipelines' },
+          { id: 'ad-factory', label: 'Ad Factory', icon: '&#127981;', href: '/nb-admin-ad-factory' },
+          { id: 'swipe-file', label: 'Swipe File', icon: '&#128293;', href: '/nb-admin-swipe-file' },
         ]
       },
       {
@@ -70,7 +73,10 @@ const NB_ADMIN = {
         label: 'Reference',
         pages: [
           { id: 'brand-docs', label: 'Brand Docs', icon: '&#9997;', href: '/nb-admin-brand-docs' },
+          { id: 'design-library', label: 'Design Library', icon: '&#127912;', href: '/nb-admin-design-library' },
+          { id: 'skills-library', label: 'Skills Library', icon: '&#129520;', href: '/nb-admin-skills-library' },
           { id: 'reports', label: 'Reports', icon: '&#9776;', href: '/nb-admin-reports' },
+          { id: 'cron-jobs', label: 'Cron Jobs', icon: '&#9201;', href: '/nb-admin-cron-jobs' },
           { id: 'activity', label: 'Activity Log', icon: '&#9200;', href: '/nb-admin-activity' },
           { id: 'settings', label: 'Settings', icon: '&#9881;', href: '/nb-admin-settings' },
         ]

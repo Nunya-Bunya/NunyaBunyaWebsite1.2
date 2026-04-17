@@ -5,7 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blog | Nunya Bunya</title>
 <meta name="robots" content="index, follow">
+<meta name="description" content="Marketing insight from Nunya Bunya to help founders and business owners build more profitable campaigns.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Nunya Bunya">
+<meta property="og:title" content="Nunya Bunya Blog">
+<meta property="og:description" content="Marketing insight from Nunya Bunya to help founders and business owners build more profitable campaigns.">
+<meta property="og:image" content="https://www.nunyabunya.com/images/og-image.png">
+<meta property="og:url" content="https://www.nunyabunya.com/blog-post">
+<meta property="article:author" content="Nunya Bunya">
+<meta property="article:published_time" content="2026-04-10T00:00:00Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nunya Bunya Blog">
+<meta name="twitter:description" content="Marketing insight from Nunya Bunya to help founders and business owners build more profitable campaigns.">
+<meta name="twitter:image" content="https://www.nunyabunya.com/images/og-image.png">
+<link rel="canonical" id="canonicalLink" href="https://www.nunyabunya.com/blog-post">
+<meta name="theme-color" content="#0d0d0d">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script type="application/ld+json" id="blogSchema">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Nunya Bunya Blog Post",
+  "description": "Marketing insight from Nunya Bunya to help founders and business owners build more profitable campaigns.",
+  "url": "https://www.nunyabunya.com/blog-post",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.nunyabunya.com/blog-post"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Nunya Bunya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Nunya Bunya",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nunyabunya.com/images/logo-icon-white.png"
+    }
+  },
+  "image": ["https://www.nunyabunya.com/images/og-image.png"]
+}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="style-v2.css">
@@ -57,7 +99,7 @@
 <div class="cursor-ring" id="cursorRing"></div>
 <nav>
   <a href="/" class="nav-logo"><img src="/images/logo-icon-white.png" alt="NB"> NUNYA<span>BUNYA</span></a>
-  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>
   <ul class="nav-links" id="navLinks">
     <li><a href="/services">Services</a></li>
     <li><a href="/portfolio">Work</a></li>
@@ -104,6 +146,33 @@
       const html = renderMarkdown(post.blog_post || '');
 
       document.title = `${title} | Nunya Bunya Blog`;
+      const pageUrl = window.location.href;
+      const description = getDescription(post.blog_post || post.topic || 'Marketing insight from Nunya Bunya to help founders and businesses grow.');
+      const imageUrl = post.hero_image || 'https://www.nunyabunya.com/images/og-image.png';
+
+      document.querySelector('meta[name="description"]').content = description;
+      document.querySelector('meta[property="og:title"]').content = `${title} | Nunya Bunya Blog`;
+      document.querySelector('meta[property="og:description"]').content = description;
+      document.querySelector('meta[property="og:image"]').content = imageUrl;
+      document.querySelector('meta[property="og:url"]').setAttribute('content', pageUrl);
+      document.querySelector('meta[property="article:author"]').content = post.client_name || 'Nunya Bunya';
+      document.querySelector('meta[property="article:published_time"]').setAttribute('content', post.created_at);
+      document.querySelector('meta[name="twitter:title"]').content = `${title} | Nunya Bunya Blog`;
+      document.querySelector('meta[name="twitter:description"]').content = description;
+      document.querySelector('meta[name="twitter:image"]').content = imageUrl;
+      document.getElementById('canonicalLink').href = pageUrl;
+      document.getElementById('blogSchema').textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": title,
+        "description": description,
+        "url": pageUrl,
+        "mainEntityOfPage": { "@type": "WebPage", "@id": pageUrl },
+        "datePublished": post.created_at,
+        "author": { "@type": "Person", "name": post.client_name || 'Nunya Bunya' },
+        "publisher": { "@type": "Organization", "name": "Nunya Bunya", "logo": { "@type": "ImageObject", "url": "https://www.nunyabunya.com/images/logo-icon-white.png" } },
+        "image": [imageUrl]
+      });
 
       document.getElementById('postContainer').innerHTML = `
         <div class="post-hero"><div class="container">
@@ -123,6 +192,7 @@
   }
 
   function getTitle(md) { const m = md.match(/^#\s+(.+)$/m); return m ? m[1] : md.split('\n')[0].replace(/^#+\s*/,'').slice(0,80); }
+  function getDescription(md) { const raw = md.replace(/[#>*_`\[\]\(\)]/g,'').split('\n').map(Boolean).find(Boolean) || ''; return raw.trim().slice(0,160); }
 
   function renderMarkdown(md) {
     // Remove the H1 title (we render it separately)
@@ -137,7 +207,7 @@
       .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
       .replace(/((<li>.+<\/li>\n?)+)/g, '<ul>$1</ul>')
       .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
       .replace(/^(?!<[a-z])((?!<).+)$/gm, '<p>$1</p>')
       .replace(/<p><\/p>/g, '')
       .replace(/\n{2,}/g, '\n');
@@ -146,6 +216,8 @@
   function esc(s) { if(!s)return''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
 
   loadPost();
+  document.getElementById('canonicalLink').href = window.location.href;
+  document.querySelector('meta[property="og:url"]').setAttribute('content', window.location.href);
 </script>
 <!-- Matomo -->
 <script>

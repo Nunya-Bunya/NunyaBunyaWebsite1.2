@@ -60,6 +60,40 @@ img { max-width: 100%; height: auto; }
 .cursor.hovering { transform: translate(-50%,-50%) scale(2.5); background: var(--magenta); }
 .cursor-ring.hovering { width: 60px; height: 60px; border-color: rgba(255,77,221,0.3); }
 
+/* Keep the native cursor visible. The older custom cursor could disappear when
+   its JS failed, when the tab lost focus, or over embedded/complex elements. */
+.cursor,
+.cursor-ring {
+  display: none !important;
+}
+
+html,
+body,
+a,
+button,
+input,
+select,
+textarea,
+label,
+[role="button"],
+[onclick] {
+  cursor: auto !important;
+}
+
+a,
+button,
+select,
+label,
+[role="button"],
+[onclick] {
+  cursor: pointer !important;
+}
+
+input,
+textarea {
+  cursor: text !important;
+}
+
 /* ═══════════ NOISE OVERLAY ═══════════ */
 body::before {
   content: '';
@@ -286,6 +320,73 @@ section { position: relative; z-index: 2; }
   font-family: var(--font-heading); font-weight: 900;
   font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase;
   padding: 6px 14px;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.featured-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 22px;
+  padding: 28px 24px;
+  transition: border-color 0.2s, transform 0.2s, background 0.2s;
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+}
+
+.featured-card:hover {
+  background: rgba(0,229,204,0.06);
+  border-color: rgba(0,229,204,0.25);
+  transform: translateY(-4px);
+}
+
+.featured-card-title {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  color: var(--white);
+}
+
+.featured-card-excerpt {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.75;
+  flex: 1;
+  margin-bottom: 22px;
+}
+
+.featured-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+}
+
+.featured-card-tag {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+
+.featured-card-loading {
+  grid-column: 1/-1;
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--muted);
 }
 
 /* ═══════════ SERVICE PACKAGES ═══════════ */

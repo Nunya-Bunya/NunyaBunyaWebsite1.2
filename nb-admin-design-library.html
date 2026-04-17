@@ -1,0 +1,2273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>59 Design Systems Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Rubik:wght@400;500;600;700&family=Lexend:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@400;500;600;700;800;900&family=Crimson+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+
+/* NAV */
+.gallery-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+  background: rgba(10,10,10,0.92); backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 10px 20px; display: flex; align-items: center; gap: 8px;
+  overflow-x: auto; white-space: nowrap;
+}
+.gallery-nav::-webkit-scrollbar { height: 3px; }
+.gallery-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+.gallery-nav .nav-label {
+  font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700;
+  color: #fff; text-transform: uppercase; letter-spacing: 1.5px;
+  padding-right: 12px; border-right: 1px solid rgba(255,255,255,0.12); flex-shrink: 0;
+}
+.gallery-nav a {
+  font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500;
+  color: rgba(255,255,255,0.4); text-decoration: none;
+  padding: 4px 8px; border-radius: 5px; transition: all 0.2s; flex-shrink: 0;
+}
+.gallery-nav a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+
+/* ================================================================
+   EACH SECTION IS A UNIQUE LANDING PAGE
+   ================================================================ */
+
+/* ===== 1. AIRBNB — Warm split hero with property photos ===== */
+#airbnb {
+  min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+  font-family: 'Nunito Sans', sans-serif; background: #fff; position: relative;
+}
+#airbnb .hero-left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 60px 60px 80px;
+}
+#airbnb .hero-left .brand-tag { font-size: 11px; color: #FF5A5F; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+#airbnb h1 { font-size: 54px; font-weight: 800; color: #222; line-height: 1.1; margin-bottom: 20px; }
+#airbnb h1 span { color: #FF5A5F; }
+#airbnb .hero-left p { font-size: 18px; color: #717171; line-height: 1.6; margin-bottom: 32px; max-width: 400px; }
+#airbnb .search-bar {
+  display: flex; background: #fff; border: 1px solid #ddd; border-radius: 40px;
+  overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); max-width: 480px;
+}
+#airbnb .search-bar .field {
+  padding: 16px 24px; border-right: 1px solid #eee; flex: 1;
+}
+#airbnb .search-bar .field label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #222; display: block; margin-bottom: 4px; }
+#airbnb .search-bar .field span { font-size: 14px; color: #999; }
+#airbnb .search-bar .search-btn {
+  background: linear-gradient(to right, #FF5A5F, #FC642D); border: none; color: #fff;
+  width: 56px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px;
+}
+#airbnb .hero-right {
+  position: relative; overflow: hidden;
+}
+#airbnb .hero-right .photo-grid {
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px;
+  height: 100%; padding: 8px 8px 8px 0;
+}
+#airbnb .hero-right .photo-grid .photo {
+  border-radius: 16px; overflow: hidden; background-size: cover; background-position: center;
+}
+#airbnb .hero-right .photo-grid .photo:first-child { grid-row: 1 / 3; border-radius: 16px; }
+#airbnb .photo-1 { background-image: url('https://picsum.photos/seed/airbnb1/600/800'); }
+#airbnb .photo-2 { background-image: url('https://picsum.photos/seed/airbnb2/400/400'); }
+#airbnb .photo-3 { background-image: url('https://picsum.photos/seed/airbnb3/400/400'); }
+#airbnb .stats-bar {
+  position: absolute; bottom: 40px; left: -40px; right: 40px;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+  border-radius: 20px; padding: 20px 32px; display: flex; justify-content: space-around;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+#airbnb .stats-bar .stat { text-align: center; }
+#airbnb .stats-bar .stat .num { font-size: 28px; font-weight: 800; color: #FF5A5F; }
+#airbnb .stats-bar .stat .label { font-size: 12px; color: #717171; margin-top: 2px; }
+
+/* ===== 2. AIRTABLE — App-like with floating UI elements ===== */
+#airtable {
+  min-height: 100vh; background: linear-gradient(160deg, #FCF8F3 0%, #EEF0FF 50%, #FFF5F5 100%);
+  font-family: 'Inter', sans-serif; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 100px 40px 60px; position: relative; overflow: hidden;
+}
+#airtable::before {
+  content: ''; position: absolute; top: -200px; right: -200px; width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(45,127,249,0.08) 0%, transparent 70%); border-radius: 50%;
+}
+#airtable .brand-tag { font-size: 11px; color: #2D7FF9; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+#airtable h1 { font-size: 56px; font-weight: 700; text-align: center; color: #1D1D1D; margin-bottom: 16px; line-height: 1.1; }
+#airtable .tagline { font-size: 18px; color: #666; text-align: center; max-width: 560px; margin-bottom: 36px; }
+#airtable .cta-row { display: flex; gap: 12px; margin-bottom: 60px; }
+#airtable .btn { padding: 14px 32px; border-radius: 8px; border: none; font-size: 15px; font-weight: 600; cursor: pointer; }
+#airtable .btn-primary { background: #2D7FF9; color: #fff; }
+#airtable .btn-outline { background: #fff; color: #2D7FF9; border: 2px solid #2D7FF9; }
+#airtable .app-preview {
+  position: relative; max-width: 900px; width: 100%;
+}
+#airtable .app-window {
+  background: #fff; border-radius: 16px; box-shadow: 0 20px 80px rgba(0,0,0,0.08); overflow: hidden;
+  border: 1px solid #e5e5e5;
+}
+#airtable .app-toolbar {
+  display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #FAFAFA; border-bottom: 1px solid #eee;
+}
+#airtable .app-toolbar .dot { width: 12px; height: 12px; border-radius: 50%; }
+#airtable .app-toolbar .dot:nth-child(1) { background: #FF5F57; }
+#airtable .app-toolbar .dot:nth-child(2) { background: #FFBD2E; }
+#airtable .app-toolbar .dot:nth-child(3) { background: #28CA41; }
+#airtable .app-toolbar .tabs { display: flex; gap: 0; margin-left: 24px; }
+#airtable .app-toolbar .tab { padding: 6px 16px; font-size: 12px; font-weight: 500; color: #999; border-bottom: 2px solid transparent; }
+#airtable .app-toolbar .tab.active { color: #2D7FF9; border-color: #2D7FF9; }
+#airtable .spreadsheet {
+  display: grid; grid-template-columns: 40px 180px 140px 160px 120px 1fr;
+  font-size: 13px;
+}
+#airtable .spreadsheet .header { background: #F5F5F5; padding: 10px 12px; font-weight: 600; color: #444; border-bottom: 1px solid #eee; border-right: 1px solid #eee; }
+#airtable .spreadsheet .cell { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; border-right: 1px solid #f0f0f0; color: #333; }
+#airtable .spreadsheet .cell.blue { color: #2D7FF9; }
+#airtable .spreadsheet .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+#airtable .tag-green { background: #D4EDDA; color: #155724; }
+#airtable .tag-yellow { background: #FFF3CD; color: #856404; }
+#airtable .tag-red { background: #F8D7DA; color: #721C24; }
+#airtable .floating-card {
+  position: absolute; background: #fff; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  padding: 16px 20px; font-size: 13px;
+}
+#airtable .float-1 { top: -20px; right: -30px; transform: rotate(3deg); }
+#airtable .float-2 { bottom: -20px; left: -30px; transform: rotate(-2deg); }
+#airtable .floating-card .fc-label { font-size: 10px; color: #999; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; margin-bottom: 6px; }
+#airtable .floating-card .fc-value { font-size: 24px; font-weight: 700; color: #2D7FF9; }
+
+/* ===== 3. APPLE — Cinematic hero, massive type, product glow ===== */
+#apple {
+  min-height: 100vh; background: #000; color: #f5f5f7;
+  font-family: -apple-system, 'Inter', sans-serif;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 80px 40px; position: relative; overflow: hidden;
+}
+#apple::before {
+  content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -30%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(100,100,255,0.15) 0%, rgba(200,100,255,0.08) 40%, transparent 70%);
+  border-radius: 50%; filter: blur(60px);
+}
+#apple .brand-tag { font-size: 11px; color: #a1a1a6; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; font-weight: 600; }
+#apple h1 { font-size: 80px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 8px; position: relative; z-index: 1; }
+#apple .subtitle { font-size: 28px; font-weight: 600; background: linear-gradient(90deg, #c084fc, #60a5fa, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
+#apple .tagline { font-size: 21px; color: #a1a1a6; font-weight: 400; max-width: 500px; margin-bottom: 32px; }
+#apple .cta-row { display: flex; gap: 16px; margin-bottom: 80px; position: relative; z-index: 1; }
+#apple .btn { padding: 12px 28px; border-radius: 980px; font-size: 17px; border: none; cursor: pointer; font-weight: 400; }
+#apple .btn-blue { background: #0071E3; color: #fff; }
+#apple .btn-outline { background: transparent; color: #2997FF; border: 2px solid #2997FF; }
+#apple .product-showcase {
+  position: relative; width: 700px; height: 400px; z-index: 1;
+}
+#apple .device {
+  position: absolute; background: linear-gradient(145deg, #1d1d1f, #2a2a2d);
+  border-radius: 20px; border: 1px solid #3a3a3c;
+}
+#apple .device-main {
+  width: 500px; height: 320px; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+#apple .device-main .screen {
+  width: 92%; height: 88%; border-radius: 12px; overflow: hidden;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+#apple .device-main .screen-content {
+  width: 80%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
+}
+#apple .screen-card {
+  height: 60px; border-radius: 8px; opacity: 0.7;
+}
+#apple .sc-1 { background: linear-gradient(135deg, #667eea, #764ba2); }
+#apple .sc-2 { background: linear-gradient(135deg, #f093fb, #f5576c); }
+#apple .sc-3 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+#apple .sc-4 { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+#apple .sc-5 { background: linear-gradient(135deg, #fa709a, #fee140); }
+#apple .sc-6 { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+#apple .device-phone {
+  width: 120px; height: 220px; right: 40px; bottom: 20px; border-radius: 24px;
+  border: 2px solid #3a3a3c; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+#apple .device-phone .notch {
+  position: absolute; top: 8px; width: 50px; height: 14px; background: #000; border-radius: 10px;
+}
+#apple .device-phone .phone-screen {
+  width: 86%; height: 90%; border-radius: 18px;
+  background: linear-gradient(180deg, #1a1a2e, #16213e); display: flex;
+  flex-direction: column; align-items: center; padding-top: 30px; gap: 6px;
+}
+#apple .phone-line { width: 70%; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); }
+#apple .phone-line.bright { background: rgba(100,150,255,0.3); width: 50%; }
+#apple .specs-row {
+  display: flex; gap: 48px; margin-top: 40px; position: relative; z-index: 1;
+}
+#apple .spec { text-align: center; }
+#apple .spec .num { font-size: 36px; font-weight: 700; letter-spacing: -0.02em; }
+#apple .spec .label { font-size: 13px; color: #a1a1a6; margin-top: 4px; }
+
+/* ===== 4. BMW — Full-bleed dark, angular lines, tech dashboard ===== */
+#bmw {
+  min-height: 100vh; background: #0a0a0a; color: #fff;
+  font-family: 'Inter', sans-serif; position: relative; overflow: hidden;
+  display: grid; grid-template-rows: 1fr auto;
+}
+#bmw::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(28,105,212,0.06) 100%);
+}
+#bmw::after {
+  content: ''; position: absolute; top: 60px; right: 0; width: 60%; height: 80%;
+  background-image: url('https://picsum.photos/seed/bmwcar/1200/800');
+  background-size: cover; background-position: center;
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.4) 0%, transparent 80%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.4) 0%, transparent 80%);
+}
+#bmw .hero-content {
+  position: relative; z-index: 2; padding: 160px 80px 60px;
+  max-width: 600px;
+}
+#bmw .brand-tag { font-size: 10px; color: #1C69D4; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 32px; display: flex; align-items: center; gap: 12px; }
+#bmw .brand-tag::after { content: ''; width: 40px; height: 1px; background: #1C69D4; }
+#bmw h1 { font-size: 60px; font-weight: 200; letter-spacing: 6px; text-transform: uppercase; line-height: 1.1; margin-bottom: 20px; }
+#bmw h1 strong { font-weight: 700; display: block; color: #1C69D4; }
+#bmw .tagline { font-size: 15px; color: #777; letter-spacing: 1px; line-height: 1.8; margin-bottom: 40px; }
+#bmw .cta-row { display: flex; gap: 16px; }
+#bmw .btn { padding: 16px 40px; font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; border: none; cursor: pointer; }
+#bmw .btn-primary { background: #1C69D4; color: #fff; }
+#bmw .btn-outline { background: transparent; color: #fff; border: 1px solid #444; }
+#bmw .specs-strip {
+  position: relative; z-index: 2; display: flex; border-top: 1px solid #222;
+}
+#bmw .specs-strip .spec-item {
+  flex: 1; padding: 32px 40px; border-right: 1px solid #222;
+}
+#bmw .specs-strip .spec-item .value { font-size: 36px; font-weight: 200; letter-spacing: 2px; color: #fff; }
+#bmw .specs-strip .spec-item .value span { color: #1C69D4; font-size: 16px; }
+#bmw .specs-strip .spec-item .desc { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 2px; margin-top: 8px; }
+
+/* ===== 5. CAL.COM — Clean SaaS, calendar mockup ===== */
+#cal {
+  min-height: 100vh; background: #F9FAFB; font-family: 'Inter', sans-serif;
+  display: flex; flex-direction: column; align-items: center; padding: 120px 40px 60px;
+}
+#cal .brand-tag { font-size: 11px; color: #111827; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;
+  background: #F3F4F6; padding: 6px 16px; border-radius: 20px; border: 1px solid #E5E7EB;
+}
+#cal h1 { font-size: 52px; font-weight: 800; color: #111827; text-align: center; margin-bottom: 16px; letter-spacing: -0.02em; }
+#cal .tagline { font-size: 18px; color: #6B7280; text-align: center; max-width: 540px; margin-bottom: 32px; }
+#cal .cta-row { display: flex; gap: 12px; margin-bottom: 60px; }
+#cal .btn { padding: 14px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; }
+#cal .btn-dark { background: #111827; color: #fff; }
+#cal .btn-outline { background: #fff; color: #374151; border: 1px solid #D1D5DB; }
+#cal .calendar-mockup {
+  max-width: 800px; width: 100%; background: #fff; border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid #E5E7EB; overflow: hidden;
+}
+#cal .cal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 24px; border-bottom: 1px solid #F3F4F6;
+}
+#cal .cal-header h3 { font-size: 16px; font-weight: 600; color: #111827; }
+#cal .cal-header .view-toggle { display: flex; gap: 4px; }
+#cal .cal-header .vt { padding: 6px 14px; font-size: 12px; border-radius: 6px; background: #F9FAFB; color: #6B7280; border: 1px solid #E5E7EB; }
+#cal .cal-header .vt.active { background: #111827; color: #fff; border-color: #111827; }
+#cal .cal-grid {
+  display: grid; grid-template-columns: 60px repeat(5, 1fr); padding: 0;
+}
+#cal .cal-grid .time-label { padding: 20px 12px; font-size: 11px; color: #9CA3AF; text-align: right; border-right: 1px solid #F3F4F6; }
+#cal .cal-grid .day-col { border-right: 1px solid #F3F4F6; min-height: 80px; position: relative; padding: 4px; }
+#cal .cal-event {
+  padding: 6px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; margin-bottom: 4px;
+}
+#cal .cal-event.blue { background: #EFF6FF; color: #1D4ED8; border-left: 3px solid #3B82F6; }
+#cal .cal-event.green { background: #F0FDF4; color: #166534; border-left: 3px solid #22C55E; }
+#cal .cal-event.purple { background: #F5F3FF; color: #6D28D9; border-left: 3px solid #8B5CF6; }
+#cal .cal-event.orange { background: #FFF7ED; color: #C2410C; border-left: 3px solid #F97316; }
+#cal .day-header { padding: 12px; text-align: center; border-bottom: 1px solid #F3F4F6; border-right: 1px solid #F3F4F6; }
+#cal .day-header .day-name { font-size: 11px; color: #9CA3AF; text-transform: uppercase; font-weight: 500; }
+#cal .day-header .day-num { font-size: 20px; font-weight: 700; color: #111827; margin-top: 2px; }
+#cal .day-header.today .day-num { background: #111827; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 2px auto 0; }
+
+/* ===== 6. CLAUDE — Warm editorial, serif accents, organic ===== */
+#claude {
+  min-height: 100vh; background: #FAF6F1; color: #1A1510;
+  font-family: 'Inter', sans-serif; position: relative; overflow: hidden;
+}
+#claude .bg-pattern {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.03;
+  background-image: radial-gradient(circle at 20% 50%, #C45A2C 1px, transparent 1px),
+                    radial-gradient(circle at 80% 20%, #C45A2C 1px, transparent 1px),
+                    radial-gradient(circle at 60% 80%, #C45A2C 1px, transparent 1px);
+  background-size: 80px 80px, 120px 120px, 100px 100px;
+}
+#claude .content-wrap {
+  max-width: 1100px; margin: 0 auto; padding: 140px 60px 80px;
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center;
+  position: relative; z-index: 2;
+}
+#claude .brand-tag { font-size: 11px; color: #C45A2C; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+#claude h1 { font-family: 'Crimson Pro', serif; font-size: 56px; font-weight: 600; color: #2C1810; line-height: 1.15; margin-bottom: 20px; }
+#claude h1 em { color: #C45A2C; font-style: italic; }
+#claude .tagline { font-size: 18px; color: #7C6F64; line-height: 1.7; margin-bottom: 36px; }
+#claude .cta-row { display: flex; gap: 12px; }
+#claude .btn { padding: 14px 32px; border-radius: 12px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; }
+#claude .btn-terracotta { background: #C45A2C; color: #fff; }
+#claude .btn-outline { background: transparent; color: #C45A2C; border: 2px solid #C45A2C; }
+#claude .chat-preview {
+  background: #fff; border-radius: 24px; padding: 32px; box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+  border: 1px solid #E8E0D6;
+}
+#claude .chat-msg {
+  display: flex; gap: 12px; margin-bottom: 20px;
+}
+#claude .chat-msg .avatar {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+}
+#claude .chat-msg .avatar.user { background: #E8E0D6; }
+#claude .chat-msg .avatar.ai { background: linear-gradient(135deg, #C45A2C, #E8915A); }
+#claude .chat-msg .bubble {
+  padding: 14px 18px; border-radius: 16px; font-size: 14px; line-height: 1.6; max-width: 360px;
+}
+#claude .chat-msg.from-user .bubble { background: #F0EBE4; color: #3D3229; }
+#claude .chat-msg.from-ai .bubble { background: #FFF8F2; color: #3D3229; border: 1px solid #E8DDD2; }
+#claude .typing-indicator { display: flex; gap: 4px; padding: 14px 18px; }
+#claude .typing-indicator span {
+  width: 8px; height: 8px; border-radius: 50%; background: #D4C4B0;
+  animation: typing 1.4s infinite both;
+}
+#claude .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+#claude .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing { 0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
+
+/* ===== 7. CLAY — Dark with rainbow gradient mesh ===== */
+#clay {
+  min-height: 100vh; background: #0A0A0A; color: #EDEDED;
+  font-family: 'Space Grotesk', sans-serif; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 100px 40px; position: relative; overflow: hidden;
+}
+#clay .gradient-orb {
+  position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.3;
+}
+#clay .orb-1 { width: 500px; height: 500px; top: -100px; left: -100px; background: #7B61FF; }
+#clay .orb-2 { width: 400px; height: 400px; bottom: -100px; right: -50px; background: #FF6B6B; }
+#clay .orb-3 { width: 300px; height: 300px; top: 40%; left: 60%; background: #FFD93D; }
+#clay .brand-tag { position: relative; z-index: 2; font-size: 11px; color: #7B61FF; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; margin-bottom: 24px; }
+#clay h1 { position: relative; z-index: 2; font-size: 64px; font-weight: 700; text-align: center; line-height: 1.05; margin-bottom: 16px; background: linear-gradient(135deg, #7B61FF, #FF6B6B, #FFD93D, #7B61FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 300% 300%; animation: gradientShift 6s ease infinite; }
+@keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+#clay .tagline { position: relative; z-index: 2; font-size: 18px; color: #888; text-align: center; max-width: 500px; margin-bottom: 40px; }
+#clay .data-cards { position: relative; z-index: 2; display: flex; gap: 16px; margin-top: 20px; }
+#clay .data-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 28px; width: 220px; backdrop-filter: blur(10px);
+}
+#clay .data-card .icon { width: 40px; height: 40px; border-radius: 10px; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+#clay .data-card .icon-purple { background: rgba(123,97,255,0.15); }
+#clay .data-card .icon-red { background: rgba(255,107,107,0.15); }
+#clay .data-card .icon-yellow { background: rgba(255,217,61,0.15); }
+#clay .data-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+#clay .data-card p { font-size: 13px; color: #666; line-height: 1.5; }
+#clay .data-card .metric { font-size: 28px; font-weight: 700; color: #7B61FF; margin-top: 12px; }
+
+/* ===== 8. CLICKHOUSE — Tech doc style with code snippet ===== */
+#clickhouse {
+  min-height: 100vh; background: #fff; color: #212121;
+  font-family: 'Inter', sans-serif; display: flex; flex-direction: column;
+  align-items: center; padding: 120px 40px 60px;
+}
+#clickhouse .brand-tag { font-size: 12px; color: #212121; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; padding: 6px 16px; background: #FADB14; border-radius: 4px; }
+#clickhouse h1 { font-size: 48px; font-weight: 700; text-align: center; margin-bottom: 12px; }
+#clickhouse h1 span { color: #FADB14; text-decoration: underline; text-decoration-color: #FADB14; text-underline-offset: 6px; }
+#clickhouse .tagline { font-size: 17px; color: #555; text-align: center; max-width: 520px; margin-bottom: 36px; }
+#clickhouse .code-block {
+  max-width: 680px; width: 100%; background: #1E1E1E; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.12); margin-bottom: 40px;
+}
+#clickhouse .code-header { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #2D2D2D; }
+#clickhouse .code-header .dot { width: 12px; height: 12px; border-radius: 50%; }
+#clickhouse .code-header .dot:nth-child(1) { background: #FF5F57; }
+#clickhouse .code-header .dot:nth-child(2) { background: #FFBD2E; }
+#clickhouse .code-header .dot:nth-child(3) { background: #28CA41; }
+#clickhouse .code-header span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #888; margin-left: 12px; }
+#clickhouse .code-body { padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #D4D4D4; line-height: 1.8; }
+#clickhouse .code-body .keyword { color: #569CD6; }
+#clickhouse .code-body .string { color: #CE9178; }
+#clickhouse .code-body .number { color: #B5CEA8; }
+#clickhouse .code-body .function { color: #DCDCAA; }
+#clickhouse .code-body .comment { color: #6A9955; }
+#clickhouse .perf-bars { display: flex; gap: 24px; max-width: 680px; width: 100%; }
+#clickhouse .perf-bar { flex: 1; }
+#clickhouse .perf-bar .bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+#clickhouse .perf-bar .bar-label span:last-child { color: #FADB14; }
+#clickhouse .perf-bar .bar-track { height: 8px; background: #F0F0F0; border-radius: 4px; overflow: hidden; }
+#clickhouse .perf-bar .bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(to right, #FADB14, #F5C800); }
+
+/* ===== 9. COHERE — Earthy, rounded, organic shapes ===== */
+#cohere {
+  min-height: 100vh; background: #F9F5F1; color: #1A1A2E;
+  font-family: 'DM Sans', sans-serif; display: grid; grid-template-columns: 1fr 1fr;
+  position: relative; overflow: hidden;
+}
+#cohere .blob {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15;
+}
+#cohere .blob-1 { width: 400px; height: 400px; top: -100px; right: 20%; background: #39755B; }
+#cohere .blob-2 { width: 300px; height: 300px; bottom: 10%; left: -50px; background: #2E6B50; }
+#cohere .left-col {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 60px 60px 80px; z-index: 2;
+}
+#cohere .brand-tag { font-size: 11px; color: #39755B; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+#cohere h1 { font-size: 52px; font-weight: 700; color: #1A1A2E; line-height: 1.1; margin-bottom: 16px; }
+#cohere h1 span { color: #39755B; }
+#cohere .tagline { font-size: 17px; color: #666; line-height: 1.7; margin-bottom: 32px; }
+#cohere .cta-row { display: flex; gap: 12px; }
+#cohere .btn { padding: 14px 32px; border-radius: 999px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; }
+#cohere .btn-green { background: #39755B; color: #fff; }
+#cohere .btn-outline { background: transparent; color: #39755B; border: 2px solid #39755B; }
+#cohere .right-col {
+  display: flex; align-items: center; justify-content: center; padding: 60px; z-index: 2;
+}
+#cohere .api-card {
+  background: #fff; border-radius: 24px; padding: 36px; width: 100%; max-width: 420px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.06); border: 1px solid #E0D8CF;
+}
+#cohere .api-card .endpoint {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; background: #F5F0EB;
+  padding: 8px 14px; border-radius: 8px; color: #39755B; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+#cohere .api-card .endpoint .method { background: #39755B; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+#cohere .api-card .response-block {
+  background: #1A1A2E; border-radius: 12px; padding: 16px; font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: #a5d6a7; line-height: 1.8;
+}
+#cohere .api-card .metric-row { display: flex; justify-content: space-between; margin-top: 16px; padding-top: 16px; border-top: 1px solid #E0D8CF; }
+#cohere .api-card .metric-item .value { font-size: 20px; font-weight: 700; color: #39755B; }
+#cohere .api-card .metric-item .label { font-size: 11px; color: #999; margin-top: 2px; }
+
+/* ===== 10. COINBASE — Dark finance, glowing blue accents ===== */
+#coinbase {
+  min-height: 100vh; background: #0A0B0D; color: #fff;
+  font-family: 'Inter', sans-serif; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 100px 40px; position: relative;
+}
+#coinbase::before {
+  content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 400px;
+  background: radial-gradient(ellipse, rgba(0,82,255,0.12) 0%, transparent 60%);
+}
+#coinbase .brand-tag { font-size: 11px; color: #0052FF; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; z-index: 2; }
+#coinbase h1 { font-size: 56px; font-weight: 600; text-align: center; z-index: 2; margin-bottom: 16px; letter-spacing: -0.02em; }
+#coinbase .tagline { font-size: 18px; color: #8A919E; text-align: center; max-width: 500px; margin-bottom: 40px; z-index: 2; }
+#coinbase .cta-row { display: flex; gap: 12px; margin-bottom: 60px; z-index: 2; }
+#coinbase .btn { padding: 14px 32px; border-radius: 100px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; }
+#coinbase .btn-blue { background: #0052FF; color: #fff; }
+#coinbase .btn-outline { background: transparent; color: #0052FF; border: 2px solid #0052FF; }
+#coinbase .price-ticker {
+  display: flex; gap: 16px; z-index: 2; flex-wrap: wrap; justify-content: center;
+}
+#coinbase .ticker-card {
+  background: #15171A; border: 1px solid #222; border-radius: 16px;
+  padding: 24px; width: 200px;
+}
+#coinbase .ticker-card .coin-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+#coinbase .ticker-card .coin-icon { width: 32px; height: 32px; border-radius: 50%; }
+#coinbase .coin-btc { background: linear-gradient(135deg, #F7931A, #E8830A); }
+#coinbase .coin-eth { background: linear-gradient(135deg, #627EEA, #4B6ADB); }
+#coinbase .coin-sol { background: linear-gradient(135deg, #9945FF, #14F195); }
+#coinbase .coin-ada { background: linear-gradient(135deg, #0033AD, #0052FF); }
+#coinbase .ticker-card .coin-name { font-weight: 600; font-size: 14px; }
+#coinbase .ticker-card .coin-sym { font-size: 12px; color: #8A919E; }
+#coinbase .ticker-card .price { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+#coinbase .ticker-card .change { font-size: 13px; font-weight: 600; }
+#coinbase .ticker-card .change.up { color: #05B169; }
+#coinbase .ticker-card .change.down { color: #CF202F; }
+#coinbase .ticker-card .sparkline { height: 40px; margin-top: 8px; display: flex; align-items: end; gap: 2px; }
+#coinbase .ticker-card .sparkline .bar { width: 4px; border-radius: 2px; background: #0052FF; opacity: 0.6; }
+
+/* ===== 11. COMPOSIO — Neon purple dark, connection lines ===== */
+#composio {
+  min-height: 100vh; background: #0F0F11; color: #E8E8E8;
+  font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 100px 40px; position: relative; overflow: hidden;
+}
+#composio .grid-bg {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+#composio .glow { position: absolute; width: 400px; height: 400px; border-radius: 50%; filter: blur(120px); opacity: 0.15; }
+#composio .glow-1 { top: 10%; left: 20%; background: #8B5CF6; }
+#composio .glow-2 { bottom: 10%; right: 20%; background: #EC4899; }
+#composio .brand-tag { position: relative; z-index: 2; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; margin-bottom: 20px; background: linear-gradient(to right, #8B5CF6, #EC4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#composio h1 { position: relative; z-index: 2; font-size: 52px; font-weight: 700; text-align: center; margin-bottom: 16px; background: linear-gradient(to right, #8B5CF6, #EC4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#composio .tagline { position: relative; z-index: 2; font-size: 17px; color: #888; text-align: center; max-width: 500px; margin-bottom: 40px; }
+#composio .integration-grid {
+  position: relative; z-index: 2; display: grid; grid-template-columns: repeat(6, 64px);
+  gap: 16px; margin-bottom: 40px;
+}
+#composio .int-icon {
+  width: 64px; height: 64px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+  display: flex; align-items: center; justify-content: center; font-size: 24px;
+  transition: all 0.3s; cursor: pointer;
+}
+#composio .int-icon:hover { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.3); transform: translateY(-4px); }
+#composio .code-line {
+  position: relative; z-index: 2; background: #1A1A1E; border: 1px solid #2A2A30;
+  border-radius: 12px; padding: 20px 28px; font-family: 'JetBrains Mono', monospace;
+  font-size: 14px; max-width: 600px; width: 100;
+}
+#composio .code-line .purple { color: #8B5CF6; }
+#composio .code-line .pink { color: #EC4899; }
+#composio .code-line .gray { color: #666; }
+
+/* ===== 12. CURSOR — Minimal dark IDE aesthetic ===== */
+#cursor {
+  min-height: 100vh; background: #0A0A0A; color: #E5E5E5;
+  font-family: 'Inter', sans-serif; display: grid; grid-template-columns: 1fr 1.2fr;
+  overflow: hidden;
+}
+#cursor .hero-left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 100px 60px;
+}
+#cursor .brand-tag { font-size: 11px; color: #666; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; margin-bottom: 24px; }
+#cursor h1 { font-size: 52px; font-weight: 700; margin-bottom: 16px; line-height: 1.1; letter-spacing: -0.02em; }
+#cursor .tagline { font-size: 17px; color: #666; line-height: 1.6; margin-bottom: 36px; }
+#cursor .cta-row { display: flex; gap: 12px; }
+#cursor .btn { padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; }
+#cursor .btn-white { background: #fff; color: #000; }
+#cursor .btn-outline { background: transparent; color: #888; border: 1px solid #333; }
+#cursor .hero-right {
+  display: flex; align-items: center; justify-content: center; padding: 60px 40px 60px 0;
+}
+#cursor .ide-window {
+  width: 100%; background: #111; border-radius: 12px; border: 1px solid #222;
+  overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+#cursor .ide-titlebar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: #181818; }
+#cursor .ide-titlebar .dot { width: 12px; height: 12px; border-radius: 50%; }
+#cursor .ide-titlebar .dot:nth-child(1) { background: #FF5F57; }
+#cursor .ide-titlebar .dot:nth-child(2) { background: #FFBD2E; }
+#cursor .ide-titlebar .dot:nth-child(3) { background: #28CA41; }
+#cursor .ide-titlebar .filename { font-size: 12px; color: #666; margin-left: 12px; font-family: 'JetBrains Mono', monospace; }
+#cursor .ide-body { display: grid; grid-template-columns: 180px 1fr; min-height: 360px; }
+#cursor .ide-sidebar { background: #0D0D0D; border-right: 1px solid #1A1A1A; padding: 12px 0; }
+#cursor .ide-sidebar .file { padding: 4px 16px; font-size: 12px; color: #555; font-family: 'JetBrains Mono', monospace; cursor: pointer; }
+#cursor .ide-sidebar .file:hover { color: #aaa; }
+#cursor .ide-sidebar .file.active { color: #fff; background: rgba(255,255,255,0.04); }
+#cursor .ide-sidebar .folder { padding: 4px 16px; font-size: 12px; color: #444; font-family: 'JetBrains Mono', monospace; }
+#cursor .ide-editor { padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.8; color: #D4D4D4; }
+#cursor .ide-editor .ln { color: #333; margin-right: 16px; user-select: none; }
+#cursor .ide-editor .kw { color: #C586C0; }
+#cursor .ide-editor .fn { color: #DCDCAA; }
+#cursor .ide-editor .str { color: #CE9178; }
+#cursor .ide-editor .cm { color: #6A9955; }
+#cursor .ide-editor .type { color: #4EC9B0; }
+#cursor .ide-editor .var { color: #9CDCFE; }
+#cursor .ai-suggestion {
+  margin: 8px 16px 16px; background: rgba(100,100,255,0.06); border: 1px solid rgba(100,100,255,0.15);
+  border-radius: 8px; padding: 12px 16px; font-size: 12px; color: #888;
+}
+#cursor .ai-suggestion .ai-label { font-size: 10px; color: #6366F1; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+
+/* ===== 13. ELEVENLABS — Dark cinematic, waveform visual ===== */
+#elevenlabs {
+  min-height: 100vh; background: #000; color: #fff;
+  font-family: 'Inter', sans-serif; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 100px 40px; position: relative;
+}
+#elevenlabs .brand-tag { font-size: 11px; color: #555; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; margin-bottom: 24px; }
+#elevenlabs h1 { font-size: 56px; font-weight: 700; text-align: center; margin-bottom: 16px; }
+#elevenlabs .tagline { font-size: 18px; color: #888; text-align: center; max-width: 520px; margin-bottom: 48px; }
+#elevenlabs .waveform-container {
+  width: 100%; max-width: 700px; height: 120px; display: flex;
+  align-items: center; justify-content: center; gap: 3px; margin-bottom: 48px;
+}
+#elevenlabs .wave-bar {
+  width: 4px; border-radius: 2px; background: linear-gradient(to top, #333, #fff);
+  animation: waveAnim 1.5s ease-in-out infinite;
+}
+@keyframes waveAnim { 0%, 100% { height: 20px; opacity: 0.3; } 50% { height: var(--h); opacity: 1; } }
+#elevenlabs .player-card {
+  background: #111; border: 1px solid #222; border-radius: 16px;
+  padding: 24px 32px; max-width: 500px; width: 100%; display: flex; align-items: center; gap: 16px;
+}
+#elevenlabs .player-card .play-btn {
+  width: 48px; height: 48px; background: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+#elevenlabs .player-card .play-btn::after { content: ''; width: 0; height: 0; border-left: 14px solid #000; border-top: 8px solid transparent; border-bottom: 8px solid transparent; margin-left: 3px; }
+#elevenlabs .player-card .track-info { flex: 1; }
+#elevenlabs .player-card .track-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+#elevenlabs .player-card .track-voice { font-size: 12px; color: #888; margin-bottom: 8px; }
+#elevenlabs .player-card .progress { height: 3px; background: #333; border-radius: 2px; overflow: hidden; }
+#elevenlabs .player-card .progress-fill { height: 100%; width: 35%; background: #fff; border-radius: 2px; }
+#elevenlabs .player-card .time { font-size: 11px; color: #555; margin-top: 4px; }
+
+/* ===== 14. EXPO — Deep purple space, device mockups ===== */
+#expo {
+  min-height: 100vh; background: linear-gradient(180deg, #000020 0%, #0D0030 50%, #1A0050 100%);
+  color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 100px 40px; position: relative; overflow: hidden;
+}
+#expo .stars {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+                    radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+                    radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+                    radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.2) 0%, transparent 100%),
+                    radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.4) 0%, transparent 100%),
+                    radial-gradient(1px 1px at 20% 90%, rgba(255,255,255,0.3) 0%, transparent 100%),
+                    radial-gradient(1px 1px at 80% 15%, rgba(255,255,255,0.5) 0%, transparent 100%),
+                    radial-gradient(1px 1px at 45% 75%, rgba(255,255,255,0.2) 0%, transparent 100%);
+}
+#expo .brand-tag { position: relative; z-index: 2; font-size: 11px; color: #818CF8; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; margin-bottom: 24px; }
+#expo h1 { position: relative; z-index: 2; font-size: 48px; font-weight: 700; text-align: center; margin-bottom: 12px; }
+#expo .tagline { position: relative; z-index: 2; font-size: 17px; color: #94A3B8; text-align: center; max-width: 460px; margin-bottom: 40px; }
+#expo .phone-mockups {
+  position: relative; z-index: 2; display: flex; gap: 24px; align-items: end;
+}
+#expo .phone {
+  width: 160px; height: 300px; background: #111; border-radius: 28px;
+  border: 2px solid #333; padding: 12px; position: relative; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(70,48,235,0.3);
+}
+#expo .phone.center { width: 180px; height: 340px; }
+#expo .phone .phone-notch {
+  width: 60px; height: 16px; background: #000; border-radius: 10px;
+  margin: 0 auto 12px;
+}
+#expo .phone .screen-content {
+  background: linear-gradient(180deg, #1E1B4B, #312E81);
+  border-radius: 16px; height: calc(100% - 28px); padding: 16px; overflow: hidden;
+}
+#expo .phone .app-header { font-size: 11px; font-weight: 600; margin-bottom: 12px; color: #C7D2FE; }
+#expo .phone .app-card {
+  background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;
+  margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.08);
+}
+#expo .phone .app-card .card-title { font-size: 10px; font-weight: 600; color: #E0E7FF; }
+#expo .phone .app-card .card-sub { font-size: 9px; color: #818CF8; margin-top: 2px; }
+#expo .phone .app-bar {
+  position: absolute; bottom: 12px; left: 12px; right: 12px;
+  display: flex; justify-content: space-around; padding: 8px;
+  background: rgba(0,0,0,0.5); border-radius: 12px;
+}
+#expo .phone .app-bar .tab { width: 20px; height: 20px; border-radius: 6px; background: rgba(255,255,255,0.1); }
+#expo .phone .app-bar .tab.active { background: #4630EB; }
+
+/* ===== 15. FERRARI — Cinematic full-bleed, dramatic ===== */
+#ferrari {
+  min-height: 100vh; background: #0C0C0C; color: #fff;
+  font-family: 'Inter', sans-serif; position: relative; overflow: hidden;
+  display: flex; align-items: center;
+}
+#ferrari::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('https://picsum.photos/seed/ferrari-car/1920/1080');
+  background-size: cover; background-position: center; opacity: 0.25;
+}
+#ferrari::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.3) 100%);
+}
+#ferrari .hero-content {
+  position: relative; z-index: 2; padding: 60px 80px; max-width: 600px;
+}
+#ferrari .brand-tag { font-size: 10px; color: #DC0000; letter-spacing: 4px; text-transform: uppercase; font-weight: 600; margin-bottom: 40px; }
+#ferrari .model-name { font-size: 12px; letter-spacing: 6px; text-transform: uppercase; color: #666; margin-bottom: 12px; }
+#ferrari h1 { font-size: 72px; font-weight: 200; letter-spacing: 8px; text-transform: uppercase; line-height: 1; margin-bottom: 32px; }
+#ferrari h1 span { color: #DC0000; font-weight: 600; }
+#ferrari .tagline { font-size: 14px; letter-spacing: 2px; color: #777; text-transform: uppercase; line-height: 2; margin-bottom: 48px; }
+#ferrari .specs-row { display: flex; gap: 40px; margin-bottom: 48px; }
+#ferrari .spec-item .value { font-size: 40px; font-weight: 200; letter-spacing: 2px; }
+#ferrari .spec-item .value span { color: #DC0000; font-size: 14px; vertical-align: super; }
+#ferrari .spec-item .label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #555; margin-top: 4px; }
+#ferrari .btn { padding: 18px 48px; border: 1px solid #DC0000; background: transparent; color: #DC0000; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: all 0.3s; }
+#ferrari .btn:hover { background: #DC0000; color: #fff; }
+#ferrari .scroll-line {
+  position: absolute; right: 60px; top: 50%; transform: translateY(-50%);
+  width: 1px; height: 200px; background: linear-gradient(to bottom, transparent, #DC0000, transparent);
+  z-index: 2;
+}
+
+/* ===== 16. FIGMA — Colorful, playful, design-forward ===== */
+#figma {
+  min-height: 100vh; background: #1E1E1E; color: #fff;
+  font-family: 'Inter', sans-serif; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 100px 40px; position: relative;
+}
+#figma .brand-tag { font-size: 11px; color: #A259FF; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; margin-bottom: 24px; }
+#figma h1 { font-size: 56px; font-weight: 700; text-align: center; margin-bottom: 16px; background: linear-gradient(135deg, #F24E1E, #FF7262, #A259FF, #1ABCFE, #0ACF83); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#figma .tagline { font-size: 18px; color: #999; text-align: center; max-width: 500px; margin-bottom: 48px; }
+#figma .canvas-area {
+  max-width: 800px; width: 100%; position: relative;
+}
+#figma .canvas {
+  background: #2C2C2C; border-radius: 16px; padding: 40px; min-height: 350px;
+  position: relative; border: 1px solid #3a3a3a;
+}
+#figma .design-element {
+  position: absolute; border-radius: 12px;
+}
+#figma .de-1 { top: 30px; left: 30px; width: 200px; height: 120px; background: linear-gradient(135deg, #F24E1E, #FF7262); border-radius: 16px; }
+#figma .de-2 { top: 40px; right: 40px; width: 160px; height: 160px; background: #A259FF; border-radius: 50%; }
+#figma .de-3 { bottom: 40px; left: 50%; transform: translateX(-50%); width: 300px; height: 80px; background: linear-gradient(90deg, #1ABCFE, #0ACF83); border-radius: 12px; }
+#figma .de-4 { bottom: 50px; right: 30px; width: 100px; height: 100px; background: #FFD93D; border-radius: 8px; transform: rotate(15deg); }
+#figma .cursor-1 {
+  position: absolute; top: 60px; left: 180px; z-index: 5;
+}
+#figma .cursor-1::before { content: ''; display: block; width: 0; height: 0; border-left: 8px solid #F24E1E; border-right: 8px solid transparent; border-bottom: 12px solid transparent; }
+#figma .cursor-1 .name { background: #F24E1E; color: #fff; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-left: 8px; margin-top: -2px; }
+#figma .cursor-2 {
+  position: absolute; bottom: 80px; right: 120px; z-index: 5;
+}
+#figma .cursor-2::before { content: ''; display: block; width: 0; height: 0; border-left: 8px solid #0ACF83; border-right: 8px solid transparent; border-bottom: 12px solid transparent; }
+#figma .cursor-2 .name { background: #0ACF83; color: #000; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-left: 8px; margin-top: -2px; }
+#figma .toolbar {
+  display: flex; gap: 8px; margin-top: 16px; justify-content: center;
+}
+#figma .toolbar .tool {
+  width: 40px; height: 40px; background: #2C2C2C; border: 1px solid #444;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; cursor: pointer; transition: all 0.2s;
+}
+#figma .toolbar .tool:hover { border-color: #A259FF; }
+#figma .toolbar .tool.active { background: #A259FF; border-color: #A259FF; }
+
+/* ===== REMAINING SECTIONS — Simplified unique styles ===== */
+
+/* 17. FRAMER */
+#framer { min-height: 100vh; background: #000; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 40px; position: relative; overflow: hidden; }
+#framer::before { content: ''; position: absolute; width: 800px; height: 800px; top: 50%; left: 50%; transform: translate(-50%,-50%); background: conic-gradient(from 0deg, #05F, #0AF, #5BF, #05F); border-radius: 50%; filter: blur(150px); opacity: 0.12; }
+#framer .brand-tag { z-index:2; font-size: 11px; color: #05F; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; margin-bottom: 24px; }
+#framer h1 { z-index:2; font-size: 72px; font-weight: 700; letter-spacing: -0.04em; text-align: center; margin-bottom: 16px; }
+#framer .tagline { z-index:2; font-size: 20px; color: #666; text-align: center; max-width: 460px; margin-bottom: 40px; }
+#framer .browser-mockup { z-index:2; max-width: 750px; width: 100%; background: #111; border-radius: 12px; border: 1px solid #222; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.4); }
+#framer .browser-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: #181818; border-bottom: 1px solid #222; }
+#framer .browser-bar .dot { width: 10px; height: 10px; border-radius: 50%; }
+#framer .browser-bar .dot:nth-child(1) { background: #FF5F57; }
+#framer .browser-bar .dot:nth-child(2) { background: #FFBD2E; }
+#framer .browser-bar .dot:nth-child(3) { background: #28CA41; }
+#framer .browser-bar .url { margin-left: 12px; background: #0D0D0D; padding: 6px 16px; border-radius: 6px; font-size: 12px; color: #555; flex: 1; }
+#framer .browser-body { height: 350px; background: linear-gradient(180deg, #0A0A0A, #111); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#framer .browser-body .mock-nav { display: flex; gap: 24px; margin-bottom: 40px; }
+#framer .browser-body .mock-nav span { font-size: 12px; color: #444; }
+#framer .browser-body .mock-hero { font-size: 36px; font-weight: 700; text-align: center; margin-bottom: 12px; }
+#framer .browser-body .mock-sub { font-size: 14px; color: #555; text-align: center; margin-bottom: 24px; }
+#framer .browser-body .mock-btn { padding: 10px 24px; background: #05F; color: #fff; border-radius: 8px; font-size: 13px; font-weight: 600; }
+#framer .browser-body .mock-cards { display: flex; gap: 12px; margin-top: 32px; }
+#framer .browser-body .mock-card { width: 140px; height: 80px; background: #1A1A1A; border-radius: 8px; border: 1px solid #2A2A2A; }
+
+/* 18-59: Each gets a unique treatment but keeping file size manageable */
+/* These use varied layouts: split, centered, dashboard, editorial, etc. */
+
+.simple-section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 40px; position: relative; overflow: hidden; }
+.simple-section .brand-tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; margin-bottom: 20px; }
+.simple-section h1 { font-size: 52px; font-weight: 700; text-align: center; margin-bottom: 16px; line-height: 1.1; }
+.simple-section .tagline { font-size: 18px; text-align: center; max-width: 520px; margin-bottom: 36px; line-height: 1.6; }
+.simple-section .cta-row { display: flex; gap: 12px; margin-bottom: 48px; }
+.simple-section .btn { padding: 14px 32px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; }
+
+/* ===== 18. HASHICORP — Infrastructure terminal ===== */
+#hashicorp { background: #000; color: #F7F8FA; font-family: 'Inter', sans-serif; }
+#hashicorp .brand-tag { color: #7C8797; }
+#hashicorp h1 { font-size: 48px; }
+#hashicorp .tagline { color: #7C8797; }
+#hashicorp .terminal-block { max-width: 680px; width: 100%; background: #0D1117; border: 1px solid #21262D; border-radius: 10px; overflow: hidden; }
+#hashicorp .terminal-bar { padding: 10px 14px; background: #161B22; display: flex; gap: 6px; align-items: center; border-bottom: 1px solid #21262D; }
+#hashicorp .terminal-bar .dot { width: 10px; height: 10px; border-radius: 50%; }
+#hashicorp .terminal-bar .dot:nth-child(1) { background: #FF5F57; }
+#hashicorp .terminal-bar .dot:nth-child(2) { background: #FFBD2E; }
+#hashicorp .terminal-bar .dot:nth-child(3) { background: #28CA41; }
+#hashicorp .terminal-body { padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 2; }
+#hashicorp .terminal-body .prompt { color: #8B949E; }
+#hashicorp .terminal-body .command { color: #79C0FF; }
+#hashicorp .terminal-body .output { color: #3FB950; }
+#hashicorp .terminal-body .info { color: #8B949E; }
+#hashicorp .infra-icons { display: flex; gap: 20px; margin-top: 12px; }
+#hashicorp .infra-icon { width: 60px; height: 60px; background: #161B22; border: 1px solid #2A2F38; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+#hashicorp .btn { background: #fff; color: #000; border-radius: 5px; }
+#hashicorp .btn-outline { background: transparent; color: #fff; border: 1px solid #444; border-radius: 5px; }
+
+/* ===== 19. IBM — Corporate, carbon design ===== */
+#ibm { background: #161616; color: #F4F4F4; font-family: 'IBM Plex Sans', sans-serif; }
+#ibm .brand-tag { color: #0F62FE; }
+#ibm h1 { font-size: 48px; font-weight: 300; text-align: left; max-width: 800px; letter-spacing: 0; }
+#ibm h1 strong { font-weight: 600; color: #0F62FE; }
+#ibm .tagline { color: #C6C6C6; text-align: left; max-width: 800px; }
+#ibm.simple-section { align-items: flex-start; padding-left: 80px; }
+#ibm .cta-row { justify-content: flex-start; }
+#ibm .btn { background: #0F62FE; color: #fff; border-radius: 0; }
+#ibm .btn-outline { background: transparent; color: #fff; border: 1px solid #6F6F6F; border-radius: 0; }
+#ibm .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; max-width: 800px; width: 100%; background: #262626; }
+#ibm .bento-cell { background: #161616; padding: 32px 24px; }
+#ibm .bento-cell .bento-num { font-size: 36px; font-weight: 300; color: #0F62FE; font-family: 'IBM Plex Mono', monospace; }
+#ibm .bento-cell .bento-label { font-size: 13px; color: #C6C6C6; margin-top: 8px; }
+#ibm .bento-cell .bento-desc { font-size: 12px; color: #6F6F6F; margin-top: 4px; }
+
+/* ===== 20. INTERCOM — Friendly, rounded, conversational ===== */
+#intercom { background: #fff; color: #1A1A1A; font-family: 'Inter', sans-serif; }
+#intercom .brand-tag { color: #286EFA; }
+#intercom h1 { font-weight: 800; color: #1F1F1F; }
+#intercom .tagline { color: #65676B; }
+#intercom .btn { background: #286EFA; color: #fff; border-radius: 999px; }
+#intercom .btn-outline { background: transparent; color: #286EFA; border: 2px solid #286EFA; border-radius: 999px; }
+#intercom .chat-widget {
+  position: relative; max-width: 380px; width: 100%;
+}
+#intercom .widget-window {
+  background: #fff; border-radius: 20px; box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+  overflow: hidden; border: 1px solid #E8E8E8;
+}
+#intercom .widget-header { background: linear-gradient(135deg, #286EFA, #5B93FC); padding: 24px; color: #fff; }
+#intercom .widget-header h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+#intercom .widget-header p { font-size: 13px; opacity: 0.8; }
+#intercom .widget-body { padding: 16px; }
+#intercom .widget-msg { display: flex; gap: 8px; margin-bottom: 12px; align-items: end; }
+#intercom .widget-msg .w-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #286EFA, #5B93FC); flex-shrink: 0; }
+#intercom .widget-msg .w-bubble { background: #F5F7FA; border-radius: 16px 16px 16px 4px; padding: 10px 14px; font-size: 13px; color: #333; max-width: 260px; line-height: 1.5; }
+#intercom .widget-msg.from-user { flex-direction: row-reverse; }
+#intercom .widget-msg.from-user .w-bubble { background: #286EFA; color: #fff; border-radius: 16px 16px 4px 16px; }
+#intercom .widget-input { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid #f0f0f0; }
+#intercom .widget-input input { flex: 1; border: 1px solid #E8E8E8; border-radius: 20px; padding: 8px 16px; font-size: 13px; outline: none; }
+#intercom .widget-input .send-btn { width: 36px; height: 36px; background: #286EFA; border-radius: 50%; border: none; cursor: pointer; }
+#intercom .widget-fab {
+  width: 60px; height: 60px; background: #286EFA; border-radius: 50%;
+  position: absolute; bottom: -80px; right: 0; box-shadow: 0 4px 16px rgba(40,110,250,0.3);
+  display: flex; align-items: center; justify-content: center;
+}
+#intercom .widget-fab::after { content: '💬'; font-size: 24px; }
+
+/* ===== 21-59: Compact unique styles ===== */
+
+#kraken { background: linear-gradient(180deg, #0B0B1E 0%, #12123A 100%); color: #fff; font-family: 'Inter', sans-serif; }
+#kraken .brand-tag { color: #7B61FF; }
+#kraken h1 { background: linear-gradient(to right, #7B61FF, #B794FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#kraken .tagline { color: #8F8FA3; }
+#kraken .btn { background: #7B61FF; color: #fff; border-radius: 8px; }
+#kraken .btn-outline { background: transparent; color: #7B61FF; border: 2px solid #7B61FF; border-radius: 8px; }
+#kraken .chart-area { max-width: 600px; width: 100%; height: 200px; background: rgba(123,97,255,0.05); border: 1px solid rgba(123,97,255,0.1); border-radius: 12px; display: flex; align-items: end; padding: 20px; gap: 4px; }
+#kraken .chart-bar { flex: 1; background: linear-gradient(to top, #7B61FF, #B794FF); border-radius: 3px 3px 0 0; opacity: 0.6; }
+
+#lamborghini { background: #000; color: #fff; font-family: 'Inter', sans-serif; }
+#lamborghini::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('https://picsum.photos/seed/lambo/1920/1080') center/cover; opacity: 0.15; }
+#lamborghini .brand-tag { color: #C8AA2C; z-index: 2; }
+#lamborghini h1 { font-size: 60px; font-weight: 200; letter-spacing: 10px; text-transform: uppercase; z-index: 2; }
+#lamborghini .tagline { font-size: 13px; letter-spacing: 4px; text-transform: uppercase; color: #666; z-index: 2; }
+#lamborghini .btn { background: #C8AA2C; color: #000; border-radius: 0; text-transform: uppercase; letter-spacing: 3px; font-size: 12px; z-index: 2; }
+#lamborghini .gold-line { width: 60px; height: 2px; background: #C8AA2C; margin-bottom: 40px; z-index: 2; }
+
+#linear-app { background: #0A0A0B; color: #EBEBEF; font-family: 'Inter', sans-serif; }
+#linear-app .brand-tag { color: #7C5AEC; }
+#linear-app h1 { font-weight: 500; letter-spacing: -0.03em; }
+#linear-app .tagline { color: #8A8F98; }
+#linear-app .btn { background: linear-gradient(to bottom, #7C5AEC, #5B21B6); color: #fff; border-radius: 8px; }
+#linear-app .issue-list { max-width: 600px; width: 100%; background: #16161A; border: 1px solid #26262C; border-radius: 10px; overflow: hidden; }
+#linear-app .issue-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #1E1E24; font-size: 13px; }
+#linear-app .issue-item:last-child { border: none; }
+#linear-app .issue-item .status { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #7C5AEC; flex-shrink: 0; }
+#linear-app .issue-item .status.done { background: #7C5AEC; }
+#linear-app .issue-item .issue-id { color: #555; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+#linear-app .issue-item .priority { width: 16px; height: 16px; border-radius: 3px; margin-left: auto; flex-shrink: 0; }
+#linear-app .issue-item .priority.high { background: #F97316; }
+#linear-app .issue-item .priority.medium { background: #FADB14; }
+#linear-app .issue-item .priority.low { background: #3B82F6; }
+
+#lovable { background: linear-gradient(135deg, #FFFBFE 0%, #FDF2F8 100%); color: #1C1B1F; font-family: 'Poppins', sans-serif; }
+#lovable .brand-tag { color: #D946EF; }
+#lovable h1 { color: #D946EF; }
+#lovable .tagline { color: #666; }
+#lovable .btn { background: linear-gradient(135deg, #D946EF, #9333EA); color: #fff; border-radius: 16px; }
+#lovable .heart-grid { display: flex; gap: 16px; }
+#lovable .heart-card { width: 180px; background: #fff; border-radius: 20px; padding: 24px; text-align: center; box-shadow: 0 4px 24px rgba(217,70,239,0.08); border: 1px solid #F3E8FF; }
+#lovable .heart-card .hc-icon { font-size: 32px; margin-bottom: 12px; }
+#lovable .heart-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+#lovable .heart-card p { font-size: 12px; color: #999; }
+
+#minimax { background: linear-gradient(180deg, #0D0D0F, #1A1A2E); color: #E8E8EA; font-family: 'Sora', sans-serif; }
+#minimax .brand-tag { background: linear-gradient(to right, #00D4FF, #7B2FFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#minimax h1 { background: linear-gradient(135deg, #00D4FF, #7B2FFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#minimax .tagline { color: #777; }
+#minimax .btn { background: linear-gradient(135deg, #00D4FF, #7B2FFF); color: #fff; border-radius: 10px; }
+#minimax .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 640px; width: 100%; }
+#minimax .video-thumb { aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; position: relative; }
+#minimax .video-thumb img { width: 100%; height: 100%; object-fit: cover; }
+#minimax .video-thumb .play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); font-size: 28px; }
+
+#mintlify { background: #0D1117; color: #E6EDF3; font-family: 'Inter', sans-serif; }
+#mintlify .brand-tag { color: #0D9373; }
+#mintlify h1 { color: #0D9373; }
+#mintlify .tagline { color: #8B949E; }
+#mintlify .btn { background: #0D9373; color: #fff; border-radius: 8px; }
+#mintlify .doc-preview { max-width: 600px; width: 100%; background: #161B22; border: 1px solid #21262D; border-radius: 12px; padding: 32px; }
+#mintlify .doc-preview h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+#mintlify .doc-preview .doc-p { font-size: 14px; color: #8B949E; line-height: 1.7; margin-bottom: 16px; }
+#mintlify .doc-preview .doc-code { background: #0D1117; border: 1px solid #21262D; border-radius: 8px; padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #79C0FF; }
+
+#miro { background: #050038; color: #fff; font-family: 'Outfit', sans-serif; }
+#miro .brand-tag { color: #FFD02F; }
+#miro h1 { color: #FFD02F; }
+#miro .tagline { color: #B0A8D0; }
+#miro .btn { background: #FFD02F; color: #050038; border-radius: 8px; font-weight: 700; }
+#miro .board-mockup { max-width: 700px; width: 100%; background: #0A0060; border-radius: 16px; padding: 32px; min-height: 280px; position: relative; border: 1px solid rgba(255,208,47,0.1); }
+#miro .sticky { position: absolute; width: 100px; height: 100px; border-radius: 4px; padding: 10px; font-size: 11px; font-weight: 600; transform: rotate(var(--r)); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+#miro .sticky-1 { background: #FFD02F; color: #050038; top: 20px; left: 40px; --r: -3deg; }
+#miro .sticky-2 { background: #FF6B6B; color: #fff; top: 30px; left: 180px; --r: 2deg; }
+#miro .sticky-3 { background: #4ECDC4; color: #050038; top: 80px; left: 320px; --r: -1deg; }
+#miro .sticky-4 { background: #A259FF; color: #fff; top: 20px; right: 60px; --r: 4deg; }
+#miro .sticky-5 { background: #FF9F43; color: #050038; bottom: 30px; left: 100px; --r: 1deg; }
+#miro .sticky-6 { background: #54A0FF; color: #fff; bottom: 40px; right: 140px; --r: -2deg; }
+#miro .connector { position: absolute; height: 2px; background: rgba(255,255,255,0.15); transform-origin: left center; }
+#miro .conn-1 { top: 70px; left: 140px; width: 60px; transform: rotate(10deg); }
+#miro .conn-2 { top: 80px; left: 280px; width: 60px; transform: rotate(-5deg); }
+
+#mistral { background: linear-gradient(180deg, #fff 0%, #FFF7ED 100%); color: #1A1A2E; font-family: 'Inter', sans-serif; }
+#mistral .brand-tag { color: #F97316; }
+#mistral h1 { color: #F97316; }
+#mistral .tagline { color: #64748B; }
+#mistral .btn { background: #F97316; color: #fff; border-radius: 8px; }
+
+#mongodb { background: #001E2B; color: #fff; font-family: 'Manrope', sans-serif; }
+#mongodb .brand-tag { color: #00ED64; }
+#mongodb h1 span { color: #00ED64; }
+#mongodb .tagline { color: #A0C3B2; }
+#mongodb .btn { background: #00ED64; color: #001E2B; border-radius: 8px; font-weight: 700; }
+
+#notion-s { background: #FFFFFF; color: #37352F; font-family: 'Inter', sans-serif; }
+#notion-s .brand-tag { color: #787774; }
+#notion-s .tagline { color: #787774; }
+#notion-s .btn { background: #000; color: #fff; border-radius: 8px; }
+#notion-s .page-mockup { max-width: 600px; width: 100%; background: #fff; border: 1px solid #E3E2DF; border-radius: 8px; padding: 32px; text-align: left; }
+#notion-s .page-mockup .page-icon { font-size: 48px; margin-bottom: 16px; }
+#notion-s .page-mockup h3 { font-size: 32px; font-weight: 700; color: #37352F; margin-bottom: 16px; }
+#notion-s .page-mockup .block { padding: 4px 0; font-size: 15px; color: #37352F; line-height: 1.6; }
+#notion-s .page-mockup .block.heading { font-size: 20px; font-weight: 600; margin-top: 16px; }
+#notion-s .page-mockup .block.todo { display: flex; align-items: center; gap: 8px; }
+#notion-s .page-mockup .checkbox { width: 16px; height: 16px; border: 2px solid #D3D1CB; border-radius: 3px; flex-shrink: 0; }
+#notion-s .page-mockup .checkbox.checked { background: #2EAADC; border-color: #2EAADC; }
+#notion-s .page-mockup .mention { background: #F1F1EF; padding: 2px 6px; border-radius: 4px; color: #EB5757; font-size: 13px; }
+
+#nvidia-s { background: #111; color: #eee; font-family: 'Inter', sans-serif; }
+#nvidia-s .brand-tag { color: #76B900; }
+#nvidia-s h1 span { color: #76B900; }
+#nvidia-s .tagline { color: #888; }
+#nvidia-s .btn { background: #76B900; color: #000; border-radius: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+#nvidia-s .gpu-stats { display: flex; gap: 16px; }
+#nvidia-s .gpu-card { background: #1A1A1A; border: 1px solid #333; border-radius: 8px; padding: 24px; width: 180px; text-align: center; }
+#nvidia-s .gpu-card .gpu-num { font-size: 32px; font-weight: 700; color: #76B900; }
+#nvidia-s .gpu-card .gpu-label { font-size: 12px; color: #888; margin-top: 4px; }
+
+#ollama-s { background: #FAFAFA; color: #1A1A1A; font-family: 'Inter', sans-serif; }
+#ollama-s .brand-tag { color: #1A1A1A; }
+#ollama-s .tagline { color: #666; }
+#ollama-s .btn { background: #1A1A1A; color: #fff; border-radius: 10px; }
+#ollama-s .terminal { max-width: 500px; width: 100%; background: #1A1A1A; border-radius: 12px; padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #ccc; line-height: 2; }
+#ollama-s .terminal .prompt { color: #76B900; }
+
+/* Stripe — deep navy, animated gradient mesh */
+#stripe-s { min-height: 100vh; background: #0A2540; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 40px; position: relative; overflow: hidden; }
+#stripe-s::before { content: ''; position: absolute; top: -50%; right: -30%; width: 100%; height: 200%; background: linear-gradient(135deg, rgba(128,236,255,0.08), rgba(103,114,229,0.08), rgba(0,209,178,0.08)); border-radius: 50%; filter: blur(80px); animation: stripeMesh 10s ease infinite; }
+@keyframes stripeMesh { 0%, 100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(-5%, 5%) rotate(3deg); } }
+#stripe-s .brand-tag { z-index: 2; font-size: 11px; color: #80ECFF; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; margin-bottom: 24px; }
+#stripe-s h1 { z-index: 2; font-size: 56px; font-weight: 700; text-align: center; letter-spacing: -0.02em; margin-bottom: 16px; }
+#stripe-s .tagline { z-index: 2; font-size: 18px; color: #ADBDCC; text-align: center; max-width: 520px; margin-bottom: 40px; }
+#stripe-s .btn-row { z-index: 2; display: flex; gap: 12px; margin-bottom: 60px; }
+#stripe-s .btn { padding: 14px 32px; border-radius: 999px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; }
+#stripe-s .btn-gradient { background: linear-gradient(to right, #80ECFF, #6772E5); color: #0A2540; }
+#stripe-s .btn-outline { background: transparent; color: #80ECFF; border: 1px solid rgba(128,236,255,0.3); }
+#stripe-s .payment-cards { z-index: 2; display: flex; gap: 16px; perspective: 600px; }
+#stripe-s .pay-card { width: 280px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; backdrop-filter: blur(10px); transform: rotateY(var(--ry)); }
+#stripe-s .pay-card .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+#stripe-s .pay-card .card-type { font-size: 13px; font-weight: 600; color: #80ECFF; }
+#stripe-s .pay-card .card-amount { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+#stripe-s .pay-card .card-status { font-size: 12px; padding: 4px 10px; border-radius: 20px; display: inline-block; }
+#stripe-s .status-success { background: rgba(0,209,178,0.15); color: #00D1B2; }
+#stripe-s .status-pending { background: rgba(255,208,47,0.15); color: #FFD02F; }
+#stripe-s .pay-card .card-details { margin-top: 16px; font-size: 12px; color: #ADBDCC; }
+#stripe-s .pay-card .card-details .detail-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+/* Remaining simple-section brands with unique accent colors */
+#opencode-s { background: #09090B; color: #FAFAFA; font-family: 'JetBrains Mono', monospace; }
+#opencode-s h1 { color: #22D3EE; font-family: 'JetBrains Mono', monospace; }
+#opencode-s .brand-tag { color: #22D3EE; }
+#opencode-s .tagline { color: #71717A; font-family: 'Inter', sans-serif; }
+#opencode-s .btn { background: #22D3EE; color: #09090B; border-radius: 6px; }
+
+#pinterest-s { background: #fff; color: #333; font-family: 'DM Sans', sans-serif; }
+#pinterest-s h1 { color: #E60023; }
+#pinterest-s .brand-tag { color: #E60023; }
+#pinterest-s .tagline { color: #767676; }
+#pinterest-s .btn { background: #E60023; color: #fff; border-radius: 24px; }
+#pinterest-s .pin-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 640px; width: 100%; }
+#pinterest-s .pin { border-radius: 16px; overflow: hidden; background: #f0f0f0; }
+#pinterest-s .pin img { width: 100%; display: block; }
+
+#posthog-s { background: #1D4AFF; color: #fff; font-family: 'Manrope', sans-serif; }
+#posthog-s .brand-tag { color: #F9BD2B; }
+#posthog-s h1 { font-weight: 800; }
+#posthog-s .tagline { color: rgba(255,255,255,0.8); }
+#posthog-s .btn { background: #F9BD2B; color: #1D4AFF; border-radius: 8px; font-weight: 700; }
+#posthog-s .hedgehog { font-size: 80px; margin-bottom: 24px; }
+
+#raycast-s { background: #131215; color: #eee; font-family: 'Inter', sans-serif; }
+#raycast-s .brand-tag { color: #FF6363; }
+#raycast-s h1 { background: linear-gradient(to right, #FF6363, #E34850); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#raycast-s .tagline { color: #777; }
+#raycast-s .btn { background: linear-gradient(to bottom, #FF6363, #E34850); color: #fff; border-radius: 10px; }
+#raycast-s .cmd-palette { max-width: 540px; width: 100%; background: #1C1B1F; border: 1px solid #2A2930; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+#raycast-s .cmd-input { padding: 16px 20px; border-bottom: 1px solid #2A2930; display: flex; align-items: center; gap: 12px; }
+#raycast-s .cmd-input .search-icon { color: #555; font-size: 16px; }
+#raycast-s .cmd-input input { background: none; border: none; color: #eee; font-size: 15px; width: 100%; outline: none; font-family: 'Inter', sans-serif; }
+#raycast-s .cmd-results .cmd-item { display: flex; align-items: center; gap: 12px; padding: 10px 20px; cursor: pointer; }
+#raycast-s .cmd-results .cmd-item:hover { background: rgba(255,99,99,0.06); }
+#raycast-s .cmd-results .cmd-item.active { background: rgba(255,99,99,0.1); }
+#raycast-s .cmd-results .cmd-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+#raycast-s .cmd-results .cmd-label { font-size: 14px; flex: 1; }
+#raycast-s .cmd-results .cmd-shortcut { font-size: 11px; color: #555; font-family: 'JetBrains Mono', monospace; }
+
+#renault-s { background: #EFDF00; color: #000; font-family: 'Outfit', sans-serif; }
+#renault-s .brand-tag { color: #333; }
+#renault-s .tagline { color: #333; }
+#renault-s .btn { background: #000; color: #EFDF00; border-radius: 4px; font-weight: 700; }
+
+#replicate-s { background: #0A0A0A; color: #E5E5E5; font-family: 'Inter', sans-serif; }
+#replicate-s .brand-tag { color: #666; }
+#replicate-s .tagline { color: #888; }
+#replicate-s .btn { background: #fff; color: #0A0A0A; border-radius: 8px; }
+
+#resend-s { background: #000; color: #fff; font-family: 'Inter', sans-serif; }
+#resend-s .brand-tag { color: #555; }
+#resend-s .tagline { color: #A3A3A3; }
+#resend-s .btn { background: #fff; color: #000; border-radius: 6px; }
+
+#revolut-s { background: linear-gradient(180deg, #191C32, #0D0F1E); color: #fff; font-family: 'Inter', sans-serif; }
+#revolut-s .brand-tag { color: #0666EB; }
+#revolut-s .tagline { color: #8B8D9E; }
+#revolut-s .btn { background: #0666EB; color: #fff; border-radius: 999px; }
+#revolut-s .card-mockup { width: 320px; height: 200px; background: linear-gradient(135deg, #1A1F3D, #2A3060); border-radius: 16px; padding: 24px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+#revolut-s .card-mockup .card-chip { width: 36px; height: 28px; background: linear-gradient(135deg, #C8A84E, #D4B85C); border-radius: 5px; margin-bottom: 24px; }
+#revolut-s .card-mockup .card-number { font-size: 18px; letter-spacing: 3px; font-weight: 400; margin-bottom: 16px; }
+#revolut-s .card-mockup .card-bottom { display: flex; justify-content: space-between; font-size: 11px; color: #8B8D9E; }
+#revolut-s .card-mockup .card-logo { position: absolute; top: 24px; right: 24px; font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #0666EB; }
+
+#runway-s { background: #0D0D0D; color: #F2F2F2; font-family: 'Sora', sans-serif; }
+#runway-s .brand-tag { color: #555; }
+#runway-s h1 { font-weight: 600; letter-spacing: -0.02em; }
+#runway-s .tagline { color: #888; }
+#runway-s .btn { background: #fff; color: #0D0D0D; border-radius: 999px; }
+#runway-s .video-preview { max-width: 700px; width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #1A1A1A, #2A2A2A); border-radius: 16px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+#runway-s .video-preview::before { content: ''; position: absolute; inset: 0; background: url('https://picsum.photos/seed/runway-vid/1280/720') center/cover; opacity: 0.5; }
+#runway-s .video-preview .play-circle { width: 80px; height: 80px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2; }
+#runway-s .video-preview .play-circle::after { content: ''; width: 0; height: 0; border-left: 24px solid #fff; border-top: 14px solid transparent; border-bottom: 14px solid transparent; margin-left: 4px; }
+
+#sanity-s { background: #F9F0E7; color: #101112; font-family: 'Inter', sans-serif; }
+#sanity-s .brand-tag { color: #F03E2F; }
+#sanity-s h1 { color: #F03E2F; }
+#sanity-s .tagline { color: #555; }
+#sanity-s .btn { background: #F03E2F; color: #fff; border-radius: 4px; }
+
+#semrush-s { background: #fff; color: #1B2547; font-family: 'Inter', sans-serif; }
+#semrush-s .brand-tag { color: #FF622D; }
+#semrush-s .tagline { color: #6B7280; }
+#semrush-s .btn { background: #FF622D; color: #fff; border-radius: 8px; }
+
+#sentry-s { background: linear-gradient(180deg, #1B1025, #2B1538); color: #EBE6EF; font-family: 'Rubik', sans-serif; }
+#sentry-s .brand-tag { color: #6C5FC7; }
+#sentry-s .tagline { color: #9386A0; }
+#sentry-s .btn { background: #6C5FC7; color: #fff; border-radius: 6px; }
+#sentry-s .error-card { max-width: 560px; width: 100%; background: #2B1F3A; border: 1px solid #3D2F50; border-radius: 10px; padding: 20px; }
+#sentry-s .error-card .error-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+#sentry-s .error-card .error-dot { width: 10px; height: 10px; border-radius: 50%; background: #FF4444; }
+#sentry-s .error-card .error-type { font-size: 14px; font-weight: 600; color: #FF4444; }
+#sentry-s .error-card .error-msg { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #ccc; background: #1B1025; border-radius: 6px; padding: 12px; line-height: 1.8; }
+#sentry-s .error-card .error-meta { display: flex; gap: 16px; margin-top: 12px; font-size: 12px; color: #9386A0; }
+
+#spacex-s { min-height: 100vh; background: #000; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 100px 40px; position: relative; overflow: hidden; }
+#spacex-s::before { content: ''; position: absolute; inset: 0; background: url('https://picsum.photos/seed/space-stars/1920/1080') center/cover; opacity: 0.2; }
+#spacex-s .brand-tag { z-index: 2; font-size: 10px; color: #555; letter-spacing: 4px; text-transform: uppercase; font-weight: 600; margin-bottom: 32px; }
+#spacex-s h1 { z-index: 2; font-size: 64px; font-weight: 600; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 16px; }
+#spacex-s .tagline { z-index: 2; font-size: 13px; letter-spacing: 4px; color: #777; text-transform: uppercase; margin-bottom: 48px; }
+#spacex-s .btn { z-index: 2; background: transparent; color: #fff; border: 2px solid #fff; border-radius: 0; padding: 16px 48px; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; }
+#spacex-s .mission-stats { z-index: 2; display: flex; gap: 60px; margin-top: 80px; }
+#spacex-s .mission-stat .stat-num { font-size: 48px; font-weight: 200; letter-spacing: 2px; }
+#spacex-s .mission-stat .stat-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #555; margin-top: 8px; }
+
+#spotify-s { background: #121212; color: #fff; font-family: 'DM Sans', sans-serif; }
+#spotify-s .brand-tag { color: #1DB954; }
+#spotify-s .tagline { color: #B3B3B3; }
+#spotify-s .btn { background: #1DB954; color: #000; border-radius: 500px; font-weight: 700; }
+#spotify-s .playlist-cards { display: flex; gap: 16px; }
+#spotify-s .pl-card { width: 160px; background: #181818; border-radius: 8px; padding: 16px; }
+#spotify-s .pl-card .pl-cover { width: 100%; aspect-ratio: 1; border-radius: 6px; margin-bottom: 12px; overflow: hidden; }
+#spotify-s .pl-card .pl-cover img { width: 100%; height: 100%; object-fit: cover; }
+#spotify-s .pl-card .pl-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+#spotify-s .pl-card .pl-desc { font-size: 12px; color: #B3B3B3; }
+
+#supabase-s { background: #1C1C1C; color: #EDEDED; font-family: 'Inter', sans-serif; }
+#supabase-s .brand-tag { color: #3ECF8E; }
+#supabase-s h1 span { color: #3ECF8E; }
+#supabase-s .tagline { color: #8F8F8F; }
+#supabase-s .btn { background: #3ECF8E; color: #1C1C1C; border-radius: 6px; }
+
+#superhuman-s { background: linear-gradient(135deg, #1A1340, #0D0B20); color: #fff; font-family: 'Inter', sans-serif; }
+#superhuman-s .brand-tag { color: #A16BFE; }
+#superhuman-s h1 { background: linear-gradient(135deg, #A16BFE, #DCA0F5, #FFC0CB); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#superhuman-s .tagline { color: #9B8FBF; }
+#superhuman-s .btn { background: linear-gradient(135deg, #A16BFE, #DCA0F5); color: #fff; border-radius: 8px; }
+
+#tesla-s { min-height: 100vh; background: #000; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 100px 40px; position: relative; }
+#tesla-s::before { content: ''; position: absolute; inset: 0; background: url('https://picsum.photos/seed/tesla-road/1920/1080') center/cover; opacity: 0.2; }
+#tesla-s h1 { z-index: 2; font-size: 40px; font-weight: 500; letter-spacing: 2px; margin-bottom: 8px; }
+#tesla-s .subtitle { z-index: 2; font-size: 14px; color: #aaa; margin-bottom: 40px; }
+#tesla-s .btn-row { z-index: 2; display: flex; gap: 16px; }
+#tesla-s .btn { padding: 12px 48px; font-size: 13px; font-weight: 500; border: none; cursor: pointer; border-radius: 4px; }
+#tesla-s .btn-white { background: rgba(255,255,255,0.9); color: #000; }
+#tesla-s .btn-dark { background: rgba(0,0,0,0.7); color: #fff; border: 1px solid #444; }
+
+#together-s { background: #0C0C0F; color: #E4E4E7; font-family: 'Plus Jakarta Sans', sans-serif; }
+#together-s .brand-tag { color: #06B6D4; }
+#together-s h1 { background: linear-gradient(135deg, #06B6D4, #8B5CF6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#together-s .tagline { color: #71717A; }
+#together-s .btn { background: linear-gradient(135deg, #06B6D4, #8B5CF6); color: #fff; border-radius: 10px; }
+
+#uber-s { background: #000; color: #fff; font-family: 'Inter', sans-serif; }
+#uber-s .brand-tag { color: #276EF1; z-index: 2; }
+#uber-s h1 { z-index: 2; font-size: 72px; font-weight: 700; }
+#uber-s .tagline { z-index: 2; color: #999; }
+#uber-s .btn { z-index: 2; background: #fff; color: #000; border-radius: 8px; font-weight: 600; }
+#uber-s .map-bg { position: absolute; inset: 0; background: url('https://picsum.photos/seed/city-map/1920/1080') center/cover; opacity: 0.08; }
+
+#vercel-s { background: #000; color: #EDEDED; font-family: 'Inter', sans-serif; }
+#vercel-s .brand-tag { color: #888; }
+#vercel-s h1 { letter-spacing: -0.04em; }
+#vercel-s .tagline { color: #888; }
+#vercel-s .btn { background: #fff; color: #000; border-radius: 6px; font-size: 14px; }
+#vercel-s .deploy-card { max-width: 500px; width: 100%; background: #111; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
+#vercel-s .deploy-card .deploy-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #222; }
+#vercel-s .deploy-card .deploy-header .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #50E3C2; }
+#vercel-s .deploy-card .deploy-row { display: flex; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #1A1A1A; font-size: 13px; }
+#vercel-s .deploy-card .deploy-row .branch { color: #888; }
+#vercel-s .deploy-card .deploy-row .time { color: #555; font-size: 12px; }
+
+#voltagent-s { background: #0F172A; color: #E2E8F0; font-family: 'Space Grotesk', sans-serif; }
+#voltagent-s .brand-tag { color: #38BDF8; }
+#voltagent-s h1 { color: #38BDF8; }
+#voltagent-s .tagline { color: #94A3B8; }
+#voltagent-s .btn { background: #38BDF8; color: #0F172A; border-radius: 8px; font-weight: 600; }
+
+#warp-s { background: linear-gradient(180deg, #0A0E17, #111827); color: #E0E4EC; font-family: 'Inter', sans-serif; }
+#warp-s .brand-tag { color: #01A4FF; }
+#warp-s h1 { background: linear-gradient(135deg, #01A4FF, #01DBCA); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#warp-s .tagline { color: #6B7A8F; }
+#warp-s .btn { background: linear-gradient(135deg, #01A4FF, #01DBCA); color: #0A0E17; border-radius: 8px; }
+
+#webflow-s { background: #fff; color: #1A1A1A; font-family: 'Inter', sans-serif; }
+#webflow-s .brand-tag { color: #4353FF; }
+#webflow-s .tagline { color: #545454; }
+#webflow-s .btn { background: #4353FF; color: #fff; border-radius: 8px; }
+
+#wise-s { background: #9FE870; color: #163300; font-family: 'Lexend', sans-serif; }
+#wise-s .brand-tag { color: #163300; }
+#wise-s .tagline { color: #2D5A00; }
+#wise-s .btn { background: #163300; color: #9FE870; border-radius: 999px; font-weight: 600; }
+#wise-s .currency-cards { display: flex; gap: 12px; }
+#wise-s .curr-card { background: rgba(22,51,0,0.08); border-radius: 16px; padding: 24px; width: 180px; }
+#wise-s .curr-card .flag { font-size: 32px; margin-bottom: 12px; }
+#wise-s .curr-card .curr-name { font-size: 14px; font-weight: 600; }
+#wise-s .curr-card .curr-rate { font-size: 24px; font-weight: 700; color: #163300; margin-top: 8px; }
+#wise-s .curr-card .curr-label { font-size: 11px; color: #2D5A00; }
+
+#xai-s { background: #000; color: #fff; font-family: 'Inter', sans-serif; }
+#xai-s .brand-tag { color: #444; }
+#xai-s h1 { font-weight: 300; letter-spacing: 3px; }
+#xai-s .tagline { color: #666; }
+#xai-s .btn { background: #fff; color: #000; border-radius: 4px; }
+
+#zapier-s { background: linear-gradient(135deg, #FFF4E6, #FFF8F0); color: #2D2E30; font-family: 'Outfit', sans-serif; }
+#zapier-s .brand-tag { color: #FF4A00; }
+#zapier-s h1 { color: #FF4A00; }
+#zapier-s .tagline { color: #5C5D5F; }
+#zapier-s .btn { background: #FF4A00; color: #fff; border-radius: 999px; }
+#zapier-s .zap-flow { display: flex; align-items: center; gap: 0; }
+#zapier-s .zap-node { width: 80px; height: 80px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: #fff; border: 2px solid #E5E5E5; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+#zapier-s .zap-arrow { width: 40px; height: 2px; background: #FF4A00; position: relative; }
+#zapier-s .zap-arrow::after { content: ''; position: absolute; right: -4px; top: -4px; width: 0; height: 0; border-left: 8px solid #FF4A00; border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+
+.showcase-footer { background: #0A0A0A; color: #555; font-family: 'Inter', sans-serif; text-align: center; padding: 40px 20px; font-size: 13px; }
+.showcase-footer a { color: #888; }
+
+@media (max-width: 900px) {
+  #airbnb, #cohere, #cursor { grid-template-columns: 1fr; }
+  #airbnb .hero-right, #cohere .right-col, #cursor .hero-right { display: none; }
+  #claude .content-wrap { grid-template-columns: 1fr; }
+  #bmw .specs-strip { flex-wrap: wrap; }
+  .simple-section h1, #stripe-s h1 { font-size: 36px !important; }
+}
+</style>
+</head>
+<body>
+
+<nav class="gallery-nav">
+  <span class="nav-label">59 Styles</span>
+  <a href="#airbnb">Airbnb</a><a href="#airtable">Airtable</a><a href="#apple">Apple</a><a href="#bmw">BMW</a><a href="#cal">Cal</a><a href="#claude">Claude</a><a href="#clay">Clay</a><a href="#clickhouse">ClickHouse</a><a href="#cohere">Cohere</a><a href="#coinbase">Coinbase</a><a href="#composio">Composio</a><a href="#cursor">Cursor</a><a href="#elevenlabs">ElevenLabs</a><a href="#expo">Expo</a><a href="#ferrari">Ferrari</a><a href="#figma">Figma</a><a href="#framer">Framer</a><a href="#hashicorp">HashiCorp</a><a href="#ibm">IBM</a><a href="#intercom">Intercom</a><a href="#kraken">Kraken</a><a href="#lamborghini">Lamborghini</a><a href="#linear-app">Linear</a><a href="#lovable">Lovable</a><a href="#minimax">MiniMax</a><a href="#mintlify">Mintlify</a><a href="#miro">Miro</a><a href="#mistral">Mistral</a><a href="#mongodb">MongoDB</a><a href="#notion-s">Notion</a><a href="#nvidia-s">NVIDIA</a><a href="#ollama-s">Ollama</a><a href="#opencode-s">OpenCode</a><a href="#pinterest-s">Pinterest</a><a href="#posthog-s">PostHog</a><a href="#raycast-s">Raycast</a><a href="#renault-s">Renault</a><a href="#replicate-s">Replicate</a><a href="#resend-s">Resend</a><a href="#revolut-s">Revolut</a><a href="#runway-s">Runway</a><a href="#sanity-s">Sanity</a><a href="#semrush-s">Semrush</a><a href="#sentry-s">Sentry</a><a href="#spacex-s">SpaceX</a><a href="#spotify-s">Spotify</a><a href="#stripe-s">Stripe</a><a href="#supabase-s">Supabase</a><a href="#superhuman-s">Superhuman</a><a href="#tesla-s">Tesla</a><a href="#together-s">Together</a><a href="#uber-s">Uber</a><a href="#vercel-s">Vercel</a><a href="#voltagent-s">VoltAgent</a><a href="#warp-s">Warp</a><a href="#webflow-s">Webflow</a><a href="#wise-s">Wise</a><a href="#xai-s">xAI</a><a href="#zapier-s">Zapier</a>
+</nav>
+
+<!-- 1. AIRBNB — Split hero with photo grid & search bar -->
+<section id="airbnb">
+  <div class="hero-left">
+    <span class="brand-tag">01 / Airbnb Style</span>
+    <h1>Find your <span>perfect</span> getaway</h1>
+    <p>Discover unique stays and unforgettable experiences in the world's most beautiful destinations.</p>
+    <div class="search-bar">
+      <div class="field"><label>Where</label><span>Search destinations</span></div>
+      <div class="field"><label>Check in</label><span>Add dates</span></div>
+      <div class="field"><label>Guests</label><span>Add guests</span></div>
+      <button class="search-btn">⌕</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="photo-grid">
+      <div class="photo photo-1"></div>
+      <div class="photo photo-2"></div>
+      <div class="photo photo-3"></div>
+    </div>
+    <div class="stats-bar">
+      <div class="stat"><div class="num">4M+</div><div class="label">Active Listings</div></div>
+      <div class="stat"><div class="num">220</div><div class="label">Countries</div></div>
+      <div class="stat"><div class="num">1B+</div><div class="label">Guest Arrivals</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. AIRTABLE — Floating spreadsheet UI -->
+<section id="airtable">
+  <span class="brand-tag">02 / Airtable Style</span>
+  <h1>TableFlow</h1>
+  <p class="tagline">The connected workspace for modern teams. Build apps from spreadsheets.</p>
+  <div class="cta-row">
+    <button class="btn btn-primary">Start for Free</button>
+    <button class="btn btn-outline">See Templates</button>
+  </div>
+  <div class="app-preview">
+    <div class="app-window">
+      <div class="app-toolbar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <div class="tabs">
+          <span class="tab active">Grid View</span>
+          <span class="tab">Kanban</span>
+          <span class="tab">Calendar</span>
+        </div>
+      </div>
+      <div class="spreadsheet">
+        <div class="header">#</div><div class="header">Project</div><div class="header">Status</div><div class="header">Owner</div><div class="header">Budget</div><div class="header">Due Date</div>
+        <div class="cell">1</div><div class="cell blue">Website Redesign</div><div class="cell"><span class="tag tag-green">Active</span></div><div class="cell">Sarah K.</div><div class="cell">$12,000</div><div class="cell">Mar 15</div>
+        <div class="cell">2</div><div class="cell blue">Mobile App v2</div><div class="cell"><span class="tag tag-yellow">Review</span></div><div class="cell">James L.</div><div class="cell">$28,500</div><div class="cell">Apr 02</div>
+        <div class="cell">3</div><div class="cell blue">Brand Guidelines</div><div class="cell"><span class="tag tag-green">Active</span></div><div class="cell">Maya R.</div><div class="cell">$5,200</div><div class="cell">Mar 28</div>
+        <div class="cell">4</div><div class="cell blue">API Integration</div><div class="cell"><span class="tag tag-red">Blocked</span></div><div class="cell">Dev Team</div><div class="cell">$8,000</div><div class="cell">Apr 10</div>
+      </div>
+    </div>
+    <div class="floating-card float-1"><div class="fc-label">Tasks Complete</div><div class="fc-value">847</div></div>
+    <div class="floating-card float-2"><div class="fc-label">Team Members</div><div class="fc-value">24</div></div>
+  </div>
+</section>
+
+<!-- 3. APPLE — Cinematic product reveal -->
+<section id="apple">
+  <span class="brand-tag">03 / Apple Style</span>
+  <h1>LunaVision Pro</h1>
+  <div class="subtitle">Welcome to spatial computing.</div>
+  <p class="tagline">A revolutionary device that seamlessly blends digital content with your physical space.</p>
+  <div class="cta-row">
+    <button class="btn btn-blue">Learn More</button>
+    <button class="btn btn-outline">Buy</button>
+  </div>
+  <div class="product-showcase">
+    <div class="device device-main">
+      <div class="screen">
+        <div class="screen-content">
+          <div class="screen-card sc-1"></div>
+          <div class="screen-card sc-2"></div>
+          <div class="screen-card sc-3"></div>
+          <div class="screen-card sc-4"></div>
+          <div class="screen-card sc-5"></div>
+          <div class="screen-card sc-6"></div>
+        </div>
+      </div>
+    </div>
+    <div class="device device-phone">
+      <div class="notch"></div>
+      <div class="phone-screen">
+        <div class="phone-line"></div>
+        <div class="phone-line bright"></div>
+        <div class="phone-line"></div>
+        <div class="phone-line"></div>
+        <div class="phone-line bright"></div>
+      </div>
+    </div>
+  </div>
+  <div class="specs-row">
+    <div class="spec"><div class="num">23M</div><div class="label">Pixels</div></div>
+    <div class="spec"><div class="num">18hr</div><div class="label">Battery</div></div>
+    <div class="spec"><div class="num">M4</div><div class="label">Chip</div></div>
+    <div class="spec"><div class="num">256GB</div><div class="label">Storage</div></div>
+  </div>
+</section>
+
+<!-- 4. BMW — Full-bleed automotive -->
+<section id="bmw">
+  <div class="hero-content">
+    <span class="brand-tag">04 / BMW Style</span>
+    <h1>Apex <strong>GT-R</strong></h1>
+    <p class="tagline">Where precision engineering meets unbridled performance. Every curve calculated. Every detail intentional. This is the art of driving, perfected.</p>
+    <div class="cta-row">
+      <button class="btn btn-primary">Configure Yours</button>
+      <button class="btn btn-outline">Book Test Drive</button>
+    </div>
+  </div>
+  <div class="specs-strip">
+    <div class="spec-item"><div class="value">617 <span>HP</span></div><div class="desc">Twin-Turbo V8</div></div>
+    <div class="spec-item"><div class="value">3.1 <span>SEC</span></div><div class="desc">0–100 km/h</div></div>
+    <div class="spec-item"><div class="value">305 <span>KM/H</span></div><div class="desc">Top Speed</div></div>
+    <div class="spec-item"><div class="value">€142K</div><div class="desc">Starting From</div></div>
+  </div>
+</section>
+
+<!-- 5. CAL — Calendar mockup -->
+<section id="cal">
+  <span class="brand-tag">05 / Cal Style</span>
+  <h1>BookSync</h1>
+  <p class="tagline">Open-source scheduling for everyone. Connect calendars, share your availability, let people book.</p>
+  <div class="cta-row">
+    <button class="btn btn-dark">Get Started</button>
+    <button class="btn btn-outline">View Demo</button>
+  </div>
+  <div class="calendar-mockup">
+    <div class="cal-header">
+      <h3>March 2026</h3>
+      <div class="view-toggle">
+        <span class="vt">Day</span>
+        <span class="vt active">Week</span>
+        <span class="vt">Month</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:60px repeat(5,1fr);">
+      <div style="padding:12px;border-right:1px solid #F3F4F6;"></div>
+      <div class="day-header"><div class="day-name">Mon</div><div class="day-num">9</div></div>
+      <div class="day-header today"><div class="day-name">Tue</div><div class="day-num">10</div></div>
+      <div class="day-header"><div class="day-name">Wed</div><div class="day-num">11</div></div>
+      <div class="day-header"><div class="day-name">Thu</div><div class="day-num">12</div></div>
+      <div class="day-header"><div class="day-name">Fri</div><div class="day-num">13</div></div>
+    </div>
+    <div class="cal-grid">
+      <div class="time-label">9:00</div>
+      <div class="day-col"><div class="cal-event blue">Team Standup</div></div>
+      <div class="day-col"><div class="cal-event green">Client Call</div></div>
+      <div class="day-col"><div class="cal-event blue">Team Standup</div></div>
+      <div class="day-col"><div class="cal-event purple">Design Review</div></div>
+      <div class="day-col"><div class="cal-event blue">Team Standup</div></div>
+      <div class="time-label">10:00</div>
+      <div class="day-col"></div>
+      <div class="day-col"><div class="cal-event orange">Workshop</div></div>
+      <div class="day-col"></div>
+      <div class="day-col"></div>
+      <div class="day-col"><div class="cal-event green">1:1 Meeting</div></div>
+      <div class="time-label">11:00</div>
+      <div class="day-col"><div class="cal-event purple">Sprint Planning</div></div>
+      <div class="day-col"></div>
+      <div class="day-col"><div class="cal-event orange">Lunch & Learn</div></div>
+      <div class="day-col"><div class="cal-event blue">Code Review</div></div>
+      <div class="day-col"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. CLAUDE — Warm editorial with chat preview -->
+<section id="claude">
+  <div class="bg-pattern"></div>
+  <div class="content-wrap">
+    <div class="left-col">
+      <span class="brand-tag">06 / Claude Style</span>
+      <h1>Think alongside a partner that <em>understands</em></h1>
+      <p class="tagline">An AI assistant built to be thoughtful, nuanced, and genuinely helpful. Not just answers — understanding.</p>
+      <div class="cta-row">
+        <button class="btn btn-terracotta">Start a Conversation</button>
+        <button class="btn btn-outline">Read the Research</button>
+      </div>
+    </div>
+    <div class="chat-preview">
+      <div class="chat-msg from-user"><div class="avatar user"></div><div class="bubble">Can you help me understand why my React component re-renders when state hasn't changed?</div></div>
+      <div class="chat-msg from-ai"><div class="avatar ai"></div><div class="bubble">Great question. There are a few common causes. The most likely is that you're creating a new object or array reference on each render...</div></div>
+      <div class="chat-msg from-user"><div class="avatar user"></div><div class="bubble">That makes sense. How do I fix it?</div></div>
+      <div class="chat-msg from-ai">
+        <div class="avatar ai"></div>
+        <div class="typing-indicator"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. CLAY — Rainbow gradient mesh -->
+<section id="clay">
+  <div class="gradient-orb orb-1"></div>
+  <div class="gradient-orb orb-2"></div>
+  <div class="gradient-orb orb-3"></div>
+  <span class="brand-tag">07 / Clay Style</span>
+  <h1>SignalForge</h1>
+  <p class="tagline">Enrich any contact with 100+ data sources. Build targeted outbound lists in minutes.</p>
+  <div class="data-cards">
+    <div class="data-card">
+      <div class="icon icon-purple">🔗</div>
+      <h3>Enrichment</h3>
+      <p>Waterfall through 50+ providers</p>
+      <div class="metric">98.4%</div>
+    </div>
+    <div class="data-card">
+      <div class="icon icon-red">🤖</div>
+      <h3>AI Research</h3>
+      <p>Auto-visit & score companies</p>
+      <div class="metric">12x</div>
+    </div>
+    <div class="data-card">
+      <div class="icon icon-yellow">⚡</div>
+      <h3>CRM Sync</h3>
+      <p>Push to any destination</p>
+      <div class="metric">Real-time</div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. CLICKHOUSE — Code snippet + perf bars -->
+<section id="clickhouse">
+  <span class="brand-tag">08 / ClickHouse Style</span>
+  <h1>Query<span>Blitz</span></h1>
+  <p class="tagline">Real-time analytics on billions of rows. Sub-second queries, zero complexity.</p>
+  <div class="code-block">
+    <div class="code-header"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>query.sql</span></div>
+    <div class="code-body">
+      <span class="keyword">SELECT</span> <span class="function">toStartOfHour</span>(timestamp) <span class="keyword">AS</span> hour,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">count</span>() <span class="keyword">AS</span> events,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">uniqExact</span>(user_id) <span class="keyword">AS</span> users<br>
+      <span class="keyword">FROM</span> analytics.events<br>
+      <span class="keyword">WHERE</span> timestamp &gt;= <span class="function">now</span>() - <span class="keyword">INTERVAL</span> <span class="number">7</span> <span class="keyword">DAY</span><br>
+      <span class="keyword">GROUP BY</span> hour <span class="keyword">ORDER BY</span> hour<br>
+      <br>
+      <span class="comment">-- 4.2 billion rows scanned in 0.043s ⚡</span>
+    </div>
+  </div>
+  <div class="perf-bars">
+    <div class="perf-bar"><div class="bar-label"><span>QueryBlitz</span><span>0.04s</span></div><div class="bar-track"><div class="bar-fill" style="width:4%"></div></div></div>
+    <div class="perf-bar"><div class="bar-label"><span>PostgreSQL</span><span>12.8s</span></div><div class="bar-track"><div class="bar-fill" style="width:85%;background:#888"></div></div></div>
+    <div class="perf-bar"><div class="bar-label"><span>MySQL</span><span>14.2s</span></div><div class="bar-track"><div class="bar-fill" style="width:95%;background:#666"></div></div></div>
+  </div>
+</section>
+
+<!-- 9. COHERE — Split with API card -->
+<section id="cohere">
+  <div class="blob blob-1"></div><div class="blob blob-2"></div>
+  <div class="left-col">
+    <span class="brand-tag">09 / Cohere Style</span>
+    <h1>Enterprise AI that <span>gets it</span></h1>
+    <p class="tagline">Language AI grounded in your data, deployed where you need it. Private by default. Accurate by design.</p>
+    <div class="cta-row">
+      <button class="btn btn-green">Request Access</button>
+      <button class="btn btn-outline">Documentation</button>
+    </div>
+  </div>
+  <div class="right-col">
+    <div class="api-card">
+      <div class="endpoint"><span class="method">POST</span> /v1/chat</div>
+      <div class="response-block">
+        {<br>
+        &nbsp;&nbsp;"text": "Based on your Q3 report...",<br>
+        &nbsp;&nbsp;"citations": [{"doc": "q3.pdf"}],<br>
+        &nbsp;&nbsp;"confidence": 0.94<br>
+        }
+      </div>
+      <div class="metric-row">
+        <div class="metric-item"><div class="value">94ms</div><div class="label">Latency</div></div>
+        <div class="metric-item"><div class="value">99.7%</div><div class="label">Accuracy</div></div>
+        <div class="metric-item"><div class="value">0</div><div class="label">Data leaks</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. COINBASE — Crypto ticker cards -->
+<section id="coinbase">
+  <span class="brand-tag">10 / Coinbase Style</span>
+  <h1>VaultChain</h1>
+  <p class="tagline">The most trusted platform to buy, sell, and manage digital assets.</p>
+  <div class="cta-row">
+    <button class="btn btn-blue">Get Started</button>
+    <button class="btn btn-outline">View Markets</button>
+  </div>
+  <div class="price-ticker">
+    <div class="ticker-card">
+      <div class="coin-header"><div class="coin-icon coin-btc"></div><div><div class="coin-name">Bitcoin</div><div class="coin-sym">BTC</div></div></div>
+      <div class="price">$94,283</div>
+      <div class="change up">↑ +2.4%</div>
+      <div class="sparkline"><div class="bar" style="height:20px"></div><div class="bar" style="height:30px"></div><div class="bar" style="height:25px"></div><div class="bar" style="height:35px"></div><div class="bar" style="height:28px"></div><div class="bar" style="height:40px"></div><div class="bar" style="height:38px"></div><div class="bar" style="height:45px"></div></div>
+    </div>
+    <div class="ticker-card">
+      <div class="coin-header"><div class="coin-icon coin-eth"></div><div><div class="coin-name">Ethereum</div><div class="coin-sym">ETH</div></div></div>
+      <div class="price">$3,412</div>
+      <div class="change up">↑ +1.8%</div>
+      <div class="sparkline"><div class="bar" style="height:25px"></div><div class="bar" style="height:20px"></div><div class="bar" style="height:30px"></div><div class="bar" style="height:28px"></div><div class="bar" style="height:35px"></div><div class="bar" style="height:32px"></div><div class="bar" style="height:38px"></div><div class="bar" style="height:40px"></div></div>
+    </div>
+    <div class="ticker-card">
+      <div class="coin-header"><div class="coin-icon coin-sol"></div><div><div class="coin-name">Solana</div><div class="coin-sym">SOL</div></div></div>
+      <div class="price">$187.50</div>
+      <div class="change down">↓ -0.6%</div>
+      <div class="sparkline"><div class="bar" style="height:40px"></div><div class="bar" style="height:35px"></div><div class="bar" style="height:30px"></div><div class="bar" style="height:32px"></div><div class="bar" style="height:28px"></div><div class="bar" style="height:25px"></div><div class="bar" style="height:30px"></div><div class="bar" style="height:28px"></div></div>
+    </div>
+    <div class="ticker-card">
+      <div class="coin-header"><div class="coin-icon coin-ada"></div><div><div class="coin-name">Cardano</div><div class="coin-sym">ADA</div></div></div>
+      <div class="price">$0.72</div>
+      <div class="change up">↑ +5.1%</div>
+      <div class="sparkline"><div class="bar" style="height:15px"></div><div class="bar" style="height:20px"></div><div class="bar" style="height:18px"></div><div class="bar" style="height:25px"></div><div class="bar" style="height:30px"></div><div class="bar" style="height:35px"></div><div class="bar" style="height:40px"></div><div class="bar" style="height:42px"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11. COMPOSIO — Grid bg, integration icons -->
+<section id="composio">
+  <div class="grid-bg"></div><div class="glow glow-1"></div><div class="glow glow-2"></div>
+  <span class="brand-tag">11 / Composio Style</span>
+  <h1>AgentHub</h1>
+  <p class="tagline">Connect AI agents to 200+ tools with one line of code.</p>
+  <div class="integration-grid">
+    <div class="int-icon">📧</div><div class="int-icon">💬</div><div class="int-icon">📋</div><div class="int-icon">🔗</div><div class="int-icon">📊</div><div class="int-icon">🗂️</div>
+    <div class="int-icon">🔔</div><div class="int-icon">📝</div><div class="int-icon">⚙️</div><div class="int-icon">🔐</div><div class="int-icon">📈</div><div class="int-icon">🤖</div>
+  </div>
+  <div class="code-line">
+    <span class="gray">// Connect any tool in one line</span><br>
+    <span class="purple">const</span> tools = <span class="purple">await</span> composio.<span class="pink">getTools</span>(<span class="gray">"github", "slack", "jira"</span>)
+  </div>
+</section>
+
+<!-- 12. CURSOR — IDE mockup -->
+<section id="cursor">
+  <div class="hero-left">
+    <span class="brand-tag">12 / Cursor Style</span>
+    <h1>CodePilot</h1>
+    <p class="tagline">The AI-first code editor. Write, refactor, and debug with an AI that understands your entire codebase.</p>
+    <div class="cta-row">
+      <button class="btn btn-white">Download</button>
+      <button class="btn btn-outline">Changelog</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="ide-window">
+      <div class="ide-titlebar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="filename">app/api/route.ts</span>
+      </div>
+      <div class="ide-body">
+        <div class="ide-sidebar">
+          <div class="folder">▾ src/</div>
+          <div class="file">&nbsp;&nbsp;index.ts</div>
+          <div class="file active">&nbsp;&nbsp;route.ts</div>
+          <div class="file">&nbsp;&nbsp;db.ts</div>
+          <div class="folder">▾ lib/</div>
+          <div class="file">&nbsp;&nbsp;auth.ts</div>
+          <div class="file">&nbsp;&nbsp;utils.ts</div>
+        </div>
+        <div class="ide-editor">
+          <span class="ln">1</span> <span class="kw">import</span> { <span class="type">NextRequest</span> } <span class="kw">from</span> <span class="str">'next/server'</span><br>
+          <span class="ln">2</span> <span class="kw">import</span> { <span class="var">db</span> } <span class="kw">from</span> <span class="str">'./db'</span><br>
+          <span class="ln">3</span><br>
+          <span class="ln">4</span> <span class="kw">export async function</span> <span class="fn">GET</span>(<span class="var">req</span>: <span class="type">NextRequest</span>) {<br>
+          <span class="ln">5</span> &nbsp;&nbsp;<span class="kw">const</span> <span class="var">users</span> = <span class="kw">await</span> <span class="var">db</span>.<span class="fn">query</span>(<span class="str">'SELECT * FROM users'</span>)<br>
+          <span class="ln">6</span> &nbsp;&nbsp;<span class="kw">return</span> <span class="type">Response</span>.<span class="fn">json</span>(<span class="var">users</span>)<br>
+          <span class="ln">7</span> }<br>
+          <div class="ai-suggestion">
+            <div class="ai-label">AI Suggestion</div>
+            Add pagination with cursor-based approach: <code style="color:#9CDCFE">limit</code> + <code style="color:#9CDCFE">after</code> params for scalable queries.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13. ELEVENLABS — Waveform visualizer -->
+<section id="elevenlabs">
+  <span class="brand-tag">13 / ElevenLabs Style</span>
+  <h1>VoiceForge</h1>
+  <p class="tagline">The most realistic AI speech synthesis. Clone any voice, generate in 30 languages.</p>
+  <div class="waveform-container">
+    <div class="wave-bar" style="--h:60px;animation-delay:0s"></div>
+    <div class="wave-bar" style="--h:40px;animation-delay:0.05s"></div>
+    <div class="wave-bar" style="--h:80px;animation-delay:0.1s"></div>
+    <div class="wave-bar" style="--h:50px;animation-delay:0.15s"></div>
+    <div class="wave-bar" style="--h:90px;animation-delay:0.2s"></div>
+    <div class="wave-bar" style="--h:35px;animation-delay:0.25s"></div>
+    <div class="wave-bar" style="--h:70px;animation-delay:0.3s"></div>
+    <div class="wave-bar" style="--h:55px;animation-delay:0.35s"></div>
+    <div class="wave-bar" style="--h:85px;animation-delay:0.4s"></div>
+    <div class="wave-bar" style="--h:45px;animation-delay:0.45s"></div>
+    <div class="wave-bar" style="--h:75px;animation-delay:0.5s"></div>
+    <div class="wave-bar" style="--h:30px;animation-delay:0.55s"></div>
+    <div class="wave-bar" style="--h:95px;animation-delay:0.6s"></div>
+    <div class="wave-bar" style="--h:65px;animation-delay:0.65s"></div>
+    <div class="wave-bar" style="--h:40px;animation-delay:0.7s"></div>
+    <div class="wave-bar" style="--h:80px;animation-delay:0.75s"></div>
+    <div class="wave-bar" style="--h:50px;animation-delay:0.8s"></div>
+    <div class="wave-bar" style="--h:70px;animation-delay:0.85s"></div>
+    <div class="wave-bar" style="--h:35px;animation-delay:0.9s"></div>
+    <div class="wave-bar" style="--h:60px;animation-delay:0.95s"></div>
+    <div class="wave-bar" style="--h:90px;animation-delay:1s"></div>
+    <div class="wave-bar" style="--h:45px;animation-delay:1.05s"></div>
+    <div class="wave-bar" style="--h:75px;animation-delay:1.1s"></div>
+    <div class="wave-bar" style="--h:55px;animation-delay:1.15s"></div>
+    <div class="wave-bar" style="--h:85px;animation-delay:1.2s"></div>
+  </div>
+  <div class="player-card">
+    <div class="play-btn"></div>
+    <div class="track-info">
+      <div class="track-name">Welcome to VoiceForge</div>
+      <div class="track-voice">Voice: Nova — Natural, Warm</div>
+      <div class="progress"><div class="progress-fill"></div></div>
+      <div class="time">0:12 / 0:34</div>
+    </div>
+  </div>
+</section>
+
+<!-- 14. EXPO — Phone mockups in space -->
+<section id="expo">
+  <div class="stars"></div>
+  <span class="brand-tag">14 / Expo Style</span>
+  <h1>LaunchKit</h1>
+  <p class="tagline">Ship native apps for iOS, Android, and web from a single React codebase.</p>
+  <div class="phone-mockups">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="screen-content">
+        <div class="app-header">Dashboard</div>
+        <div class="app-card"><div class="card-title">Revenue</div><div class="card-sub">$12,847</div></div>
+        <div class="app-card"><div class="card-title">Users</div><div class="card-sub">2,341 active</div></div>
+        <div class="app-card"><div class="card-title">Growth</div><div class="card-sub">↑ 23%</div></div>
+      </div>
+      <div class="app-bar"><div class="tab"></div><div class="tab active"></div><div class="tab"></div><div class="tab"></div></div>
+    </div>
+    <div class="phone center">
+      <div class="phone-notch"></div>
+      <div class="screen-content">
+        <div class="app-header">Feed</div>
+        <div class="app-card"><div class="card-title">New Feature</div><div class="card-sub">Push notifications</div></div>
+        <div class="app-card"><div class="card-title">Update</div><div class="card-sub">Dark mode is live</div></div>
+        <div class="app-card"><div class="card-title">Milestone</div><div class="card-sub">10K downloads!</div></div>
+        <div class="app-card"><div class="card-title">Beta</div><div class="card-sub">v2.0 coming soon</div></div>
+      </div>
+      <div class="app-bar"><div class="tab"></div><div class="tab active"></div><div class="tab"></div><div class="tab"></div></div>
+    </div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="screen-content">
+        <div class="app-header">Settings</div>
+        <div class="app-card"><div class="card-title">Account</div><div class="card-sub">Pro Plan</div></div>
+        <div class="app-card"><div class="card-title">Theme</div><div class="card-sub">Dark</div></div>
+        <div class="app-card"><div class="card-title">Language</div><div class="card-sub">English</div></div>
+      </div>
+      <div class="app-bar"><div class="tab"></div><div class="tab"></div><div class="tab"></div><div class="tab active"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 15. FERRARI — Cinematic full-bleed -->
+<section id="ferrari">
+  <div class="scroll-line"></div>
+  <div class="hero-content">
+    <span class="brand-tag">15 / Ferrari Style</span>
+    <div class="model-name">Presto Motori — Gran Turismo</div>
+    <h1>Velo<span>ce</span></h1>
+    <p class="tagline">Born from racing heritage. Sculpted by wind. Powered by obsession. Every detail exists to push the boundary of what's possible on four wheels.</p>
+    <div class="specs-row">
+      <div class="spec-item"><div class="value">830<span>CV</span></div><div class="label">Power Output</div></div>
+      <div class="spec-item"><div class="value">2.8<span>s</span></div><div class="label">0–100 km/h</div></div>
+      <div class="spec-item"><div class="value">340<span>km/h</span></div><div class="label">Vmax</div></div>
+    </div>
+    <button class="btn">Discover the Collection</button>
+  </div>
+</section>
+
+<!-- 16. FIGMA — Design canvas with cursors -->
+<section id="figma">
+  <span class="brand-tag">16 / Figma Style</span>
+  <h1>CanvasFlow</h1>
+  <p class="tagline">Design, prototype, and collaborate in real-time. Where teams turn ideas into products.</p>
+  <div class="canvas-area">
+    <div class="canvas">
+      <div class="design-element de-1"></div>
+      <div class="design-element de-2"></div>
+      <div class="design-element de-3"></div>
+      <div class="design-element de-4"></div>
+      <div class="cursor-1"><div class="name">Sarah K.</div></div>
+      <div class="cursor-2"><div class="name">James L.</div></div>
+    </div>
+    <div class="toolbar">
+      <div class="tool">↖</div>
+      <div class="tool active">□</div>
+      <div class="tool">○</div>
+      <div class="tool">✎</div>
+      <div class="tool">T</div>
+      <div class="tool">⬡</div>
+    </div>
+  </div>
+</section>
+
+<!-- 17. FRAMER — Browser mockup with nested site -->
+<section id="framer">
+  <span class="brand-tag">17 / Framer Style</span>
+  <h1>MotionSite</h1>
+  <p class="tagline">Build stunning websites with cinematic animations. No code. Publish in seconds.</p>
+  <div class="browser-mockup">
+    <div class="browser-bar">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <div class="url">motionsite.design</div>
+    </div>
+    <div class="browser-body">
+      <div class="mock-nav"><span>Home</span><span>Features</span><span>Pricing</span><span>Blog</span></div>
+      <div class="mock-hero">Ship faster</div>
+      <div class="mock-sub">Beautiful websites in minutes</div>
+      <div class="mock-btn">Get Started</div>
+      <div class="mock-cards">
+        <div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 18. HASHICORP — Terminal output -->
+<section id="hashicorp" class="simple-section">
+  <span class="brand-tag">18 / HashiCorp Style</span>
+  <h1>InfraVault</h1>
+  <p class="tagline">Automate infrastructure provisioning, secrets, and service networking at scale.</p>
+  <div class="cta-row"><button class="btn">Get Started</button><button class="btn btn-outline">Docs</button></div>
+  <div class="terminal-block">
+    <div class="terminal-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="terminal-body">
+      <span class="prompt">$</span> <span class="command">infravault plan</span><br>
+      <span class="info">Refreshing state... 42 resources found.</span><br>
+      <span class="output">+ aws_instance.web_server</span><br>
+      <span class="output">+ aws_security_group.allow_tls</span><br>
+      <span class="output">~ aws_route53_record.api (update)</span><br>
+      <br>
+      <span class="info">Plan: 2 to add, 1 to change, 0 to destroy.</span><br>
+      <span class="prompt">$</span> <span class="command">infravault apply --auto-approve</span><br>
+      <span class="output">Apply complete! Resources: 2 added, 1 changed.</span>
+    </div>
+  </div>
+  <div class="infra-icons">
+    <div class="infra-icon">☁️</div><div class="infra-icon">🔐</div><div class="infra-icon">🌐</div><div class="infra-icon">📦</div>
+  </div>
+</section>
+
+<!-- 19. IBM — Bento grid, left-aligned -->
+<section id="ibm" class="simple-section">
+  <span class="brand-tag">19 / IBM Style</span>
+  <h1>Hybrid cloud + AI.<br><strong>Built for enterprise.</strong></h1>
+  <p class="tagline">Modernize your business with solutions trusted by the Fortune 500 for four decades of transformation.</p>
+  <div class="cta-row"><button class="btn">Explore Solutions</button><button class="btn btn-outline">Contact Sales</button></div>
+  <div class="bento-grid">
+    <div class="bento-cell"><div class="bento-num">99.99%</div><div class="bento-label">Uptime SLA</div><div class="bento-desc">Enterprise grade</div></div>
+    <div class="bento-cell"><div class="bento-num">175+</div><div class="bento-label">Countries</div><div class="bento-desc">Global presence</div></div>
+    <div class="bento-cell"><div class="bento-num">40yr</div><div class="bento-label">Track Record</div><div class="bento-desc">Since 1986</div></div>
+    <div class="bento-cell"><div class="bento-num">4,000+</div><div class="bento-label">Quantum Circuits</div><div class="bento-desc">Industry leading</div></div>
+  </div>
+</section>
+
+<!-- 20. INTERCOM — Chat widget -->
+<section id="intercom" class="simple-section">
+  <span class="brand-tag">20 / Intercom Style</span>
+  <h1>ChatDesk</h1>
+  <p class="tagline">The complete AI-first customer service platform. Resolve 50% of conversations instantly.</p>
+  <div class="cta-row"><button class="btn">Start Free Trial</button><button class="btn btn-outline">See Pricing</button></div>
+  <div class="chat-widget">
+    <div class="widget-window">
+      <div class="widget-header"><h3>Hi there 👋</h3><p>How can we help you today?</p></div>
+      <div class="widget-body">
+        <div class="widget-msg"><div class="w-avatar"></div><div class="w-bubble">I can't find my order tracking number. Can you help?</div></div>
+        <div class="widget-msg from-user"><div class="w-bubble">Sure! Let me look that up for you. What's your email?</div></div>
+        <div class="widget-msg"><div class="w-avatar"></div><div class="w-bubble">It's sarah@example.com</div></div>
+        <div class="widget-msg from-user"><div class="w-bubble">Found it! Your tracking number is TRK-4829. Your package arrives tomorrow by 3pm. 📦</div></div>
+      </div>
+      <div class="widget-input"><input placeholder="Type your message..." /><button class="send-btn"></button></div>
+    </div>
+    <div class="widget-fab"></div>
+  </div>
+</section>
+
+<!-- 21–59: Unique content with distinctive elements -->
+<section id="kraken" class="simple-section">
+  <span class="brand-tag">21 / Kraken Style</span>
+  <h1>DeepTrade</h1>
+  <p class="tagline">Professional-grade crypto trading. Advanced orders, margin, and futures.</p>
+  <div class="cta-row"><button class="btn">Create Account</button></div>
+  <div class="chart-area">
+    <div class="chart-bar" style="height:30%"></div><div class="chart-bar" style="height:45%"></div><div class="chart-bar" style="height:35%"></div><div class="chart-bar" style="height:60%"></div><div class="chart-bar" style="height:50%"></div><div class="chart-bar" style="height:70%"></div><div class="chart-bar" style="height:55%"></div><div class="chart-bar" style="height:80%"></div><div class="chart-bar" style="height:65%"></div><div class="chart-bar" style="height:90%"></div><div class="chart-bar" style="height:75%"></div><div class="chart-bar" style="height:85%"></div><div class="chart-bar" style="height:95%"></div><div class="chart-bar" style="height:70%"></div><div class="chart-bar" style="height:60%"></div><div class="chart-bar" style="height:50%"></div><div class="chart-bar" style="height:65%"></div><div class="chart-bar" style="height:80%"></div><div class="chart-bar" style="height:90%"></div><div class="chart-bar" style="height:100%"></div>
+  </div>
+</section>
+
+<section id="lamborghini" class="simple-section">
+  <span class="brand-tag">22 / Lamborghini Style</span>
+  <div class="gold-line"></div>
+  <h1>Tempesta</h1>
+  <p class="tagline">Beyond the Impossible. Beyond Expectation.</p>
+  <div class="cta-row"><button class="btn">Explore Models</button></div>
+</section>
+
+<section id="linear-app" class="simple-section">
+  <span class="brand-tag">23 / Linear Style</span>
+  <h1>TrackFlow</h1>
+  <p class="tagline">Streamlined issue tracking for high-performance teams.</p>
+  <div class="issue-list">
+    <div class="issue-item"><div class="status done"></div><span class="issue-id">TF-142</span>Fix onboarding flow<div class="priority high"></div></div>
+    <div class="issue-item"><div class="status done"></div><span class="issue-id">TF-143</span>Add dark mode toggle<div class="priority medium"></div></div>
+    <div class="issue-item"><div class="status"></div><span class="issue-id">TF-144</span>Implement webhook retry logic<div class="priority high"></div></div>
+    <div class="issue-item"><div class="status"></div><span class="issue-id">TF-145</span>Optimize database queries<div class="priority low"></div></div>
+    <div class="issue-item"><div class="status"></div><span class="issue-id">TF-146</span>Add CSV export to reports<div class="priority medium"></div></div>
+  </div>
+</section>
+
+<section id="lovable" class="simple-section">
+  <span class="brand-tag">24 / Lovable Style</span>
+  <h1>BloomApps</h1>
+  <p class="tagline">Describe your dream app. Watch it come to life.</p>
+  <div class="cta-row"><button class="btn">Build Your App</button></div>
+  <div class="heart-grid">
+    <div class="heart-card"><div class="hc-icon">💜</div><h3>Prompt to App</h3><p>Plain English to code</p></div>
+    <div class="heart-card"><div class="hc-icon">⚡</div><h3>Real Code</h3><p>React + TypeScript</p></div>
+    <div class="heart-card"><div class="hc-icon">🚀</div><h3>One-Click Ship</h3><p>Deploy instantly</p></div>
+  </div>
+</section>
+
+<section id="minimax" class="simple-section">
+  <span class="brand-tag">25 / MiniMax Style</span>
+  <h1>NeuralCraft</h1>
+  <p class="tagline">Next-gen multimodal AI. Video, music, and speech from one model.</p>
+  <div class="cta-row"><button class="btn">Try the API</button></div>
+  <div class="video-grid">
+    <div class="video-thumb"><img src="https://picsum.photos/seed/mm1/320/180" alt=""><div class="play">▶</div></div>
+    <div class="video-thumb"><img src="https://picsum.photos/seed/mm2/320/180" alt=""><div class="play">▶</div></div>
+    <div class="video-thumb"><img src="https://picsum.photos/seed/mm3/320/180" alt=""><div class="play">▶</div></div>
+  </div>
+</section>
+
+<section id="mintlify" class="simple-section">
+  <span class="brand-tag">26 / Mintlify Style</span>
+  <h1>DocPilot</h1>
+  <p class="tagline">Beautiful docs that developers actually want to read.</p>
+  <div class="cta-row"><button class="btn">Start Writing</button></div>
+  <div class="doc-preview">
+    <h3>Getting Started</h3>
+    <div class="doc-p">Install the SDK and initialize your first project in under 60 seconds.</div>
+    <div class="doc-code">$ npm install @docpilot/sdk<br>$ docpilot init my-docs</div>
+  </div>
+</section>
+
+<section id="miro" class="simple-section">
+  <span class="brand-tag">27 / Miro Style</span>
+  <h1>BoardStorm</h1>
+  <p class="tagline">The infinite canvas for collaborative teams.</p>
+  <div class="cta-row"><button class="btn">Open a Board</button></div>
+  <div class="board-mockup">
+    <div class="sticky sticky-1">User Research</div>
+    <div class="sticky sticky-2">Pain Points</div>
+    <div class="sticky sticky-3">Solutions</div>
+    <div class="sticky sticky-4">MVP Scope</div>
+    <div class="sticky sticky-5">Timeline</div>
+    <div class="sticky sticky-6">Launch Plan</div>
+    <div class="connector conn-1"></div>
+    <div class="connector conn-2"></div>
+  </div>
+</section>
+
+<section id="mistral" class="simple-section">
+  <span class="brand-tag">28 / Mistral Style</span>
+  <h1>SoleilAI</h1>
+  <p class="tagline">Open-weight language models. European-built, privacy-first.</p>
+  <div class="cta-row"><button class="btn">Access Models</button></div>
+</section>
+
+<section id="mongodb" class="simple-section">
+  <span class="brand-tag">29 / MongoDB Style</span>
+  <h1>Docu<span>Store</span></h1>
+  <p class="tagline">The developer data platform. Flexible documents, global scale.</p>
+  <div class="cta-row"><button class="btn">Deploy Free</button></div>
+</section>
+
+<section id="notion-s" class="simple-section">
+  <span class="brand-tag">30 / Notion Style</span>
+  <h1>PageCraft</h1>
+  <p class="tagline">Your wiki, docs, and projects — all in one beautiful tool.</p>
+  <div class="page-mockup">
+    <div class="page-icon">📋</div>
+    <h3>Q1 Product Roadmap</h3>
+    <div class="block heading">Priorities</div>
+    <div class="block todo"><div class="checkbox checked"></div>Launch mobile app v2</div>
+    <div class="block todo"><div class="checkbox checked"></div>Implement SSO for enterprise</div>
+    <div class="block todo"><div class="checkbox"></div>Redesign onboarding flow</div>
+    <div class="block todo"><div class="checkbox"></div>Add <span class="mention">@analytics</span> dashboard</div>
+    <div class="block heading">Notes</div>
+    <div class="block">Design review scheduled for Thursday. Need to finalize color system before handoff.</div>
+  </div>
+</section>
+
+<section id="nvidia-s" class="simple-section">
+  <span class="brand-tag">31 / NVIDIA Style</span>
+  <h1>Tensor<span>Core</span> Labs</h1>
+  <p class="tagline">Accelerated computing for AI, graphics, and scientific simulation.</p>
+  <div class="cta-row"><button class="btn">Shop GPUs</button></div>
+  <div class="gpu-stats">
+    <div class="gpu-card"><div class="gpu-num">10K</div><div class="gpu-label">GPU Cluster</div></div>
+    <div class="gpu-card"><div class="gpu-num">4M+</div><div class="gpu-label">CUDA Devs</div></div>
+    <div class="gpu-card"><div class="gpu-num">80GB</div><div class="gpu-label">HBM3 Memory</div></div>
+    <div class="gpu-card"><div class="gpu-num">5x</div><div class="gpu-label">Faster Training</div></div>
+  </div>
+</section>
+
+<section id="ollama-s" class="simple-section">
+  <span class="brand-tag">32 / Ollama Style</span>
+  <h1>LocalLLM</h1>
+  <p class="tagline">Run large language models on your own machine. One command. No cloud.</p>
+  <div class="cta-row"><button class="btn">Download</button></div>
+  <div class="terminal">
+    <span class="prompt">$</span> ollama run llama3<br>
+    pulling model... done<br>
+    <br>
+    <span class="prompt">>>></span> Tell me about quantum computing<br>
+    <br>
+    Quantum computing leverages quantum mechanical phenomena like superposition and entanglement to process information in fundamentally new ways...
+  </div>
+</section>
+
+<section id="opencode-s" class="simple-section">
+  <span class="brand-tag">33 / OpenCode Style</span>
+  <h1>TerminalAI</h1>
+  <p class="tagline">Open-source AI coding agent in your terminal.</p>
+  <div class="cta-row"><button class="btn">npm install -g</button></div>
+</section>
+
+<section id="pinterest-s" class="simple-section">
+  <span class="brand-tag">34 / Pinterest Style</span>
+  <h1>PinBoard Studio</h1>
+  <p class="tagline">Visual discovery for creative professionals.</p>
+  <div class="cta-row"><button class="btn">Start Pinning</button></div>
+  <div class="pin-grid">
+    <div class="pin"><img src="https://picsum.photos/seed/pin1/200/260" alt=""></div>
+    <div class="pin"><img src="https://picsum.photos/seed/pin2/200/320" alt=""></div>
+    <div class="pin"><img src="https://picsum.photos/seed/pin3/200/240" alt=""></div>
+    <div class="pin"><img src="https://picsum.photos/seed/pin4/200/300" alt=""></div>
+  </div>
+</section>
+
+<section id="posthog-s" class="simple-section">
+  <span class="brand-tag">35 / PostHog Style</span>
+  <div class="hedgehog">🦔</div>
+  <h1>MetricHog</h1>
+  <p class="tagline">Product analytics, feature flags, session replay, A/B testing. One platform.</p>
+  <div class="cta-row"><button class="btn">Get Started Free</button></div>
+</section>
+
+<section id="raycast-s" class="simple-section">
+  <span class="brand-tag">36 / Raycast Style</span>
+  <h1>LaunchBar AI</h1>
+  <p class="tagline">Blazingly fast launcher. Supercharged with AI.</p>
+  <div class="cmd-palette">
+    <div class="cmd-input"><span class="search-icon">🔍</span><input placeholder="Search commands..." value="open project" /></div>
+    <div class="cmd-results">
+      <div class="cmd-item active"><div class="cmd-icon" style="background:rgba(255,99,99,0.1)">📁</div><div class="cmd-label">Open Recent Project</div><div class="cmd-shortcut">⌘P</div></div>
+      <div class="cmd-item"><div class="cmd-icon" style="background:rgba(99,99,255,0.1)">💻</div><div class="cmd-label">Open in VS Code</div><div class="cmd-shortcut">⌘⇧O</div></div>
+      <div class="cmd-item"><div class="cmd-icon" style="background:rgba(99,255,99,0.1)">🌐</div><div class="cmd-label">Open GitHub Repo</div><div class="cmd-shortcut">⌘G</div></div>
+      <div class="cmd-item"><div class="cmd-icon" style="background:rgba(255,200,99,0.1)">📋</div><div class="cmd-label">Open Project Notes</div><div class="cmd-shortcut">⌘N</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="renault-s" class="simple-section">
+  <span class="brand-tag">37 / Renault Style</span>
+  <h1>Éclair Auto</h1>
+  <p class="tagline">Electric mobility for everyone. Affordable, stylish, built for tomorrow.</p>
+  <div class="cta-row"><button class="btn">Build Yours</button></div>
+</section>
+
+<section id="replicate-s" class="simple-section">
+  <span class="brand-tag">38 / Replicate Style</span>
+  <h1>ModelRun</h1>
+  <p class="tagline">Run open-source AI models with a single API call. No GPU setup.</p>
+  <div class="cta-row"><button class="btn">Explore Models</button></div>
+</section>
+
+<section id="resend-s" class="simple-section">
+  <span class="brand-tag">39 / Resend Style</span>
+  <h1>MailForge</h1>
+  <p class="tagline">Email for developers. Beautiful, deliverable, built with React.</p>
+  <div class="cta-row"><button class="btn">Start Sending</button></div>
+</section>
+
+<section id="revolut-s" class="simple-section">
+  <span class="brand-tag">40 / Revolut Style</span>
+  <h1>FinWave</h1>
+  <p class="tagline">One app for all your money. Send, spend, save, invest — globally.</p>
+  <div class="cta-row"><button class="btn">Open Account</button></div>
+  <div class="card-mockup">
+    <div class="card-logo">FINWAVE</div>
+    <div class="card-chip"></div>
+    <div class="card-number">4829 •••• •••• 7391</div>
+    <div class="card-bottom"><span>CARDHOLDER NAME</span><span>09/28</span></div>
+  </div>
+</section>
+
+<section id="runway-s" class="simple-section">
+  <span class="brand-tag">41 / RunwayML Style</span>
+  <h1>DreamCut Studio</h1>
+  <p class="tagline">AI-native creative tools for the next generation of storytellers.</p>
+  <div class="cta-row"><button class="btn">Start Creating</button></div>
+  <div class="video-preview"><div class="play-circle"></div></div>
+</section>
+
+<section id="sanity-s" class="simple-section">
+  <span class="brand-tag">42 / Sanity Style</span>
+  <h1>ContentForge</h1>
+  <p class="tagline">The composable content platform. Structure once, deliver everywhere.</p>
+  <div class="cta-row"><button class="btn">Get Started</button></div>
+</section>
+
+<section id="semrush-s" class="simple-section">
+  <span class="brand-tag">43 / Semrush Style</span>
+  <h1>RankPulse</h1>
+  <p class="tagline">All-in-one SEO, content marketing, and competitive research.</p>
+  <div class="cta-row"><button class="btn">Start Free Trial</button></div>
+</section>
+
+<section id="sentry-s" class="simple-section">
+  <span class="brand-tag">44 / Sentry Style</span>
+  <h1>ErrorLens</h1>
+  <p class="tagline">Application monitoring. What broke, why, and how to fix it.</p>
+  <div class="cta-row"><button class="btn">Start Monitoring</button></div>
+  <div class="error-card">
+    <div class="error-header"><div class="error-dot"></div><div class="error-type">TypeError: Cannot read property 'map' of undefined</div></div>
+    <div class="error-msg">
+      at Dashboard.render (dashboard.tsx:142)<br>
+      at processChild (react-dom.js:1234)<br>
+      at renderRoot (react-dom.js:892)
+    </div>
+    <div class="error-meta"><span>First seen: 2h ago</span><span>Events: 847</span><span>Users: 124</span></div>
+  </div>
+</section>
+
+<section id="spacex-s">
+  <span class="brand-tag">45 / SpaceX Style</span>
+  <h1>Orbital Dynamics</h1>
+  <p class="tagline" style="max-width:400px;text-align:center">Making Life Multiplanetary</p>
+  <button class="btn" style="margin-bottom:0">View Missions</button>
+  <div class="mission-stats">
+    <div class="mission-stat"><div class="stat-num">247</div><div class="stat-label">Successful Launches</div></div>
+    <div class="mission-stat"><div class="stat-num">203</div><div class="stat-label">Landings</div></div>
+    <div class="mission-stat"><div class="stat-num">6,200</div><div class="stat-label">Satellites</div></div>
+  </div>
+</section>
+
+<section id="spotify-s" class="simple-section">
+  <span class="brand-tag">46 / Spotify Style</span>
+  <h1>SoundWave</h1>
+  <p class="tagline">100 million tracks. Unlimited podcasts. Your soundtrack.</p>
+  <div class="cta-row"><button class="btn">Get Premium</button></div>
+  <div class="playlist-cards">
+    <div class="pl-card"><div class="pl-cover"><img src="https://picsum.photos/seed/album1/160/160" alt=""></div><div class="pl-name">Chill Vibes</div><div class="pl-desc">Relax and unwind</div></div>
+    <div class="pl-card"><div class="pl-cover"><img src="https://picsum.photos/seed/album2/160/160" alt=""></div><div class="pl-name">Power Hour</div><div class="pl-desc">Energy boost</div></div>
+    <div class="pl-card"><div class="pl-cover"><img src="https://picsum.photos/seed/album3/160/160" alt=""></div><div class="pl-name">Deep Focus</div><div class="pl-desc">Concentrate</div></div>
+    <div class="pl-card"><div class="pl-cover"><img src="https://picsum.photos/seed/album4/160/160" alt=""></div><div class="pl-name">Late Night</div><div class="pl-desc">After hours</div></div>
+  </div>
+</section>
+
+<!-- 47. STRIPE — Gradient mesh + payment cards -->
+<section id="stripe-s">
+  <span class="brand-tag">47 / Stripe Style</span>
+  <h1>PayStream</h1>
+  <p class="tagline">Financial infrastructure for the internet. Accept payments, send payouts, manage your business.</p>
+  <div class="btn-row"><button class="btn btn-gradient">Start Now</button><button class="btn btn-outline">Contact Sales</button></div>
+  <div class="payment-cards">
+    <div class="pay-card" style="--ry:-3deg">
+      <div class="card-header"><span class="card-type">Payment</span><span>🔒</span></div>
+      <div class="card-amount">$4,250.00</div>
+      <span class="card-status status-success">Succeeded</span>
+      <div class="card-details">
+        <div class="detail-row"><span>Customer</span><span>sarah@acme.co</span></div>
+        <div class="detail-row"><span>Card</span><span>•••• 4242</span></div>
+        <div class="detail-row"><span>Fee</span><span>$123.45</span></div>
+      </div>
+    </div>
+    <div class="pay-card" style="--ry:0deg">
+      <div class="card-header"><span class="card-type">Subscription</span><span>🔄</span></div>
+      <div class="card-amount">$99/mo</div>
+      <span class="card-status status-success">Active</span>
+      <div class="card-details">
+        <div class="detail-row"><span>Plan</span><span>Pro Annual</span></div>
+        <div class="detail-row"><span>Next Invoice</span><span>Apr 15</span></div>
+        <div class="detail-row"><span>MRR</span><span>$12,870</span></div>
+      </div>
+    </div>
+    <div class="pay-card" style="--ry:3deg">
+      <div class="card-header"><span class="card-type">Payout</span><span>🏦</span></div>
+      <div class="card-amount">$8,420.00</div>
+      <span class="card-status status-pending">Pending</span>
+      <div class="card-details">
+        <div class="detail-row"><span>Bank</span><span>Chase ••87</span></div>
+        <div class="detail-row"><span>Arrival</span><span>Tomorrow</span></div>
+        <div class="detail-row"><span>Period</span><span>Mar 1–15</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="supabase-s" class="simple-section">
+  <span class="brand-tag">48 / Supabase Style</span>
+  <h1>Backend<span>Kit</span></h1>
+  <p class="tagline">Open-source Firebase alternative. Postgres, auth, storage, edge functions.</p>
+  <div class="cta-row"><button class="btn">Start Your Project</button></div>
+</section>
+
+<section id="superhuman-s" class="simple-section">
+  <span class="brand-tag">49 / Superhuman Style</span>
+  <h1>InboxZero</h1>
+  <p class="tagline">The fastest email ever made. Reclaim 4 hours every week.</p>
+  <div class="cta-row"><button class="btn">Get Started</button></div>
+</section>
+
+<section id="tesla-s">
+  <h1>Voltaire Model V</h1>
+  <div class="subtitle">Starting at $39,990</div>
+  <div class="btn-row">
+    <button class="btn btn-white">Order Now</button>
+    <button class="btn btn-dark">Experience</button>
+  </div>
+</section>
+
+<section id="together-s" class="simple-section">
+  <span class="brand-tag">51 / Together Style</span>
+  <h1>InferenceCloud</h1>
+  <p class="tagline">Fastest cloud for open-source AI. Serverless or dedicated GPUs.</p>
+  <div class="cta-row"><button class="btn">Start Building</button></div>
+</section>
+
+<section id="uber-s" class="simple-section">
+  <div class="map-bg"></div>
+  <span class="brand-tag">52 / Uber Style</span>
+  <h1>RideNow</h1>
+  <p class="tagline">Get there. Your way.</p>
+  <div class="cta-row"><button class="btn">Ride with Us</button></div>
+</section>
+
+<section id="vercel-s" class="simple-section">
+  <span class="brand-tag">53 / Vercel Style</span>
+  <h1>ShipFast</h1>
+  <p class="tagline">Your frontend cloud. Build, preview, ship.</p>
+  <div class="cta-row"><button class="btn">Start Deploying</button></div>
+  <div class="deploy-card">
+    <div class="deploy-header"><span style="font-size:13px;font-weight:600">Deployments</span><div class="status-dot"></div></div>
+    <div class="deploy-row"><span>feat/dark-mode</span><span class="branch">main</span><span class="time">2m ago</span></div>
+    <div class="deploy-row"><span>fix/auth-redirect</span><span class="branch">main</span><span class="time">14m ago</span></div>
+    <div class="deploy-row"><span>chore/deps-update</span><span class="branch">staging</span><span class="time">1h ago</span></div>
+  </div>
+</section>
+
+<section id="voltagent-s" class="simple-section">
+  <span class="brand-tag">54 / VoltAgent Style</span>
+  <h1>AgentForge</h1>
+  <p class="tagline">Open-source framework for production AI agents. TypeScript-first.</p>
+  <div class="cta-row"><button class="btn">Quick Start</button></div>
+</section>
+
+<section id="warp-s" class="simple-section">
+  <span class="brand-tag">55 / Warp Style</span>
+  <h1>HyperShell</h1>
+  <p class="tagline">The terminal reimagined. AI-powered commands, modern editing.</p>
+  <div class="cta-row"><button class="btn">Download Free</button></div>
+</section>
+
+<section id="webflow-s" class="simple-section">
+  <span class="brand-tag">56 / Webflow Style</span>
+  <h1>SiteForge</h1>
+  <p class="tagline">Build professional websites visually. Full CSS power, zero code.</p>
+  <div class="cta-row"><button class="btn">Start Building</button></div>
+</section>
+
+<section id="wise-s" class="simple-section">
+  <span class="brand-tag">57 / Wise Style</span>
+  <h1>TransferLeaf</h1>
+  <p class="tagline">Money without borders. Real exchange rate. No markup.</p>
+  <div class="cta-row"><button class="btn">Send Money Now</button></div>
+  <div class="currency-cards">
+    <div class="curr-card"><div class="flag">🇦🇺</div><div class="curr-name">AUD → USD</div><div class="curr-rate">0.6542</div><div class="curr-label">Mid-market rate</div></div>
+    <div class="curr-card"><div class="flag">🇬🇧</div><div class="curr-name">GBP → EUR</div><div class="curr-rate">1.1723</div><div class="curr-label">Mid-market rate</div></div>
+    <div class="curr-card"><div class="flag">🇯🇵</div><div class="curr-name">JPY → USD</div><div class="curr-rate">0.0066</div><div class="curr-label">Mid-market rate</div></div>
+  </div>
+</section>
+
+<section id="xai-s" class="simple-section">
+  <span class="brand-tag">58 / xAI Style</span>
+  <h1>Prometheus Labs</h1>
+  <p class="tagline">Understanding the true nature of the universe through AI.</p>
+  <div class="cta-row"><button class="btn">Try Grok</button></div>
+</section>
+
+<section id="zapier-s" class="simple-section">
+  <span class="brand-tag">59 / Zapier Style</span>
+  <h1>AutoFlow</h1>
+  <p class="tagline">Connect 7,000+ apps. Automate anything. No code needed.</p>
+  <div class="cta-row"><button class="btn">Start Free</button></div>
+  <div class="zap-flow">
+    <div class="zap-node">📧</div>
+    <div class="zap-arrow"></div>
+    <div class="zap-node">🤖</div>
+    <div class="zap-arrow"></div>
+    <div class="zap-node">📊</div>
+    <div class="zap-arrow"></div>
+    <div class="zap-node">💬</div>
+    <div class="zap-arrow"></div>
+    <div class="zap-node">✅</div>
+  </div>
+</section>
+
+<footer class="showcase-footer">
+  <p>59 Design Systems Showcase — Each section uses the visual language of a real brand applied to a fictional business.</p>
+  <p style="margin-top:8px">Built with the <a href="https://github.com/VoltAgent/awesome-design-md" target="_blank">awesome-design-md</a> collection</p>
+</footer>
+
+<script>
+document.querySelectorAll('.gallery-nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.gallery-nav a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => { l.style.color = 'rgba(255,255,255,0.4)'; l.style.background = 'none'; });
+      const a = document.querySelector(`.gallery-nav a[href="#${e.target.id}"]`);
+      if (a) { a.style.color = '#fff'; a.style.background = 'rgba(255,255,255,0.08)'; }
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

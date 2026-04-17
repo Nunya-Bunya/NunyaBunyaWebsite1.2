@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Confirmed | Nunya Bunya</title>
+<meta name="description" content="Your Business Foundation Kit payment is confirmed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="style-v2.css">
+<style>
+  .bfk-success {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .bfk-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 96px 20px 72px;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(0, 229, 204, 0.16), transparent 32%),
+      radial-gradient(circle at 80% 70%, rgba(255, 77, 221, 0.12), transparent 28%),
+      var(--dark);
+  }
+  .bfk-panel {
+    width: min(720px, 100%);
+    padding: 56px 44px;
+    border: 1px solid rgba(0, 229, 204, 0.18);
+    background: rgba(26, 26, 26, 0.94);
+    text-align: center;
+  }
+  .bfk-kicker {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 16px;
+  }
+  .bfk-panel h1 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(34px, 7vw, 64px);
+    line-height: 0.92;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 18px;
+  }
+  .bfk-panel h1 span {
+    color: var(--teal);
+  }
+  .bfk-panel p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 560px;
+    margin: 0 auto 28px;
+  }
+  .bfk-steps {
+    display: grid;
+    gap: 14px;
+    text-align: left;
+    margin: 36px auto;
+    max-width: 560px;
+  }
+  .bfk-step {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    align-items: start;
+    padding: 18px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .bfk-step strong {
+    display: block;
+    font-family: var(--font-heading);
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 4px;
+  }
+  .bfk-step span {
+    display: block;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .bfk-num {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    background: var(--teal);
+    color: var(--dark);
+    font-family: var(--font-heading);
+    font-weight: 900;
+  }
+  @media (max-width: 640px) {
+    .bfk-panel {
+      padding: 42px 24px;
+    }
+  }
+</style>
+</head>
+<body class="bfk-success">
+<nav>
+  <a href="index.html" class="nav-logo"><img src="images/logo-icon-white.png" alt="Nunya Bunya"> NUNYA <span>BUNYA</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="portfolio.html">Work</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<main class="bfk-main">
+  <section class="bfk-panel">
+    <div class="bfk-kicker">Payment Confirmed</div>
+    <h1>Your Foundation Is<br><span>Locked In.</span></h1>
+    <p>Your payment went through and your survey answers are in the build queue. We will use those answers to prepare your Nunya Bunya documents.</p>
+    <div class="bfk-steps">
+      <div class="bfk-step">
+        <div class="bfk-num">1</div>
+        <div><strong>Check your email</strong><span>Your receipt and next-step confirmation should arrive shortly.</span></div>
+      </div>
+      <div class="bfk-step">
+        <div class="bfk-num">2</div>
+        <div><strong>We review your answers</strong><span>Your business plan and brand materials are generated from the survey you completed.</span></div>
+      </div>
+      <div class="bfk-step">
+        <div class="bfk-num">3</div>
+        <div><strong>Your documents arrive</strong><span>We will send the finished files to the email attached to your checkout.</span></div>
+      </div>
+    </div>
+    <a href="index.html" class="btn-primary">Back to Nunya Bunya</a>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-logo"><img src="images/logo-icon-white.png" alt="Nunya Bunya"> <span>NUNYA<em>BUNYA</em></span></div>
+  <p class="footer-copy">&copy; 2026 Nunya Bunya Pty Ltd &middot; Brisbane, QLD &middot; All rights reserved.</p>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  if (navToggle) navToggle.addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+  if (typeof fbq !== 'undefined') fbq('track', 'Purchase');
+</script>
+</body>
+</html>

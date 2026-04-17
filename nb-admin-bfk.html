@@ -49,6 +49,7 @@
         <option value="approved">Approved</option>
         <option value="rejected">Rejected</option>
       </select>
+      <button onclick="reconcilePayments()" style="margin-left:12px;padding:8px 16px;background:#00e5cc;color:#000;border:none;border-radius:4px;cursor:pointer;font-size:13px;">Reconcile Payments</button>
     </div>
 
     <div id="submissionsList"></div>
@@ -146,6 +147,26 @@ async function rejectSubmission(id) {
     body: JSON.stringify({ submission_id: id, reason })
   });
   loadSubmissions();
+}
+
+async function reconcilePayments() {
+  if (!confirm('Run payment reconciliation? This will check all pending payments with Stripe and update their status.')) return;
+
+  try {
+    const res = await fetch('http://nb-task-server:8090/reconcile-payments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dry_run: false })
+    });
+
+    if (res.ok) {
+      alert('Payment reconciliation started. Check server logs for results.');
+    } else {
+      alert('Failed to start reconciliation.');
+    }
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
 }
 
 loadSubmissions();

@@ -3,6 +3,8 @@
 // Inserts to Supabase, notifies #alerts on Slack, emails Ben via Resend,
 // and fires the n8n Brand Bible webhook. Returns {ok, id} or {ok:false, error}.
 
+import { sendSlackAlert, sendEmailNotification, escapeHtml } from '../lib/notifications.js';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -63,51 +65,25 @@ export default async function handler(req, res) {
   const trackLabel = track === 'existing' ? 'Existing business' : (track === 'startup' ? 'Starting fresh' : 'Unknown track');
   const answerCount = Object.keys(answers || {}).filter(k => !k.startsWith('_')).length;
 
-  const notifications = [];
+  // Send Slack alert
+  const slackMessage = `*New BFK submission: ${business} (${name})*`;
+  const slackBlocks = [
+    { type: 'header', text: { type: 'plain_text', text: 'New BFK Submission' } },
+    { type: 'section', fields: [
+      { type: 'mrkdwn', text: `*Business:*\n${business}` },
+      { type: 'mrkdwn', text: `*Track:*\n${trackLabel}` },
+      { type: 'mrkdwn', text: `*Name:*\n${name}` },
+      { type: 'mrkdwn', text: `*Email:*\n${email}` },
+      { type: 'mrkdwn', text: `*Phone:*\n${phone || '—'}` },
+      { type: 'mrkdwn', text: `*Answers:*\n${answerCount} questions` }
+    ] },
+    { type: 'section', text: { type: 'mrkdwn', text: `<https://www.nunyabunya.com/nb-admin-bfk.html|Open in NBHQ>  ·  Submission ID: \`${insertedId || 'unknown'}\`` } }
+  ];
 
-  const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
-  const ALERTS_CHANNEL = process.env.SLACK_ALERTS_CHANNEL || 'C0AN3KML1DG';
-  if (SLACK_BOT_TOKEN) {
-    notifications.push(
-      fetch('https://slack.com/api/chat.postMessage', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${SLACK_BOT_TOKEN}`, 'Content-Type': 'application/json; charset=utf-8' },
-        body: JSON.stringify({
-          channel: ALERTS_CHANNEL,
-          text: `New BFK submission: ${business} (${name})`,
-          blocks: [
-            { type: 'header', text: { type: 'plain_text', text: 'New BFK Submission' } },
-            { type: 'section', fields: [
-              { type: 'mrkdwn', text: `*Business:*\n${business}` },
-              { type: 'mrkdwn', text: `*Track:*\n${trackLabel}` },
-              { type: 'mrkdwn', text: `*Name:*\n${name}` },
-              { type: 'mrkdwn', text: `*Email:*\n${email}` },
-              { type: 'mrkdwn', text: `*Phone:*\n${phone || '—'}` },
-              { type: 'mrkdwn', text: `*Answers:*\n${answerCount} questions` }
-            ] },
-            { type: 'section', text: { type: 'mrkdwn', text: `<https://www.nunyabunya.com/nb-admin-bfk.html|Open in NBHQ>  ·  Submission ID: \`${insertedId || 'unknown'}\`` } }
-          ]
-        })
-      }).then(r => r.json()).then(j => { if (!j.ok) console.error('Slack error:', j); }).catch(e => console.error('Slack exception:', e))
-    );
-  } else {
-    console.warn('SLACK_BOT_TOKEN not set — skipping Slack notification');
-  }
+  await sendSlackAlert(slackMessage, null, slackBlocks);
 
-  const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'ben@nunyabunya.com';
-  const FROM_EMAIL = process.env.FROM_EMAIL || 'alerts@nunyabunya.com';
-  if (RESEND_API_KEY) {
-    notifications.push(
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${RESEND_API_KEY.trim()}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from: `NB Alerts <${FROM_EMAIL}>`,
-          to: [ADMIN_EMAIL],
-          reply_to: email,
-          subject: `New BFK submission — ${business}`,
-          html: `<div style="font-family:system-ui,sans-serif;max-width:560px">
+  // Send email notification
+  const emailHtml = `<div style="font-family:system-ui,sans-serif;max-width:560px">
   <h2 style="margin:0 0 16px">New BFK Submission</h2>
   <table style="border-collapse:collapse;width:100%;font-size:14px">
     <tr><td style="padding:6px 12px;background:#f5f5f5"><strong>Business</strong></td><td style="padding:6px 12px">${escapeHtml(business)}</td></tr>
@@ -119,27 +95,21 @@ export default async function handler(req, res) {
     <tr><td style="padding:6px 12px;background:#f5f5f5"><strong>Submission ID</strong></td><td style="padding:6px 12px;font-family:monospace;font-size:12px">${escapeHtml(insertedId || 'unknown')}</td></tr>
   </table>
   <p style="margin-top:20px"><a href="https://www.nunyabunya.com/nb-admin-bfk.html" style="background:#00e5cc;color:#000;padding:10px 16px;text-decoration:none;font-weight:700">Open in NBHQ</a></p>
-</div>`
-        })
-      }).then(r => r.json()).then(j => { if (j.error) console.error('Resend error:', j); }).catch(e => console.error('Resend exception:', e))
-    );
-  } else {
-    console.warn('RESEND_API_KEY not set — skipping email notification');
-  }
+</div>`;
 
+  await sendEmailNotification(null, `New BFK submission — ${business}`, emailHtml);
+
+  // Forward to n8n webhook
   const N8N_WEBHOOK = process.env.N8N_BFK_WEBHOOK || 'https://n8n.nunyabunya.com/webhook/business-foundation-kit';
-  notifications.push(
-    fetch(N8N_WEBHOOK, {
+  try {
+    await fetch(N8N_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ product: 'brand-bible', promo_code: null, submission_id: insertedId, ...row })
-    }).catch(e => console.error('n8n exception:', e))
-  );
+    });
+  } catch (e) {
+    console.error('n8n exception:', e);
+  }
 
-  await Promise.allSettled(notifications);
   return res.status(200).json({ ok: true, id: insertedId });
-}
-
-function escapeHtml(s) {
-  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Built an AI That Posts Brisbane Trivia 5 Times a Day | Nunya Bunya</title>
+<meta name="description" content="How I built a fully automated Brisbane trivia video machine using Claude, ElevenLabs, and Imagen 4. It researches facts, fact-checks them, generates videos, and posts to Twitter — all by itself.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="I Built an AI That Posts Brisbane Trivia 5 Times a Day">
+<meta property="og:description" content="The full breakdown of how I built a content machine that creates, fact-checks, and posts Brisbane trivia videos automatically.">
+<meta property="og:image" content="https://www.nunyabunya.com/images/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@BenAlekConner">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/style-v2.css">
+<style>
+  .post-hero { padding: 140px 48px 40px; position: relative; }
+  .post-tag { font-family: var(--font-heading); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--teal); margin-bottom: 12px; }
+  .post-title { font-family: var(--font-heading); font-size: clamp(28px, 4vw, 44px); font-weight: 900; text-transform: uppercase; line-height: 1.1; max-width: 800px; }
+  .post-meta { font-size: 13px; color: var(--muted); margin-top: 12px; font-weight: 300; }
+  .post-content { max-width: 720px; margin: 0 auto; padding: 40px 48px 80px; font-size: 16px; line-height: 1.85; color: rgba(255,255,255,0.8); font-weight: 300; }
+  .post-content h2 { font-family: var(--font-heading); font-size: 22px; font-weight: 800; text-transform: uppercase; color: var(--teal); margin: 36px 0 12px; }
+  .post-content h3 { font-family: var(--font-heading); font-size: 18px; font-weight: 700; text-transform: uppercase; color: var(--white); margin: 28px 0 8px; }
+  .post-content p { margin-bottom: 16px; }
+  .post-content ul, .post-content ol { margin: 12px 0 20px 24px; }
+  .post-content li { margin-bottom: 8px; }
+  .post-content strong { color: var(--white); font-weight: 500; }
+  .post-content blockquote { border-left: 3px solid var(--teal); padding-left: 20px; margin: 24px 0; color: var(--muted); font-style: italic; }
+  .post-content a { color: var(--teal); text-decoration: underline; }
+  .post-content code { background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 4px; font-size: 14px; }
+  .post-content pre { background: rgba(255,255,255,0.04); padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0; font-size: 14px; line-height: 1.6; }
+  .post-content pre code { background: none; padding: 0; }
+  .pipeline-diagram { background: rgba(0,229,204,0.05); border: 1px solid rgba(0,229,204,0.15); border-radius: 12px; padding: 24px 28px; margin: 24px 0; font-family: monospace; font-size: 14px; line-height: 1.8; color: var(--teal); }
+  .post-cta-card { background: rgba(0,229,204,0.05); border: 1px solid rgba(0,229,204,0.15); border-radius: 16px; padding: 40px; text-align: center; margin: 40px 0; }
+  .post-cta-card h3 { font-family: var(--font-heading); font-size: 24px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
+  .post-cta-card h3 span { color: var(--teal); }
+  .post-cta-card p { font-size: 15px; color: var(--muted); font-weight: 300; margin-bottom: 20px; }
+  .post-cta-card a.cta-btn { display: inline-block; background: var(--teal); color: var(--dark); padding: 14px 32px; font-family: var(--font-heading); font-weight: 800; font-size: 14px; text-transform: uppercase; text-decoration: none; letter-spacing: 0.04em; transition: transform 0.2s; }
+  .post-cta-card a.cta-btn:hover { transform: translateY(-2px); }
+  @media (max-width: 768px) { .post-hero { padding: 120px 20px 30px; } .post-content { padding: 30px 20px 60px; } }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<nav>
+  <a href="/" class="nav-logo"><img src="/images/logo-icon-white.png" alt="NB"> NUNYA<span>BUNYA</span></a>
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/services">Services</a></li>
+    <li><a href="/portfolio">Work</a></li>
+    <li><a href="/blog" class="active">Blog</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/free-strategy-session" class="nav-cta">Free Session</a></li>
+  </ul>
+</nav>
+<div class="hero-orb-1"></div>
+<div class="hero-orb-2"></div>
+
+<section class="post-hero">
+  <div class="post-tag">Building in Public</div>
+  <h1 class="post-title">I Built an AI That Posts Brisbane Trivia 5 Times a Day. Here's Exactly How.</h1>
+  <p class="post-meta">Ben Conner &middot; April 2026 &middot; 8 min read</p>
+</section>
+
+<article class="post-content">
+
+<p><strong>Every morning at 7:30, an AI on my laptop wakes up, researches a Brisbane trivia fact, fact-checks it against a second AI, generates a photo, records a voiceover with an Australian accent, builds an animated video, and posts it to Twitter.</strong></p>
+
+<p>By the time I've finished my coffee, the first trivia post of the day is already live. Four more will follow throughout the day. I don't touch any of it.</p>
+
+<p>This isn't a hypothetical. It's running right now. And I'm going to show you exactly how I built it.</p>
+
+<h2>Why Brisbane Trivia?</h2>
+
+<p>I run a marketing agency in Brisbane. Our clients are local businesses — cafes, gyms, tradies, restaurants. The people who follow us on social media are Brisbane locals.</p>
+
+<p>I wanted content that would get discovered by Brisbane people who don't know us yet. Not marketing tips (every agency posts those). Not client testimonials (nobody cares until they trust you). Something that Brisbane locals would actually want to watch and share.</p>
+
+<p>Brisbane trivia. Simple, fun, hyperlocal. "What's the oldest pub in Brisbane?" with a blurred photo that reveals the answer. The kind of thing you'd send to a mate.</p>
+
+<h2>The Pipeline</h2>
+
+<p>Here's what happens every time the system runs:</p>
+
+<div class="pipeline-diagram">
+1. Claude generates 8 Brisbane trivia facts<br>
+2. A second Claude call fact-checks each one (rejects ~60%)<br>
+3. The survivors get images generated via Google Imagen 4<br>
+4. ElevenLabs generates an Australian-accented voiceover<br>
+5. The voice asks the question, pauses, then reveals the answer<br>
+6. A background music bed is mixed underneath<br>
+7. An HTML animation renders the blur/reveal effect<br>
+8. Playwright records the animation as video<br>
+9. FFmpeg mixes the audio and video together<br>
+10. The finished MP4 gets uploaded and posted to Twitter<br>
+<br>
+Total time: about 3 minutes. Total human effort: zero.
+</div>
+
+<h2>The Fact-Check Layer (Because AI Lies)</h2>
+
+<p>This is the part most people skip. And it's the part that matters most.</p>
+
+<p>When I first built this, Claude confidently told me that David Jones opened in Brisbane in 1908 with "the biggest lie in retail history." It was a great story. It was also completely made up.</p>
+
+<p><strong>AI will invent convincing history with zero hesitation.</strong> If you're posting facts about real places in a real city, you cannot trust the first answer.</p>
+
+<p>So every trivia fact goes through a second AI call with a completely different system prompt. This one is told to be skeptical. It rates confidence as HIGH, MEDIUM, or LOW. Anything below MEDIUM gets rejected.</p>
+
+<p>In testing, <strong>about 60% of generated trivia gets rejected.</strong> That sounds wasteful, but it means the 40% that survives is actually defensible. I'd rather post 3 true facts than 8 that include 2 lies.</p>
+
+<h2>The Audio Stack</h2>
+
+<p>The voice is generated by ElevenLabs using their "Charlie" voice — an Australian accent that sounds natural enough for a trivia format. The script is structured in two parts:</p>
+
+<ol>
+<li>The question (recorded as a separate audio clip)</li>
+<li>A 3.5-second gap (where the music plays and you guess)</li>
+<li>The answer (recorded as a second clip, timed to sync with the visual reveal)</li>
+</ol>
+
+<p>The background music is also generated by ElevenLabs — their sound effects API can produce surprisingly decent music beds from a text description. I went with a retro synthwave vibe because it felt right for a fun trivia format.</p>
+
+<h2>The Visual Reveal</h2>
+
+<p>Each video shows a blurred photo of the answer location. When the voice reveals the answer, the blur snaps away. It's a simple CSS animation recorded by Playwright — no video editing software needed.</p>
+
+<p>The whole thing is an HTML page with a CSS animation, recorded by a headless browser, converted to MP4 by FFmpeg. It sounds overcomplicated, but it means every visual element is fully programmable. Change the brand colours, font, or layout — it all happens in code.</p>
+
+<h2>What It Costs</h2>
+
+<p>Per trivia post:</p>
+<ul>
+<li><strong>Claude API:</strong> ~$0.02 (trivia generation + fact-check)</li>
+<li><strong>Imagen 4:</strong> ~$0.04 (one image)</li>
+<li><strong>ElevenLabs:</strong> ~$0.05 (voice + music)</li>
+<li><strong>Total: about 11 cents per video.</strong></li>
+</ul>
+
+<p>At 5 posts per day, that's roughly $16.50/month for a fully automated content channel. For context, a single sponsored post on a Brisbane influencer's account costs $200-500.</p>
+
+<h2>What I Learned</h2>
+
+<p><strong>AI is not a content creator. It's a content factory.</strong> The creative decisions — what format to use, what voice fits, what music works, when to post — those are human decisions. The AI handles the repetitive production work that would take hours if done manually.</p>
+
+<p><strong>Fact-checking is non-negotiable.</strong> One wrong fact about a Brisbane landmark and your credibility is gone. The fact-check layer isn't optional — it's the difference between a useful content system and a liability.</p>
+
+<p><strong>Local content wins.</strong> There are thousands of marketing accounts posting generic business advice. There is exactly one account posting AI-generated Brisbane trivia with fact-checked voiceover videos five times a day. Specificity beats scale.</p>
+
+<h2>Want to Build Your Own?</h2>
+
+<p>I've written a step-by-step guide that walks through every piece of this system — the APIs, the prompts, the code structure, the scheduling. It's not a course or a paid product. It's a PDF guide you can download for free.</p>
+
+<p>If you're a business owner or marketer in Brisbane (or anywhere) and you want to build something like this for your own brand, this guide will save you the 40+ hours of trial and error I went through.</p>
+
+<div class="post-cta-card" id="leadCapture">
+  <h3>Free Guide: <span>Build Your Own AI Content Machine</span></h3>
+  <p>The exact system, prompts, and code structure behind this Brisbane trivia automation. Step by step.</p>
+  <form id="leadForm" onsubmit="handleLeadSubmit(event)" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:460px;margin:0 auto;">
+    <input type="email" id="leadEmail" placeholder="Your email address" required style="flex:1;min-width:220px;padding:14px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;font-family:var(--font-body);font-size:14px;border-radius:0;">
+    <button type="submit" class="cta-btn" style="border:none;cursor:pointer;font-family:var(--font-heading);background:var(--teal);color:var(--dark);padding:14px 28px;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.04em;">Get the Guide</button>
+  </form>
+  <p id="leadSuccess" style="display:none;color:var(--teal);font-weight:500;margin-top:16px;">Check your inbox. The guide is on its way.</p>
+  <p style="font-size:11px;color:rgba(255,255,255,0.25);margin-top:12px;">No spam. Unsubscribe anytime. Your email stays between us.</p>
+</div>
+
+<p>If you don't want to build it yourself and just want someone to build it for your business — <a href="/free-strategy-session">that's what we do</a>.</p>
+
+</article>
+
+<footer>
+  <div class="footer-logo"><img src="/images/logo-icon-white.png" alt="Nunya Bunya"> <span>NUNYA<em>BUNYA</em></span></div>
+  <ul class="footer-links"><li><a href="/about">About</a></li><li><a href="/services">Services</a></li><li><a href="/portfolio">Work</a></li><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li></ul>
+  <p class="footer-copy">&copy; 2026 Nunya Bunya Pty Ltd &middot; Brisbane, QLD &middot; All rights reserved.</p>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor'); const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px'; });
+  function animateRing() { ringX += (mouseX - ringX) * 0.12; ringY += (mouseY - ringY) * 0.12; ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px'; requestAnimationFrame(animateRing); } animateRing();
+  document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering'); }); el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering'); }); });
+  document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+
+  // Lead capture
+  async function handleLeadSubmit(e) {
+    e.preventDefault();
+    const email = document.getElementById('leadEmail').value;
+    if (!email) return;
+
+    // Send to Supabase
+    try {
+      await fetch('https://podyldvpvgqktwbqswrc.supabase.co/rest/v1/leads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'sb_secret_7G4kmywzGey6j3PyeT9wnw_Q1aN2dep',
+          'Authorization': 'Bearer sb_secret_7G4kmywzGey6j3PyeT9wnw_Q1aN2dep',
+        },
+        body: JSON.stringify({
+          email: email,
+          source: 'blog-ai-trivia-machine',
+          lead_magnet: 'ai-content-machine-guide',
+          client_id: 'nunya-bunya',
+        }),
+      });
+    } catch (err) { /* silent fail — still show success */ }
+
+    document.getElementById('leadForm').style.display = 'none';
+    document.getElementById('leadSuccess').style.display = 'block';
+  }
+</script>
+</body>
+</html>

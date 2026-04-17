@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cron Jobs | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  /* Filters */
+  .cj-filters { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
+  .cj-filter-btn {
+    padding: 8px 14px; border-radius: 8px; border: 1px solid var(--subtle);
+    background: transparent; color: var(--muted); font-size: 12px; cursor: pointer;
+    font-family: var(--font-heading); font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; transition: all 0.2s;
+  }
+  .cj-filter-btn:hover { color: var(--white); border-color: var(--white); }
+  .cj-filter-btn.active { color: var(--teal); border-color: var(--teal); background: rgba(0,229,204,0.05); }
+
+  /* Job Card */
+  .cj-card {
+    background: var(--card-bg, #111111); border: 1px solid var(--subtle, rgba(255,255,255,0.06));
+    border-radius: 12px; padding: 20px; margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+  .cj-card:hover { border-color: rgba(255,255,255,0.12); }
+
+  .cj-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .cj-name { font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--white); }
+  .cj-status {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 4px 10px; border-radius: 6px; white-space: nowrap;
+  }
+  .cj-status.active { background: rgba(0,229,204,0.12); color: var(--teal); }
+  .cj-status.inactive { background: rgba(255,255,255,0.06); color: var(--muted); }
+  .cj-status.webhook { background: rgba(153,89,182,0.12); color: #9B59B6; }
+
+  .cj-desc { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 300; line-height: 1.5; margin-bottom: 14px; }
+
+  .cj-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .cj-meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .cj-meta-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .cj-meta-value { font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 400; }
+
+  /* Source badges */
+  .cj-source {
+    display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; padding: 2px 8px; border-radius: 4px; margin-right: 6px;
+  }
+  .cj-source.n8n { background: rgba(255,183,0,0.1); color: #FFB800; }
+  .cj-source.python { background: rgba(0,229,204,0.1); color: var(--teal); }
+  .cj-source.docker { background: rgba(74,144,217,0.1); color: #4A90D9; }
+  .cj-source.vercel { background: rgba(255,255,255,0.08); color: var(--white); }
+  .cj-source.agent { background: rgba(153,89,182,0.1); color: #9B59B6; }
+
+  /* Results destination badges */
+  .cj-dest {
+    display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; padding: 2px 8px; border-radius: 4px; margin-right: 4px; margin-bottom: 4px;
+  }
+  .cj-dest.slack { background: rgba(255,183,0,0.1); color: #FFB800; }
+  .cj-dest.supabase { background: rgba(153,89,182,0.1); color: #9B59B6; }
+  .cj-dest.twitter { background: rgba(29,161,242,0.1); color: #1DA1F2; }
+  .cj-dest.mautic { background: rgba(0,229,204,0.1); color: var(--teal); }
+  .cj-dest.mysql { background: rgba(74,144,217,0.1); color: #4A90D9; }
+
+  /* Category headers */
+  .cj-category {
+    font-family: var(--font-heading); font-size: 13px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+    margin: 28px 0 12px 0; padding-bottom: 8px; border-bottom: 1px solid var(--subtle);
+  }
+  .cj-category:first-child { margin-top: 0; }
+
+  /* Weekly Report Section */
+  .cj-report-section {
+    background: var(--card-bg, #111111); border: 1px solid var(--subtle);
+    border-radius: 12px; padding: 24px; margin-top: 32px;
+  }
+  .cj-report-header {
+    font-family: var(--font-heading); font-size: 18px; font-weight: 700;
+    color: var(--white); margin-bottom: 4px;
+  }
+  .cj-report-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+  .cj-report-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .cj-report-item {
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 8px; padding: 16px;
+  }
+  .cj-report-item-title {
+    font-family: var(--font-heading); font-size: 13px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--teal); margin-bottom: 8px;
+  }
+  .cj-report-item-list { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+  .cj-report-item-list li { margin-bottom: 4px; }
+
+  /* Empty / loading */
+  .cj-empty { text-align: center; padding: 60px; color: var(--muted); }
+
+  /* Search */
+  .cj-search {
+    background: rgba(255,255,255,0.04); border: 1px solid var(--subtle);
+    border-radius: 8px; padding: 10px 14px; color: var(--white); font-size: 13px;
+    font-family: var(--font-body); width: 240px; outline: none; transition: border-color 0.2s;
+  }
+  .cj-search::placeholder { color: var(--muted); }
+  .cj-search:focus { border-color: var(--teal); }
+
+  .cj-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+
+  /* Expand/collapse */
+  .cj-card.collapsed .cj-desc,
+  .cj-card.collapsed .cj-meta { display: none; }
+  .cj-toggle {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 11px; padding: 4px 8px; border-radius: 4px; transition: color 0.2s;
+  }
+  .cj-toggle:hover { color: var(--teal); }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Cron <span>Jobs</span></h1>
+        <div class="date">All scheduled automations across the stack</div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="num" id="kpiTotal">—</div><div class="label">Total Jobs</div></div>
+      <div class="kpi-card"><div class="num" id="kpiActive">—</div><div class="label">Active</div></div>
+      <div class="kpi-card"><div class="num" id="kpiDaily">—</div><div class="label">Fire Daily</div></div>
+      <div class="kpi-card"><div class="num" id="kpiSources">—</div><div class="label">Systems</div></div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="cj-toolbar">
+      <div class="cj-filters">
+        <button class="cj-filter-btn active" data-filter="all">All</button>
+        <button class="cj-filter-btn" data-filter="n8n">n8n</button>
+        <button class="cj-filter-btn" data-filter="python">Python</button>
+        <button class="cj-filter-btn" data-filter="docker">Docker</button>
+        <button class="cj-filter-btn" data-filter="vercel">Vercel</button>
+        <button class="cj-filter-btn" data-filter="agent">Agents</button>
+      </div>
+      <input type="text" class="cj-search" id="searchInput" placeholder="Search jobs..." oninput="renderJobs()">
+    </div>
+
+    <!-- Jobs List -->
+    <div id="jobsList"></div>
+
+    <!-- Weekly Report Metrics -->
+    <div class="cj-report-section">
+      <div class="cj-report-header">Weekly Report Metrics</div>
+      <div class="cj-report-sub">Data compiled from all cron jobs — include in Monday reports</div>
+      <div class="cj-report-grid">
+        <div class="cj-report-item">
+          <div class="cj-report-item-title">Twitter Performance</div>
+          <ul class="cj-report-item-list">
+            <li>Tweets posted (auto + manual)</li>
+            <li>Impressions &amp; engagement rate</li>
+            <li>Top performing tweet</li>
+            <li>New followers gained</li>
+            <li>DMs sent via outreach</li>
+            <li>Reply/quote engagement count</li>
+          </ul>
+        </div>
+        <div class="cj-report-item">
+          <div class="cj-report-item-title">Email &amp; Leads</div>
+          <ul class="cj-report-item-list">
+            <li>Cold emails sent (Mautic)</li>
+            <li>Email open &amp; click rates</li>
+            <li>New contacts added</li>
+            <li>Prospects enriched (Apollo)</li>
+            <li>Campaign triggers fired</li>
+            <li>Segment membership changes</li>
+          </ul>
+        </div>
+        <div class="cj-report-item">
+          <div class="cj-report-item-title">Content Pipeline</div>
+          <ul class="cj-report-item-list">
+            <li>Blog posts published</li>
+            <li>Social posts distributed</li>
+            <li>Tweet drafts generated</li>
+            <li>Voice memos processed</li>
+            <li>Content pending approval</li>
+            <li>Pipeline runs (pass/fail)</li>
+          </ul>
+        </div>
+        <div class="cj-report-item">
+          <div class="cj-report-item-title">Outreach &amp; Growth</div>
+          <ul class="cj-report-item-list">
+            <li>Prospects found (Twitter search)</li>
+            <li>Auto-follows sent</li>
+            <li>DM templates posted to Slack</li>
+            <li>Organic Engine posts distributed</li>
+            <li>Agent runs completed</li>
+            <li>Errors &amp; failures this week</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+const CRON_JOBS = [
+  // ── Twitter Automation ──
+  {
+    name: 'Tweet Queue Poster',
+    category: 'Twitter Automation',
+    source: 'n8n',
+    status: 'active',
+    schedule: '9am, 12pm, 3pm, 6pm AEST (weekdays)',
+    cron: '0 9,12,15,18 * * 1-5',
+    description: 'Fetches next approved tweet from Supabase tweet_queue, posts to Twitter, marks as posted, notifies Slack.',
+    tracking: ['Tweets posted count', 'Post success/fail rate', 'Twitter post IDs'],
+    results: [
+      { dest: 'twitter', label: 'Posted to Twitter' },
+      { dest: 'supabase', label: 'tweet_queue table' },
+      { dest: 'slack', label: '#announcements' },
+    ],
+  },
+  {
+    name: 'Blog → Tweets Generator',
+    category: 'Twitter Automation',
+    source: 'n8n',
+    status: 'active',
+    schedule: 'Every 2 hours',
+    cron: '0 */2 * * *',
+    description: 'Fetches unprocessed approved blog posts, generates 5 brand-specific tweets via Claude API, stores as drafts in tweet_queue.',
+    tracking: ['Drafts generated per blog post', 'Blog posts processed', 'Queue depth'],
+    results: [
+      { dest: 'supabase', label: 'tweet_queue (drafts)' },
+      { dest: 'slack', label: '#announcements' },
+    ],
+  },
+  {
+    name: 'Tweet Engagement (Repost/Reply)',
+    category: 'Twitter Automation',
+    source: 'n8n',
+    status: 'active',
+    schedule: '10am & 2pm AEST (weekdays)',
+    cron: '0 10,14 * * 1-5',
+    description: '10am: replies with thread to recent tweets. 2pm: reposts. Keeps engagement active on posted content.',
+    tracking: ['Replies sent', 'Reposts made', 'Engagement rate change'],
+    results: [
+      { dest: 'twitter', label: 'Engagements posted' },
+      { dest: 'supabase', label: 'tweet_queue (updated)' },
+      { dest: 'slack', label: '#announcements' },
+    ],
+  },
+  {
+    name: 'Tweet Metrics Tracker',
+    category: 'Twitter Automation',
+    source: 'n8n',
+    status: 'active',
+    schedule: 'Daily 7am AEST',
+    cron: '0 21 * * *',
+    description: 'Fetches impressions, engagement, and likes for all posted tweets. Builds daily summary for Slack.',
+    tracking: ['Impressions per tweet', 'Engagement rate', 'Likes & retweets', 'Top performer'],
+    results: [
+      { dest: 'supabase', label: 'Tweet metrics stored' },
+      { dest: 'slack', label: '#announcements (daily summary)' },
+    ],
+  },
+
+  // ── Content Distribution ──
+  {
+    name: 'Organic Engine',
+    category: 'Content Distribution',
+    source: 'n8n',
+    status: 'active',
+    schedule: '8am, 11am, 2pm, 5pm AEST (weekdays)',
+    cron: '0 8,11,14,17 * * 1-5',
+    description: 'Fetches approved/scheduled posts from outreach_posts table. Distributes to approved channels. Marks as posted.',
+    tracking: ['Posts distributed', 'Platform breakdown', 'Post success rate'],
+    results: [
+      { dest: 'supabase', label: 'outreach_posts (updated)' },
+      { dest: 'twitter', label: 'Cross-platform posts' },
+    ],
+  },
+  {
+    name: 'ORCA Auto-Publish Article',
+    category: 'Content Distribution',
+    source: 'n8n',
+    status: 'webhook',
+    schedule: 'On new article (webhook)',
+    cron: 'webhook',
+    description: 'Triggered when a new ORCA article is created. Generates platform-specific copy, creates tracked Shlink URLs, posts to Twitter, queues email in Mautic, notifies Slack.',
+    tracking: ['Articles published', 'Shlink clicks', 'Email queued'],
+    results: [
+      { dest: 'twitter', label: 'Tweet posted' },
+      { dest: 'mautic', label: 'Email queued' },
+      { dest: 'slack', label: 'Notification' },
+    ],
+  },
+
+  // ── Outreach ──
+  {
+    name: 'Daily Twitter Outreach',
+    category: 'Outreach',
+    source: 'python',
+    status: 'active',
+    schedule: 'Daily 8am AEST (Mon–Fri)',
+    cron: '0 22 * * 0-4',
+    description: 'Searches Twitter for Brisbane professionals (50+ followers). Auto-follows 5 prospects, auto-DMs top 1, posts other 4 to Slack with pre-written DM templates.',
+    tracking: ['Prospects found', 'Auto-follows sent', 'DMs sent', 'Slack templates posted'],
+    results: [
+      { dest: 'slack', label: '#outreach' },
+      { dest: 'supabase', label: 'outreach_log table' },
+      { dest: 'twitter', label: 'Follows & DMs' },
+    ],
+  },
+  {
+    name: 'Auto Email Outreach',
+    category: 'Outreach',
+    source: 'python',
+    status: 'active',
+    schedule: 'Every 30 minutes',
+    cron: '*/30 * * * *',
+    description: 'Picks next untouched contact from Mautic prospect segment, generates personalized cold email via Claude API, sends through Mautic.',
+    tracking: ['Emails sent', 'Contacts remaining in queue', 'Send rate'],
+    results: [
+      { dest: 'mautic', label: 'Email sent via API' },
+    ],
+  },
+  {
+    name: 'Prospect Enrichment (Apollo)',
+    category: 'Outreach',
+    source: 'vercel',
+    status: 'active',
+    schedule: 'Daily (3 prospects, 10 on last day of month)',
+    cron: 'vercel cron',
+    description: 'Processes prospect list from Supabase, enriches missing contact info (name, email, phone) via Apollo API.',
+    tracking: ['Prospects enriched', 'Fields filled (email, phone, name)', 'API credits used'],
+    results: [
+      { dest: 'supabase', label: 'prospects table (enriched)' },
+    ],
+  },
+
+  // ── Daily Ops ──
+  {
+    name: 'Daily Task Dashboard',
+    category: 'Daily Operations',
+    source: 'python',
+    status: 'active',
+    schedule: 'Daily 7am AEST',
+    cron: '0 21 * * *',
+    description: 'Posts morning task dashboard to each business Slack channel with today\'s tasks. Color-coded urgency (white=today, yellow=1d overdue, orange=2d, red=3d+).',
+    tracking: ['Tasks posted per channel', 'Overdue tasks count', 'Completion rate'],
+    results: [
+      { dest: 'slack', label: '7 business channels + #alerts' },
+    ],
+  },
+  {
+    name: 'Mautic Background Cron',
+    category: 'Daily Operations',
+    source: 'docker',
+    status: 'active',
+    schedule: 'Every 60 seconds (continuous)',
+    cron: '* * * * *',
+    description: 'Runs Mautic cron jobs in dedicated Docker container: segments:update, campaigns:trigger, campaigns:update, emails:send, import, webhooks:process.',
+    tracking: ['Emails sent', 'Campaigns triggered', 'Segments updated', 'Webhooks processed'],
+    results: [
+      { dest: 'mysql', label: 'Mautic MySQL database' },
+      { dest: 'mautic', label: 'Internal queues' },
+    ],
+  },
+  {
+    name: 'Voice Memo Pipeline',
+    category: 'Daily Operations',
+    source: 'n8n',
+    status: 'webhook',
+    schedule: 'On voice memo upload (webhook)',
+    cron: 'webhook',
+    description: 'Receives audio file, transcribes with Gemini, expands into 3-8 actionable marketing items (social posts, blog drafts, emails, tasks).',
+    tracking: ['Memos processed', 'Items generated per memo', 'Types breakdown'],
+    results: [
+      { dest: 'supabase', label: 'Content items queued' },
+    ],
+  },
+
+  // ── NunyaBunya Agents ──
+  {
+    name: 'Signal Agent',
+    category: 'NunyaBunya Agents',
+    source: 'agent',
+    status: 'active',
+    schedule: 'Daily 8am AEST',
+    cron: '0 22 * * *',
+    description: 'Identifies trends, opportunities, and signals relevant to clients. Feeds into content planning.',
+    tracking: ['Signals identified', 'Trends flagged', 'Content opportunities created'],
+    results: [
+      { dest: 'supabase', label: 'Agent output' },
+      { dest: 'slack', label: 'Notifications' },
+    ],
+  },
+  {
+    name: 'Content Agent',
+    category: 'NunyaBunya Agents',
+    source: 'agent',
+    status: 'active',
+    schedule: 'Daily 8am AEST',
+    cron: '0 22 * * *',
+    description: 'Creates daily content pieces based on signals and content calendar. Drafts go to approval queue.',
+    tracking: ['Content pieces created', 'Approval rate', 'Types produced'],
+    results: [
+      { dest: 'supabase', label: 'Content drafts' },
+      { dest: 'slack', label: 'Approval notifications' },
+    ],
+  },
+  {
+    name: 'Distribution Agent',
+    category: 'NunyaBunya Agents',
+    source: 'agent',
+    status: 'active',
+    schedule: 'Daily 10am AEST',
+    cron: '0 0 * * *',
+    description: 'Posts approved content to configured social channels and platforms.',
+    tracking: ['Posts distributed', 'Platform breakdown', 'Errors'],
+    results: [
+      { dest: 'supabase', label: 'Distribution log' },
+      { dest: 'slack', label: 'Post confirmations' },
+    ],
+  },
+  {
+    name: 'Conversation Agent',
+    category: 'NunyaBunya Agents',
+    source: 'agent',
+    status: 'active',
+    schedule: 'Daily 11am AEST',
+    cron: '0 1 * * *',
+    description: 'Engages with audience — replies, comments, community management across platforms.',
+    tracking: ['Engagements made', 'Conversations started', 'Response time'],
+    results: [
+      { dest: 'supabase', label: 'Engagement log' },
+      { dest: 'slack', label: 'Activity summary' },
+    ],
+  },
+  {
+    name: 'Analytics Agent',
+    category: 'NunyaBunya Agents',
+    source: 'agent',
+    status: 'active',
+    schedule: 'Daily 8pm AEST',
+    cron: '0 10 * * *',
+    description: 'Tracks performance metrics across all channels. Compiles daily analytics snapshot.',
+    tracking: ['Metrics collected', 'Anomalies flagged', 'Trends identified'],
+    results: [
+      { dest: 'supabase', label: 'Analytics data' },
+      { dest: 'slack', label: 'Daily analytics summary' },
+    ],
+  },
+  {
+    name: 'Optimization Agent',
+    category: 'NunyaBunya Agents',
+    source: 'agent',
+    status: 'active',
+    schedule: 'Weekly Monday 9am AEST',
+    cron: '0 23 * * 0',
+    description: 'Reviews weekly performance, suggests optimizations, adjusts strategies based on data.',
+    tracking: ['Optimizations suggested', 'Changes implemented', 'Performance delta'],
+    results: [
+      { dest: 'supabase', label: 'Optimization report' },
+      { dest: 'slack', label: 'Weekly review' },
+    ],
+  },
+  {
+    name: 'Reputation Agent',
+    category: 'NunyaBunya Agents',
+    source: 'agent',
+    status: 'active',
+    schedule: 'Every 4 hours',
+    cron: '0 */4 * * *',
+    description: 'Monitors online reputation — reviews, mentions, sentiment across platforms.',
+    tracking: ['Reviews found', 'Mentions tracked', 'Sentiment score'],
+    results: [
+      { dest: 'supabase', label: 'Reputation data' },
+      { dest: 'slack', label: 'Alerts on negative' },
+    ],
+  },
+  {
+    name: 'SEO Agent',
+    category: 'NunyaBunya Agents',
+    source: 'agent',
+    status: 'active',
+    schedule: 'Weekly',
+    cron: 'weekly',
+    description: 'Audits SEO performance, tracks keyword rankings, identifies opportunities.',
+    tracking: ['Keywords tracked', 'Ranking changes', 'New opportunities'],
+    results: [
+      { dest: 'supabase', label: 'SEO data' },
+      { dest: 'slack', label: 'Weekly SEO report' },
+    ],
+  },
+  {
+    name: 'Reporting Agent',
+    category: 'NunyaBunya Agents',
+    source: 'agent',
+    status: 'active',
+    schedule: 'Weekly Monday 8am AEST',
+    cron: '0 22 * * 0',
+    description: 'Compiles weekly report from all agent outputs and cron job metrics. Posts comprehensive summary.',
+    tracking: ['Reports generated', 'Data sources compiled', 'Client reports sent'],
+    results: [
+      { dest: 'supabase', label: 'Weekly reports' },
+      { dest: 'slack', label: '#alerts (weekly summary)' },
+    ],
+  },
+  {
+    name: 'Ads Agent',
+    category: 'NunyaBunya Agents',
+    source: 'agent',
+    status: 'active',
+    schedule: 'Daily + CPA threshold alerts',
+    cron: 'daily + alert',
+    description: 'Monitors ad spend and performance. Fires alerts when CPA exceeds threshold.',
+    tracking: ['Ad spend tracked', 'CPA alerts fired', 'ROAS calculated'],
+    results: [
+      { dest: 'supabase', label: 'Ads performance data' },
+      { dest: 'slack', label: 'CPA alerts' },
+    ],
+  },
+  {
+    name: 'GBP Metrics Agent',
+    category: 'NunyaBunya Agents',
+    source: 'agent',
+    status: 'active',
+    schedule: 'Daily 6am AEST',
+    cron: '0 20 * * *',
+    description: 'Fetches Google Business Profile metrics — views, searches, actions, reviews.',
+    tracking: ['Profile views', 'Search impressions', 'Actions (calls, directions, website)', 'New reviews'],
+    results: [
+      { dest: 'supabase', label: 'GBP metrics' },
+      { dest: 'slack', label: 'Daily GBP summary' },
+    ],
+  },
+];
+
+let activeFilter = 'all';
+
+function renderJobs() {
+  const search = (document.getElementById('searchInput').value || '').toLowerCase();
+
+  let filtered = CRON_JOBS;
+  if (activeFilter !== 'all') {
+    filtered = filtered.filter(j => j.source === activeFilter);
+  }
+  if (search) {
+    filtered = filtered.filter(j =>
+      j.name.toLowerCase().includes(search) ||
+      j.category.toLowerCase().includes(search) ||
+      j.description.toLowerCase().includes(search) ||
+      j.source.toLowerCase().includes(search)
+    );
+  }
+
+  // KPIs
+  document.getElementById('kpiTotal').textContent = CRON_JOBS.length;
+  document.getElementById('kpiActive').textContent = CRON_JOBS.filter(j => j.status === 'active').length;
+  document.getElementById('kpiDaily').textContent = CRON_JOBS.filter(j =>
+    j.schedule.toLowerCase().includes('daily') ||
+    j.schedule.toLowerCase().includes('am') ||
+    j.schedule.toLowerCase().includes('pm') ||
+    j.schedule.toLowerCase().includes('every')
+  ).length;
+  const sources = new Set(CRON_JOBS.map(j => j.source));
+  document.getElementById('kpiSources').textContent = sources.size;
+
+  // Group by category
+  const groups = {};
+  filtered.forEach(j => {
+    if (!groups[j.category]) groups[j.category] = [];
+    groups[j.category].push(j);
+  });
+
+  const container = document.getElementById('jobsList');
+
+  if (!filtered.length) {
+    container.innerHTML = '<div class="cj-empty">No cron jobs match your filter.</div>';
+    return;
+  }
+
+  container.innerHTML = Object.entries(groups).map(([cat, jobs]) => `
+    <div class="cj-category">${cat} <span style="opacity:0.5;font-weight:400">(${jobs.length})</span></div>
+    ${jobs.map(j => `
+      <div class="cj-card">
+        <div class="cj-header">
+          <div>
+            <span class="cj-source ${j.source}">${j.source}</span>
+            <span class="cj-name">${j.name}</span>
+          </div>
+          <span class="cj-status ${j.status}">${j.status}</span>
+        </div>
+        <div class="cj-desc">${j.description}</div>
+        <div class="cj-meta">
+          <div class="cj-meta-item">
+            <span class="cj-meta-label">Schedule</span>
+            <span class="cj-meta-value">${j.schedule}</span>
+          </div>
+          <div class="cj-meta-item">
+            <span class="cj-meta-label">Cron Expression</span>
+            <span class="cj-meta-value" style="font-family:monospace;font-size:12px">${j.cron}</span>
+          </div>
+          <div class="cj-meta-item">
+            <span class="cj-meta-label">Tracking</span>
+            <span class="cj-meta-value">${j.tracking.join(', ')}</span>
+          </div>
+          <div class="cj-meta-item">
+            <span class="cj-meta-label">Results</span>
+            <span class="cj-meta-value">${j.results.map(r =>
+              `<span class="cj-dest ${r.dest}">${r.label}</span>`
+            ).join(' ')}</span>
+          </div>
+        </div>
+      </div>
+    `).join('')}
+  `).join('');
+}
+
+function setupFilters() {
+  document.querySelectorAll('.cj-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cj-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      renderJobs();
+    });
+  });
+}
+
+async function init() {
+  const ok = await NB_ADMIN.checkAuth();
+  if (!ok) return;
+  NB_ADMIN.renderSidebar('cron-jobs');
+  renderJobs();
+  setupFilters();
+}
+
+init();
+</script>
+</body>
+</html>
