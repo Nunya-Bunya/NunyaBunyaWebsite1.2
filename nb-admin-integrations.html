@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integrations | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  /* Brand filter pills */
+  .int-filters { display: flex; gap: 4px; margin-bottom: 20px; flex-wrap: wrap; }
+  .int-filter-btn {
+    padding: 8px 14px; border-radius: 8px; border: 1px solid var(--subtle);
+    background: transparent; color: var(--muted); font-size: 12px; cursor: pointer;
+    font-family: var(--font-heading); font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; transition: all 0.2s;
+  }
+  .int-filter-btn:hover { color: var(--white); border-color: var(--white); }
+  .int-filter-btn.active { color: var(--teal); border-color: var(--teal); background: rgba(0,229,204,0.05); }
+
+  /* Brand breakdown mini bar */
+  .brand-breakdown { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .brand-chip {
+    display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.04); padding: 4px 10px; border-radius: 6px;
+  }
+  .brand-chip .brand-count {
+    font-family: var(--font-heading); font-weight: 700; color: var(--teal); font-size: 14px;
+  }
+
+  /* Tweet content preview */
+  .tweet-preview {
+    max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 300;
+  }
+
+  /* Tweet link */
+  .tweet-link {
+    color: var(--teal); text-decoration: none; font-size: 12px; font-family: monospace;
+  }
+  .tweet-link:hover { text-decoration: underline; }
+
+  /* Status pills */
+  .int-status {
+    display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .int-status.posted { background: rgba(0,229,204,0.12); color: var(--teal); }
+  .int-status.approved { background: rgba(74,144,217,0.12); color: var(--blue); }
+  .int-status.draft { background: rgba(255,184,0,0.12); color: var(--yellow); }
+  .int-status.queued { background: rgba(155,89,182,0.12); color: var(--purple); }
+  .int-status.failed { background: rgba(255,68,68,0.12); color: #ff4444; }
+  .int-status.accepted { background: rgba(0,229,204,0.12); color: var(--teal); }
+  .int-status.cancelled { background: rgba(255,68,68,0.12); color: #ff4444; }
+  .int-status.pending { background: rgba(255,184,0,0.12); color: var(--yellow); }
+  .int-status.active { background: rgba(0,229,204,0.12); color: var(--teal); }
+
+  /* Connect fallback button */
+  .connect-panel {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
+    padding: 40px; text-align: center;
+  }
+  .connect-panel p { color: var(--muted); font-size: 14px; margin-bottom: 16px; font-weight: 300; }
+  .connect-panel .error-detail { font-size: 12px; color: rgba(255,68,68,0.7); margin-bottom: 16px; font-family: monospace; }
+
+  /* Refresh button */
+  .refresh-btn {
+    background: none; border: 1px solid var(--subtle); color: var(--muted); padding: 8px 16px;
+    border-radius: 8px; font-size: 12px; cursor: pointer;
+    font-family: var(--font-heading); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; transition: all 0.2s;
+  }
+  .refresh-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* Loading overlay per section */
+  .section-loading {
+    text-align: center; padding: 60px; color: var(--muted);
+  }
+  .section-loading .spinner {
+    display: inline-block; width: 24px; height: 24px; border: 2px solid var(--subtle);
+    border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite;
+    margin-bottom: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Integrations <span>Hub</span></h1>
+        <div class="date">Twitter, Cal.com, and Mautic — all in one place</div>
+      </div>
+      <button class="refresh-btn" onclick="refreshCurrentTab()">Refresh</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="twitter" onclick="switchTab('twitter')">Twitter</button>
+      <button class="tab" data-tab="bookings" onclick="switchTab('bookings')">Bookings</button>
+      <button class="tab" data-tab="mautic" onclick="switchTab('mautic')">Mautic</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- TAB 1: TWITTER (@BenAlekConner)            -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="tab-content active" id="tab-twitter">
+      <div class="kpi-grid" id="twitterKpis">
+        <div class="kpi-card"><div class="num" id="twTotal">--</div><div class="label">Total Tweets</div></div>
+        <div class="kpi-card"><div class="num" id="twWeek">--</div><div class="label">This Week</div></div>
+        <div class="kpi-card"><div class="num" id="twPosted">--</div><div class="label">Posted</div></div>
+        <div class="kpi-card"><div class="num" id="twQueued">--</div><div class="label">In Queue</div></div>
+      </div>
+
+      <!-- Brand breakdown -->
+      <div class="section">
+        <div class="section-header">Tweets by Brand</div>
+        <div class="brand-breakdown" id="twBrandBreakdown"></div>
+      </div>
+
+      <!-- Brand filter -->
+      <div class="int-filters" id="twFilters"></div>
+
+      <!-- Tweets table -->
+      <div class="table-wrap">
+        <table id="twTable">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Brand</th>
+              <th>Content</th>
+              <th>Tweet ID</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="twBody"></tbody>
+        </table>
+      </div>
+      <div id="twEmpty" class="empty-state" style="display:none;">
+        <div class="icon">&#128038;</div>
+        <p>No tweets found in the queue yet.</p>
+      </div>
+      <div id="twLoading" class="section-loading">
+        <div class="spinner"></div><br>Loading tweets...
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- TAB 2: BOOKINGS (Cal.com)                  -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="tab-content" id="tab-bookings">
+      <div class="kpi-grid" id="bookingKpis">
+        <div class="kpi-card"><div class="num" id="bkTotal">--</div><div class="label">Total Bookings</div></div>
+        <div class="kpi-card"><div class="num" id="bkWeek">--</div><div class="label">This Week</div></div>
+        <div class="kpi-card"><div class="num" id="bkMonth">--</div><div class="label">This Month</div></div>
+        <div class="kpi-card"><div class="num" id="bkUpcoming">--</div><div class="label">Upcoming</div></div>
+      </div>
+
+      <div class="table-wrap" id="bkTableWrap" style="display:none;">
+        <table>
+          <thead>
+            <tr>
+              <th>Date / Time</th>
+              <th>Attendee</th>
+              <th>Email</th>
+              <th>Event Type</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="bkBody"></tbody>
+        </table>
+      </div>
+      <div id="bkEmpty" class="empty-state" style="display:none;">
+        <div class="icon">&#128197;</div>
+        <p>No bookings found.</p>
+      </div>
+      <div id="bkConnect" class="connect-panel" style="display:none;">
+        <p>Could not connect to Cal.com API (likely CORS restriction).</p>
+        <div class="error-detail" id="bkError"></div>
+        <a href="https://app.cal.com/bookings" target="_blank" class="btn-teal">Open Cal.com Dashboard</a>
+      </div>
+      <div id="bkLoading" class="section-loading">
+        <div class="spinner"></div><br>Loading bookings...
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- TAB 3: MAUTIC (Forms + Contacts)           -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="tab-content" id="tab-mautic">
+      <div class="kpi-grid" id="mauticKpis">
+        <div class="kpi-card"><div class="num" id="mtContacts">--</div><div class="label">Total Contacts</div></div>
+        <div class="kpi-card"><div class="num" id="mtNewWeek">--</div><div class="label">New This Week</div></div>
+        <div class="kpi-card"><div class="num" id="mtForms">--</div><div class="label">Form Submissions</div></div>
+        <div class="kpi-card"><div class="num" id="mtCampaigns">--</div><div class="label">Active Campaigns</div></div>
+      </div>
+
+      <div class="table-wrap" id="mtTableWrap" style="display:none;">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Form</th>
+              <th>Contact Email</th>
+              <th>Source Page</th>
+            </tr>
+          </thead>
+          <tbody id="mtBody"></tbody>
+        </table>
+      </div>
+      <div id="mtEmpty" class="empty-state" style="display:none;">
+        <div class="icon">&#9993;</div>
+        <p>No form submissions found.</p>
+      </div>
+      <div id="mtConnect" class="connect-panel" style="display:none;">
+        <p>Could not connect to Mautic API (likely CORS restriction).</p>
+        <div class="error-detail" id="mtError"></div>
+        <a href="https://mautic.nunyabunya.com" target="_blank" class="btn-teal">Open Mautic Dashboard</a>
+      </div>
+      <div id="mtLoading" class="section-loading">
+        <div class="spinner"></div><br>Loading Mautic data...
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+// ── Supabase config (same as other admin pages) ──
+const SUPABASE_URL = 'https://podyldvpvgqktwbqswrc.supabase.co';
+const SUPABASE_KEY = 'sb_secret_7G4kmywzGey6j3PyeT9wnw_Q1aN2dep';
+
+// ── Cal.com config ──
+const CALCOM_API_KEY = 'cal_live_cfd58c00a55d5a6450aaf6c8e94e7805';
+const CALCOM_BASE = 'https://api.cal.com/v1';
+
+// ── Mautic config ──
+const MAUTIC_BASE = 'https://mautic.nunyabunya.com';
+const MAUTIC_USER = 'ben@nunyabunya.com';
+const MAUTIC_PASS = 'VIVAlaR3VOLUCI0N!';
+
+// ── State ──
+let currentTab = 'twitter';
+let tweets = [];
+let twFilter = 'all';
+
+// ── Supabase helper ──
+async function supaGet(query) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${query}`, {
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+  });
+  return r.json();
+}
+
+// ── Tab switching ──
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+function refreshCurrentTab() {
+  if (currentTab === 'twitter') loadTwitter();
+  else if (currentTab === 'bookings') loadBookings();
+  else if (currentTab === 'mautic') loadMautic();
+}
+
+// ══════════════════════════════════════════════════════════════
+// TWITTER — from Supabase tweet_queue
+// ══════════════════════════════════════════════════════════════
+
+async function loadTwitter() {
+  const loading = document.getElementById('twLoading');
+  loading.style.display = '';
+
+  try {
+    tweets = await supaGet('tweet_queue?order=created_at.desc&limit=500');
+    if (!Array.isArray(tweets)) tweets = [];
+  } catch (e) {
+    tweets = [];
+    console.error('Twitter load error:', e);
+  }
+
+  loading.style.display = 'none';
+  renderTwitterKpis();
+  renderTwitterFilters();
+  renderTwitterTable();
+}
+
+function renderTwitterKpis() {
+  document.getElementById('twTotal').textContent = tweets.length;
+
+  // This week
+  const now = new Date();
+  const monday = NB_ADMIN.getMonday(now);
+  monday.setHours(0, 0, 0, 0);
+  const thisWeek = tweets.filter(t => new Date(t.created_at) >= monday).length;
+  document.getElementById('twWeek').textContent = thisWeek;
+
+  // Posted vs queued
+  const posted = tweets.filter(t => t.status === 'posted').length;
+  const queued = tweets.filter(t => t.status !== 'posted' && t.status !== 'failed').length;
+  document.getElementById('twPosted').textContent = posted;
+  document.getElementById('twQueued').textContent = queued;
+
+  // Brand breakdown
+  const byBrand = {};
+  tweets.forEach(t => {
+    const brand = t.brand || t.brand_id || 'Unknown';
+    byBrand[brand] = (byBrand[brand] || 0) + 1;
+  });
+  const breakdown = document.getElementById('twBrandBreakdown');
+  breakdown.innerHTML = Object.entries(byBrand)
+    .sort((a, b) => b[1] - a[1])
+    .map(([brand, count]) => `
+      <div class="brand-chip">
+        <span class="brand-count">${count}</span>
+        <span>${NB_ADMIN.esc(brand)}</span>
+      </div>
+    `).join('');
+}
+
+function renderTwitterFilters() {
+  const brands = [...new Set(tweets.map(t => t.brand || t.brand_id || 'Unknown'))].sort();
+  let html = `<button class="int-filter-btn ${twFilter === 'all' ? 'active' : ''}" onclick="setTwFilter('all')">All</button>`;
+  brands.forEach(b => {
+    html += `<button class="int-filter-btn ${twFilter === b ? 'active' : ''}" onclick="setTwFilter('${b.replace(/'/g, "\\'")}')">${NB_ADMIN.esc(b)}</button>`;
+  });
+  document.getElementById('twFilters').innerHTML = html;
+}
+
+function setTwFilter(f) {
+  twFilter = f;
+  renderTwitterFilters();
+  renderTwitterTable();
+}
+
+function renderTwitterTable() {
+  let filtered = tweets;
+  if (twFilter !== 'all') {
+    filtered = filtered.filter(t => (t.brand || t.brand_id || 'Unknown') === twFilter);
+  }
+
+  const body = document.getElementById('twBody');
+  const empty = document.getElementById('twEmpty');
+  const table = document.getElementById('twTable');
+
+  if (!filtered.length) {
+    body.innerHTML = '';
+    table.style.display = 'none';
+    empty.style.display = '';
+    return;
+  }
+  table.style.display = '';
+  empty.style.display = 'none';
+
+  body.innerHTML = filtered.map(t => {
+    const date = NB_ADMIN.formatDate(t.created_at || t.scheduled_for);
+    const brand = NB_ADMIN.esc(t.brand || t.brand_id || 'Unknown');
+    const content = NB_ADMIN.esc((t.tweet_text || t.content || '').substring(0, 80));
+    const tweetId = t.tweet_id || t.twitter_post_id || '';
+    const tweetLink = tweetId
+      ? `<a href="https://twitter.com/BenAlekConner/status/${tweetId}" target="_blank" class="tweet-link">${tweetId.substring(0, 12)}...</a>`
+      : '<span style="color:var(--muted);font-size:12px;">--</span>';
+    const status = t.status || 'draft';
+
+    return `<tr>
+      <td>${date}</td>
+      <td>${brand}</td>
+      <td><div class="tweet-preview">${content}</div></td>
+      <td>${tweetLink}</td>
+      <td><span class="int-status ${status}">${status}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+// BOOKINGS — Cal.com API
+// ══════════════════════════════════════════════════════════════
+
+async function loadBookings() {
+  const loading = document.getElementById('bkLoading');
+  const connect = document.getElementById('bkConnect');
+  const tableWrap = document.getElementById('bkTableWrap');
+  const empty = document.getElementById('bkEmpty');
+  loading.style.display = '';
+  connect.style.display = 'none';
+  tableWrap.style.display = 'none';
+  empty.style.display = 'none';
+
+  try {
+    const res = await fetch(`${CALCOM_BASE}/bookings?apiKey=${CALCOM_API_KEY}`, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    const data = await res.json();
+    const bookings = data.bookings || data || [];
+
+    loading.style.display = 'none';
+
+    if (!Array.isArray(bookings) || !bookings.length) {
+      empty.style.display = '';
+      renderBookingKpis([]);
+      return;
+    }
+
+    renderBookingKpis(bookings);
+    renderBookingTable(bookings);
+  } catch (err) {
+    console.error('Cal.com error:', err);
+    loading.style.display = 'none';
+    document.getElementById('bkError').textContent = err.message || 'Unknown error';
+    connect.style.display = '';
+    renderBookingKpis([]);
+  }
+}
+
+function renderBookingKpis(bookings) {
+  document.getElementById('bkTotal').textContent = bookings.length;
+
+  const now = new Date();
+  const monday = NB_ADMIN.getMonday(now);
+  monday.setHours(0, 0, 0, 0);
+  const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  const thisWeek = bookings.filter(b => new Date(b.startTime || b.start) >= monday).length;
+  const thisMonth = bookings.filter(b => new Date(b.startTime || b.start) >= firstOfMonth).length;
+  const upcoming = bookings.filter(b => new Date(b.startTime || b.start) >= now).length;
+
+  document.getElementById('bkWeek').textContent = thisWeek;
+  document.getElementById('bkMonth').textContent = thisMonth;
+  document.getElementById('bkUpcoming').textContent = upcoming;
+}
+
+function renderBookingTable(bookings) {
+  const tableWrap = document.getElementById('bkTableWrap');
+  const body = document.getElementById('bkBody');
+  tableWrap.style.display = '';
+
+  body.innerHTML = bookings.slice(0, 100).map(b => {
+    const start = b.startTime || b.start || '';
+    const dateStr = start ? NB_ADMIN.formatDate(start) : '--';
+    const timeStr = start ? new Date(start).toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' }) : '';
+    const attendees = b.attendees || [];
+    const attendeeName = attendees.length ? NB_ADMIN.esc(attendees[0].name || '') : '--';
+    const attendeeEmail = attendees.length ? NB_ADMIN.esc(attendees[0].email || '') : '--';
+    const eventType = NB_ADMIN.esc(b.title || b.eventType?.title || b.type || '');
+    const status = b.status || 'accepted';
+
+    return `<tr>
+      <td>${dateStr} <span style="color:var(--muted);font-size:12px;">${timeStr}</span></td>
+      <td>${attendeeName}</td>
+      <td style="font-size:13px;">${attendeeEmail}</td>
+      <td>${eventType}</td>
+      <td><span class="int-status ${status}">${status}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+// MAUTIC — REST API
+// ══════════════════════════════════════════════════════════════
+
+async function loadMautic() {
+  const loading = document.getElementById('mtLoading');
+  const connect = document.getElementById('mtConnect');
+  const tableWrap = document.getElementById('mtTableWrap');
+  const empty = document.getElementById('mtEmpty');
+  loading.style.display = '';
+  connect.style.display = 'none';
+  tableWrap.style.display = 'none';
+  empty.style.display = 'none';
+
+  try {
+    const authHeader = 'Basic ' + btoa(`${MAUTIC_USER}:${MAUTIC_PASS}`);
+
+    // Fetch contacts, forms, campaigns in parallel
+    const [contactsRes, formsRes, campaignsRes] = await Promise.all([
+      fetch(`${MAUTIC_BASE}/api/contacts?limit=1&orderBy=id&orderByDir=desc`, {
+        headers: { 'Authorization': authHeader }
+      }),
+      fetch(`${MAUTIC_BASE}/api/forms?limit=100`, {
+        headers: { 'Authorization': authHeader }
+      }),
+      fetch(`${MAUTIC_BASE}/api/campaigns?limit=100`, {
+        headers: { 'Authorization': authHeader }
+      })
+    ]);
+
+    if (!contactsRes.ok) throw new Error(`Contacts: HTTP ${contactsRes.status}`);
+
+    const contactsData = await contactsRes.json();
+    const formsData = await formsRes.json();
+    const campaignsData = await campaignsRes.json();
+
+    loading.style.display = 'none';
+
+    // KPIs
+    const totalContacts = contactsData.total || 0;
+
+    // New this week
+    const monday = NB_ADMIN.getMonday(new Date());
+    const mondayStr = NB_ADMIN.toDateStr(monday);
+    let newThisWeek = 0;
+    try {
+      const weekRes = await fetch(`${MAUTIC_BASE}/api/contacts?limit=1&search=date_added:>=${mondayStr}`, {
+        headers: { 'Authorization': authHeader }
+      });
+      if (weekRes.ok) {
+        const weekData = await weekRes.json();
+        newThisWeek = weekData.total || 0;
+      }
+    } catch {}
+
+    // Forms + submissions
+    const forms = formsData.forms ? Object.values(formsData.forms) : [];
+    const totalSubmissions = forms.reduce((sum, f) => sum + (f.submissionCount || 0), 0);
+
+    // Active campaigns
+    const campaigns = campaignsData.campaigns ? Object.values(campaignsData.campaigns) : [];
+    const activeCampaigns = campaigns.filter(c => c.isPublished).length;
+
+    document.getElementById('mtContacts').textContent = totalContacts;
+    document.getElementById('mtNewWeek').textContent = newThisWeek;
+    document.getElementById('mtForms').textContent = totalSubmissions;
+    document.getElementById('mtCampaigns').textContent = activeCampaigns;
+
+    // Fetch recent form submissions
+    await loadMauticSubmissions(authHeader, forms);
+
+  } catch (err) {
+    console.error('Mautic error:', err);
+    loading.style.display = 'none';
+    document.getElementById('mtError').textContent = err.message || 'Unknown error';
+    connect.style.display = '';
+  }
+}
+
+async function loadMauticSubmissions(authHeader, forms) {
+  const tableWrap = document.getElementById('mtTableWrap');
+  const body = document.getElementById('mtBody');
+  const empty = document.getElementById('mtEmpty');
+
+  let allSubmissions = [];
+
+  // Fetch recent submissions from each form (top 5 forms by submission count)
+  const topForms = forms
+    .filter(f => (f.submissionCount || 0) > 0)
+    .sort((a, b) => (b.submissionCount || 0) - (a.submissionCount || 0))
+    .slice(0, 5);
+
+  for (const form of topForms) {
+    try {
+      const res = await fetch(`${MAUTIC_BASE}/api/forms/${form.id}/submissions?limit=20&orderBy=s.date_submitted&orderByDir=desc`, {
+        headers: { 'Authorization': authHeader }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const subs = data.submissions ? Object.values(data.submissions) : [];
+        subs.forEach(s => {
+          allSubmissions.push({
+            date: s.dateSubmitted || s.date_submitted || '',
+            formName: form.name || 'Unknown Form',
+            email: s.lead?.fields?.core?.email?.value || s.results?.email || '',
+            sourcePage: s.referer || s.page?.url || '',
+          });
+        });
+      }
+    } catch {}
+  }
+
+  // Sort by date desc
+  allSubmissions.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  if (!allSubmissions.length) {
+    empty.style.display = '';
+    return;
+  }
+
+  tableWrap.style.display = '';
+  body.innerHTML = allSubmissions.slice(0, 50).map(s => {
+    const date = s.date ? NB_ADMIN.formatDate(s.date) : '--';
+    const email = NB_ADMIN.esc(s.email || '--');
+    const formName = NB_ADMIN.esc(s.formName);
+    const source = s.sourcePage ? NB_ADMIN.esc(s.sourcePage.replace(/https?:\/\/[^\/]+/, '').substring(0, 50)) : '--';
+
+    return `<tr>
+      <td>${date}</td>
+      <td>${formName}</td>
+      <td style="font-size:13px;">${email}</td>
+      <td style="font-size:12px;color:var(--muted);">${source}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Init ──
+async function init() {
+  const ok = await NB_ADMIN.checkAuth();
+  if (!ok) return;
+  NB_ADMIN.renderSidebar('integrations');
+
+  // Load Twitter data immediately (it's the default tab)
+  loadTwitter();
+
+  // Lazy-load other tabs when clicked
+  let bookingsLoaded = false;
+  let mauticLoaded = false;
+
+  const origSwitch = switchTab;
+  window.switchTab = function(tab) {
+    origSwitch(tab);
+    if (tab === 'bookings' && !bookingsLoaded) { bookingsLoaded = true; loadBookings(); }
+    if (tab === 'mautic' && !mauticLoaded) { mauticLoaded = true; loadMautic(); }
+  };
+}
+
+init();
+</script>
+</body>
+</html>

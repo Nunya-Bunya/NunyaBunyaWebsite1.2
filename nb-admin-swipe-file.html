@@ -10,131 +10,91 @@
 <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="/nb-admin-style.css">
 <style>
-/* Swipe File — Page Styles */
-
-/* Heat badges */
-.badge-heat { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
-.badge-heat.hot { background: rgba(255,45,120,0.15); color: var(--magenta); }
-.badge-heat.active { background: rgba(255,184,0,0.15); color: var(--yellow); }
-.badge-heat.archive { background: rgba(153,153,153,0.12); color: var(--muted); }
-
-/* Layer badges */
-.badge-layer { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
-.badge-layer.master { background: rgba(0,229,204,0.12); color: var(--teal); }
-.badge-layer.niche { background: rgba(155,89,182,0.12); color: var(--purple); }
-.badge-layer.live { background: rgba(255,45,120,0.12); color: var(--magenta); }
-
-/* Category badges */
-.badge-cat { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
-.badge-cat.hook { background: rgba(255,45,120,0.12); color: var(--magenta); }
-.badge-cat.angle { background: rgba(74,144,217,0.12); color: var(--blue); }
-.badge-cat.format { background: rgba(155,89,182,0.12); color: var(--purple); }
-.badge-cat.offer { background: rgba(255,184,0,0.12); color: var(--yellow); }
-.badge-cat.cta { background: rgba(0,229,204,0.12); color: var(--teal); }
-.badge-cat.subject { background: rgba(74,144,217,0.12); color: var(--blue); }
-.badge-cat.social-proof { background: rgba(255,184,0,0.12); color: var(--yellow); }
-.badge-cat.landing-page { background: rgba(155,89,182,0.12); color: var(--purple); }
-
-/* Reusability stars */
-.reuse-stars { color: var(--yellow); font-size: 14px; letter-spacing: 2px; }
-.reuse-stars .empty { color: var(--subtle); }
-
-/* Swipe card grid */
-.swipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+/* Clean swipe file — just the ads */
+.swipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
 .swipe-card {
   background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
-  padding: 0; transition: all 0.2s; cursor: pointer; position: relative; overflow: hidden;
+  overflow: hidden; position: relative; cursor: pointer; transition: border-color 0.2s;
 }
-.swipe-card:hover { border-color: rgba(0,229,204,0.3); transform: translateY(-2px); }
-.swipe-card .sc-preview { width: 100%; border-radius: 8px 8px 0 0; aspect-ratio: 5/6; object-fit: cover; object-position: top; display: block; }
-.swipe-card .sc-no-img { width: 100%; aspect-ratio: 5/6; background: var(--dark3); border-radius: 8px 8px 0 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; }
-.swipe-card .sc-body { padding: 12px 16px 14px; }
-.swipe-card .sc-title { font-family: var(--font-heading); font-weight: 700; font-size: 14px; line-height: 1.3; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.swipe-card .sc-advertiser { font-size: 12px; color: var(--teal); font-weight: 500; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.swipe-card .sc-badges-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.swipe-card .sc-scaling { position: absolute; top: 8px; right: 8px; font-size: 9px; padding: 2px 8px; border-radius: 4px; background: rgba(0,229,204,0.8); color: var(--dark); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; z-index: 2; }
+.swipe-card:hover { border-color: rgba(0,229,204,0.3); }
 
-/* Filter toolbar */
-.swipe-toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
-.filter-btn { padding: 6px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; border: 1px solid var(--subtle); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; font-family: var(--font-body); }
-.filter-btn:hover { border-color: var(--teal); color: var(--teal); }
-.filter-btn.active { background: var(--teal); color: var(--dark); border-color: var(--teal); }
-.filter-sep { width: 1px; height: 24px; background: var(--subtle); margin: 0 4px; }
+/* Media — never crop */
+.swipe-card img, .swipe-card video {
+  width: 100%; height: auto; display: block;
+}
 
-/* Purge mode */
-.purge-controls { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; padding: 16px 20px; background: rgba(255,45,120,0.05); border: 1px solid rgba(255,45,120,0.2); border-radius: 12px; }
-.purge-controls .purge-label { font-family: var(--font-heading); font-weight: 700; font-size: 14px; text-transform: uppercase; color: var(--magenta); }
-.purge-controls .purge-stats { font-size: 13px; color: var(--muted); font-weight: 300; }
-.swipe-card.purge-mode { border: 2px solid transparent; }
-.swipe-card.purge-mode:hover { border-color: var(--magenta); }
-.swipe-card.marked-kill { opacity: 0.4; border-color: rgba(255,68,68,0.4); }
-.swipe-card.marked-promote { border-color: var(--teal); box-shadow: 0 0 0 1px var(--teal); }
-.purge-actions { position: absolute; bottom: 12px; right: 12px; display: flex; gap: 6px; z-index: 2; }
-.purge-actions button { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; font-family: var(--font-body); transition: all 0.15s; }
-.purge-actions .pa-kill { background: rgba(255,68,68,0.15); color: #ff4444; }
-.purge-actions .pa-kill:hover { background: rgba(255,68,68,0.3); }
-.purge-actions .pa-promote { background: rgba(0,229,204,0.15); color: var(--teal); }
-.purge-actions .pa-promote:hover { background: rgba(0,229,204,0.3); }
-.purge-actions .pa-keep { background: rgba(255,255,255,0.05); color: var(--muted); }
-.purge-actions .pa-keep:hover { background: rgba(255,255,255,0.1); }
+/* Caption (if they typed a message with the screenshot) */
+.swipe-card .caption {
+  padding: 10px 14px; font-size: 13px; color: rgba(255,255,255,0.6);
+  font-weight: 300; line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
 
-/* Live board */
-.live-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-.live-col { background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px; overflow: hidden; }
-.live-col-header { padding: 16px 20px; border-bottom: 1px solid var(--subtle); font-family: var(--font-heading); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em; display: flex; justify-content: space-between; align-items: center; }
-.live-col-header .count { font-size: 12px; color: var(--muted); font-weight: 400; }
-.live-col-body { padding: 12px; }
-.live-item { padding: 10px 14px; background: var(--dark3); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: all 0.15s; }
-.live-item:hover { background: rgba(255,255,255,0.05); }
-.live-item .li-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
-.live-item .li-meta { font-size: 11px; color: var(--muted); display: flex; gap: 8px; }
-.live-empty { text-align: center; padding: 24px; color: var(--muted); font-size: 13px; }
+/* Delete X on hover */
+.sc-delete {
+  position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(0,0,0,0.6); border: none; color: var(--muted); font-size: 16px;
+  cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 5;
+}
+.swipe-card:hover .sc-delete { display: flex; }
+.sc-delete:hover { background: rgba(255,68,68,0.3); color: #ff4444; }
 
-/* Modal overrides */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
-.modal-overlay.active { display: flex; }
-.modal { background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px; padding: 32px; width: 560px; max-width: 90vw; max-height: 90vh; overflow-y: auto; }
-.modal h2 { font-family: var(--font-heading); font-size: 22px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px; color: var(--teal); }
-.modal .form-group { margin-bottom: 16px; }
-.modal label { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-.modal input, .modal select, .modal textarea { width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--subtle); background: var(--dark3); color: var(--white); font-size: 14px; font-family: var(--font-body); outline: none; font-weight: 300; }
-.modal input:focus, .modal select:focus, .modal textarea:focus { border-color: var(--teal); }
-.modal textarea { min-height: 80px; resize: vertical; }
-.modal .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.modal .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-.modal .btn-row { display: flex; gap: 10px; margin-top: 24px; }
-.modal .btn-save { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; background: var(--teal); color: var(--dark); font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.04em; }
-.modal .btn-cancel { flex: 1; padding: 12px; border: 1px solid var(--subtle); border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; background: transparent; color: var(--muted); font-family: var(--font-heading); text-transform: uppercase; }
-.modal .btn-delete { padding: 12px; border: 1px solid #ff4444; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; background: transparent; color: #ff4444; font-family: var(--font-heading); text-transform: uppercase; }
+/* File card — looks like a document page */
+.sc-file {
+  width: 100%; aspect-ratio: 3/4; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 12px;
+  background: #f5f5f5; position: relative; overflow: hidden;
+}
+.sc-file::before {
+  content: ''; position: absolute; top: 0; right: 0; width: 0; height: 0;
+  border-style: solid; border-width: 0 40px 40px 0; border-color: transparent var(--dark2) transparent transparent;
+}
+.sc-file-icon { font-size: 56px; filter: grayscale(0.3); }
+.sc-file-name { font-size: 14px; color: #333; word-break: break-word; font-weight: 600; padding: 0 20px; text-align: center; line-height: 1.4; }
+.sc-file-type {
+  font-size: 12px; color: #fff; background: #e74c3c; padding: 3px 12px;
+  border-radius: 4px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;
+}
 
-/* Drop zone */
-.drop-zone { border: 2px dashed var(--subtle); border-radius: 10px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s; margin-top: 4px; }
-.drop-zone:hover, .drop-zone.dragover { border-color: var(--teal); background: rgba(0,229,204,0.03); }
-.drop-zone .dz-text { font-size: 13px; color: var(--muted); }
-.drop-zone .dz-text strong { color: var(--teal); }
-.drop-zone .preview-img { max-width: 100%; max-height: 200px; border-radius: 6px; margin-top: 8px; }
+/* Video badge */
+.sc-video-badge {
+  position: absolute; top: 8px; left: 8px; padding: 3px 10px; border-radius: 6px;
+  background: rgba(0,0,0,0.6); color: #fff; font-size: 11px; font-weight: 600;
+  pointer-events: none;
+}
 
-/* Reusability slider */
-.reuse-input { display: flex; align-items: center; gap: 12px; }
-.reuse-input input[type="range"] { flex: 1; accent-color: var(--yellow); background: var(--dark3); height: 6px; border-radius: 3px; -webkit-appearance: none; border: none; padding: 0; }
-.reuse-input input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--yellow); cursor: pointer; }
-.reuse-input .reuse-val { font-family: var(--font-heading); font-weight: 700; font-size: 18px; color: var(--yellow); min-width: 24px; text-align: center; }
+/* Fullscreen view */
+.view-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+  z-index: 150; align-items: center; justify-content: center; cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+.view-overlay.open { display: flex; }
+.view-content {
+  max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto; cursor: default;
+}
+.view-content img, .view-content video {
+  width: 100%; height: auto; border-radius: 8px;
+}
+.view-caption {
+  margin-top: 12px; font-size: 14px; color: rgba(255,255,255,0.8);
+  font-weight: 300; line-height: 1.6; white-space: pre-wrap;
+}
 
-/* Seen counter */
-.seen-input { display: flex; align-items: center; gap: 8px; }
-.seen-input button { width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--subtle); background: var(--dark3); color: var(--white); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.seen-input button:hover { border-color: var(--teal); color: var(--teal); }
-.seen-input .seen-val { font-family: var(--font-heading); font-weight: 700; font-size: 18px; min-width: 32px; text-align: center; }
-
-/* Search */
-.search-wrap { position: relative; flex: 1; min-width: 200px; }
-.search-wrap input { width: 100%; padding: 8px 14px 8px 36px; }
-.search-wrap .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
-
-/* View modal detail */
-.view-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-.view-detail .vd-item .vd-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.view-detail .vd-item .vd-value { font-size: 14px; margin-top: 2px; font-weight: 300; }
+/* Toolbar */
+.swipe-toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; }
+.swipe-toolbar input {
+  flex: 1; max-width: 400px; padding: 10px 16px; background: var(--dark2);
+  border: 1px solid var(--subtle); color: var(--white); border-radius: 8px;
+  font-size: 14px; font-family: var(--font-body);
+}
+.swipe-toolbar input:focus { outline: none; border-color: var(--teal); }
+.swipe-toolbar input::placeholder { color: #555; }
+.swipe-count { font-size: 13px; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -144,845 +104,149 @@
     <div class="admin-topbar">
       <div>
         <h1>Swipe <span>File</span></h1>
-        <div class="date">Proven patterns. Filtered by niche. Fed by results.</div>
-      </div>
-      <button class="btn-teal" onclick="openNewModal()">+ Add Entry</button>
-    </div>
-
-    <!-- KPIs -->
-    <div class="kpi-grid" id="kpiGrid"></div>
-
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab active" data-tab="master" onclick="switchTab('master')">Master</button>
-      <button class="tab" data-tab="niche" onclick="switchTab('niche')">By Niche</button>
-      <button class="tab" data-tab="live" onclick="switchTab('live')">Live Board</button>
-      <button class="tab" data-tab="purge" onclick="switchTab('purge')">Weekly Purge</button>
-    </div>
-
-    <!-- ====== MASTER TAB ====== -->
-    <div class="tab-content active" id="tab-master">
-      <div class="swipe-toolbar" id="masterToolbar">
-        <div class="search-wrap">
-          <span class="search-icon">&#128269;</span>
-          <input type="text" id="masterSearch" placeholder="Search hooks, angles, copy..." oninput="renderMaster()">
-        </div>
-        <div class="filter-sep"></div>
-        <button class="filter-btn active" data-cat="all" onclick="setCatFilter('all', this)">All</button>
-        <button class="filter-btn" data-cat="hook" onclick="setCatFilter('hook', this)">Hooks</button>
-        <button class="filter-btn" data-cat="angle" onclick="setCatFilter('angle', this)">Angles</button>
-        <button class="filter-btn" data-cat="format" onclick="setCatFilter('format', this)">Formats</button>
-        <button class="filter-btn" data-cat="offer" onclick="setCatFilter('offer', this)">Offers</button>
-        <button class="filter-btn" data-cat="cta" onclick="setCatFilter('cta', this)">CTAs</button>
-        <button class="filter-btn" data-cat="subject" onclick="setCatFilter('subject', this)">Subjects</button>
-        <button class="filter-btn" data-cat="social-proof" onclick="setCatFilter('social-proof', this)">Social Proof</button>
-        <div class="filter-sep"></div>
-        <button class="filter-btn active" data-heat="all" onclick="setHeatFilter('all', this)">All Heat</button>
-        <button class="filter-btn" data-heat="hot" onclick="setHeatFilter('hot', this)">Hot</button>
-        <button class="filter-btn" data-heat="active" onclick="setHeatFilter('active', this)">Active</button>
-        <button class="filter-btn" data-heat="archive" onclick="setHeatFilter('archive', this)">Archive</button>
-      </div>
-      <div class="swipe-grid" id="masterGrid"></div>
-      <div class="empty-state" id="masterEmpty" style="display:none">
-        <div class="icon">&#128293;</div>
-        <p>No swipe entries yet. Add your first proven pattern.</p>
+        <div class="date">Screenshot ads on your phone → paste in #swipe-file on Slack → they appear here.</div>
       </div>
     </div>
 
-    <!-- ====== NICHE TAB ====== -->
-    <div class="tab-content" id="tab-niche">
-      <div class="swipe-toolbar" id="nicheToolbar">
-        <div class="search-wrap">
-          <span class="search-icon">&#128269;</span>
-          <input type="text" id="nicheSearch" placeholder="Search within niche..." oninput="renderNiche()">
-        </div>
-        <div class="filter-sep"></div>
-        <button class="filter-btn active" data-niche="all" onclick="setNicheFilter('all', this)">All Industries</button>
-      </div>
-      <div class="swipe-grid" id="nicheGrid"></div>
-      <div class="empty-state" id="nicheEmpty" style="display:none">
-        <div class="icon">&#127919;</div>
-        <p>No niche-tagged entries. Add industry tags to your swipe entries.</p>
-      </div>
+    <div class="swipe-toolbar">
+      <input type="text" id="searchInput" placeholder="Search..." oninput="render()">
+      <span class="swipe-count" id="count"></span>
     </div>
 
-    <!-- ====== LIVE BOARD TAB ====== -->
-    <div class="tab-content" id="tab-live">
-      <div class="swipe-toolbar">
-        <button class="filter-btn active" data-client="all" onclick="setClientFilter('all', this)">All Clients</button>
-      </div>
-      <div class="live-board" id="liveBoard"></div>
-      <div class="empty-state" id="liveEmpty" style="display:none">
-        <div class="icon">&#9889;</div>
-        <p>No live tests yet. Add entries with layer "Live" and assign a client.</p>
-      </div>
-    </div>
+    <div class="swipe-grid" id="grid"></div>
 
-    <!-- ====== PURGE TAB ====== -->
-    <div class="tab-content" id="tab-purge">
-      <div class="purge-controls" id="purgeControls">
-        <span class="purge-label">Weekly Purge Mode</span>
-        <span class="purge-stats" id="purgeStats"></span>
-        <div style="flex:1"></div>
-        <button class="btn-teal btn-small" onclick="executePurge()">Apply Purge</button>
-        <button class="btn-outline btn-small" onclick="cancelPurge()">Cancel</button>
-      </div>
-      <div class="swipe-grid" id="purgeGrid"></div>
+    <div class="empty-state" id="emptyState" style="display:none">
+      <div class="icon" style="font-size:48px;margin-bottom:16px">&#128247;</div>
+      <p style="max-width:400px;margin:0 auto">Open Slack on your phone. Screenshot an ad you like. Paste it in <strong>#swipe-file</strong>. It shows up here.</p>
     </div>
-
   </main>
 </div>
 
-<!-- Add/Edit Modal -->
-<div class="modal-overlay" id="entryModal">
-  <div class="modal">
-    <h2 id="modalTitle">New Swipe Entry</h2>
-    <input type="hidden" id="entryId">
-
-    <div class="form-group">
-      <label>Title / Hook Text</label>
-      <input type="text" id="entryTitle" placeholder='e.g. "Stop scrolling if you..." pattern'>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>Category</label>
-        <select id="entryCat">
-          <option value="hook">Hook</option>
-          <option value="angle">Angle</option>
-          <option value="format">Format</option>
-          <option value="offer">Offer Structure</option>
-          <option value="cta">CTA</option>
-          <option value="subject">Email Subject</option>
-          <option value="social-proof">Social Proof</option>
-          <option value="landing-page">Landing Page</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Layer</label>
-        <select id="entryLayer">
-          <option value="master">Master (Universal)</option>
-          <option value="niche">Niche (Industry)</option>
-          <option value="live">Live (Testing)</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Raw Copy / Pattern</label>
-      <textarea id="entryCopy" placeholder="The actual ad copy, email subject, hook text, or pattern structure..."></textarea>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>Platform</label>
-        <select id="entryPlatform">
-          <option value="">Any / Cross-platform</option>
-          <option value="facebook">Facebook</option>
-          <option value="instagram">Instagram</option>
-          <option value="google">Google Ads</option>
-          <option value="tiktok">TikTok</option>
-          <option value="linkedin">LinkedIn</option>
-          <option value="email">Email</option>
-          <option value="landing-page">Landing Page</option>
-          <option value="youtube">YouTube</option>
-          <option value="twitter">Twitter/X</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Industry / Niche</label>
-        <input type="text" id="entryIndustry" placeholder="e.g. fitness, cafe, real-estate">
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>Client (Live board only)</label>
-        <select id="entryClient">
-          <option value="">None</option>
-          <option value="nunya-bunya">Nunya Bunya</option>
-          <option value="power-portraits">Power Portraits</option>
-          <option value="conner-law">Conner Injury Law</option>
-          <option value="pawesome">Pawesome Dog Walkers</option>
-          <option value="orca">ORCA Film Awards</option>
-          <option value="bella-rhyder">Bella Rhyder</option>
-          <option value="ben-alek-conner">Ben Alek Conner</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Source URL</label>
-        <input type="url" id="entrySource" placeholder="https://...">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Reusability Score</label>
-      <div class="reuse-input">
-        <input type="range" id="entryReuse" min="1" max="5" value="3" oninput="document.getElementById('reuseVal').textContent=this.value">
-        <span class="reuse-val" id="reuseVal">3</span>
-        <span style="font-size:11px;color:var(--muted)">/5</span>
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>Times Seen</label>
-        <div class="seen-input">
-          <button onclick="adjustSeen(-1)">-</button>
-          <span class="seen-val" id="seenVal">1</span>
-          <button onclick="adjustSeen(1)">+</button>
-        </div>
-      </div>
-      <div class="form-group" style="display:flex;align-items:center;gap:10px;padding-top:22px">
-        <input type="checkbox" id="entryScaling" style="accent-color:var(--teal);width:18px;height:18px">
-        <label style="margin:0;text-transform:none;letter-spacing:0;font-weight:400;font-size:14px;color:var(--white)">Scaling (seen variations)</label>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Screenshot</label>
-      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-        <div class="dz-text">Drop image here or <strong>click to upload</strong></div>
-      </div>
-      <input type="file" id="fileInput" accept="image/*" style="display:none">
-    </div>
-
-    <div class="form-group">
-      <label>Tags (comma-separated)</label>
-      <input type="text" id="entryTags" placeholder="e.g. urgency, FOMO, testimonial, before-after">
-    </div>
-
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea id="entryNotes" placeholder="Why this works, what to steal from it..." style="min-height:60px"></textarea>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-delete" id="deleteBtn" onclick="deleteEntry()" style="display:none">Delete</button>
-      <button class="btn-save" onclick="saveEntry()">Save</button>
-    </div>
-  </div>
-</div>
-
-<!-- View Modal -->
-<div class="modal-overlay" id="viewModal">
-  <div class="modal" style="width:620px">
-    <h2 id="viewTitle"></h2>
-    <div id="viewImage" style="margin-bottom:16px"></div>
-    <div class="view-detail" id="viewDetail"></div>
-    <div class="form-group">
-      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Copy / Pattern</div>
-      <div id="viewCopy" style="font-size:14px;line-height:1.6;white-space:pre-wrap;font-weight:300;background:var(--dark3);padding:16px;border-radius:8px"></div>
-    </div>
-    <div class="form-group" id="viewNotesWrap" style="display:none">
-      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Notes</div>
-      <div id="viewNotes" style="font-size:14px;line-height:1.6;font-weight:300;color:rgba(255,255,255,0.7)"></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-cancel" onclick="closeViewModal()">Close</button>
-      <button class="btn-save" onclick="editFromView()">Edit</button>
-    </div>
+<!-- Fullscreen view -->
+<div class="view-overlay" id="viewOverlay" onclick="closeView(event)">
+  <div class="view-content" onclick="event.stopPropagation()">
+    <img id="viewImg" src="" style="display:none">
+    <video id="viewVideo" controls playsinline style="display:none"></video>
+    <div class="view-caption" id="viewCaption"></div>
   </div>
 </div>
 
 <script src="/nb-admin-shared.js"></script>
 <script>
-// ====== DATA ======
-const CLIENTS = {
-  'nunya-bunya': 'Nunya Bunya', 'power-portraits': 'Power Portraits',
-  'conner-law': 'Conner Injury Law', 'pawesome': 'Pawesome Dog Walkers',
-  'orca': 'ORCA Film Awards', 'bella-rhyder': 'Bella Rhyder', 'ben-alek-conner': 'Ben Alek Conner',
-};
-const CATS = {
-  hook: 'Hook', angle: 'Angle', format: 'Format', offer: 'Offer Structure',
-  cta: 'CTA', subject: 'Email Subject', 'social-proof': 'Social Proof', 'landing-page': 'Landing Page',
-};
-const PLATFORMS_MAP = {
-  facebook: 'Facebook', instagram: 'Instagram', google: 'Google Ads', tiktok: 'TikTok',
-  linkedin: 'LinkedIn', email: 'Email', 'landing-page': 'Landing Page', youtube: 'YouTube', twitter: 'Twitter/X',
-};
-
 let entries = [];
-let currentTab = 'master';
-let catFilter = 'all';
-let heatFilter = 'all';
-let nicheFilter = 'all';
-let clientFilter = 'all';
-let currentImageData = null;
-let seenCount = 1;
-let viewingId = null;
-let purgeMarks = {}; // id -> 'kill' | 'promote' | null
 
-// ====== PERSISTENCE (Supabase) ======
 async function load() {
   const data = await NB_ADMIN.apiFetch('swipe');
-  if (data) {
-    entries = data.map(e => ({
-      id: e.id,
-      title: e.title,
-      category: e.category,
-      layer: e.layer,
-      copy: e.copy,
-      platform: e.platform || '',
-      industry: e.industry || '',
-      client: e.client || '',
-      source: e.source_url || '',
-      reusability: e.reusability || 3,
-      seen: e.seen || 1,
-      scaling: e.scaling || false,
-      tags: e.tags || [],
-      notes: e.notes || '',
-      image: null,
-      screenshot: e.screenshot_url || null,
-      result: e.result || 'testing',
-      created: e.created_at,
-      updated: e.updated_at,
-      sourceAgent: e.source_agent || 'manual',
-      pageName: e.page_name || '',
-    }));
-  }
-}
-async function save() { /* writes happen per-entry via API */ }
-
-async function apiCreateEntry(entry) {
-  return NB_ADMIN.apiSend('swipe', 'POST', {
-    title: entry.title,
-    category: entry.category,
-    layer: entry.layer,
-    copy: entry.copy,
-    platform: entry.platform || null,
-    industry: entry.industry || null,
-    client: entry.client || null,
-    source_url: entry.source || null,
-    screenshot_url: entry.image || null,
-    reusability: entry.reusability,
-    seen: entry.seen,
-    scaling: entry.scaling,
-    tags: entry.tags,
-    notes: entry.notes || null,
-    result: entry.result || 'testing',
-    source_agent: 'manual',
-  });
+  if (data) entries = data;
 }
 
-async function apiUpdateEntry(id, fields) {
-  return NB_ADMIN.apiSend(`swipe?id=${id}`, 'PATCH', fields);
-}
-
-async function apiDeleteEntry(id) {
-  return NB_ADMIN.apiSend(`swipe?id=${id}`, 'DELETE', {});
-}
-
-// ====== HEAT CALCULATION ======
-function getHeat(created) {
-  const days = (Date.now() - new Date(created).getTime()) / 86400000;
-  if (days <= 7) return 'hot';
-  if (days <= 30) return 'active';
-  return 'archive';
-}
-
-function heatBadge(heat) {
-  const labels = { hot: '&#128293; Hot', active: '&#9889; Active', archive: '&#129482; Archive' };
-  return `<span class="badge-heat ${heat}">${labels[heat]}</span>`;
-}
-
-function layerBadge(layer) {
-  const labels = { master: 'Master', niche: 'Niche', live: 'Live' };
-  return `<span class="badge-layer ${layer}">${labels[layer] || layer}</span>`;
-}
-
-function catBadge(cat) {
-  return `<span class="badge-cat ${cat}">${CATS[cat] || cat}</span>`;
-}
-
-function reuseStars(score) {
-  let html = '';
-  for (let i = 1; i <= 5; i++) {
-    html += i <= score ? '&#9733;' : '<span class="empty">&#9733;</span>';
-  }
-  return `<span class="reuse-stars">${html}</span>`;
-}
-
-// ====== RENDER ======
-function renderKPIs() {
-  const total = entries.length;
-  const hot = entries.filter(e => getHeat(e.created) === 'hot').length;
-  const active = entries.filter(e => getHeat(e.created) === 'active').length;
-  const scaling = entries.filter(e => e.scaling).length;
-  const liveCount = entries.filter(e => e.layer === 'live').length;
-
-  document.getElementById('kpiGrid').innerHTML = `
-    <div class="kpi-card"><div class="num">${total}</div><div class="label">Total Entries</div></div>
-    <div class="kpi-card magenta"><div class="num">${hot}</div><div class="label">Hot (0-7 days)</div></div>
-    <div class="kpi-card yellow"><div class="num">${active}</div><div class="label">Active (7-30 days)</div></div>
-    <div class="kpi-card purple"><div class="num">${scaling}</div><div class="label">Scaling</div></div>
-    <div class="kpi-card"><div class="num">${liveCount}</div><div class="label">Live Tests</div></div>
-  `;
-}
-
-function renderCard(e, purgeMode) {
-  const heat = getHeat(e.created);
-  const purgeClass = purgeMode ? 'purge-mode' : '';
-  const markClass = purgeMarks[e.id] === 'kill' ? 'marked-kill' : purgeMarks[e.id] === 'promote' ? 'marked-promote' : '';
-
-  // Screenshot or uploaded image
-  const imgSrc = e.screenshot || e.image || '';
-
-  return `
-    <div class="swipe-card ${purgeClass} ${markClass}" onclick="${purgeMode ? '' : `viewEntry('${e.id}')`}" data-id="${e.id}">
-      ${e.scaling ? '<div class="sc-scaling">SCALING</div>' : ''}
-      ${imgSrc ? `<img class="sc-preview" src="${imgSrc}" alt="">` : '<div class="sc-no-img">No preview</div>'}
-      <div class="sc-body">
-        <div class="sc-title">${esc(e.title)}</div>
-        ${e.pageName ? `<div class="sc-advertiser">${esc(e.pageName)}</div>` : ''}
-        <div class="sc-badges-row">
-          ${catBadge(e.category)}
-          ${e.platform ? NB_ADMIN.platformBadge(e.platform) : ''}
-          ${reuseStars(e.reusability)}
-        </div>
-      </div>
-      ${purgeMode ? `
-        <div class="purge-actions">
-          <button class="pa-kill" onclick="event.stopPropagation();markPurge('${e.id}','kill')">Kill</button>
-          <button class="pa-keep" onclick="event.stopPropagation();markPurge('${e.id}',null)">Keep</button>
-          <button class="pa-promote" onclick="event.stopPropagation();markPurge('${e.id}','promote')">Promote</button>
-        </div>
-      ` : ''}
-    </div>
-  `;
-}
-
-function filterEntries(list) {
-  const search = (document.getElementById(currentTab + 'Search') || {}).value || '';
-  const q = search.toLowerCase().trim();
-
-  let filtered = list;
-
+function render() {
+  const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+  let filtered = entries;
   if (q) {
     filtered = filtered.filter(e =>
-      (e.title || '').toLowerCase().includes(q) ||
       (e.copy || '').toLowerCase().includes(q) ||
-      (e.notes || '').toLowerCase().includes(q) ||
-      (e.tags || []).some(t => t.toLowerCase().includes(q))
+      (e.title || '').toLowerCase().includes(q)
     );
   }
 
-  if (catFilter !== 'all') filtered = filtered.filter(e => e.category === catFilter);
-  if (heatFilter !== 'all') filtered = filtered.filter(e => getHeat(e.created) === heatFilter);
+  document.getElementById('count').textContent = `${filtered.length} ads`;
 
-  return filtered.sort((a, b) => new Date(b.created) - new Date(a.created));
-}
-
-function renderMaster() {
-  const master = entries.filter(e => e.layer === 'master' || e.layer === 'niche');
-  const filtered = filterEntries(master);
-  const grid = document.getElementById('masterGrid');
-  const empty = document.getElementById('masterEmpty');
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('emptyState');
 
   if (filtered.length === 0) {
     grid.innerHTML = '';
     empty.style.display = 'block';
-  } else {
-    empty.style.display = 'none';
-    grid.innerHTML = filtered.map(e => renderCard(e, false)).join('');
-  }
-}
-
-function renderNiche() {
-  // Build niche filter buttons dynamically
-  const industries = [...new Set(entries.filter(e => e.industry).map(e => e.industry.toLowerCase()))].sort();
-  const toolbar = document.getElementById('nicheToolbar');
-  const searchHtml = toolbar.querySelector('.search-wrap').outerHTML;
-  toolbar.innerHTML = searchHtml + '<div class="filter-sep"></div>' +
-    `<button class="filter-btn ${nicheFilter === 'all' ? 'active' : ''}" onclick="setNicheFilter('all', this)">All Industries</button>` +
-    industries.map(ind => `<button class="filter-btn ${nicheFilter === ind ? 'active' : ''}" onclick="setNicheFilter('${ind}', this)">${esc(ind)}</button>`).join('');
-
-  let filtered = entries;
-  if (nicheFilter !== 'all') filtered = filtered.filter(e => (e.industry || '').toLowerCase() === nicheFilter);
-
-  const q = (document.getElementById('nicheSearch') || {}).value || '';
-  if (q.trim()) {
-    const lq = q.toLowerCase();
-    filtered = filtered.filter(e =>
-      (e.title || '').toLowerCase().includes(lq) ||
-      (e.copy || '').toLowerCase().includes(lq) ||
-      (e.tags || []).some(t => t.toLowerCase().includes(lq))
-    );
-  }
-
-  filtered = filtered.sort((a, b) => new Date(b.created) - new Date(a.created));
-
-  const grid = document.getElementById('nicheGrid');
-  const empty = document.getElementById('nicheEmpty');
-  if (filtered.length === 0) {
-    grid.innerHTML = '';
-    empty.style.display = 'block';
-  } else {
-    empty.style.display = 'none';
-    grid.innerHTML = filtered.map(e => renderCard(e, false)).join('');
-  }
-}
-
-function renderLive() {
-  const liveEntries = entries.filter(e => e.layer === 'live');
-
-  // Build client filter buttons
-  const clients = [...new Set(liveEntries.filter(e => e.client).map(e => e.client))];
-  const toolbar = document.querySelector('#tab-live .swipe-toolbar');
-  toolbar.innerHTML =
-    `<button class="filter-btn ${clientFilter === 'all' ? 'active' : ''}" onclick="setClientFilter('all', this)">All Clients</button>` +
-    clients.map(c => `<button class="filter-btn ${clientFilter === c ? 'active' : ''}" onclick="setClientFilter('${c}', this)">${CLIENTS[c] || c}</button>`).join('');
-
-  let filtered = liveEntries;
-  if (clientFilter !== 'all') filtered = filtered.filter(e => e.client === clientFilter);
-
-  if (filtered.length === 0) {
-    document.getElementById('liveBoard').innerHTML = '';
-    document.getElementById('liveEmpty').style.display = 'block';
     return;
   }
-  document.getElementById('liveEmpty').style.display = 'none';
+  empty.style.display = 'none';
 
-  // Group by client
-  const grouped = {};
-  filtered.forEach(e => {
-    const key = e.client || 'unassigned';
-    if (!grouped[key]) grouped[key] = [];
-    grouped[key].push(e);
-  });
+  grid.innerHTML = filtered.map(e => {
+    const src = e.screenshot_url || '';
+    const isVideo = e.media_type === 'video' || src.match(/\.(mp4|mov|webm)$/i);
+    const isImage = src.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+    const isPdf = src.match(/\.pdf$/i);
+    const caption = e.copy || e.title || '';
+    const fileName = src.split('/').pop() || 'file';
 
-  // For each client, sub-group into: testing, working, dropped
-  document.getElementById('liveBoard').innerHTML = Object.keys(grouped).map(clientKey => {
-    const items = grouped[clientKey].sort((a, b) => new Date(b.created) - new Date(a.created));
-    const testing = items.filter(e => !e.result || e.result === 'testing');
-    const working = items.filter(e => e.result === 'working');
-    const dropped = items.filter(e => e.result === 'dropped');
+    let mediaHtml = '';
+    if (isVideo) {
+      mediaHtml = `<span class="sc-video-badge">VIDEO</span><video src="${esc(src)}" muted playsinline preload="metadata"></video>`;
+    } else if (isImage) {
+      mediaHtml = `<img src="${esc(src)}" alt="">`;
+    } else if (isPdf) {
+      mediaHtml = `<div class="sc-file"><div class="sc-file-icon">&#128196;</div><div class="sc-file-name">${esc(caption || fileName)}</div><div class="sc-file-type">PDF</div></div>`;
+    } else if (src) {
+      mediaHtml = `<div class="sc-file"><div class="sc-file-icon">&#128196;</div><div class="sc-file-name">${esc(fileName)}</div></div>`;
+    }
 
     return `
-      <div class="live-col">
-        <div class="live-col-header" style="color:var(--teal)">
-          ${CLIENTS[clientKey] || 'Unassigned'}
-          <span class="count">${items.length} tests</span>
-        </div>
-        <div class="live-col-body">
-          ${testing.length ? `<div style="font-size:11px;color:var(--yellow);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;font-weight:700">Testing</div>` : ''}
-          ${testing.map(e => `
-            <div class="live-item" onclick="viewEntry('${e.id}')">
-              <div class="li-title">${esc(e.title)}</div>
-              <div class="li-meta">
-                ${catBadge(e.category)}
-                <span>${NB_ADMIN.timeAgo(e.created)}</span>
-                ${reuseStars(e.reusability)}
-              </div>
-            </div>
-          `).join('')}
-          ${working.length ? `<div style="font-size:11px;color:var(--teal);text-transform:uppercase;letter-spacing:0.06em;margin:12px 0 6px;font-weight:700">Working</div>` : ''}
-          ${working.map(e => `
-            <div class="live-item" onclick="viewEntry('${e.id}')" style="border-left:3px solid var(--teal)">
-              <div class="li-title">${esc(e.title)}</div>
-              <div class="li-meta">${catBadge(e.category)} <span>${NB_ADMIN.timeAgo(e.created)}</span></div>
-            </div>
-          `).join('')}
-          ${dropped.length ? `<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin:12px 0 6px;font-weight:700">Dropped</div>` : ''}
-          ${dropped.map(e => `
-            <div class="live-item" onclick="viewEntry('${e.id}')" style="opacity:0.5">
-              <div class="li-title">${esc(e.title)}</div>
-              <div class="li-meta">${catBadge(e.category)} <span>${NB_ADMIN.timeAgo(e.created)}</span></div>
-            </div>
-          `).join('')}
-          ${items.length === 0 ? '<div class="live-empty">No tests yet</div>' : ''}
-        </div>
+      <div class="swipe-card" onclick="viewEntry('${e.id}')">
+        <button class="sc-delete" onclick="event.stopPropagation();deleteEntry('${e.id}')" title="Delete">&#10005;</button>
+        ${mediaHtml}
+        ${caption ? `<div class="caption">${esc(caption)}</div>` : ''}
       </div>
     `;
   }).join('');
 }
 
-function renderPurge() {
-  // Show all entries sorted oldest first, with purge actions
-  const all = [...entries].sort((a, b) => new Date(a.created) - new Date(b.created));
-  const kills = Object.values(purgeMarks).filter(v => v === 'kill').length;
-  const promotes = Object.values(purgeMarks).filter(v => v === 'promote').length;
-  document.getElementById('purgeStats').textContent = `${all.length} entries | ${kills} marked to kill | ${promotes} marked to promote`;
-  document.getElementById('purgeGrid').innerHTML = all.map(e => renderCard(e, true)).join('');
-}
-
-// ====== FILTERS ======
-function setCatFilter(val, btn) {
-  catFilter = val;
-  document.querySelectorAll('#masterToolbar [data-cat]').forEach(b => b.classList.toggle('active', b.dataset.cat === val));
-  renderMaster();
-}
-function setHeatFilter(val, btn) {
-  heatFilter = val;
-  document.querySelectorAll('#masterToolbar [data-heat]').forEach(b => b.classList.toggle('active', b.dataset.heat === val));
-  renderMaster();
-}
-function setNicheFilter(val, btn) {
-  nicheFilter = val;
-  renderNiche();
-}
-function setClientFilter(val, btn) {
-  clientFilter = val;
-  renderLive();
-}
-
-// ====== TABS ======
-function switchTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  renderAll();
-}
-
-// ====== PURGE ======
-function markPurge(id, action) {
-  purgeMarks[id] = action;
-  renderPurge();
-}
-
-async function executePurge() {
-  const killIds = Object.keys(purgeMarks).filter(id => purgeMarks[id] === 'kill');
-  const promoteIds = Object.keys(purgeMarks).filter(id => purgeMarks[id] === 'promote');
-
-  if (killIds.length === 0 && promoteIds.length === 0) return;
-  if (!confirm(`Delete ${killIds.length} entries and promote ${promoteIds.length}?`)) return;
-
-  // Kill
-  for (const id of killIds) {
-    await apiDeleteEntry(id);
-  }
-
-  // Promote: bump created_at to now + increase reusability
-  for (const id of promoteIds) {
-    const e = entries.find(x => x.id === id);
-    if (e) {
-      await apiUpdateEntry(id, {
-        created_at: new Date().toISOString(),
-        reusability: Math.min(5, (e.reusability || 3) + 1),
-      });
-    }
-  }
-
-  purgeMarks = {};
-  await load();
-  renderAll();
-}
-
-function cancelPurge() {
-  purgeMarks = {};
-  renderPurge();
-}
-
-// ====== MODAL ======
-function openNewModal() {
-  document.getElementById('modalTitle').textContent = 'New Swipe Entry';
-  document.getElementById('entryId').value = '';
-  document.getElementById('entryTitle').value = '';
-  document.getElementById('entryCat').value = 'hook';
-  document.getElementById('entryLayer').value = 'master';
-  document.getElementById('entryCopy').value = '';
-  document.getElementById('entryPlatform').value = '';
-  document.getElementById('entryIndustry').value = '';
-  document.getElementById('entryClient').value = '';
-  document.getElementById('entrySource').value = '';
-  document.getElementById('entryReuse').value = 3;
-  document.getElementById('reuseVal').textContent = '3';
-  document.getElementById('entryScaling').checked = false;
-  document.getElementById('entryTags').value = '';
-  document.getElementById('entryNotes').value = '';
-  document.getElementById('deleteBtn').style.display = 'none';
-  seenCount = 1;
-  document.getElementById('seenVal').textContent = '1';
-  currentImageData = null;
-  document.getElementById('dropZone').innerHTML = '<div class="dz-text">Drop image here or <strong>click to upload</strong></div>';
-  document.getElementById('entryModal').classList.add('active');
-}
-
-function openEditModal(e) {
-  document.getElementById('modalTitle').textContent = 'Edit Swipe Entry';
-  document.getElementById('entryId').value = e.id;
-  document.getElementById('entryTitle').value = e.title || '';
-  document.getElementById('entryCat').value = e.category || 'hook';
-  document.getElementById('entryLayer').value = e.layer || 'master';
-  document.getElementById('entryCopy').value = e.copy || '';
-  document.getElementById('entryPlatform').value = e.platform || '';
-  document.getElementById('entryIndustry').value = e.industry || '';
-  document.getElementById('entryClient').value = e.client || '';
-  document.getElementById('entrySource').value = e.source || '';
-  document.getElementById('entryReuse').value = e.reusability || 3;
-  document.getElementById('reuseVal').textContent = e.reusability || 3;
-  document.getElementById('entryScaling').checked = !!e.scaling;
-  document.getElementById('entryTags').value = (e.tags || []).join(', ');
-  document.getElementById('entryNotes').value = e.notes || '';
-  document.getElementById('deleteBtn').style.display = 'block';
-  seenCount = e.seen || 1;
-  document.getElementById('seenVal').textContent = seenCount;
-  currentImageData = e.image || null;
-  if (e.image) {
-    document.getElementById('dropZone').innerHTML = `<img class="preview-img" src="${e.image}" alt="Preview"><div class="dz-text" style="margin-top:8px">Click to replace</div>`;
-  } else {
-    document.getElementById('dropZone').innerHTML = '<div class="dz-text">Drop image here or <strong>click to upload</strong></div>';
-  }
-  document.getElementById('entryModal').classList.add('active');
-}
-
-function closeModal() { document.getElementById('entryModal').classList.remove('active'); }
-
-async function saveEntry() {
-  const id = document.getElementById('entryId').value;
-  const existing = id ? entries.find(e => e.id === id) : null;
-
-  const entry = {
-    title: document.getElementById('entryTitle').value || 'Untitled',
-    category: document.getElementById('entryCat').value,
-    layer: document.getElementById('entryLayer').value,
-    copy: document.getElementById('entryCopy').value,
-    platform: document.getElementById('entryPlatform').value,
-    industry: document.getElementById('entryIndustry').value.trim(),
-    client: document.getElementById('entryClient').value,
-    source: document.getElementById('entrySource').value,
-    reusability: parseInt(document.getElementById('entryReuse').value) || 3,
-    scaling: document.getElementById('entryScaling').checked,
-    seen: seenCount,
-    tags: document.getElementById('entryTags').value.split(',').map(t => t.trim()).filter(Boolean),
-    notes: document.getElementById('entryNotes').value,
-    image: currentImageData,
-    result: existing?.result || 'testing',
-  };
-
-  closeModal();
-
-  if (existing) {
-    await apiUpdateEntry(id, {
-      title: entry.title, category: entry.category, layer: entry.layer,
-      copy: entry.copy, platform: entry.platform || null, industry: entry.industry || null,
-      client: entry.client || null, source_url: entry.source || null,
-      screenshot_url: entry.image || null, reusability: entry.reusability,
-      seen: entry.seen, scaling: entry.scaling, tags: entry.tags,
-      notes: entry.notes || null, result: entry.result,
-    });
-  } else {
-    await apiCreateEntry(entry);
-  }
-
-  await load();
-  renderAll();
-}
-
-async function deleteEntry() {
-  const id = document.getElementById('entryId').value;
-  if (!id || !confirm('Delete this swipe entry?')) return;
-  closeModal();
-  await apiDeleteEntry(id);
-  await load();
-  renderAll();
-}
-
-// ====== VIEW ======
 function viewEntry(id) {
   const e = entries.find(x => x.id === id);
   if (!e) return;
-  viewingId = id;
-  const heat = getHeat(e.created);
 
-  document.getElementById('viewTitle').textContent = e.title;
-  // Show ad snapshot iframe or uploaded image
-  if (e.source && e.source.includes('facebook.com/ads/archive/render_ad')) {
-    document.getElementById('viewImage').innerHTML = `
-      <div style="border-radius:8px;overflow:hidden;background:#0d1117;margin-bottom:8px">
-        <iframe src="${esc(e.source)}" style="width:100%;height:500px;border:none"></iframe>
-      </div>
-      <a href="${esc(e.source)}" target="_blank" style="display:block;text-align:center;color:var(--teal);font-size:12px;margin-bottom:8px">Open full ad in new tab</a>
-    `;
-  } else if (e.image) {
-    document.getElementById('viewImage').innerHTML = `<img src="${e.image}" style="width:100%;border-radius:8px" alt="">`;
-  } else {
-    document.getElementById('viewImage').innerHTML = '';
-  }
-  document.getElementById('viewDetail').innerHTML = `
-    <div class="vd-item"><div class="vd-label">Category</div><div class="vd-value">${catBadge(e.category)}</div></div>
-    <div class="vd-item"><div class="vd-label">Heat</div><div class="vd-value">${heatBadge(heat)}</div></div>
-    <div class="vd-item"><div class="vd-label">Layer</div><div class="vd-value">${layerBadge(e.layer)}</div></div>
-    <div class="vd-item"><div class="vd-label">Platform</div><div class="vd-value">${e.platform ? PLATFORMS_MAP[e.platform] || e.platform : 'Cross-platform'}</div></div>
-    <div class="vd-item"><div class="vd-label">Industry</div><div class="vd-value">${e.industry || '—'}</div></div>
-    <div class="vd-item"><div class="vd-label">Reusability</div><div class="vd-value">${reuseStars(e.reusability)}</div></div>
-    <div class="vd-item"><div class="vd-label">Times Seen</div><div class="vd-value">${e.seen}x ${e.scaling ? '(scaling)' : ''}</div></div>
-    <div class="vd-item"><div class="vd-label">Client</div><div class="vd-value">${e.client ? CLIENTS[e.client] : '—'}</div></div>
-    <div class="vd-item"><div class="vd-label">Source</div><div class="vd-value">${e.source ? `<a href="${esc(e.source)}" target="_blank" style="color:var(--teal)">${esc(e.source)}</a>` : '—'}</div></div>
-    <div class="vd-item"><div class="vd-label">Added</div><div class="vd-value">${NB_ADMIN.formatDate(e.created)}</div></div>
-    ${e.tags && e.tags.length ? `<div class="vd-item" style="grid-column:span 2"><div class="vd-label">Tags</div><div class="vd-value">${e.tags.map(t => `<span class="mini-tag" style="display:inline-block;margin:2px 4px 2px 0;padding:2px 8px;background:rgba(255,255,255,0.05);border-radius:4px;font-size:12px;color:var(--muted)">${esc(t)}</span>`).join('')}</div></div>` : ''}
-  `;
-  document.getElementById('viewCopy').textContent = e.copy || '(no copy)';
-  if (e.notes) {
-    document.getElementById('viewNotesWrap').style.display = 'block';
-    document.getElementById('viewNotes').textContent = e.notes;
-  } else {
-    document.getElementById('viewNotesWrap').style.display = 'none';
+  const src = e.screenshot_url || '';
+  const isVideo = e.media_type === 'video' || src.match(/\.(mp4|mov|webm)$/i);
+  const img = document.getElementById('viewImg');
+  const vid = document.getElementById('viewVideo');
+
+  img.style.display = 'none';
+  vid.style.display = 'none';
+  vid.pause();
+
+  const isPdf = src.match(/\.pdf$/i);
+  const isFile = src && !src.match(/\.(jpg|jpeg|png|gif|webp)$/i) && !isVideo;
+
+  if (isPdf && src) {
+    window.open(src, '_blank');
+    return;
+  } else if (isFile && src) {
+    window.open(src, '_blank');
+    return;
+  } else if (isVideo && src) {
+    vid.src = src;
+    vid.style.display = 'block';
+  } else if (src) {
+    img.src = src;
+    img.style.display = 'block';
   }
 
-  // Live board: show result toggle
-  document.getElementById('viewModal').classList.add('active');
+  document.getElementById('viewCaption').textContent = e.copy || e.title || '';
+  document.getElementById('viewOverlay').classList.add('open');
 }
 
-function closeViewModal() { document.getElementById('viewModal').classList.remove('active'); }
-
-function editFromView() {
-  closeViewModal();
-  const e = entries.find(x => x.id === viewingId);
-  if (e) openEditModal(e);
+function closeView(e) {
+  if (e.target === e.currentTarget) {
+    document.getElementById('viewOverlay').classList.remove('open');
+    document.getElementById('viewVideo').pause();
+  }
 }
 
-// ====== FILE HANDLING ======
-const dropZone = document.getElementById('dropZone');
-const fileInput = document.getElementById('fileInput');
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop', e => {
-  e.preventDefault(); dropZone.classList.remove('dragover');
-  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-});
-fileInput.addEventListener('change', () => { if (fileInput.files.length) handleFile(fileInput.files[0]); });
-
-function handleFile(file) {
-  if (!file.type.startsWith('image/')) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    currentImageData = e.target.result;
-    dropZone.innerHTML = `<img class="preview-img" src="${currentImageData}" alt="Preview"><div class="dz-text" style="margin-top:8px">Click to replace</div>`;
-  };
-  reader.readAsDataURL(file);
+async function deleteEntry(id) {
+  if (!confirm('Delete?')) return;
+  await NB_ADMIN.apiSend(`swipe?id=${id}`, 'DELETE', {});
+  entries = entries.filter(e => e.id !== id);
+  render();
 }
 
-function adjustSeen(delta) {
-  seenCount = Math.max(1, seenCount + delta);
-  document.getElementById('seenVal').textContent = seenCount;
-}
+function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-// ====== MODALS CLOSE ON OVERLAY ======
-document.getElementById('entryModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
-document.getElementById('viewModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeViewModal(); });
-
-// ====== HELPERS ======
-function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
-// ====== RENDER ALL ======
-function renderAll() {
-  renderKPIs();
-  if (currentTab === 'master') renderMaster();
-  else if (currentTab === 'niche') renderNiche();
-  else if (currentTab === 'live') renderLive();
-  else if (currentTab === 'purge') renderPurge();
-}
-
-// ====== INIT ======
 async function init() {
   const ok = await NB_ADMIN.checkAuth();
   if (!ok) return;
   NB_ADMIN.renderSidebar('swipe-file');
   await load();
-  renderAll();
+  render();
 }
 init();
 </script>

@@ -54,6 +54,7 @@
   @media (max-width: 768px) { .blog-grid { grid-template-columns: 1fr; padding: 0 20px 60px; } .blog-hero { padding: 120px 20px 40px; } }
   .blog-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; cursor: pointer; text-decoration: none; color: inherit; display: block; }
   .blog-card:hover { transform: translateY(-4px); border-color: var(--teal); }
+  .blog-card img { width: 100%; height: auto; display: block; }
   .blog-card-body { padding: 24px; }
   .blog-card-tag { font-family: var(--font-heading); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--teal); margin-bottom: 10px; }
   .blog-card-title { font-family: var(--font-heading); font-size: 22px; font-weight: 800; text-transform: uppercase; line-height: 1.15; margin-bottom: 10px; }
@@ -85,7 +86,53 @@
 <div class="hero-orb-1"></div>
 <div class="hero-orb-2"></div>
 <div class="blog-hero"><div class="container"><h1>The <span>Blog</span></h1><p>Marketing insights, strategies, and real results from an AI-powered agency that actually shows its work.</p></div></div>
-<div class="blog-grid" id="blogGrid"><div class="blog-empty"><p style="font-size:18px;margin-bottom:12px;">Loading marketing insights...</p><p style="font-size:14px;">If the page stays empty, we haven’t approved any posts yet. In the meantime, check out our <a href="/portfolio" style="color:var(--teal);">case studies</a>.</p></div></div>
+<div class="blog-grid" id="blogGrid">
+  <a class="blog-card" href="/blog/ai-brisbane-trivia-machine.html">
+    <img src="/images/blog/og/og-ai-brisbane-trivia-machine.png" alt="I Built an AI That Posts Brisbane Trivia 5 Times a Day" loading="lazy">
+    <div class="blog-card-body">
+      <div class="blog-card-tag">Building in Public</div>
+      <div class="blog-card-title">I Built an AI That Posts Brisbane Trivia 5 Times a Day</div>
+      <div class="blog-card-excerpt">The full breakdown of how I built a content machine that creates, fact-checks, and posts Brisbane trivia videos automatically using Claude, ElevenLabs, and Imagen 4.</div>
+      <div class="blog-card-meta">April 2026 &middot; 8 min read</div>
+    </div>
+  </a>
+  <a class="blog-card" href="/blog/2026-trend-report.html">
+    <img src="/images/blog/og/og-2026-trend-report.png" alt="The 2026 Digital Marketing Trend Report" loading="lazy">
+    <div class="blog-card-body">
+      <div class="blog-card-tag">Industry Trends</div>
+      <div class="blog-card-title">The 2026 Digital Marketing Trend Report</div>
+      <div class="blog-card-excerpt">7 digital marketing trends every Brisbane business needs to know in 2026 — with practical steps you can take today. Backed by data from BEDA, Google, Meltwater, and more.</div>
+      <div class="blog-card-meta">March 2026 &middot; 25 min read</div>
+    </div>
+  </a>
+  <a class="blog-card" href="/blog/small-business-marketing-mistakes.html">
+    <img src="/images/blog/og/og-small-business-marketing-mistakes.png" alt="7 Marketing Mistakes That Are Killing Your Small Business" loading="lazy">
+    <div class="blog-card-body">
+      <div class="blog-card-tag">Marketing</div>
+      <div class="blog-card-title">7 Marketing Mistakes That Are Killing Your Small Business</div>
+      <div class="blog-card-excerpt">Most small businesses make the same costly marketing mistakes. Here are the 7 biggest ones — and exactly how to fix each of them today.</div>
+      <div class="blog-card-meta">March 11, 2026 &middot; 8 min read</div>
+    </div>
+  </a>
+  <a class="blog-card" href="/blog/seo-basics-small-business.html">
+    <img src="/images/blog/og/og-seo-basics-small-business.png" alt="SEO for Small Business: A No-BS Beginner’s Guide" loading="lazy">
+    <div class="blog-card-body">
+      <div class="blog-card-tag">SEO</div>
+      <div class="blog-card-title">SEO for Small Business: A No-BS Beginner’s Guide</div>
+      <div class="blog-card-excerpt">SEO doesn’t have to be complicated. This guide covers what actually matters for small businesses — and what you can safely skip.</div>
+      <div class="blog-card-meta">March 11, 2026 &middot; 10 min read</div>
+    </div>
+  </a>
+  <a class="blog-card" href="/blog/do-i-need-a-website.html">
+    <img src="/images/blog/og/og-do-i-need-a-website.png" alt="Do I Really Need a Website in 2026? (Yes, and Here’s Why)" loading="lazy">
+    <div class="blog-card-body">
+      <div class="blog-card-tag">Web Design</div>
+      <div class="blog-card-title">Do I Really Need a Website in 2026? (Yes, and Here’s Why)</div>
+      <div class="blog-card-excerpt">Think social media is enough? Think again. Here’s why every small business still needs a website in 2026 — and what it should actually include.</div>
+      <div class="blog-card-meta">March 11, 2026 &middot; 6 min read</div>
+    </div>
+  </a>
+</div>
 <section class="blog-cta">
   <div class="blog-cta-card">
     <h3>Want marketing that actually moves the needle?</h3>
@@ -106,33 +153,6 @@
   document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering'); }); el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering'); }); });
   document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
 
-  async function loadBlog() {
-    try {
-      const res = await fetch('/api/contacts?blog=1');
-      if (!res.ok) throw new Error('Failed');
-      const data = await res.json();
-      renderPosts(data.posts || []);
-    } catch (e) {
-      document.getElementById('blogGrid').innerHTML = '<div class="blog-empty"><p>No posts yet. Check back soon.</p><p><a href="/portfolio" style="color:var(--teal);">Explore our case studies while we publish new articles.</a></p></div>';
-    }
-  }
-
-  function renderPosts(posts) {
-    const grid = document.getElementById('blogGrid');
-    if (!posts.length) { grid.innerHTML = '<div class="blog-empty"><p>No posts yet. Check back soon.</p><p><a href="/portfolio" style="color:var(--teal);">Explore our case studies while we publish new articles.</a></p></div>'; return; }
-    grid.innerHTML = posts.map(p => {
-      const excerpt = getExcerpt(p.blog_post || '', 160);
-      const date = new Date(p.created_at).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' });
-      const title = getTitle(p.blog_post || p.topic || 'Untitled');
-      return `<a class="blog-card" href="/blog-post?id=${p.id}"><div class="blog-card-body"><div class="blog-card-tag">${esc(p.client_name || 'Nunya Bunya')}</div><div class="blog-card-title">${esc(title)}</div><div class="blog-card-excerpt">${esc(excerpt)}</div><div class="blog-card-meta">${date} &middot; ${Math.max(1,Math.round((p.blog_post||'').split(/\s+/).length/200))} min read</div></div></a>`;
-    }).join('');
-  }
-
-  function getTitle(md) { const m = md.match(/^#\s+(.+)$/m); return m ? m[1] : md.split('\n')[0].replace(/^#+\s*/,'').slice(0,80); }
-  function getExcerpt(md, max) { const t = md.split('\n').filter(l => !l.startsWith('#') && l.trim()).join(' ').replace(/[*_`\[\]]/g,'').trim(); return t.length > max ? t.slice(0,max)+'...' : t; }
-  function esc(s) { if(!s)return''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
-
-  loadBlog();
 </script>
 <!-- Matomo -->
 <script>

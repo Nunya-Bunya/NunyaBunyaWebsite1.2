@@ -63,6 +63,7 @@ const NB_ADMIN = {
         label: 'Marketing',
         pages: [
           { id: 'analytics', label: 'Analytics', icon: '&#9636;', href: '/nb-admin-analytics' },
+          { id: 'email-hub', label: 'Email Hub', icon: '&#9993;', href: '/nb-admin-email-hub' },
           { id: 'email-campaigns', label: 'Email Campaigns', icon: '&#9993;', href: '/nb-admin-email-campaigns' },
           { id: 'leads', label: 'Leads', icon: '&#9993;', href: '/nb-admin-leads' },
           { id: 'landing-pages', label: 'Landing Pages', icon: '&#9873;', href: '/nb-admin-landing-pages' },
@@ -76,7 +77,9 @@ const NB_ADMIN = {
           { id: 'design-library', label: 'Design Library', icon: '&#127912;', href: '/nb-admin-design-library' },
           { id: 'skills-library', label: 'Skills Library', icon: '&#129520;', href: '/nb-admin-skills-library' },
           { id: 'reports', label: 'Reports', icon: '&#9776;', href: '/nb-admin-reports' },
+          { id: 'integrations', label: 'Integrations', icon: '&#128268;', href: '/nb-admin-integrations' },
           { id: 'cron-jobs', label: 'Cron Jobs', icon: '&#9201;', href: '/nb-admin-cron-jobs' },
+          { id: 'deployments', label: 'Deployments', icon: '&#128640;', href: '/nb-admin-deployments' },
           { id: 'activity', label: 'Activity Log', icon: '&#9200;', href: '/nb-admin-activity' },
           { id: 'settings', label: 'Settings', icon: '&#9881;', href: '/nb-admin-settings' },
         ]

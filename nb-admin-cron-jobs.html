@@ -549,6 +549,100 @@ const CRON_JOBS = [
       { dest: 'slack', label: 'Daily GBP summary' },
     ],
   },
+
+  // ── System Health & Monitoring ──
+  {
+    name: 'Weekly Cron Health Check',
+    category: 'System Health',
+    source: 'python',
+    status: 'active',
+    schedule: 'Weekly Sunday 8pm AEST',
+    cron: '0 10 * * 0',
+    description: 'Pings every service endpoint (Mautic, Matomo, Shlink, n8n, Vercel, Supabase, Hetzner) and checks SSL cert expiry. Reports pass/fail to Slack.',
+    tracking: ['Services up/down', 'Response times (ms)', 'SSL days remaining', 'Failures detected'],
+    results: [
+      { dest: 'slack', label: '#alerts (pass/fail report)' },
+    ],
+  },
+  {
+    name: 'Matomo Analytics Digest',
+    category: 'System Health',
+    source: 'python',
+    status: 'active',
+    schedule: 'Weekly Monday 7:30am AEST',
+    cron: '30 21 * * 0',
+    description: 'Pulls weekly analytics from self-hosted Matomo — visits, unique visitors, pageviews, bounce rate, top pages, top referrers across all sites.',
+    tracking: ['Total visits', 'Unique visitors', 'Pageviews', 'Bounce rate', 'Top pages', 'Top referrers'],
+    results: [
+      { dest: 'slack', label: '#alerts (weekly digest)' },
+    ],
+  },
+  {
+    name: 'Cal.com Booking Digest',
+    category: 'System Health',
+    source: 'python',
+    status: 'active',
+    schedule: 'Daily 7:15am AEST',
+    cron: '15 21 * * *',
+    description: 'Daily summary of new bookings, cancellations, and upcoming sessions from Cal.com. Routes to relevant business Slack channels.',
+    tracking: ['New bookings', 'Upcoming sessions (7d)', 'Cancellations', 'Booking types'],
+    results: [
+      { dest: 'slack', label: '#alerts + business channels' },
+    ],
+  },
+  {
+    name: 'Shlink Click Digest',
+    category: 'System Health',
+    source: 'python',
+    status: 'active',
+    schedule: 'Weekly Monday 7:45am AEST',
+    cron: '45 21 * * 0',
+    description: 'Weekly summary of tracked link clicks from self-hosted Shlink. Top performers, total clicks, dead links.',
+    tracking: ['Weekly clicks', 'All-time clicks', 'Top links', 'Dead links (zero clicks)'],
+    results: [
+      { dest: 'slack', label: '#alerts (weekly digest)' },
+    ],
+  },
+  {
+    name: 'Mautic Lead Score Alert',
+    category: 'System Health',
+    source: 'python',
+    status: 'active',
+    schedule: 'Daily 8:30am AEST',
+    cron: '30 22 * * *',
+    description: 'Daily check for contacts crossing lead score thresholds. Hot leads (50+ pts) trigger instant alerts to #alerts and #nunya-bunya. Daily digest of all warm (25+) and hot leads.',
+    tracking: ['Hot leads (50+ pts)', 'Warm leads (25+ pts)', 'New alerts fired', 'Lead scores'],
+    results: [
+      { dest: 'slack', label: '#alerts + #nunya-bunya (hot lead alerts)' },
+      { dest: 'mautic', label: 'Contact scores tracked' },
+    ],
+  },
+  {
+    name: 'Supabase Usage Monitor',
+    category: 'System Health',
+    source: 'python',
+    status: 'active',
+    schedule: 'Weekly Sunday 9pm AEST',
+    cron: '0 11 * * 0',
+    description: 'Weekly check on Supabase table row counts, API health, and response times. Early warning before hitting free tier limits.',
+    tracking: ['Row counts per table', 'Total rows', 'API response time', 'Query errors'],
+    results: [
+      { dest: 'slack', label: '#alerts (usage report)' },
+    ],
+  },
+  {
+    name: 'SSL & Domain Expiry Checker',
+    category: 'System Health',
+    source: 'python',
+    status: 'active',
+    schedule: '1st of month 8am AEST',
+    cron: '0 22 1 * *',
+    description: 'Monthly check of SSL certificates and DNS resolution across all domains. Alerts if any cert expires within 30 days or DNS fails.',
+    tracking: ['SSL days remaining per domain', 'DNS resolution status', 'Certificate issuers', 'Expiry warnings'],
+    results: [
+      { dest: 'slack', label: '#alerts (expiry report)' },
+    ],
+  },
 ];
 
 let activeFilter = 'all';

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Hub | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  /* ── Compose Form ── */
+  .compose-panel {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px; padding: 28px;
+  }
+  .compose-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .compose-row.full { grid-template-columns: 1fr; }
+  .compose-field { display: flex; flex-direction: column; gap: 6px; }
+  .compose-label {
+    font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+    font-weight: 600; font-family: var(--font-heading);
+  }
+  .compose-input, .compose-select {
+    background: var(--dark3); border: 1px solid var(--subtle); color: var(--white);
+    padding: 12px 16px; border-radius: 8px; font-size: 14px; font-family: var(--font-body);
+    font-weight: 300; width: 100%;
+  }
+  .compose-input:focus, .compose-select:focus, .compose-textarea:focus {
+    outline: none; border-color: var(--teal);
+  }
+  .compose-textarea {
+    background: var(--dark3); border: 1px solid var(--subtle); color: var(--white);
+    padding: 16px; border-radius: 8px; font-size: 14px; font-family: var(--font-body);
+    font-weight: 300; width: 100%; min-height: 240px; resize: vertical; line-height: 1.7;
+  }
+  .compose-actions { display: flex; gap: 12px; margin-top: 20px; align-items: center; }
+  .compose-status { font-size: 13px; color: var(--muted); font-weight: 300; margin-left: auto; }
+  .compose-status.success { color: var(--teal); }
+  .compose-status.error { color: #EF4444; }
+
+  /* ── Sent Table ── */
+  .eh-toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+  .eh-filter-select {
+    background: var(--dark2); border: 1px solid var(--subtle); color: var(--white);
+    padding: 8px 14px; border-radius: 8px; font-size: 13px; font-family: var(--font-body);
+  }
+  .eh-filter-select:focus { outline: none; border-color: var(--teal); }
+  .eh-date-input {
+    background: var(--dark2); border: 1px solid var(--subtle); color: var(--white);
+    padding: 8px 14px; border-radius: 8px; font-size: 13px; font-family: var(--font-body);
+  }
+  .eh-date-input:focus { outline: none; border-color: var(--teal); }
+
+  /* Status badges for email */
+  .email-status {
+    display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 10px;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .email-status.sent { background: rgba(74,144,217,0.12); color: var(--blue); }
+  .email-status.delivered { background: rgba(0,229,204,0.12); color: var(--teal); }
+  .email-status.opened { background: rgba(0,229,204,0.2); color: var(--teal); }
+  .email-status.clicked { background: rgba(155,89,182,0.15); color: var(--purple); }
+  .email-status.replied { background: rgba(255,184,0,0.15); color: var(--yellow); }
+  .email-status.bounced { background: rgba(239,68,68,0.12); color: #EF4444; }
+  .email-status.failed { background: rgba(239,68,68,0.12); color: #EF4444; }
+
+  /* Brand badges */
+  .brand-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    font-family: var(--font-heading);
+  }
+  .brand-badge.nb { background: rgba(0,229,204,0.12); color: var(--teal); }
+  .brand-badge.pp { background: rgba(155,89,182,0.12); color: var(--purple); }
+  .brand-badge.pawesome { background: rgba(255,184,0,0.12); color: var(--yellow); }
+  .brand-badge.orca { background: rgba(74,144,217,0.12); color: var(--blue); }
+  .brand-badge.clg { background: rgba(255,45,120,0.12); color: var(--magenta); }
+  .brand-badge.bac { background: rgba(255,255,255,0.08); color: var(--white); }
+
+  /* ── Outreach Stats Cards ── */
+  .outreach-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .outreach-stat {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
+    padding: 20px; text-align: center;
+  }
+  .outreach-stat .num { font-family: var(--font-heading); font-weight: 900; font-size: 32px; color: var(--teal); }
+  .outreach-stat .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; font-family: var(--font-heading); font-weight: 700; }
+  .outreach-stat.yellow .num { color: var(--yellow); }
+  .outreach-stat.magenta .num { color: var(--magenta); }
+  .outreach-stat.purple .num { color: var(--purple); }
+
+  /* ── Pause/Resume Toggle ── */
+  .cron-toggle {
+    display: flex; align-items: center; gap: 16px; background: var(--dark2);
+    border: 1px solid var(--subtle); border-radius: 12px; padding: 20px; margin-bottom: 24px;
+  }
+  .cron-toggle-label {
+    font-family: var(--font-heading); font-weight: 700; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .cron-toggle-status { font-size: 13px; color: var(--muted); font-weight: 300; flex: 1; }
+  .toggle-switch {
+    position: relative; width: 52px; height: 28px; flex-shrink: 0; cursor: pointer;
+  }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute; inset: 0; background: rgba(239,68,68,0.3); border-radius: 14px;
+    transition: background 0.3s;
+  }
+  .toggle-slider::before {
+    content: ''; position: absolute; width: 22px; height: 22px; border-radius: 50%;
+    background: #EF4444; left: 3px; top: 3px; transition: all 0.3s;
+  }
+  .toggle-switch input:checked + .toggle-slider { background: rgba(0,229,204,0.3); }
+  .toggle-switch input:checked + .toggle-slider::before { background: var(--teal); transform: translateX(24px); }
+
+  /* ── Empty state ── */
+  .eh-empty { text-align: center; padding: 60px; color: var(--muted); font-weight: 300; }
+
+  /* ── Loading overlay ── */
+  .eh-loading { text-align: center; padding: 40px; color: var(--muted); }
+
+  @media (max-width: 768px) {
+    .compose-row { grid-template-columns: 1fr; }
+    .outreach-stats { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Email <span>Hub</span></h1>
+        <div class="date">Compose, track, and monitor all email activity</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('compose')">Compose</button>
+      <button class="tab" onclick="switchTab('sent')">Sent</button>
+      <button class="tab" onclick="switchTab('outreach')">Auto-Outreach</button>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- TAB 1: COMPOSE -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div id="tabCompose" class="tab-content active">
+      <div class="compose-panel">
+        <div class="compose-row">
+          <div class="compose-field">
+            <label class="compose-label">Brand</label>
+            <select class="compose-select" id="composeBrand">
+              <option value="NB">Nunya Bunya</option>
+              <option value="PP">Power Portraits</option>
+              <option value="Pawesome">Pawesome Dog Walkers</option>
+              <option value="ORCA">ORCA Film Awards</option>
+              <option value="CLG">Conner Law Group</option>
+              <option value="BAC">Ben Alek Conner</option>
+            </select>
+          </div>
+          <div class="compose-field">
+            <label class="compose-label">Template</label>
+            <select class="compose-select" id="composeTemplate" onchange="applyTemplate()">
+              <option value="">— No template —</option>
+              <option value="welcome">Welcome Email</option>
+              <option value="follow-up">Follow Up</option>
+              <option value="proposal">Proposal / Quote</option>
+              <option value="onboarding">Client Onboarding</option>
+              <option value="check-in">Monthly Check-In</option>
+              <option value="cold-outreach">Cold Outreach</option>
+              <option value="thank-you">Thank You</option>
+              <option value="review-request">Review Request</option>
+            </select>
+          </div>
+        </div>
+        <div class="compose-row full">
+          <div class="compose-field">
+            <label class="compose-label">To (email or search contacts)</label>
+            <input type="text" class="compose-input" id="composeTo" placeholder="name@example.com or start typing a contact name...">
+          </div>
+        </div>
+        <div class="compose-row full">
+          <div class="compose-field">
+            <label class="compose-label">Subject</label>
+            <input type="text" class="compose-input" id="composeSubject" placeholder="Email subject line...">
+          </div>
+        </div>
+        <div class="compose-row full">
+          <div class="compose-field">
+            <label class="compose-label">Body</label>
+            <textarea class="compose-textarea" id="composeBody" placeholder="Write your email here..."></textarea>
+          </div>
+        </div>
+        <div class="compose-actions">
+          <button class="btn-teal" onclick="sendEmail()">Send Email</button>
+          <button class="btn-outline" onclick="saveDraft()">Save Draft</button>
+          <button class="btn-outline btn-small" onclick="clearCompose()" style="color:var(--muted);border-color:var(--subtle);">Clear</button>
+          <span class="compose-status" id="composeStatus"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- TAB 2: SENT -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div id="tabSent" class="tab-content">
+      <!-- KPIs -->
+      <div class="kpi-grid" id="sentKpis">
+        <div class="kpi-card"><div class="num" id="kpiSentTotal">--</div><div class="label">Total Sent</div></div>
+        <div class="kpi-card"><div class="num" id="kpiSentOpened">--</div><div class="label">Opened</div></div>
+        <div class="kpi-card"><div class="num" id="kpiSentClicked">--</div><div class="label">Clicked</div></div>
+        <div class="kpi-card magenta"><div class="num" id="kpiSentBounced">--</div><div class="label">Bounced</div></div>
+      </div>
+
+      <!-- Filters -->
+      <div class="eh-toolbar">
+        <select class="eh-filter-select" id="sentBrandFilter" onchange="loadSentEmails()">
+          <option value="all">All Brands</option>
+          <option value="NB">Nunya Bunya</option>
+          <option value="PP">Power Portraits</option>
+          <option value="Pawesome">Pawesome</option>
+          <option value="ORCA">ORCA</option>
+          <option value="CLG">Conner Law</option>
+          <option value="BAC">BAC</option>
+        </select>
+        <input type="date" class="eh-date-input" id="sentDateFrom" onchange="loadSentEmails()">
+        <span style="color:var(--muted);font-size:13px;">to</span>
+        <input type="date" class="eh-date-input" id="sentDateTo" onchange="loadSentEmails()">
+      </div>
+
+      <!-- Sent Table -->
+      <div class="table-wrap">
+        <table id="sentTable">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>To</th>
+              <th>Subject</th>
+              <th>Brand</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="sentBody"></tbody>
+        </table>
+      </div>
+      <div class="eh-empty" id="sentEmpty" style="display:none;">No sent emails found. Send your first email from the Compose tab.</div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- TAB 3: AUTO-OUTREACH -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div id="tabOutreach" class="tab-content">
+      <!-- Cron Toggle -->
+      <div class="cron-toggle">
+        <div>
+          <div class="cron-toggle-label">Auto Email Outreach Cron</div>
+          <div class="cron-toggle-status" id="cronStatus">Loading status...</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="cronToggle" onchange="toggleOutreachCron()">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <!-- Outreach Stats -->
+      <div class="outreach-stats" id="outreachStats">
+        <div class="outreach-stat"><div class="num" id="orTotal">--</div><div class="label">Total Sent</div></div>
+        <div class="outreach-stat"><div class="num" id="orOpenRate">--</div><div class="label">Open Rate</div></div>
+        <div class="outreach-stat yellow"><div class="num" id="orClickRate">--</div><div class="label">Click Rate</div></div>
+        <div class="outreach-stat magenta"><div class="num" id="orReplyRate">--</div><div class="label">Reply Rate</div></div>
+      </div>
+
+      <!-- Outreach Filters -->
+      <div class="eh-toolbar">
+        <select class="eh-filter-select" id="outreachStatusFilter" onchange="loadOutreachEmails()">
+          <option value="all">All Statuses</option>
+          <option value="sent">Sent</option>
+          <option value="delivered">Delivered</option>
+          <option value="opened">Opened</option>
+          <option value="clicked">Clicked</option>
+          <option value="replied">Replied</option>
+          <option value="bounced">Bounced</option>
+        </select>
+        <input type="date" class="eh-date-input" id="outreachDateFrom" onchange="loadOutreachEmails()">
+        <span style="color:var(--muted);font-size:13px;">to</span>
+        <input type="date" class="eh-date-input" id="outreachDateTo" onchange="loadOutreachEmails()">
+      </div>
+
+      <!-- Outreach Table -->
+      <div class="table-wrap">
+        <table id="outreachTable">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Business</th>
+              <th>Email</th>
+              <th>Subject</th>
+              <th>Status</th>
+              <th>Opens</th>
+              <th>Clicks</th>
+            </tr>
+          </thead>
+          <tbody id="outreachBody"></tbody>
+        </table>
+      </div>
+      <div class="eh-empty" id="outreachEmpty" style="display:none;">No outreach emails yet. The auto-outreach cron will populate this.</div>
+    </div>
+
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+const SUPABASE_URL = 'https://podyldvpvgqktwbqswrc.supabase.co';
+const SUPABASE_KEY = 'sb_secret_7G4kmywzGey6j3PyeT9wnw_Q1aN2dep';
+
+// ── Supabase helpers ──
+async function supaGet(query) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${query}`, {
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+  });
+  return r.json();
+}
+
+async function supaPost(table, data) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+    body: JSON.stringify(data)
+  });
+  return r.json();
+}
+
+async function supaPatch(table, id, data) {
+  await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
+    method: 'PATCH',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify(data)
+  });
+}
+
+async function supaPatchByField(table, field, value, data) {
+  await fetch(`${SUPABASE_URL}/rest/v1/${table}?${field}=eq.${encodeURIComponent(value)}`, {
+    method: 'PATCH',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify(data)
+  });
+}
+
+// ── Email Templates ──
+const EMAIL_TEMPLATES = {
+  'welcome': {
+    subject: 'Welcome to {{brand}} — Here\'s What Happens Next',
+    body: `Hi {{name}},\n\nWelcome aboard! We're thrilled to have you.\n\nHere's what happens next:\n1. We'll review your details and get everything set up\n2. You'll receive your onboarding kit within 24 hours\n3. We'll schedule a quick kickoff call to align on goals\n\nIn the meantime, feel free to reply to this email with any questions.\n\nLooking forward to working together.\n\nCheers,\nBen`
+  },
+  'follow-up': {
+    subject: 'Quick Follow Up — {{brand}}',
+    body: `Hi {{name}},\n\nJust following up on our recent conversation. Wanted to check in and see if you had any questions or thoughts.\n\nHappy to jump on a quick call if that's easier — you can book a time here: [booking link]\n\nNo pressure at all, just want to make sure you have everything you need.\n\nCheers,\nBen`
+  },
+  'proposal': {
+    subject: 'Your Proposal from {{brand}}',
+    body: `Hi {{name}},\n\nAs discussed, I've put together a proposal tailored to your needs. You'll find the details attached / linked below.\n\n[Proposal link]\n\nKey highlights:\n- [Highlight 1]\n- [Highlight 2]\n- [Highlight 3]\n\nI'd love to walk through this together. Book a time here: [booking link]\n\nCheers,\nBen`
+  },
+  'onboarding': {
+    subject: 'Getting Started — Your {{brand}} Onboarding',
+    body: `Hi {{name}},\n\nExcited to kick things off! Here's your onboarding checklist:\n\n[ ] Fill out the Brand Foundation Kit survey: [link]\n[ ] Share access to your existing accounts (social, website, etc.)\n[ ] Schedule your kickoff call: [booking link]\n\nWe'll handle the rest from there.\n\nCheers,\nBen`
+  },
+  'check-in': {
+    subject: 'Monthly Check-In — {{brand}}',
+    body: `Hi {{name}},\n\nQuick monthly check-in! Here's a snapshot of what we've been up to:\n\n[Summary of work completed]\n\nMetrics this month:\n- [Metric 1]\n- [Metric 2]\n- [Metric 3]\n\nNext month's focus:\n- [Priority 1]\n- [Priority 2]\n\nAny questions or feedback? Reply here or book a call: [booking link]\n\nCheers,\nBen`
+  },
+  'cold-outreach': {
+    subject: 'Quick question about {{business_name}}\'s marketing',
+    body: `Hi {{name}},\n\nI came across {{business_name}} and noticed [specific observation about their business].\n\nI run a marketing agency here in Brisbane and we specialise in helping businesses like yours [specific value prop].\n\nWould you be open to a quick 15-minute chat to see if there's a fit?\n\nNo pressure either way — happy to share some free tips regardless.\n\nCheers,\nBen\nNunya Bunya — nunyabunya.com`
+  },
+  'thank-you': {
+    subject: 'Thank You — {{brand}}',
+    body: `Hi {{name}},\n\nJust wanted to say a quick thank you for [reason]. It means a lot.\n\nIf there's anything else we can help with, don't hesitate to reach out.\n\nCheers,\nBen`
+  },
+  'review-request': {
+    subject: 'Quick Favour — Would You Mind Leaving a Review?',
+    body: `Hi {{name}},\n\nHope you're well! We've loved working with you and would really appreciate a quick Google review if you have a moment.\n\nIt only takes 30 seconds: [Google review link]\n\nYour feedback helps other businesses find us and means the world to our small team.\n\nThanks so much!\n\nCheers,\nBen`
+  },
+};
+
+// ── Tab switching ──
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+
+  if (tab === 'compose') {
+    document.getElementById('tabCompose').classList.add('active');
+  } else if (tab === 'sent') {
+    document.getElementById('tabSent').classList.add('active');
+    loadSentEmails();
+  } else if (tab === 'outreach') {
+    document.getElementById('tabOutreach').classList.add('active');
+    loadOutreachEmails();
+    loadCronStatus();
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// COMPOSE
+// ══════════════════════════════════════════════════════════════
+
+function applyTemplate() {
+  const key = document.getElementById('composeTemplate').value;
+  if (!key || !EMAIL_TEMPLATES[key]) return;
+  const tpl = EMAIL_TEMPLATES[key];
+  const brand = document.getElementById('composeBrand').value;
+  const brandNames = { NB: 'Nunya Bunya', PP: 'Power Portraits', Pawesome: 'Pawesome Dog Walkers', ORCA: 'ORCA Film Awards', CLG: 'Conner Law Group', BAC: 'Ben Alek Conner' };
+  document.getElementById('composeSubject').value = tpl.subject.replace(/\{\{brand\}\}/g, brandNames[brand] || brand);
+  document.getElementById('composeBody').value = tpl.body.replace(/\{\{brand\}\}/g, brandNames[brand] || brand);
+}
+
+async function sendEmail() {
+  const to = document.getElementById('composeTo').value.trim();
+  const subject = document.getElementById('composeSubject').value.trim();
+  const body = document.getElementById('composeBody').value.trim();
+  const brand = document.getElementById('composeBrand').value;
+  const template = document.getElementById('composeTemplate').value;
+  const statusEl = document.getElementById('composeStatus');
+
+  if (!to) { statusEl.textContent = 'Please enter a recipient email.'; statusEl.className = 'compose-status error'; return; }
+  if (!subject) { statusEl.textContent = 'Please enter a subject line.'; statusEl.className = 'compose-status error'; return; }
+  if (!body) { statusEl.textContent = 'Please enter a message body.'; statusEl.className = 'compose-status error'; return; }
+
+  statusEl.textContent = 'Sending...';
+  statusEl.className = 'compose-status';
+
+  try {
+    // Log to Supabase
+    const result = await supaPost('email_sent_log', {
+      brand: brand,
+      to_email: to,
+      subject: subject,
+      body_html: body,
+      template_name: template || null,
+      status: 'sent',
+      sent_at: new Date().toISOString(),
+      sent_by: 'admin',
+    });
+
+    if (Array.isArray(result) && result.length > 0) {
+      statusEl.textContent = 'Email logged successfully. Mautic will process the send.';
+      statusEl.className = 'compose-status success';
+      // Clear form after short delay
+      setTimeout(() => {
+        clearCompose();
+        statusEl.textContent = '';
+      }, 3000);
+    } else {
+      statusEl.textContent = 'Email logged. Check Supabase for confirmation.';
+      statusEl.className = 'compose-status success';
+    }
+  } catch (err) {
+    statusEl.textContent = 'Error: ' + err.message;
+    statusEl.className = 'compose-status error';
+  }
+}
+
+function saveDraft() {
+  const statusEl = document.getElementById('composeStatus');
+  // Save to localStorage as a simple draft mechanism
+  const draft = {
+    brand: document.getElementById('composeBrand').value,
+    to: document.getElementById('composeTo').value,
+    subject: document.getElementById('composeSubject').value,
+    body: document.getElementById('composeBody').value,
+    template: document.getElementById('composeTemplate').value,
+    savedAt: new Date().toISOString(),
+  };
+  localStorage.setItem('nbhq_email_draft', JSON.stringify(draft));
+  statusEl.textContent = 'Draft saved locally.';
+  statusEl.className = 'compose-status success';
+}
+
+function clearCompose() {
+  document.getElementById('composeTo').value = '';
+  document.getElementById('composeSubject').value = '';
+  document.getElementById('composeBody').value = '';
+  document.getElementById('composeTemplate').value = '';
+  document.getElementById('composeStatus').textContent = '';
+}
+
+function loadDraft() {
+  const saved = localStorage.getItem('nbhq_email_draft');
+  if (!saved) return;
+  try {
+    const draft = JSON.parse(saved);
+    document.getElementById('composeBrand').value = draft.brand || 'NB';
+    document.getElementById('composeTo').value = draft.to || '';
+    document.getElementById('composeSubject').value = draft.subject || '';
+    document.getElementById('composeBody').value = draft.body || '';
+    document.getElementById('composeTemplate').value = draft.template || '';
+  } catch {}
+}
+
+// ══════════════════════════════════════════════════════════════
+// SENT EMAILS
+// ══════════════════════════════════════════════════════════════
+
+function brandBadge(brand) {
+  const b = (brand || 'NB').toLowerCase();
+  return `<span class="brand-badge ${b}">${brand}</span>`;
+}
+
+function emailStatusBadge(status) {
+  const s = (status || 'sent').toLowerCase();
+  return `<span class="email-status ${s}">${s}</span>`;
+}
+
+async function loadSentEmails() {
+  const brandFilter = document.getElementById('sentBrandFilter').value;
+  const dateFrom = document.getElementById('sentDateFrom').value;
+  const dateTo = document.getElementById('sentDateTo').value;
+
+  let query = 'email_sent_log?order=sent_at.desc&limit=200';
+  if (brandFilter !== 'all') query += `&brand=eq.${brandFilter}`;
+  if (dateFrom) query += `&sent_at=gte.${dateFrom}T00:00:00`;
+  if (dateTo) query += `&sent_at=lte.${dateTo}T23:59:59`;
+
+  let emails = [];
+  try {
+    emails = await supaGet(query);
+    if (!Array.isArray(emails)) emails = [];
+  } catch { emails = []; }
+
+  // Update KPIs
+  const total = emails.length;
+  const opened = emails.filter(e => e.status === 'opened' || e.status === 'clicked').length;
+  const clicked = emails.filter(e => e.status === 'clicked').length;
+  const bounced = emails.filter(e => e.status === 'bounced' || e.status === 'failed').length;
+  document.getElementById('kpiSentTotal').textContent = total;
+  document.getElementById('kpiSentOpened').textContent = opened;
+  document.getElementById('kpiSentClicked').textContent = clicked;
+  document.getElementById('kpiSentBounced').textContent = bounced;
+
+  const tbody = document.getElementById('sentBody');
+  const empty = document.getElementById('sentEmpty');
+
+  if (!emails.length) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    document.getElementById('sentTable').style.display = 'none';
+    return;
+  }
+
+  empty.style.display = 'none';
+  document.getElementById('sentTable').style.display = '';
+
+  tbody.innerHTML = emails.map(e => {
+    const date = new Date(e.sent_at).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    return `<tr>
+      <td>${date}</td>
+      <td>${NB_ADMIN.esc(e.to_email)}</td>
+      <td>${NB_ADMIN.esc(e.subject)}</td>
+      <td>${brandBadge(e.brand)}</td>
+      <td>${emailStatusBadge(e.status)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+// AUTO-OUTREACH
+// ══════════════════════════════════════════════════════════════
+
+async function loadCronStatus() {
+  try {
+    const data = await supaGet('outreach_cron_control?cron_name=eq.auto_email_outreach&limit=1');
+    if (Array.isArray(data) && data.length > 0) {
+      const control = data[0];
+      const toggle = document.getElementById('cronToggle');
+      const statusEl = document.getElementById('cronStatus');
+      toggle.checked = !control.is_paused;
+      if (control.is_paused) {
+        statusEl.innerHTML = `Paused since ${control.paused_at ? NB_ADMIN.formatDate(control.paused_at) : 'unknown'}`;
+      } else {
+        statusEl.innerHTML = 'Running — sends every 30 minutes via Mautic';
+      }
+    }
+  } catch {
+    document.getElementById('cronStatus').textContent = 'Could not load status';
+  }
+}
+
+async function toggleOutreachCron() {
+  const toggle = document.getElementById('cronToggle');
+  const isPaused = !toggle.checked;
+  const statusEl = document.getElementById('cronStatus');
+  const now = new Date().toISOString();
+
+  try {
+    await supaPatchByField('outreach_cron_control', 'cron_name', 'auto_email_outreach', {
+      is_paused: isPaused,
+      paused_at: isPaused ? now : null,
+      resumed_at: isPaused ? null : now,
+      paused_by: 'admin',
+      updated_at: now,
+    });
+
+    if (isPaused) {
+      statusEl.textContent = 'Paused just now — cron will not send until resumed';
+    } else {
+      statusEl.textContent = 'Resumed — cron is active and sending';
+    }
+  } catch (err) {
+    statusEl.textContent = 'Error updating: ' + err.message;
+    toggle.checked = !toggle.checked; // revert
+  }
+}
+
+async function loadOutreachEmails() {
+  const statusFilter = document.getElementById('outreachStatusFilter').value;
+  const dateFrom = document.getElementById('outreachDateFrom').value;
+  const dateTo = document.getElementById('outreachDateTo').value;
+
+  let query = 'email_outreach_log?order=sent_at.desc&limit=300';
+  if (statusFilter !== 'all') query += `&status=eq.${statusFilter}`;
+  if (dateFrom) query += `&sent_at=gte.${dateFrom}T00:00:00`;
+  if (dateTo) query += `&sent_at=lte.${dateTo}T23:59:59`;
+
+  let emails = [];
+  try {
+    emails = await supaGet(query);
+    if (!Array.isArray(emails)) emails = [];
+  } catch { emails = []; }
+
+  // Calculate stats from ALL outreach (not filtered)
+  let allOutreach = emails;
+  if (statusFilter !== 'all' || dateFrom || dateTo) {
+    try {
+      allOutreach = await supaGet('email_outreach_log?order=sent_at.desc&limit=5000');
+      if (!Array.isArray(allOutreach)) allOutreach = [];
+    } catch { allOutreach = emails; }
+  }
+
+  const total = allOutreach.length;
+  const opened = allOutreach.filter(e => e.opens > 0).length;
+  const clicked = allOutreach.filter(e => e.clicks > 0).length;
+  const replied = allOutreach.filter(e => e.replied).length;
+
+  document.getElementById('orTotal').textContent = total;
+  document.getElementById('orOpenRate').textContent = total ? Math.round((opened / total) * 100) + '%' : '0%';
+  document.getElementById('orClickRate').textContent = total ? Math.round((clicked / total) * 100) + '%' : '0%';
+  document.getElementById('orReplyRate').textContent = total ? Math.round((replied / total) * 100) + '%' : '0%';
+
+  const tbody = document.getElementById('outreachBody');
+  const empty = document.getElementById('outreachEmpty');
+
+  if (!emails.length) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    document.getElementById('outreachTable').style.display = 'none';
+    return;
+  }
+
+  empty.style.display = 'none';
+  document.getElementById('outreachTable').style.display = '';
+
+  tbody.innerHTML = emails.map(e => {
+    const date = new Date(e.sent_at).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    return `<tr>
+      <td>${date}</td>
+      <td>${NB_ADMIN.esc(e.business_name || '—')}</td>
+      <td>${NB_ADMIN.esc(e.contact_email)}</td>
+      <td>${NB_ADMIN.esc(e.subject || '—')}</td>
+      <td>${emailStatusBadge(e.status)}</td>
+      <td>${e.opens || 0}</td>
+      <td>${e.clicks || 0}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════
+
+async function init() {
+  const ok = await NB_ADMIN.checkAuth();
+  if (!ok) return;
+  NB_ADMIN.renderSidebar('email-hub');
+  loadDraft();
+}
+
+init();
+</script>
+</body>
+</html>
