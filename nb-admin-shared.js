@@ -36,6 +36,7 @@ const NB_ADMIN = {
           { id: 'bfk', label: 'BFK Submissions', icon: '&#128218;', href: '/nb-admin-bfk' },
           { id: 'dashboard', label: 'Dashboard', icon: '&#9670;', href: '/nb-admin-dashboard' },
           { id: 'playbook', label: 'Playbook', icon: '&#9889;', href: '/nb-admin-playbook' },
+          { id: 'shipping-tracker', label: 'Shipping Tracker', icon: '&#128640;', href: '/nb-admin-shipping-tracker' },
         ]
       },
       {
@@ -66,6 +67,7 @@ const NB_ADMIN = {
           { id: 'email-hub', label: 'Email Hub', icon: '&#9993;', href: '/nb-admin-email-hub' },
           { id: 'email-campaigns', label: 'Email Campaigns', icon: '&#9993;', href: '/nb-admin-email-campaigns' },
           { id: 'leads', label: 'Leads', icon: '&#9993;', href: '/nb-admin-leads' },
+          { id: 'job-outreach', label: 'Job Outreach', icon: '&#128231;', href: '/nb-admin-job-outreach' },
           { id: 'landing-pages', label: 'Landing Pages', icon: '&#9873;', href: '/nb-admin-landing-pages' },
           { id: 'lead-magnets', label: 'Lead Magnets', icon: '&#9883;', href: '/nb-admin-lead-magnets' },
         ]
@@ -73,6 +75,7 @@ const NB_ADMIN = {
       {
         label: 'Reference',
         pages: [
+          { id: 'ops-manual', label: 'Operations Manual', icon: '&#128214;', href: '/nb-admin-ops-manual' },
           { id: 'brand-docs', label: 'Brand Docs', icon: '&#9997;', href: '/nb-admin-brand-docs' },
           { id: 'design-library', label: 'Design Library', icon: '&#127912;', href: '/nb-admin-design-library' },
           { id: 'skills-library', label: 'Skills Library', icon: '&#129520;', href: '/nb-admin-skills-library' },

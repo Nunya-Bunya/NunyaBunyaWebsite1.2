@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operations Manual | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+:root {
+  --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+  --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+  --muted: #999999; --subtle: #2a2a2a; --yellow: #FFB800;
+  --blue: #4A90D9; --purple: #9B59B6; --green: #00E5A0; --orange: #FF6B35;
+  --font-heading: 'Barlow Condensed', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ── Layout ─────────────────────────── */
+.ops-content { max-width: 900px; }
+
+/* ── TOC ────────────────────────────── */
+.ops-toc {
+  position: fixed; right: 40px; top: 100px; width: 200px;
+  z-index: 50; max-height: calc(100vh - 140px); overflow-y: auto;
+}
+.ops-toc::-webkit-scrollbar { width: 3px; }
+.ops-toc::-webkit-scrollbar-thumb { background: var(--subtle); border-radius: 3px; }
+.ops-toc-title {
+  font-family: var(--font-heading); font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
+  margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--subtle);
+}
+.ops-toc a {
+  display: block; font-family: var(--font-body); font-size: 11px;
+  color: var(--muted); text-decoration: none; padding: 5px 0 5px 12px;
+  border-left: 2px solid transparent; transition: all 0.2s; line-height: 1.35;
+}
+.ops-toc a:hover { color: var(--white); }
+.ops-toc a.active { color: var(--teal); border-left-color: var(--teal); }
+
+/* ── Section Card ───────────────────── */
+.ops-card {
+  background: var(--dark2); border: 1px solid var(--subtle);
+  border-radius: 16px; padding: 28px; margin-bottom: 24px;
+}
+
+/* ── Section Header ─────────────────── */
+.ops-section-header {
+  font-family: var(--font-heading); font-size: 18px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--white);
+  border-left: 4px solid var(--teal); padding-left: 14px; margin-bottom: 20px;
+}
+.ops-section-header span { color: var(--teal); }
+
+/* ── Sub Header ─────────────────────── */
+.ops-sub-header {
+  font-family: var(--font-heading); font-size: 14px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--teal);
+  margin: 24px 0 12px 0;
+}
+.ops-sub-header:first-child { margin-top: 0; }
+
+/* ── Tables ─────────────────────────── */
+.ops-table { border-collapse: collapse; width: 100%; margin-bottom: 16px; font-size: 13px; }
+.ops-table thead th {
+  font-family: var(--font-heading); font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--teal);
+  padding: 12px 16px; text-align: left; border-bottom: 2px solid var(--subtle);
+  background: var(--dark3);
+}
+.ops-table tbody td {
+  padding: 12px 16px; color: rgba(255,255,255,0.8); border-bottom: 1px solid var(--subtle);
+  font-family: var(--font-body); line-height: 1.4;
+}
+.ops-table tbody tr:last-child td { border-bottom: none; }
+.ops-table tbody tr:hover td { background: rgba(0,229,204,0.02); }
+.ops-table code {
+  font-size: 12px; background: var(--dark3); padding: 2px 6px;
+  border-radius: 4px; color: var(--teal); font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+/* ── Flow Diagram ───────────────────── */
+.ops-flow {
+  background: var(--dark3); border: 1px solid var(--subtle); border-radius: 10px;
+  padding: 20px 24px; font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 12.5px; line-height: 1.7; color: rgba(255,255,255,0.75);
+  overflow-x: auto; white-space: pre; margin-bottom: 16px;
+}
+.ops-flow .flow-label { color: var(--teal); font-weight: 600; }
+.ops-flow .flow-arrow { color: var(--muted); }
+.ops-flow .flow-human { color: var(--yellow); font-weight: 600; }
+.ops-flow .flow-money { color: var(--green); }
+
+/* ── Timeline ───────────────────────── */
+.ops-timeline { position: relative; padding-left: 32px; }
+.ops-timeline::before {
+  content: ''; position: absolute; left: 11px; top: 0; bottom: 0;
+  width: 2px; background: var(--subtle);
+}
+.ops-timeline-step { position: relative; margin-bottom: 24px; }
+.ops-timeline-step:last-child { margin-bottom: 0; }
+.ops-timeline-dot {
+  position: absolute; left: -32px; top: 2px; width: 22px; height: 22px;
+  border-radius: 50%; background: var(--dark2); border: 2px solid var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading); font-size: 10px; font-weight: 800; color: var(--teal);
+}
+.ops-timeline-title {
+  font-family: var(--font-heading); font-size: 14px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.04em; color: var(--white); margin-bottom: 4px;
+}
+.ops-timeline-desc {
+  font-family: var(--font-body); font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6;
+}
+
+/* ── Human Tag ──────────────────────── */
+.human-tag {
+  display: inline-block; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 4px;
+  background: rgba(255,184,0,0.12); color: var(--yellow); border: 1px solid rgba(255,184,0,0.25);
+  margin-left: 4px; vertical-align: middle;
+}
+
+/* ── Info Box ────────────────────────── */
+.ops-info-box {
+  background: var(--dark3); border: 1px solid var(--subtle); border-radius: 10px;
+  padding: 18px 22px; margin-top: 16px;
+}
+.ops-info-box-title {
+  font-family: var(--font-heading); font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--magenta); margin-bottom: 8px;
+}
+.ops-info-box ul {
+  list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 16px;
+}
+.ops-info-box li {
+  font-size: 12px; color: var(--muted); font-family: var(--font-body);
+  padding-left: 12px; position: relative;
+}
+.ops-info-box li::before {
+  content: ''; position: absolute; left: 0; top: 7px;
+  width: 4px; height: 4px; border-radius: 50%; background: var(--magenta);
+}
+
+/* ── Status Badges ──────────────────── */
+.status-badge {
+  display: inline-block; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 10px; border-radius: 4px;
+}
+.status-live { background: rgba(0,229,160,0.12); color: var(--green); border: 1px solid rgba(0,229,160,0.25); }
+.status-building { background: rgba(74,144,217,0.12); color: var(--blue); border: 1px solid rgba(74,144,217,0.25); }
+.status-recruiting { background: rgba(155,89,182,0.12); color: var(--purple); border: 1px solid rgba(155,89,182,0.25); }
+
+/* ── Business Cards Grid ────────────── */
+.biz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.biz-card {
+  background: var(--dark3); border: 1px solid var(--subtle); border-radius: 12px;
+  padding: 20px; transition: border-color 0.2s;
+}
+.biz-card:hover { border-color: rgba(0,229,204,0.3); }
+.biz-card-name {
+  font-family: var(--font-heading); font-size: 16px; font-weight: 700;
+  text-transform: uppercase; color: var(--white); margin-bottom: 4px;
+  display: flex; align-items: center; gap: 10px;
+}
+.biz-card-role { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.biz-card-meta { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+.biz-card-meta strong { color: rgba(255,255,255,0.7); }
+
+/* ── Folder Tree ────────────────────── */
+.ops-tree {
+  background: var(--dark3); border: 1px solid var(--subtle); border-radius: 10px;
+  padding: 20px 24px; font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.7);
+}
+.ops-tree .tree-dir { color: var(--teal); font-weight: 600; }
+.ops-tree .tree-comment { color: var(--muted); font-style: italic; }
+
+/* ── Footer ─────────────────────────── */
+.ops-footer {
+  text-align: center; padding: 40px 0 20px; color: var(--muted);
+  font-family: var(--font-body); font-size: 12px; line-height: 1.8;
+  border-top: 1px solid var(--subtle); margin-top: 40px;
+}
+
+/* ── Responsive ─────────────────────── */
+@media (max-width: 1300px) {
+  .ops-toc { display: none; }
+}
+
+/* ── Scroll highlight ───────────────── */
+html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main" style="margin-left:240px; padding:32px 40px; min-height:100vh;">
+
+    <!-- Page Header -->
+    <div class="page-header"><h1>THE OPERATIONS <span>MANUAL</span></h1></div>
+
+    <!-- TOC (fixed right) -->
+    <nav class="ops-toc" id="ops-toc">
+      <div class="ops-toc-title">Contents</div>
+      <a href="#system-glance">The System at a Glance</a>
+      <a href="#what-each-gets">What Each Company Gets</a>
+      <a href="#client-journey">Client Journey</a>
+      <a href="#operator-journey">Operator Journey</a>
+      <a href="#infra-map">Infrastructure Map</a>
+      <a href="#automations">Active Automations</a>
+      <a href="#cron-jobs">Cron Jobs</a>
+      <a href="#human-loop">Human-in-the-Loop</a>
+      <a href="#where-tracked">Where Things Get Tracked</a>
+      <a href="#client-deliverables">Client Deliverables</a>
+      <a href="#how-delivered">How Deliverables Get Delivered</a>
+      <a href="#revenue-funnels">Revenue Funnels</a>
+      <a href="#biz-status">Per-Business Status</a>
+      <a href="#webhooks">Webhook Endpoints</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="ops-content">
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 1: SYSTEM AT A GLANCE              -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="system-glance">
+        <div class="ops-section-header"><span>01</span> The System at a Glance</div>
+        <div class="ops-flow"><span class="flow-label">CLIENT SIGNS</span> <span class="flow-arrow">&rarr;</span> Payment clears
+  <span class="flow-arrow">&rarr;</span> Nextcloud folder auto-created (n8n webhook)
+  <span class="flow-arrow">&rarr;</span> Twenty CRM deal <span class="flow-arrow">&rarr;</span> "Active"
+  <span class="flow-arrow">&rarr;</span> Mautic tag <span class="flow-arrow">&rarr;</span> "client"
+  <span class="flow-arrow">&rarr;</span> Opening Gambit begins
+
+<span class="flow-label">OPENING GAMBIT</span> (Audit) <span class="flow-arrow">&rarr;</span> Deliverables to /01-Audit/ + /02-Strategy/
+  <span class="flow-arrow">&rarr;</span> <span class="flow-human">[HUMAN]</span> Ben reviews + presents to client
+
+<span class="flow-label">THE FITOUT</span> (Build) <span class="flow-arrow">&rarr;</span> All assets to /03-Brand/ through /07-Website/
+  <span class="flow-arrow">&rarr;</span> <span class="flow-human">[HUMAN]</span> Ben reviews each deliverable before client sees it
+
+<span class="flow-label">THE POLISH</span> (Quality Gate) <span class="flow-arrow">&rarr;</span> Final package to /08-Delivery/
+  <span class="flow-arrow">&rarr;</span> <span class="flow-human">[HUMAN]</span> Ben presents final system to client
+
+<span class="flow-label">ONGOING RETAINER</span> (<span class="flow-money">$3,500/mo</span>) <span class="flow-arrow">&rarr;</span> Monthly content, reports, campaigns</div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 2: WHAT EACH COMPANY GETS           -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="what-each-gets">
+        <div class="ops-section-header"><span>02</span> What Each Company Gets</div>
+
+        <div class="ops-sub-header">On First Retainer (The Fitout)</div>
+        <table class="ops-table">
+          <thead><tr><th>Deliverable</th><th>Format</th><th>Tool</th><th>Nextcloud Folder</th></tr></thead>
+          <tbody>
+            <tr><td>Marketing audit</td><td>PDF</td><td>Claude Code &rarr; HTML &rarr; PDF</td><td><code>/01-Audit/</code></td></tr>
+            <tr><td>Competitor analysis</td><td>PDF</td><td>Firecrawl + Claude Code</td><td><code>/01-Audit/</code></td></tr>
+            <tr><td>Strategy pack</td><td>PDF</td><td>Claude Code</td><td><code>/02-Strategy/</code></td></tr>
+            <tr><td>Logo package</td><td>SVG + PNG (multiple sizes)</td><td>Inkscape</td><td><code>/03-Brand/logo/</code></td></tr>
+            <tr><td>Icon set</td><td>SVG</td><td>Inkscape</td><td><code>/03-Brand/icons/</code></td></tr>
+            <tr><td>Brand colors + fonts doc</td><td>PDF</td><td>Claude Code</td><td><code>/03-Brand/</code></td></tr>
+            <tr><td>Website</td><td>Live URL (deployed)</td><td>Claude Code</td><td><code>/07-Website/</code></td></tr>
+            <tr><td>Social media templates (10-15)</td><td>PNG</td><td>GIMP + ComfyUI</td><td><code>/04-Content/social-posts/</code></td></tr>
+            <tr><td>Content bank (30 posts)</td><td>CSV</td><td>Claude Code</td><td><code>/04-Content/</code></td></tr>
+            <tr><td>Email nurture sequence (5 emails)</td><td>HTML in Mautic</td><td>Claude Code &rarr; Mautic</td><td><code>/04-Content/email-sequences/</code></td></tr>
+            <tr><td>Lead magnet</td><td>PDF</td><td>Claude Code &rarr; HTML &rarr; PDF</td><td><code>/04-Content/</code></td></tr>
+            <tr><td>Landing page</td><td>Live URL</td><td>Claude Code &rarr; deployed</td><td><code>/07-Website/</code></td></tr>
+            <tr><td>Booking page</td><td>Cal.com URL</td><td>Cal.com</td><td><code>/07-Website/</code></td></tr>
+            <tr><td>Tracking links</td><td>Shlink short URLs</td><td>Shlink</td><td><code>/07-Website/</code></td></tr>
+            <tr><td>Matomo analytics installed</td><td>Tracking code on site</td><td>Matomo</td><td>--</td></tr>
+            <tr><td>Mautic forms + segments</td><td>Configured</td><td>Mautic</td><td>--</td></tr>
+            <tr><td>Monthly report template</td><td>Metabase dashboard</td><td>Metabase</td><td>--</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Monthly Retainer (Ongoing)</div>
+        <table class="ops-table">
+          <thead><tr><th>Deliverable</th><th>Frequency</th><th>Tool</th></tr></thead>
+          <tbody>
+            <tr><td>Content pack (30 posts + captions)</td><td>Monthly</td><td>GIMP + Claude Code</td></tr>
+            <tr><td>Analytics report</td><td>Monthly</td><td>Matomo + Metabase &rarr; PDF</td></tr>
+            <tr><td>Email campaigns</td><td>As needed</td><td>Mautic</td></tr>
+            <tr><td>Ad creatives</td><td>As needed</td><td>GIMP + ComfyUI + FFmpeg</td></tr>
+            <tr><td>Website updates</td><td>As needed</td><td>Claude Code</td></tr>
+            <tr><td>Short-form videos</td><td>As needed</td><td>FFmpeg + Kdenlive</td></tr>
+            <tr><td>Strategy review</td><td>Monthly</td><td>Claude Code</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 3: CLIENT JOURNEY                   -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="client-journey">
+        <div class="ops-section-header"><span>03</span> The Client Journey (Client's POV)</div>
+
+        <div class="ops-timeline">
+          <div class="ops-timeline-step">
+            <div class="ops-timeline-dot">1</div>
+            <div class="ops-timeline-title">Discovery</div>
+            <div class="ops-timeline-desc">Finds NB via content, referral, or outreach. Downloads lead magnet OR books call.</div>
+          </div>
+          <div class="ops-timeline-step">
+            <div class="ops-timeline-dot">2</div>
+            <div class="ops-timeline-title">Sales</div>
+            <div class="ops-timeline-desc">Gets 5-email nurture (auto). Books discovery call. <span class="human-tag">Human</span> Ben runs call. Receives proposal. Signs + pays.</div>
+          </div>
+          <div class="ops-timeline-step">
+            <div class="ops-timeline-dot">3</div>
+            <div class="ops-timeline-title">Onboarding</div>
+            <div class="ops-timeline-desc">Welcome email. Nextcloud portal link. Intake questionnaire. <span class="human-tag">Human</span> Ben explains 3-phase process.</div>
+          </div>
+          <div class="ops-timeline-step">
+            <div class="ops-timeline-dot">4</div>
+            <div class="ops-timeline-title">Opening Gambit <span style="color:var(--muted);font-size:12px;text-transform:none;font-weight:400;">(Week 1-2)</span></div>
+            <div class="ops-timeline-desc">Audit + strategy delivered to portal. <span class="human-tag">Human</span> Ben presents findings to client.</div>
+          </div>
+          <div class="ops-timeline-step">
+            <div class="ops-timeline-dot">5</div>
+            <div class="ops-timeline-title">The Fitout <span style="color:var(--muted);font-size:12px;text-transform:none;font-weight:400;">(Week 3-6)</span></div>
+            <div class="ops-timeline-desc">Assets appear in portal as they are completed. <span class="human-tag">Human</span> Ben gets approval at checkpoints. Website, booking, and emails go live.</div>
+          </div>
+          <div class="ops-timeline-step">
+            <div class="ops-timeline-dot">6</div>
+            <div class="ops-timeline-title">The Polish <span style="color:var(--muted);font-size:12px;text-transform:none;font-weight:400;">(Week 7-8)</span></div>
+            <div class="ops-timeline-desc">Final package delivered to <code>/08-Delivery/</code>. <span class="human-tag">Human</span> Ben walks client through their complete system.</div>
+          </div>
+          <div class="ops-timeline-step">
+            <div class="ops-timeline-dot">7</div>
+            <div class="ops-timeline-title">Ongoing</div>
+            <div class="ops-timeline-desc">Monthly content + reports appear in portal. <span class="human-tag">Human</span> Monthly check-in call.</div>
+          </div>
+        </div>
+
+        <div class="ops-info-box">
+          <div class="ops-info-box-title">What the client never sees</div>
+          <ul>
+            <li>n8n workflows</li>
+            <li>Hetzner server</li>
+            <li>Slack channels</li>
+            <li>MASTER PLANS</li>
+            <li>Cron jobs</li>
+            <li>Internal tooling</li>
+            <li>How assets are generated</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 4: OPERATOR JOURNEY                 -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="operator-journey">
+        <div class="ops-section-header"><span>04</span> The Operator Journey (Ben's POV)</div>
+
+        <div class="ops-sub-header">Automated Before Ben Wakes</div>
+        <table class="ops-table">
+          <thead><tr><th>Time (AEST)</th><th>What Happens</th></tr></thead>
+          <tbody>
+            <tr><td>05:55</td><td>Daily taskmaster generates tasks</td></tr>
+            <tr><td>06:00</td><td>Pipeline runner executes SOPs</td></tr>
+            <tr><td>07:00</td><td>Daily digest &rarr; #daily-digest Slack</td></tr>
+            <tr><td>07:30</td><td>Daily briefing assembled</td></tr>
+            <tr><td>08:00</td><td>ORCA Pulse + Mautic + Shlink digests</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Ben Starts Work</div>
+        <table class="ops-table">
+          <thead><tr><th>Task</th></tr></thead>
+          <tbody>
+            <tr><td>Check #alerts and #outreach in Slack</td></tr>
+            <tr><td>Check #daily-digest for overnight activity</td></tr>
+            <tr><td>Respond to DMs, emails, inbound leads</td></tr>
+            <tr><td>Update Twenty CRM</td></tr>
+            <tr><td>Write and post content (NB + BAC)</td></tr>
+            <tr><td>Work on client deliverables</td></tr>
+            <tr><td>Review approval queue (NBHQ)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Weekly Rhythm</div>
+        <table class="ops-table">
+          <thead><tr><th>Day</th><th>Focus</th></tr></thead>
+          <tbody>
+            <tr><td>Monday</td><td>Cold outreach, week planning</td></tr>
+            <tr><td>Tuesday</td><td>FB groups, ORCA Twitter, metrics review</td></tr>
+            <tr><td>Wednesday</td><td>ORCA content, NB blog (1st/3rd Wed)</td></tr>
+            <tr><td>Thursday</td><td>NB newsletter (last Thu/mo), CRM review</td></tr>
+            <tr><td>Friday</td><td>PP content, week review, invoicing</td></tr>
+            <tr><td>Weekend</td><td>Content batch prep, strategy thinking</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 5: INFRASTRUCTURE MAP               -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="infra-map">
+        <div class="ops-section-header"><span>05</span> Infrastructure Map</div>
+
+        <div class="ops-sub-header">Hetzner Server (32 Containers)</div>
+
+        <p style="font-family:var(--font-heading);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin:16px 0 8px;">Operations</p>
+        <table class="ops-table">
+          <thead><tr><th>Service</th><th>URL</th></tr></thead>
+          <tbody>
+            <tr><td>Twenty CRM</td><td><code>crm.nunyabunya.com</code></td></tr>
+            <tr><td>Mautic</td><td><code>mautic.nunyabunya.com</code></td></tr>
+            <tr><td>Matomo</td><td><code>analytics.nunyabunya.com</code></td></tr>
+            <tr><td>Shlink</td><td><code>go.nunyabunya.com</code></td></tr>
+            <tr><td>Cal.com</td><td><code>cal.com/nunyabunya</code></td></tr>
+            <tr><td>Metabase</td><td><code>reports.nunyabunya.com</code></td></tr>
+          </tbody>
+        </table>
+
+        <p style="font-family:var(--font-heading);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin:16px 0 8px;">Creative</p>
+        <table class="ops-table">
+          <thead><tr><th>Service</th><th>URL</th></tr></thead>
+          <tbody>
+            <tr><td>Penpot</td><td><code>design.nunyabunya.com</code></td></tr>
+          </tbody>
+        </table>
+
+        <p style="font-family:var(--font-heading);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin:16px 0 8px;">Storage</p>
+        <table class="ops-table">
+          <thead><tr><th>Service</th><th>URL</th></tr></thead>
+          <tbody>
+            <tr><td>Nextcloud</td><td><code>files.nunyabunya.com</code></td></tr>
+          </tbody>
+        </table>
+
+        <p style="font-family:var(--font-heading);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin:16px 0 8px;">Automation</p>
+        <table class="ops-table">
+          <thead><tr><th>Service</th><th>URL / Notes</th></tr></thead>
+          <tbody>
+            <tr><td>n8n</td><td><code>n8n.nunyabunya.com</code></td></tr>
+            <tr><td>Firecrawl</td><td><code>scrape.nunyabunya.com</code></td></tr>
+            <tr><td>OpenClaw</td><td>Internal</td></tr>
+            <tr><td>NB Agents</td><td>Internal</td></tr>
+          </tbody>
+        </table>
+
+        <p style="font-family:var(--font-heading);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin:16px 0 8px;">Infrastructure</p>
+        <table class="ops-table">
+          <thead><tr><th>Service</th></tr></thead>
+          <tbody>
+            <tr><td>Traefik</td></tr>
+            <tr><td>MySQL</td></tr>
+            <tr><td>Landing Pages</td></tr>
+            <tr><td>Webhooks</td></tr>
+            <tr><td>Task Server</td></tr>
+            <tr><td>Voice Memo</td></tr>
+            <tr><td>ORCA API</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Local Mac</div>
+        <table class="ops-table">
+          <thead><tr><th>Tool</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>GIMP</td><td>Image editing, social templates</td></tr>
+            <tr><td>Inkscape</td><td>Vector graphics, logos, icons</td></tr>
+            <tr><td>Krita</td><td>Digital painting, illustration</td></tr>
+            <tr><td>darktable</td><td>Photo processing, RAW editing</td></tr>
+            <tr><td>Audacity</td><td>Audio editing, podcast</td></tr>
+            <tr><td>Kdenlive</td><td>Video editing</td></tr>
+            <tr><td>Blender</td><td>3D graphics, motion</td></tr>
+            <tr><td>OBS</td><td>Screen recording, streaming</td></tr>
+            <tr><td>ComfyUI</td><td>AI image generation</td></tr>
+            <tr><td>FFmpeg</td><td>Video/audio processing</td></tr>
+            <tr><td>Sonic Pi</td><td>Music coding</td></tr>
+            <tr><td>LMMS</td><td>Music production</td></tr>
+            <tr><td>Git</td><td>Version control</td></tr>
+            <tr><td>Node.js</td><td>Runtime, scripts</td></tr>
+            <tr><td>Docker</td><td>Containers, local dev</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 6: ALL ACTIVE AUTOMATIONS           -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="automations">
+        <div class="ops-section-header"><span>06</span> All Active Automations (23 n8n Workflows)</div>
+
+        <div class="ops-sub-header">Lead Capture &amp; Sales</div>
+        <table class="ops-table">
+          <thead><tr><th>Workflow</th><th>Trigger</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td>NB Contact Form</td><td>Form submission</td><td>Creates Mautic contact, notifies Slack #alerts</td></tr>
+            <tr><td>Lead Magnet Signup</td><td>Form submission</td><td>Delivers PDF, adds to nurture segment</td></tr>
+            <tr><td>New Lead &rarr; Sales Pipeline</td><td>Mautic new contact</td><td>Creates Twenty CRM deal, assigns pipeline stage</td></tr>
+            <tr><td>Hot Lead Alert (Score &gt; 50)</td><td>Mautic score threshold</td><td>Alerts Slack #alerts with contact details</td></tr>
+            <tr><td>Cal.com Booking Alert</td><td>Cal.com webhook</td><td>Notifies Slack, updates CRM</td></tr>
+            <tr><td>Zinia Booking Alert</td><td>Cal.com webhook</td><td>Notifies Zinia-specific Slack channel</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Email &amp; Nurture</div>
+        <table class="ops-table">
+          <thead><tr><th>Workflow</th><th>Trigger</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td>Mautic Email Events</td><td>Mautic webhook</td><td>Logs opens, clicks, bounces to Supabase</td></tr>
+            <tr><td>Weekly Marketing Summary</td><td>Cron (weekly)</td><td>Compiles metrics from all platforms into report</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Content &amp; Social</div>
+        <table class="ops-table">
+          <thead><tr><th>Workflow</th><th>Trigger</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td>Post to Social Media</td><td>Approval queue</td><td>Publishes approved posts to platforms</td></tr>
+            <tr><td>Blog &rarr; Tweets</td><td>New blog post</td><td>Generates tweet thread from blog content</td></tr>
+            <tr><td>Tweet Scheduled Poster</td><td>Cron</td><td>Posts queued tweets from Supabase</td></tr>
+            <tr><td>Tweet Approval Handler</td><td>Slack action</td><td>Routes approved/rejected tweets</td></tr>
+            <tr><td>Tweet Engagement</td><td>Cron</td><td>Finds and engages with relevant tweets</td></tr>
+            <tr><td>Tweet Metrics</td><td>Cron</td><td>Pulls engagement data into Supabase</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">BFK (Brand Bible)</div>
+        <table class="ops-table">
+          <thead><tr><th>Workflow</th><th>Trigger</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td>Survey Intake</td><td>Form submission</td><td>Processes 60-question survey, routes to pipeline</td></tr>
+            <tr><td>Stripe Payment</td><td>Stripe webhook</td><td>Confirms payment, triggers full Bible generation</td></tr>
+            <tr><td>Upgrade Checkout</td><td>Button click</td><td>Creates Stripe checkout for free-to-paid upgrade</td></tr>
+            <tr><td>Upgrade by Email</td><td>Email link</td><td>Handles upgrade from nurture email CTA</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Operations</div>
+        <table class="ops-table">
+          <thead><tr><th>Workflow</th><th>Trigger</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td>Auto-Create Client Folder</td><td>Webhook (payment)</td><td>Creates Nextcloud folder structure for new client</td></tr>
+            <tr><td>Slack Inbox Capture/Classify/Route</td><td>Slack message</td><td>Classifies inbound messages, routes to channels</td></tr>
+            <tr><td>Slack Inbox Reply Handler</td><td>Slack thread reply</td><td>Handles replies in routed threads</td></tr>
+            <tr><td>Swipe File &rarr; NBHQ</td><td>Slack #swipe-file</td><td>Saves swipe file entries to Supabase gallery</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">ORCA</div>
+        <table class="ops-table">
+          <thead><tr><th>Workflow</th><th>Trigger</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td>Auto-Publish Article</td><td>Approval</td><td>Publishes approved ORCA articles to site</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 7: CRON JOBS                        -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="cron-jobs">
+        <div class="ops-section-header"><span>07</span> All Cron Jobs</div>
+
+        <div class="ops-sub-header">Daily</div>
+        <table class="ops-table">
+          <thead><tr><th>Time (AEST)</th><th>Job</th></tr></thead>
+          <tbody>
+            <tr><td>05:55</td><td>Daily taskmaster &mdash; generates today's tasks in Supabase</td></tr>
+            <tr><td>06:00</td><td>Pipeline runner &mdash; executes SOPs for active clients</td></tr>
+            <tr><td>07:00</td><td>Daily digest &mdash; compiles overnight activity to Slack</td></tr>
+            <tr><td>07:30</td><td>Daily briefing &mdash; assembles Ben's morning summary</td></tr>
+            <tr><td>08:00</td><td>ORCA Pulse &mdash; engagement + article metrics digest</td></tr>
+            <tr><td>08:00</td><td>Mautic digest &mdash; email performance summary</td></tr>
+            <tr><td>08:00</td><td>Shlink digest &mdash; link click summary</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Recurring (Multiple per Day)</div>
+        <table class="ops-table">
+          <thead><tr><th>Frequency</th><th>Job</th></tr></thead>
+          <tbody>
+            <tr><td>Every hour</td><td>Twitter outreach posts (4 brands)</td></tr>
+            <tr><td>Every 30 min</td><td>Cold email outreach (NB Mautic)</td></tr>
+            <tr><td>Every 4 hours</td><td>Tweet scheduled poster</td></tr>
+            <tr><td>Every 6 hours</td><td>Tweet engagement finder</td></tr>
+            <tr><td>Every 6 hours</td><td>Tweet metrics pull</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Weekly</div>
+        <table class="ops-table">
+          <thead><tr><th>Day / Time</th><th>Job</th></tr></thead>
+          <tbody>
+            <tr><td>Monday 09:00</td><td>Weekly marketing summary compiled</td></tr>
+            <tr><td>Friday 17:00</td><td>Week-in-review digest to Slack</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Monthly</div>
+        <table class="ops-table">
+          <thead><tr><th>Day / Time</th><th>Job</th></tr></thead>
+          <tbody>
+            <tr><td>1st of month, 06:00</td><td>Monthly analytics report generation</td></tr>
+            <tr><td>1st of month, 08:00</td><td>Content pack reminder to Slack</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Weekday Only</div>
+        <table class="ops-table">
+          <thead><tr><th>Time</th><th>Job</th></tr></thead>
+          <tbody>
+            <tr><td>09:00 Mon-Fri</td><td>CRM pipeline stage check &mdash; alerts stale deals</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 8: HUMAN-IN-THE-LOOP               -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="human-loop">
+        <div class="ops-section-header"><span>08</span> Human-in-the-Loop Moments</div>
+
+        <div class="ops-sub-header">Sales &amp; Onboarding</div>
+        <table class="ops-table">
+          <thead><tr><th>Moment</th><th>Where It Surfaces</th><th>What Ben Does</th></tr></thead>
+          <tbody>
+            <tr><td><span class="human-tag">Human</span> Discovery call</td><td>Cal.com booking &rarr; Slack #alerts</td><td>Runs the call, qualifies the lead</td></tr>
+            <tr><td><span class="human-tag">Human</span> Proposal review</td><td>Generated doc in MASTER PLANS</td><td>Customizes and sends to prospect</td></tr>
+            <tr><td><span class="human-tag">Human</span> Contract signing</td><td>Email / DocuSeal</td><td>Confirms terms, triggers onboarding</td></tr>
+            <tr><td><span class="human-tag">Human</span> Welcome call</td><td>Cal.com</td><td>Explains 3-phase process to new client</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Content &amp; Creative</div>
+        <table class="ops-table">
+          <thead><tr><th>Moment</th><th>Where It Surfaces</th><th>What Ben Does</th></tr></thead>
+          <tbody>
+            <tr><td><span class="human-tag">Human</span> Content approval</td><td>NBHQ Approval Queue</td><td>Reviews posts before publishing</td></tr>
+            <tr><td><span class="human-tag">Human</span> Ad creative review</td><td>NBHQ Ad Factory</td><td>Approves or revises ad creatives</td></tr>
+            <tr><td><span class="human-tag">Human</span> Brand asset check</td><td>Nextcloud /03-Brand/</td><td>Verifies logo, colors, fonts match brief</td></tr>
+            <tr><td><span class="human-tag">Human</span> Website review</td><td>Staging URL</td><td>Tests site before going live</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Delivery &amp; Reporting</div>
+        <table class="ops-table">
+          <thead><tr><th>Moment</th><th>Where It Surfaces</th><th>What Ben Does</th></tr></thead>
+          <tbody>
+            <tr><td><span class="human-tag">Human</span> Audit presentation</td><td>Nextcloud /01-Audit/</td><td>Presents findings to client on call</td></tr>
+            <tr><td><span class="human-tag">Human</span> Final system walkthrough</td><td>Nextcloud /08-Delivery/</td><td>Walks client through their complete setup</td></tr>
+            <tr><td><span class="human-tag">Human</span> Monthly check-in</td><td>Cal.com recurring</td><td>Reviews month, sets next priorities</td></tr>
+            <tr><td><span class="human-tag">Human</span> Report commentary</td><td>Metabase PDF</td><td>Adds context and recommendations to data</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">System &amp; Operations</div>
+        <table class="ops-table">
+          <thead><tr><th>Moment</th><th>Where It Surfaces</th><th>What Ben Does</th></tr></thead>
+          <tbody>
+            <tr><td><span class="human-tag">Human</span> Outreach response</td><td>Slack #outreach</td><td>Replies to warm leads from automated outreach</td></tr>
+            <tr><td><span class="human-tag">Human</span> Error triage</td><td>Slack #alerts</td><td>Investigates and fixes flagged issues</td></tr>
+            <tr><td><span class="human-tag">Human</span> CRM updates</td><td>Twenty CRM</td><td>Moves deals through pipeline stages</td></tr>
+            <tr><td><span class="human-tag">Human</span> Invoice follow-up</td><td>Invoice Ninja / email</td><td>Follows up on overdue payments</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 9: WHERE THINGS GET TRACKED         -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="where-tracked">
+        <div class="ops-section-header"><span>09</span> Where Things Get Tracked</div>
+        <table class="ops-table">
+          <thead><tr><th>What</th><th>Where</th><th>How to Access</th></tr></thead>
+          <tbody>
+            <tr><td>Leads</td><td>Twenty CRM</td><td><code>crm.nunyabunya.com</code></td></tr>
+            <tr><td>Emails</td><td>Mautic</td><td><code>mautic.nunyabunya.com</code></td></tr>
+            <tr><td>Traffic</td><td>Matomo</td><td><code>analytics.nunyabunya.com</code></td></tr>
+            <tr><td>Links</td><td>Shlink</td><td><code>go.nunyabunya.com</code></td></tr>
+            <tr><td>Dashboards</td><td>Metabase</td><td><code>reports.nunyabunya.com</code></td></tr>
+            <tr><td>Bookings</td><td>Cal.com</td><td><code>cal.com/nunyabunya</code></td></tr>
+            <tr><td>Tasks</td><td>Supabase</td><td>NBHQ admin &rarr; Tasks</td></tr>
+            <tr><td>Tweets</td><td>Supabase</td><td>NBHQ admin &rarr; Twitter</td></tr>
+            <tr><td>Swipe file</td><td>Supabase</td><td>NBHQ admin &rarr; Swipe File</td></tr>
+            <tr><td>Files</td><td>Nextcloud</td><td><code>files.nunyabunya.com</code></td></tr>
+            <tr><td>Alerts</td><td>Slack</td><td>#alerts channel</td></tr>
+            <tr><td>Plans</td><td>MASTER PLANS/</td><td>Local filesystem</td></tr>
+            <tr><td>Master todo</td><td>MASTER-ACTIONS.md</td><td>Local filesystem</td></tr>
+            <tr><td>Calendar</td><td>NBHQ</td><td>NBHQ admin &rarr; Calendar</td></tr>
+            <tr><td>Cron health</td><td>Slack + logs</td><td>#alerts + server logs</td></tr>
+            <tr><td>Pipeline status</td><td>NBHQ</td><td>NBHQ admin &rarr; Pipeline</td></tr>
+            <tr><td>Deployments</td><td>DEPLOYMENT-TRACKER.md</td><td>Local filesystem</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 10: CLIENT DELIVERABLES             -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="client-deliverables">
+        <div class="ops-section-header"><span>10</span> Where Clients View Deliverables</div>
+
+        <div class="ops-sub-header">Nextcloud Folder Structure</div>
+        <div class="ops-tree"><span class="tree-dir">/Clients/ClientName/</span>
+  <span class="tree-dir">├── 01-Audit/</span>
+  <span class="tree-dir">├── 02-Strategy/</span>
+  <span class="tree-dir">├── 03-Brand/</span> <span class="tree-comment">(logo/, icons/)</span>
+  <span class="tree-dir">├── 04-Content/</span> <span class="tree-comment">(social-posts/month-YYYY-MM/, videos/, images/, email-sequences/)</span>
+  <span class="tree-dir">├── 05-Ads/</span>
+  <span class="tree-dir">├── 06-Reports/</span> <span class="tree-comment">(report-YYYY-MM.pdf)</span>
+  <span class="tree-dir">├── 07-Website/</span>
+  <span class="tree-dir">└── 08-Delivery/</span></div>
+
+        <div class="ops-sub-header">Access Methods</div>
+        <table class="ops-table">
+          <thead><tr><th>Method</th><th>Details</th></tr></thead>
+          <tbody>
+            <tr><td>Primary</td><td>Password-protected Nextcloud share link per client</td></tr>
+            <tr><td>Secondary</td><td>Google Drive mirror (convenience, not source of truth)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ops-sub-header">Live Deliverables</div>
+        <table class="ops-table">
+          <thead><tr><th>Deliverable</th><th>Platform</th></tr></thead>
+          <tbody>
+            <tr><td>Website</td><td>Vercel URL</td></tr>
+            <tr><td>Booking</td><td>Cal.com</td></tr>
+            <tr><td>Emails</td><td>Mautic</td></tr>
+            <tr><td>Analytics</td><td>PDF report (monthly)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 11: HOW DELIVERABLES GET DELIVERED  -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="how-delivered">
+        <div class="ops-section-header"><span>11</span> How Deliverables Get Delivered</div>
+
+        <div class="ops-flow"><span class="flow-label">DELIVERABLE READY</span>
+  <span class="flow-arrow">&rarr;</span> Upload to Nextcloud client folder
+  <span class="flow-arrow">&rarr;</span> <span class="flow-human">[HUMAN]</span> Ben reviews quality
+  <span class="flow-arrow">&rarr;</span> Notify client (method depends on type)
+  <span class="flow-arrow">&rarr;</span> Client reviews in portal
+  <span class="flow-arrow">&rarr;</span> Feedback loop if needed
+  <span class="flow-arrow">&rarr;</span> Final approval &rarr; LIVE</div>
+
+        <div class="ops-sub-header">Notification Methods</div>
+        <table class="ops-table">
+          <thead><tr><th>Type</th><th>Method</th></tr></thead>
+          <tbody>
+            <tr><td>Major milestone (audit, website, final delivery)</td><td>Phone call + email</td></tr>
+            <tr><td>Monthly content pack</td><td>Email + portal link</td></tr>
+            <tr><td>Monthly report</td><td>Email + portal link</td></tr>
+            <tr><td>Quick update</td><td>Email or text</td></tr>
+            <tr><td>Urgent</td><td>Phone call</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 12: REVENUE FUNNELS                 -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="revenue-funnels">
+        <div class="ops-section-header"><span>12</span> Revenue Funnels</div>
+
+        <div class="ops-sub-header">Power Portraits</div>
+        <div class="ops-flow"><span class="flow-label">WEBSITE</span> <span class="flow-arrow">&rarr;</span> Lead magnet
+  <span class="flow-arrow">&rarr;</span> Mautic contact
+  <span class="flow-arrow">&rarr;</span> 5-email drip <span style="color:var(--muted);">(IDs 85-89)</span>
+  <span class="flow-arrow">&rarr;</span> Cal.com booking
+  <span class="flow-arrow">&rarr;</span> <span class="flow-money">$250 / $450 / $800 session</span></div>
+
+        <div class="ops-sub-header">Nunya Bunya</div>
+        <div class="ops-flow"><span class="flow-label">WEBSITE</span> <span class="flow-arrow">&rarr;</span> Lead magnet / Contact form
+  <span class="flow-arrow">&rarr;</span> Mautic contact
+  <span class="flow-arrow">&rarr;</span> 5-email drip <span style="color:var(--muted);">(IDs 90-94)</span>
+  <span class="flow-arrow">&rarr;</span> Cal.com booking
+  <span class="flow-arrow">&rarr;</span> <span class="flow-human">[HUMAN]</span> Discovery call
+  <span class="flow-arrow">&rarr;</span> <span class="flow-money">$3,500/mo retainer</span></div>
+
+        <div class="ops-sub-header">BFK (Brand Bible)</div>
+        <div class="ops-flow"><span class="flow-label">WEBSITE</span> <span class="flow-arrow">&rarr;</span> 60-question survey
+  <span class="flow-arrow">&rarr;</span> Free / Paid fork
+  <span class="flow-arrow">&rarr;</span> Stripe checkout <span class="flow-money">$999</span>
+  <span class="flow-arrow">&rarr;</span> 17-agent Brand Bible pipeline
+  <span class="flow-arrow">&rarr;</span> Delivered to client</div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 13: PER-BUSINESS STATUS             -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="biz-status">
+        <div class="ops-section-header"><span>13</span> Per-Business Status</div>
+        <div class="biz-grid">
+
+          <div class="biz-card">
+            <div class="biz-card-name">Nunya Bunya <span class="status-badge status-live">Live</span></div>
+            <div class="biz-card-role">Marketing agency (main business)</div>
+            <div class="biz-card-meta">
+              <strong>Revenue:</strong> $3,500/mo retainer<br>
+              <strong>Website:</strong> nunyabunya.com<br>
+              <strong>Nextcloud:</strong> /Clients/NunyaBunya/<br>
+              <strong>Role:</strong> Primary income, serves SMBs &amp; solopreneurs
+            </div>
+          </div>
+
+          <div class="biz-card">
+            <div class="biz-card-name">Power Portraits <span class="status-badge status-live">Live</span></div>
+            <div class="biz-card-role">Headshot &amp; portrait studio</div>
+            <div class="biz-card-meta">
+              <strong>Revenue:</strong> $250-$800/session<br>
+              <strong>Website:</strong> powerportraits.com.au<br>
+              <strong>Nextcloud:</strong> /Clients/PowerPortraits/<br>
+              <strong>Role:</strong> Premium photography, cash flow
+            </div>
+          </div>
+
+          <div class="biz-card">
+            <div class="biz-card-name">Pawesome Dog Walkers <span class="status-badge status-live">Live</span></div>
+            <div class="biz-card-role">Dog walking service</div>
+            <div class="biz-card-meta">
+              <strong>Revenue:</strong> Per-walk pricing<br>
+              <strong>Website:</strong> pawesomedogwalkers.com.au<br>
+              <strong>Nextcloud:</strong> /Clients/Pawesome/<br>
+              <strong>Role:</strong> Immediate cash flow, revenue-generating
+            </div>
+          </div>
+
+          <div class="biz-card">
+            <div class="biz-card-name">ORCA Film Awards <span class="status-badge status-recruiting">Recruiting</span></div>
+            <div class="biz-card-role">Awards body for overlooked films</div>
+            <div class="biz-card-meta">
+              <strong>Revenue:</strong> FREE membership (no monetization yet)<br>
+              <strong>Website:</strong> orcafilmawards.com<br>
+              <strong>Nextcloud:</strong> /Clients/ORCA/<br>
+              <strong>Role:</strong> Prestige, film criticism, 1K members by 2030
+            </div>
+          </div>
+
+          <div class="biz-card">
+            <div class="biz-card-name">Conner Law <span class="status-badge status-live">Live</span></div>
+            <div class="biz-card-role">Personal injury law (WA)</div>
+            <div class="biz-card-meta">
+              <strong>Revenue:</strong> Lead generation<br>
+              <strong>Website:</strong> connerlaw.com<br>
+              <strong>Nextcloud:</strong> /Clients/ConnerLaw/<br>
+              <strong>Role:</strong> WA PI lead-gen, 3 old sites consolidated
+            </div>
+          </div>
+
+          <div class="biz-card">
+            <div class="biz-card-name">Ben Alek Conner <span class="status-badge status-building">Building</span></div>
+            <div class="biz-card-role">YouTube + personal brand</div>
+            <div class="biz-card-meta">
+              <strong>Revenue:</strong> Directing/consulting (future)<br>
+              <strong>Website:</strong> benalekconner.com<br>
+              <strong>Nextcloud:</strong> /Clients/BAC/<br>
+              <strong>Role:</strong> Personal brand, 2 long-form videos/mo
+            </div>
+          </div>
+
+          <div class="biz-card" style="grid-column: span 2;">
+            <div class="biz-card-name">Bella Rhyder <span class="status-badge status-building">Building</span></div>
+            <div class="biz-card-role">Athleisure brand (sister's dream business)</div>
+            <div class="biz-card-meta">
+              <strong>Revenue:</strong> E-commerce (future)<br>
+              <strong>Website:</strong> bellarhyder.com<br>
+              <strong>Nextcloud:</strong> /Clients/BellaRhyder/<br>
+              <strong>Role:</strong> Digital foundation built by Ben, goal is sister runs brick-and-mortar someday
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- SECTION 14: WEBHOOK ENDPOINTS               -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="ops-card" id="webhooks">
+        <div class="ops-section-header"><span>14</span> Webhook Endpoints</div>
+        <table class="ops-table">
+          <thead><tr><th>Endpoint</th><th>Method</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>create-client-folder</code></td><td>POST</td><td>Creates Nextcloud folder structure for new client</td></tr>
+            <tr><td><code>business-foundation-kit</code></td><td>POST</td><td>Triggers Brand Bible pipeline from survey submission</td></tr>
+            <tr><td><code>stripe-payment</code></td><td>POST</td><td>Handles Stripe payment confirmation webhooks</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Footer -->
+      <div class="ops-footer">
+        Last updated: 2026-04-24 &nbsp;|&nbsp; Version 1.0<br>
+        This document is the operating system for Nunya Bunya HQ.
+      </div>
+
+    </div><!-- /.ops-content -->
+
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  NB_ADMIN.renderSidebar('ops-manual');
+
+  // TOC active state on scroll
+  const tocLinks = document.querySelectorAll('.ops-toc a');
+  const sections = [];
+  tocLinks.forEach(link => {
+    const id = link.getAttribute('href').replace('#', '');
+    const el = document.getElementById(id);
+    if (el) sections.push({ id, el, link });
+  });
+
+  function updateTOC() {
+    let current = sections[0];
+    for (const s of sections) {
+      if (s.el.getBoundingClientRect().top <= 120) current = s;
+    }
+    tocLinks.forEach(l => l.classList.remove('active'));
+    if (current) current.link.classList.add('active');
+  }
+
+  window.addEventListener('scroll', updateTOC, { passive: true });
+  updateTOC();
+});
+</script>
+</body>
+</html>
