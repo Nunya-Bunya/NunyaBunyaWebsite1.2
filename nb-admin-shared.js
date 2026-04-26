@@ -35,6 +35,7 @@ const NB_ADMIN = {
           { id: 'approval', label: 'Approve Content', icon: '&#9998;', href: '/nb-admin-approval' },
           { id: 'bfk', label: 'BFK Submissions', icon: '&#128218;', href: '/nb-admin-bfk' },
           { id: 'dashboard', label: 'Dashboard', icon: '&#9670;', href: '/nb-admin-dashboard' },
+          { id: 'inventory', label: 'Asset Inventory', icon: '&#128230;', href: '/nb-admin-inventory' },
           { id: 'playbook', label: 'Playbook', icon: '&#9889;', href: '/nb-admin-playbook' },
           { id: 'shipping-tracker', label: 'Shipping Tracker', icon: '&#128640;', href: '/nb-admin-shipping-tracker' },
         ]
@@ -75,12 +76,15 @@ const NB_ADMIN = {
       {
         label: 'Reference',
         pages: [
+          { id: 'docs', label: 'Documents', icon: '&#128218;', href: '/nb-admin-docs' },
           { id: 'ops-manual', label: 'Operations Manual', icon: '&#128214;', href: '/nb-admin-ops-manual' },
           { id: 'brand-docs', label: 'Brand Docs', icon: '&#9997;', href: '/nb-admin-brand-docs' },
           { id: 'design-library', label: 'Design Library', icon: '&#127912;', href: '/nb-admin-design-library' },
           { id: 'skills-library', label: 'Skills Library', icon: '&#129520;', href: '/nb-admin-skills-library' },
+          { id: 'agent-registry', label: 'Agent Registry', icon: '&#129302;', href: '/nb-admin-agent-registry' },
           { id: 'reports', label: 'Reports', icon: '&#9776;', href: '/nb-admin-reports' },
           { id: 'integrations', label: 'Integrations', icon: '&#128268;', href: '/nb-admin-integrations' },
+          { id: 'slack-routing', label: 'Slack Routing', icon: '&#128172;', href: '/nb-admin-slack-routing' },
           { id: 'cron-jobs', label: 'Cron Jobs', icon: '&#9201;', href: '/nb-admin-cron-jobs' },
           { id: 'deployments', label: 'Deployments', icon: '&#128640;', href: '/nb-admin-deployments' },
           { id: 'activity', label: 'Activity Log', icon: '&#9200;', href: '/nb-admin-activity' },

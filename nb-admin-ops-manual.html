@@ -24,23 +24,25 @@
 
 /* ── TOC ────────────────────────────── */
 .ops-toc {
-  position: fixed; right: 40px; top: 100px; width: 200px;
-  z-index: 50; max-height: calc(100vh - 140px); overflow-y: auto;
+  position: sticky; top: 0; z-index: 50;
+  background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px;
+  padding: 20px 28px; margin-bottom: 32px;
 }
-.ops-toc::-webkit-scrollbar { width: 3px; }
-.ops-toc::-webkit-scrollbar-thumb { background: var(--subtle); border-radius: 3px; }
 .ops-toc-title {
   font-family: var(--font-heading); font-size: 11px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
   margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--subtle);
 }
-.ops-toc a {
-  display: block; font-family: var(--font-body); font-size: 11px;
-  color: var(--muted); text-decoration: none; padding: 5px 0 5px 12px;
-  border-left: 2px solid transparent; transition: all 0.2s; line-height: 1.35;
+.ops-toc-links {
+  display: flex; flex-wrap: wrap; gap: 4px 16px;
 }
-.ops-toc a:hover { color: var(--white); }
-.ops-toc a.active { color: var(--teal); border-left-color: var(--teal); }
+.ops-toc a {
+  display: inline-block; font-family: var(--font-body); font-size: 12px;
+  color: var(--muted); text-decoration: none; padding: 4px 10px;
+  border-radius: 6px; transition: all 0.2s; line-height: 1.4;
+  border: 1px solid transparent;
+.ops-toc a:hover { color: var(--white); background: var(--dark3); border-color: var(--subtle); }
+.ops-toc a.active { color: var(--teal); background: rgba(0,229,204,0.08); border-color: rgba(0,229,204,0.2); }
 
 /* ── Section Card ───────────────────── */
 .ops-card {
@@ -207,20 +209,22 @@ html { scroll-behavior: smooth; }
     <!-- TOC (fixed right) -->
     <nav class="ops-toc" id="ops-toc">
       <div class="ops-toc-title">Contents</div>
-      <a href="#system-glance">The System at a Glance</a>
-      <a href="#what-each-gets">What Each Company Gets</a>
-      <a href="#client-journey">Client Journey</a>
-      <a href="#operator-journey">Operator Journey</a>
-      <a href="#infra-map">Infrastructure Map</a>
-      <a href="#automations">Active Automations</a>
-      <a href="#cron-jobs">Cron Jobs</a>
-      <a href="#human-loop">Human-in-the-Loop</a>
-      <a href="#where-tracked">Where Things Get Tracked</a>
-      <a href="#client-deliverables">Client Deliverables</a>
-      <a href="#how-delivered">How Deliverables Get Delivered</a>
-      <a href="#revenue-funnels">Revenue Funnels</a>
-      <a href="#biz-status">Per-Business Status</a>
-      <a href="#webhooks">Webhook Endpoints</a>
+      <div class="ops-toc-links">
+        <a href="#system-glance">The System at a Glance</a>
+        <a href="#what-each-gets">What Each Company Gets</a>
+        <a href="#client-journey">Client Journey</a>
+        <a href="#operator-journey">Operator Journey</a>
+        <a href="#infra-map">Infrastructure Map</a>
+        <a href="#automations">Active Automations</a>
+        <a href="#cron-jobs">Cron Jobs</a>
+        <a href="#human-loop">Human-in-the-Loop</a>
+        <a href="#where-tracked">Where Things Get Tracked</a>
+        <a href="#client-deliverables">Client Deliverables</a>
+        <a href="#how-delivered">How Deliverables Get Delivered</a>
+        <a href="#revenue-funnels">Revenue Funnels</a>
+        <a href="#biz-status">Per-Business Status</a>
+        <a href="#webhooks">Webhook Endpoints</a>
+      </div>
     </nav>
 
     <!-- Main Content -->

@@ -15,9 +15,30 @@
   <aside class="admin-sidebar" id="sidebar"></aside>
   <main class="admin-main">
     <div class="admin-topbar">
-      <h1>Client <span>Reports</span></h1>
+      <h1>Reports & <span>Dashboards</span></h1>
     </div>
 
+    <!-- Tab switcher -->
+    <div style="display:flex;gap:4px;margin-bottom:24px">
+      <button class="an-period-btn active" id="tabDashboards" onclick="switchTab('dashboards')" style="padding:10px 20px;border-radius:8px;border:1px solid var(--subtle);background:rgba(0,229,204,0.05);color:var(--teal);font-size:13px;cursor:pointer;font-family:var(--font-heading);font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Dashboards</button>
+      <button class="an-period-btn" id="tabReports" onclick="switchTab('reports')" style="padding:10px 20px;border-radius:8px;border:1px solid var(--subtle);background:transparent;color:var(--muted);font-size:13px;cursor:pointer;font-family:var(--font-heading);font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Client Reports</button>
+    </div>
+
+    <!-- Dashboards Tab -->
+    <div id="dashboardsTab">
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+        <button class="dash-btn active" onclick="loadDashboard('leads')" id="btnLeads" style="padding:8px 16px;border-radius:8px;border:1px solid var(--teal);background:rgba(0,229,204,0.08);color:var(--teal);font-size:12px;cursor:pointer;font-family:var(--font-heading);font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Lead Tracker</button>
+        <button class="dash-btn" onclick="loadDashboard('content')" id="btnContent" style="padding:8px 16px;border-radius:8px;border:1px solid var(--subtle);background:transparent;color:var(--muted);font-size:12px;cursor:pointer;font-family:var(--font-heading);font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Content & Outreach</button>
+        <button class="dash-btn" onclick="loadDashboard('ops')" id="btnOps" style="padding:8px 16px;border-radius:8px;border:1px solid var(--subtle);background:transparent;color:var(--muted);font-size:12px;cursor:pointer;font-family:var(--font-heading);font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Operations</button>
+        <a href="https://reports.nunyabunya.com" target="_blank" style="padding:8px 16px;border-radius:8px;border:1px solid var(--subtle);background:transparent;color:var(--muted);font-size:12px;cursor:pointer;font-family:var(--font-heading);font-weight:700;text-transform:uppercase;letter-spacing:0.04em;text-decoration:none;display:flex;align-items:center;gap:4px">Open Metabase &#8599;</a>
+      </div>
+      <div style="background:var(--dark2);border:1px solid var(--subtle);border-radius:12px;overflow:hidden">
+        <iframe id="dashboardFrame" src="https://reports.nunyabunya.com/public/dashboard/2c0bbd87-7601-4faa-9165-f19a68019394" style="width:100%;height:800px;border:none;background:#fff" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <!-- Client Reports Tab -->
+    <div id="reportsTab" style="display:none">
     <div class="toolbar">
       <select id="clientFilter" onchange="loadReports()">
         <option value="">All Clients</option>
@@ -31,6 +52,7 @@
     </div>
 
     <div id="reportsList"></div>
+    </div>
     <div class="loading" id="loading"><div class="spinner"></div><p>Loading reports...</p></div>
     <div class="empty-state" id="empty" style="display:none"><div class="icon">&#128200;</div><p>No reports found.</p></div>
   </main>
@@ -50,6 +72,39 @@
 
 <script src="/nb-admin-shared.js"></script>
 <script>
+  const DASHBOARDS = {
+    leads: 'https://reports.nunyabunya.com/public/dashboard/2c0bbd87-7601-4faa-9165-f19a68019394',
+    content: 'https://reports.nunyabunya.com/public/dashboard/a26b39b1-c2db-4097-af4f-60432f845890',
+    ops: 'https://reports.nunyabunya.com/public/dashboard/91c609e3-bfcd-4044-80f5-0cde047ee343',
+  };
+
+  function switchTab(tab) {
+    const isDash = tab === 'dashboards';
+    document.getElementById('dashboardsTab').style.display = isDash ? '' : 'none';
+    document.getElementById('reportsTab').style.display = isDash ? 'none' : '';
+    document.getElementById('tabDashboards').style.color = isDash ? 'var(--teal)' : 'var(--muted)';
+    document.getElementById('tabDashboards').style.borderColor = isDash ? 'var(--teal)' : 'var(--subtle)';
+    document.getElementById('tabDashboards').style.background = isDash ? 'rgba(0,229,204,0.05)' : 'transparent';
+    document.getElementById('tabReports').style.color = isDash ? 'var(--muted)' : 'var(--teal)';
+    document.getElementById('tabReports').style.borderColor = isDash ? 'var(--subtle)' : 'var(--teal)';
+    document.getElementById('tabReports').style.background = isDash ? 'transparent' : 'rgba(0,229,204,0.05)';
+  }
+
+  function loadDashboard(key) {
+    document.getElementById('dashboardFrame').src = DASHBOARDS[key];
+    document.querySelectorAll('.dash-btn').forEach(b => {
+      b.style.color = 'var(--muted)';
+      b.style.borderColor = 'var(--subtle)';
+      b.style.background = 'transparent';
+    });
+    const btn = document.getElementById('btn' + key.charAt(0).toUpperCase() + key.slice(1));
+    if (btn) {
+      btn.style.color = 'var(--teal)';
+      btn.style.borderColor = 'var(--teal)';
+      btn.style.background = 'rgba(0,229,204,0.08)';
+    }
+  }
+
   async function init() {
     const ok = await NB_ADMIN.checkAuth();
     if (!ok) return;

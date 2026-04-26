@@ -148,8 +148,38 @@ export default async function handler(req, res) {
   // Send notifications
   await sendSlackAlert(slackMessage);
 
-  if (mauticData && process.env.MAUTIC_URL && process.env.MAUTIC_FORM_ID) {
-    await sendMauticSubmission(mauticData);
+  // Mautic — create/update contact and add to NB segment via contacts API
+  const MAUTIC_URL = (process.env.MAUTIC_URL || '').trim().replace(/\/$/, '');
+  const MAUTIC_USER = process.env.MAUTIC_API_USER || process.env.MAUTIC_USER || 'admin';
+  const MAUTIC_PASS = process.env.MAUTIC_API_PASSWORD || process.env.MAUTIC_PASS || '';
+  const NB_SEGMENT_ID = process.env.MAUTIC_NB_SEGMENT_ID || '6';
+
+  if (mauticData && MAUTIC_URL && MAUTIC_PASS) {
+    const auth = 'Basic ' + Buffer.from(`${MAUTIC_USER}:${MAUTIC_PASS}`).toString('base64');
+    try {
+      const contactPayload = {
+        firstname: mauticData.firstname || mauticData.name || '',
+        email: mauticData.email,
+        tags: ['nunya-bunya', webhookType],
+      };
+      if (mauticData.phone) contactPayload.phone = mauticData.phone;
+
+      const r = await fetch(`${MAUTIC_URL}/api/contacts/new`, {
+        method: 'POST',
+        headers: { Authorization: auth, 'Content-Type': 'application/json' },
+        body: JSON.stringify(contactPayload)
+      });
+      const d = await r.json();
+      const cid = d?.contact?.id;
+      if (cid) {
+        await fetch(`${MAUTIC_URL}/api/segments/${NB_SEGMENT_ID}/contact/${cid}/add`, {
+          method: 'POST',
+          headers: { Authorization: auth }
+        }).catch(() => {});
+      }
+    } catch (e) {
+      console.error('Mautic error:', e);
+    }
   }
 
   return res.status(200).json({ ok: true, record: savedRecord });
