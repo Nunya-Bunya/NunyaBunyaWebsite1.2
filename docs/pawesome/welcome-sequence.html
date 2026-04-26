@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pawesome Dog Walkers — Welcome/Nurture Email Sequence | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link active"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#pawesome">Pawesome</a> &rsaquo;
+          Pawesome Dog Walkers — Welcome/Nurture Email Sequence
+        </div>
+        <h1 class="doc-title">Pawesome Dog Walkers — Welcome/Nurture Email Sequence</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128054; Pawesome</span>
+          <span class="doc-path">03-Pawesome Dog Walkers / 05-content / Email Sequences</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="pawesome-dog-walkers-welcomenurture-email-sequence">Pawesome Dog Walkers — Welcome/Nurture Email Sequence</h1>
+<p><strong>Mautic Campaign:</strong> <code>pawesome-welcome-drip</code></p>
+<p><strong>Trigger:</strong> Contact submits Mautic form #16 (website newsletter signup)</p>
+<p><strong>Segment:</strong> <code>pawesome-newsletter-signups</code></p>
+<p><strong>Tags applied on entry:</strong> <code>pawesome</code>, <code>welcome-sequence</code>, <code>founding-client-prospect</code></p>
+<hr>
+<h2 id="email-1-welcome-25-first-walk-offer">Email 1: Welcome + $25 First Walk Offer</h2>
+<p><strong>Send:</strong> Immediately on signup</p>
+<p><strong>Mautic email name:</strong> <code>pw-welcome-01-thanks</code></p>
+<p><strong>Subject:</strong> Welcome to the pack!</p>
+<p><strong>Alt subject:</strong> You&#x27;re in! Here&#x27;s your $25 first walk offer</p>
+<p><strong>Preview text:</strong> Meet Ben, your dog&#x27;s new favourite person.</p>
+<hr>
+<p><strong>Body:</strong></p>
+<p>Hey {contactfield=firstname|there}!</p>
+<p>Thanks for signing up — you&#x27;re officially part of the Pawesome crew.</p>
+<p>I&#x27;m Ben, and I&#x27;m the person who&#x27;ll actually be walking your dog. Not a random stranger from an app. Just me — a Brisbane local who genuinely loves dogs and started Pawesome because I kept hearing the same thing from neighbours: <em>&quot;I just want someone I trust with my dog.&quot;</em></p>
+<p>Here&#x27;s what Pawesome is all about:</p>
+<ul>
+<li><strong>Small groups only</strong> — max 4 dogs per walk</li>
+<li><strong>GPS tracked</strong> — you&#x27;ll see exactly where we went</li>
+<li><strong>Photo updates</strong> — after every single walk</li>
+<li><strong>Fully insured + police checked</strong> — because peace of mind matters</li>
+<li><strong>Inner-north Brisbane</strong> — New Farm, Newstead, Teneriffe, Fortitude Valley</li>
+</ul>
+<p><strong>Your founding client offer:</strong> Book your first walk for just <strong>$25</strong> (normally $35). I&#x27;m only offering this to our earliest clients while the book is small — you get my full attention and priority scheduling.</p>
+<p><a href="https://pawesomedogwalkers.com/book.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-1"><strong>Book Your $25 First Walk</strong></a></p>
+<p>We always start with a free 15-minute meet &amp; greet so your dog can check me out first. No pressure, no deposit.</p>
+<p>Talk soon,</p>
+<p>Ben</p>
+<p>Pawesome Dog Walkers</p>
+<p>0484 604 529</p>
+<p>woof@pawesomedogwalkers.com</p>
+<hr>
+<p><strong>CTA button text:</strong> Book Your $25 First Walk</p>
+<p><strong>CTA URL:</strong> <code>https://pawesomedogwalkers.com/book.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-1</code></p>
+<p><strong>Mautic notes:</strong></p>
+<ul>
+<li>Add tag <code>email-1-sent</code> on send</li>
+<li>Track open + click</li>
+<li>If CTA clicked, add tag <code>clicked-book</code> and move to segment <code>pawesome-hot-leads</code></li>
+</ul>
+<hr>
+<h2 id="email-2-why-dogs-need-regular-walks">Email 2: Why Dogs Need Regular Walks</h2>
+<p><strong>Send:</strong> Day 2 (48 hours after signup)</p>
+<p><strong>Mautic email name:</strong> <code>pw-welcome-02-dog-health</code></p>
+<p><strong>Subject:</strong> Is your dog getting enough exercise?</p>
+<p><strong>Alt subject:</strong> The walk your dog actually needs (hint: it&#x27;s not just around the block)</p>
+<p><strong>Preview text:</strong> Brisbane heat, bored dogs, and what regular walks really do.</p>
+<hr>
+<p><strong>Body:</strong></p>
+<p>Hey {contactfield=firstname|there},</p>
+<p>Quick question — does your dog ever do any of these?</p>
+<ul>
+<li>Chew things they shouldn&#x27;t</li>
+<li>Bark at absolutely nothing</li>
+<li>Get the zoomies at 9pm</li>
+<li>Act like they haven&#x27;t been outside in three years when you grab the leash</li>
+</ul>
+<p>That&#x27;s not bad behaviour. That&#x27;s a dog who needs more time outside.</p>
+<p><strong>Here&#x27;s what regular walks actually do for your dog:</strong></p>
+<p><strong>Physical health.</strong> Dogs need 30-60 minutes of exercise daily, depending on breed. Without it, they&#x27;re more likely to gain weight, develop joint issues, and have digestive problems. A proper walk (not just a lap of the block) gets their heart rate up and keeps them in shape.</p>
+<p><strong>Mental stimulation.</strong> Sniffing new smells, meeting other dogs, exploring different routes — this is brain food for your pup. A tired dog is a happy dog, and mental exercise tires them out just as much as physical.</p>
+<p><strong>Behaviour.</strong> Most &quot;problem behaviours&quot; — chewing, barking, digging, anxiety — come from boredom and excess energy. Regular walks are the simplest fix.</p>
+<p><strong>Brisbane heat matters too.</strong> In our subtropical climate, timing is everything. We walk in the cooler morning hours (7-10am) and late afternoon (4-6pm) to keep paws safe on hot pavement and avoid heat stress. We always carry water and know where the shady routes are.</p>
+<p>If your work schedule makes daily walks tricky, that&#x27;s literally what we&#x27;re here for. I walk dogs through New Farm Park, Newstead Park, and the river paths Monday to Friday — small groups, proper exercise, photos sent to your phone after.</p>
+<p><a href="https://pawesomedogwalkers.com/services.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-2"><strong>See Our Walking Services</strong></a></p>
+<p>Your $25 first walk offer is still available if you want to give it a try.</p>
+<p>Ben</p>
+<p>Pawesome Dog Walkers</p>
+<hr>
+<p><strong>CTA button text:</strong> See Our Walking Services</p>
+<p><strong>CTA URL:</strong> <code>https://pawesomedogwalkers.com/services.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-2</code></p>
+<p><strong>Mautic notes:</strong></p>
+<ul>
+<li>Add tag <code>email-2-sent</code> on send</li>
+<li>Track open + click</li>
+</ul>
+<hr>
+<h2 id="email-3-your-free-dog-parks-guide">Email 3: Your Free Dog Parks Guide</h2>
+<p><strong>Send:</strong> Day 5 (120 hours after signup)</p>
+<p><strong>Mautic email name:</strong> <code>pw-welcome-03-parks-guide</code></p>
+<p><strong>Subject:</strong> Your free Brisbane dog parks guide is here</p>
+<p><strong>Alt subject:</strong> 10+ dog parks in inner-north Brisbane (with the insider tips)</p>
+<p><strong>Preview text:</strong> Off-lead areas, water access, shade ratings — the guide your dog needs.</p>
+<hr>
+<p><strong>Body:</strong></p>
+<p>Hey {contactfield=firstname|there},</p>
+<p>As promised — here&#x27;s your free guide to the best dog parks in inner-north Brisbane.</p>
+<p><a href="https://pawesomedogwalkers.com/lead-magnets/brisbane-dog-parks-guide.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-3"><strong>Download Your Dog Parks Guide</strong></a></p>
+<p>Inside you&#x27;ll find:</p>
+<ul>
+<li>Off-lead areas with shade and water access</li>
+<li>Which parks are best for different dog sizes and energy levels</li>
+<li>The ones with river access (your dog will thank you)</li>
+<li>Parking tips and best times to visit</li>
+</ul>
+<p>These are the exact parks I walk through every week with Pawesome clients. New Farm Park, Newstead Park, the river paths through Teneriffe — I know the quiet spots, the best times to avoid crowds, and where to find shade on those 35-degree days.</p>
+<p>If you ever want your dog to enjoy these parks while you&#x27;re at work, that&#x27;s exactly what we do. Small groups, GPS tracked, photos from the walk sent straight to your phone.</p>
+<p><a href="https://pawesomedogwalkers.com/book.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-3"><strong>Book a Walk Through Your Dog&#x27;s New Favourite Park</strong></a></p>
+<p>Enjoy the guide!</p>
+<p>Ben</p>
+<p>Pawesome Dog Walkers</p>
+<hr>
+<p><strong>CTA button text:</strong> Download Your Dog Parks Guide</p>
+<p><strong>CTA URL:</strong> <code>https://pawesomedogwalkers.com/lead-magnets/brisbane-dog-parks-guide.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-3</code></p>
+<p><strong>Secondary CTA button text:</strong> Book a Walk</p>
+<p><strong>Secondary CTA URL:</strong> <code>https://pawesomedogwalkers.com/book.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-3</code></p>
+<p><strong>Mautic notes:</strong></p>
+<ul>
+<li>Add tag <code>email-3-sent</code> on send</li>
+<li>Add tag <code>lead-magnet-delivered</code> on send</li>
+<li>Track open + click on both CTAs</li>
+</ul>
+<hr>
+<h2 id="email-4-how-pawesome-works">Email 4: How Pawesome Works</h2>
+<p><strong>Send:</strong> Day 8 (192 hours after signup)</p>
+<p><strong>Mautic email name:</strong> <code>pw-welcome-04-how-it-works</code></p>
+<p><strong>Subject:</strong> Here&#x27;s exactly how it works (no surprises)</p>
+<p><strong>Alt subject:</strong> From booking to belly rubs — how a Pawesome walk works</p>
+<p><strong>Preview text:</strong> Book, meet, walk, photos. That&#x27;s it.</p>
+<hr>
+<p><strong>Body:</strong></p>
+<p>Hey {contactfield=firstname|there},</p>
+<p>A few people have asked how the whole thing works, so let me walk you through it (pun intended).</p>
+<p><strong>Step 1: Book online or text me</strong></p>
+<p>Pick a day that works on our <a href="https://pawesomedogwalkers.com/book.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-4">booking page</a>, or just text me on 0484 604 529. Whatever&#x27;s easier.</p>
+<p><strong>Step 2: Free meet &amp; greet</strong></p>
+<p>I come to your place for 15 minutes. Your dog sniffs me, I learn their name and quirks, you tell me anything I need to know (favourite treats, other dog friends, things they&#x27;re scared of). No charge, no commitment.</p>
+<p><strong>Step 3: First walk</strong></p>
+<p>I pick your dog up, we head to the park with a small group (max 4 dogs), and we do a proper 45-minute walk. GPS tracked so you can see the route.</p>
+<p><strong>Step 4: Photos + update</strong></p>
+<p>After the walk, you get photos of your dog sent straight to your phone. Not stock photos — actual pics of your dog having the time of their life.</p>
+<p><strong>Step 5: Regular schedule</strong></p>
+<p>If you&#x27;re happy, we set up a regular schedule. Most clients do 3-5 walks per week. You get priority scheduling and the same walker (me) every time.</p>
+<p><strong>Common questions I get:</strong></p>
+<p><em>&quot;Do I need to give you a key?&quot;</em></p>
+<p>Totally up to you. Some clients leave a key, some leave the dog in the yard, some are home when I arrive. Whatever works for your situation.</p>
+<p><em>&quot;What about other dogs? Is mine safe?&quot;</em></p>
+<p>I keep groups small (max 4) and I match dogs by size and energy level. Every dog gets a meet &amp; greet before joining a group. If your dog prefers solo walks, we do that too.</p>
+<p><em>&quot;What if it rains?&quot;</em></p>
+<p>We still walk — dogs don&#x27;t melt! But if there&#x27;s a storm or extreme weather, I&#x27;ll text you and we&#x27;ll reschedule. Safety always comes first.</p>
+<p><em>&quot;What if I need to cancel?&quot;</em></p>
+<p>No worries. Just let me know by 6pm the night before and there&#x27;s no charge. Life happens.</p>
+<p><a href="https://pawesomedogwalkers.com/book.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-4"><strong>Book Your Free Meet &amp; Greet</strong></a></p>
+<p>Any other questions? Just reply to this email or text me anytime.</p>
+<p>Ben</p>
+<p>Pawesome Dog Walkers</p>
+<p>0484 604 529</p>
+<hr>
+<p><strong>CTA button text:</strong> Book Your Free Meet &amp; Greet</p>
+<p><strong>CTA URL:</strong> <code>https://pawesomedogwalkers.com/book.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-4</code></p>
+<p><strong>Mautic notes:</strong></p>
+<ul>
+<li>Add tag <code>email-4-sent</code> on send</li>
+<li>Track open + click</li>
+<li>If no opens on emails 1-4, add tag <code>cold-subscriber</code> for re-engagement later</li>
+</ul>
+<hr>
+<h2 id="email-5-last-chance-for-25-first-walk">Email 5: Last Chance for $25 First Walk</h2>
+<p><strong>Send:</strong> Day 14 (336 hours after signup)</p>
+<p><strong>Mautic email name:</strong> <code>pw-welcome-05-last-chance</code></p>
+<p><strong>Condition:</strong> Only send if contact does NOT have tag <code>booked-walk</code> (skip if they&#x27;ve already booked)</p>
+<p><strong>Subject:</strong> Your $25 first walk offer is about to expire</p>
+<p><strong>Alt subject:</strong> Last call — founding client spots are almost gone</p>
+<p><strong>Preview text:</strong> This deal won&#x27;t be around much longer.</p>
+<hr>
+<p><strong>Body:</strong></p>
+<p>Hey {contactfield=firstname|there},</p>
+<p>Just a quick one.</p>
+<p>When you signed up a couple of weeks ago, I mentioned our founding client offer — your first walk for just $25 (normally $35), plus $10 off every walk for the first 3 months.</p>
+<p>I&#x27;m being honest with you: I only offered this to our earliest signups because I wanted to build relationships with a small group of clients while the book is still small. Once those spots fill up, the offer goes back to regular pricing.</p>
+<p><strong>Here&#x27;s what you&#x27;d get as a founding client:</strong></p>
+<ul>
+<li>First walk at <strong>$25</strong> (save $10)</li>
+<li><strong>$10 off</strong> every regular walk for 3 months</li>
+<li><strong>Priority scheduling</strong> — you pick the best time slots first</li>
+<li>A real relationship with the person walking your dog — not an app, not a stranger</li>
+</ul>
+<p>All I ask in return is an honest Google review after your third walk and maybe an introduction to a neighbour if you&#x27;re happy with the service. That&#x27;s it.</p>
+<p>We start with a free 15-minute meet &amp; greet so your dog can check me out first. No pressure, no deposit, no awkwardness if it&#x27;s not the right fit.</p>
+<p><a href="https://pawesomedogwalkers.com/book.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-5-cta"><strong>Claim Your $25 First Walk</strong></a></p>
+<p>Or just text me: <strong>0484 604 529</strong></p>
+<p>Hope to meet your pup soon.</p>
+<p>Ben</p>
+<p>Pawesome Dog Walkers</p>
+<hr>
+<p><strong>CTA button text:</strong> Claim Your $25 First Walk</p>
+<p><strong>CTA URL:</strong> <code>https://pawesomedogwalkers.com/book.html?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-5-cta</code></p>
+<p><strong>Mautic notes:</strong></p>
+<ul>
+<li>Add tag <code>email-5-sent</code> on send</li>
+<li>Add tag <code>welcome-sequence-complete</code> on send</li>
+<li>Remove tag <code>welcome-sequence</code> on send</li>
+<li>Track open + click</li>
+<li>If CTA clicked, add tag <code>clicked-book</code> and move to segment <code>pawesome-hot-leads</code></li>
+<li>After sequence completes, move contact to segment <code>pawesome-regular-subscribers</code> for ongoing content emails</li>
+</ul>
+<hr>
+<h2 id="campaign-flow-summary">Campaign Flow Summary</h2>
+<pre><code>Signup (Form #16)
+  |
+  v
+[Email 1: Welcome + Offer] — Immediate
+  |
+  +-- Wait 2 days
+  |
+  v
+[Email 2: Dog Health Value] — Day 2
+  |
+  +-- Wait 3 days
+  |
+  v
+[Email 3: Dog Parks Guide] — Day 5
+  |
+  +-- Wait 3 days
+  |
+  v
+[Email 4: How It Works] — Day 8
+  |
+  +-- Wait 6 days
+  |
+  v
+[Decision: Has tag &quot;booked-walk&quot;?]
+  |         |
+  YES       NO
+  |         |
+  v         v
+[Skip]    [Email 5: Last Chance] — Day 14
+  |         |
+  v         v
+[Move to &quot;pawesome-regular-subscribers&quot; segment]</code></pre>
+<h2 id="mautic-setup-checklist">Mautic Setup Checklist</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create campaign <code>pawesome-welcome-drip</code> in Mautic</li>
+<li><span class="cb cb-empty">&#9744;</span> Create 5 email templates (use Pawesome brand colors: primary #2E6B4F, secondary #F4A742, background #FDF8F0)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set form #16 as campaign trigger</li>
+<li><span class="cb cb-empty">&#9744;</span> Create segment <code>pawesome-newsletter-signups</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Create segment <code>pawesome-hot-leads</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Create segment <code>pawesome-regular-subscribers</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Set up wait intervals between emails</li>
+<li><span class="cb cb-empty">&#9744;</span> Add decision node before Email 5 (check for <code>booked-walk</code> tag)</li>
+<li><span class="cb cb-empty">&#9744;</span> Test full sequence with a test contact</li>
+<li><span class="cb cb-empty">&#9744;</span> Verify UTM parameters track correctly in Matomo</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">03-Pawesome Dog Walkers/05-content/Email Sequences/welcome-sequence.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Episode 1: Starting My Agency &amp; No Other Choice | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link active"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-alek-conner">Ben Alek Conner</a> &rsaquo;
+          Episode 1: Starting My Agency &amp; No Other Choice
+        </div>
+        <h1 class="doc-title">Episode 1: Starting My Agency &amp; No Other Choice</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#127908; Ben Alek Conner</span>
+          <span class="doc-path">06-Ben Alek Conner / 07-youtube-videos / youtube-scripts</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="episode-1-starting-my-agency-amp-no-other-choice">Episode 1: Starting My Agency &amp; No Other Choice</h1>
+<p><strong>Format:</strong> Docuseries / film essay hybrid</p>
+<p><strong>Runtime target:</strong> 12-18 minutes</p>
+<p><strong>Film:</strong> No Other Choice (2025, Park Chan-wook)</p>
+<p><strong>Tone:</strong> Confident, fast-paced, cinematic. NOT a tutorial. NOT a vlog. A produced piece that makes the viewer think &quot;this guy knows what he&#x27;s doing.&quot;</p>
+<hr>
+<h2 id="the-structure">THE STRUCTURE</h2>
+<p>Three acts, mirroring the film&#x27;s structure. Each act opens with the film parallel, then cuts to your real life executing at speed.</p>
+<hr>
+<h2 id="act-1-quotthe-layoffquot-why-ix27m-doing-this">ACT 1: &quot;THE LAYOFF&quot; — Why I&#x27;m doing this</h2>
+<h3 id="film-beat-30-60-sec">Film Beat (30-60 sec)</h3>
+<ul>
+<li>Brief, punchy review setup. Who is Park Chan-wook. What is No Other Choice about.</li>
+<li>Focus on Man-su&#x27;s moment of being cut loose. He&#x27;s an expert. He&#x27;s skilled. But the system doesn&#x27;t care.</li>
+<li>Clip references (fair use — brief, transformative commentary): Man-su getting the news, the walk home.</li>
+</ul>
+<h3 id="your-story-2-3-min">Your Story (2-3 min)</h3>
+<p>The &quot;why.&quot; Don&#x27;t dwell, don&#x27;t get emotional — be matter-of-fact. Fast.</p>
+<p><strong>Talking head (cinematic — shallow depth of field, good light):</strong></p>
+<ul>
+<li>&quot;I&#x27;m starting a creative agency. Here&#x27;s why.&quot;</li>
+<li>Quick version of your background — filmmaker, photographer, creative.</li>
+<li>The honest situation: you have the skills, you have no clients, you have no money coming in from this yet.</li>
+<li>The parallel: &quot;Man-su is an award-winning papermaker. He knows exactly how to do the job. His problem isn&#x27;t skill — it&#x27;s access. That&#x27;s my problem too.&quot;</li>
+</ul>
+<p><strong>B-roll to capture:</strong></p>
+<ul>
+<li>Your desk/workspace setup (make it look good — clean, intentional)</li>
+<li>The MASTER WORKSPACE on screen (quick flash, don&#x27;t explain it)</li>
+<li>Walking through Brisbane — the city you&#x27;re building this in</li>
+</ul>
+<p><strong>Vibe:</strong> &quot;I&#x27;m not panicking. I have a plan.&quot;</p>
+<hr>
+<h2 id="act-2-quotthe-planquot-building-the-machine">ACT 2: &quot;THE PLAN&quot; — Building the machine</h2>
+<h3 id="film-beat-30-45-sec">Film Beat (30-45 sec)</h3>
+<ul>
+<li>Man-su makes a list. He&#x27;s methodical. He identifies every competitor, researches them, builds a system.</li>
+<li>Draw the parallel: &quot;Man-su&#x27;s approach is psychotic. Mine is... slightly less psychotic. But the discipline is the same. You identify what needs to happen, and you execute.&quot;</li>
+</ul>
+<h3 id="your-story-5-7-min-the-montage">Your Story (5-7 min) — THE MONTAGE</h3>
+<p>This is the centerpiece. Fast cuts. Music-driven. Competence porn. Each step gets 20-40 seconds max. No explaining HOW — just showing you DOING it.</p>
+<p><strong>Sequence 1: The Foundation</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Registering the business name (screen recording, fast-forward)</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: ABN registration confirmation on screen</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Buying the domain — typing nunyabunya.com into the registrar</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Setting up the logo (quick flash of the brand assets)</li>
+</ul>
+<p><strong>Sequence 2: The Website</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Code on screen, fingers on keyboard, building the site (timelapse)</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: The website going live — refreshing the browser, it loads</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Scrolling through the finished site on your phone</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Quick cuts of the case studies, the portfolio page, the booking page</li>
+</ul>
+<p><strong>Sequence 3: The Marketing Machine</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Setting up Mautic (email platform on screen, drag-and-drop email builder)</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Building a landing page — before/after of blank page → finished</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Creating a lead magnet (the free audit, the Brand Bible offer — whatever you&#x27;re using)</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Setting up Cal.com — the booking link going live</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: The funnel visualised — quick whiteboard sketch or screen diagram showing: ad → landing page → form → email drip → booking</li>
+</ul>
+<p><strong>Sequence 4: The Ads &amp; Content</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Designing social posts (Canva or whatever you use, fast-forward)</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Writing ad copy (close-up of hands typing, screen showing the words appearing)</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Scheduling posts — the content calendar filling up</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Hitting &quot;publish&quot; on the first ad/post</li>
+</ul>
+<p><strong>Sequence 5: Going Physical</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Printing flyers (the printer, the stack of paper)</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Walking through Brisbane putting up flyers, handing them to business owners</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Door knocking — approaching a business, the moment before you walk in</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Sitting down with a potential client (even if it&#x27;s just a friend playing the part for b-roll)</li>
+</ul>
+<p><strong>Editing style for Act 2:</strong></p>
+<ul>
+<li>Music: something building, rhythmic, confident (think Whiplash rehearsal montage energy)</li>
+<li>Fast cuts on the beat</li>
+<li>No voiceover during the montage — let the music and visuals carry it</li>
+<li>Occasional text overlays: &quot;DAY 1&quot; → &quot;DAY 3&quot; → &quot;WEEK 2&quot; (sell the speed)</li>
+<li>Sound design: keyboard clicks, mouse clicks, printer sounds, footsteps, door knocks — layer them rhythmically</li>
+</ul>
+<hr>
+<h2 id="act-3-quotthe-killquot-getting-the-first-client">ACT 3: &quot;THE KILL&quot; — Getting the first client</h2>
+<h3 id="film-beat-30-45-sec">Film Beat (30-45 sec)</h3>
+<ul>
+<li>Man-su&#x27;s first &quot;kill.&quot; The moment of no return. He commits.</li>
+<li>&quot;There&#x27;s a moment in every business where you stop building and start selling. Man-su crosses a line he can&#x27;t uncross. For me, the line was [picking up the phone / walking into that office / sending that first cold email]. It&#x27;s not violent, but it&#x27;s terrifying.&quot;</li>
+</ul>
+<h3 id="your-story-3-4-min">Your Story (3-4 min)</h3>
+<p>The payoff. This is the emotional climax.</p>
+<p><strong>Option A — If you have a real client by filming day:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: The notification — the email, the Slack alert, the phone call. The moment you know someone is paying you.</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Your genuine reaction (film yourself checking your phone/laptop and reacting)</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: The Cal.com booking confirmation on screen</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Walking to the meeting / the handshake / sitting across from your first client</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Talking head reflection — what it felt like, what it means</li>
+</ul>
+<p><strong>Option B — If you don&#x27;t have a client yet (still powerful):</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: The outreach montage — DMs sent, emails fired, flyers posted, doors knocked</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: The waiting — sitting at the desk, checking the phone, refreshing the inbox</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: Honest talking head — &quot;I haven&#x27;t landed the first client yet. But Man-su waited 13 months. I&#x27;m on month <span class="cb cb-done">&#9745;</span>. The machine is built. The work is done. Now I wait.&quot;</li>
+<li><span class="cb cb-empty">&#9744;</span> SHOT: End on you walking out the door, heading somewhere with purpose — the hustle continues</li>
+</ul>
+<p><strong>Either way, close with:</strong></p>
+<ul>
+<li>Quick film review wrap-up. Your rating of No Other Choice. Why you think ORCA voters chose it. What it means to you personally.</li>
+<li>Tease Episode 2: &quot;Next time — [film name]. And hopefully, a very different update.&quot;</li>
+</ul>
+<hr>
+<h2 id="shorts-4-clips-to-cut-from-this-episode">SHORTS (4 clips to cut from this episode)</h2>
+<h3 id="short-1-quotthe-16month-stackquot-30-45-sec">Short 1: &quot;The $16/Month Stack&quot; (30-45 sec)</h3>
+<ul>
+<li>Fast montage of the tools: Mautic, Matomo, Shlink, n8n — all self-hosted</li>
+<li>Text overlay: &quot;My entire marketing stack costs $16/month&quot;</li>
+<li>End with the dashboard on screen looking professional</li>
+<li>Hook: &quot;Everyone told me I need HubSpot, Mailchimp, Calendly...&quot;</li>
+</ul>
+<h3 id="short-2-quotdoor-knocking-for-clientsquot-30-60-sec">Short 2: &quot;Door Knocking for Clients&quot; (30-60 sec)</h3>
+<ul>
+<li>The physical outreach footage — walking up to businesses, flyers in hand</li>
+<li>Raw, real, no music (or very minimal)</li>
+<li>Hook: &quot;Day <span class="cb cb-done">&#9745;</span> of starting my agency. No clients yet. Time to knock on doors.&quot;</li>
+</ul>
+<h3 id="short-3-quotfilm-review-in-60-seconds-no-other-choicequot-60-sec">Short 3: &quot;Film Review in 60 Seconds — No Other Choice&quot; (60 sec)</h3>
+<ul>
+<li>Tight, punchy review. Your best film criticism in under a minute.</li>
+<li>This is the ORCA brand crossover — positions you as a serious critic</li>
+<li>Hook: &quot;The best film of 2025 that nobody saw.&quot;</li>
+</ul>
+<h3 id="short-4-quotthe-moment-i-got-my-first-clientquot-30-45-sec">Short 4: &quot;The Moment I Got My First Client&quot; (30-45 sec)</h3>
+<ul>
+<li>If you get the client: the raw reaction footage, the notification, the feeling</li>
+<li>If not yet: &quot;I built everything. The website. The emails. The ads. The funnels. Now I wait.&quot; (cliffhanger — drives people to the full episode)</li>
+</ul>
+<hr>
+<h2 id="production-notes">PRODUCTION NOTES</h2>
+<h3 id="camera">Camera</h3>
+<ul>
+<li>Talking heads: tripod, eye-level, shallow DOF, natural light from a window</li>
+<li>B-roll: handheld where it makes sense (walking, door knocking), tripod for screen work</li>
+<li>Street photography feel for the Brisbane walking shots — this is your style, lean into it</li>
+</ul>
+<h3 id="audio">Audio</h3>
+<ul>
+<li>Talking heads: lav mic or shotgun</li>
+<li>B-roll: capture ambient sound (city, office, keyboard, footsteps) — use in the edit</li>
+<li>Music: license 2-3 tracks. One building/rhythmic for Act 2 montage, one reflective for Act 3</li>
+</ul>
+<h3 id="edit-style">Edit Style</h3>
+<ul>
+<li>Color grade: cinematic, slightly desaturated with warm tones (match your street photography aesthetic)</li>
+<li>Text: minimal, clean, no flashy motion graphics. You&#x27;re a filmmaker, not a YouTuber.</li>
+<li>Pacing: FAST in Act 2 (the montage), slower and more personal in Acts 1 and 3</li>
+<li>Film clips: use sparingly, only to set up the parallel. Your footage should dominate.</li>
+</ul>
+<h3 id="what-to-film-before-you-need-it">What to Film BEFORE You Need It</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Screen recordings: business registration, website build, Mautic setup, Cal.com, ad creation (timelapse these)</li>
+<li><span class="cb cb-empty">&#9744;</span> Flyer design + printing</li>
+<li><span class="cb cb-empty">&#9744;</span> Brisbane walking shots (golden hour preferred)</li>
+<li><span class="cb cb-empty">&#9744;</span> Workspace setup — clean it, light it well, film it</li>
+<li><span class="cb cb-empty">&#9744;</span> Talking heads — film all three acts&#x27; talking head segments in one sitting, different shirts if you want to imply different days</li>
+</ul>
+<hr>
+<h2 id="filming-day-checklist">FILMING DAY CHECKLIST</h2>
+<p><strong>Morning (at the computer — screen recordings):</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Record timelapse of website work</li>
+<li><span class="cb cb-empty">&#9744;</span> Record setting up email/funnel/booking</li>
+<li><span class="cb cb-empty">&#9744;</span> Record ad creation process</li>
+<li><span class="cb cb-empty">&#9744;</span> Record flyer design</li>
+</ul>
+<p><strong>Midday (talking heads):</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Act 1 talking head — the &quot;why&quot; (2-3 takes, keep it natural)</li>
+<li><span class="cb cb-empty">&#9744;</span> Act 2 transition — the &quot;plan&quot; bridge (1-2 takes)</li>
+<li><span class="cb cb-empty">&#9744;</span> Act 3 talking head — the reflection (2-3 takes)</li>
+<li><span class="cb cb-empty">&#9744;</span> Film review segments — No Other Choice thoughts (multiple takes, you&#x27;ll cut these up)</li>
+</ul>
+<p><strong>Afternoon (out in the world):</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Brisbane walking shots (heading to businesses, street scenes)</li>
+<li><span class="cb cb-empty">&#9744;</span> Flyer posting / handing out</li>
+<li><span class="cb cb-empty">&#9744;</span> Door knocking footage</li>
+<li><span class="cb cb-empty">&#9744;</span> Coffee shop working shot (laptop open, headphones on — the grind)</li>
+<li><span class="cb cb-empty">&#9744;</span> &quot;Walking with purpose&quot; closing shot</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">06-Ben Alek Conner/07-youtube-videos/youtube-scripts/ep01-no-other-choice.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben Alek Conner Podcast — Launch Plan | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link active"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-alek-conner">Ben Alek Conner</a> &rsaquo;
+          Ben Alek Conner Podcast — Launch Plan
+        </div>
+        <h1 class="doc-title">Ben Alek Conner Podcast — Launch Plan</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#127908; Ben Alek Conner</span>
+          <span class="doc-path">06-Ben Alek Conner / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="ben-alek-conner-podcast-launch-plan">Ben Alek Conner Podcast — Launch Plan</h1>
+<h3 id="comprehensive-production-marketing-amp-monetization-strategy">Comprehensive Production, Marketing &amp; Monetization Strategy</h3>
+<p><strong>Launch Target: Q1 2027</strong></p>
+<hr>
+<h2 id="1-show-concept-amp-positioning">1. SHOW CONCEPT &amp; POSITIONING</h2>
+<h3 id="show-name">Show Name</h3>
+<p><strong>The Ben Alek Conner Podcast</strong></p>
+<p><em>(Subtitle: Building Businesses, Making Films, and Doing It All Out Loud)</em></p>
+<h3 id="elevator-pitch">Elevator Pitch</h3>
+<p>A candid, long-form conversation show hosted by Brisbane entrepreneur and filmmaker Ben Alek Conner. Each episode pulls back the curtain on what it actually takes to build businesses, create films, transform your body, and pursue an ambitious life — without pretending it&#x27;s easy. No polished guru energy. Real people, real numbers, real stories.</p>
+<h3 id="positioning-statement">Positioning Statement</h3>
+<p>&quot;The show for people who are building something — and want to know they&#x27;re not alone in how hard it is.&quot;</p>
+<h3 id="core-differentiator">Core Differentiator</h3>
+<p>Most business podcasts feature people who have already &quot;made it.&quot; This show catches people mid-journey — including Ben himself — making it uniquely relatable. Guests are not just success stories; they are people in the process of building, failing, learning, and adapting. The show rewards honesty over highlight reels.</p>
+<h3 id="tone-amp-style">Tone &amp; Style</h3>
+<ul>
+<li>Conversational, not scripted</li>
+<li>Direct and slightly irreverent — no corporate speak</li>
+<li>Curious and humble — Ben asks questions he genuinely doesn&#x27;t know the answers to</li>
+<li>Positive but not toxic-positive — acknowledges struggle without wallowing</li>
+<li>Australian in sensibility — unpretentious, dry humour, no hype</li>
+</ul>
+<hr>
+<h2 id="2-episode-format-amp-structure">2. EPISODE FORMAT &amp; STRUCTURE</h2>
+<h3 id="episode-length">Episode Length</h3>
+<p><strong>60–90 minutes</strong> (long-form; will be cut to 20–30 minute highlight clips for YouTube and socials)</p>
+<h3 id="episode-types">Episode Types</h3>
+<p><strong>Type A: Guest Interview (70% of episodes)</strong></p>
+<p>Deep conversation with an entrepreneur, filmmaker, athlete, coach, or creative. Focus on the real story behind the public story.</p>
+<p><strong>Type B: Solo Episode (20% of episodes)</strong></p>
+<p>Ben shares a lesson, a milestone, a failure, or a framework from his own week. These perform well as &quot;business updates&quot; and draw on his four content pillars.</p>
+<p><strong>Type C: Roundtable / Panel (10% of episodes)</strong></p>
+<p>Two or three guests discussing a theme — e.g., &quot;Three agency owners on what they wish they knew in Year 1.&quot;</p>
+<h3 id="episode-structure-guest-interview">Episode Structure (Guest Interview)</h3>
+<p><strong>[0:00–2:00] Cold Open</strong></p>
+<p>A compelling 60-second clip from later in the episode — the most provocative or insightful moment — played before the intro music. No cold opens on first three episodes; build the habit later.</p>
+<p><strong>[2:00–3:30] Intro</strong></p>
+<p>Ben introduces himself, the show, and the episode briefly. Not scripted — conversational. Mentions the episode sponsor (if applicable).</p>
+<p><strong>[3:30–10:00] Guest Introduction</strong></p>
+<p>Ben introduces the guest, then lets the guest tell their own story. &quot;Give us the context — who are you and what are you building right now?&quot;</p>
+<p><strong>[10:00–45:00] The Core Conversation</strong></p>
+<p>The main interview. Ben has a loose set of anchor questions but follows the conversation wherever it goes most naturally. Topics include:</p>
+<ul>
+<li>The real origin story (not the polished version)</li>
+<li>The hardest period and what almost made them quit</li>
+<li>The specific decision or action that changed everything</li>
+<li>What they&#x27;re working on now and what scares them about it</li>
+<li>A number or metric they&#x27;re proud of and one they&#x27;re embarrassed by</li>
+</ul>
+<p><strong>[45:00–60:00] Rapid-fire and Practical</strong></p>
+<ul>
+<li>What does your morning look like on a Tuesday?</li>
+<li>What&#x27;s the best $500 you&#x27;ve spent in the last year?</li>
+<li>What&#x27;s one thing you believe about business that most people disagree with?</li>
+<li>What are you reading, watching, or listening to right now?</li>
+<li>Where can people follow your journey?</li>
+</ul>
+<p><strong>[60:00–65:00] Wrap and CTA</strong></p>
+<p>Ben wraps up, thanks the guest, plugs the newsletter/YouTube/Patreon, and previews next week&#x27;s episode.</p>
+<h3 id="solo-episode-structure">Solo Episode Structure</h3>
+<p><strong>[0:00–1:00] Hook</strong></p>
+<p>Open with the one thing Ben learned or wants to share. State it immediately. No preamble.</p>
+<p><strong>[1:00–5:00] Context</strong></p>
+<p>What happened this week/month that prompted this reflection?</p>
+<p><strong>[5:00–35:00] The Lesson</strong></p>
+<p>Break it down. What&#x27;s the framework, the mistake, the insight? Use specific examples from Ben&#x27;s businesses. Numbers are always better than abstractions.</p>
+<p><strong>[35:00–45:00] Practical application</strong></p>
+<p>What can someone listening do with this right now?</p>
+<p><strong>[45:00–50:00] CTA and wrap</strong></p>
+<hr>
+<h2 id="3-guest-sourcing-strategy">3. GUEST SOURCING STRATEGY</h2>
+<h3 id="target-guest-categories">Target Guest Categories</h3>
+<p><strong>Tier A: Australian Entrepreneurs ($1M–$20M businesses)</strong></p>
+<p>Founders of established Australian businesses who are known in their industries but not necessarily famous. These guests have credibility but are accessible. They&#x27;re also likely to share the episode with their own audiences.</p>
+<p><strong>Tier B: Niche Creators &amp; Filmmakers</strong></p>
+<p>Australian and international filmmakers, YouTube creators, and creative entrepreneurs who have built audiences or income through their craft. Prioritise people with interesting behind-the-scenes stories.</p>
+<p><strong>Tier C: Health, Fitness &amp; Transformation Experts</strong></p>
+<p>Personal trainers, nutritionists, sports psychologists, marathon coaches. Not necessarily famous — focus on practitioners with a genuine point of view.</p>
+<p><strong>Tier D: Productivity, ADHD, and Peak Performance</strong></p>
+<p>Coaches, researchers, or entrepreneurs who have built systems for high performance — especially those with lived experience of neurodivergence, burnout recovery, or personal transformation.</p>
+<p><strong>Tier E: Global Big Names (Year 2+)</strong></p>
+<p>Once the show has traction, pursue guests with significant audiences — Australian entrepreneurs who have scaled internationally, bestselling authors in the business/productivity space, etc.</p>
+<h3 id="outreach-process">Outreach Process</h3>
+<p><strong>Step 1: Build a target list of 60 ideal guests before launch</strong></p>
+<p>Spreadsheet with: Name, Category, Contact info, Instagram/LinkedIn/email, Notes on their story, Priority tier (A–E).</p>
+<p><strong>Step 2: Personalised outreach DM/email</strong></p>
+<p>Template (but genuinely personalised per guest):</p>
+<blockquote>&quot;Hi [Name] — I&#x27;ve been following your work for a while. I&#x27;m launching a podcast in early 2027 called the Ben Alek Conner Podcast — it&#x27;s a long-form show about what it actually takes to build something. I think your story around [specific thing] is one of the most honest and useful stories I&#x27;ve heard for entrepreneurs who are in the middle of the build. Would you be up for a conversation? Happy to be flexible on timing.&quot;</blockquote>
+<p><strong>Step 3: Warm up with content engagement first</strong></p>
+<p>Comment genuinely on 3–5 of their posts before reaching out. Build familiarity.</p>
+<p><strong>Step 4: Follow-up once after 2 weeks if no reply</strong></p>
+<p>One follow-up only. No pressure. Keep the relationship long-term regardless of their answer.</p>
+<p><strong>Step 5: Guest referrals</strong></p>
+<p>At the end of every recording, ask: &quot;Is there anyone you think would be great on this show?&quot; Warm referrals convert at 3–4x the rate of cold outreach.</p>
+<h3 id="launch-guest-list-pre-secured-before-launch">Launch Guest List (Pre-secured before launch)</h3>
+<p>Target: 8–10 guests recorded before Episode 1 goes live. This ensures:</p>
+<ul>
+<li>A buffer if recording/editing runs long</li>
+<li>Ability to batch-release the first 4 episodes simultaneously for a strong launch</li>
+<li>No scramble for content in the first month</li>
+</ul>
+<hr>
+<h2 id="4-recording-setup-requirements">4. RECORDING SETUP REQUIREMENTS</h2>
+<h3 id="audio-setup-non-negotiable-audio-quality-must-be-excellent">Audio Setup (Non-negotiable — audio quality must be excellent)</h3>
+<div class="table-wrap"><table><thead><tr><th>Equipment</th><th>Recommendation</th><th>Cost (AUD)</th></tr></thead><tbody><tr><td>Primary microphone (Ben)</td><td>Shure SM7B</td><td>$500–$600</td></tr><tr><td>Microphone arm</td><td>Rode PSA1+</td><td>$180–$220</td></tr><tr><td>Audio interface</td><td>Focusrite Scarlett 2i2 (4th gen)</td><td>$220–$270</td></tr><tr><td>Guest microphone (in-person)</td><td>Rode PodMic or second SM7B</td><td>$150–$500</td></tr><tr><td>Headphones (monitoring)</td><td>Sony MDR7506</td><td>$150–$200</td></tr><tr><td>Acoustic treatment</td><td>Foam panels + reflection filter</td><td>$300–$500</td></tr><tr><td>Recording software</td><td>Riverside.fm (also handles remote)</td><td>$25/month</td></tr></tbody></table></div>
+<p><strong>Total audio setup:</strong> $1,525–$2,290 AUD (one-time, excluding Riverside subscription)</p>
+<h3 id="video-setup-repurpose-to-youtube">Video Setup (Repurpose to YouTube)</h3>
+<p>Use existing YouTube camera setup. Set up a dedicated podcast corner in the studio with a clean, branded backdrop. Record all episodes to video — the podcast is audio-first but the video version goes to YouTube as full episodes and to social as clips.</p>
+<p><strong>Additional for podcast video:</strong></p>
+<ul>
+<li>Second camera angle (use existing second body or a wide angle lens)</li>
+<li>Podcast-specific backdrop/set — bookshelf, branded signage, moody lighting ($300–$700)</li>
+</ul>
+<h3 id="remote-guest-recording">Remote Guest Recording</h3>
+<p>Use <strong>Riverside.fm</strong> for remote guests. It records each participant locally, so audio quality is not dependent on internet speed. Export separate tracks for editing.</p>
+<h3 id="studio-setup-requirements">Studio Setup Requirements</h3>
+<ul>
+<li>Dedicated recording space (home studio or quiet room)</li>
+<li>No HVAC noise during recording</li>
+<li>Acoustic panels on wall behind and beside the desk</li>
+<li>Clean, visually interesting background that matches brand aesthetic (dark, warm, professional)</li>
+</ul>
+<hr>
+<h2 id="5-distribution-platforms">5. DISTRIBUTION PLATFORMS</h2>
+<h3 id="primary-distribution-all-platforms-simultaneously">Primary Distribution (All platforms simultaneously)</h3>
+<div class="table-wrap"><table><thead><tr><th>Platform</th><th>Priority</th><th>Notes</th></tr></thead><tbody><tr><td>Spotify</td><td>Critical</td><td>Largest podcast platform in Australia</td></tr><tr><td>Apple Podcasts</td><td>Critical</td><td>Second largest; important for iPhone-heavy Australian audience</td></tr><tr><td>YouTube Podcasts</td><td>Critical</td><td>Full video episodes posted as standard YouTube uploads</td></tr><tr><td>Amazon Music / Audible</td><td>Important</td><td>Growing podcast audience</td></tr><tr><td>Google Podcasts → YouTube</td><td>Auto</td><td>Google Podcasts sunsetted; YouTube is the new home</td></tr><tr><td>Pocket Casts</td><td>Standard</td><td>Popular with podcast enthusiasts</td></tr><tr><td>Overcast</td><td>Standard</td><td>iOS-heavy audience</td></tr><tr><td>iHeartRadio</td><td>Standard</td><td>Broad reach</td></tr><tr><td>RSS Feed</td><td>Always</td><td>Distributed via hosting platform to all others</td></tr></tbody></table></div>
+<h3 id="hosting-platform">Hosting Platform</h3>
+<p><strong>Buzzsprout</strong> (recommended for ease of use and distribution reach) or <strong>Transistor.fm</strong> (better for multiple shows, analytics, and team members).</p>
+<ul>
+<li>Estimated cost: $25–$49/month AUD</li>
+</ul>
+<h3 id="episode-distribution-strategy">Episode Distribution Strategy</h3>
+<p>Upload audio to hosting platform on release day. Upload full video version to YouTube simultaneously. Audio episodes go live at 6:00 AM AEST on release day (Tuesday or Wednesday).</p>
+<hr>
+<h2 id="6-launch-strategy">6. LAUNCH STRATEGY</h2>
+<h3 id="pre-launch-phase-octoberdecember-2026">Pre-Launch Phase (October–December 2026)</h3>
+<p><strong>Month -3 (October 2026):</strong></p>
+<ul>
+<li>Finalise show concept, artwork, and positioning</li>
+<li>Record trailer episode</li>
+<li>Begin guest outreach; target 8 confirmed guests</li>
+<li>Build show artwork (cover art, banner, social templates)</li>
+<li>Set up RSS feed and submit to all platforms for approval</li>
+<li>Build anticipation on YouTube and social: &quot;The podcast is coming&quot;</li>
+</ul>
+<p><strong>Month -2 (November 2026):</strong></p>
+<ul>
+<li>Record 6–8 episodes</li>
+<li>Edit and master first 4 episodes</li>
+<li>Write show notes for first 4 episodes</li>
+<li>Create audiogram clips and short-form video content from episodes</li>
+<li>Launch podcast landing page with email sign-up (&quot;Be first to know when we launch&quot;)</li>
+<li>Collect 200+ emails for launch day notification</li>
+</ul>
+<p><strong>Month -1 (December 2026):</strong></p>
+<ul>
+<li>Release trailer publicly on all platforms</li>
+<li>Push trailer hard on YouTube, Instagram, LinkedIn</li>
+<li>Guest outreach: ask recorded guests to share trailer with their audience</li>
+<li>Final review of first 4 episodes</li>
+<li>Prepare launch day social content calendar</li>
+<li>Brief any launch sponsors (if secured)</li>
+</ul>
+<h3 id="launch-week-january-2027-target-second-week-of-january">Launch Week (January 2027, Target: Second Week of January)</h3>
+<p><strong>Launch Day (Tuesday):</strong></p>
+<ul>
+<li>Release Episodes 1, 2, 3, and 4 simultaneously</li>
+<li>Posting 4 episodes at launch signals commitment and lets new listeners binge immediately — this is critical for rankings on Apple and Spotify</li>
+<li>Post announcement video to YouTube</li>
+<li>Send launch email to entire email list</li>
+<li>Post on all social platforms with clips from each episode</li>
+<li>Ask guests from all four episodes to share on their channels</li>
+<li>DM personal connections to ask for reviews on Apple Podcasts</li>
+</ul>
+<p><strong>Launch Week Day 3:</strong></p>
+<ul>
+<li>Release Episode 5 (standard weekly from here)</li>
+<li>Post behind-the-scenes of recording studio</li>
+<li>Share first listener reviews publicly</li>
+</ul>
+<p><strong>Launch Week Day 5–7:</strong></p>
+<ul>
+<li>Engage with every comment and review personally</li>
+<li>Post clips and audiograms across all platforms</li>
+<li>Assess which episode is performing best and double down on that topic angle</li>
+</ul>
+<h3 id="post-launch-months-26">Post-Launch (Months 2–6)</h3>
+<ul>
+<li>Release one episode per week, consistently (Tuesday or Wednesday)</li>
+<li>Weekly audiogram clip posted to Instagram and LinkedIn</li>
+<li>Monthly &quot;podcast recap&quot; video to YouTube: the top 3 moments from the month&#x27;s episodes</li>
+<li>Continue guest outreach and recording 3–4 weeks ahead of schedule</li>
+<li>Submit to podcast directories and &quot;best new podcast&quot; lists</li>
+<li>Pitch to Australian business media for features (Smart Company, StartupSmart, etc.)</li>
+</ul>
+<hr>
+<h2 id="7-monetization-timeline">7. MONETIZATION TIMELINE</h2>
+<h3 id="month-13-build-first-monetize-second">Month 1–3: Build First, Monetize Second</h3>
+<p>No monetization in launch quarter. Focus entirely on quality and growth. The show is a marketing asset at this stage — it drives YouTube subscribers, email list growth, and brand deals for the personal brand overall.</p>
+<h3 id="month-46-host-read-sponsorships">Month 4–6: Host-Read Sponsorships</h3>
+<p>Target: 1–2 sponsors per episode. Approach brands already aligned with the audience:</p>
+<ul>
+<li>Business software (Xero, HubSpot, Squarespace, Monday.com)</li>
+<li>Productivity tools (Notion, Todoist)</li>
+<li>Health/fitness brands (if health episodes are popular)</li>
+<li>Australian SMB services</li>
+</ul>
+<p><strong>Pricing (early stage, 500–1,500 downloads per episode):</strong></p>
+<ul>
+<li>Pre-roll (30 seconds): $200–$400 per episode</li>
+<li>Mid-roll (60 seconds): $400–$800 per episode</li>
+</ul>
+<h3 id="month-712-growing-inventory">Month 7–12: Growing Inventory</h3>
+<p>By Month 7, target 2,000+ downloads per episode.</p>
+<ul>
+<li>Pre-roll: $500–$800 per episode</li>
+<li>Mid-roll: $800–$1,500 per episode</li>
+<li>Episode title sponsor: $1,500–$3,000 per episode</li>
+</ul>
+<h3 id="year-2-2028-premium-monetization">Year 2 (2028): Premium Monetization</h3>
+<p>Target: 5,000–10,000+ downloads per episode (realistic with 50K YouTube subscribers driving traffic)</p>
+<ul>
+<li>Episode sponsorship packages: $3,000–$8,000 per episode</li>
+<li>Season sponsorship (12 episodes): $30,000–$80,000</li>
+<li>Listener membership/Patreon (bonus episodes, early access): $5–$15/month</li>
+<li>Course promotion through podcast: 15–25% of course sales attributed to podcast audience</li>
+</ul>
+<h3 id="additional-monetization-streams">Additional Monetization Streams</h3>
+<ul>
+<li><strong>Live podcast recordings</strong> at events in Brisbane or nationally (ticket revenue)</li>
+<li><strong>Podcast-only courses or workshops</strong> for the most engaged listener segment</li>
+<li><strong>Guest fees for premium access</strong> (Year 3+ when show has significant reach)</li>
+</ul>
+<hr>
+<h2 id="8-12-episode-season-1-topic-plan">8. 12-EPISODE SEASON 1 TOPIC PLAN</h2>
+<p>Season 1 runs January–March 2027 (12 episodes over 12 weeks). The season theme is <strong>&quot;The Real Cost of Building Something.&quot;</strong> Every episode explores — from a different angle — what it genuinely costs (financially, emotionally, physically, relationally) to build a business, creative project, or transformed life.</p>
+<hr>
+<p><strong>Episode 1: &quot;Why I Started a Podcast (And What I&#x27;m Actually Afraid Of)&quot;</strong></p>
+<p><em>Type: Solo</em></p>
+<p>Ben opens the show by being brutally honest about his own fears — fear of judgment, fear of failure, fear of being wrong in public. He explains why he&#x27;s launching despite those fears and what he hopes the show becomes. A vulnerable, authentic first episode that sets the tone for everything that follows.</p>
+<hr>
+<p><strong>Episode 2: &quot;The $35K Month That Changed Everything&quot; — with [Australian Agency Founder Guest]</strong></p>
+<p><em>Type: Guest Interview</em></p>
+<p>A digital agency founder who hit their first significant MRR milestone talks about what changed before and after that number. The psychological shift. The operational chaos. The things they had to stop doing. Ben draws parallels to Nunya Bunya&#x27;s own journey.</p>
+<hr>
+<p><strong>Episode 3: &quot;Making a Film Without a Studio: The Independent Filmmaker&#x27;s Survival Guide&quot;</strong></p>
+<p><em>Type: Guest Interview or Solo</em></p>
+<p>An in-depth conversation about the reality of independent filmmaking — financing, distribution, festival strategy, and staying creative under financial pressure. If solo, Ben shares the production journey of his own feature film.</p>
+<hr>
+<p><strong>Episode 4: &quot;Running a Business with ADHD — Systems That Actually Work&quot;</strong></p>
+<p><em>Type: Solo</em></p>
+<p>Ben&#x27;s most personal solo episode: an honest account of what it&#x27;s like to run three businesses with ADHD. What&#x27;s worked, what&#x27;s failed spectacularly, and the exact systems he uses to stay functional. This episode will likely be the breakout clip episode for the launch.</p>
+<hr>
+<p><strong>Episode 5: &quot;From 120kg to the Finish Line — The Marathon Training Nobody Tells You About&quot;</strong></p>
+<p><em>Type: Guest Interview + Personal Story</em></p>
+<p>Ben interviews a marathon coach or fellow &quot;non-runner turned runner&quot; while weaving in his own weight loss and fitness journey. An episode about physical transformation as a metaphor for business transformation.</p>
+<hr>
+<p><strong>Episode 6: &quot;The Clients Nobody Talks About — Running Three Law Firms&quot;</strong></p>
+<p><em>Type: Solo or Roundtable</em></p>
+<p>A deep-dive into the Conner Law Group businesses — what it&#x27;s like operating in professional services vs. digital marketing. The operational differences, the margin differences, the relationship-driven nature of legal referrals, and what Ben has learned managing multiple professional businesses simultaneously.</p>
+<hr>
+<p><strong>Episode 7: &quot;Quitting Smoking While Launching a Business — And What That Taught Me About Discipline&quot;</strong></p>
+<p><em>Type: Solo</em></p>
+<p>A candid personal episode about the smoke-free journey and the discipline frameworks it forced Ben to develop. Connects the dots between physical discipline, business discipline, and the compounding effect of small daily choices. A breakout episode for the health/transformation audience.</p>
+<hr>
+<p><strong>Episode 8: &quot;First Client to Profitable Agency — The Numbers Behind Nunya Bunya&quot;</strong></p>
+<p><em>Type: Solo</em></p>
+<p>Ben opens the books on Nunya Bunya — MRR, client count, service tier breakdown, cost structure, mistakes, and what the path to $35K MRR actually looks like. No vague &quot;I did six figures&quot; content. Real numbers, real context.</p>
+<hr>
+<p><strong>Episode 9: &quot;Content Creation as a Business — Not a Hobby&quot; — with [Australian Creator Guest]</strong></p>
+<p><em>Type: Guest Interview</em></p>
+<p>A conversation with an Australian creator who has successfully monetised their personal brand. Covers the turning point from content as hobby to content as income, the uncomfortable pivot to treating it professionally, and what most creators get wrong about monetisation.</p>
+<hr>
+<p><strong>Episode 10: &quot;The Business of Storytelling — How Narrative Thinking Makes You a Better Entrepreneur&quot;</strong></p>
+<p><em>Type: Guest Interview</em></p>
+<p>A filmmaker, screenwriter, or storytelling coach discusses how narrative structure applies to business — pitching, sales, content creation, brand building. Ben connects his filmmaking background to his entrepreneurial approach.</p>
+<hr>
+<p><strong>Episode 11: &quot;When Everything Is on Fire — Managing Crisis Across Multiple Businesses&quot;</strong></p>
+<p><em>Type: Solo</em></p>
+<p>An honest account of a period when multiple things went wrong simultaneously. How Ben managed it, what broke, what held, and what he would do differently. A raw, unfiltered episode that will be shared widely because it validates the experience of overwhelmed founders.</p>
+<hr>
+<p><strong>Episode 12: &quot;Season 1 Wrap — What I Learned from 12 Conversations&quot;</strong></p>
+<p><em>Type: Solo</em></p>
+<p>Ben reflects on the season — the most surprising things he heard from guests, the moments that changed how he thinks, and what Season 2 will look like. He also shares listener stories and messages. A high-engagement, community-building episode to close the season.</p>
+<hr>
+<h2 id="9-production-workflow">9. PRODUCTION WORKFLOW</h2>
+<h3 id="full-workflow-record-to-publish">Full Workflow: Record to Publish</h3>
+<p><strong>Step 1: Pre-Production (1 week before recording)</strong></p>
+<ul>
+<li>Confirm guest (calendar invite, Zoom or Riverside link)</li>
+<li>Send guest prep document: show overview, suggested talking points, tech check instructions, what to wear for video</li>
+<li>Research guest thoroughly: read their content, listen to previous interviews, note what has NOT been asked before</li>
+<li>Write anchor questions (not a script — just 8–12 themes to guide the conversation)</li>
+<li>Test Riverside.fm setup</li>
+</ul>
+<p><strong>Step 2: Recording Day</strong></p>
+<ul>
+<li>15-minute pre-show chat (not recorded) to warm up the guest and kill nerves</li>
+<li>Record for 60–90 minutes</li>
+<li>Stay on Riverside until both participants have confirmed their local files have fully uploaded</li>
+<li>Take notes immediately after: timestamp of best moments, topics to clip, potential episode title ideas</li>
+</ul>
+<p><strong>Step 3: Post-Production (Days 2–5)</strong></p>
+<ul>
+<li>Audio editor receives raw files</li>
+<li>Edit full episode (remove long pauses, filler words, technical errors — keep natural speech patterns)</li>
+<li>Master audio to podcast standards (LUFS -16 for Spotify/Apple)</li>
+<li>Export full video version for YouTube</li>
+<li>Create 3–5 short clips (60–90 seconds each) for social media</li>
+<li>Create audiogram (audio waveform + quote graphic) for LinkedIn and Instagram</li>
+</ul>
+<p><strong>Step 4: Show Notes &amp; Assets (Day 4–5)</strong></p>
+<ul>
+<li>Write show notes (800–1,200 words): episode summary, guest bio, timestamps, links, key quotes</li>
+<li>Write SEO-optimised episode title and description for each platform</li>
+<li>Design episode artwork (for social promotion — episode number + guest photo + key quote)</li>
+<li>Write email newsletter teaser for that week&#x27;s episode</li>
+</ul>
+<p><strong>Step 5: Upload &amp; Schedule (Day 6)</strong></p>
+<ul>
+<li>Upload to Buzzsprout/Transistor — schedule for Tuesday 6:00 AM AEST</li>
+<li>Upload video to YouTube — schedule for same time</li>
+<li>Schedule social posts (clips, audiograms, quote graphics) for Tuesday, Wednesday, and Thursday</li>
+<li>Draft and schedule newsletter for Tuesday morning</li>
+</ul>
+<p><strong>Step 6: Launch Day (Tuesday)</strong></p>
+<ul>
+<li>Episode goes live at 6:00 AM AEST</li>
+<li>Post personal message to social media (Instagram Stories, LinkedIn post) about the episode</li>
+<li>Reply to all early comments within first 3 hours</li>
+<li>Send notification to guest to share with their audience</li>
+<li>Post reminder to newsletter list if email hasn&#x27;t been opened</li>
+</ul>
+<p><strong>Step 7: Week-of Engagement (Tuesday–Friday)</strong></p>
+<ul>
+<li>Monitor downloads and comments</li>
+<li>Pin best listener comment to top of social posts</li>
+<li>Share any guest shares or audience reactions to Stories</li>
+<li>Add episode to the website podcast page</li>
+</ul>
+<h3 id="turnaround-timeline">Turnaround Timeline</h3>
+<ul>
+<li>Record on Monday/Thursday → Publish following Tuesday</li>
+<li>Always maintain a 3-episode buffer (never recording week-of publishing)</li>
+</ul>
+<h3 id="team-roles-in-production">Team Roles in Production</h3>
+<div class="table-wrap"><table><thead><tr><th>Role</th><th>Responsibility</th><th>Contractor Rate</th></tr></thead><tbody><tr><td>Ben</td><td>Hosting, research, guest sourcing, social posts</td><td>N/A</td></tr><tr><td>Podcast editor</td><td>Audio editing, mastering, video export</td><td>$200–$350 per episode</td></tr><tr><td>Clip editor</td><td>3–5 short social clips per episode</td><td>$150–$250 per episode</td></tr><tr><td>Show notes writer</td><td>Written show notes + timestamps</td><td>$80–$150 per episode</td></tr><tr><td>Graphic designer</td><td>Episode artwork + social graphics</td><td>$50–$100 per episode</td></tr></tbody></table></div>
+<p><strong>Estimated production cost per episode:</strong> $480–$850 AUD</p>
+<hr>
+<h2 id="10-success-metrics">10. SUCCESS METRICS</h2>
+<h3 id="month-3-post-launch">Month 3 (Post-Launch)</h3>
+<ul>
+<li>500+ downloads per episode</li>
+<li>3.5+ star rating on Apple Podcasts with 20+ reviews</li>
+<li>2 sponsors secured</li>
+</ul>
+<h3 id="month-6">Month 6</h3>
+<ul>
+<li>1,500+ downloads per episode</li>
+<li>4.0+ star rating with 50+ reviews</li>
+<li>2 sponsors per episode at $400–$800 each</li>
+</ul>
+<h3 id="month-12">Month 12</h3>
+<ul>
+<li>3,000+ downloads per episode</li>
+<li>Ranked in top 100 Australian Business podcasts on Apple</li>
+<li>$3,000–$8,000/month in podcast-specific sponsorship revenue</li>
+</ul>
+<h3 id="year-2">Year 2</h3>
+<ul>
+<li>7,000+ downloads per episode</li>
+<li>National media feature (Smart Company, The Australian, etc.)</li>
+<li>Live event sold out (100+ attendees)</li>
+<li>$15,000–$30,000/month in podcast revenue (sponsorship + member revenue)</li>
+</ul>
+<hr>
+<p><em>This plan is a living document. Review and update monthly during pre-launch phase, quarterly after launch.</em></p>
+<p><em>Last updated: March 2026</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">06-Ben Alek Conner/01-strategy/Documents/PODCAST LAUNCH PLAN.md</div>
+    </main>
+  </div>
+</body>
+</html>

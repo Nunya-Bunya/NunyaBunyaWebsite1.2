@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nunya Bunya — Client Offboarding Checklist | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Nunya Bunya — Client Offboarding Checklist
+        </div>
+        <h1 class="doc-title">Nunya Bunya — Client Offboarding Checklist</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Docs</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="nunya-bunya-client-offboarding-checklist">Nunya Bunya — Client Offboarding Checklist</h1>
+<h3 id="standard-operating-procedure-client-departure-process">Standard Operating Procedure: Client Departure Process</h3>
+<p><strong>Version 1.0 | March 2026</strong></p>
+<hr>
+<h2 id="overview">OVERVIEW</h2>
+<p>A well-executed offboarding is one of the most powerful tools a service business has for generating referrals and future re-engagement. A client who leaves and has a seamless, professional exit experience will refer more clients, leave a positive review, and return when circumstances change — far more often than a client who felt ignored, confused, or poorly managed at the end.</p>
+<p>This checklist covers the full offboarding process from the moment a client provides notice to the point where the relationship transitions to alumni status. Every step must be assigned to a named team member and completed within the timeframe specified.</p>
+<p><strong>Trigger:</strong> Client submits written cancellation notice (email or other written form).</p>
+<hr>
+<h2 id="phase-1-notice-received-day-13">PHASE 1: NOTICE RECEIVED (Day 1–3)</h2>
+<h3 id="immediate-actions">Immediate Actions</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Log the cancellation notice</strong> in the CRM (HubSpot/Pipedrive) with the date received, notice period end date, and reason for leaving (if provided).</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Acknowledge receipt within 24 hours.</strong> Send a professional, warm acknowledgement email. Confirm:</li>
+<li>The notice has been received</li>
+<li>The final service date (30 days from notice date per the client agreement)</li>
+<li>The final invoice date</li>
+<li>The account manager as their ongoing point of contact through the offboarding</li>
+</ul>
+<blockquote><strong>Template available:</strong> [Offboarding Acknowledgement Email — see email template library]</blockquote>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Notify the full account team</strong> of the departure. Assign an offboarding lead (typically the account manager).</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Schedule an exit call</strong> within the first week of notice, if the client is willing. Frame it as a chance to understand their needs and ensure a smooth handover — not a retention pitch (unless the client opens that door themselves).</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Check outstanding invoices.</strong> Identify any unpaid balances and flag them to accounts.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Note in CRM:</strong> departure reason category (one of: budget, results, competitive loss, internal change, business closed, moving in-house, upgraded their own capability, unknown).</li>
+</ul>
+<hr>
+<h2 id="phase-2-30-day-notice-period-continued-service-days-130">PHASE 2: 30-DAY NOTICE PERIOD — CONTINUED SERVICE (Days 1–30)</h2>
+<p>During the notice period, services continue at full capacity. The client is still paying and still deserves full attention.</p>
+<h3 id="service-continuation">Service Continuation</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Continue all agreed deliverables</strong> at full scope for the duration of the notice period.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Pause any long-lead projects</strong> that will not be completed before the final day. Do not start significant new work (e.g., a website rebuild) that cannot be meaningfully completed or handed over.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Prioritise transfer-ready work.</strong> In the final 2 weeks, shift focus to:</li>
+<li>Creating documentation the client can use post-handover</li>
+<li>Completing any in-progress content</li>
+<li>Ensuring all accounts and assets are cleanly organised for transfer</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Weekly check-ins</strong> during the notice period — brief updates to keep the client informed and the relationship positive.</li>
+</ul>
+<hr>
+<h2 id="phase-3-access-revocation-checklist-final-5-days">PHASE 3: ACCESS REVOCATION CHECKLIST (Final 5 Days)</h2>
+<p>All access must be cleanly revoked or transferred — nothing left dangling. Work through this platform by platform.</p>
+<blockquote><strong>Principle:</strong> We revoke our own access. We do NOT remove client access to their own accounts. Every account must end up firmly in the client&#x27;s hands.</blockquote>
+<h3 id="google-ecosystem">Google Ecosystem</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Google Analytics (GA4)</strong></li>
+<li>Remove Nunya Bunya team member(s) as users</li>
+<li>Confirm the client&#x27;s own email address has Admin access</li>
+<li>Export final historical data (traffic, conversions) and provide to client</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Google Search Console</strong></li>
+<li>Remove Nunya Bunya as a delegated owner/user</li>
+<li>Confirm client email has verified owner access</li>
+<li>Export keyword performance data for the full engagement period</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Google Ads</strong></li>
+<li>Remove Nunya Bunya&#x27;s MCC (manager) account link from the client&#x27;s Google Ads account</li>
+<li>Confirm client has full admin access to their account</li>
+<li>Export all campaigns, ad copy, and performance data as a CSV</li>
+<li>Pause (do not delete) any live campaigns unless instructed otherwise</li>
+<li>Provide a handover document: campaign structure, bid strategies, and what was working</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Google Business Profile</strong></li>
+<li>Remove Nunya Bunya team members as managers</li>
+<li>Confirm client (or their new provider) has ownership access</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Google Tag Manager</strong></li>
+<li>Remove Nunya Bunya user access</li>
+<li>Document all tags, triggers, and variables currently active (export as JSON or PDF)</li>
+<li>Confirm client has admin access</li>
+</ul>
+<h3 id="meta-facebook-amp-instagram">Meta (Facebook &amp; Instagram)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Meta Business Manager</strong></li>
+<li>Remove Nunya Bunya&#x27;s Business Manager from client&#x27;s Business Manager (revoke partner access)</li>
+<li>Alternatively, if pages/ad accounts were operated inside Nunya Bunya&#x27;s Business Manager, transfer them to the client&#x27;s Business Manager</li>
+<li>Confirm the client has full admin access to their Business Suite</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Facebook Page</strong></li>
+<li>Remove all Nunya Bunya team members who were added as Page roles</li>
+<li>Confirm at least one client-controlled admin remains on the page</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Instagram Account</strong></li>
+<li>Remove any Nunya Bunya team accounts linked as Instagram collaborators or third-party app access</li>
+<li>Confirm client has full account access</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Meta Ads Manager</strong></li>
+<li>Export all ad campaigns, audiences, and creative assets</li>
+<li>Revoke Nunya Bunya&#x27;s access to the ad account</li>
+<li>Pause (do not delete) any live campaigns unless instructed</li>
+</ul>
+<h3 id="website-amp-hosting">Website &amp; Hosting</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>WordPress / Website CMS</strong></li>
+<li>Delete or deactivate any Nunya Bunya team user accounts</li>
+<li>Confirm client/their developer has admin access</li>
+<li>Confirm any plugins purchased by Nunya Bunya on the client&#x27;s behalf have been transferred (licences in the client&#x27;s name) or noted for the client to renew</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Website Hosting / cPanel / Server Access</strong></li>
+<li>Remove any SSH keys, cPanel accounts, or hosting access belonging to Nunya Bunya</li>
+<li>Provide client with all relevant credentials if they were held by Nunya Bunya</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Domain Registrar</strong></li>
+<li>Confirm the domain is registered in the client&#x27;s name (not Nunya Bunya&#x27;s)</li>
+<li>If not, initiate domain transfer to client&#x27;s registrar account immediately</li>
+</ul>
+<h3 id="email-marketing">Email Marketing</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Email Platform (e.g., Mailchimp, Klaviyo, ActiveCampaign)</strong></li>
+<li>Remove Nunya Bunya team member access</li>
+<li>Export full subscriber list as CSV and provide to client</li>
+<li>Export all campaign history (open rates, click rates, templates)</li>
+<li>Confirm client has full admin access to the platform</li>
+</ul>
+<h3 id="social-scheduling-tools">Social Scheduling Tools</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Scheduling tool (e.g., Later, Buffer, Sprout Social)</strong></li>
+<li>Revoke Nunya Bunya team access</li>
+<li>Disconnect social accounts from Nunya Bunya&#x27;s scheduling accounts</li>
+<li>Confirm all scheduled future posts have been cancelled or handed to the client</li>
+</ul>
+<h3 id="other-third-party-tools">Other Third-Party Tools</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Any other tools used on the client&#x27;s behalf</strong> (Hotjar, SEMrush access, Ahrefs projects, etc.):</li>
+<li>Document and either transfer or revoke</li>
+<li>Record what was used and provide the client with a list so they can assess if they want to continue subscriptions</li>
+</ul>
+<h3 id="password-and-credential-handover">Password and Credential Handover</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Compile all credentials held by Nunya Bunya</strong> for the client (website admin, email marketing, etc.) in a password-protected document</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Deliver credentials securely</strong> (password manager export, secure email, or other mutually agreed method — never unencrypted email for passwords)</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Confirm receipt in writing</strong> by the client</li>
+</ul>
+<hr>
+<h2 id="phase-4-final-deliverables-handover-final-5-days">PHASE 4: FINAL DELIVERABLES HANDOVER (Final 5 Days)</h2>
+<h3 id="content-and-creative-assets">Content and Creative Assets</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>All original creative files</strong> created during the engagement:</li>
+<li>Adobe files (AI, PSD, INDD)</li>
+<li>Canva designs (transfer ownership or export as PNG/PDF)</li>
+<li>Video project files (if applicable)</li>
+<li>Photography (full resolution)</li>
+<li>Copywriting documents</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>All published content</strong> (blog posts, social media copy, email campaigns) — export as a document archive</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Brand assets</strong> created by Nunya Bunya (logo variations, social media templates, graphic elements) — transferred as original files</li>
+</ul>
+<h3 id="reporting-and-data">Reporting and Data</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Full performance report history</strong> — PDF copies of all monthly reports delivered during the engagement</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>SEO history</strong> — keyword ranking history (CSV export from tracking tool), backlink profile export, technical audit reports</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Ads performance data</strong> — export from Google Ads and Meta Ads covering the full engagement period</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Analytics history</strong> — Google Analytics export of traffic data for the full engagement period</li>
+</ul>
+<h3 id="strategic-documents">Strategic Documents</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Content strategy document</strong> (if one was created)</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>SEO keyword strategy</strong> — target keyword list with rationale</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Social media strategy</strong> — platform strategies, brand voice notes, content pillars used</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Audience research / buyer persona</strong> documents</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Campaign notes</strong> — what was tested, what worked, what to avoid</li>
+</ul>
+<hr>
+<h2 id="phase-5-financial-close-out">PHASE 5: FINANCIAL CLOSE-OUT</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Issue final invoice</strong> for services rendered in the final month, clearly noting it is the final invoice under the agreement.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Confirm all previous invoices are paid.</strong> Follow up on any outstanding balances before final deliverables are transferred.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Settle any outstanding expenses</strong> or ad spend pass-through charges (if applicable).</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Issue a receipt or final statement</strong> upon clearance of all amounts.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Archive client file</strong> in the billing system as &quot;Closed — [Date].&quot;</li>
+</ul>
+<hr>
+<h2 id="phase-6-exit-survey-and-feedback">PHASE 6: EXIT SURVEY AND FEEDBACK</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Send the exit survey within 48 hours of final service date.</strong> Keep it short — 5 questions max.</li>
+</ul>
+<p><strong>Suggested questions:</strong></p>
+<ol>
+<li>What was the main reason for your decision to end the engagement? (Multiple choice with an &quot;other&quot; text field)</li>
+<li>How would you rate your overall experience working with Nunya Bunya? (1–10)</li>
+<li>What did we do well?</li>
+<li>What could we have done better?</li>
+<li>Would you recommend Nunya Bunya to another business? (Yes / No / Maybe)</li>
+</ol>
+<blockquote><strong>Tool:</strong> Use Typeform, Google Form, or similar. Keep it anonymous-optional.</blockquote>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Record feedback in CRM</strong> — even if the client doesn&#x27;t complete the form, note any feedback given verbally or in emails.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Review feedback internally</strong> — share with the full team. Do not be defensive. Look for patterns.</li>
+</ul>
+<hr>
+<h2 id="phase-7-case-study-request">PHASE 7: CASE STUDY REQUEST</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Assess suitability.</strong> Is this client a good case study candidate? Criteria: strong results achieved, visually interesting industry, client was engaged, results are measurable.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Send the case study request</strong> — ideally during the exit call or in the offboarding email. Frame it as an opportunity for the client to get recognition for their business growth.</li>
+</ul>
+<blockquote>&quot;We achieved some really strong results together during our time working with [Business Name] — would you be open to featuring your story as a case study on our website? It would highlight your business&#x27;s growth and we&#x27;d send you the finished piece to share on your own channels too.&quot;</blockquote>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>If yes:</strong> Schedule a 20-minute phone or video call to gather the story. Use the Case Study Template.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Send for approval</strong> before publishing. Client approves all quotes and data points.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Publish and send the client the final link.</strong> Encourage them to share it — it benefits them too.</li>
+</ul>
+<hr>
+<h2 id="phase-8-google-facebook-review-request">PHASE 8: GOOGLE / FACEBOOK REVIEW REQUEST</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Request a review</strong> — ask during the exit call or in the final email. Make it easy: include a direct link.</li>
+</ul>
+<blockquote>&quot;If you found value in our work together, we&#x27;d love it if you left us a Google review. It takes less than two minutes and genuinely makes a big difference to a small team like ours.&quot;</blockquote>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Log whether a review was left</strong> and respond to it publicly with gratitude.</li>
+</ul>
+<hr>
+<h2 id="phase-9-alumni-referral-program">PHASE 9: ALUMNI REFERRAL PROGRAM</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Introduce the Nunya Bunya Alumni Referral Program</strong> during the offboarding.</li>
+</ul>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>Any ex-client who refers a new paying client to Nunya Bunya receives a referral payment of $250 AUD (paid within 30 days of the referred client&#x27;s first invoice being settled).</li>
+<li>Referrals can be tracked via a unique referral link or code provided to the client at offboarding.</li>
+<li>No cap on referrals. Ongoing for as long as the client wishes to participate.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Provide the referral link/code</strong> and explain how it works in the offboarding email.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Note the client as an &quot;Alumni Referral Member&quot; in CRM.</strong></li>
+</ul>
+<hr>
+<h2 id="phase-10-relationship-maintenance-post-departure">PHASE 10: RELATIONSHIP MAINTENANCE (Post-Departure)</h2>
+<p>A departed client is not a lost client — they are a future referral source and potential returning client.</p>
+<h3 id="month-1-post-departure">Month 1 Post-Departure</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Personal check-in email or LinkedIn message</strong> from the account manager. No agenda, no pitch. Just: &quot;Hope the transition has gone smoothly. Thinking of you and the team — hope things are tracking well.&quot;</li>
+</ul>
+<h3 id="month-3-post-departure">Month 3 Post-Departure</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Value-add check-in.</strong> Share a relevant article, industry insight, or a quick note about something you noticed about their industry. Show you&#x27;re still paying attention without being needy.</li>
+</ul>
+<h3 id="month-6-post-departure">Month 6 Post-Departure</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Strategic check-in.</strong> Ask how business is going. If there&#x27;s an opening, explore whether their situation has changed and whether they&#x27;d be open to a conversation about working together again.</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Invite to any Nunya Bunya events, webinars, or content</strong> — maintain them in the ecosystem.</li>
+</ul>
+<h3 id="ongoing">Ongoing</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Tag as &quot;alumni&quot; in CRM.</strong> Send company updates, case studies, and major announcements to alumni list.</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Engage on LinkedIn</strong> — like and comment on their content.</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Acknowledge business milestones</strong> — if they announce a new location, product launch, or hire, send a genuine congratulations.</li>
+</ul>
+<hr>
+<h2 id="offboarding-summary-tracker">OFFBOARDING SUMMARY TRACKER</h2>
+<div class="table-wrap"><table><thead><tr><th>Task</th><th>Assigned To</th><th>Due Date</th><th>Status</th></tr></thead><tbody><tr><td>Cancellation logged in CRM</td><td></td><td></td><td></td></tr><tr><td>Acknowledgement email sent</td><td></td><td></td><td></td></tr><tr><td>Exit call scheduled</td><td></td><td></td><td></td></tr><tr><td>Google access revoked</td><td></td><td></td><td></td></tr><tr><td>Meta access revoked</td><td></td><td></td><td></td></tr><tr><td>Website access revoked</td><td></td><td></td><td></td></tr><tr><td>Email marketing access revoked</td><td></td><td></td><td></td></tr><tr><td>Credentials transferred securely</td><td></td><td></td><td></td></tr><tr><td>Creative files delivered</td><td></td><td></td><td></td></tr><tr><td>Reports and data archive delivered</td><td></td><td></td><td></td></tr><tr><td>Final invoice issued and settled</td><td></td><td></td><td></td></tr><tr><td>Exit survey sent</td><td></td><td></td><td></td></tr><tr><td>Case study requested</td><td></td><td></td><td></td></tr><tr><td>Review requested</td><td></td><td></td><td></td></tr><tr><td>Referral program introduced</td><td></td><td></td><td></td></tr><tr><td>1-month check-in scheduled</td><td></td><td></td><td></td></tr><tr><td>3-month check-in scheduled</td><td></td><td></td><td></td></tr><tr><td>6-month check-in scheduled</td><td></td><td></td><td></td></tr></tbody></table></div>
+<hr>
+<h2 id="offboarding-principles-team-reminder">OFFBOARDING PRINCIPLES (Team Reminder)</h2>
+<ol>
+<li><strong>Never burn a bridge.</strong> A departing client is a future referral, a case study, a returning client, or an advocate. Treat every departure as if the relationship is pausing, not ending.</li>
+</ol>
+<ol>
+<li><strong>Make them feel like they mattered.</strong> Because they did. Be specific about what you enjoyed working on with them. Acknowledge their business, their team, their progress.</li>
+</ol>
+<ol>
+<li><strong>Be efficient and thorough.</strong> No loose ends. Every access revoked, every file transferred, every invoice settled cleanly. This professionalism will be remembered.</li>
+</ol>
+<ol>
+<li><strong>Don&#x27;t ask why three times.</strong> If they don&#x27;t want to say why they&#x27;re leaving, accept it gracefully. Pushing for a reason when someone doesn&#x27;t want to share it damages the relationship.</li>
+</ol>
+<ol>
+<li><strong>Make them feel great about having chosen us.</strong> The last impression sets the tone for every conversation they&#x27;ll have about us.</li>
+</ol>
+<hr>
+<p><em>Document Owner: Ben Alek Conner | Last Updated: March 2026</em></p>
+<p><em>Review: Quarterly or after any significant offboarding that reveals process gaps</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Docs/CLIENT OFFBOARDING CHECKLIST.md</div>
+    </main>
+  </div>
+</body>
+</html>

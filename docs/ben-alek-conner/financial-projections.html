@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben Alek Conner — Financial Projections (Conservative) | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link active"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-alek-conner">Ben Alek Conner</a> &rsaquo;
+          Ben Alek Conner — Financial Projections (Conservative)
+        </div>
+        <h1 class="doc-title">Ben Alek Conner — Financial Projections (Conservative)</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#127908; Ben Alek Conner</span>
+          <span class="doc-path">06-Ben Alek Conner / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="ben-alek-conner-financial-projections-conservative">Ben Alek Conner — Financial Projections (Conservative)</h1>
+<p><strong>Version 1.0 | April 2026</strong></p>
+<hr>
+<h2 id="methodology">METHODOLOGY</h2>
+<p>These projections use the <strong>conservative targets</strong> from the Source of Truth, not the business plan&#x27;s more aggressive numbers. The business plan projects $78K-$148K in Year 1; these projections use $40K-$60K. The intent is to set targets Ben is likely to overshoot rather than chase numbers that create pressure and distortion.</p>
+<p>All figures are in <strong>AUD</strong>.</p>
+<hr>
+<h2 id="year-1-2026-foundation-year">YEAR 1 (2026) — FOUNDATION YEAR</h2>
+<p><strong>Target range: $40,000 - $60,000</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Low</th><th>High</th><th>Notes</th></tr></thead><tbody><tr><td>Coaching &amp; Consulting</td><td>$15,000</td><td>$22,000</td><td>2-3 clients per quarter at introductory rates; group cohort unlikely Year 1</td></tr><tr><td>Digital Courses</td><td>$8,000</td><td>$15,000</td><td>First course launches Month 10-12; conservative launch with small list</td></tr><tr><td>Brand Sponsorships</td><td>$8,000</td><td>$12,000</td><td>4-6 deals at $1,500-$2,500 with sub-10K audience</td></tr><tr><td>YouTube AdSense</td><td>$1,500</td><td>$3,000</td><td>Monetised from ~Month 8; low view counts initially</td></tr><tr><td>Speaking</td><td>$3,000</td><td>$5,000</td><td>2-3 local engagements at $1,000-$2,000</td></tr><tr><td>Digital Downloads</td><td>$1,500</td><td>$3,000</td><td>Templates, SOPs, calendars ($29-$97 each)</td></tr><tr><td>Film Revenue</td><td>$0</td><td>$0</td><td>Film still in production</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>$37,000</strong></td><td><strong>$60,000</strong></td><td></td></tr></tbody></table></div>
+<h3 id="year-1-revenue-mix-midpoint">Year 1 Revenue Mix (Midpoint)</h3>
+<ul>
+<li>Coaching &amp; Consulting: 38%</li>
+<li>Digital Courses: 24%</li>
+<li>Brand Sponsorships: 21%</li>
+<li>YouTube AdSense: 5%</li>
+<li>Speaking: 8%</li>
+<li>Digital Downloads: 5%</li>
+</ul>
+<hr>
+<h2 id="year-2-2027-growth-year">YEAR 2 (2027) — GROWTH YEAR</h2>
+<p><strong>Target range: $150,000 - $300,000</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Low</th><th>High</th><th>Notes</th></tr></thead><tbody><tr><td>Coaching &amp; Consulting</td><td>$40,000</td><td>$70,000</td><td>4-6 clients/quarter + first group cohort (12 students x $2K-$3K)</td></tr><tr><td>Digital Courses</td><td>$40,000</td><td>$80,000</td><td>Two courses live; larger email list drives sales</td></tr><tr><td>Brand Sponsorships</td><td>$30,000</td><td>$60,000</td><td>12-18 deals; YouTube + newsletter + podcast bundles</td></tr><tr><td>YouTube AdSense</td><td>$10,000</td><td>$20,000</td><td>25K-50K subs; business CPM $8-$18</td></tr><tr><td>Podcast Sponsorships</td><td>$8,000</td><td>$15,000</td><td>Launches Q1 2027; weekly episodes, building listenership</td></tr><tr><td>Speaking</td><td>$10,000</td><td>$25,000</td><td>5-8 engagements at $2,000-$4,000</td></tr><tr><td>Film Revenue</td><td>$5,000</td><td>$20,000</td><td>Festival circuit begins; early licensing/VOD</td></tr><tr><td>Digital Downloads</td><td>$5,000</td><td>$10,000</td><td>Expanded template library; course upsells</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>$148,000</strong></td><td><strong>$300,000</strong></td><td></td></tr></tbody></table></div>
+<hr>
+<h2 id="year-3-2028-scale-year">YEAR 3 (2028) — SCALE YEAR</h2>
+<p><strong>Target range: $350,000 - $600,000</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Low</th><th>High</th><th>Notes</th></tr></thead><tbody><tr><td>Coaching &amp; Consulting</td><td>$50,000</td><td>$80,000</td><td>Premium rates ($5K/mo 1:1); 2 group cohorts/year</td></tr><tr><td>Digital Courses</td><td>$100,000</td><td>$180,000</td><td>Three courses live; evergreen funnel + launches</td></tr><tr><td>Brand Sponsorships</td><td>$80,000</td><td>$140,000</td><td>Long-term partners; higher rates with 100K subs</td></tr><tr><td>YouTube AdSense</td><td>$25,000</td><td>$50,000</td><td>100K subs; 1M monthly views</td></tr><tr><td>Podcast Sponsorships</td><td>$20,000</td><td>$40,000</td><td>Established show; premium ad slots</td></tr><tr><td>Speaking</td><td>$30,000</td><td>$50,000</td><td>6-10 engagements at $5,000-$8,000</td></tr><tr><td>Film Revenue</td><td>$15,000</td><td>$40,000</td><td>Streaming licensing, VOD, continued festival</td></tr><tr><td>Digital Downloads</td><td>$10,000</td><td>$20,000</td><td>Mature product library</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>$330,000</strong></td><td><strong>$600,000</strong></td><td></td></tr></tbody></table></div>
+<hr>
+<h2 id="monthly-cost-structure">MONTHLY COST STRUCTURE</h2>
+<h3 id="fixed-monthly-costs">Fixed Monthly Costs</h3>
+<div class="table-wrap"><table><thead><tr><th>Category</th><th>Low</th><th>High</th><th>Notes</th></tr></thead><tbody><tr><td><strong>Tools &amp; Software</strong></td><td></td><td></td><td></td></tr><tr><td>Email marketing (ConvertKit)</td><td>$60</td><td>$150</td><td>Scales with list size</td></tr><tr><td>Course platform (Kajabi/Teachable)</td><td>$150</td><td>$200</td><td></td></tr><tr><td>Adobe Creative Cloud</td><td>$80</td><td>$80</td><td></td></tr><tr><td>Project management (Notion)</td><td>$25</td><td>$25</td><td></td></tr><tr><td>Social scheduling (Later/Buffer)</td><td>$30</td><td>$60</td><td></td></tr><tr><td>Analytics (TubeBuddy/VidIQ)</td><td>$25</td><td>$50</td><td></td></tr><tr><td>Podcast hosting (Buzzsprout)</td><td>$25</td><td>$50</td><td>From Q1 2027</td></tr><tr><td>Website hosting</td><td>$30</td><td>$50</td><td></td></tr><tr><td><strong>Tools subtotal</strong></td><td><strong>$425</strong></td><td><strong>$665</strong></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><strong>Marketing</strong></td><td></td><td></td><td></td></tr><tr><td>YouTube Ads</td><td>$500</td><td>$1,000</td><td>Subscriber growth</td></tr><tr><td>Instagram/Meta Ads</td><td>$300</td><td>$600</td><td>Reel + lead magnet promotion</td></tr><tr><td>LinkedIn Ads</td><td>$200</td><td>$400</td><td>Speaking + course promotion</td></tr><tr><td>PR &amp; Media outreach</td><td>$0</td><td>$200</td><td>DIY initially</td></tr><tr><td><strong>Marketing subtotal</strong></td><td><strong>$1,000</strong></td><td><strong>$2,200</strong></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><strong>Monthly total (fixed)</strong></td><td><strong>$1,425</strong></td><td><strong>$2,865</strong></td><td></td></tr></tbody></table></div>
+<h3 id="variable-monthly-costs-team">Variable Monthly Costs (Team)</h3>
+<div class="table-wrap"><table><thead><tr><th>Role</th><th>Monthly Cost</th><th>Start Date</th></tr></thead><tbody><tr><td>Video editor (PT contractor)</td><td>$2,000 - $3,200</td><td>Month 1</td></tr><tr><td>Thumbnail designer (freelance)</td><td>$400 - $800</td><td>Month 1</td></tr><tr><td>Social media manager (PT)</td><td>$1,000 - $2,400</td><td>Month 3-6</td></tr><tr><td>Podcast producer (per episode)</td><td>$800 - $1,600</td><td>Month 10-12</td></tr><tr><td>Operations/EA (PT)</td><td>$2,400 - $3,600</td><td>Year 2</td></tr><tr><td>Copywriter</td><td>$1,920 - $4,800</td><td>Year 2</td></tr></tbody></table></div>
+<h3 id="estimated-monthly-burn-by-phase">Estimated Monthly Burn by Phase</h3>
+<div class="table-wrap"><table><thead><tr><th>Phase</th><th>Monthly Burn</th><th>Annual Burn</th></tr></thead><tbody><tr><td>Month 1-3 (Launch)</td><td>$3,825 - $6,865</td><td>—</td></tr><tr><td>Month 4-6 (Building)</td><td>$4,825 - $9,265</td><td>—</td></tr><tr><td>Month 7-12 (Growth)</td><td>$5,625 - $10,865</td><td>—</td></tr><tr><td><strong>Year 1 average</strong></td><td><strong>$4,760 - $9,000</strong></td><td><strong>$57,100 - $108,000</strong></td></tr><tr><td>Year 2 average</td><td>$9,570 - $17,530</td><td>$114,800 - $210,400</td></tr><tr><td>Year 3 average</td><td>$10,570 - $18,530</td><td>$126,800 - $222,400</td></tr></tbody></table></div>
+<hr>
+<h2 id="one-time-capital-expenditure">ONE-TIME CAPITAL EXPENDITURE</h2>
+<h3 id="phase-1-launch-setup-month-1">Phase 1 — Launch Setup (Month 1)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Cost</th></tr></thead><tbody><tr><td>Camera (Sony A7IV / Canon R6 II)</td><td>$3,500 - $4,500</td></tr><tr><td>Lens (24-70mm f/2.8)</td><td>$2,000 - $3,000</td></tr><tr><td>Microphone (Rode NT1 + Wireless GO II)</td><td>$600 - $800</td></tr><tr><td>Lighting (Aputure Amaran 200D + soft box)</td><td>$600 - $900</td></tr><tr><td>Tripod + fluid head</td><td>$300 - $500</td></tr><tr><td>Studio backdrop / set dressing</td><td>$200 - $500</td></tr><tr><td>External hard drives (2TB x2)</td><td>$200 - $300</td></tr><tr><td>Editing computer (if needed)</td><td>$2,000 - $3,500</td></tr><tr><td><strong>Phase 1 Total</strong></td><td><strong>$9,400 - $14,000</strong></td></tr></tbody></table></div>
+<h3 id="phase-2-upgrade-month-12">Phase 2 — Upgrade (Month 12+)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Cost</th></tr></thead><tbody><tr><td>Second camera body</td><td>$2,500 - $4,000</td></tr><tr><td>Gimbal (DJI RS3 Pro)</td><td>$500 - $700</td></tr><tr><td>Drone (DJI Mini 4 Pro)</td><td>$1,200 - $1,500</td></tr><tr><td>Acoustic treatment for studio</td><td>$500 - $1,000</td></tr><tr><td>Teleprompter</td><td>$200 - $400</td></tr><tr><td><strong>Phase 2 Total</strong></td><td><strong>$4,900 - $7,600</strong></td></tr></tbody></table></div>
+<h3 id="podcast-setup-month-10-12">Podcast Setup (Month 10-12)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Cost</th></tr></thead><tbody><tr><td>Shure SM7B microphone</td><td>$600 - $700</td></tr><tr><td>Focusrite Scarlett interface</td><td>$250 - $350</td></tr><tr><td>Acoustic panels</td><td>$300 - $500</td></tr><tr><td>Boom arm + cables</td><td>$150 - $250</td></tr><tr><td>Guest mic + headphones</td><td>$225 - $490</td></tr><tr><td><strong>Podcast Setup Total</strong></td><td><strong>$1,525 - $2,290</strong></td></tr></tbody></table></div>
+<p><strong>Total capital expenditure (Year 1-2): $15,825 - $23,890</strong></p>
+<hr>
+<h2 id="break-even-analysis">BREAK-EVEN ANALYSIS</h2>
+<h3 id="year-1-break-even">Year 1 Break-Even</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th>Low Scenario</th><th>High Scenario</th></tr></thead><tbody><tr><td>Revenue</td><td>$37,000</td><td>$60,000</td></tr><tr><td>Operating costs (annual)</td><td>$57,100</td><td>$108,000</td></tr><tr><td>Capital expenditure (Phase 1 + podcast)</td><td>$10,925</td><td>$16,290</td></tr><tr><td><strong>Total costs</strong></td><td><strong>$68,025</strong></td><td><strong>$124,290</strong></td></tr><tr><td><strong>Net position</strong></td><td><strong>-$31,025</strong></td><td><strong>-$64,290</strong></td></tr></tbody></table></div>
+<p>Year 1 is expected to operate at a loss. This is a foundation year — the investment is in audience, equipment, and systems that generate returns in Years 2-3.</p>
+<h3 id="year-2-break-even">Year 2 Break-Even</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th>Low Scenario</th><th>High Scenario</th></tr></thead><tbody><tr><td>Revenue</td><td>$148,000</td><td>$300,000</td></tr><tr><td>Operating costs (annual)</td><td>$114,800</td><td>$210,400</td></tr><tr><td>Capital expenditure (Phase 2)</td><td>$4,900</td><td>$7,600</td></tr><tr><td><strong>Total costs</strong></td><td><strong>$119,700</strong></td><td><strong>$218,000</strong></td></tr><tr><td><strong>Net position</strong></td><td><strong>+$28,300</strong></td><td><strong>+$82,000</strong></td></tr></tbody></table></div>
+<p><strong>Break-even point: Mid-Year 2 (approximately Month 16-20).</strong></p>
+<p>In the low scenario, the business becomes profitable in the second half of Year 2. In the high scenario, it is profitable from Q1 2027.</p>
+<h3 id="year-3-profitability">Year 3 Profitability</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th>Low Scenario</th><th>High Scenario</th></tr></thead><tbody><tr><td>Revenue</td><td>$330,000</td><td>$600,000</td></tr><tr><td>Operating costs (annual)</td><td>$126,800</td><td>$222,400</td></tr><tr><td><strong>Net profit</strong></td><td><strong>$203,200</strong></td><td><strong>$377,600</strong></td></tr><tr><td><strong>Margin</strong></td><td><strong>62%</strong></td><td><strong>63%</strong></td></tr></tbody></table></div>
+<hr>
+<h2 id="cumulative-financial-position">CUMULATIVE FINANCIAL POSITION</h2>
+<div class="table-wrap"><table><thead><tr><th>End of Year</th><th>Low Scenario (Cumulative)</th><th>High Scenario (Cumulative)</th></tr></thead><tbody><tr><td>Year 1</td><td>-$31,025</td><td>-$64,290</td></tr><tr><td>Year 2</td><td>-$2,725</td><td>+$17,710</td></tr><tr><td>Year 3</td><td>+$200,475</td><td>+$395,310</td></tr></tbody></table></div>
+<p>In the low scenario, the business reaches cumulative profitability early in Year 3. In the high scenario, it reaches cumulative profitability during Year 2.</p>
+<hr>
+<h2 id="key-assumptions">KEY ASSUMPTIONS</h2>
+<ol>
+<li>YouTube growth follows a typical business-niche trajectory (slow start, compounding after 10K subs).</li>
+<li>Course revenue depends on email list size — projections assume 2K subs Year 1, 8K Year 2, 20K Year 3.</li>
+<li>Coaching rates start low and increase as brand authority grows.</li>
+<li>Brand sponsorships do not begin until audience exceeds 5K YouTube subscribers.</li>
+<li>Film revenue is highly variable and treated as upside, not baseline.</li>
+<li>All team costs are contractor-based (no employee overhead, superannuation, or payroll tax).</li>
+<li>Ben&#x27;s personal living expenses are covered separately and not included here.</li>
+<li>No external funding or debt is planned. Losses in Year 1 are self-funded.</li>
+</ol>
+<hr>
+<h2 id="sensitivity-what-changes-the-numbers">SENSITIVITY: WHAT CHANGES THE NUMBERS</h2>
+<div class="table-wrap"><table><thead><tr><th>Factor</th><th>Impact if Better</th><th>Impact if Worse</th></tr></thead><tbody><tr><td>YouTube growth rate</td><td>Faster sponsorship revenue, higher AdSense</td><td>Delays monetisation, smaller course launches</td></tr><tr><td>Email list growth</td><td>Larger course launches, higher conversion</td><td>Smaller launches, more reliance on sponsorships</td></tr><tr><td>Course conversion rate</td><td>Could double course revenue</td><td>May need to reposition or reprice</td></tr><tr><td>Brand deal market</td><td>Long-term partners at premium rates</td><td>Fewer deals, lower rates</td></tr><tr><td>Film commercial success</td><td>$80K+ upside in Year 2-3</td><td>$0 — already factored into conservative case</td></tr><tr><td>Content consistency</td><td>Compounds all growth metrics</td><td>Stalls audience, delays everything</td></tr></tbody></table></div>
+<hr>
+<p><em>These projections are planning tools, not guarantees. Review and adjust quarterly against actual performance.</em></p>
+<p><em>Last updated: April 2026</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">06-Ben Alek Conner/01-strategy/Documents/FINANCIAL PROJECTIONS.md</div>
+    </main>
+  </div>
+</body>
+</html>

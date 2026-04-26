@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BELLA RHYDER — BRAND STANDARDS | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link active"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#bella-rhyder">Bella Rhyder</a> &rsaquo;
+          BELLA RHYDER — BRAND STANDARDS
+        </div>
+        <h1 class="doc-title">BELLA RHYDER — BRAND STANDARDS</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#10024; Bella Rhyder</span>
+          <span class="doc-path">07-Bella Rhyder / 02-brand</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="bella-rhyder-brand-standards">BELLA RHYDER — BRAND STANDARDS</h1>
+<h3 id="technical-implementation-guide">Technical Implementation Guide</h3>
+<hr>
+<h2 id="table-of-contents">TABLE OF CONTENTS</h2>
+<ol>
+<li>Logo Usage</li>
+<li>Color System</li>
+<li>Typography</li>
+<li>Spacing &amp; Grid System</li>
+<li>Button &amp; CTA Styles</li>
+<li>Icon System</li>
+<li>Image Aspect Ratios</li>
+<li>Email Template Standards</li>
+<li>Packaging Design Standards</li>
+</ol>
+<hr>
+<h2 id="1-logo-usage">1. LOGO USAGE</h2>
+<h3 id="logo-variants">Logo Variants</h3>
+<div class="table-wrap"><table><thead><tr><th>Variant</th><th>Background Use</th><th>File Format</th></tr></thead><tbody><tr><td>Primary (Navy)</td><td>White or light backgrounds</td><td>SVG, PNG</td></tr><tr><td>Reversed (White)</td><td>Midnight navy, dark photography</td><td>SVG, PNG</td></tr><tr><td>Gold (Warm Gold)</td><td>Navy or black backgrounds only</td><td>SVG, PNG</td></tr><tr><td>Monochrome (Black)</td><td>Single-color print, embossing</td><td>SVG, EPS</td></tr><tr><td>Monochrome (White)</td><td>Dark print, screenprint, embroidery</td><td>SVG, EPS</td></tr></tbody></table></div>
+<h3 id="logo-lockups">Logo Lockups</h3>
+<ul>
+<li><strong>Primary lockup:</strong> Wordmark + tagline &quot;Move Boldly. Live Freely.&quot; stacked below</li>
+<li><strong>Secondary lockup:</strong> Wordmark alone (when tagline reads too small)</li>
+<li><strong>Icon mark:</strong> BR monogram — used for favicon, embossing, small-scale use only</li>
+<li><strong>Horizontal lockup:</strong> Wordmark + icon side-by-side (email headers, packaging tape)</li>
+</ul>
+<h3 id="clear-space-rule">Clear Space Rule</h3>
+<p>Maintain clear space equal to the height of the capital &quot;B&quot; in the logo on all four sides. Nothing — no text, images, borders, or other logos — enters this zone.</p>
+<h3 id="minimum-size">Minimum Size</h3>
+<ul>
+<li><strong>Print:</strong> 25mm wide minimum (primary lockup)</li>
+<li><strong>Digital:</strong> 120px wide minimum (primary lockup)</li>
+<li><strong>Icon mark:</strong> No smaller than 16px x 16px (favicon), 12mm in print</li>
+</ul>
+<h3 id="logo-donx27ts">Logo Don&#x27;ts</h3>
+<ul>
+<li>Do NOT stretch or distort the logo</li>
+<li>Do NOT rotate the logo</li>
+<li>Do NOT apply drop shadows or effects</li>
+<li>Do NOT change the logo colors to anything outside the approved palette</li>
+<li>Do NOT place the primary (navy) logo on a dark background</li>
+<li>Do NOT place the reversed (white) logo on a white background</li>
+<li>Do NOT recreate the logo in another typeface</li>
+<li>Do NOT add outlines or strokes around the logo</li>
+<li>Do NOT place on busy, cluttered photography without a treatment (overlay, color block, or frosted background)</li>
+</ul>
+<hr>
+<h2 id="2-color-system">2. COLOR SYSTEM</h2>
+<h3 id="primary-palette">Primary Palette</h3>
+<p><strong>Midnight Navy</strong></p>
+<ul>
+<li>Hex: #1A1A2E</li>
+<li>RGB: R26 G26 B46</li>
+<li>CMYK: C93 M90 Y55 K65</li>
+<li>Pantone: 2766 C</li>
+<li>Usage: 60% — primary brand color. Backgrounds, packaging, primary text, apparel tags.</li>
+</ul>
+<p><strong>Warm Gold</strong></p>
+<ul>
+<li>Hex: #E8B86D</li>
+<li>RGB: R232 G184 B109</li>
+<li>CMYK: C6 M27 Y62 K0</li>
+<li>Pantone: 7508 C</li>
+<li>Usage: 10% — premium accent. Headlines over dark backgrounds, logo on navy, decorative details, swing tags.</li>
+</ul>
+<p><strong>White</strong></p>
+<ul>
+<li>Hex: #FFFFFF</li>
+<li>RGB: R255 G255 B255</li>
+<li>CMYK: C0 M0 Y0 K0</li>
+<li>Pantone: N/A</li>
+<li>Usage: 25% — breathing space, text on dark backgrounds, product photography backgrounds, clean UI.</li>
+</ul>
+<h3 id="accent-supporting-palette">Accent / Supporting Palette</h3>
+<p><strong>Coral / Terracotta</strong></p>
+<ul>
+<li>Hex: #D4654A</li>
+<li>RGB: R212 G101 B74</li>
+<li>CMYK: C9 M69 Y72 K1</li>
+<li>Pantone: 7526 C</li>
+<li>Usage: 5% — seasonal accent, sale/promotion highlights, CTA buttons in specific campaign contexts. Use sparingly.</li>
+</ul>
+<p><strong>Sand</strong></p>
+<ul>
+<li>Hex: #F2E8D9</li>
+<li>RGB: R242 G232 B217</li>
+<li>CMYK: C2 M6 Y13 K0</li>
+<li>Pantone: 9183 C</li>
+<li>Usage: Supporting neutral — flat lay surfaces, email backgrounds, light-mode UI secondary.</li>
+</ul>
+<p><strong>Soft Blush</strong></p>
+<ul>
+<li>Hex: #F0D9D2</li>
+<li>RGB: R240 G217 B210</li>
+<li>CMYK: C3 M14 Y13 K0</li>
+<li>Pantone: 9203 C</li>
+<li>Usage: Campaign and seasonal use only.</li>
+</ul>
+<p><strong>Dark Charcoal</strong></p>
+<ul>
+<li>Hex: #2C2C3E</li>
+<li>RGB: R44 G44 B62</li>
+<li>CMYK: C85 M80 Y50 K50</li>
+<li>Pantone: 2768 C</li>
+<li>Usage: Button hover states, secondary dark tone, email body text.</li>
+</ul>
+<h3 id="color-usage-ratios">Color Usage Ratios</h3>
+<ul>
+<li><strong>60%</strong> Midnight Navy — dominant tone, establishes premium/luxury feel</li>
+<li><strong>25%</strong> White — breathing room, clean energy</li>
+<li><strong>10%</strong> Warm Gold — premium accent, never overwhelming</li>
+<li><strong>5%</strong> Coral + Sand + Blush combined — campaign and seasonal use only</li>
+</ul>
+<h3 id="color-combination-rules">Color Combination Rules</h3>
+<p><strong>Approved pairings:</strong></p>
+<ul>
+<li>Midnight Navy + White (high legibility, primary)</li>
+<li>Midnight Navy + Warm Gold (premium, branded)</li>
+<li>White + Midnight Navy text (web body copy)</li>
+<li>White + Coral (campaign-specific only)</li>
+<li>Sand + Midnight Navy text (email background)</li>
+<li>White + Warm Gold on photography (overlaid text treatments)</li>
+</ul>
+<p><strong>Never pair:</strong></p>
+<ul>
+<li>Warm Gold + Coral (too warm, low contrast)</li>
+<li>Coral on Navy (insufficient contrast, fails accessibility)</li>
+<li>Warm Gold on White (insufficient contrast for body text — use for display only, large sizes)</li>
+</ul>
+<h3 id="accessibility">Accessibility</h3>
+<ul>
+<li>All body text must meet WCAG 2.1 AA contrast ratio (4.5:1 minimum)</li>
+<li>Navy on White: PASS (contrast 15.2:1)</li>
+<li>White on Navy: PASS (contrast 15.2:1)</li>
+<li>White on Coral: PASS at large sizes only — use for display, not body copy</li>
+</ul>
+<h3 id="css-variables-reference">CSS Variables Reference</h3>
+<pre><code class="lang-css">:root {
+  /* Colors */
+  --color-navy:      #1A1A2E;
+  --color-gold:      #E8B86D;
+  --color-white:     #FFFFFF;
+  --color-coral:     #D4654A;
+  --color-sand:      #F2E8D9;
+  --color-blush:     #F0D9D2;
+  --color-charcoal:  #2C2C3E;
+
+  /* Fonts */
+  --font-display:    &#x27;Playfair Display&#x27;, Georgia, serif;
+  --font-body:       &#x27;DM Sans&#x27;, system-ui, sans-serif;
+  --font-accent:     &#x27;Cormorant Garamond&#x27;, Georgia, serif;
+}</code></pre>
+<hr>
+<h2 id="3-typography">3. TYPOGRAPHY</h2>
+<h3 id="font-stack">Font Stack</h3>
+<pre><code>Display:  Playfair Display — Bold 700, Bold Italic 700
+Body:     DM Sans — Regular 400, Medium 500, Bold 700
+Accent:   Cormorant Garamond — Italic 400</code></pre>
+<p><strong>Google Fonts import (web):</strong></p>
+<pre><code class="lang-css">@import url(&#x27;https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&amp;family=DM+Sans:wght@400;500;700&amp;family=Cormorant+Garamond:ital@1&amp;display=swap&#x27;);</code></pre>
+<h3 id="font-details">Font Details</h3>
+<p><strong>Display / Headlines — Playfair Display</strong></p>
+<ul>
+<li>Source: Google Fonts (free)</li>
+<li>Weights in use: 700 Bold, 700 Bold Italic</li>
+<li>Use cases: Campaign headlines, hero text, editorial pull quotes, seasonal campaign titles</li>
+<li>Letter spacing: -0.02em (tight, refined)</li>
+<li>Line height: 1.15</li>
+<li>Character: Elegant, feminine strength. Balances the active energy of the brand with its aspirational quality.</li>
+</ul>
+<p><strong>Body / UI — DM Sans</strong></p>
+<ul>
+<li>Source: Google Fonts (free)</li>
+<li>Weights in use: 400 Regular, 500 Medium, 700 Bold</li>
+<li>Use cases: Product descriptions, navigation, captions, buttons, email copy, subheadings</li>
+<li>Letter spacing: 0 (body), +0.05em (all-caps labels)</li>
+<li>Line height: 1.6 (body), 1.2 (headings)</li>
+<li>Character: Clean, modern, highly legible at small sizes.</li>
+</ul>
+<p><strong>Accent / Refined Details — Cormorant Garamond</strong></p>
+<ul>
+<li>Source: Google Fonts (free)</li>
+<li>Weights in use: 400 Italic only</li>
+<li>Use cases: Tagline treatments, swing tag copy, pull quotes, packaging sub-text</li>
+<li>Use very sparingly — this is the brand&#x27;s whisper, not its voice</li>
+<li>Character: Refined, subtle elegance.</li>
+</ul>
+<h3 id="type-scale-web-shopify">Type Scale (Web / Shopify)</h3>
+<div class="table-wrap"><table><thead><tr><th>Variable</th><th>Font</th><th>Size</th><th>Weight</th><th>Line Height</th><th>Letter Spacing</th></tr></thead><tbody><tr><td>--display-xl</td><td>Playfair Display</td><td>72px</td><td>700</td><td>1.1</td><td>-0.02em</td></tr><tr><td>--display-lg</td><td>Playfair Display</td><td>56px</td><td>700</td><td>1.15</td><td>-0.02em</td></tr><tr><td>--display-md</td><td>Playfair Display</td><td>40px</td><td>700</td><td>1.2</td><td>-0.01em</td></tr><tr><td>--heading-lg</td><td>DM Sans</td><td>30px</td><td>700</td><td>1.2</td><td>0</td></tr><tr><td>--heading-md</td><td>DM Sans</td><td>24px</td><td>700</td><td>1.25</td><td>0</td></tr><tr><td>--heading-sm</td><td>DM Sans</td><td>18px</td><td>500</td><td>1.3</td><td>0</td></tr><tr><td>--body-lg</td><td>DM Sans</td><td>16px</td><td>400</td><td>1.65</td><td>0</td></tr><tr><td>--body-md</td><td>DM Sans</td><td>14px</td><td>400</td><td>1.6</td><td>0</td></tr><tr><td>--body-sm</td><td>DM Sans</td><td>13px</td><td>400</td><td>1.55</td><td>0</td></tr><tr><td>--label</td><td>DM Sans</td><td>11px</td><td>700</td><td>1.2</td><td>0.08em</td></tr><tr><td>--tagline</td><td>Cormorant Garamond</td><td>22px</td><td>400 Italic</td><td>1.4</td><td>0.02em</td></tr></tbody></table></div>
+<h3 id="size-scale-print">Size Scale (Print)</h3>
+<div class="table-wrap"><table><thead><tr><th>Element</th><th>Font</th><th>Size (print)</th><th>Weight</th></tr></thead><tbody><tr><td>Hero Headline</td><td>Playfair Display</td><td>48–60pt</td><td>700</td></tr><tr><td>Page Headline</td><td>Playfair Display</td><td>32–40pt</td><td>700</td></tr><tr><td>Section Header</td><td>DM Sans</td><td>20–24pt</td><td>700</td></tr><tr><td>Subheading</td><td>DM Sans</td><td>16–18pt</td><td>500</td></tr><tr><td>Body Copy</td><td>DM Sans</td><td>10–12pt</td><td>400</td></tr><tr><td>Caption / Label</td><td>DM Sans</td><td>8–9pt</td><td>400</td></tr><tr><td>Button Text</td><td>DM Sans</td><td>10pt</td><td>700</td></tr><tr><td>All-caps Tag</td><td>DM Sans</td><td>8pt</td><td>700, +0.1em spacing</td></tr><tr><td>Tagline</td><td>Cormorant Garamond</td><td>14–16pt</td><td>400 Italic</td></tr></tbody></table></div>
+<hr>
+<h2 id="4-spacing-amp-grid-system">4. SPACING &amp; GRID SYSTEM</h2>
+<h3 id="base-spacing-unit">Base Spacing Unit</h3>
+<p>Base: <strong>8px</strong>. All spacing values are multiples of 8.</p>
+<div class="table-wrap"><table><thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead><tbody><tr><td>--space-1</td><td>4px</td><td>Micro gaps (icon padding, tight labels)</td></tr><tr><td>--space-2</td><td>8px</td><td>Base unit (default padding)</td></tr><tr><td>--space-3</td><td>16px</td><td>Inner padding, list gaps</td></tr><tr><td>--space-4</td><td>24px</td><td>Section padding small</td></tr><tr><td>--space-5</td><td>32px</td><td>Card padding, section gap</td></tr><tr><td>--space-6</td><td>48px</td><td>Medium section breaks</td></tr><tr><td>--space-7</td><td>64px</td><td>Large section breaks</td></tr><tr><td>--space-8</td><td>96px</td><td>Hero padding, major section separators</td></tr><tr><td>--space-9</td><td>128px</td><td>Page-level vertical rhythm</td></tr></tbody></table></div>
+<h3 id="grid-system-shopify-web">Grid System (Shopify / Web)</h3>
+<ul>
+<li><strong>Max content width:</strong> 1280px</li>
+<li><strong>Columns:</strong> 12-column grid</li>
+<li><strong>Gutter:</strong> 24px (desktop), 16px (tablet), 12px (mobile)</li>
+<li><strong>Margin:</strong> 80px each side (desktop), 32px (tablet), 20px (mobile)</li>
+</ul>
+<h3 id="breakpoints">Breakpoints</h3>
+<div class="table-wrap"><table><thead><tr><th>Name</th><th>Width</th></tr></thead><tbody><tr><td>Mobile</td><td>0–767px</td></tr><tr><td>Tablet</td><td>768–1023px</td></tr><tr><td>Desktop</td><td>1024–1279px</td></tr><tr><td>Wide</td><td>1280px+</td></tr></tbody></table></div>
+<h3 id="image-aspect-ratios-consistent-across-site">Image Aspect Ratios (Consistent Across Site)</h3>
+<div class="table-wrap"><table><thead><tr><th>Context</th><th>Ratio</th></tr></thead><tbody><tr><td>Hero image</td><td>16:9 (desktop), 4:5 (mobile)</td></tr><tr><td>Product grid</td><td>3:4 (portrait)</td></tr><tr><td>Collection banner</td><td>21:9</td></tr><tr><td>Instagram post</td><td>1:1 or 4:5</td></tr><tr><td>Instagram Story / TikTok</td><td>9:16</td></tr><tr><td>Email header</td><td>600 x 300px</td></tr><tr><td>Pinterest</td><td>2:3</td></tr></tbody></table></div>
+<hr>
+<h2 id="5-button-amp-cta-styles">5. BUTTON &amp; CTA STYLES</h2>
+<h3 id="primary-button">Primary Button</h3>
+<pre><code>Background:   #1A1A2E (Midnight Navy)
+Text:         #FFFFFF (White)
+Font:         DM Sans Bold 700, 14px, 0.08em letter-spacing, uppercase
+Padding:      14px 32px
+Border:       None
+Border-radius: 2px (slightly rounded, not pill)
+Hover state:  Background #2C2C3E (Charcoal), transition 0.2s ease</code></pre>
+<h3 id="secondary-button">Secondary Button</h3>
+<pre><code>Background:   Transparent
+Text:         #1A1A2E (Navy)
+Border:       2px solid #1A1A2E
+Font:         DM Sans Bold 700, 14px, 0.08em, uppercase
+Padding:      12px 30px
+Border-radius: 2px
+Hover state:  Background #1A1A2E, text #FFFFFF</code></pre>
+<h3 id="gold-accent-button-campaign-featured-ctas">Gold Accent Button (Campaign / Featured CTAs)</h3>
+<pre><code>Background:   #E8B86D (Warm Gold)
+Text:         #1A1A2E (Navy)
+Font:         DM Sans Bold 700, 14px, 0.08em, uppercase
+Padding:      14px 32px
+Border-radius: 2px
+Hover state:  Background #D4A85A (darkened gold), transition 0.2s ease</code></pre>
+<h3 id="ghost-button-on-dark-backgrounds">Ghost Button (On Dark Backgrounds)</h3>
+<pre><code>Background:   Transparent
+Text:         #FFFFFF
+Border:       2px solid #FFFFFF
+Font:         DM Sans Bold 700, 14px, 0.08em, uppercase
+Padding:      12px 30px
+Border-radius: 2px
+Hover state:  Background rgba(255,255,255,0.15)</code></pre>
+<h3 id="text-link">Text Link</h3>
+<pre><code>Color:        #E8B86D (Gold) on dark, #1A1A2E (Navy) on light
+Decoration:   Underline on hover only
+Font:         DM Sans 400, same size as context</code></pre>
+<hr>
+<h2 id="6-icon-system">6. ICON SYSTEM</h2>
+<h3 id="icon-style">Icon Style</h3>
+<ul>
+<li><strong>Style:</strong> Outlined, minimal, single-stroke</li>
+<li><strong>Stroke weight:</strong> 1.5px</li>
+<li><strong>Corner radius:</strong> 1.5px (slightly softened, not harsh)</li>
+<li><strong>Size grid:</strong> Designed on 24x24px canvas</li>
+<li><strong>Display sizes:</strong> 16px, 20px, 24px, 32px</li>
+</ul>
+<h3 id="icon-color-rules">Icon Color Rules</h3>
+<ul>
+<li>All icons render in #1A1A2E (Navy) on light backgrounds</li>
+<li>All icons render in #FFFFFF (White) on dark backgrounds</li>
+<li>Gold icon treatment (#E8B86D) for premium / featured UI elements only (wishlist star, loyalty badge)</li>
+<li>No multi-color icons in UI — single colour per icon always</li>
+</ul>
+<h3 id="icon-set-recommendation">Icon Set Recommendation</h3>
+<p>Base: <strong>Phosphor Icons</strong> (MIT License) — clean, minimal, outline style that matches brand aesthetic.</p>
+<p>Alternative: <strong>Feather Icons</strong> or custom SVG set.</p>
+<h3 id="social-media-icons">Social Media Icons</h3>
+<ul>
+<li>Use official brand icon variants, not generic placeholders</li>
+<li>Render in White on Navy backgrounds; Navy on White/Sand backgrounds</li>
+<li>Do not use colored social icons (no Instagram gradient, no Facebook blue) — always on-brand tones</li>
+</ul>
+<hr>
+<h2 id="7-email-template-standards">7. EMAIL TEMPLATE STANDARDS</h2>
+<h3 id="email-dimensions">Email Dimensions</h3>
+<ul>
+<li>Max width: <strong>600px</strong></li>
+<li>Background: #F2E8D9 (Sand) or #FFFFFF (White)</li>
+<li>Inner content background: #FFFFFF</li>
+<li>Mobile-responsive: Yes — single column below 480px</li>
+</ul>
+<h3 id="email-header">Email Header</h3>
+<ul>
+<li>Height: 80px</li>
+<li>Background: #1A1A2E (Midnight Navy)</li>
+<li>Logo: Reversed (white) variant, centered or left-aligned</li>
+<li>Max logo width: 160px</li>
+</ul>
+<h3 id="email-typography">Email Typography</h3>
+<div class="table-wrap"><table><thead><tr><th>Element</th><th>Font</th><th>Size</th><th>Color</th></tr></thead><tbody><tr><td>Headline</td><td>Playfair Display Bold</td><td>32px</td><td>#1A1A2E</td></tr><tr><td>Subheading</td><td>DM Sans Bold</td><td>18px</td><td>#1A1A2E</td></tr><tr><td>Body</td><td>DM Sans Regular</td><td>15px</td><td>#2C2C3E</td></tr><tr><td>Caption</td><td>DM Sans Regular</td><td>12px</td><td>#6B6B7B</td></tr><tr><td>CTA Button</td><td>DM Sans Bold, uppercase</td><td>13px</td><td>#FFFFFF on #1A1A2E</td></tr></tbody></table></div>
+<h3 id="email-color-blocks">Email Color Blocks</h3>
+<ul>
+<li>Header: #1A1A2E (Navy)</li>
+<li>Hero section: Full-width image (600px wide) OR Navy/Sand color block</li>
+<li>Body: #FFFFFF</li>
+<li>Feature section: #F2E8D9 (Sand) — alternate section blocks</li>
+<li>Footer: #1A1A2E (Navy) — white text, gold social icons</li>
+</ul>
+<h3 id="email-footer-requirements">Email Footer Requirements</h3>
+<ul>
+<li>Logo (white reversed)</li>
+<li>Physical address (Brisbane, QLD, Australia)</li>
+<li>Unsubscribe link (legally required in Australia)</li>
+<li>Social media icons</li>
+<li>&quot;You&#x27;re receiving this because...&quot; reminder text</li>
+<li>Footer font: DM Sans Regular 12px, #FFFFFF or #B0B0B8</li>
+</ul>
+<h3 id="email-spacing">Email Spacing</h3>
+<ul>
+<li>Top/bottom padding: 40px on all major sections</li>
+<li>Left/right padding: 40px (desktop), 20px (mobile)</li>
+<li>Button: Centered, 180px minimum width, 16px padding top/bottom</li>
+</ul>
+<hr>
+<h2 id="8-packaging-design-standards">8. PACKAGING DESIGN STANDARDS</h2>
+<h3 id="poly-mailer-bags">Poly Mailer Bags</h3>
+<ul>
+<li>Background: Midnight Navy (#1A1A2E)</li>
+<li>Logo: White reversed variant — centered</li>
+<li>Size: Standard Australia Post size range (DL, B4, B3)</li>
+<li>Interior: Optional subtle pattern (small BR monogram repeat in dark navy on navy — tone-on-tone)</li>
+<li>No branding bleed to inside — keep interior clean for unboxing experience</li>
+</ul>
+<h3 id="swing-tags">Swing Tags</h3>
+<ul>
+<li>Material: 400gsm uncoated card (tactile, premium feel)</li>
+<li>Front: Bella Rhyder logo (navy ink on cream/sand stock, OR white logo on navy stock)</li>
+<li>Back: Care instructions (DM Sans Regular 8pt) + product code</li>
+<li>Tagline below logo: Cormorant Garamond Italic 10pt — &quot;Move Boldly. Live Freely.&quot;</li>
+<li>Hole: 4mm punch, top center, with natural cotton string</li>
+<li>Dimensions: 55mm x 90mm</li>
+</ul>
+<h3 id="labels-garment-labels">Labels (Garment Labels)</h3>
+<ul>
+<li>Woven main label: Midnight Navy ground, white woven logo + BR monogram</li>
+<li>Size label: Midnight Navy heat-transfer or woven — white text, DM Sans Bold</li>
+<li>Care label: Printed, white with navy text — standard Australian care symbol set</li>
+<li>Country of origin: Required on all garments (Australian Consumer Law)</li>
+</ul>
+<h3 id="tissue-paper">Tissue Paper</h3>
+<ul>
+<li>Color: White tissue paper with Warm Gold (#E8B86D) or Midnight Navy foil-printed pattern</li>
+<li>Pattern option A: BR monogram scattered (allover, subtle)</li>
+<li>Pattern option B: Botanical / wave motif (Queensland-inspired)</li>
+<li>Minimum sheet: 50cm x 70cm per fold</li>
+</ul>
+<h3 id="stickers-seals">Stickers / Seals</h3>
+<ul>
+<li>Round sticker seal: Midnight Navy, gold foil BR monogram, 40mm diameter</li>
+<li>&quot;Thank You&quot; card: Sand (#F2E8D9) card stock, navy print — Playfair Display 20pt headline, DM Sans 12pt body</li>
+<li>Text: &quot;Thank you for choosing Bella Rhyder. Move Boldly. Live Freely.&quot;</li>
+</ul>
+<h3 id="gift-box-premium-bundle-orders">Gift Box (Premium / Bundle Orders)</h3>
+<ul>
+<li>Rigid lid-and-base box</li>
+<li>Exterior: Midnight Navy with embossed or foil-stamped logo</li>
+<li>Interior: Gold tissue lining OR gold satin ribbon</li>
+<li>Size variants: Small (accessories), Medium (single garment), Large (full outfit bundle)</li>
+</ul>
+<hr>
+<p><em>Bella Rhyder Brand Standards — Version 1.0 | April 2026</em></p>
+<p><em>Owner: Ben Alek Conner | Brisbane, Australia</em></p>
+<p><em>Review cycle: Bi-annually or upon major brand evolution</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">07-Bella Rhyder/02-brand/BRAND STANDARDS.md</div>
+    </main>
+  </div>
+</body>
+</html>

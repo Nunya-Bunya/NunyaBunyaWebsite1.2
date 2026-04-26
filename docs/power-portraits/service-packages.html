@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power Portraits — Service Packages | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link active"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#power-portraits">Power Portraits</a> &rsaquo;
+          Power Portraits — Service Packages
+        </div>
+        <h1 class="doc-title">Power Portraits — Service Packages</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#128247; Power Portraits</span>
+          <span class="doc-path">02-Power Portraits / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="power-portraits-service-packages">Power Portraits — Service Packages</h1>
+<p><em>Photography that honours the person in front of the lens.</em></p>
+<hr>
+<h2 id="the-session-350-inc-gst">The Session — $350 (inc. GST)</h2>
+<p>Some portraits need to arrive quickly and land cleanly. The Session is built for precisely that — a focused hour where we capture a decisive set of images for a specific purpose. No meandering, no filler. You come in knowing what you need; you leave knowing you have it.</p>
+<p>Ideal for actors refreshing their headshots, musicians updating press imagery, or solopreneurs stepping into something new.</p>
+<p><strong>Inclusions:</strong></p>
+<ul>
+<li>1-hour session</li>
+<li>10 retouched images (high-res + web-optimised)</li>
+<li>2 locations</li>
+<li>1 round of retouching feedback</li>
+<li>Delivery: 5–7 business days</li>
+</ul>
+<hr>
+<h2 id="the-portrait-650-inc-gst">The Portrait — $650 (inc. GST)</h2>
+<p>This is the anchor. Two hours, three locations, three wardrobe changes — enough room to explore the different registers of who you are on camera. A 15-minute style consultation before the session ensures we arrive with intention, not improvisation. The Portrait is for creatives building a visual identity that stretches across websites, social platforms, press kits, and casting profiles. It is the package most of our clients book, and for good reason: it gives you range without excess.</p>
+<p><strong>Inclusions:</strong></p>
+<ul>
+<li>2-hour session</li>
+<li>25 retouched images (high-res + web-optimised)</li>
+<li>3 locations</li>
+<li>3 wardrobe changes</li>
+<li>15-minute style consultation (pre-session)</li>
+<li>2 rounds of retouching feedback</li>
+<li>Delivery: 5–7 business days</li>
+</ul>
+<hr>
+<h2 id="the-editorial-950-inc-gst">The Editorial — $950 (inc. GST)</h2>
+<p>The definitive portrait experience. Three unhurried hours, unlimited locations, unlimited wardrobe changes — and before the camera comes out, a 30-minute Power Coaching session on confidence, posture, and presence. We also begin with a brand strategy call so that every image serves a deliberate purpose. The result is editorial-quality imagery that could sit comfortably in a magazine spread. This package is for established creatives who treat their image with the same discipline they bring to their craft.</p>
+<p><strong>Inclusions:</strong></p>
+<ul>
+<li>3-hour session</li>
+<li>50 retouched images (high-res + web-optimised)</li>
+<li>Unlimited locations and wardrobe changes</li>
+<li>30-minute Power Coaching session (confidence, posture, presence)</li>
+<li>30-minute brand strategy call (pre-session)</li>
+<li>Unlimited retouching feedback</li>
+<li>Priority scheduling</li>
+<li>Delivery: 3–5 business days</li>
+</ul>
+<hr>
+<h2 id="corporate-from-2500-inc-gst">Corporate — From $2,500 (inc. GST)</h2>
+<p>Most corporate headshots look like they were taken under fluorescent light by someone who had fifteen other things to do that morning. Ours don&#x27;t. We come to your office, set up a proper studio environment, and photograph each team member with the same care we&#x27;d give an individual client — consistent styling, consistent backdrop, individually retouched images. The whole thing runs quietly and efficiently so your team barely notices the disruption.</p>
+<p><strong>Inclusions:</strong></p>
+<ul>
+<li>On-site at your office or location</li>
+<li>15–20 minutes per person</li>
+<li>3–5 retouched images per team member</li>
+<li>Consistent styling and backdrop across all team members</li>
+<li>Individual password-protected galleries</li>
+<li>Delivery: 48–72 hours (preview option available)</li>
+</ul>
+<p><strong>Pricing tiers:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Tier</th><th>Team Size</th><th>Price</th></tr></thead><tbody><tr><td>Team Starter</td><td>5–10 people</td><td>$2,500</td></tr><tr><td>Team Pro</td><td>11–25 people</td><td>$3,500–$4,500</td></tr><tr><td>Enterprise</td><td>26+ people</td><td>~$150–180/person</td></tr></tbody></table></div>
+<hr>
+<h2 id="add-ons">Add-Ons</h2>
+<div class="table-wrap"><table><thead><tr><th>Add-On</th><th>Price</th></tr></thead><tbody><tr><td>Same-day delivery</td><td>+$500</td></tr><tr><td>Video clips (15–30 sec per look)</td><td>+$800</td></tr><tr><td>Additional retouching</td><td>$35/image</td></tr><tr><td>Hair &amp; Makeup (partnered MUA)</td><td>From $150</td></tr><tr><td>Extra digital images beyond package</td><td>$35/image</td></tr></tbody></table></div>
+<hr>
+<h2 id="what-every-package-includes">What Every Package Includes</h2>
+<p>Regardless of which package you choose, the following comes standard:</p>
+<ul>
+<li><strong>Pre-session questionnaire</strong> — brand goals, wardrobe guidance, style preferences</li>
+<li><strong>Session Prep Guide</strong> — so you arrive confident and camera-ready</li>
+<li><strong>Professional direction</strong> throughout the entire session</li>
+<li><strong>Colour-graded, retouched images</strong> delivered via Pixieset gallery</li>
+<li><strong>High-resolution</strong> (300 DPI, print-ready) + <strong>web-optimised</strong> (72 DPI) versions of every image</li>
+<li><strong>Multiple aspect ratios:</strong> 1:1, 4:5, 2:3, 16:9</li>
+<li><strong>90-day gallery access</strong> (archive retrieval after expiry: $50)</li>
+</ul>
+<hr>
+<h2 id="booking-amp-payment">Booking &amp; Payment</h2>
+<p>Your session is confirmed with a 50% deposit. The remaining balance is due upon gallery delivery.</p>
+<p><strong>Cancellation policy:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Notice</th><th>Outcome</th></tr></thead><tbody><tr><td>48+ hours</td><td>Free reschedule</td></tr><tr><td>24–48 hours</td><td>$75 rescheduling fee</td></tr><tr><td>Under 24 hours</td><td>Deposit forfeited</td></tr><tr><td>No-show</td><td>Full session fee charged</td></tr></tbody></table></div>
+<p>Deposits are non-refundable within 48 hours of your session date.</p>
+<hr>
+<h2 id="the-referral-circle">The Referral Circle</h2>
+<p>Good work travels by word of mouth. If you refer someone who books a session, they receive <strong>10% off their first session</strong> as a welcome.</p>
+<p>For active referral partners — agents, coaches, venues, and collaborators who send clients our way regularly — we offer <strong>10% commission or reciprocal promotion</strong>, whichever suits the relationship best.</p>
+<hr>
+<p><em>Power Portraits — Brisbane</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">02-Power Portraits/01-strategy/Documents/SERVICE PACKAGES.md</div>
+    </main>
+  </div>
+</body>
+</html>

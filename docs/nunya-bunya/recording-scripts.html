@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Allied Health Video Audit Recording Scripts | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Allied Health Video Audit Recording Scripts
+        </div>
+        <h1 class="doc-title">Allied Health Video Audit Recording Scripts</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Content / Outreach / 2026-04-13-allied-health-audits</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="allied-health-video-audit-recording-scripts">Allied Health Video Audit Recording Scripts</h1>
+<p><strong>Date:</strong> 2026-04-13</p>
+<p><strong>Goal:</strong> Record three 3-5 minute screen-recorded audits, attach/link each one in Gmail, and send today.</p>
+<p><strong>Booking link:</strong> <code>booking.nunyabunya.com</code></p>
+<p><strong>NB site:</strong> <code>nunyabunya.com</code></p>
+<hr>
+<h2 id="recording-rules">Recording Rules</h2>
+<ul>
+<li>Keep each video between 3 and 5 minutes.</li>
+<li>Be helpful, not performative.</li>
+<li>Talk like a business owner, not a designer dunking on a website.</li>
+<li>Start with: &quot;I made this because I think there are a few simple fixes here that could turn more visitors into booked appointments.&quot;</li>
+<li>End with one specific next step: &quot;If helpful, book a free audit at booking.nunyabunya.com and I can map the fixes in order.&quot;</li>
+<li>Do not overwhelm them with every issue. Give 3-4 useful observations.</li>
+<li>Mention that these are fixable, not fatal.</li>
+</ul>
+<hr>
+<h2 id="universal-3-5-minute-structure">Universal 3-5 Minute Structure</h2>
+<h3 id="000-020-warm-open">0:00-0:20 — Warm Open</h3>
+<blockquote>Hey, this is Ben from Nunya Bunya. I made a quick video because I noticed a few things on your site that could be costing you bookings. None of this is a criticism of the practice itself. This is just about making the website do a better job of turning visitors into appointments.</blockquote>
+<h3 id="020-120-first-impression">0:20-1:20 — First Impression</h3>
+<ul>
+<li>Say what the visitor likely sees or feels in the first 5 seconds.</li>
+<li>Point out whether the main action is obvious.</li>
+<li>Ask the practical question: &quot;If someone is in pain and wants help today, what do they click?&quot;</li>
+</ul>
+<h3 id="120-240-conversion-friction">1:20-2:40 — Conversion Friction</h3>
+<ul>
+<li>Show the booking/contact path.</li>
+<li>Point out missing or buried booking buttons.</li>
+<li>Point out where trust proof should appear before the user has to search.</li>
+</ul>
+<h3 id="240-340-trust-local-proof">2:40-3:40 — Trust + Local Proof</h3>
+<ul>
+<li>Look for testimonials, Google reviews, practitioner credibility, service pages, location clarity.</li>
+<li>Explain that allied health buyers want reassurance before they book.</li>
+</ul>
+<h3 id="340-430-simple-fixes">3:40-4:30 — Simple Fixes</h3>
+<ul>
+<li>Summarize 3 changes:</li>
+<li>Make the booking action impossible to miss.</li>
+<li>Put trust proof higher.</li>
+<li>Simplify the page path so visitors know what to do next.</li>
+</ul>
+<h3 id="430-500-close">4:30-5:00 — Close</h3>
+<blockquote>I’m not saying the whole site needs to be rebuilt from scratch. I think there are a few focused changes that would make it clearer, faster, and more likely to convert. If you want, I’ve put a free audit booking link at booking.nunyabunya.com and I can walk through what I’d fix first.</blockquote>
+<hr>
+<h2 id="prospect-1-vitalis-physiotherapy">Prospect 1 — Vitalis Physiotherapy</h2>
+<p><strong>Email:</strong> <code>info@vitalisphysiotherapy.com.au</code></p>
+<p><strong>Website:</strong> <code>vitalisphysiotherapy.com.au</code></p>
+<p><strong>Known talking points:</strong></p>
+<ul>
+<li>Website score: <code>4/10</code>.</li>
+<li>No obvious booking path.</li>
+<li>No testimonials/trust proof visible enough.</li>
+<li>The site does not quickly answer: &quot;Why this clinic, and how do I book?&quot;</li>
+</ul>
+<h3 id="word-for-word-audit-flow">Word-For-Word Audit Flow</h3>
+<ol>
+<li>Open the homepage.</li>
+</ol>
+<blockquote>First impression: this is clean enough, but the big question is, where do I book? I am looking at the homepage and there is no obvious booking button. For a physio clinic, that is the main action. If someone is in pain and ready to make an appointment, the site should make that next step impossible to miss.</blockquote>
+<ol>
+<li>Scroll through the homepage.</li>
+</ol>
+<blockquote>The other thing I am not seeing is trust proof. No testimonials, no patient stories, no obvious review snippets. If I am a new patient, I am asking: why should I trust this clinic over the five others in my suburb?</blockquote>
+<ol>
+<li>Search Google for <code>physio Sinnamon Park</code>.</li>
+</ol>
+<blockquote>This is where the website starts to matter beyond design. People are searching locally, comparing quickly, and choosing the clinic that looks easiest to trust and easiest to book. If competitors are showing up more clearly here, that is a patient acquisition problem.</blockquote>
+<ol>
+<li>Check mobile version.</li>
+</ol>
+<blockquote>On mobile, this matters even more. Most people are probably checking this from their phone, and the booking action still needs to be immediate. If they have to hunt for it, a lot of people simply bounce.</blockquote>
+<ol>
+<li>Recommend the fix.</li>
+</ol>
+<blockquote>The fix here is straightforward: embedded booking, a few real patient reviews or patient stories, and some useful blog content so the clinic can start showing up more consistently on Google.</blockquote>
+<h3 id="close-line">Close Line</h3>
+<blockquote>The opportunity here is not fancy marketing. It is making the next step obvious for someone who already needs physio and is comparing options quickly.</blockquote>
+<hr>
+<h2 id="prospect-2-the-bianchi-clinic-dr-jarad-bianchi">Prospect 2 — The Bianchi Clinic / Dr Jarad Bianchi</h2>
+<p><strong>Email:</strong> <code>jarad.bianchi@gmail.com</code></p>
+<p><strong>Website:</strong> <code>drbianchi.net</code></p>
+<p><strong>Known talking points:</strong></p>
+<ul>
+<li>Website score: <code>4/10</code>.</li>
+<li>Wix site.</li>
+<li>No clear booking button.</li>
+<li>No Instagram/social presence visible.</li>
+</ul>
+<h3 id="word-for-word-audit-flow">Word-For-Word Audit Flow</h3>
+<ol>
+<li>Open the homepage.</li>
+</ol>
+<blockquote>First impression: this looks okay, but it feels more like a brochure than a business tool. It is built on Wix, which is not automatically a problem, but right now it is mostly presenting information rather than actively helping someone become a patient.</blockquote>
+<ol>
+<li>Try to book.</li>
+</ol>
+<blockquote>This is the biggest issue: there is no clear booking button. I have to somehow know to go to BookitLive separately. That is a broken funnel. If someone is ready to book, the site should not make them solve a puzzle.</blockquote>
+<ol>
+<li>Highlight credentials.</li>
+</ol>
+<blockquote>The impressive thing here is the credentials. Eighteen years of experience, a Masters in Chiropractic, and Chinese Medicine as well. That is genuinely strong positioning, but the site buries it. This should be front and centre because it is one of the main reasons someone would choose this clinic.</blockquote>
+<ol>
+<li>Search Instagram.</li>
+</ol>
+<blockquote>I also cannot see an Instagram presence. Your competitors are posting educational content, showing up in feeds, and getting found daily. You do not need to become an influencer, but some simple educational content would make the practice feel more visible and alive.</blockquote>
+<ol>
+<li>Recommend the fix.</li>
+</ol>
+<blockquote>The fix is to turn this from a static brochure into a patient funnel: clear booking, credentials up front, stronger trust proof, and a simple content presence that helps people find you before they need you urgently.</blockquote>
+<h3 id="close-line">Close Line</h3>
+<blockquote>You&#x27;re the most qualified practitioner I&#x27;ve looked at today and the least visible online. The site does not need to become complicated. It just needs to make you look as trustworthy online as you probably are in person.</blockquote>
+<hr>
+<h2 id="prospect-3-spine-institute">Prospect 3 — Spine Institute</h2>
+<p><strong>Email:</strong> <code>info@spineinstitute.au</code></p>
+<p><strong>Website:</strong> <code>spineinstitute.au</code></p>
+<p><strong>Known talking points:</strong></p>
+<ul>
+<li>Website score: <code>5/10</code>.</li>
+<li>Slow site.</li>
+<li>Booking goes to external HotDoc.</li>
+<li>Reviews/trust proof are buried.</li>
+</ul>
+<h3 id="word-for-word-audit-flow">Word-For-Word Audit Flow</h3>
+<ol>
+<li>Open the homepage and time the page load out loud.</li>
+</ol>
+<blockquote>I am going to time the load here because speed really matters for a clinic website. That took X seconds. Every second over about three seconds can cost you patients, especially on mobile, because people are impatient and usually comparing multiple clinics.</blockquote>
+<ol>
+<li>Find the Google Reviews widget.</li>
+</ol>
+<blockquote>You do have reviews, which is great, but they are buried down here. Nobody should have to scroll this far to find proof that the clinic is trusted. This kind of trust signal should be much higher, ideally before someone is asked to book.</blockquote>
+<ol>
+<li>Click Book.</li>
+</ol>
+<blockquote>When I click book, this sends me off to HotDoc. HotDoc is fine as a tool, but right now you have lost control of the patient journey. Ideally, this should feel embedded or at least much more seamless, so the visitor still feels like they are dealing with Spine Institute, not being passed somewhere else.</blockquote>
+<ol>
+<li>Check Instagram.</li>
+</ol>
+<blockquote>Instagram is interesting here. You have 137 posts and 401 followers, so you are putting in effort. But the return does not look proportional to the work. That is usually a strategy problem, not a content problem. It means the content needs a clearer role: education, trust-building, patient questions, and local visibility.</blockquote>
+<ol>
+<li>Recommend the fix.</li>
+</ol>
+<blockquote>The fix here is not starting from zero. It is making the existing work perform better: faster site, stronger review placement, smoother booking, and a content strategy that turns effort into actual patient trust and enquiries.</blockquote>
+<h3 id="close-line">Close Line</h3>
+<blockquote>You&#x27;re doing more than most clinics. You just need it to work harder for you. This is closer than the others, but there is probably a lot of conversion value in speed, clearer booking flow, and moving proof higher.</blockquote>
+<hr>
+<h2 id="after-recording">After Recording</h2>
+<p>For each prospect:</p>
+<ul>
+<li>Upload video somewhere shareable.</li>
+<li>Paste video link into the Gmail draft.</li>
+<li>Add one sentence above the link: &quot;I recorded a quick 3-5 minute walkthrough here.&quot;</li>
+<li>Send the email.</li>
+<li>Log status below.</li>
+</ul>
+<hr>
+<h2 id="send-tracker">Send Tracker</h2>
+<div class="table-wrap"><table><thead><tr><th>Prospect</th><th>Video Recorded</th><th>Link Added</th><th>Email Sent</th><th>Follow-Up Date</th></tr></thead><tbody><tr><td>Vitalis Physiotherapy</td><td><span class="cb cb-empty">&#9744;</span></td><td><span class="cb cb-empty">&#9744;</span></td><td><span class="cb cb-empty">&#9744;</span></td><td>2026-04-16</td></tr><tr><td>The Bianchi Clinic</td><td><span class="cb cb-empty">&#9744;</span></td><td><span class="cb cb-empty">&#9744;</span></td><td><span class="cb cb-empty">&#9744;</span></td><td>2026-04-16</td></tr><tr><td>Spine Institute</td><td><span class="cb cb-empty">&#9744;</span></td><td><span class="cb cb-empty">&#9744;</span></td><td><span class="cb cb-empty">&#9744;</span></td><td>2026-04-16</td></tr></tbody></table></div>
+<hr>
+<h2 id="follow-up-template">Follow-Up Template</h2>
+<p>Subject: quick follow-up</p>
+<p>Hi {{Name}},</p>
+<p>Just wanted to bump this in case it got buried.</p>
+<p>I recorded the quick website audit because I think there are a few practical fixes that could help more visitors turn into bookings.</p>
+<p>No pressure at all, but if it is useful, you can book a free audit here:</p>
+<p>booking.nunyabunya.com</p>
+<p>Cheers,</p>
+<p>Ben</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Content/Outreach/2026-04-13-allied-health-audits/RECORDING-SCRIPTS.md</div>
+    </main>
+  </div>
+</body>
+</html>

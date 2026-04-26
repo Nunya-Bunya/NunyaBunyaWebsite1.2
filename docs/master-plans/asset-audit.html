@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COMPREHENSIVE ASSET AUDIT | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          COMPREHENSIVE ASSET AUDIT
+        </div>
+        <h1 class="doc-title">COMPREHENSIVE ASSET AUDIT</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="comprehensive-asset-audit">COMPREHENSIVE ASSET AUDIT</h1>
+<p><strong>Generated:</strong> 2026-04-19</p>
+<p><strong>Workspace:</strong> <code>/Users/benalekconner/Desktop/MASTER WORKSPACE/</code></p>
+<hr>
+<h2 id="1-nunya-bunya-main-business">1. NUNYA BUNYA (Main Business)</h2>
+<h3 id="website">Website</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Location</strong></td><td><code>01-Nunya Bunya/Site/nunyabunya-site/</code></td></tr><tr><td><strong>Framework</strong></td><td>Static HTML + CSS + JS (no build step)</td></tr><tr><td><strong>Domain</strong></td><td>nunyabunya.com</td></tr><tr><td><strong>Deployed</strong></td><td>YES - Vercel (<code>vercel.json</code> present, cleanUrls enabled)</td></tr><tr><td><strong>Total HTML pages</strong></td><td>97 (top-level)</td></tr><tr><td><strong>Admin pages (NBHQ)</strong></td><td>37 (<code>nb-admin-*.html</code>)</td></tr><tr><td><strong>Blog posts</strong></td><td>5 (2026-trend-report, ai-brisbane-trivia-machine, do-i-need-a-website, seo-basics-small-business, small-business-marketing-mistakes)</td></tr><tr><td><strong>Case studies</strong></td><td>3 (Zinia, Pawesome, Conner)</td></tr><tr><td><strong>Landing/offer pages</strong></td><td>~15 (free-audit, free-consultation, free-marketing-audit, free-strategy-session, lead-magnet, landing, bfk, brand-bible, brand-bundle, package-campaign/enterprise/growth/launch/scale/start/starter)</td></tr><tr><td><strong>Product pages</strong></td><td>digital-twin-builder, brand-kit-generator, brand-bible-v2, business-foundation-kit, products</td></tr><tr><td><strong>SEO pages</strong></td><td>seo-brisbane-small-business, marketing-agency-brisbane, social-media-management-brisbane</td></tr><tr><td><strong>Ads (HTML)</strong></td><td>3 templates (landscape, reddit, square) + 24 generated ad images in <code>ads/generated/</code></td></tr><tr><td><strong>Images</strong></td><td>265 files in <code>images/</code> directory</td></tr><tr><td><strong>Sample Brand Bible pages</strong></td><td>20 PNG previews in <code>sample-bb-pages/</code></td></tr><tr><td><strong>Supabase</strong></td><td>Migrations folder present</td></tr><tr><td><strong>Dev server</strong></td><td><code>dev-server.mjs</code></td></tr></tbody></table></div>
+<h3 id="brand-assets">Brand Assets</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Brand Bible PDF</strong></td><td><code>01-Nunya Bunya/Brand Assets/NB-01-Brand-Bible.pdf</code> + PNG</td></tr><tr><td><strong>Style Guide</strong></td><td><code>Brand Assets/Style Guide/NB-03-Style-Guide.png</code></td></tr><tr><td><strong>BFK HTML</strong></td><td><code>Brand Assets/NunyaBunya-BFK.html</code></td></tr><tr><td><strong>Social Profile Kit</strong></td><td>9 images (Facebook, Instagram, LinkedIn, Twitter, YouTube - profile + cover for each) in <code>Social Media Assets/</code></td></tr><tr><td><strong>Social Profile Kit PDF</strong></td><td><code>NB-04-Social-Profile-Kit.pdf</code></td></tr><tr><td><strong>Social Templates</strong></td><td>3 PNGs (IG Opinion, IG Tips, LinkedIn) + PDF (<code>NB-07-Social-Templates.pdf</code>)</td></tr><tr><td><strong>Launch Content</strong></td><td><code>NB-05-Elevator-Pitch-Bios.pdf</code>, <code>NB-06-Launch-Content.pdf</code></td></tr><tr><td><strong>DB Schema docs</strong></td><td>Business plans, competitive analysis, SEO strategy, style guides, SWOT for NB, PP, and BAC in <code>Site/_db-schema/brand-docs/</code></td></tr></tbody></table></div>
+<h3 id="photos-content-bank">Photos (Content Bank)</h3>
+<div class="table-wrap"><table><thead><tr><th>Folder</th><th>Contents</th></tr></thead><tbody><tr><td><code>00-ready-to-use/</code></td><td>(empty or minimal)</td></tr><tr><td><code>01-ai-to-rework/nunya-bunya-brand-scenes/</code></td><td>5 PNGs (entrepreneur, shopowner, dashboard, workspace, freedom)</td></tr><tr><td><code>04-website-photo-library/</code></td><td>Photo libraries for: bella-rhyder, brisbane-zinia-massage, pawesome-dog-walkers, conner-injury-law</td></tr><tr><td><code>05-audio-library/</code></td><td>8 audio tracks (indie-pop, gameshow-modern, lofi-mystery, cinematic-pulse, jazzy-swing, funky-trivia, retro-arcade, tropical-bounce)</td></tr></tbody></table></div>
+<h3 id="lead-magnets">Lead Magnets</h3>
+<div class="table-wrap"><table><thead><tr><th>File</th><th>Format</th></tr></thead><tbody><tr><td>Zero-Dollar-Marketing-Stack</td><td>PDF</td></tr><tr><td>What-Even-Is-Good-Marketing</td><td>PDF</td></tr><tr><td>Social-Media-Audit-Checklist</td><td>HTML + PDF</td></tr><tr><td>Client Proposal Template</td><td>PDF + PNG</td></tr><tr><td>Pricing One-Pager</td><td>PDF + PNG</td></tr><tr><td>Free advice posts</td><td>MD</td></tr><tr><td>Free plans (Zinia)</td><td>HTML + JSON + logo</td></tr><tr><td><code>generate<em>lead</em>magnet.py</code></td><td>Python script</td></tr></tbody></table></div>
+<h3 id="email-sequences">Email Sequences</h3>
+<div class="table-wrap"><table><thead><tr><th>Sequence</th><th>Location</th><th>Status</th></tr></thead><tbody><tr><td>Welcome sequence (3 emails)</td><td><code>Email Sequences/welcome-sequence.md</code></td><td>Written (Mautic-ready)</td></tr><tr><td>Nurture sequence (post-drip, biweekly)</td><td><code>Email Sequences/nurture-sequence.md</code></td><td>Written</td></tr><tr><td>BFK email sequences</td><td><code>Tools/marketing-stack/scripts/bfk<em>email</em>sequence.json</code></td><td>JSON config</td></tr><tr><td>Upsell email sequences</td><td><code>Tools/marketing-stack/scripts/upsell<em>email</em>sequences.json</code></td><td>JSON config</td></tr></tbody></table></div>
+<h3 id="content-amp-social">Content &amp; Social</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>30-day content plan</strong></td><td><code>nb-30-day-content-april-2026.md</code></td></tr><tr><td><strong>Campaigns</strong></td><td><code>Campaigns/lead-engine/</code></td></tr><tr><td><strong>Ad creatives</strong></td><td><code>Ads/start-your-business-ads.html</code></td></tr><tr><td><strong>Social campaign assets</strong></td><td><code>Social Media Assets/Campaigns/</code></td></tr><tr><td><strong>Outreach</strong></td><td><code>Outreach/2026-04-13-allied-health-audits/</code></td></tr></tbody></table></div>
+<h3 id="marketing-infrastructure-hetzner-stack">Marketing Infrastructure (Hetzner Stack)</h3>
+<div class="table-wrap"><table><thead><tr><th>Tool</th><th>Location</th><th>Status</th></tr></thead><tbody><tr><td><strong>Docker Compose</strong></td><td><code>Tools/marketing-stack/docker-compose.yml</code></td><td>Deployed on Hetzner (5.223.79.5)</td></tr><tr><td><strong>Mautic</strong></td><td><code>Tools/marketing-stack/mautic/</code></td><td>Drip sequences JSON, 2 email templates (welcome drip, newsletter), campaign configs</td></tr><tr><td><strong>Traefik</strong></td><td><code>Tools/marketing-stack/traefik/</code></td><td>Reverse proxy</td></tr><tr><td><strong>Matomo</strong></td><td><code>Tools/marketing-stack/matomo/</code></td><td>Analytics</td></tr><tr><td><strong>Metabase</strong></td><td><code>Tools/marketing-stack/metabase/</code></td><td>Reporting</td></tr><tr><td><strong>Twenty CRM</strong></td><td><code>Tools/marketing-stack/twenty/</code></td><td>CRM</td></tr><tr><td><strong>Shlink</strong></td><td><code>Tools/marketing-stack/shlink/</code></td><td>Short links</td></tr><tr><td><strong>MySQL</strong></td><td><code>Tools/marketing-stack/mysql/</code></td><td>Database</td></tr><tr><td><strong>Landing pages (stack)</strong></td><td>9 HTML pages across 4 brands (NB: 4, PP: 2, BAC: 2, voice-memo: 1)</td></tr><tr><td><strong>Mautic provisioning</strong></td><td><code>scripts/provision_mautic.py</code></td></tr><tr><td><strong>Metabase provisioning</strong></td><td><code>scripts/provision_metabase.py</code></td></tr></tbody></table></div>
+<h3 id="n8n-workflows">n8n Workflows</h3>
+<div class="table-wrap"><table><thead><tr><th>Workflow</th><th>File</th></tr></thead><tbody><tr><td>Blog to tweets</td><td><code>n8n<em>workflow</em>blog<em>to</em>tweets.json</code></td></tr><tr><td>Tweet poster</td><td><code>n8n<em>workflow</em>tweet_poster.json</code></td></tr><tr><td>Tweet approval</td><td><code>n8n<em>workflow</em>tweet_approval.json</code></td></tr><tr><td>Tweet engagement</td><td><code>n8n<em>workflow</em>tweet_engagement.json</code></td></tr><tr><td>Tweet metrics</td><td><code>n8n<em>workflow</em>tweet_metrics.json</code></td></tr><tr><td>BFK payment</td><td><code>n8n<em>workflow</em>bfk_payment.json</code></td></tr><tr><td>BFK survey</td><td><code>n8n<em>workflow</em>bfk_survey.json</code></td></tr><tr><td>BFK upgrade</td><td><code>n8n<em>workflow</em>bfk_upgrade.json</code> + email variant</td></tr><tr><td>ORCA article publish</td><td><code>n8n<em>workflow</em>orca<em>article</em>publish.json</code></td></tr><tr><td>Organic engine</td><td><code>n8n<em>workflow</em>organic_engine.json</code></td></tr><tr><td>Slack inbox</td><td><code>n8n<em>workflow</em>slack_inbox.json</code> + reply variant</td></tr><tr><td>Upsell checkout/payment</td><td>2 workflows</td></tr><tr><td>Social poster</td><td><code>social_poster.py</code></td></tr><tr><td>Playbook agents</td><td>11 JSON agent workflows (payment, offer, outbound, attention, conversation, distribution, analytics, content, media, optimization, signal) + orchestrator + approval notifier</td></tr></tbody></table></div>
+<h3 id="nunyabunya-agents">NunyaBunya Agents</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Count</th></tr></thead><tbody><tr><td><strong>Agent Directives (.md)</strong></td><td>120</td></tr><tr><td><strong>Agent Execution Scripts (.py)</strong></td><td>164</td></tr><tr><td><strong>Key agents</strong></td><td>Brand Bible pipeline (17 agents: bb<em>executive</em>summary, bb<em>brand</em>personality, bb<em>visual</em>identity, bb<em>services</em>pricing, bb<em>customer</em>personas, bb<em>marketing</em>growth, bb<em>content</em>calendar, bb<em>email</em>playbook, bb<em>ads</em>playbook, bb<em>competitive</em>usp, bb<em>financial</em>projections, bb<em>five</em>year<em>vision, bb</em>operations<em>risk, bb</em>founder<em>identity, bb</em>brand<em>assets, bb</em>toolkit, bb<em>market</em>analysis + combiner + reviewer)</td></tr><tr><td><strong>Other notable agents</strong></td><td>website<em>generator, case</em>study<em>generator, pitch</em>deck<em>agent, logo</em>package<em>builder, digital</em>twin<em>builder, ad</em>factory, content_machine, video production suite (12 video agents), social agents, SEO agents, lead qualification</td></tr><tr><td><strong>Config</strong></td><td><code>client_configs.json</code>, <code>config.py</code>, <code>requirements.txt</code>, <code>main.py</code></td></tr><tr><td><strong>Templates</strong></td><td>Case study template, brand bible template, style guide template, ad templates</td></tr><tr><td><strong>Dashboard</strong></td><td><code>dashboard/</code> directory</td></tr><tr><td><strong>Publishing</strong></td><td><code>publishing/</code> directory</td></tr><tr><td><strong>Sales assets</strong></td><td><code>sales_assets/</code> directory</td></tr></tbody></table></div>
+<h3 id="python-scripts-root-level-nb">Python Scripts (Root-level NB)</h3>
+<div class="table-wrap"><table><thead><tr><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td><code>generate_calendar.py</code></td><td>Content calendar generator</td></tr><tr><td><code>Tools/monthly_report.py</code></td><td>Monthly reporting</td></tr><tr><td><code>Lead Magnets/generate<em>lead</em>magnet.py</code></td><td>Lead magnet PDF generator</td></tr><tr><td><code>Templates/setup<em>new</em>client.py</code></td><td>Client setup automation</td></tr><tr><td><code>Templates/generate<em>post</em>bank.py</code></td><td>Post bank generator</td></tr><tr><td><code>Templates/onboard_client.py</code></td><td>Client onboarding</td></tr></tbody></table></div>
+<h3 id="documentation">Documentation</h3>
+<div class="table-wrap"><table><thead><tr><th>Document</th><th>Location</th></tr></thead><tbody><tr><td>AGENCY-OS.md</td><td>Root strategy doc</td></tr><tr><td>MASTER-INDEX.md</td><td>Central index</td></tr><tr><td>FOLDER-MAP.md</td><td>Directory structure</td></tr><tr><td>SOURCE-OF-TRUTH.md</td><td>Single source of truth</td></tr><tr><td>OFFER-ARCHITECTURE.md</td><td>Offer strategy</td></tr><tr><td>OFFER-DISSEMINATION-ENGINE.md</td><td>Offer distribution</td></tr><tr><td>EMAIL-CAMPAIGN-ARCHITECTURE.md</td><td>Email strategy</td></tr><tr><td>ESSENTIAL-DOCUMENTS.md</td><td>Required docs list</td></tr><tr><td>CLIENT-FOLDER-TEMPLATE.md</td><td>Client folder structure</td></tr><tr><td>SURVEY-REDESIGN.md</td><td>BFK survey redesign</td></tr><tr><td>RESTRUCTURE-PLAN.md</td><td>Organization plan</td></tr><tr><td>SOPs (8 categories)</td><td>Ads, Client Onboarding, Content Production, Lead Gen, Marketing Strategy, Reporting, Reputation, SEO, Sales &amp; Proposals, System Setup</td></tr><tr><td>SOP Index</td><td><code>SOPs/SOP_INDEX.md</code></td></tr><tr><td>Products docs</td><td><code>Products/SETUP-BFK.md</code>, <code>Products/business-foundation-survey.md</code></td></tr><tr><td>Client contract</td><td><code>Documents/CLIENT CONTRACT.md</code></td></tr><tr><td>Various guides</td><td>DIY Marketing Stack, New Client Setup, Post-Setup SOPs</td></tr></tbody></table></div>
+<h3 id="env-files">.env Files</h3>
+<div class="table-wrap"><table><thead><tr><th>Location</th><th>Purpose</th></tr></thead><tbody><tr><td><code>/.env</code> (workspace root)</td><td>Main API keys</td></tr><tr><td><code>00-Ben HQ/marketing-stack/.env</code></td><td>Hetzner stack credentials</td></tr><tr><td><code>00-Ben HQ/NunyaBunyaAgents/.env</code></td><td>Agent API keys</td></tr><tr><td><code>01-Nunya Bunya/Tools/NEW AGENT - TREND REPORT/.env</code></td><td>Trend report agent keys</td></tr></tbody></table></div>
+<hr>
+<h2 id="2-power-portraits">2. POWER PORTRAITS</h2>
+<h3 id="website">Website</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Main site location</strong></td><td><code>02-Power Portraits/03-site/Site/</code></td></tr><tr><td><strong>Landing page</strong></td><td><code>02-Power Portraits/03-site/landing-page/</code></td></tr><tr><td><strong>Framework</strong></td><td>Static HTML</td></tr><tr><td><strong>Deployed</strong></td><td>YES - Vercel (<code>.vercel/</code> in both Site and landing-page)</td></tr><tr><td><strong>Main site pages</strong></td><td>18 HTML (index, index_v2, blog, blog-post, corporate-photography-brisbane, headshot-photographer-brisbane, portrait-photographer-gold-coast, family-special, checkout-success, lead-magnet, thankyou, mood-board, waitlist, landing, assets/posing-guide + 3 ad HTML)</td></tr><tr><td><strong>Landing page</strong></td><td>1 page (waitlist with API endpoint <code>api/waitlist.js</code>)</td></tr><tr><td><strong>SEO pages</strong></td><td>3 (corporate-photography-brisbane, headshot-photographer-brisbane, portrait-photographer-gold-coast)</td></tr><tr><td><strong>Top-level folder</strong></td><td><code>05-Power Portraits/</code> -- EMPTY (only .DS_Store)</td></tr></tbody></table></div>
+<h3 id="brand-assets">Brand Assets</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Logos</strong></td><td>5 PNGs (logo-primary, pp-icon-1, pp-icon-2, pp-monogram-1, pp-wordmark-1)</td></tr><tr><td><strong>AI-Generated brand photos</strong></td><td>5 (corporate, family, headshot, bts, executive)</td></tr><tr><td><strong>Brand Style Guide</strong></td><td><code>01-strategy/Documents/BRAND STYLE GUIDE.md</code> + HTML</td></tr><tr><td><strong>brand.json</strong></td><td><code>01-strategy/brand.json</code></td></tr><tr><td><strong>Source of Truth</strong></td><td><code>01-strategy/SOURCE-OF-TRUTH.md</code></td></tr></tbody></table></div>
+<h3 id="photos">Photos</h3>
+<div class="table-wrap"><table><thead><tr><th>Folder</th><th>Count</th></tr></thead><tbody><tr><td><strong>Raw photos</strong></td><td>39 (ad concepts, BTS shots, portfolio shots, hero images, details)</td></tr><tr><td><strong>Approved photos</strong></td><td>5</td></tr><tr><td><strong>Content Bank (NB)</strong></td><td>Campaign cuts (7 images) + AI photoshoot in <code>04-website-photo-library/</code></td></tr></tbody></table></div>
+<h3 id="lead-magnets">Lead Magnets</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Format</th></tr></thead><tbody><tr><td>Posing Guide</td><td>PDF + HTML + MD</td></tr><tr><td>Session Proposal Template</td><td>PDF + PNG</td></tr></tbody></table></div>
+<h3 id="content">Content</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Email sequences</strong></td><td>Welcome sequence (MD), Post-session review request (MD)</td></tr><tr><td><strong>30-day content plan</strong></td><td><code>pp-30-day-content-april-2026.md</code></td></tr><tr><td><strong>Post bank</strong></td><td><code>post-bank.json</code></td></tr><tr><td><strong>Content calendar generator</strong></td><td><code>generate_calendar.py</code></td></tr><tr><td><strong>Ads</strong></td><td>4 HTML (family-special-ads, family-special-ads-v2, comparison-gemini-vs-html, email-sequence-preview) + 3 site ad templates</td></tr></tbody></table></div>
+<h3 id="marketing-infrastructure">Marketing Infrastructure</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Landing pages (Hetzner)</strong></td><td>2 (portrait-day-waitlist, book-your-session)</td></tr><tr><td><strong>Mautic integration</strong></td><td>Via NB marketing stack</td></tr></tbody></table></div>
+<h3 id="documents">Documents</h3>
+<div class="table-wrap"><table><thead><tr><th>Document</th><th>Location</th></tr></thead><tbody><tr><td>BUSINESS PLAN.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>SERVICE PACKAGES.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>CONTENT CALENDAR.md + PDF</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>EMAIL TEMPLATES.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>EMAIL SEQUENCES.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>FINANCIAL PROJECTIONS.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>CLIENT ONBOARDING.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>SESSION PREP GUIDE.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>CLIENT INTAKE FORM.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>PHOTO RELEASE FORM.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>GALLERY DELIVERY TEMPLATE.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>SERVICE AGREEMENT TEMPLATE.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>BOOKING CONFIRMATION TEMPLATE.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>INVOICE TEMPLATE.html</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>EMAIL SIGNATURE.html</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>CORPORATE PACKAGE PROPOSAL.html</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>ELEVATOR PITCH.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>SOCIAL MEDIA STRATEGY.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>BUSINESS FOUNDATION.md</td><td><code>01-strategy/Documents/</code></td></tr><tr><td>MASTER-ACTIONS.md</td><td><code>01-strategy/</code></td></tr><tr><td>DONE.md</td><td><code>01-strategy/</code></td></tr><tr><td>BACKBURNER.md</td><td><code>01-strategy/</code></td></tr><tr><td>client-research.json</td><td><code>01-strategy/</code></td></tr></tbody></table></div>
+<hr>
+<h2 id="3-pawesome-dog-walkers">3. PAWESOME DOG WALKERS</h2>
+<h3 id="website">Website</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Location</strong></td><td><code>03-Pawesome Dog Walkers/03-site/website/</code></td></tr><tr><td><strong>Framework</strong></td><td>Static HTML</td></tr><tr><td><strong>Deployed</strong></td><td>YES - Vercel (<code>.vercel/</code> present) + Hostinger upload ZIP available</td></tr><tr><td><strong>Pages</strong></td><td>6 (index, about, contact, services, book, thankyou)</td></tr><tr><td><strong>Images</strong></td><td>AI photoshoot (10 images) + pawesome lifestyle (4 JPGs)</td></tr><tr><td><strong>brand.json</strong></td><td>In website root</td></tr></tbody></table></div>
+<h3 id="brand-assets">Brand Assets</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Logos</strong></td><td>6 (logo-primary, logo-secondary, pawesome-wordmark-1, pawesome-icon-1/2/3)</td></tr><tr><td><strong>Brand Bible</strong></td><td><code>02-brand/brand-bible/BRAND-BIBLE-v1.html</code></td></tr><tr><td><strong>Gemini v2 social assets</strong></td><td>10 (instagram-story, email-header, business-card-front/back, door-sign, youtube-banner, linkedin-banner, facebook-cover, instagram-post, twitter-header)</td></tr><tr><td><strong>brand.json</strong></td><td><code>01-strategy/brand.json</code></td></tr></tbody></table></div>
+<h3 id="photos">Photos</h3>
+<div class="table-wrap"><table><thead><tr><th>Source</th><th>Count</th></tr></thead><tbody><tr><td><strong>AI photoshoot</strong></td><td>10 PNGs (hero, services, details, atmosphere)</td></tr><tr><td><strong>Website live photos</strong></td><td>4 JPGs (hero-main, hero-detail, lifestyle-1, lifestyle-2)</td></tr><tr><td><strong>Download sources (Gemini)</strong></td><td>28 Gemini-generated images</td></tr><tr><td><strong>Gemini v2 social</strong></td><td>10 social template images</td></tr><tr><td><strong>Content Bank</strong></td><td>Campaign cuts (7) + AI photoshoot (10)</td></tr></tbody></table></div>
+<h3 id="also-pawsome-walks-brisbane-alternate-folder">Also: pawsome-walks-brisbane (Alternate Folder)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Brand Bible</strong></td><td><code>02-brand/brand-bible/BRAND-BIBLE.html</code> + <code>BFK-FINAL.html</code></td></tr><tr><td><strong>Content JSON</strong></td><td><code>content.json</code> + <code>content-calendar.json</code></td></tr><tr><td><strong>Logo variants</strong></td><td>7 (primary, on-dark, icon-only, reversed, mono-black, logo.png, cover-page)</td></tr><tr><td><strong>Persona images</strong></td><td>6 (persona-1/2/3, persona-marcus, persona-priya, persona-emma)</td></tr><tr><td><strong>Mood board images</strong></td><td>7</td></tr><tr><td><strong>Graphics package</strong></td><td>3 (brand-texture, brand-decorative, brand-pattern)</td></tr><tr><td><strong>Social templates</strong></td><td>instagram-story.png</td></tr></tbody></table></div>
+<h3 id="case-study">Case Study</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Location</strong></td><td><code>06-reporting/case-study/</code></td></tr><tr><td><strong>Files</strong></td><td>CASE-STUDY.html, metadata.json, before/after screenshots (5 each + cropped set)</td></tr><tr><td><strong>Live on NB site</strong></td><td>nunyabunya.com/case-study-pawesome.html</td></tr></tbody></table></div>
+<h3 id="content">Content</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Email sequences</strong></td><td>None found</td></tr><tr><td><strong>Content plans</strong></td><td>None found</td></tr><tr><td><strong>Campaigns</strong></td><td>Empty <code>04-campaigns/</code> folder</td></tr></tbody></table></div>
+<hr>
+<h2 id="4-orca-film-awards">4. ORCA FILM AWARDS</h2>
+<h3 id="website">Website</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Location</strong></td><td><code>04-ORCA Film Awards/03-site/website/</code></td></tr><tr><td><strong>Framework</strong></td><td>Vite + Tailwind (client-side SPA) + Node.js Express server</td></tr><tr><td><strong>Deployed</strong></td><td>YES - Vercel (<code>.vercel/</code> present, vercel.json)</td></tr><tr><td><strong>Total files</strong></td><td>343</td></tr><tr><td><strong>Client pages</strong></td><td>1 SPA (<code>client/index.html</code>)</td></tr><tr><td><strong>Server</strong></td><td>Express.js with routes: verify, admin, vote</td></tr><tr><td><strong>API endpoints</strong></td><td>10+ (emails, applications, health, verify, auth/google, results, request-vote, comments, apply, reveal, vote)</td></tr><tr><td><strong>Data files</strong></td><td>nominees.js, pastWinners.js, winners2026.js, cannes2026.js, unCertainRegard2026.js, articles.js, votes.json, tokens.json</td></tr><tr><td><strong>Scripts</strong></td><td>pulse-digest.js, buzz-pipeline.js, fetch-posters.js, enrich-tmdb.js</td></tr><tr><td><strong>Supabase integration</strong></td><td><code>client/src/lib/supabase.js</code></td></tr><tr><td><strong>SQL setup</strong></td><td><code>scripts/setup-comments-db.sql</code></td></tr><tr><td><strong>Top-level folder</strong></td><td><code>04-ORCA Film Awards/</code> -- 3 static files (index.html, robots.txt, sitemap.xml) + 6 docs (old placeholder site)</td></tr><tr><td><strong>.env</strong></td><td>Present in website root</td></tr></tbody></table></div>
+<h3 id="brand-assets">Brand Assets</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Logos</strong></td><td>4 files (main logo JPG, 2 social JPGs, logo concepts PDF)</td></tr><tr><td><strong>Brand Bible</strong></td><td>HTML + PDF (<code>02-brand/Brand Bible/2026-03/</code>)</td></tr><tr><td><strong>Style Guide</strong></td><td>HTML + PDF (<code>02-brand/Style Guide/2026-03/</code>)</td></tr><tr><td><strong>brand.json</strong></td><td><code>01-strategy/brand.json</code></td></tr></tbody></table></div>
+<h3 id="award-images">Award Images</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Count</th></tr></thead><tbody><tr><td><strong>2024 awards</strong></td><td>~20 PNGs (Picture, Director, Actor, Actress, Supporting Actor/Actress, Cinematography, Editing, VFX, Score, Original Song, Documentary, Animated, Costume Design, Production Design, Hair/Makeup, Sound Design, Scene, Animal/Non-Human Performance)</td></tr><tr><td><strong>2025 awards</strong></td><td>~20 JPGs (same categories)</td></tr><tr><td><strong>Total award images</strong></td><td>40</td></tr><tr><td><strong>Ballots</strong></td><td>16 PDFs (nominations ballots + voting PDFs)</td></tr></tbody></table></div>
+<h3 id="lead-magnets">Lead Magnets</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Format</th></tr></thead><tbody><tr><td>50 Underseen Films Guide</td><td>PDF + Python builder script</td></tr><tr><td>Film Festival Submission Checklist</td><td>PDF (deprecated — INCORRECT, ORCA does not accept submissions) + Python builder. Do not use or promote.</td></tr></tbody></table></div>
+<h3 id="content">Content</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>30-day content plan</strong></td><td><code>orca-30-day-content-april-2026.md</code></td></tr><tr><td><strong>Posting station</strong></td><td><code>orca-posting-station.html</code></td></tr><tr><td><strong>Post bank</strong></td><td><code>post-bank.json</code></td></tr><tr><td><strong>Launch content</strong></td><td>HTML + PDF (<code>05-content/Launch Content/2026-03/</code>)</td></tr><tr><td><strong>Email master list</strong></td><td>CSV (<code>Email List/ORCA-Master-Email-List.csv</code>)</td></tr><tr><td><strong>Social Profile Kit</strong></td><td>9 images (all platforms - profile + cover)</td></tr><tr><td><strong>Social media assets</strong></td><td>Vote-now poster grid HTML</td></tr></tbody></table></div>
+<h3 id="email-sequences">Email Sequences</h3>
+<div class="table-wrap"><table><thead><tr><th>Sequence</th><th>Location</th></tr></thead><tbody><tr><td>Welcome sequence</td><td><code>05-content/Email Sequences/welcome-sequence.md</code></td></tr><tr><td>Newsletter welcome sequence</td><td><code>05-content/Email Sequences/newsletter-welcome-sequence.md</code></td></tr><tr><td>Press crosspost email</td><td><code>05-content/Email Sequences/press-crosspost-email.md</code></td></tr><tr><td>Winners announcement email</td><td><code>05-content/Email Sequences/winners-announcement-email.md</code></td></tr></tbody></table></div>
+<h3 id="strategy-documents">Strategy Documents</h3>
+<div class="table-wrap"><table><thead><tr><th>Document</th><th>Location</th></tr></thead><tbody><tr><td>SOURCE-OF-TRUTH</td><td><code>01-strategy/ORCA-SOURCE-OF-TRUTH.md</code></td></tr><tr><td>brand.json</td><td><code>01-strategy/brand.json</code></td></tr><tr><td>client-research.json</td><td><code>01-strategy/client-research.json</code></td></tr><tr><td>2026 Roadmap</td><td><code>01-strategy/Roadmaps/2026/ORCA Film Awards - 2026 Roadmap.csv</code></td></tr><tr><td>Elevator Pitch</td><td>HTML + PDF</td></tr><tr><td>Business Plan</td><td>MD + HTML</td></tr><tr><td>Brand Style Guide</td><td>MD</td></tr><tr><td>Content Calendar</td><td>MD + PDF</td></tr><tr><td>Event Planning Checklist</td><td>MD + HTML</td></tr><tr><td>Sponsorship Tiers</td><td>MD + HTML</td></tr><tr><td>Sponsor Proposal Template</td><td>HTML</td></tr><tr><td>Award Certificate Template</td><td>HTML</td></tr><tr><td>Submission Guidelines</td><td>MD + HTML</td></tr><tr><td>Judge Scoring Rubric</td><td>MD + HTML</td></tr><tr><td>Press Kit</td><td>HTML</td></tr><tr><td>Best Picture contenders CSV</td><td>CSV</td></tr></tbody></table></div>
+<hr>
+<h2 id="5-ben-alek-conner-personal-brand">5. BEN ALEK CONNER (Personal Brand)</h2>
+<h3 id="website">Website</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Location</strong></td><td><code>02-Ben Alek Conner/benalekconner-site/</code> -- DOES NOT EXIST (empty, no files found)</td></tr><tr><td><strong>Referenced in memory</strong></td><td>Next.js + Tailwind, but no files present</td></tr><tr><td><strong>Landing pages (Hetzner)</strong></td><td>2 (free-consultation, work-with-me) in marketing stack</td></tr></tbody></table></div>
+<h3 id="brand-assets">Brand Assets</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Logo concepts</strong></td><td>PDF (<code>02-brand/Logos/2026-03/Ben<em>Alek</em>Conner<em>Logo</em>Concepts.pdf</code>)</td></tr><tr><td><strong>Brand Bible</strong></td><td>HTML + PDF (<code>02-brand/Brand Bible/2026-03/</code>)</td></tr><tr><td><strong>Style Guide</strong></td><td>HTML + PDF (<code>02-brand/Style Guide/2026-03/</code>)</td></tr><tr><td><strong>AI-Generated images</strong></td><td>15 (mix of Flux Fast and Gemini images)</td></tr><tr><td><strong>Personal photos</strong></td><td>4 JPGs in <code>02-brand/Photos/</code></td></tr></tbody></table></div>
+<h3 id="photos">Photos</h3>
+<div class="table-wrap"><table><thead><tr><th>Source</th><th>Count</th></tr></thead><tbody><tr><td><strong>Photography backup (archive)</strong></td><td>157 JPGs (weddings, portraits, kids/family, street/concerts/nightlife, branding, couples, home)</td></tr><tr><td><strong>AI-Generated</strong></td><td>15</td></tr><tr><td><strong>Personal photos</strong></td><td>4</td></tr></tbody></table></div>
+<h3 id="content">Content</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>YouTube scripts</strong></td><td>1 (<code>02-Ben Alek Conner/youtube-scripts/ep01-no-other-choice.md</code>)</td></tr></tbody></table></div>
+<h3 id="documents">Documents</h3>
+<div class="table-wrap"><table><thead><tr><th>Document</th><th>Location</th></tr></thead><tbody><tr><td>DB schema docs</td><td>Business plan, competitive analysis, style guide, SWOT in <code>Site/_db-schema/brand-docs/ben-alek-conner/</code></td></tr><tr><td>Source of Truth (archived)</td><td><code>99-archive/_REVIEW/SOURCE-OF-TRUTH.html</code></td></tr></tbody></table></div>
+<hr>
+<h2 id="6-conner-law-group-conner-injury-law">6. CONNER LAW GROUP / CONNER INJURY LAW</h2>
+<h3 id="conner-injury-law-website-amp-marketing">Conner Injury Law (Website &amp; Marketing)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Website location</strong></td><td><code>05-Conner Law/website/</code></td></tr><tr><td><strong>Framework</strong></td><td>Static HTML</td></tr><tr><td><strong>Deployed</strong></td><td>YES - Vercel (<code>vercel.json</code> present)</td></tr><tr><td><strong>Pages</strong></td><td>10 (index, about, contact, services, car-accidents, brain-injuries, workplace-injuries, crps, book, thankyou)</td></tr><tr><td><strong>Images</strong></td><td>78 files across multiple AI photoshoot versions (v4-film, v5-film-subtle)</td></tr><tr><td><strong>brand.json</strong></td><td>In website root</td></tr></tbody></table></div>
+<h3 id="brand-assets">Brand Assets</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Brand Bible</strong></td><td><code>02-brand/brand-bible/BRAND-BIBLE-v1.html</code></td></tr><tr><td><strong>Gemini v2 social assets</strong></td><td>10 (same set as Pawesome: instagram-story, email-header, business-cards, door-sign, social covers)</td></tr><tr><td><strong>Animated logos</strong></td><td>7 MP4 files (Midjourney animated logo concepts)</td></tr><tr><td><strong>Gemini logo concepts</strong></td><td>3 PNGs</td></tr><tr><td><strong>Total brand bible assets</strong></td><td>11 files</td></tr><tr><td><strong>Root import assets</strong></td><td>10 files</td></tr></tbody></table></div>
+<h3 id="case-study">Case Study</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Before screenshots</strong></td><td>8 (home, about, contact, free-assessment, practice-areas, kevinconnerlaw, connerinjurylaw, i5crash)</td></tr><tr><td><strong>AI Photo Review</strong></td><td><code>06-reporting/AI-PHOTO-REVIEW.md</code></td></tr><tr><td><strong>Live on NB site</strong></td><td>nunyabunya.com/case-study-conner.html</td></tr></tbody></table></div>
+<h3 id="content-bank-photos">Content Bank Photos</h3>
+<div class="table-wrap"><table><thead><tr><th>Source</th><th>Count</th></tr></thead><tbody><tr><td><strong>Campaign cuts</strong></td><td>9 (attorney, consultation, instagram, accident, gavel, skagit, i5, courtroom, justice)</td></tr><tr><td><strong>AI photoshoot</strong></td><td>10 (hero-attorney, hero-courtroom, detail-gavel, detail-handshake, scenes)</td></tr></tbody></table></div>
+<h3 id="conner-law-group-parent-entity">Conner Law Group (Parent Entity)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Top-level folder</strong></td><td><code>01-Conner Law Group/</code> -- EMPTY (only .DS_Store)</td></tr><tr><td><strong>Client folder</strong></td><td><code>05-Conner Law/</code></td></tr><tr><td><strong>MBCS Law branding</strong></td><td>Full brand package in <code>02-brand/4. MBCS/</code></td></tr><tr><td><strong>MBCS Brand Bible</strong></td><td>HTML + PDF</td></tr><tr><td><strong>MBCS Style Guide</strong></td><td>2 versions (2026-02, 2026-03) PDF + HTML</td></tr><tr><td><strong>MBCS Logo concepts</strong></td><td>PDF</td></tr><tr><td><strong>MBCS Elevator Pitch</strong></td><td>HTML + PDF</td></tr><tr><td><strong>MBCS Launch Content</strong></td><td>HTML + PDF</td></tr><tr><td><strong>MBCS Social Profile Kit</strong></td><td>9 images (all platforms)</td></tr><tr><td><strong>MBCS 2026 Roadmap</strong></td><td>CSV</td></tr><tr><td><strong>Branding images</strong></td><td>MerkelConner.png, BCMEDIALOGO.png, letterhead.png</td></tr><tr><td><strong>Lead Magnets</strong></td><td>Car-Accident-Checklist.pdf + builder script</td></tr><tr><td><strong>Campaign Plan</strong></td><td><code>04-campaigns/CAMPAIGN-PLAN.md</code></td></tr><tr><td><strong>Admin docs</strong></td><td>STATUS.md, CLIENT-SUMMARY.md, ACCESS-CHECKLIST.md</td></tr><tr><td><strong>Archive</strong></td><td>Legal operations files (client records - Arndt, Conner case files)</td></tr></tbody></table></div>
+<h3 id="kevlaw-ai-related">KevLaw AI (Related)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Location</strong></td><td><code>05-Conner Law/kevlaw-ai/</code></td></tr><tr><td><strong>Status</strong></td><td>Archived -- demand letter system in <code>99-archive/</code></td></tr><tr><td><strong>App files</strong></td><td>demand_letters.db, server.js, google-docs-integration.js</td></tr><tr><td><strong>Documentation</strong></td><td>DEMAND-CENTRAL-DOCUMENTATION.md, QUICKSTART.md, GOOGLE-DOCS-SETUP.md</td></tr><tr><td><strong>Admin docs</strong></td><td>STATUS.md, CLIENT-SUMMARY.md, ACCESS-CHECKLIST.md</td></tr><tr><td><strong>Brand DNA</strong></td><td><code>02-brand/BRAND-DNA.md</code></td></tr></tbody></table></div>
+<hr>
+<h2 id="7-bella-rhyder">7. BELLA RHYDER</h2>
+<h3 id="website">Website</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Top-level folder</strong></td><td><code>06-Bella Rhyder/index.html</code> (single page placeholder)</td></tr><tr><td><strong>Framework</strong></td><td>Static HTML</td></tr><tr><td><strong>Deployed</strong></td><td>NO deployment config found</td></tr><tr><td><strong>Status</strong></td><td>Placeholder site only</td></tr></tbody></table></div>
+<h3 id="brand-assets">Brand Assets</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Logos</strong></td><td>2 PNGs (Logo1<em>white.png, Logo1</em>black.png) in <code>Clients/Bella Rhyder/02-brand/</code></td></tr><tr><td><strong>Brand Bible</strong></td><td>MD (<code>02-brand/BRAND BIBLE.md</code>)</td></tr><tr><td><strong>Brand Guidelines</strong></td><td>MD (in both top-level and client folder)</td></tr><tr><td><strong>Brand Style Guide</strong></td><td>MD (<code>02-brand/BRAND STYLE GUIDE.md</code>)</td></tr><tr><td><strong>brand.json</strong></td><td><code>Clients/bella-rhyder/01-strategy/brand.json</code></td></tr></tbody></table></div>
+<h3 id="photos">Photos</h3>
+<div class="table-wrap"><table><thead><tr><th>Source</th><th>Count</th></tr></thead><tbody><tr><td><strong>Launch Photos total</strong></td><td>160 files</td></tr><tr><td><strong>Product shots (Launch/)</strong></td><td>~24+ (Bag, One-Piece, Tanktop, Bomber, Beanie, Bucket, Sports Bra, Mens Active in multiple colors)</td></tr><tr><td><strong>Patterns (Gemini)</strong></td><td>5</td></tr><tr><td><strong>Lifestyle Photos (Gemini)</strong></td><td>Multiple AI-generated lifestyle images</td></tr><tr><td><strong>Content Bank campaign cuts</strong></td><td>8 (bella-lifestyle-1/2/3, bella-bag, bella-logo, bella-bomber, bella-flatlay, bella-onepiece)</td></tr></tbody></table></div>
+<h3 id="content">Content</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Email waitlist welcome sequence</strong></td><td><code>Clients/Bella Rhyder/05-content/Email Sequences/waitlist-welcome-sequence.md</code></td></tr><tr><td><strong>Launch Content Plan</strong></td><td>MD</td></tr><tr><td><strong>Social Media Strategy</strong></td><td>MD</td></tr><tr><td><strong>Email Marketing Templates</strong></td><td>MD (top-level folder)</td></tr></tbody></table></div>
+<h3 id="documents">Documents</h3>
+<div class="table-wrap"><table><thead><tr><th>Document</th><th>Location</th></tr></thead><tbody><tr><td>BUSINESS PLAN.md</td><td><code>06-Bella Rhyder/</code></td></tr><tr><td>SERVICE PACKAGES.md</td><td><code>06-Bella Rhyder/</code></td></tr><tr><td>CLIENT ONBOARDING.md</td><td><code>06-Bella Rhyder/</code></td></tr><tr><td>IMPLEMENTATION CHECKLIST.md</td><td><code>06-Bella Rhyder/</code></td></tr><tr><td>Source of Truth (archived)</td><td><code>Clients/Bella Rhyder/99-archive/_Review/SOURCE-OF-TRUTH.html</code></td></tr></tbody></table></div>
+<h3 id="note-duplicate-client-folders">NOTE: Duplicate Client Folders</h3>
+<p>Bella Rhyder has TWO folders in Clients:</p>
+<ul>
+<li><code>Clients/Bella Rhyder/</code> (capitalized, with spaces) -- has brand docs, content, photos</li>
+<li><code>Clients/bella-rhyder/</code> (lowercase, hyphenated) -- has brand.json + empty photos/README.md</li>
+</ul>
+<hr>
+<h2 id="cross-business-summary-table">CROSS-BUSINESS SUMMARY TABLE</h2>
+<div class="table-wrap"><table><thead><tr><th>Business</th><th>Website</th><th>Deployed</th><th>Pages</th><th>Logos</th><th>Brand Bible</th><th>Email Seqs</th><th>Lead Magnets</th><th>Photos</th><th>Case Study</th></tr></thead><tbody><tr><td><strong>Nunya Bunya</strong></td><td>YES</td><td>Vercel</td><td>97</td><td>3+</td><td>PDF</td><td>2 sequences</td><td>5 PDFs</td><td>265 (site) + 5 (brand) + 8 (audio)</td><td>N/A (agency)</td></tr><tr><td><strong>Power Portraits</strong></td><td>YES</td><td>Vercel</td><td>18 + landing</td><td>5</td><td>In docs</td><td>2 sequences</td><td>2 PDFs</td><td>39 raw / 5 approved</td><td>On NB site</td></tr><tr><td><strong>Pawesome</strong></td><td>YES</td><td>Vercel + Hostinger</td><td>6</td><td>6</td><td>HTML</td><td>0</td><td>0</td><td>10 AI + 4 live + 28 Gemini</td><td>On NB site</td></tr><tr><td><strong>ORCA</strong></td><td>YES (SPA)</td><td>Vercel</td><td>1 SPA</td><td>4</td><td>PDF + HTML</td><td>4 sequences</td><td>2 PDFs</td><td>40 awards</td><td>N/A</td></tr><tr><td><strong>Ben Alek Conner</strong></td><td>NO</td><td>NO</td><td>0</td><td>PDF concepts only</td><td>PDF + HTML</td><td>0</td><td>0</td><td>157 archive + 15 AI + 4 personal</td><td>N/A</td></tr><tr><td><strong>Conner Injury Law</strong></td><td>YES</td><td>Vercel</td><td>10</td><td>Gemini + animated</td><td>HTML</td><td>0</td><td>0</td><td>78 (site) + 19 (bank)</td><td>On NB site</td></tr><tr><td><strong>Conner Law (MBCS)</strong></td><td>NO</td><td>NO</td><td>0</td><td>PDF concepts</td><td>PDF + HTML</td><td>0</td><td>1 PDF</td><td>Social profile kit (9)</td><td>N/A</td></tr><tr><td><strong>Bella Rhyder</strong></td><td>Placeholder</td><td>NO</td><td>1</td><td>2 PNGs</td><td>MD only</td><td>1 sequence</td><td>0</td><td>160 launch photos</td><td>N/A</td></tr><tr><td><strong>KevLaw AI</strong></td><td>NO</td><td>NO</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>Archived app</td></tr></tbody></table></div>
+<hr>
+<h2 id="critical-gaps-identified">CRITICAL GAPS IDENTIFIED</h2>
+<h3 id="missing-websites">Missing Websites</h3>
+<ol>
+<li><strong>Ben Alek Conner</strong> -- No website exists. <code>benalekconner-site/</code> directory is empty. Memory says Next.js + Tailwind but nothing built.</li>
+<li><strong>Conner Law Group (MBCS)</strong> -- Has full branding but no website.</li>
+<li><strong>Bella Rhyder</strong> -- Only a placeholder <code>index.html</code>, not deployed.</li>
+</ol>
+<h3 id="empty-top-level-folders">Empty Top-Level Folders</h3>
+<ul>
+<li><code>01-Conner Law Group/</code> -- Empty (everything lives in NB Clients)</li>
+<li><code>05-Power Portraits/</code> -- Empty (everything lives in NB Clients)</li>
+</ul>
+<h3 id="missing-content">Missing Content</h3>
+<ul>
+<li><strong>Pawesome</strong>: No email sequences, no content calendar, no campaigns despite being a REAL business</li>
+<li><strong>Conner Injury Law</strong>: No email sequences despite having a live website</li>
+<li><strong>Ben Alek Conner</strong>: Only 1 YouTube script written (ep01), no content plan</li>
+</ul>
+<h3 id="duplicatefragmented-data">Duplicate/Fragmented Data</h3>
+<ul>
+<li><strong>Bella Rhyder</strong>: Two client folders (<code>Bella Rhyder/</code> and <code>bella-rhyder/</code>)</li>
+<li><strong>Pawesome</strong>: Two client folders (<code>pawesome-dog-walkers/</code> and <code>pawsome-walks-brisbane/</code>)</li>
+<li><strong>Conner Law</strong>: Split between <code>conner-injury-law/</code> and <code>conner-law-group/</code></li>
+</ul>
+<h3 id="deployment-status">Deployment Status</h3>
+<ul>
+<li>NB, PP, Pawesome, CIL, ORCA: All deployed on Vercel</li>
+<li>BAC, MBCS, Bella: NOT deployed</li>
+<li>Hetzner stack: Deployed (marketing-stack Docker)</li>
+<li>n8n: Self-hosted at n8n.nunyabunya.com</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/ASSET-AUDIT.md</div>
+    </main>
+  </div>
+</body>
+</html>

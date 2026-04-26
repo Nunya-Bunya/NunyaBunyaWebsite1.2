@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nunya Bunya Marketing Stack — Master Workflow Guide | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link active"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-hq">Ben HQ</a> &rsaquo;
+          Nunya Bunya Marketing Stack — Master Workflow Guide
+        </div>
+        <h1 class="doc-title">Nunya Bunya Marketing Stack — Master Workflow Guide</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#9670; Ben HQ</span>
+          <span class="doc-path">00-Ben HQ / marketing-stack</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="nunya-bunya-marketing-stack-master-workflow-guide">Nunya Bunya Marketing Stack — Master Workflow Guide</h1>
+<h2 id="your-tools-whatx27s-what">Your Tools (What&#x27;s What)</h2>
+<div class="table-wrap"><table><thead><tr><th>Friendly Name</th><th>Under the Hood</th><th>URL</th><th>What It Does</th></tr></thead><tbody><tr><td><strong>Email &amp; Automations</strong></td><td>Mautic</td><td>mautic.nunyabunya.com</td><td>Email campaigns, drip sequences, landing pages, forms, lead scoring</td></tr><tr><td><strong>Sales Pipeline</strong></td><td>Twenty CRM</td><td>crm.nunyabunya.com</td><td>Leads, contacts, deals, pipeline stages, tasks</td></tr><tr><td><strong>Social Scheduler</strong></td><td>Mixpost</td><td>social.nunyabunya.com</td><td>Schedule and publish to Facebook, Instagram, LinkedIn, Twitter</td></tr><tr><td><strong>Website Analytics</strong></td><td>Matomo</td><td>analytics.nunyabunya.com</td><td>Traffic, page views, funnels, heatmaps, session recordings</td></tr><tr><td><strong>Reports</strong></td><td>Metabase</td><td>reports.nunyabunya.com</td><td>BI dashboards, client-facing reports, cross-tool data views</td></tr><tr><td><strong>Link Tracker</strong></td><td>Shlink</td><td>links.nunyabunya.com (admin) / go.nunyabunya.com (short links)</td><td>Branded short URLs, click tracking, UTM attribution</td></tr><tr><td><strong>Automations Hub</strong></td><td>n8n</td><td>n8n.nunyabunya.com</td><td>Workflow automation, webhooks, connects everything together</td></tr><tr><td><strong>AI Agents</strong></td><td>Custom (FastAPI)</td><td>agents.nunyabunya.com</td><td>Content generation, research, batch operations</td></tr><tr><td><strong>Booking</strong></td><td>Cal.com</td><td>cal.com</td><td>Client scheduling, consultation bookings</td></tr><tr><td><strong>HQ</strong></td><td>Custom dashboard</td><td>hq.nunyabunya.com</td><td>Your command center — links to everything</td></tr></tbody></table></div>
+<h2 id="brand-colors">Brand Colors</h2>
+<div class="table-wrap"><table><thead><tr><th>Color</th><th>Hex</th><th>Usage</th></tr></thead><tbody><tr><td>Teal (primary)</td><td><code>#4BBFB4</code></td><td>Buttons, accents, links</td></tr><tr><td>Pink (secondary)</td><td><code>#D6396B</code></td><td>CTAs, highlights</td></tr><tr><td>Dark navy (background)</td><td><code>#1A2E3E</code></td><td>Backgrounds</td></tr><tr><td>Card background</td><td><code>#1f3548</code></td><td>Cards, panels</td></tr><tr><td>Muted text</td><td><code>#8a9da6</code></td><td>Secondary text</td></tr></tbody></table></div>
+<hr>
+<h2 id="how-everything-connects">How Everything Connects</h2>
+<pre><code>                          ┌──────────────────┐
+                          │   YOUR WEBSITES   │
+                          │  (Vercel/Next.js) │
+                          └────────┬─────────┘
+                                   │
+                    Matomo tracking script on every page
+                                   │
+                    ┌──────────────▼──────────────┐
+                    │     Website Analytics        │
+                    │     (Matomo)                  │
+                    │  Tracks: visits, clicks,     │
+                    │  funnels, conversions         │
+                    └──────────────┬──────────────┘
+                                   │
+                     visitor fills out form / clicks CTA
+                                   │
+              ┌────────────────────▼────────────────────┐
+              │         Email &amp; Automations (Mautic)     │
+              │                                          │
+              │  - Captures lead via form/landing page   │
+              │  - Assigns to segment (by client/source) │
+              │  - Triggers drip campaign                │
+              │  - Scores lead based on engagement       │
+              │                                          │
+              └──────┬──────────────────┬───────────────┘
+                     │                  │
+          lead is qualified      email has links
+                     │                  │
+         ┌───────────▼─────┐   ┌───────▼────────┐
+         │  Sales Pipeline  │   │  Link Tracker   │
+         │  (Twenty CRM)    │   │  (Shlink)       │
+         │                  │   │                  │
+         │  - Deal created  │   │  - Tracks clicks │
+         │  - Pipeline:     │   │  - UTM params    │
+         │    Lead →        │   │  - Geo data      │
+         │    Qualified →   │   └───────┬──────────┘
+         │    Proposal →    │           │
+         │    Won/Lost      │           │
+         └───────┬──────────┘           │
+                 │                      │
+                 │         all data flows into
+                 │                      │
+         ┌───────▼──────────────────────▼──────┐
+         │            Reports (Metabase)        │
+         │                                      │
+         │  Pulls from ALL databases:           │
+         │  - Mautic (email stats)              │
+         │  - Matomo (traffic stats)            │
+         │  - Twenty CRM (deal pipeline)        │
+         │  - Shlink (link clicks)              │
+         │                                      │
+         │  → Client-facing dashboards          │
+         │  → Weekly PDF reports                │
+         │  → Internal KPI tracking             │
+         └──────────────────────────────────────┘
+
+  ┌─────────────────┐    ┌─────────────────┐
+  │ Social Scheduler │    │  AI Agents       │
+  │ (Mixpost)        │    │  (FastAPI)       │
+  │                  │    │                  │
+  │ Scheduled posts  │    │ Generate content │
+  │ → FB, IG, LI, X │    │ Research topics  │
+  │ → Link Tracker   │    │ Write copy       │
+  │   URLs in posts  │    │ Batch operations │
+  └─────────────────┘    └─────────────────┘
+
+  ┌──────────────────────────────────────────┐
+  │         Automations Hub (n8n)             │
+  │                                          │
+  │  The glue — connects everything:         │
+  │  - New Mautic lead → create CRM deal     │
+  │  - Deal won → Slack notification         │
+  │  - Weekly → generate Metabase report     │
+  │  - Form submit → assign to segment       │
+  │  - Agent output → schedule in Mixpost    │
+  └──────────────────────────────────────────┘</code></pre>
+<hr>
+<hr>
+<h2 id="nunya-bunya-setup-status-as-of-2026-04-01">Nunya Bunya — Setup Status (as of 2026-04-01)</h2>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Workflow</th><th>Status</th><th>IDs / Notes</th></tr></thead><tbody><tr><td>1</td><td>Drip Campaign</td><td>Done</td><td>Campaign ID: 10 (emails 15-19, linked to segment 6). First email sends immediately, needs remaining 4 emails wired in Campaign Builder UI</td></tr><tr><td>2</td><td>Lead Capture Form</td><td>Done</td><td>Form ID: 15 — &quot;Free Strategy Session&quot; (first name, email, phone, business name). Auto-adds to NB segment</td></tr><tr><td>3</td><td>Landing Page</td><td>Done</td><td>Page ID: 1 — live at <code>mautic.nunyabunya.com/free-strategy-session</code>. NB-branded, embeds form 15</td></tr><tr><td>4</td><td>Lead Scoring</td><td>Done</td><td>Point rules: email open +5 (ID 4), form submit +20 (ID 5), page visit +3 (ID 6), landing page +15 (ID 7). &quot;Hot Leads&quot; segment (ID 15) = score &gt; 50</td></tr><tr><td>5</td><td>Branded Short Links</td><td>Done</td><td><code>go.nunyabunya.com/home</code>, <code>/services</code>, <code>/social</code>, <code>/audit</code>, <code>/strategy</code>, <code>/book</code></td></tr><tr><td>6</td><td>Website Analytics Goals</td><td>Done</td><td>5 goals: Form Submission (2), Strategy Booked (3), Services Visit (4), Pricing Visit (5), Contact Visit (6)</td></tr><tr><td>7</td><td>CRM Setup</td><td>Needs UI</td><td>Twenty CRM API key needs regeneration — create NB company + Ben contact manually in CRM</td></tr><tr><td>8</td><td>Reports Dashboard</td><td>Done</td><td>Dashboard ID: 2 — &quot;Nunya Bunya — Marketing Overview&quot; in Metabase. Add cards/questions for email stats, traffic, leads</td></tr><tr><td>9</td><td>Automations (n8n)</td><td>Needs UI</td><td>n8n requires API key — create 3 workflows in n8n UI: (1) New lead → CRM, (2) Hot lead → Slack #alerts, (3) Weekly summary → Slack #wins</td></tr><tr><td>10</td><td>Daily Checklist</td><td>Process</td><td>Check <code>hq.nunyabunya.com</code> each morning</td></tr></tbody></table></div>
+<h3 id="what-still-needs-manual-setup">What Still Needs Manual Setup</h3>
+<p>These items can&#x27;t be done via API and need you to click around in the admin UIs:</p>
+<ol>
+<li><strong>Campaign Builder</strong> (mautic.nunyabunya.com → Campaigns → &quot;NB Welcome Sequence&quot;)</li>
+</ol>
+<ul>
+<li>Open the campaign, add the remaining 4 email send actions with delays (2d, 3d, 3d, 4d)</li>
+<li>Publish the campaign</li>
+</ul>
+<ol>
+<li><strong>Twenty CRM</strong> (crm.nunyabunya.com)</li>
+</ol>
+<ul>
+<li>Create company: &quot;Nunya Bunya&quot; with domain nunyabunya.com</li>
+<li>Create contact: Ben Conner (ben@nunyabunya.com)</li>
+<li>Go to Settings → Developers → regenerate API key if needed</li>
+</ul>
+<ol>
+<li><strong>n8n Workflows</strong> (n8n.nunyabunya.com)</li>
+</ol>
+<ul>
+<li>Settings → API → create an API key</li>
+<li>Create workflow: Mautic webhook → Create CRM contact</li>
+<li>Create workflow: Mautic &quot;score &gt; 50&quot; webhook → Slack #alerts</li>
+<li>Create workflow: Schedule (Monday 9am) → Pull stats → Slack #wins</li>
+</ul>
+<ol>
+<li><strong>Metabase Dashboard</strong> (reports.nunyabunya.com)</li>
+</ol>
+<ul>
+<li>Open &quot;Nunya Bunya — Marketing Overview&quot; dashboard</li>
+<li>Add cards: Mautic email stats, Matomo traffic, lead pipeline, Shlink clicks</li>
+<li>Enable public sharing for client-facing link</li>
+</ul>
+<hr>
+<h2 id="marketing-task-workflows">Marketing Task Workflows</h2>
+<h3 id="1-onboard-a-new-client">1. Onboard a New Client</h3>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Where</th><th>What to Do</th></tr></thead><tbody><tr><td>1</td><td><strong>Sales Pipeline</strong></td><td>Create new Company + Contact. Move deal to &quot;Won&quot;</td></tr><tr><td>2</td><td><strong>Website Analytics</strong></td><td>Add their website as a new Site (Settings → Websites → Add)</td></tr><tr><td>3</td><td><strong>Website Analytics</strong></td><td>Copy the tracking JS snippet → add to their website <code>&lt;head&gt;</code></td></tr><tr><td>4</td><td><strong>Email &amp; Automations</strong></td><td>Create a new Segment for this client&#x27;s leads</td></tr><tr><td>5</td><td><strong>Email &amp; Automations</strong></td><td>Create a landing page + form for lead capture</td></tr><tr><td>6</td><td><strong>Link Tracker</strong></td><td>Create branded short links for their campaigns</td></tr><tr><td>7</td><td><strong>Social Scheduler</strong></td><td>Add their social accounts</td></tr><tr><td>8</td><td><strong>Reports</strong></td><td>Create a client dashboard (connect to their data sources)</td></tr><tr><td>9</td><td><strong>Booking</strong></td><td>Set up a booking page for their consultations</td></tr></tbody></table></div>
+<h3 id="2-launch-an-email-campaign">2. Launch an Email Campaign</h3>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Where</th><th>What to Do</th></tr></thead><tbody><tr><td>1</td><td><strong>Email &amp; Automations</strong></td><td>Emails → New → choose template or build from scratch</td></tr><tr><td>2</td><td><strong>Email &amp; Automations</strong></td><td>Set the segment (who receives it)</td></tr><tr><td>3</td><td><strong>Link Tracker</strong></td><td>Create short links for any URLs in the email (for tracking)</td></tr><tr><td>4</td><td><strong>Email &amp; Automations</strong></td><td>Insert the short links into the email body</td></tr><tr><td>5</td><td><strong>Email &amp; Automations</strong></td><td>Send test email to yourself → verify links work</td></tr><tr><td>6</td><td><strong>Email &amp; Automations</strong></td><td>Schedule or send immediately</td></tr><tr><td>7</td><td><strong>Reports</strong></td><td>Check campaign performance: open rate, click rate, conversions</td></tr></tbody></table></div>
+<h3 id="3-set-up-a-drip-sequence-welcome-series">3. Set Up a Drip Sequence (Welcome Series)</h3>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Where</th><th>What to Do</th></tr></thead><tbody><tr><td>1</td><td><strong>Email &amp; Automations</strong></td><td>Create 3-5 emails (welcome, value, case study, offer, follow-up)</td></tr><tr><td>2</td><td><strong>Email &amp; Automations</strong></td><td>Campaigns → New Campaign</td></tr><tr><td>3</td><td><strong>Email &amp; Automations</strong></td><td>Set trigger: &quot;Contact added to segment <span class="cb cb-done">&#9745;</span>&quot;</td></tr><tr><td>4</td><td><strong>Email &amp; Automations</strong></td><td>Add decision points: &quot;Email opened?&quot; → Yes/No branches</td></tr><tr><td>5</td><td><strong>Email &amp; Automations</strong></td><td>Add delays between emails (e.g., 2 days, 3 days, 5 days)</td></tr><tr><td>6</td><td><strong>Email &amp; Automations</strong></td><td>Add action at end: &quot;Modify lead score +10&quot; if they engaged</td></tr><tr><td>7</td><td><strong>Automations Hub</strong></td><td>Create workflow: high-score lead → create deal in Sales Pipeline</td></tr></tbody></table></div>
+<h3 id="4-create-a-landing-page-lead-capture">4. Create a Landing Page + Lead Capture</h3>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Where</th><th>What to Do</th></tr></thead><tbody><tr><td>1</td><td><strong>Email &amp; Automations</strong></td><td>Landing Pages → New → use builder or paste HTML</td></tr><tr><td>2</td><td><strong>Email &amp; Automations</strong></td><td>Forms → New → add fields (name, email, phone, etc.)</td></tr><tr><td>3</td><td><strong>Email &amp; Automations</strong></td><td>Embed the form on the landing page</td></tr><tr><td>4</td><td><strong>Email &amp; Automations</strong></td><td>Set form action: &quot;Add to segment <span class="cb cb-done">&#9745;</span>&quot; + &quot;Add to campaign [Welcome Series]&quot;</td></tr><tr><td>5</td><td><strong>Link Tracker</strong></td><td>Create a short link to the landing page (e.g., <code>go.nunyabunya.com/free-audit</code>)</td></tr><tr><td>6</td><td><strong>Website Analytics</strong></td><td>Set up a Goal: &quot;Visit thank-you page&quot; = conversion</td></tr><tr><td>7</td><td><strong>Reports</strong></td><td>Track: form submissions, conversion rate, source attribution</td></tr></tbody></table></div>
+<h3 id="5-run-a-social-media-campaign">5. Run a Social Media Campaign</h3>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Where</th><th>What to Do</th></tr></thead><tbody><tr><td>1</td><td><strong>AI Agents</strong></td><td>Generate post copy + image suggestions for the campaign</td></tr><tr><td>2</td><td><strong>Social Scheduler</strong></td><td>Create posts → attach images → set schedule</td></tr><tr><td>3</td><td><strong>Link Tracker</strong></td><td>Create short links with UTM params for each platform</td></tr><tr><td>4</td><td><strong>Social Scheduler</strong></td><td>Use the short links in post copy</td></tr><tr><td>5</td><td><strong>Website Analytics</strong></td><td>Monitor traffic from social (Acquisition → Campaigns)</td></tr><tr><td>6</td><td><strong>Reports</strong></td><td>Dashboard showing: clicks per platform, conversions from social</td></tr></tbody></table></div>
+<h3 id="6-build-a-client-report">6. Build a Client Report</h3>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Where</th><th>What to Do</th></tr></thead><tbody><tr><td>1</td><td><strong>Reports</strong></td><td>New Question → select data source (Matomo/Mautic/CRM/Shlink)</td></tr><tr><td>2</td><td><strong>Reports</strong></td><td>Build visualizations: traffic chart, email stats, lead pipeline</td></tr><tr><td>3</td><td><strong>Reports</strong></td><td>Save to a Dashboard → name it &quot;[Client Name] — Monthly Report&quot;</td></tr><tr><td>4</td><td><strong>Reports</strong></td><td>Sharing → Enable public link (for embedding) OR schedule email delivery</td></tr><tr><td>5</td><td><strong>Reports</strong></td><td>Set up Subscription: auto-email the dashboard as PDF weekly/monthly</td></tr></tbody></table></div>
+<h3 id="7-track-a-paid-ad-campaign-googlemeta">7. Track a Paid Ad Campaign (Google/Meta)</h3>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Where</th><th>What to Do</th></tr></thead><tbody><tr><td>1</td><td><strong>Link Tracker</strong></td><td>Create short links with UTM params: <code>source=google&amp;medium=cpc&amp;campaign=spring-sale</code></td></tr><tr><td>2</td><td>Use the short links as your ad destination URLs</td><td></td></tr><tr><td>3</td><td><strong>Website Analytics</strong></td><td>Acquisition → Campaigns → see traffic by UTM campaign</td></tr><tr><td>4</td><td><strong>Website Analytics</strong></td><td>Set up Goals for conversions (form submit, booking, purchase)</td></tr><tr><td>5</td><td><strong>Email &amp; Automations</strong></td><td>Leads from ads auto-captured via forms → assigned to ad-specific segment</td></tr><tr><td>6</td><td><strong>Reports</strong></td><td>Dashboard: cost vs. leads vs. conversions per campaign</td></tr></tbody></table></div>
+<h3 id="8-score-and-qualify-leads">8. Score and Qualify Leads</h3>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Where</th><th>What to Do</th></tr></thead><tbody><tr><td>1</td><td><strong>Email &amp; Automations</strong></td><td>Points → Define scoring rules:</td></tr><tr><td></td><td></td><td>+5 for email open, +10 for link click, +20 for form submit, +30 for page visit (pricing page)</td></tr><tr><td>2</td><td><strong>Email &amp; Automations</strong></td><td>Create segment: &quot;Hot Leads&quot; = score &gt; 50</td></tr><tr><td>3</td><td><strong>Automations Hub</strong></td><td>Workflow: when lead enters &quot;Hot Leads&quot; segment → create deal in Sales Pipeline + Slack notification</td></tr><tr><td>4</td><td><strong>Sales Pipeline</strong></td><td>Work the deal through the pipeline: Lead → Qualified → Proposal → Won</td></tr></tbody></table></div>
+<h3 id="9-automate-a-workflow-n8n">9. Automate a Workflow (n8n)</h3>
+<p>Common automations to set up:</p>
+<div class="table-wrap"><table><thead><tr><th>Automation</th><th>Trigger</th><th>Action</th></tr></thead><tbody><tr><td>New lead → CRM</td><td>Mautic webhook: &quot;Contact created&quot;</td><td>Create Company + Contact in Twenty CRM</td></tr><tr><td>Hot lead → Slack</td><td>Mautic webhook: &quot;Lead score &gt; 50&quot;</td><td>Post to #alerts channel</td></tr><tr><td>Deal won → welcome email</td><td>Twenty CRM webhook: &quot;Deal stage = Won&quot;</td><td>Add contact to &quot;New Client&quot; segment in Mautic</td></tr><tr><td>Weekly report → Slack</td><td>Cron: every Monday 9am</td><td>Pull Metabase dashboard → post summary to #wins</td></tr><tr><td>New blog post → social</td><td>RSS/webhook</td><td>Create draft posts in Mixpost for all platforms</td></tr><tr><td>Form submit → booking</td><td>Mautic webhook: &quot;Form submitted&quot;</td><td>Send Cal.com booking link via email</td></tr></tbody></table></div>
+<h3 id="10-daily-operations-checklist">10. Daily Operations Checklist</h3>
+<div class="table-wrap"><table><thead><tr><th>Task</th><th>Where</th><th>What to Check</th></tr></thead><tbody><tr><td>Check new leads</td><td><strong>Sales Pipeline</strong></td><td>Any new contacts/deals overnight?</td></tr><tr><td>Review email stats</td><td><strong>Email &amp; Automations</strong></td><td>Open rates, bounces, unsubscribes</td></tr><tr><td>Check website traffic</td><td><strong>Website Analytics</strong></td><td>Visitors, top pages, traffic sources</td></tr><tr><td>Review social performance</td><td><strong>Social Scheduler</strong></td><td>Engagement on recent posts</td></tr><tr><td>Check automations</td><td><strong>Automations Hub</strong></td><td>Any failed workflows?</td></tr><tr><td>Glance at HQ</td><td><strong>hq.nunyabunya.com</strong></td><td>Quick overview of everything</td></tr></tbody></table></div>
+<hr>
+<h2 id="database-connections-for-reports">Database Connections (for Reports)</h2>
+<p>Reports (Metabase) pulls live data from all other tools via their databases:</p>
+<div class="table-wrap"><table><thead><tr><th>Data Source</th><th>Type</th><th>Host (internal Docker)</th><th>Database</th></tr></thead><tbody><tr><td>Email &amp; Automations</td><td>MySQL</td><td><code>nb-mysql</code></td><td><code>mautic_db</code></td></tr><tr><td>Website Analytics</td><td>MySQL</td><td><code>nb-mysql</code></td><td><code>matomo_db</code></td></tr><tr><td>Link Tracker</td><td>MySQL</td><td><code>nb-mysql</code></td><td><code>shlink_db</code></td></tr><tr><td>Sales Pipeline</td><td>PostgreSQL</td><td><code>nb-twenty-db</code></td><td><code>twenty</code></td></tr><tr><td>Leads (Supabase)</td><td>PostgreSQL</td><td>External</td><td>Your Supabase project</td></tr></tbody></table></div>
+<hr>
+<h2 id="key-urls-quick-reference">Key URLs Quick Reference</h2>
+<div class="table-wrap"><table><thead><tr><th>Tool</th><th>Admin URL</th><th>Public-Facing URL</th></tr></thead><tbody><tr><td>Email &amp; Automations</td><td>mautic.nunyabunya.com</td><td>Landing pages served from same domain</td></tr><tr><td>Sales Pipeline</td><td>crm.nunyabunya.com</td><td>—</td></tr><tr><td>Social Scheduler</td><td>social.nunyabunya.com</td><td>—</td></tr><tr><td>Website Analytics</td><td>analytics.nunyabunya.com</td><td>Tracking script loaded on client sites</td></tr><tr><td>Reports</td><td>reports.nunyabunya.com</td><td>Public dashboard links for clients</td></tr><tr><td>Link Tracker</td><td>links.nunyabunya.com</td><td>go.nunyabunya.com/[short-code]</td></tr><tr><td>Automations Hub</td><td>n8n.nunyabunya.com</td><td>Webhook URLs for integrations</td></tr><tr><td>AI Agents</td><td>agents.nunyabunya.com</td><td>API endpoints</td></tr><tr><td>Booking</td><td>cal.com</td><td>cal.com/nunyabunya (or custom)</td></tr><tr><td>HQ Dashboard</td><td>hq.nunyabunya.com</td><td>—</td></tr></tbody></table></div>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">00-Ben HQ/marketing-stack/MASTER-WORKFLOW.md</div>
+    </main>
+  </div>
+</body>
+</html>

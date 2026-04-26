@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nunya Bunya — Email Campaign Architecture | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Nunya Bunya — Email Campaign Architecture
+        </div>
+        <h1 class="doc-title">Nunya Bunya — Email Campaign Architecture</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Docs</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="nunya-bunya-email-campaign-architecture">Nunya Bunya — Email Campaign Architecture</h1>
+<p><strong>The Rule:</strong> Every email, every sequence, every touchpoint leads toward one outcome:</p>
+<p><strong>$3,500/month managed marketing retainer.</strong></p>
+<hr>
+<h2 id="the-funnel-map">The Funnel Map</h2>
+<pre><code>FREE ENTRY POINTS                    PAID PRODUCTS                     THE GOAL
+─────────────────                    ─────────────                     ────────
+
+NB Marketing Guide ──→ [1] Nurture ──→ Book Free Audit ──→ [8] Audit Follow-Up ──→ $3,500/mo
+PP Posing Guide ─────→ [2] Nurture ──→ Book Session ────→ [9] Session Follow-Up → Referrals + Team
+PP Family Special ───→ [3] Promo ───→ Book Session ────→ [9] Session Follow-Up → Referrals + Team
+
+BFK Survey ──→ Free Plan ──→ [4] Upsell ──→ Foundation Kit $199 ──→ [5] Buyer Nurture
+                                                                          ↓
+                                                              Brand Bible / Bundle
+                                                                          ↓
+                                                                   [6] Brand Buyer
+                                                                          ↓
+                                                                      Website
+                                                                          ↓
+                                                                   [7] Website Buyer
+                                                                          ↓
+                                                                    $3,500/mo ←──── EVERYTHING LEADS HERE
+                                                                          ↓
+                                                                  [10] Client Onboarding
+
+[11] Win-Back ←── Anyone who went cold after 30 days</code></pre>
+<hr>
+<h2 id="all-11-campaigns">All 11 Campaigns</h2>
+<h3 id="campaign-1-nb-marketing-guide-nurture">CAMPAIGN 1: NB Marketing Guide Nurture</h3>
+<p><strong>Trigger:</strong> Downloads free marketing guide from nunyabunya.com</p>
+<p><strong>Segment:</strong> Nunya Bunya - All Contacts</p>
+<p><strong>Goal:</strong> Book a free audit call</p>
+<p><strong>Status:</strong> WIRED (Campaign 21, paused) — emails 90-94</p>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Day</th><th>Email ID</th><th>Subject</th><th>CTA</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>90</td><td>Here&#x27;s your free marketing guide</td><td>Download guide</td></tr><tr><td>2</td><td>2</td><td>91</td><td>3 mistakes costing Brisbane businesses clients</td><td>Read blog</td></tr><tr><td>3</td><td>5</td><td>92</td><td>How a local business got 47 leads in a month</td><td>View case study</td></tr><tr><td>4</td><td>8</td><td>93</td><td>Here&#x27;s what working with us looks like</td><td>See packages</td></tr><tr><td>5</td><td>12</td><td>94</td><td>Your free strategy session expires soon</td><td>Book audit ($3,500/mo mention)</td></tr></tbody></table></div>
+<hr>
+<h3 id="campaign-2-pp-posing-guide-nurture">CAMPAIGN 2: PP Posing Guide Nurture</h3>
+<p><strong>Trigger:</strong> Downloads free posing guide from powerportraits.com.au</p>
+<p><strong>Segment:</strong> Power Portraits - All Contacts</p>
+<p><strong>Goal:</strong> Book a portrait session</p>
+<p><strong>Status:</strong> WIRED (Campaign 20, paused) — emails 85-89</p>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Day</th><th>Email ID</th><th>Subject</th><th>CTA</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>85</td><td>Your free posing guide is inside</td><td>Download guide</td></tr><tr><td>2</td><td>2</td><td>86</td><td>The #1 mistake in professional headshots</td><td>Read tips</td></tr><tr><td>3</td><td>5</td><td>87</td><td>Your LinkedIn photo might be losing you clients</td><td>See pricing</td></tr><tr><td>4</td><td>8</td><td>88</td><td>What actually happens during a session</td><td>Watch BTS</td></tr><tr><td>5</td><td>12</td><td>89</td><td>Sessions are filling up this month</td><td>Book session</td></tr></tbody></table></div>
+<hr>
+<h3 id="campaign-3-pp-family-special-promo">CAMPAIGN 3: PP Family Special Promo</h3>
+<p><strong>Trigger:</strong> Added to PP Family Special segment (promo campaign)</p>
+<p><strong>Segment:</strong> Power Portraits - All Contacts</p>
+<p><strong>Goal:</strong> Book family portrait session at $999</p>
+<p><strong>Status:</strong> WIRED (Campaign 22, paused) — emails 95-97</p>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Day</th><th>Email ID</th><th>Subject</th><th>CTA</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>95</td><td>Family portraits — 50% off this month only</td><td>See offer</td></tr><tr><td>2</td><td>7</td><td>96</td><td>Only a few family portrait spots left</td><td>Book now</td></tr><tr><td>3</td><td>14</td><td>97</td><td>Last chance: Family portraits at half price</td><td>Book now</td></tr></tbody></table></div>
+<hr>
+<h3 id="campaign-4-bfk-free-plan-foundation-kit-upsell">CAMPAIGN 4: BFK Free Plan → Foundation Kit Upsell</h3>
+<p><strong>Trigger:</strong> Completes BFK survey, receives free business plan</p>
+<p><strong>Segment:</strong> BFK Free Tier</p>
+<p><strong>Goal:</strong> Buy Foundation Kit ($199)</p>
+<p><strong>Status:</strong> WIRED (Campaign 23, paused) — emails 99-103</p>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Day</th><th>Email ID</th><th>Subject</th><th>CTA</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>99</td><td>Your custom business plan is ready</td><td>View plan</td></tr><tr><td>2</td><td>3</td><td>100</td><td>The one thing your business plan can&#x27;t do</td><td>Learn more</td></tr><tr><td>3</td><td>7</td><td>101</td><td>You&#x27;re going to need a logo eventually</td><td>See Foundation Kit</td></tr><tr><td>4</td><td>11</td><td>102</td><td>Your $100 discount expires in 3 days</td><td>Buy now</td></tr><tr><td>5</td><td>14</td><td>103</td><td>Last day: $899 expires tonight</td><td>Buy now</td></tr></tbody></table></div>
+<p><strong>NOTE:</strong> Price in emails says $899. Needs review — is this still correct?</p>
+<hr>
+<h3 id="campaign-5-foundation-kit-buyer-brand-upsell">CAMPAIGN 5: Foundation Kit Buyer → Brand Upsell</h3>
+<p><strong>Trigger:</strong> Purchases Foundation Kit ($199)</p>
+<p><strong>Segment:</strong> BFK Paid Buyers</p>
+<p><strong>Goal:</strong> Buy Brand Bible or Bundle → eventually $3,500/mo</p>
+<p><strong>Status:</strong> TEMPLATES EXIST (80-83), Campaign 19 has 1 event — NEEDS FULL WIRING</p>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Day</th><th>Email ID</th><th>Subject</th><th>CTA</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>80</td><td>Your Foundation Kit is ready</td><td>Access kit</td></tr><tr><td>2</td><td>3</td><td>81</td><td>Turn your Foundation Kit into a Brand Bible</td><td>See upgrade</td></tr><tr><td>3</td><td>7</td><td>82</td><td>The $699 brand package — everything you need</td><td>View bundle</td></tr><tr><td>4</td><td>12</td><td>83</td><td>Ready for a website?</td><td>Book call (mention $3,500/mo)</td></tr></tbody></table></div>
+<hr>
+<h3 id="campaign-6-brand-product-buyer-website-3500mo">CAMPAIGN 6: Brand Product Buyer → Website + $3,500/mo</h3>
+<p><strong>Trigger:</strong> Purchases Brand Bible, Style Guide, or Bundle</p>
+<p><strong>Segment:</strong> Brand Bible Buyers / Style Guide Buyers / Bundle Buyers</p>
+<p><strong>Goal:</strong> Buy Website → then $3,500/mo</p>
+<p><strong>Status:</strong> TEMPLATES EXIST (66-69, 70-73, 74-76) — NEEDS CONSOLIDATION</p>
+<p>We have 3 separate template sets for Brand Bible, Style Guide, and Bundle buyers.</p>
+<p>Recommend: Use Brand Bible templates (66-69) as the primary, since all paths lead to the same place.</p>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Day</th><th>Email ID</th><th>Subject</th><th>CTA</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>66</td><td>Your Brand Bible is ready</td><td>Access it</td></tr><tr><td>2</td><td>3</td><td>67</td><td>3 ways to put your Brand Bible to work today</td><td>Read tips</td></tr><tr><td>3</td><td>7</td><td>68</td><td>Your brand strategy needs a visual system</td><td>See Style Guide</td></tr><tr><td>4</td><td>12</td><td>69</td><td>Brand + website = unstoppable</td><td>Book call (mention $3,500/mo)</td></tr></tbody></table></div>
+<hr>
+<h3 id="campaign-7-website-buyer-3500mo-pitch">CAMPAIGN 7: Website Buyer → $3,500/mo Pitch</h3>
+<p><strong>Trigger:</strong> Purchases website build</p>
+<p><strong>Segment:</strong> Website Buyers</p>
+<p><strong>Goal:</strong> Sign up for $3,500/mo managed marketing</p>
+<p><strong>Status:</strong> TEMPLATES EXIST (77-79) — NEEDS 4th EMAIL + WIRING</p>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Day</th><th>Email ID</th><th>Subject</th><th>CTA</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>77</td><td>Welcome aboard — let&#x27;s build your website</td><td>Onboarding info</td></tr><tr><td>2</td><td>3</td><td>78</td><td>Before our call: 5 things to think about</td><td>Prep for discovery</td></tr><tr><td>3</td><td>7</td><td>79</td><td>Want your website to come with a complete brand?</td><td>Add brand package</td></tr><tr><td>4</td><td>14</td><td>NEW</td><td>Your website is live — now let&#x27;s fill it with clients</td><td>Book $3,500/mo call</td></tr></tbody></table></div>
+<hr>
+<h3 id="campaign-8-nb-audit-follow-up-critical-closest-to-3500mo-sale">CAMPAIGN 8: NB Audit Follow-Up ⭐ CRITICAL — CLOSEST TO $3,500/mo SALE</h3>
+<p><strong>Trigger:</strong> Books free NB audit via Cal.com</p>
+<p><strong>Segment:</strong> NEW — &quot;NB Audit Bookers&quot;</p>
+<p><strong>Goal:</strong> Convert audit call into $3,500/mo retainer</p>
+<p><strong>Status:</strong> DOES NOT EXIST — MUST BUILD</p>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Day</th><th>Email ID</th><th>Subject</th><th>CTA</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>NEW</td><td>Your free marketing audit is confirmed</td><td>Pre-call prep</td></tr><tr><td>2</td><td>1</td><td>NEW</td><td>3 things to think about before our call</td><td>Prep questions</td></tr><tr><td>3</td><td>2</td><td>NEW</td><td>Looking forward to speaking with you tomorrow</td><td>Reminder + case study link</td></tr><tr><td>4</td><td>3</td><td>NEW</td><td>Here&#x27;s what we found (post-call recap)</td><td>Review proposal</td></tr><tr><td>5</td><td>7</td><td>NEW</td><td>Still thinking it over? Here&#x27;s what other clients say</td><td>Social proof</td></tr><tr><td>6</td><td>14</td><td>NEW</td><td>Your custom marketing plan is waiting</td><td>Book follow-up call</td></tr></tbody></table></div>
+<p><strong>Note:</strong> Day 3 email needs to be sent MANUALLY after the call with personalized findings.</p>
+<p>The automated version should be a generic &quot;thanks for the call&quot; with a CTA to review the proposal.</p>
+<hr>
+<h3 id="campaign-9-pp-session-follow-up">CAMPAIGN 9: PP Session Follow-Up</h3>
+<p><strong>Trigger:</strong> Completes a PP session (books via Cal.com)</p>
+<p><strong>Segment:</strong> NEW — &quot;PP Session Clients&quot;</p>
+<p><strong>Goal:</strong> Google review + social share + referral + team photo upsell</p>
+<p><strong>Status:</strong> DOES NOT EXIST — MUST BUILD</p>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Day</th><th>Email ID</th><th>Subject</th><th>CTA</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>NEW</td><td>Your session is booked — here&#x27;s how to prepare</td><td>Prep tips</td></tr><tr><td>2</td><td>1</td><td>NEW</td><td>Quick reminder: your session is tomorrow</td><td>What to wear/bring</td></tr><tr><td>3</td><td>3</td><td>NEW</td><td>Your photos are ready!</td><td>Download link</td></tr><tr><td>4</td><td>5</td><td>NEW</td><td>How did we do? Leave a quick review</td><td>Google review link</td></tr><tr><td>5</td><td>10</td><td>NEW</td><td>Share your new headshot — get $50 off next time</td><td>Referral offer</td></tr><tr><td>6</td><td>21</td><td>NEW</td><td>Need team photos? We come to your office</td><td>Team session CTA</td></tr></tbody></table></div>
+<hr>
+<h3 id="campaign-10-client-onboarding-3500mo">CAMPAIGN 10: Client Onboarding ($3,500/mo)</h3>
+<p><strong>Trigger:</strong> Signs up for $3,500/mo managed marketing</p>
+<p><strong>Segment:</strong> NEW — &quot;Retainer Clients&quot;</p>
+<p><strong>Goal:</strong> Set expectations, deliver first value, reduce churn</p>
+<p><strong>Status:</strong> DOES NOT EXIST — MUST BUILD</p>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Day</th><th>Email ID</th><th>Subject</th><th>CTA</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>NEW</td><td>Welcome to Nunya Bunya — here&#x27;s what happens next</td><td>Onboarding doc</td></tr><tr><td>2</td><td>3</td><td>NEW</td><td>Your first month roadmap</td><td>Review plan</td></tr><tr><td>3</td><td>7</td><td>NEW</td><td>Your first deliverables are ready</td><td>Review + approve</td></tr><tr><td>4</td><td>30</td><td>NEW</td><td>Your first month results</td><td>View report</td></tr></tbody></table></div>
+<hr>
+<h3 id="campaign-11-win-back-re-engagement">CAMPAIGN 11: Win-Back (Re-engagement)</h3>
+<p><strong>Trigger:</strong> Opened emails but never booked/bought after 30 days</p>
+<p><strong>Segment:</strong> NEW — &quot;Gone Cold&quot; (filter: last email open &gt; 30 days, no purchases, no bookings)</p>
+<p><strong>Goal:</strong> Re-engage → book audit or buy something</p>
+<p><strong>Status:</strong> DOES NOT EXIST — MUST BUILD</p>
+<div class="table-wrap"><table><thead><tr><th>Step</th><th>Day</th><th>Email ID</th><th>Subject</th><th>CTA</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>NEW</td><td>We haven&#x27;t heard from you — is everything okay?</td><td>Reply or book call</td></tr><tr><td>2</td><td>5</td><td>NEW</td><td>New case study: how [client] grew 40% in 90 days</td><td>Read case study</td></tr><tr><td>3</td><td>12</td><td>NEW</td><td>One-time offer: free strategy session this week</td><td>Book audit</td></tr></tbody></table></div>
+<hr>
+<h2 id="summary-what-needs-building">Summary: What Needs Building</h2>
+<div class="table-wrap"><table><thead><tr><th>Campaign</th><th>Emails Exist?</th><th>Campaign Wired?</th><th>Action</th></tr></thead><tbody><tr><td>1. NB Nurture</td><td>✅ 90-94</td><td>✅ Campaign 21</td><td>Review content, unpause when ready</td></tr><tr><td>2. PP Nurture</td><td>✅ 85-89</td><td>✅ Campaign 20</td><td>Review content, unpause when ready</td></tr><tr><td>3. PP Family</td><td>✅ 95-97</td><td>✅ Campaign 22</td><td>Review content, unpause when ready</td></tr><tr><td>4. BFK Upsell</td><td>✅ 99-103</td><td>✅ Campaign 23</td><td>Review pricing ($899?), unpause</td></tr><tr><td>5. Foundation Buyer</td><td>✅ 80-83</td><td>❌ 1 event only</td><td>Wire 4 events into Campaign 19</td></tr><tr><td>6. Brand Buyer</td><td>✅ 66-69</td><td>❌ 1 event only</td><td>Wire 4 events into Campaign 15</td></tr><tr><td>7. Website Buyer</td><td>✅ 77-79</td><td>❌ 1 event only</td><td>Wire 3 events + CREATE 1 new email</td></tr><tr><td>8. Audit Follow-Up</td><td>✅ 105-110</td><td>✅ Campaign 24</td><td>DONE — paused, review in NBHQ</td></tr><tr><td>9. PP Session Follow-Up</td><td>✅ 111-116</td><td>✅ Campaign 25</td><td>DONE — paused, review in NBHQ</td></tr><tr><td>10. Client Onboarding</td><td>✅ 117-120</td><td>✅ Campaign 26</td><td>DONE — paused, review in NBHQ</td></tr><tr><td>11. Win-Back</td><td>✅ 121-123</td><td>✅ Campaign 27</td><td>DONE — paused, review in NBHQ</td></tr></tbody></table></div>
+<p><strong>All 11 campaigns built and wired. All paused. Review emails in NBHQ Email Campaigns dashboard before going live.</strong></p>
+<h3 id="mautic-campaign-id-reference">Mautic Campaign ID Reference</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Campaign</th><th>Mautic ID</th><th>Segment</th></tr></thead><tbody><tr><td>1</td><td>NB Nurture</td><td>21</td><td>Nunya Bunya - All Contacts</td></tr><tr><td>2</td><td>PP Nurture</td><td>20</td><td>Power Portraits - All Contacts</td></tr><tr><td>3</td><td>PP Family Special</td><td>22</td><td>Power Portraits - All Contacts</td></tr><tr><td>4</td><td>BFK Free → Brand Bible Upsell</td><td>23</td><td>BFK Free Tier</td></tr><tr><td>5</td><td>Brand Bible Buyer → Upsell</td><td>19</td><td>BFK Paid Buyers</td></tr><tr><td>6</td><td>Brand Product Buyer → Website</td><td>15</td><td>Brand Bible Buyers</td></tr><tr><td>7</td><td>Website Buyer → $3,500/mo</td><td>18</td><td>Website Buyers</td></tr><tr><td>8</td><td>NB Audit Follow-Up</td><td>24</td><td>NB Audit Bookers</td></tr><tr><td>9</td><td>PP Session Follow-Up</td><td>25</td><td>PP Session Clients</td></tr><tr><td>10</td><td>Client Onboarding</td><td>26</td><td>Retainer Clients</td></tr><tr><td>11</td><td>Win-Back</td><td>27</td><td>Gone Cold</td></tr></tbody></table></div>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Docs/EMAIL-CAMPAIGN-ARCHITECTURE.md</div>
+    </main>
+  </div>
+</body>
+</html>

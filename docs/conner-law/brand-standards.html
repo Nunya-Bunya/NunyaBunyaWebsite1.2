@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONNER LAW GROUP — BRAND STANDARDS | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link active"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#conner-law">Conner Law</a> &rsaquo;
+          CONNER LAW GROUP — BRAND STANDARDS
+        </div>
+        <h1 class="doc-title">CONNER LAW GROUP — BRAND STANDARDS</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(74,144,217,0.12);color:#4A90D9">&#9878; Conner Law</span>
+          <span class="doc-path">05-Conner Law / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="conner-law-group-brand-standards">CONNER LAW GROUP — BRAND STANDARDS</h1>
+<p><strong>Version 3.0 | April 2026</strong></p>
+<p>Applies to: Conner Law Group (Umbrella) | Merkel &amp; Conner | Conner Injury Law | MBCS | KevLaw AI</p>
+<blockquote>Consolidated from BRAND STYLE GUIDE v2.0 and BRAND GUIDELINES &amp; POSITIONING v1.0. Originals archived to <code>_killed/2026-04-24/05-Conner Law/</code>.</blockquote>
+<hr>
+<h2 id="table-of-contents">TABLE OF CONTENTS</h2>
+<ol>
+<li>Brand Architecture &amp; Identity Hierarchy</li>
+<li>Mission, Values &amp; Positioning</li>
+<li>Colour Palette</li>
+<li>Typography</li>
+<li>Logo Usage Rules</li>
+<li>Photography &amp; Visual Style</li>
+<li>Tone of Voice — Group &amp; Per Brand Tier</li>
+<li>Writing Style &amp; Language Rules</li>
+<li>Do&#x27;s and Don&#x27;ts</li>
+<li>Digital Specifications</li>
+<li>Print Specifications</li>
+<li>Social Media Standards</li>
+<li>Document &amp; Correspondence Formatting</li>
+<li>KevLaw AI Product Branding</li>
+<li>Website Positioning by Firm</li>
+<li>Brand Strategy Roadmap</li>
+</ol>
+<hr>
+<h2 id="1-brand-architecture-amp-identity-hierarchy">1. BRAND ARCHITECTURE &amp; IDENTITY HIERARCHY</h2>
+<p>Conner Law Group operates as the umbrella brand. Four sub-brands sit beneath it, each with distinct positioning but sharing the group&#x27;s visual and verbal foundation.</p>
+<pre><code>CONNER LAW GROUP  (Umbrella — Primary Brand)
+├── Merkel &amp; Conner         (Commercial &amp; Business Law)
+├── Conner Injury Law       (Personal Injury Litigation)
+├── MBCS                    (Medical-Legal Consulting &amp; Support)
+└── KevLaw AI               (Legal Technology SaaS)</code></pre>
+<p><strong>Hierarchy rules:</strong></p>
+<ul>
+<li>The Conner Law Group umbrella mark appears on all group-level materials: corporate website, investor presentations, group email footers, group social media channels, and cross-brand printed collateral.</li>
+<li>Each sub-brand operates independently in its own market-facing communications. Sub-brand materials are designed to serve their specific audience — not to promote the group.</li>
+<li>The phrase &quot;Part of the Conner Law Group&quot; (in Open Sans Light, small point size, Justice Blue) may appear on sub-brand letterhead, email footers, business cards, and website footers. It is not mandatory but is encouraged.</li>
+<li>KevLaw AI has the most visual flexibility given its technology context, but must remain within the defined group colour palette.</li>
+<li>No sub-brand may use another sub-brand&#x27;s logo, colour emphasis treatment, or brand voice on its materials.</li>
+</ul>
+<h3 id="brand-philosophy">Brand Philosophy</h3>
+<p>Conner Law Group operates at the intersection of authority and approachability. Every brand expression — visual, verbal, or experiential — must answer yes to three questions:</p>
+<ol>
+<li>Does this communicate trust?</li>
+<li>Does this communicate expertise?</li>
+<li>Does this feel distinctly Conner Law Group — not generic legal?</li>
+</ol>
+<p>If any answer is no, revise before publishing.</p>
+<hr>
+<h2 id="2-mission-values-amp-positioning">2. MISSION, VALUES &amp; POSITIONING</h2>
+<h3 id="mission">Mission</h3>
+<p>To deliver exceptional legal representation that empowers our clients to move forward with confidence and achieve justice.</p>
+<h3 id="values">Values</h3>
+<ul>
+<li><strong>Integrity</strong> — Honest counsel, ethical practice</li>
+<li><strong>Excellence</strong> — Top-tier work, attention to detail</li>
+<li><strong>Client-First</strong> — Your goals are our goals</li>
+<li><strong>Results-Driven</strong> — We measure success by outcomes</li>
+<li><strong>Accessibility</strong> — Legal expertise should not be intimidating</li>
+</ul>
+<h3 id="master-brand-positioning-statement">Master Brand Positioning Statement</h3>
+<p>&quot;Conner Law Group is a Brisbane-based legal services group combining specialist legal practice with proprietary legal technology — built to deliver better outcomes for clients and a more efficient model for the profession.&quot;</p>
+<h3 id="individual-firm-positioning">Individual Firm Positioning</h3>
+<p><strong>Merkel &amp; Conner:</strong></p>
+<p>&quot;High-value personal injury and medical malpractice representation for victims who deserve justice. We take complex cases seriously and fight to get clients maximum compensation.&quot;</p>
+<ul>
+<li>Practice areas: Personal injury, medical malpractice, product liability</li>
+<li>Target: Individual victims, moderate to high-value cases</li>
+<li>Brand personality: Hard-hitting, client-focused, fighting spirit</li>
+</ul>
+<p><strong>Conner Injury Law:</strong></p>
+<p>&quot;Your local Brisbane law firm for auto accidents, workplace injuries, and personal injury claims. Fast, fair, straightforward representation.&quot;</p>
+<ul>
+<li>Practice areas: Auto accidents, slip and fall, workers comp, general injury</li>
+<li>Target: Local Brisbane area, high volume of moderate-value cases</li>
+<li>Brand personality: Accessible, local, dependable, friendly</li>
+</ul>
+<p><strong>MBCS:</strong></p>
+<p>&quot;Strategic business law and commercial dispute resolution for entrepreneurs and growing companies. We help you navigate challenges, protect assets, and scale confidently.&quot;</p>
+<ul>
+<li>Practice areas: Business law, contracts, corporate, commercial litigation</li>
+<li>Target: Small-medium businesses, entrepreneurs, corporate clients</li>
+<li>Brand personality: Professional, strategic, business-minded, innovative</li>
+</ul>
+<hr>
+<h2 id="3-colour-palette">3. COLOUR PALETTE</h2>
+<h3 id="primary-colours">Primary Colours</h3>
+<div class="table-wrap"><table><thead><tr><th>Colour Name</th><th>Hex</th><th>RGB</th><th>CMYK</th><th>Usage</th></tr></thead><tbody><tr><td>Law Black</td><td>#1A1A1A</td><td>R:26 G:26 B:26</td><td>C:0 M:0 Y:0 K:90</td><td>Primary text, backgrounds, headings on light</td></tr><tr><td>Dark Gold</td><td>#B8860B</td><td>R:184 G:134 B:11</td><td>C:0 M:27 Y:94 K:28</td><td>Accent elements, CTAs, rule lines, highlights</td></tr><tr><td>Justice Blue</td><td>#1E4D7B</td><td>R:30 G:77 B:123</td><td>C:76 M:37 Y:0 K:52</td><td>Secondary headings, links, banners, supporting graphics</td></tr><tr><td>White</td><td>#FFFFFF</td><td>R:255 G:255 B:255</td><td>C:0 M:0 Y:0 K:0</td><td>Backgrounds, reversed text on dark fields</td></tr></tbody></table></div>
+<h3 id="secondary-supporting-colours">Secondary / Supporting Colours</h3>
+<div class="table-wrap"><table><thead><tr><th>Colour Name</th><th>Hex</th><th>Usage</th></tr></thead><tbody><tr><td>Warm Grey</td><td>#F5F5F0</td><td>Page section backgrounds, form fields, card backgrounds</td></tr><tr><td>Mid Grey</td><td>#767676</td><td>Caption text, secondary body copy, metadata, footnotes</td></tr><tr><td>Light Gold</td><td>#D4A843</td><td>Hover states, subtle digital accent only — never as primary</td></tr><tr><td>Deep Blue</td><td>#0F2E4A</td><td>Dark section backgrounds; high-contrast alternative to Justice Blue</td></tr><tr><td>Border Grey</td><td>#E0E0E0</td><td>Table borders, horizontal dividers in documents</td></tr></tbody></table></div>
+<h3 id="colour-usage-rules">Colour Usage Rules</h3>
+<p><strong>Law Black (#1A1A1A)</strong></p>
+<ul>
+<li>Primary text colour on white or Warm Grey backgrounds</li>
+<li>Full-bleed backgrounds for premium sections (hero panels, quote blocks, cover pages)</li>
+<li>Do not use as text on Dark Blue or Justice Blue backgrounds — contrast is insufficient</li>
+<li>Never use pure black (#000000) in brand materials — it reads as harsh and unrefined</li>
+</ul>
+<p><strong>Dark Gold (#B8860B)</strong></p>
+<ul>
+<li>Reserve for maximum impact — no more than 10-15% of any single design</li>
+<li>Suitable for: primary CTA buttons, underline accents on headings, border rules, key statistics, icon colour, blockquote left borders</li>
+<li>Not suitable as a background for body text — contrast too low for readability</li>
+<li>Light Gold (#D4A843) used for hover states only — never as a standalone accent in print</li>
+</ul>
+<p><strong>Justice Blue (#1E4D7B)</strong></p>
+<ul>
+<li>Secondary and H3-level headings, pull-quote text</li>
+<li>Hyperlink colour in digital documents and web content</li>
+<li>Background for mid-tier banner sections (with White text)</li>
+<li>Not suitable on Law Black backgrounds — insufficient contrast</li>
+</ul>
+<p><strong>White (#FFFFFF)</strong></p>
+<ul>
+<li>Primary background for all body content and documents</li>
+<li>Reversed text on Law Black, Deep Blue, or Justice Blue backgrounds</li>
+<li>Never used as text on gold or yellow backgrounds</li>
+</ul>
+<h3 id="approved-colour-combinations">Approved Colour Combinations</h3>
+<div class="table-wrap"><table><thead><tr><th>Background</th><th>Primary Text</th><th>Accent</th><th>Context</th></tr></thead><tbody><tr><td>#FFFFFF</td><td>#1A1A1A</td><td>#B8860B</td><td>Standard page and document</td></tr><tr><td>#1A1A1A</td><td>#FFFFFF</td><td>#B8860B</td><td>Premium hero / cover panels</td></tr><tr><td>#1E4D7B</td><td>#FFFFFF</td><td>#B8860B</td><td>Section dividers, banners</td></tr><tr><td>#F5F5F0</td><td>#1A1A1A</td><td>#1E4D7B</td><td>Form backgrounds, card elements</td></tr><tr><td>#0F2E4A</td><td>#FFFFFF</td><td>#D4A843</td><td>Footer areas, dark feature sections</td></tr></tbody></table></div>
+<h3 id="prohibited-colour-combinations">Prohibited Colour Combinations</h3>
+<ul>
+<li>Gold text (#B8860B) on White (#FFFFFF) — fails WCAG 2.1 AA for body text</li>
+<li>Justice Blue (#1E4D7B) on Law Black (#1A1A1A) — insufficient contrast</li>
+<li>Gold (#B8860B) on Justice Blue (#1E4D7B) — insufficient contrast</li>
+<li>Any colour not listed in this guide introduced without formal brand review</li>
+</ul>
+<h3 id="firm-specific-colour-emphasis">Firm-Specific Colour Emphasis</h3>
+<div class="table-wrap"><table><thead><tr><th>Firm</th><th>Primary Accent Emphasis</th><th>Brand Feel</th></tr></thead><tbody><tr><td>Merkel &amp; Conner</td><td>Dark Gold (#B8860B) dominant</td><td>Premium, authoritative, established</td></tr><tr><td>Conner Injury Law</td><td>Justice Blue (#1E4D7B) dominant</td><td>Accessible, trustworthy, local</td></tr><tr><td>MBCS</td><td>Law Black + Justice Blue balanced</td><td>Professional, technical, efficient</td></tr><tr><td>KevLaw AI</td><td>Law Black + Justice Blue + tech-adjacent layout</td><td>Modern, intelligent, forward-thinking</td></tr></tbody></table></div>
+<hr>
+<h2 id="4-typography">4. TYPOGRAPHY</h2>
+<h3 id="primary-typefaces">Primary Typefaces</h3>
+<p><strong>Heading Font: Georgia (Serif)</strong></p>
+<p>Georgia is the mandated brand heading font. Its classical serif form communicates legal authority, tradition, and trust — the appropriate foundation for a legal brand of this calibre.</p>
+<ul>
+<li>Web alternative if Georgia unavailable: Playfair Display or EB Garamond (both available via Google Fonts)</li>
+<li>Do not substitute with Times New Roman for brand materials (Times New Roman is reserved for court documents only)</li>
+</ul>
+<p><strong>Body Font: Open Sans (Sans-Serif)</strong></p>
+<p>Open Sans provides excellent legibility at small sizes, a sense of modernity and approachability, and optimal contrast when paired with Georgia headings.</p>
+<ul>
+<li>Web source: Google Fonts (fonts.google.com/specimen/Open+Sans)</li>
+<li>Web alternative if Open Sans unavailable: Lato or Inter</li>
+</ul>
+<p><strong>Accent / Label Font: Montserrat (Sans-Serif)</strong></p>
+<p>Montserrat is used for all-caps labels, button text, navigation items, and KevLaw AI brand materials where a more technology-forward, geometric feel is required.</p>
+<ul>
+<li>Use sparingly — one additional typeface beyond the Georgia/Open Sans pairing</li>
+<li>Never use Montserrat for body copy or extended reading text</li>
+</ul>
+<p><strong>Court Document Font: Times New Roman</strong></p>
+<p>Times New Roman 12pt is used for formal legal documents submitted to Queensland courts, consistent with court formatting requirements. This applies to court filings and formal letters of demand only — not to marketing materials or brand collateral.</p>
+<h3 id="type-scale-documents">Type Scale — Documents</h3>
+<div class="table-wrap"><table><thead><tr><th>Element</th><th>Typeface</th><th>Size</th><th>Weight</th><th>Colour</th></tr></thead><tbody><tr><td>H1 — Document Title</td><td>Georgia</td><td>28pt</td><td>Bold</td><td>#1A1A1A</td></tr><tr><td>H2 — Major Section</td><td>Georgia</td><td>20pt</td><td>Bold</td><td>#1A1A1A</td></tr><tr><td>H3 — Subsection</td><td>Georgia</td><td>15pt</td><td>Bold</td><td>#1E4D7B</td></tr><tr><td>H4 — Sub-subsection</td><td>Open Sans</td><td>13pt</td><td>SemiBold</td><td>#1A1A1A</td></tr><tr><td>Body text</td><td>Open Sans</td><td>11pt</td><td>Regular</td><td>#1A1A1A</td></tr><tr><td>Captions / footnotes</td><td>Open Sans</td><td>9pt</td><td>Regular</td><td>#767676</td></tr><tr><td>Montserrat labels / tags</td><td>Montserrat</td><td>8pt</td><td>SemiBold (All Caps)</td><td>Varies</td></tr><tr><td>Pull quotes</td><td>Georgia</td><td>13pt</td><td>Italic</td><td>#1E4D7B</td></tr></tbody></table></div>
+<h3 id="type-scale-web">Type Scale — Web</h3>
+<div class="table-wrap"><table><thead><tr><th>Element</th><th>Typeface</th><th>Size</th><th>Weight</th></tr></thead><tbody><tr><td>H1</td><td>Georgia</td><td>48-56px</td><td>700</td></tr><tr><td>H2</td><td>Georgia</td><td>36px</td><td>700</td></tr><tr><td>H3</td><td>Georgia</td><td>24px</td><td>700</td></tr><tr><td>Body</td><td>Open Sans</td><td>16-18px</td><td>400</td></tr><tr><td>Small / caption</td><td>Open Sans</td><td>14px</td><td>400</td></tr><tr><td>Button text</td><td>Montserrat</td><td>14px</td><td>700 (All Caps)</td></tr><tr><td>Navigation</td><td>Open Sans</td><td>15px</td><td>600</td></tr></tbody></table></div>
+<h3 id="typography-rules">Typography Rules</h3>
+<p><strong>Do:</strong></p>
+<ul>
+<li>Use sentence case for all headings in brand materials (not ALL CAPS, except Montserrat labels)</li>
+<li>Maintain generous line spacing — 1.6 minimum for body text; 1.4 for tight document layouts</li>
+<li>Left-align body text; centre headings only when used in standalone hero or section-divider contexts</li>
+<li>Bold defined terms in legal documents on first use</li>
+<li>Use heading hierarchy in strict sequence — never skip from H1 to H3</li>
+</ul>
+<p><strong>Do not:</strong></p>
+<ul>
+<li>Mix more than two typeface families in any single document or design</li>
+<li>Use italic for extended body text — italic is for emphasis and pull quotes only</li>
+<li>Use font sizes below 9pt in client-facing materials</li>
+<li>Apply faux bold or faux italic — use the actual font weight file</li>
+<li>Use decorative or script fonts under any circumstances</li>
+</ul>
+<hr>
+<h2 id="5-logo-usage-rules">5. LOGO USAGE RULES</h2>
+<h3 id="logo-variants-all-entities">Logo Variants (All Entities)</h3>
+<div class="table-wrap"><table><thead><tr><th>Variant</th><th>Approved Use</th></tr></thead><tbody><tr><td>Full colour (dark)</td><td>White or Warm Grey backgrounds — standard use</td></tr><tr><td>Reversed (white/gold)</td><td>Dark backgrounds (#1A1A1A, #1E4D7B, #0F2E4A)</td></tr><tr><td>Gold variant</td><td>Premium print materials, award presentations, embossing</td></tr><tr><td>Single-colour (black)</td><td>Fax, single-colour printing, legal document headers</td></tr><tr><td>Icon / lettermark only</td><td>Favicon, app icon, small-space applications under minimum size</td></tr></tbody></table></div>
+<h3 id="clear-space">Clear Space</h3>
+<p>Maintain a clear space equal to the cap-height of the firm name&#x27;s first letter on all four sides of the logo. No typography, imagery, graphic element, or border may appear within this clear space.</p>
+<h3 id="minimum-sizes">Minimum Sizes</h3>
+<ul>
+<li>Print: 20mm wide (icon mark only below 20mm)</li>
+<li>Digital: 80px wide (icon mark only below 80px)</li>
+<li>Favicon: Icon/lettermark version only</li>
+</ul>
+<h3 id="approved-background-placements">Approved Background Placements</h3>
+<ul>
+<li>Full colour logo: White (#FFFFFF) or Warm Grey (#F5F5F0) only</li>
+<li>Reversed (white) logo: Law Black (#1A1A1A), Justice Blue (#1E4D7B), or Deep Blue (#0F2E4A)</li>
+<li>Never place any logo version over a photographic background without a solid-colour container beneath it</li>
+</ul>
+<h3 id="prohibited-logo-treatments">Prohibited Logo Treatments</h3>
+<ul>
+<li>Do not rotate, skew, stretch, distort, or crop the logo in any dimension</li>
+<li>Do not change any colour within the logo outside of approved variants</li>
+<li>Do not add drop shadows, glows, emboss effects, outlines, or gradients</li>
+<li>Do not recreate the logo in any typeface other than the approved master file</li>
+<li>Do not use a logo from one sub-brand on another sub-brand&#x27;s materials</li>
+<li>Do not use the Conner Law Group umbrella mark on sub-brand materials except as the approved &quot;Part of the Conner Law Group&quot; text treatment</li>
+<li>Do not use rasterised (low-resolution) logo files for print — use vector (SVG or EPS) for all print applications</li>
+</ul>
+<h3 id="firm-specific-logo-treatments">Firm-Specific Logo Treatments</h3>
+<div class="table-wrap"><table><thead><tr><th>Firm</th><th>Approved Logo Treatment</th></tr></thead><tbody><tr><td>Merkel &amp; Conner</td><td>Law Black wordmark; &quot;&amp;&quot; symbol in Dark Gold (#B8860B)</td></tr><tr><td>Conner Injury Law</td><td>Justice Blue (#1E4D7B) primary wordmark</td></tr><tr><td>MBCS</td><td>Law Black + Justice Blue wordmark</td></tr><tr><td>KevLaw AI</td><td>Law Black + Justice Blue; &quot;AI&quot; in Justice Blue; modern sans-serif treatment</td></tr></tbody></table></div>
+<hr>
+<h2 id="6-photography-amp-visual-style">6. PHOTOGRAPHY &amp; VISUAL STYLE</h2>
+<h3 id="photography-style-subject-matter">Photography Style — Subject Matter</h3>
+<p><strong>Approved:</strong></p>
+<ul>
+<li>Authentic professional portraits of solicitors and staff in natural or professional office environments</li>
+<li>Brisbane cityscape and identifiable Queensland locations — grounding the brand in its home</li>
+<li>Client-side imagery: diverse individuals in real-life contexts (not exaggerated injury poses or theatrical distress)</li>
+<li>Professional workspace imagery: clean desks, legal books, natural light through windows, document review</li>
+<li>Courthouse exteriors (Queensland courts); legal proceedings in session (tastefully staged or licensed)</li>
+<li>MBCS: clinical but professional — medical-adjacent imagery conveying expertise, not cold sterility</li>
+<li>KevLaw AI: screens, interfaces, modern workplace environments, technology in use</li>
+</ul>
+<p><strong>Prohibited:</strong></p>
+<ul>
+<li>Generic handshake stock photography</li>
+<li>US-specific legal iconography (US Supreme Court, US-style courtrooms)</li>
+<li>Gavel-and-scales compositions as the primary or dominant image (minor supporting use acceptable)</li>
+<li>People in obvious pain or distress, grimacing, or in staged injury poses</li>
+<li>Overly posed &quot;pointing at document&quot; or &quot;smiling at laptop&quot; corporate stock cliches</li>
+<li>Images without appropriate licensing or client consent (for client-adjacent imagery)</li>
+</ul>
+<h3 id="photography-technical-treatment">Photography Technical Treatment</h3>
+<p><strong>Colour Grade:</strong> Slightly warm, high-contrast grade — rich deep shadows, strong midtones, no cool or blue cast. This aligns visually with the Law Black and Dark Gold palette and communicates authority.</p>
+<p><strong>Composition:</strong> Subject positioned with clear breathing room for text overlay. Portrait orientation for team headshots (4:5 ratio, subject centred with natural negative space above). Landscape for hero panels (16:9 minimum, subject in left or right third).</p>
+<p><strong>Team Photography Standards:</strong></p>
+<ul>
+<li>All portraits: consistent lighting (natural window light preferred; professional flash acceptable for consistency), neutral background (light grey or white wall)</li>
+<li>Business attire: solicitors in suits or professional dress; support staff in smart professional attire</li>
+<li>Expression: confident and approachable — direct eye contact; no severe or stiff expressions</li>
+<li>No casual or selfie-style photography for professional use</li>
+</ul>
+<h3 id="graphic-elements">Graphic Elements</h3>
+<p><strong>Rule lines:</strong> Dark Gold (#B8860B) 1-2pt horizontal rules used to separate major document or design sections.</p>
+<p><strong>Icons:</strong> Line-style icons, consistent 2px stroke weight, single-colour in brand palette. Recommended libraries: Heroicons, Phosphor Icons (open source).</p>
+<p><strong>Quote blocks:</strong> Large opening quotation mark in Dark Gold, italic Georgia for quote text, solicitor name in Open Sans Regular below.</p>
+<p><strong>Data / statistics:</strong> Large Georgia Bold numerals, Open Sans Regular label beneath, Dark Gold underline accent.</p>
+<p><strong>Patterns / textures:</strong> Subtle grain or noise texture overlays permitted on dark (#1A1A1A) backgrounds only — never on white.</p>
+<hr>
+<h2 id="7-tone-of-voice-group-amp-per-brand-tier">7. TONE OF VOICE — GROUP &amp; PER BRAND TIER</h2>
+<h3 id="conner-law-group-umbrella">Conner Law Group (Umbrella)</h3>
+<p><strong>Tone: Professional, authoritative, integrated.</strong> This voice is used for group-level communications — investor materials, corporate website, industry presence, media statements, and cross-brand content.</p>
+<ul>
+<li>Complete sentences, formal but not stiff</li>
+<li>Refers to the group by name (&quot;Conner Law Group&quot;) rather than &quot;we&quot; in most contexts</li>
+<li>Quantifies where possible: &quot;four specialist business units,&quot; &quot;multi-million AUD revenue target&quot;</li>
+<li>Does not use superlatives without substantiation</li>
+<li>Confident without being boastful</li>
+</ul>
+<p><strong>Example:</strong> &quot;Conner Law Group is a Brisbane-based legal services group combining specialist legal practice with proprietary legal technology — built to deliver better outcomes for clients and a more efficient model for the profession.&quot;</p>
+<h3 id="merkel-amp-conner-commercial-amp-business-law">Merkel &amp; Conner (Commercial &amp; Business Law)</h3>
+<p><strong>Tone: Commercially-minded, pragmatic, direct.</strong> Speaks to Queensland business owners and founders who are intelligent, time-poor, and do not want to be buried in legal theory.</p>
+<ul>
+<li>Frames advice in terms of business outcomes, not legal process</li>
+<li>Plain English for concepts; correct legal terminology when specificity matters</li>
+<li>Peer register — advises, does not lecture</li>
+<li>References real business risk and real business consequences</li>
+<li>Serious but not intimidating</li>
+</ul>
+<p><strong>Example:</strong> &quot;If your shareholder agreement doesn&#x27;t address what happens when a founder wants to exit, you are one difficult conversation away from an expensive dispute. Let&#x27;s fix that now.&quot;</p>
+<h3 id="conner-injury-law-personal-injury">Conner Injury Law (Personal Injury)</h3>
+<p><strong>Tone: Empathetic, plain-spoken, confident.</strong> Speaks directly to injured individuals who are often stressed, confused, and unfamiliar with legal processes.</p>
+<ul>
+<li>Uses &quot;you&quot; and &quot;we&quot; — direct, human address</li>
+<li>Eliminates all legal jargon; explains every step in plain language</li>
+<li>Acknowledges the emotional reality of injury — not clinical, not cold</li>
+<li>Confident but never aggressive: &quot;you may be entitled to significant compensation&quot; not &quot;we&#x27;ll get you millions&quot;</li>
+<li>Short sentences, short paragraphs, clear headers</li>
+</ul>
+<p><strong>Example:</strong> &quot;You&#x27;ve been through enough. You shouldn&#x27;t have to fight through confusing paperwork and legal jargon on top of everything else. We take care of the legal side, in plain English, every step of the way.&quot;</p>
+<h3 id="mbcs-medical-legal-consulting-amp-support">MBCS (Medical-Legal Consulting &amp; Support)</h3>
+<p><strong>Tone: Technical, efficient, professional.</strong> Speaks to law firm principals, solicitors, and practice managers. Assumes professional knowledge. Respects the reader&#x27;s time.</p>
+<ul>
+<li>Uses correct professional terminology without defining the basics</li>
+<li>Leads with value and operational efficiency</li>
+<li>Quantifies benefits: turnaround times, files managed, resource savings</li>
+<li>B2B register — transactional, clear, and outcome-focused</li>
+<li>No warmth-for-warmth&#x27;s-sake; results-oriented</li>
+</ul>
+<p><strong>Example:</strong> &quot;MBCS coordinates your IMEs, medical chronologies, and expert briefs from instruction to delivery — so your fee-earners focus on legal work, not administration.&quot;</p>
+<h3 id="kevlaw-ai-legal-technology-saas">KevLaw AI (Legal Technology SaaS)</h3>
+<p><strong>Tone: Forward-thinking, practical, understated.</strong> Speaks to innovative law firm principals and practice managers who are receptive to technology but require proof, not hype.</p>
+<ul>
+<li>Leads with the problem the product solves — not the product itself</li>
+<li>Uses specifics: &quot;first draft in under sixty seconds,&quot; &quot;reduces document drafting time by 70%&quot;</li>
+<li>Never uses tech hype language: no &quot;revolutionary,&quot; &quot;disruptive,&quot; &quot;game-changing,&quot; &quot;cutting-edge&quot;</li>
+<li>Invites healthy scepticism — then answers it</li>
+<li>The product is intelligent and serious; so is the voice</li>
+</ul>
+<p><strong>Example:</strong> &quot;Most law firm document drafting follows predictable formats. KevLaw AI handles the first draft so your solicitors can focus on the judgement that only they can provide.&quot;</p>
+<h3 id="language-examples-all-firms">Language Examples (All Firms)</h3>
+<p><strong>Do sound like this:</strong></p>
+<ul>
+<li>&quot;Here&#x27;s what happened to other clients in your situation, and how we helped them.&quot;</li>
+<li>&quot;This is a strong case. Here&#x27;s why, and here&#x27;s what we&#x27;ll do to maximize your settlement.&quot;</li>
+<li>&quot;We fight for clients. That&#x27;s what we do.&quot;</li>
+</ul>
+<p><strong>Do not sound like this:</strong></p>
+<ul>
+<li>&quot;We shall endeavor to obtain equitable remuneration through litigation proceedings.&quot;</li>
+<li>&quot;Our legal prowess is unparalleled in Queensland.&quot;</li>
+</ul>
+<hr>
+<h2 id="8-writing-style-amp-language-rules">8. WRITING STYLE &amp; LANGUAGE RULES</h2>
+<h3 id="australian-english-mandatory">Australian English — Mandatory</h3>
+<p>All Conner Law Group materials are written in Australian English throughout. This is non-negotiable.</p>
+<ul>
+<li>Colour / colour, organisation / organisation, realise / realise, licence / licence (noun), defense / defence, judgement (general use)</li>
+<li>Use &quot;solicitor&quot; not &quot;attorney&quot; or &quot;lawyer&quot; in formal contexts</li>
+<li>Use &quot;proceedings&quot; or &quot;claim&quot; not &quot;lawsuit&quot;</li>
+<li>Use &quot;barrister&quot; not &quot;trial lawyer&quot; or &quot;litigator&quot; in formal contexts</li>
+</ul>
+<h3 id="grammar-amp-punctuation">Grammar &amp; Punctuation</h3>
+<ul>
+<li>Oxford comma: used throughout all group materials (&quot;Merkel &amp; Conner, Conner Injury Law, MBCS, and KevLaw AI&quot;)</li>
+<li>Single quotation marks for primary quoted material in marketing copy; double quotation marks for nested quotes</li>
+<li>Dates: Day Month Year — &quot;7 March 2026&quot; (not &quot;March 7, 2026&quot; or &quot;7/3/26&quot; in formal copy)</li>
+<li>Currency: $ for domestic-facing content; AUD or A$ for international-facing content</li>
+<li>Numbers: write out one to nine; numerals for 10 and above; always numerals for dollar amounts, percentages, dates, and legal timelines</li>
+<li>Acronyms: spell out on first use with acronym in parentheses — &quot;Motor Accident Insurance Commission (MAIC)&quot; — then use acronym subsequently</li>
+</ul>
+<h3 id="legal-references">Legal References</h3>
+<ul>
+<li>Italicise legislation titles: <em>Legal Profession Act 2007</em> (Qld)</li>
+<li>Italicise case names: <em>Smith v Jones</em> [2022] QSC 44</li>
+<li>Use correct jurisdiction citation: (Qld), (Cth), (NSW) as applicable</li>
+<li>Do not cite legislation without verifying currency — always check current version</li>
+</ul>
+<h3 id="required-disclaimers">Required Disclaimers</h3>
+<p>All client-facing marketing materials must carry appropriate disclaimers:</p>
+<p><strong>Personal injury materials:</strong> &quot;This information is general in nature and does not constitute legal advice. Past results do not guarantee future outcomes. Contact Conner Injury Law for advice specific to your circumstances.&quot;</p>
+<p><strong>Commercial law materials:</strong> &quot;The information on this page is general in nature. It does not constitute legal advice and should not be relied upon as such. Please contact Merkel &amp; Conner for advice tailored to your situation.&quot;</p>
+<p><strong>Testimonial content:</strong> &quot;Client testimonials reflect individual experiences and outcomes. Results will vary depending on the specific circumstances of each matter.&quot;</p>
+<p><strong>KevLaw AI:</strong> &quot;KevLaw AI generates first-draft documents for review and approval by a qualified legal practitioner. Outputs do not constitute legal advice. Practitioners retain full professional responsibility for all documents issued.&quot;</p>
+<hr>
+<h2 id="9-dox27s-and-donx27ts">9. DO&#x27;S AND DON&#x27;TS</h2>
+<h3 id="do">DO</h3>
+<ul>
+<li>Use consistent brand colours for each sub-brand across all materials</li>
+<li>Use authentic team photography — not generic stock photography</li>
+<li>Write in Australian English throughout all materials</li>
+<li>Include appropriate legal disclaimers on all client-facing and marketing materials</li>
+<li>Use Georgia for headings and Open Sans for body copy on all brand materials</li>
+<li>Maintain clear space around all logos at all times</li>
+<li>Quantify claims where possible — specificity builds trust</li>
+<li>Apply the correct firm voice when producing materials for each sub-brand</li>
+<li>Review all practice area content for legal accuracy before publication</li>
+<li>Respond to all Google and social media reviews professionally and promptly</li>
+<li>Focus on client results and outcomes in all messaging</li>
+<li>Feature client stories and case results where appropriate</li>
+<li>Build trust through transparency and expertise</li>
+</ul>
+<h3 id="donx27t">DON&#x27;T</h3>
+<ul>
+<li>Introduce non-approved colours (no pastels, no bright red, no orange, no green)</li>
+<li>Use American spellings or legal terminology (&quot;attorney,&quot; &quot;lawsuit,&quot; &quot;judgment&quot; in general writing)</li>
+<li>Make guarantees about outcomes (&quot;we will win your case&quot;)</li>
+<li>Use exaggerated or unverifiable settlement claims in advertising</li>
+<li>Place one sub-brand&#x27;s visual identity on another sub-brand&#x27;s materials</li>
+<li>Use pixelated, low-resolution, or non-brand-approved imagery</li>
+<li>Overuse Dark Gold — it loses impact immediately when it appears too frequently</li>
+<li>Use font sizes below the minimums specified in this guide</li>
+<li>Publish content without a practitioner accuracy review for any legal practice area content</li>
+<li>Use any emoji in formal brand materials, letterhead, legal correspondence, or professional social media posts</li>
+<li>Mislead about fees or costs</li>
+<li>Use overly casual or playful tone</li>
+</ul>
+<hr>
+<h2 id="10-digital-specifications">10. DIGITAL SPECIFICATIONS</h2>
+<h3 id="web-design">Web Design</h3>
+<p><strong>Layout:</strong></p>
+<ul>
+<li>Desktop content max-width: 1200px (viewport 1440px)</li>
+<li>Tablet breakpoint: 768-1024px</li>
+<li>Mobile breakpoint: 320-767px</li>
+<li>Standard section padding: 80px vertical (desktop), 48px (mobile)</li>
+</ul>
+<p><strong>Accessibility (WCAG 2.1 AA required):</strong></p>
+<ul>
+<li>Body text: minimum 4.5:1 contrast ratio</li>
+<li>Large text (18pt+ or 14pt+ bold): minimum 3:1 contrast ratio</li>
+<li>All interactive elements must have visible focus state using brand colours</li>
+<li>All images must have descriptive alt text</li>
+</ul>
+<p><strong>Button Styles:</strong></p>
+<ul>
+<li>Primary CTA: Dark Gold (#B8860B) background, White (#FFFFFF) text, Montserrat SemiBold, 14px, 6px border radius</li>
+<li>Secondary CTA: Justice Blue (#1E4D7B) background, White text, Montserrat SemiBold, 14px</li>
+<li>Ghost / outline: 1.5px border in Law Black (#1A1A1A), Law Black text, transparent background</li>
+</ul>
+<p><strong>Digital Image Sizes:</strong></p>
+<ul>
+<li>Hero images: 1920 x 800px minimum, WebP format preferred</li>
+<li>Team portraits: 600 x 750px (4:5 ratio)</li>
+<li>Blog / article featured images: 1200 x 630px</li>
+<li>Social sharing images (OG): 1200 x 630px</li>
+</ul>
+<p><strong>File Formats:</strong></p>
+<ul>
+<li>Logos: SVG for all web use; PNG at 2x resolution as fallback</li>
+<li>Photography: WebP primary, JPEG fallback; maximum 200KB per image after compression</li>
+<li>Print-ready files: PDF/X-1a or PDF/X-4</li>
+</ul>
+<h3 id="email">Email</h3>
+<ul>
+<li>Width: 600px maximum</li>
+<li>Header block: Law Black (#1A1A1A) background, White reversed logo, full-width</li>
+<li>Body background: White (#FFFFFF)</li>
+<li>Body text: Open Sans 14-16px, #1A1A1A</li>
+<li>Primary CTA button: Dark Gold (#B8860B) background, White text, Montserrat SemiBold</li>
+<li>Footer: Warm Grey (#F5F5F0) background, Open Sans 11px, #767676; include unsubscribe link, physical address, legal disclaimer, ABN</li>
+</ul>
+<hr>
+<h2 id="11-print-specifications">11. PRINT SPECIFICATIONS</h2>
+<h3 id="business-cards">Business Cards</h3>
+<ul>
+<li>Size: 90 x 55mm</li>
+<li>Front: sub-brand logo (top left); solicitor name in Georgia Bold 12pt; title in Open Sans Regular 9pt; contact details in Open Sans Regular 8pt</li>
+<li>Back: Law Black (#1A1A1A) background; firm tagline in White Georgia 12pt; &quot;Part of the Conner Law Group&quot; in Dark Gold 7pt, centred</li>
+<li>Material: 400gsm soft-touch laminate (Merkel &amp; Conner); 350gsm matte (Conner Injury Law — warmer, more accessible feel)</li>
+<li>Bleed: 3mm all edges; safe zone: 3mm inset from trim</li>
+</ul>
+<h3 id="letterhead">Letterhead</h3>
+<ul>
+<li>Size: A4 (210 x 297mm)</li>
+<li>Logo: top left, maximum 50mm wide</li>
+<li>Firm contact details: top right in Open Sans Regular 9pt, #1A1A1A</li>
+<li>Header rule: 1pt Dark Gold (#B8860B) horizontal rule beneath header block</li>
+<li>Margins: 25mm top, 20mm bottom, 20mm left, 20mm right</li>
+<li>Body text: Open Sans 11pt for client letters; Times New Roman 12pt for court documents</li>
+<li>Footer: &quot;Part of the Conner Law Group&quot; in Open Sans Light 7pt | registered entity details | ABN | QLS registration reference</li>
+</ul>
+<h3 id="brochures">Brochures</h3>
+<ul>
+<li>Standard trifold: 210 x 297mm (A4 trifold)</li>
+<li>Cover: full-bleed photography, Law Black overlay at 70% opacity, firm name in White Georgia 28pt</li>
+<li>Interior: White background, standard typography hierarchy; Dark Gold rule lines between sections; 15mm margins</li>
+<li>Minimum print resolution: 300dpi for all images and logos</li>
+<li>Colour mode: CMYK — verify all Hex colours are converted to CMYK per values in this guide</li>
+</ul>
+<hr>
+<h2 id="12-social-media-standards">12. SOCIAL MEDIA STANDARDS</h2>
+<h3 id="profile-setup-all-entities">Profile Setup (All Entities)</h3>
+<ul>
+<li>Profile image: correct sub-brand logo (not the umbrella mark unless it is a group account)</li>
+<li>Bio language: aligned with brand voice guidelines for that sub-brand</li>
+<li>Website URL: linking to the correct sub-brand landing page</li>
+<li>Contact details and hours kept current and accurate</li>
+</ul>
+<h3 id="image-sizes-by-platform">Image Sizes by Platform</h3>
+<div class="table-wrap"><table><thead><tr><th>Platform</th><th>Post / Feed Image</th><th>Profile Image</th><th>Cover / Banner</th></tr></thead><tbody><tr><td>LinkedIn</td><td>1200 x 627px</td><td>400 x 400px</td><td>1584 x 396px</td></tr><tr><td>Facebook</td><td>1200 x 630px</td><td>180 x 180px</td><td>820 x 312px</td></tr><tr><td>Instagram</td><td>1080 x 1080px (feed)</td><td>320 x 320px</td><td>N/A</td></tr><tr><td>Google Business</td><td>720 x 720px (posts)</td><td>250 x 250px</td><td>1332 x 750px</td></tr></tbody></table></div>
+<h3 id="social-media-visual-standards">Social Media Visual Standards</h3>
+<ul>
+<li>All social media graphics must use brand colours only — no off-palette colours</li>
+<li>Text on graphics: Open Sans SemiBold, legible at mobile screen sizes — minimum 24px equivalent</li>
+<li>Every post graphic includes the sub-brand logo (bottom right or bottom left, not obstructing the primary visual)</li>
+<li>No amateur screenshot-style or text-heavy compositions — all graphics designed to brand standard</li>
+<li>Video: 1080p minimum; captions included for accessibility; brand opening and closing frames</li>
+</ul>
+<h3 id="hashtags">Hashtags</h3>
+<div class="table-wrap"><table><thead><tr><th>Brand</th><th>Primary Hashtags</th></tr></thead><tbody><tr><td>Conner Law Group</td><td>#ConnerLawGroup #BrisbaneLaw #QueenslandLaw</td></tr><tr><td>Conner Injury Law</td><td>#PersonalInjuryQLD #ConnerInjuryLaw #NoWinNoFee #BrisbanePersonalInjury</td></tr><tr><td>Merkel &amp; Conner</td><td>#MerkelConner #BusinessLawBrisbane #QueenslandBusinessLaw #SMELegal</td></tr><tr><td>MBCS</td><td>#MedicalLegalSupport #MBCS #MedicoLegal #PersonalInjurySupport</td></tr><tr><td>KevLaw AI</td><td>#KevLawAI #LegalTech #AustralianLegalTech #LawFirmAutomation</td></tr></tbody></table></div>
+<h3 id="posting-frequency-targets">Posting Frequency Targets</h3>
+<div class="table-wrap"><table><thead><tr><th>Platform</th><th>Entity</th><th>Target Frequency</th></tr></thead><tbody><tr><td>LinkedIn</td><td>All entities</td><td>3x per week (group or entity level)</td></tr><tr><td>Facebook</td><td>Conner Injury Law</td><td>5x per week</td></tr><tr><td>Google Business Profile</td><td>All entities</td><td>1x per week minimum per entity</td></tr></tbody></table></div>
+<hr>
+<h2 id="13-document-amp-correspondence-formatting">13. DOCUMENT &amp; CORRESPONDENCE FORMATTING</h2>
+<h3 id="client-letters">Client Letters</h3>
+<ul>
+<li><strong>Salutation:</strong> &quot;Dear [Client First Name],&quot; — never &quot;Dear Sir/Madam&quot; unless identity is genuinely unknown</li>
+<li><strong>Structure:</strong> Purpose of letter — Key information — Required action — Contact details — Closing</li>
+<li><strong>Closing:</strong> &quot;Yours faithfully&quot; (unknown or fully formal); &quot;Yours sincerely&quot; (named client)</li>
+<li><strong>Signature block:</strong> Full name | Qualification (LLB, LLM) | Firm name | Direct phone | Email</li>
+</ul>
+<h3 id="legal-documents-retainers-agreements-court-documents">Legal Documents (Retainers, Agreements, Court Documents)</h3>
+<ul>
+<li>Clause numbering: 1. / 1.1 / 1.1.1 format throughout</li>
+<li>Defined terms: <strong>Bold</strong> on first use; capitalised throughout the document</li>
+<li>Signature blocks: Two-column layout, ample pen space; print name below signature line</li>
+<li>Document footer: &quot;This document is confidential. [Firm Name] | <em>Legal Profession Act 2007</em> (Qld)&quot;</li>
+</ul>
+<h3 id="internal-documents-amp-file-notes">Internal Documents &amp; File Notes</h3>
+<ul>
+<li>All internal documents: Law Black text on White background</li>
+<li>File headings: Georgia Bold, matter name and file number</li>
+<li>Section headings: Open Sans SemiBold</li>
+<li>Date of note and author name at top of every file note</li>
+<li>Do not use Microsoft Word default &quot;Normal&quot; style — apply brand-specified font and size</li>
+</ul>
+<h3 id="email-signatures-all-staff-mandatory-format">Email Signatures (All Staff — Mandatory Format)</h3>
+<pre><code>[Full Name]
+[Title] | [Firm Name]
+Part of the Conner Law Group
+
+P: +61 [X] [XXXX] [XXXX]
+E: [firstname@firmname.com.au]
+W: [www.firmname.com.au]
+[Firm Address], Brisbane QLD [Postcode]
+
+This email and any attachments are confidential and may be subject to legal professional
+privilege. If you are not the intended recipient, please notify the sender immediately and
+delete this message. [Firm Name] is regulated by the Queensland Law Society.
+Liability limited by a scheme approved under Professional Standards Legislation.</code></pre>
+<p><strong>Email signature rules:</strong></p>
+<ul>
+<li>All staff use this standard template — no personalised designs, emoji, or custom additions</li>
+<li>No inspirational or motivational quotes</li>
+<li>No device-generated signatures (&quot;Sent from my iPhone&quot;) — use desktop email client signatures</li>
+<li>Firm logo included as a small embedded image (maximum 120px wide, linked to firm website)</li>
+<li>Gold 2px horizontal rule separates the name block from contact details</li>
+</ul>
+<hr>
+<h2 id="14-kevlaw-ai-product-branding">14. KEVLAW AI PRODUCT BRANDING</h2>
+<h3 id="what-is-kevlaw-ai">What is KevLaw AI?</h3>
+<p>An AI-powered legal research and document drafting tool designed specifically for law firms (initially for Conner Law Group and partners).</p>
+<h3 id="positioning">Positioning</h3>
+<p>&quot;KevLaw AI accelerates legal research and document preparation while maintaining the strategic judgment only human lawyers can provide. It&#x27;s not a replacement for solicitors — it&#x27;s a force multiplier.&quot;</p>
+<h3 id="key-features">Key Features</h3>
+<ul>
+<li>Demand letter generation (auto-draft based on case details)</li>
+<li>Legal research aggregation (pulls relevant case law automatically)</li>
+<li>Contract template library (customisable, client-specific)</li>
+<li>Case timeline and document management</li>
+<li>Billing integration</li>
+</ul>
+<h3 id="brand-voice-for-kevlaw">Brand Voice for KevLaw</h3>
+<ul>
+<li><strong>Tone:</strong> Professional, practical, empowering</li>
+<li><strong>Audience:</strong> Law firms, legal departments, solo practitioners</li>
+<li><strong>Value:</strong> Saves time, reduces errors, increases profit margins</li>
+<li><strong>Positioning:</strong> &quot;Your AI-powered legal assistant&quot;</li>
+<li><strong>Tagline:</strong> &quot;AI-Powered Legal Work. Human-Quality Results.&quot;</li>
+</ul>
+<h3 id="kevlaw-visual-identity">KevLaw Visual Identity</h3>
+<ul>
+<li>Distinct from law firm logos (but complementary colours)</li>
+<li>Should feel modern (AI) but professional (law)</li>
+<li>Social presence: LinkedIn (professional, thought leadership), blog (&quot;KevLaw Insights&quot; — legal tech, productivity, industry trends)</li>
+</ul>
+<hr>
+<h2 id="15-website-positioning-by-firm">15. WEBSITE POSITIONING BY FIRM</h2>
+<h3 id="merkel-amp-conner-website">Merkel &amp; Conner Website</h3>
+<ul>
+<li>Emphasise case results and verdicts</li>
+<li>Feature complex case samples</li>
+<li>Highlight credentials (board certification, awards)</li>
+<li>Client testimonials from major cases</li>
+<li>SEO focus: &quot;medical malpractice lawyer Brisbane,&quot; &quot;personal injury lawyer&quot;</li>
+</ul>
+<h3 id="conner-injury-law-website">Conner Injury Law Website</h3>
+<ul>
+<li>Emphasise accessibility and fast resolution</li>
+<li>Feature common injury types</li>
+<li>Clear pricing/fee structure</li>
+<li>Easy booking/consultation forms</li>
+<li>SEO focus: &quot;Brisbane injury lawyer,&quot; &quot;auto accident lawyer,&quot; &quot;local law firm&quot;</li>
+</ul>
+<h3 id="mbcs-website">MBCS Website</h3>
+<ul>
+<li>Emphasise business experience</li>
+<li>Case studies of business issues resolved</li>
+<li>Team credentials and experience</li>
+<li>Articles on business law topics</li>
+<li>SEO focus: &quot;business lawyer Brisbane,&quot; &quot;commercial law firm,&quot; &quot;contract lawyer&quot;</li>
+</ul>
+<h3 id="conner-law-group-umbrella-site">Conner Law Group Umbrella Site</h3>
+<ul>
+<li>Overview of all three firms</li>
+<li>Firm directory (which firm for which issue)</li>
+<li>Leadership team</li>
+<li>About the history/founding</li>
+<li>Mention KevLaw AI</li>
+<li>Main hub that directs to individual firm sites</li>
+</ul>
+<hr>
+<h2 id="16-brand-strategy-roadmap">16. BRAND STRATEGY ROADMAP</h2>
+<h3 id="current-april-2026">Current (April 2026)</h3>
+<ul>
+<li>Conner Law Group established as umbrella brand</li>
+<li>Each firm with professional online presence</li>
+<li>Consistent branding across all materials</li>
+<li>KevLaw AI in internal use</li>
+</ul>
+<h3 id="by-q4-2027">By Q4 2027</h3>
+<ul>
+<li>All firms fully operational under Conner Law Group umbrella</li>
+<li>KevLaw AI publicly available (paid SaaS product)</li>
+<li>Marketing push around KevLaw (webinars, content, partnerships)</li>
+<li>Conner Law Group positioned as thought leader in legal tech + service</li>
+</ul>
+<hr>
+<p><em>Conner Law Group Brand Standards</em></p>
+<p><em>Version 3.0 | April 2026 | Owner: Ben Alek Conner</em></p>
+<p><em>Consolidated from Brand Style Guide v2.0 and Brand Guidelines &amp; Positioning v1.0</em></p>
+<p><em>This guide is reviewed annually and updated upon any material brand evolution.</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">05-Conner Law/01-strategy/Documents/BRAND STANDARDS.md</div>
+    </main>
+  </div>
+</body>
+</html>

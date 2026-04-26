@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hans Full Power — Give Hans Access to Everything | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          Hans Full Power — Give Hans Access to Everything
+        </div>
+        <h1 class="doc-title">Hans Full Power — Give Hans Access to Everything</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS / 2026 / 04-April</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="hans-full-power-give-hans-access-to-everything">Hans Full Power — Give Hans Access to Everything</h1>
+<p><strong>Status:</strong> In Progress (Phase 1 DONE)</p>
+<p><strong>Created:</strong> 2026-04-24</p>
+<p><strong>Priority:</strong> HIGH — This unlocks the entire automation vision</p>
+<h2 id="context">Context</h2>
+<p>Hans (OpenClaw) is live on Hetzner (claw.nunyabunya.com), connected to WhatsApp + Slack, running Gemini 2.5 Flash (free tier, fresh API key). He has 12 skills active including tmux, github, coding-agent, and cross-channel messaging. NunyaBunyaAgents synced to /opt/NunyaBunyaAgents on Hetzner. Workspace .env with all API keys is at /root/.openclaw/workspace/.env.</p>
+<h2 id="phase-1-git-github-setup-done-2026-04-24">Phase 1: Git + GitHub Setup ✅ DONE (2026-04-24)</h2>
+<ul>
+<li><span class="cb cb-done">&#9745;</span> Initialize git repos for: NunyaBunyaAgents, NB site, PP site, ORCA site, BAC site, marketing-stack</li>
+<li><span class="cb cb-done">&#9745;</span> Push all repos to GitHub (private repos)</li>
+<li><span class="cb cb-done">&#9745;</span> Clone all repos on Hetzner so Hans has access (/opt/repos/)</li>
+<li><span class="cb cb-done">&#9745;</span> Set up SSH deploy key + added to GitHub account (hans-hetzner-deploy)</li>
+<li><span class="cb cb-done">&#9745;</span> Git identity configured on all repos (Hans &lt;hans@nunyabunya.com&gt;)</li>
+<li><span class="cb cb-empty">&#9744;</span> Test: &quot;Hans, show me the latest commits on the NB site&quot;</li>
+</ul>
+<h3 id="github-repos-created">GitHub Repos Created</h3>
+<div class="table-wrap"><table><thead><tr><th>Repo</th><th>GitHub</th><th>Hetzner Path</th></tr></thead><tbody><tr><td>NunyaBunyaAgents</td><td>NunyaBunyaBen/NunyaBunyaAgents</td><td>/opt/repos/NunyaBunyaAgents</td></tr><tr><td>marketing-stack</td><td>NunyaBunyaBen/marketing-stack</td><td>/opt/repos/marketing-stack</td></tr><tr><td>PowerPortraits</td><td>NunyaBunyaBen/PowerPortraits</td><td>/opt/repos/PowerPortraits</td></tr><tr><td>PowerPortraits-Site</td><td>NunyaBunyaBen/PowerPortraits-Site</td><td>/opt/repos/PowerPortraits-Site</td></tr><tr><td>OrcaFilmAwards</td><td>NunyaBunyaBen/OrcaFilmAwards</td><td>/opt/repos/OrcaFilmAwards</td></tr><tr><td>ORCA site</td><td>NunyaBunyaBen/orca-film-awards</td><td>/opt/repos/orca-film-awards</td></tr><tr><td>NB site</td><td>NunyaBunyaBen/NunyaBunyaWebsite</td><td>/opt/repos/NunyaBunyaWebsite</td></tr><tr><td>BAC site</td><td>NunyaBunyaBen/BenAlekConner-Portfolio</td><td>/opt/repos/BenAlekConner-Portfolio</td></tr></tbody></table></div>
+<p>Note: /opt/NunyaBunyaAgents is now a symlink to /opt/repos/NunyaBunyaAgents</p>
+<h2 id="phase-2-cicd-deploy-hooks-in-progress-2026-04-24">Phase 2: CI/CD Deploy Hooks — IN PROGRESS (2026-04-24)</h2>
+<ul>
+<li><span class="cb cb-done">&#9745;</span> Deploy webhook server built + running as Docker container (nb-deploy-webhook)</li>
+<li><span class="cb cb-done">&#9745;</span> Webhook endpoint live at https://deploy.nunyabunya.com/</li>
+<li><span class="cb cb-done">&#9745;</span> GitHub webhooks registered on all 8 repos (push → auto git pull on Hetzner)</li>
+<li><span class="cb cb-done">&#9745;</span> Slack deploy notifications on success/failure (via SLACK<em>WEBHOOK</em>URL)</li>
+<li><span class="cb cb-done">&#9745;</span> marketing-stack pushes auto-sync landing pages to nginx container</li>
+<li><span class="cb cb-empty">&#9744;</span> Connect Vercel projects to GitHub for auto-deploy (NB, ORCA, BAC sites)</li>
+<li><span class="cb cb-empty">&#9744;</span> Test: &quot;Hans, change the hero text on the PP site&quot; → auto deploys</li>
+</ul>
+<h2 id="phase-3-marketing-audit-skill">Phase 3: Marketing Audit Skill</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Build custom OpenClaw skill: /audit &lt;url&gt;</li>
+<li><span class="cb cb-empty">&#9744;</span> Skill runs: Lighthouse, SEO checks, screenshot, social presence scan</li>
+<li><span class="cb cb-empty">&#9744;</span> Generates branded NB PDF using existing HTML→PDF pipeline</li>
+<li><span class="cb cb-empty">&#9744;</span> Posts result to Slack + sends link on WhatsApp</li>
+<li><span class="cb cb-empty">&#9744;</span> Test end-to-end: &quot;Hans, run an audit on example.com&quot;</li>
+</ul>
+<h2 id="phase-4-connect-remaining-creative-tools">Phase 4: Connect Remaining Creative Tools</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Install Puppeteer/wkhtmltopdf on Hetzner for PDF generation</li>
+<li><span class="cb cb-empty">&#9744;</span> Wire up Inkscape CLI for SVG→PNG/PDF exports</li>
+<li><span class="cb cb-empty">&#9744;</span> Connect GIMP headless for image batch processing</li>
+<li><span class="cb cb-empty">&#9744;</span> Test: &quot;Hans, generate social templates for [client]&quot;</li>
+</ul>
+<h2 id="phase-5-more-openclaw-skills">Phase 5: More OpenClaw Skills</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Set up nano-pdf skill</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up peekaboo (site screenshots)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up blogwatcher (competitor monitoring)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up himalaya (email)</li>
+<li><span class="cb cb-empty">&#9744;</span> Build custom skill: /brand-bible &lt;survey-id&gt; (runs full Brand Bible pipeline)</li>
+<li><span class="cb cb-empty">&#9744;</span> Build custom skill: /onboard &lt;client-name&gt; (runs Opening Gambit)</li>
+</ul>
+<h2 id="phase-6-penpot-brand-bible-template">Phase 6: Penpot Brand Bible Template</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Rebuild Brand Bible template with real NB branding (colors, fonts, logo)</li>
+<li><span class="cb cb-empty">&#9744;</span> Make it production-quality, not wireframes</li>
+<li><span class="cb cb-empty">&#9744;</span> Connect Penpot API to Brand Bible agent pipeline</li>
+<li><span class="cb cb-empty">&#9744;</span> Test: agent generates content → populates Penpot template → exports PDF</li>
+</ul>
+<h2 id="key-files">Key Files</h2>
+<ul>
+<li>OpenClaw config: /root/.openclaw/openclaw.json (on Hetzner)</li>
+<li>OpenClaw compose: /opt/openclaw/docker-compose.override.yml (on Hetzner)</li>
+<li>NunyaBunyaAgents: /opt/NunyaBunyaAgents (on Hetzner)</li>
+<li>Workspace .env: /root/.openclaw/workspace/.env (on Hetzner)</li>
+<li>Penpot: design.nunyabunya.com (Brand Bible Templates project)</li>
+<li>Gateway token: 282de3bf63c5a29b0a0ffbf5e445d0d9219af5ea6028c92f2b5de17ce59af76a</li>
+<li>Gemini API key (dedicated to Hans): AIzaSyCyrFJic9EpXaCgOrezDWDWhSY64fEw3uU</li>
+</ul>
+<h2 id="installed-today-local-mac">Installed Today (Local Mac)</h2>
+<p>GIMP 3.2.4, Inkscape 1.4.3, darktable 5.4.1, Krita 5.3.1, Audacity 3.7.7, digiKam 9.0.0, ComfyUI 0.8.34</p>
+<h2 id="session-log">Session Log</h2>
+<ul>
+<li>2026-04-23/24: Installed 7 creative tools locally. Deployed Penpot + OpenClaw on Hetzner. Connected WhatsApp + Slack. 12 skills active. Cross-channel messaging enabled. NunyaBunyaAgents synced to Hetzner. Brand Bible template created (needs polish).</li>
+<li>2026-04-24: Phase 1 DONE. 5 new GitHub repos created (private). 8 repos cloned to /opt/repos/ on Hetzner. SSH deploy key added to GitHub. Hans can read/write all repos. /opt/NunyaBunyaAgents symlinked to git version.</li>
+<li>2026-04-24: Phase 2 mostly done. Deploy webhook server (Python, Docker) at deploy.nunyabunya.com. GitHub webhooks on all 8 repos. Push → auto git pull + Slack notification. Vercel GitHub integration still needs manual connect.</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/2026/04-April/hans-full-power.md</div>
+    </main>
+  </div>
+</body>
+</html>

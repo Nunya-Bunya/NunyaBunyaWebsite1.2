@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben Alek Conner — Source of Truth | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link active"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-alek-conner">Ben Alek Conner</a> &rsaquo;
+          Ben Alek Conner — Source of Truth
+        </div>
+        <h1 class="doc-title">Ben Alek Conner — Source of Truth</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#127908; Ben Alek Conner</span>
+          <span class="doc-path">06-Ben Alek Conner / 01-strategy</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="ben-alek-conner-source-of-truth">Ben Alek Conner — Source of Truth</h1>
+<p><strong>Last Updated:</strong> 2026-04-05</p>
+<hr>
+<h2 id="identity">Identity</h2>
+<ul>
+<li><strong>What it is:</strong> Personal brand and media business built around YouTube, podcast, courses, speaking, and film — separate from (but complementary to) Nunya Bunya and other portfolio businesses.</li>
+<li><strong>Mission:</strong> Show entrepreneurs that you can build multiple businesses, create meaningful art, transform your health, and maintain sanity — by sharing the journey transparently with real numbers.</li>
+<li><strong>Vision:</strong> Become the leading Australian voice in the &quot;build in public&quot; entrepreneurship space. Conservative target: $350-600K annual revenue by Year 3.</li>
+<li><strong>Location:</strong> Brisbane, Australia.</li>
+<li><strong>Revenue status:</strong> Pre-revenue (Foundation Year — 2026). YouTube channel not yet monetised.</li>
+</ul>
+<hr>
+<h2 id="brand">Brand</h2>
+<ul>
+<li><strong>Positioning:</strong> &quot;Building multiple profitable businesses while creating films and sharing the journey.&quot;</li>
+<li><strong>Elevator pitch:</strong> Multi-passionate Australian entrepreneur documenting the real process of running agencies, making feature films, managing ADHD, and transforming his health — all in public.</li>
+<li><strong>Tone of voice:</strong> Honest, systems-oriented, action-focused, growth-minded. Australian sensibility — unpretentious, dry humour, no hype. Shares struggles alongside wins. No guru energy.</li>
+<li><strong>Brand pillars:</strong> Builder, Transparent, Multi-Passionate, Systemiser, Growth-Focused.</li>
+<li><strong>Brand colours:</strong> Dark/black base, gold accent (#C9A84C). Montserrat headings, Inter body text.</li>
+<li><strong>Brand asset locations:</strong></li>
+<li>Style guide: <code>02-Ben Alek Conner/Documents/BRAND STYLE GUIDE.md</code></li>
+<li>Media kit: <code>02-Ben Alek Conner/Documents/MEDIA KIT.html</code></li>
+<li>Headshot: <code>02-Ben Alek Conner/Documents/linkedin-headshot.png</code></li>
+<li>Email signature: <code>02-Ben Alek Conner/Documents/EMAIL SIGNATURE.html</code></li>
+<li>Website: <code>02-Ben Alek Conner/benalekconner-site/</code> (Next.js + Tailwind)</li>
+</ul>
+<hr>
+<h2 id="content-pillars-platforms">Content Pillars / Platforms</h2>
+<h3 id="four-content-pillars">Four Content Pillars</h3>
+<ol>
+<li><strong>Entrepreneurship &amp; Business</strong> — building/scaling businesses, revenue milestones, strategy, SOPs</li>
+<li><strong>Filmmaking &amp; Creative</strong> — feature film BTS, screenwriting, festival journey, industry insights</li>
+<li><strong>Health, Fitness &amp; Transformation</strong> — weight loss (120kg target 85-90kg), marathon training, smoke-free, ADHD management</li>
+<li><strong>Productivity &amp; Systems</strong> — time-blocking, routines, ADHD workflows, automation, tools</li>
+</ol>
+<h3 id="platform-breakdown">Platform Breakdown</h3>
+<div class="table-wrap"><table><thead><tr><th>Platform</th><th>Cadence</th><th>Role</th></tr></thead><tbody><tr><td><strong>YouTube</strong></td><td>2 long-form videos/month (corrected from original plan&#x27;s 2x/week)</td><td>Primary engine. 10-20 min documentary/vlog/breakdown format</td></tr><tr><td><strong>Instagram</strong></td><td>5x/week (3 Reels, 2 carousels)</td><td>Drive YT subs + email sign-ups</td></tr><tr><td><strong>LinkedIn</strong></td><td>3x/week</td><td>Speaking opps, brand deals, consulting leads</td></tr><tr><td><strong>TikTok</strong></td><td>Launch Year 2 (repurposed YT)</td><td>Secondary reach</td></tr><tr><td><strong>Email newsletter</strong></td><td>Weekly (&quot;The Build&quot;)</td><td>Owned audience. Target: 2K subs Year 1, 8K Year 2</td></tr><tr><td><strong>Podcast</strong></td><td>Weekly from Q1 2027</td><td>Long-form interviews (60-90 min). Season 1: 12 eps, theme &quot;The Real Cost of Building Something&quot;</td></tr><tr><td><strong>Blog/Medium</strong></td><td>2-4 posts/month</td><td>SEO, evergreen authority</td></tr></tbody></table></div>
+<h3 id="podcast-details">Podcast Details</h3>
+<ul>
+<li><strong>Name:</strong> The Ben Alek Conner Podcast</li>
+<li><strong>Subtitle:</strong> Building Businesses, Making Films, and Doing It All Out Loud</li>
+<li><strong>Format:</strong> 70% guest interviews, 20% solo, 10% roundtable</li>
+<li><strong>Pre-launch:</strong> Oct-Dec 2026 (record 8-10 eps, build trailer, guest outreach)</li>
+<li><strong>Launch:</strong> Second week January 2027 — drop 4 episodes simultaneously</li>
+<li><strong>Hosting:</strong> Buzzsprout or Transistor.fm</li>
+<li><strong>Production cost:</strong> $480-$850/episode</li>
+<li><strong>Full plan:</strong> <code>02-Ben Alek Conner/Documents/PODCAST LAUNCH PLAN.md</code></li>
+</ul>
+<hr>
+<h2 id="revenue-model">Revenue Model</h2>
+<h3 id="revenue-streams-in-order-of-expected-contribution">Revenue Streams (in order of expected contribution)</h3>
+<ol>
+<li><strong>Coaching &amp; Consulting</strong> — 1:1 ($2.5K-$5K/mo, 6 spots/quarter) + group cohort (&quot;Build in Public&quot;, 12 students, $2K-$3K each)</li>
+<li><strong>Digital Courses</strong> — Course 1: &quot;Agency Zero to $35K MRR&quot; ($497-$997, launch Month 10-12). Course 2: &quot;ADHD Entrepreneur&#x27;s Productivity System&quot;. Course 3: &quot;First Feature Film on a Small Budget&quot;</li>
+<li><strong>Brand Sponsorships</strong> — YouTube integrations, IG Reels, newsletter mentions, podcast (from 2027)</li>
+<li><strong>YouTube AdSense</strong> — Business content CPM $8-$18 AUD</li>
+<li><strong>Speaking</strong> — $1K-$3K Year 1, scaling to $7.5K-$15K Year 3</li>
+<li><strong>Feature Film</strong> — festival circuit, streaming licensing, VOD ($20K-$80K, variable)</li>
+<li><strong>Digital downloads</strong> — templates, SOPs, calendars ($29-$97 each)</li>
+</ol>
+<h3 id="revenue-targets-conservative">Revenue Targets (Conservative)</h3>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th>Low</th><th>High</th><th>Phase</th></tr></thead><tbody><tr><td><strong>2026 (Y1)</strong></td><td>$40K</td><td>$60K</td><td>Foundation</td></tr><tr><td><strong>2027 (Y2)</strong></td><td>$150K</td><td>$300K</td><td>Growth</td></tr><tr><td><strong>2028 (Y3)</strong></td><td>$350K</td><td>$600K</td><td>Scale</td></tr></tbody></table></div>
+<p><em>(Using conservative projections. The business plan has more aggressive numbers ($78K-$148K Y1) but we default to realistic targets Ben is likely to overshoot.)</em></p>
+<hr>
+<h2 id="strategy">Strategy</h2>
+<h3 id="current-phase-foundation-year-2026">Current Phase: Foundation Year (2026)</h3>
+<p><strong>Q1 2026:</strong> Launch YouTube. First 12 videos. Set up email list. Film first 30-day vlog.</p>
+<p><strong>Q2 2026:</strong> Hit 1K YT subs. Apply for YPP. First brand deal. Launch &quot;The Build&quot; newsletter.</p>
+<p><strong>Q3 2026:</strong> Hit 5K YT subs. Course pre-launch ($5K target). 60+ videos published. Begin podcast pre-production.</p>
+<p><strong>Q4 2026:</strong> Launch first course. Hit 10K YT subs. Film enters post-production. $10K+ course revenue in launch month.</p>
+<h3 id="audience-growth-targets">Audience Growth Targets</h3>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Month 12</th><th>Month 24</th><th>Month 36</th></tr></thead><tbody><tr><td>YT subscribers</td><td>10K</td><td>50K</td><td>100K</td></tr><tr><td>YT monthly views</td><td>100K</td><td>500K</td><td>1M</td></tr><tr><td>Instagram followers</td><td>8K</td><td>30K</td><td>75K</td></tr><tr><td>Email list</td><td>2K</td><td>8K</td><td>20K</td></tr></tbody></table></div>
+<h3 id="team-roadmap">Team Roadmap</h3>
+<ul>
+<li><strong>Month 1-3:</strong> Video editor (PT contractor), thumbnail designer (freelance)</li>
+<li><strong>Month 3-6:</strong> Social media manager / content repurposer (PT)</li>
+<li><strong>Month 10-12:</strong> Podcast producer (per-episode contract)</li>
+<li><strong>Year 2:</strong> Operations/EA (PT), copywriter</li>
+</ul>
+<h3 id="equipment">Equipment</h3>
+<ul>
+<li>Phase 1 budget (launch): $9,400-$14,000 (camera, lens, mic, lights, storage)</li>
+<li>Phase 2 budget (Month 12+): $4,900-$7,600 (second body, gimbal, drone, acoustic treatment)</li>
+<li>Podcast setup: $1,525-$2,290 (Shure SM7B, Focusrite Scarlett, acoustic panels)</li>
+<li>Monthly tools: ~$425-$665 (email, course platform, Adobe, scheduling, analytics, hosting)</li>
+<li>Monthly marketing: $1,000-$2,200 (YT ads, Meta ads, LinkedIn ads)</li>
+</ul>
+<hr>
+<h2 id="key-decisions-amp-clarifications">Key Decisions &amp; Clarifications</h2>
+<ul>
+<li><strong>Ben Alek Conner IS:</strong> A personal brand and media business (YouTube + podcast + courses + speaking + film). It generates its own revenue independently.</li>
+<li><strong>Ben Alek Conner IS NOT:</strong> A side project or hobby channel. Not just a marketing vehicle for Nunya Bunya.</li>
+<li><strong>Conner Productions</strong> (name TBD) is a separate entity — Ben&#x27;s personal production company for features, documentaries, game shows, podcast, and ORCA Film Awards show. BAC the brand documents the journey; Conner Productions makes the creative works.</li>
+<li><strong>YouTube cadence:</strong> 2 long-form videos per month (NOT 1/week or 2/week as some documents suggest). This was a deliberate decision to prioritise quality over volume.</li>
+<li><strong>No paid SaaS</strong> for core ops — self-hosted stack (Mautic, Twenty CRM, Matomo, Metabase) per Nunya Bunya&#x27;s tech philosophy. Course platform is the exception (Kajabi/Teachable).</li>
+<li><strong>Ethical sponsorship rule:</strong> Only promote products/services actually used. No misleading claims. Transparent about paid partnerships.</li>
+<li><strong>Nunya Bunya cross-promotion:</strong> BAC content drives leads to the agency, but this is tracked as agency revenue, not personal brand revenue.</li>
+<li><strong>Content calendar:</strong> <code>02-Ben Alek Conner/Documents/CONTENT CALENDAR.md</code> (March 7 - April 5, 2026 plan exists but none marked as published yet).</li>
+</ul>
+<hr>
+<h2 id="key-file-paths">Key File Paths</h2>
+<div class="table-wrap"><table><thead><tr><th>Document</th><th>Path</th></tr></thead><tbody><tr><td>Business Plan</td><td><code>02-Ben Alek Conner/Documents/BUSINESS PLAN.md</code></td></tr><tr><td>Brand Style Guide</td><td><code>02-Ben Alek Conner/Documents/BRAND STYLE GUIDE.md</code></td></tr><tr><td>Podcast Launch Plan</td><td><code>02-Ben Alek Conner/Documents/PODCAST LAUNCH PLAN.md</code></td></tr><tr><td>Content Calendar</td><td><code>02-Ben Alek Conner/Documents/CONTENT CALENDAR.md</code></td></tr><tr><td>Media Kit</td><td><code>02-Ben Alek Conner/Documents/MEDIA KIT.html</code></td></tr><tr><td>Website Repo</td><td><code>02-Ben Alek Conner/benalekconner-site/</code></td></tr><tr><td>Resume</td><td><code>02-Ben Alek Conner/Documents/Benjamin<em>Conner</em>Resume.pdf</code></td></tr></tbody></table></div>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">06-Ben Alek Conner/01-strategy/SOURCE-OF-TRUTH.md</div>
+    </main>
+  </div>
+</body>
+</html>

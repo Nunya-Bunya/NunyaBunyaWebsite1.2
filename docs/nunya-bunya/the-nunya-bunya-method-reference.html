@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Nunya Bunya Method — Complete Encyclopedia | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          The Nunya Bunya Method — Complete Encyclopedia
+        </div>
+        <h1 class="doc-title">The Nunya Bunya Method — Complete Encyclopedia</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Products</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="the-nunya-bunya-method-complete-encyclopedia">The Nunya Bunya Method — Complete Encyclopedia</h1>
+<h2 id="standing-on-the-shoulders-of-giants">Standing on the Shoulders of Giants</h2>
+<hr>
+<h1 id="table-of-contents-113-chapters">TABLE OF CONTENTS — 113 CHAPTERS</h1>
+<h2 id="part-0-the-manifesto-3-chapters">Part 0 — The Manifesto (3 chapters)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>Title</th><th>Subject</th></tr></thead><tbody><tr><td>1</td><td>The Lie</td><td>How the marketing industry profits from small business confusion. The agency model, the SaaS model, the &quot;you need us&quot; narrative. Why the game is rigged.</td></tr><tr><td>2</td><td>The 12 Indelible Principles</td><td>The psychological truths of marketing that predate the internet and will outlast AI. Each principle with real examples. The operating system for everything.</td></tr><tr><td>3</td><td>The Method</td><td>NB philosophy: open-source-first, own your stack, own your data. The three layers (Philosophy → Strategy → Execution). How one person outperforms a 50-person agency.</td></tr></tbody></table></div>
+<h2 id="part-1-brand-11-chapters">Part 1 — Brand (11 chapters)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>Title</th><th>Subject</th></tr></thead><tbody><tr><td>4</td><td>What Makes a Brand Iconic</td><td>Brand vs logo vs identity vs strategy. Positioning: owning a word in the mind. Distinctive assets vs differentiation. Why the best brands feel inevitable.</td></tr><tr><td>5</td><td>Brand Strategy &amp; Positioning</td><td>Finding your niche. Competitive landscape mapping. The &quot;create a new category&quot; play. Smallest viable market. Brand promise. Positioning statement formula.</td></tr><tr><td>6</td><td>Naming &amp; Verbal Identity</td><td>How to name a business. Trademark search. Domain and handle audit. Taglines and slogans. The one-liner formula (Problem + Solution + Result).</td></tr><tr><td>7</td><td>Visual Identity — Logo</td><td>The logo brief. Concept development. Typography-based vs symbol-based vs combination marks. Variations: full, stacked, icon, horizontal. File formats and sizes.</td></tr><tr><td>8</td><td>Visual Identity — Color</td><td>Color psychology. Building a palette: primary, secondary, accent, neutrals. Contrast ratios and accessibility (WCAG). Dark/light mode. Tools: Coolors, Adobe Color, Realtime Colors.</td></tr><tr><td>9</td><td>Visual Identity — Typography</td><td>Type anatomy. Serif vs sans-serif vs display. The 3-font system. Pairing rules. Free font sources. Font loading and web performance. Type hierarchy and scale.</td></tr><tr><td>10</td><td>Visual Identity — Photography Direction</td><td>Mood boards. Photography style guide. Stock vs AI vs original photography. Shot lists. Phone camera settings for owner-operators.</td></tr><tr><td>11</td><td>Visual Identity — Graphic Templates</td><td>Social media templates per platform. Business cards and stationery. Presentation templates. Email headers. Ad templates. Building a reusable template library.</td></tr><tr><td>12</td><td>Brand Voice &amp; Messaging</td><td>Voice vs tone. The voice spectrum. Word banks. Writing examples across touchpoints. Messaging framework: value propositions per audience segment.</td></tr><tr><td>13</td><td>The Brand Bible</td><td>What goes in it. The NB 60-question survey. The 17-agent pipeline. brand.json. How to build your own version. Quality gates. The finished deliverable, page by page.</td></tr><tr><td>14</td><td>Brand Traps</td><td>$50 logos, branding by committee, copying competitors, rebranding as procrastination, no guidelines at all. Cost comparisons.</td></tr></tbody></table></div>
+<h2 id="part-2-web-16-chapters">Part 2 — Web (16 chapters)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>Title</th><th>Subject</th></tr></thead><tbody><tr><td>15</td><td>The 10/10 Website</td><td>What separates award-winning sites from brochure-ware. The 5-second Grunt Test. First impressions, trust signals, emotional response.</td></tr><tr><td>16</td><td>Site Architecture &amp; Page Strategy</td><td>Information architecture. Sitemap planning. What pages you need and each page&#x27;s job. Navigation design. User flow mapping.</td></tr><tr><td>17</td><td>The Homepage</td><td>Hero section formula. Scroll narrative: problem → solution → proof → CTA → FAQ. Social proof placement. Trust signals. Above the fold.</td></tr><tr><td>18</td><td>Service &amp; Product Pages</td><td>Pain → promise → process → proof → pricing → CTA. Feature vs benefit framing. Comparison tables. FAQ sections. Conversion elements.</td></tr><tr><td>19</td><td>Landing Pages</td><td>Single-offer pages. No navigation. One CTA repeated. Headline formulas. Lead magnet delivery. Event registration. Long-form vs short-form.</td></tr><tr><td>20</td><td>Copywriting for the Web</td><td>Headline hierarchy (H1-H3). Benefit-first writing. Scanability. Microcopy: buttons, forms, errors, tooltips. CTA writing.</td></tr><tr><td>21</td><td>Visual Design Principles</td><td>Whitespace. Grid systems. Visual hierarchy: size, color, contrast, position. Image selection. Icon usage. Consistency. What makes a page feel &quot;premium.&quot;</td></tr><tr><td>22</td><td>Speed &amp; Performance</td><td>Core Web Vitals: LCP, FID, CLS. Image optimization: WebP, AVIF, lazy loading, srcset. CSS/JS optimization. Caching. CDN. Font loading. Lighthouse audit.</td></tr><tr><td>23</td><td>Animation &amp; Interaction</td><td>Scroll-triggered animations. Hover states and micro-interactions. Page transitions. When animation adds value vs decoration. Performance impact. Accessible animation.</td></tr><tr><td>24</td><td>Storytelling Through a Website</td><td>The scroll as narrative. Emotional pacing. Visual storytelling with images, color, typography. Guiding the eye. The emotional journey to conversion.</td></tr><tr><td>25</td><td>Mobile-First Design</td><td>Touch targets. Responsive typography. Mobile navigation patterns. Form design for thumbs. Testing on real devices. Responsive breakpoints.</td></tr><tr><td>26</td><td>Accessibility</td><td>WCAG basics. Color contrast. Screen readers. Alt text. Keyboard navigation. Form accessibility. Semantic HTML. ARIA. Legal requirements. Business case.</td></tr><tr><td>27</td><td>Forms, Booking &amp; Lead Capture</td><td>Form design: fields, layout, validation. Multi-step forms. Tools: Formspree, Formbricks. Embedding Cal.com. Chat: Chatwoot. Pop-ups: when they work vs annoy.</td></tr><tr><td>28</td><td>Building a Website — Technical</td><td>HTML/CSS/JS fundamentals. Frameworks: HTML, Astro, Hugo, Next.js. Dev environment. Git. Domains. DNS. Hosting. SSL. Deployment checklist.</td></tr><tr><td>29</td><td>The NB Way — Website Workflow</td><td>Website generator agent. Template system. Deployment pipeline. A/B testing. Maintenance rhythm. Performance monitoring.</td></tr><tr><td>30</td><td>Web Traps</td><td>Platform lock-in. The $10k rebuild cycle. Over-designing before traffic. Paying rent on sites you should own. Cost comparisons.</td></tr></tbody></table></div>
+<h2 id="part-3-content-9-chapters">Part 3 — Content (9 chapters)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>Title</th><th>Subject</th></tr></thead><tbody><tr><td>31</td><td>Content That Actually Works</td><td>SUCCESs framework. The Big 5 topics (80% of sales traffic). Storytelling structure. Why most content fails.</td></tr><tr><td>32</td><td>Writing for Marketing</td><td>Blog post workflow. Copywriting formulas: PAS, AIDA, Before-After-Bridge. Long vs short form. Self-editing. Headlines: Ogilvy&#x27;s rules for 2026.</td></tr><tr><td>33</td><td>Photography for Marketing</td><td>Phone camera settings. Composition rules. Lighting. Product photography on a budget. Lifestyle direction. Editing: Darktable, Snapseed. Batch workflows.</td></tr><tr><td>34</td><td>Video Content</td><td>Scripting and shot lists. Phone recording: stabilization, audio, framing. Editing: DaVinci Resolve, CapCut. Thumbnails. Export settings. Subtitles.</td></tr><tr><td>35</td><td>Graphic Design for Non-Designers</td><td>Canva, Penpot. Design principles: alignment, proximity, contrast, repetition. Social graphics. Infographics. Presentations. Document design.</td></tr><tr><td>36</td><td>AI as a Content Partner</td><td>What AI does well vs poorly. Prompting techniques. Editing AI output. The integrity line. Using Claude as a writing partner.</td></tr><tr><td>37</td><td>The Repurposing Pyramid</td><td>1 piece → 10+ assets. Blog → social → email → video → tweets → infographic. Adaptation vs copy-paste per platform. Maximum output from minimum input.</td></tr><tr><td>38</td><td>The Content Machine — NB Way</td><td>Monthly batching. Content calendar. AI pipeline. Photography workflow. Content bank. Template system. Quality checklist. Metrics.</td></tr><tr><td>39</td><td>Content Traps</td><td>Posting without strategy. Trend-chasing. AI slop. Content without distribution. Perfectionism as procrastination. Cost comparisons.</td></tr></tbody></table></div>
+<h2 id="part-4-social-media-10-chapters">Part 4 — Social Media (10 chapters)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>Title</th><th>Subject</th></tr></thead><tbody><tr><td>40</td><td>Social Media as a Weapon</td><td>Platform strategy. STEPPS for virality. Community vs broadcasting. Psychology of social platforms. Why organic reach isn&#x27;t dead.</td></tr><tr><td>41</td><td>Platform Strategy — Choosing Where to Show Up</td><td>Instagram, Facebook, LinkedIn, X, TikTok, YouTube, Pinterest, Reddit — honest breakdown. Demographics. Content strengths. &quot;One deep&quot; vs &quot;everywhere shallow.&quot;</td></tr><tr><td>42</td><td>Profile Optimization</td><td>Bio formulas. Profile pic specs. Cover images. Link strategy. Handle consistency. The 3-second audit.</td></tr><tr><td>43</td><td>Content Pillars &amp; Calendar</td><td>3-5 themes. Rotation system. Content type mix: educational, entertaining, inspiring, promotional. Feed vs reels philosophy. Monthly planning.</td></tr><tr><td>44</td><td>Creating Social Content</td><td>Platform dimensions and specs. Carousels. Reels/shorts. Stories. Text posts. Caption writing: hooks, body, CTAs. Batch creation: a week in 2 hours.</td></tr><tr><td>45</td><td>Engagement &amp; Community Building</td><td>The 15-minute daily routine. Commenting with value. Finding conversations. DM strategy. Responding to comments. Building genuine relationships.</td></tr><tr><td>46</td><td>Hashtag &amp; Discovery Strategy</td><td>How hashtags work per platform in 2026. Research tools. Categories: broad, niche, branded. SEO on social. Explore/For You optimization.</td></tr><tr><td>47</td><td>Cross-Posting &amp; Scheduling</td><td>Platform adaptation. Scheduling tools: Meta Business Suite, Mixpost. Content queues. Posting times. n8n automation for distribution.</td></tr><tr><td>48</td><td>Social Media Operations — NB Way</td><td>Content split in practice. Person vs brand posting. Twitter automation pipeline. Engagement system. Swipe file. Monthly audit.</td></tr><tr><td>49</td><td>Social Media Traps</td><td>Vanity metrics. Paying for followers. Trying to be everywhere. Outsourcing your voice. Algorithm anxiety. Cost comparisons.</td></tr></tbody></table></div>
+<h2 id="part-5-email-11-chapters">Part 5 — Email (11 chapters)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>Title</th><th>Subject</th></tr></thead><tbody><tr><td>50</td><td>The Most Underrated Channel</td><td>Email ROI data. Permission marketing. Three types of email. Your list as most valuable asset. Psychology of the inbox.</td></tr><tr><td>51</td><td>Email Infrastructure</td><td>Self-hosted Mautic installation. Alternatives: Listmonk, Brevo. Domain auth: SPF, DKIM, DMARC with actual DNS records. Warm-up strategy. IP reputation.</td></tr><tr><td>52</td><td>Lead Magnets &amp; List Building</td><td>What makes a lead magnet irresistible. Types: PDFs, checklists, templates, calculators, quizzes. The value exchange. Opt-in forms. Double opt-in.</td></tr><tr><td>53</td><td>Email Design &amp; Copywriting</td><td>Plain text vs HTML. Responsive templates. Subject line formulas. Preview text. Email structure. Personalization. Writing for skimmers. CTA design.</td></tr><tr><td>54</td><td>Welcome Sequences</td><td>The 5-email structure. Email 1: deliver + intro. Email 2: story + problem. Email 3: value. Email 4: proof. Email 5: offer. Timing. Variations.</td></tr><tr><td>55</td><td>Nurture Sequences &amp; Automation</td><td>Awareness-stage design (Schwartz). Drip vs triggered. Automation triggers. Branch logic. Re-engagement campaigns. Event-based emails.</td></tr><tr><td>56</td><td>Broadcast Emails &amp; Newsletters</td><td>Newsletter strategy. Value-first frameworks. Promotional emails. Launch sequences. The send calendar: frequency, timing, consistency.</td></tr><tr><td>57</td><td>Segmentation &amp; Personalization</td><td>Tags, segments, custom fields. Behavioral segmentation. Engagement scoring. Dynamic content. The personalization spectrum.</td></tr><tr><td>58</td><td>Deliverability</td><td>Sender reputation. Authentication. Blacklist monitoring. Bounce management. Spam triggers. Inbox placement testing. List hygiene. Domain warming.</td></tr><tr><td>59</td><td>Email Operations — NB Way</td><td>NB Mautic config. Welcome sequences. Cold outreach. Nurture-to-booking pipeline. Campaign tagging. Testing rhythm. Deliverability monitoring.</td></tr><tr><td>60</td><td>Email Traps</td><td>Buying lists. Blasting without segmentation. Overpaying for platforms. Newsletter without strategy. Cost comparisons.</td></tr></tbody></table></div>
+<h2 id="part-6-seo-amp-discovery-9-chapters">Part 6 — SEO &amp; Discovery (9 chapters)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>Title</th><th>Subject</th></tr></thead><tbody><tr><td>61</td><td>How People Actually Find You</td><td>Search intent types. They Ask You Answer. The Long Tail. Local SEO. Voice search. AI search (SGE) and what it means.</td></tr><tr><td>62</td><td>Keyword Research</td><td>Free tools: GSC, Trends, Ubersuggest, AnswerThePublic. Search intent mapping. Long-tail strategy. Keyword clustering. Competitor analysis. Master list.</td></tr><tr><td>63</td><td>On-Page SEO</td><td>Title tags. Meta descriptions. Header hierarchy. URL structure. Internal linking. Image optimization. Featured snippet formatting.</td></tr><tr><td>64</td><td>Technical SEO</td><td>Sitemap.xml. Robots.txt. Canonical tags. 301 redirects. Schema markup: LocalBusiness, FAQ, HowTo, Article — JSON-LD. Site speed. Mobile-first indexing.</td></tr><tr><td>65</td><td>Local SEO</td><td>Google Business Profile. NAP consistency. Citations. Review generation. GBP posts. Local landing pages. Service area setup. The map pack.</td></tr><tr><td>66</td><td>Content SEO Strategy</td><td>Pillar + cluster architecture. Content briefs. Big 5 topics applied. Content gap analysis. Publishing frequency. Updating old content. Pruning.</td></tr><tr><td>67</td><td>Link Building</td><td>What works: PR, guest posts, resource pages, HARO. What gets penalized. Relationship approach. Linkable assets. Tracking growth.</td></tr><tr><td>68</td><td>SEO Operations — NB Way</td><td>Keyword cluster approach. Content briefs. Publishing workflow. Local SEO routine. Rank tracking. SEO calendar. Outreach templates. Quarterly audit.</td></tr><tr><td>69</td><td>SEO Traps</td><td>$500/mo SEO packages. Keyword stuffing. Ignoring SEO. Buying backlinks. Chasing algorithm updates. Cost comparisons.</td></tr></tbody></table></div>
+<h2 id="part-7-advertising-12-chapters">Part 7 — Advertising (12 chapters)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>Title</th><th>Subject</th></tr></thead><tbody><tr><td>70</td><td>Paid Attention Done Right</td><td>The Big Idea. Storytelling in ads. Value Equation in creative. Awareness-stage targeting. Cialdini&#x27;s principles as creative checklist.</td></tr><tr><td>71</td><td>Ad Creative — Static</td><td>Image ad design. Contrast, focal point, text hierarchy. Dimensions per platform. The scroll-stopping visual hook. Brand consistency. Tools. Batch creation.</td></tr><tr><td>72</td><td>Ad Creative — Video</td><td>Video ad formats (15s/30s/60s). The 3-second hook. Scripting. Phone recording. Editing: CapCut, DaVinci. Captions. B-roll. AI video reality check.</td></tr><tr><td>73</td><td>Ad Copywriting</td><td>Headline formulas. Primary text structure. Problem-agitate-solve. Short vs long copy. Dynamic creative variations. Platform-specific requirements.</td></tr><tr><td>74</td><td>Meta Ads — Setup &amp; Strategy</td><td>Business Manager. Campaign objectives. Ad sets: audiences, placements, budgets. Custom/lookalike audiences. Interest targeting. Campaign structure.</td></tr><tr><td>75</td><td>Meta Ads — Optimization &amp; Scaling</td><td>Metrics: CTR, CPM, CPC, CPA, ROAS. Testing framework: 3-5 creatives, $5-20/day. Creative fatigue. Scaling. Attribution window. Troubleshooting.</td></tr><tr><td>76</td><td>Google Ads</td><td>Search campaigns, keyword match types, ad copy, extensions. Quality Score. Bidding. Display. YouTube ads. Performance Max. Budget allocation.</td></tr><tr><td>77</td><td>Landing Pages for Ads</td><td>Why homepage ≠ landing page. Anatomy: headline, hero, problem, solution, proof, CTA. Message match. Speed. A/B testing. Conversion tracking.</td></tr><tr><td>78</td><td>Tracking &amp; Attribution</td><td>Meta pixel. Conversion API. Google tag. UTM system. Attribution models. Cross-platform tracking. Privacy and cookies in 2026.</td></tr><tr><td>79</td><td>Retargeting</td><td>Website visitors, video viewers, email lists. Retargeting creative. Frequency caps. Sequential retargeting. Retargeting windows.</td></tr><tr><td>80</td><td>Ad Operations — NB Way</td><td>Creative workflow. Storytelling framework. Testing system. Landing page optimization. Campaign templates. Reporting cadence. Scaling rules.</td></tr><tr><td>81</td><td>Advertising Traps</td><td>Boosting posts. Trusting Meta defaults. No tracking. Spending before funnel works. Cost comparisons.</td></tr></tbody></table></div>
+<h2 id="part-8-sales-amp-conversion-12-chapters">Part 8 — Sales &amp; Conversion (12 chapters)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>Title</th><th>Subject</th></tr></thead><tbody><tr><td>82</td><td>Turning Attention Into Money</td><td>Grand Slam Offers. Value Equation. StoryBrand sales path. Pricing psychology. Commitment and consistency.</td></tr><tr><td>83</td><td>Offer Design</td><td>Offer creation process. Naming offers. 3-tier pricing. Bonuses. Guarantees. Anchoring and framing. The &quot;stupid saying no&quot; test.</td></tr><tr><td>84</td><td>Pricing Strategy</td><td>Cost-based vs value-based. Race to bottom. Price as signal. Premium pricing. Packaging services. Retainers. Project-based. The pricing page.</td></tr><tr><td>85</td><td>Sales Funnels &amp; Customer Journey</td><td>Awareness → consideration → decision → purchase → retention → referral. Mapping drop-offs. Top/middle/bottom funnel content and tactics.</td></tr><tr><td>86</td><td>CRM &amp; Pipeline Management</td><td>Twenty CRM setup. Pipeline stages. Lead source tracking. Contact management. Activity logging. Follow-up reminders. Pipeline reporting.</td></tr><tr><td>87</td><td>Booking &amp; Consultation Flows</td><td>Cal.com setup. Consultation structure: discovery → diagnosis → prescription → close. Pre-call sequences. Post-call follow-up.</td></tr><tr><td>88</td><td>Proposals, Contracts &amp; Invoicing</td><td>Proposal structure. 3-option framework. DocuSeal for e-signatures. Invoice Ninja. Payment terms. Deposits. Getting paid.</td></tr><tr><td>89</td><td>Follow-Up Systems</td><td>The 68% statistic. Cadence: when, how often, which channel. Templates per scenario. Automated sequences. When to stop.</td></tr><tr><td>90</td><td>Client Onboarding</td><td>First impression after the sale. The 3-play pipeline. Welcome packet. Expectations. Kickoff questionnaire. The onboarding experience as marketing.</td></tr><tr><td>91</td><td>Referrals &amp; Retention</td><td>When and how to ask. Incentive structures. Testimonial collection. Case studies. Review generation. Retention: check-ins, value adds. LTV.</td></tr><tr><td>92</td><td>Sales Operations — NB Way</td><td>NB pipeline. Marketing → sales handoff. Lead scoring. Proposal template. Follow-up cadence. Onboarding workflow. Revenue tracking.</td></tr><tr><td>93</td><td>Sales Traps</td><td>No follow-up. Underpricing. Selling time not outcomes. Overcomplicating the buy. Not asking for the sale. Cost comparisons.</td></tr></tbody></table></div>
+<h2 id="part-9-analytics-amp-measurement-7-chapters">Part 9 — Analytics &amp; Measurement (7 chapters)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>Title</th><th>Subject</th></tr></thead><tbody><tr><td>94</td><td>What to Actually Measure</td><td>Profits not revenue. Leading vs lagging. Metrics per channel. Vanity vs actionable. Brand vs direct metrics. Attribution.</td></tr><tr><td>95</td><td>Analytics Infrastructure</td><td>Matomo installation and config. GA4 setup. Google Search Console. Tag management. Privacy compliance: consent, cookies, GDPR/CCPA.</td></tr><tr><td>96</td><td>Dashboard Building</td><td>Metabase: installation, data sources, queries, visualizations. Dashboard design. Automated reports. Client-facing dashboards.</td></tr><tr><td>97</td><td>Campaign Tracking &amp; Attribution</td><td>UTM system. Shlink: self-hosted links. Multi-touch attribution. Connecting ad spend to revenue. Call tracking. Imperfect data &gt; no data.</td></tr><tr><td>98</td><td>Reading the Numbers</td><td>Weekly review: what to look at. Monthly reporting. Quarterly business review. Data storytelling. Presenting numbers that drive action.</td></tr><tr><td>99</td><td>Analytics Operations — NB Way</td><td>NB reporting stack. Dashboard templates. Weekly ritual. Monthly reporting. Campaign attribution. Client reporting. Data-driven decisions.</td></tr><tr><td>100</td><td>Analytics Traps</td><td>Drowning in data. Trusting GA4 defaults. Never looking. Measuring activity not results. Analysis paralysis. Cost comparisons.</td></tr></tbody></table></div>
+<h2 id="part-10-systems-amp-automation-10-chapters">Part 10 — Systems &amp; Automation (10 chapters)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>Title</th><th>Subject</th></tr></thead><tbody><tr><td>101</td><td>The Machine Behind the Machine</td><td>Systems &gt; hustle. Marketing as a system. The automation hierarchy: manual → document → systemize → automate. Human touch vs automation.</td></tr><tr><td>102</td><td>Self-Hosting 101</td><td>What a VPS is. Providers: Hetzner, DigitalOcean, Linode. Server setup: SSH, Linux basics, security (UFW, fail2ban, SSH keys). DNS for self-hosted. Cost: $5-20/mo.</td></tr><tr><td>103</td><td>Docker &amp; Containers</td><td>What containers are. Docker installation. Docker Compose. Your first docker-compose.yml. Managing containers. Updating. The compose library for marketing tools.</td></tr><tr><td>104</td><td>The Open-Source Marketing Stack</td><td>Tool-by-tool install: Mautic, Twenty CRM, Matomo, Metabase, Shlink, Cal.com, n8n, Chatwoot, Formbricks, DocuSeal, Invoice Ninja, Mixpost. Reverse proxy. SSL. Full stack compose.</td></tr><tr><td>105</td><td>Workflow Automation with n8n</td><td>Visual workflow builder. Triggers: webhooks, schedules, events. Core nodes. Connecting to your stack. Real recipes: lead capture, content distribution, reporting, alerts.</td></tr><tr><td>106</td><td>Database &amp; Data Layer</td><td>Supabase as a backend. Database basics. Storing marketing data. API basics. Connecting n8n to Supabase. The NB data architecture.</td></tr><tr><td>107</td><td>AI in the Stack</td><td>Where AI fits. Claude API for content. AI-assisted workflows. Prompt engineering for marketing. Human-in-the-loop. Cost management. Building AI into n8n.</td></tr><tr><td>108</td><td>Backup, Security &amp; Maintenance</td><td>Automated backups. Security hardening. Uptime monitoring. Monthly maintenance checklist. Disaster recovery. Scaling.</td></tr><tr><td>109</td><td>Systems Operations — NB Way</td><td>NB Hetzner stack. Automation library. Approval queue. Slack notifications. Monitoring routine. Build-measure-learn for automations.</td></tr><tr><td>110</td><td>Systems Traps</td><td>$2k/mo SaaS addiction. Automating before process works. Tool hopping. Over-engineering. Not documenting. Cost comparisons.</td></tr></tbody></table></div>
+<h2 id="part-11-the-full-stack-3-chapters">Part 11 — The Full Stack (3 chapters)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>Title</th><th>Subject</th></tr></thead><tbody><tr><td>111</td><td>How It All Connects</td><td>The complete system. Every domain feeding every other. The flywheel. 12 Principles in action. What it looks like running. Compounding returns.</td></tr><tr><td>112</td><td>Your 90-Day Plan</td><td>Days 1-30: Brand + Web + Content. Days 31-60: Email + Social + SEO. Days 61-90: Ads + Sales + Analytics. Weekly milestones. Bullseye. Beachhead. Day 91+.</td></tr><tr><td>113</td><td>The War Chest</td><td>Every tool, template, checklist, and formula in one reference. Links, alternatives, cost breakdowns. The ultimate small business marketing resource.</td></tr></tbody></table></div>
+<hr>
+<h1 id="the-20-books">THE 20 BOOKS</h1>
+<h2 id="tier-1-the-original-8">Tier 1: The Original 8</h2>
+<h3 id="1-guerrilla-marketing-jay-conrad-levinson-1984">1. Guerrilla Marketing — Jay Conrad Levinson (1984)</h3>
+<p><strong>Big Idea:</strong> Time, energy, and imagination beat money. Every time.</p>
+<p><strong>Key Frameworks:</strong></p>
+<ul>
+<li>200 Marketing Weapons (most are free)</li>
+<li>Fusion Marketing (partner with complementary businesses)</li>
+<li>The Marketing Calendar (no calendar = no discipline = no results)</li>
+<li>Consent Marketing (earn attention before selling)</li>
+</ul>
+<p><strong>Key Principles:</strong></p>
+<ul>
+<li>Follow-up is everything — 68% of lost business is poor follow-up, not bad products</li>
+<li>Say one thing well per piece of marketing</li>
+<li>Repetition breeds familiarity, familiarity breeds trust</li>
+<li>Your best new customers are your current customers</li>
+<li>Profits, not revenue — measure what matters</li>
+</ul>
+<p><strong>Best Quote:</strong> <em>&quot;Marketing is not an event, but a process. It has a beginning, a middle, but never an end.&quot;</em></p>
+<hr>
+<h3 id="2-100m-offers-alex-hormozi-2021">2. $100M Offers — Alex Hormozi (2021)</h3>
+<p><strong>Big Idea:</strong> Make offers so good people feel stupid saying no.</p>
+<p><strong>Key Frameworks:</strong></p>
+<ul>
+<li><strong>The Value Equation:</strong> Value = (Dream Outcome x Perceived Likelihood) / (Time Delay x Effort &amp; Sacrifice)</li>
+<li><strong>Grand Slam Offer:</strong> Stack so much value that price becomes irrelevant</li>
+<li><strong>Offer Creation Process:</strong> (1) Identify dream outcome (2) List every obstacle (3) List solutions for each (4) Bundle into offer</li>
+<li><strong>The 4 Enhancers:</strong> Scarcity + Urgency + Bonuses + Guarantees</li>
+</ul>
+<p><strong>Key Principles:</strong></p>
+<ul>
+<li>Charge premium — cheap prices attract bad clients</li>
+<li>Price on value, not cost</li>
+<li>Commoditized = compared. Differentiated = desired</li>
+<li>Starving crowds beat clever marketing (pick the right market)</li>
+</ul>
+<p><strong>Best Quote:</strong> <em>&quot;The goal is not to decrease price — it&#x27;s to increase value.&quot;</em></p>
+<hr>
+<h3 id="3-building-a-storybrand-donald-miller-2017">3. Building a StoryBrand — Donald Miller (2017)</h3>
+<p><strong>Big Idea:</strong> The customer is the hero. You&#x27;re the guide.</p>
+<p><strong>Key Frameworks:</strong></p>
+<ul>
+<li><strong>SB7 Framework:</strong> (1) Character wants something (2) Has a problem (external, internal, philosophical) (3) Meets a guide (4) Who gives them a plan (5) Calls them to action (6) Helps them avoid failure (7) Ends in success</li>
+<li><strong>The BrandScript:</strong> One-page DNA for all marketing</li>
+<li><strong>The One-Liner:</strong> Problem + Solution + Result</li>
+<li><strong>The Grunt Test:</strong> Can someone look at your site and in 5 seconds know what you offer, how it helps, and what to do?</li>
+</ul>
+<p><strong>Key Principles:</strong></p>
+<ul>
+<li>If you confuse, you lose</li>
+<li>The internal problem is what actually sells (not the external one)</li>
+<li>A 3-step plan reduces anxiety and increases conversion</li>
+<li>People don&#x27;t buy the best products — they buy the ones they understand fastest</li>
+</ul>
+<p><strong>Best Quote:</strong> <em>&quot;Story is the greatest weapon we have to combat noise.&quot;</em></p>
+<hr>
+<h3 id="4-traction-gabriel-weinberg-amp-justin-mares-2014">4. Traction — Gabriel Weinberg &amp; Justin Mares (2014)</h3>
+<p><strong>Big Idea:</strong> Spend 50% of your time on product, 50% on distribution.</p>
+<p><strong>Key Frameworks:</strong></p>
+<ul>
+<li><strong>The Bullseye Framework:</strong> Brainstorm all 19 channels → Test top 3 → Focus on the winner</li>
+<li><strong>19 Traction Channels:</strong> Viral, PR, Unconventional PR, SEM, Social Ads, Offline Ads, SEO, Content, Email, Engineering as Marketing, Blogs, BD, Sales, Affiliates, Existing Platforms, Trade Shows, Events, Speaking, Community</li>
+<li><strong>The 50% Rule:</strong> Half your time = distribution. Always.</li>
+<li><strong>The Critical Path:</strong> Define the traction goal that changes everything, work backward</li>
+</ul>
+<p><strong>Key Principles:</strong></p>
+<ul>
+<li>Most businesses fail from lack of distribution, not bad products</li>
+<li>Every channel eventually saturates — restart Bullseye when it does</li>
+<li>Cheap tests first — hundreds of dollars, not thousands</li>
+<li>Product-channel fit matters — your product shapes which channels work</li>
+</ul>
+<p><strong>Best Quote:</strong> <em>&quot;Almost every failed startup has a product. What failed startups don&#x27;t have is enough customers.&quot;</em></p>
+<hr>
+<h3 id="5-this-is-marketing-seth-godin-2018">5. This Is Marketing — Seth Godin (2018)</h3>
+<p><strong>Big Idea:</strong> Find the smallest viable market and obsess over them.</p>
+<p><strong>Key Frameworks:</strong></p>
+<ul>
+<li><strong>&quot;People like us do things like this&quot;</strong> — Culture drives buying, not features</li>
+<li><strong>Status Roles</strong> — Every transaction involves status (raising it or protecting it)</li>
+<li><strong>The Lock and Key</strong> — Find the lock (unmet need), then craft the key</li>
+<li><strong>Direct vs Brand Marketing</strong> — Know which one you&#x27;re doing. Don&#x27;t apply direct metrics to brand work.</li>
+</ul>
+<p><strong>Key Principles:</strong></p>
+<ul>
+<li>Reach the right people, not the most people</li>
+<li>Price is a signal — cheap is a race to the bottom</li>
+<li>Tension moves people from interested to enrolled</li>
+<li>Marketing is a generous act of helping someone solve a problem</li>
+</ul>
+<p><strong>Best Quote:</strong> <em>&quot;It&#x27;s not for everyone. Saying this is a feature, not a limitation.&quot;</em></p>
+<hr>
+<h3 id="6-purple-cow-seth-godin-2003">6. Purple Cow — Seth Godin (2003)</h3>
+<p><strong>Big Idea:</strong> Remarkable or invisible. There is no middle.</p>
+<p><strong>Key Frameworks:</strong></p>
+<ul>
+<li><strong>The TV-Industrial Complex</strong> — The old buy-ads-get-distribution cycle is dead</li>
+<li><strong>The New P</strong> — Purple Cow added to Product, Price, Place, Promotion</li>
+<li><strong>Sneezers</strong> — Build for obsessed early adopters who spread the word</li>
+<li><strong>Go to the edges</strong> — Find the extreme of some attribute rather than the comfortable middle</li>
+</ul>
+<p><strong>Key Principles:</strong></p>
+<ul>
+<li>Remarkability is baked into the product, not added by marketing after the fact</li>
+<li>&quot;Very good&quot; is the same as invisible</li>
+<li>Safe is risky — playing it safe guarantees mediocrity</li>
+<li>Target the otaku (obsessives), not the mainstream</li>
+</ul>
+<p><strong>Best Quote:</strong> <em>&quot;In a crowded marketplace, fitting in is failing.&quot;</em></p>
+<hr>
+<h3 id="7-influence-the-psychology-of-persuasion-robert-cialdini-1984">7. Influence: The Psychology of Persuasion — Robert Cialdini (1984)</h3>
+<p><strong>Big Idea:</strong> 7 psychological triggers drive nearly all human decisions.</p>
+<p><strong>Key Frameworks — The 7 Principles:</strong></p>
+<ol>
+<li><strong>Reciprocity</strong> — Give first, people feel obligated to return</li>
+<li><strong>Commitment &amp; Consistency</strong> — Small yes leads to bigger yes</li>
+<li><strong>Social Proof</strong> — People follow what others do</li>
+<li><strong>Authority</strong> — People defer to credible experts</li>
+<li><strong>Liking</strong> — People buy from people they like</li>
+<li><strong>Scarcity</strong> — Limited availability increases perceived value</li>
+<li><strong>Unity</strong> — Shared identity creates tribal belonging</li>
+</ol>
+<p><strong>Key Principles:</strong></p>
+<ul>
+<li>These work as automatic shortcuts — people react, not deliberate</li>
+<li>Ethical use = highlighting what genuinely exists. Fabrication = manipulation that destroys trust</li>
+<li>Rejection-Then-Retreat: ask big first, then ask for what you actually want</li>
+</ul>
+<p><strong>Best Quote:</strong> <em>&quot;The way to love anything is to realize that it may be lost.&quot;</em></p>
+<hr>
+<h3 id="8-ogilvy-on-advertising-david-ogilvy-1983">8. Ogilvy on Advertising — David Ogilvy (1983)</h3>
+<p><strong>Big Idea:</strong> Advertising exists to sell. If it doesn&#x27;t sell, it isn&#x27;t creative.</p>
+<p><strong>Key Frameworks:</strong></p>
+<ul>
+<li><strong>The Big Idea Test:</strong> (1) Did it make you gasp? (2) Do you wish you&#x27;d thought of it? (3) Is it unique? (4) Can it run for 30 years?</li>
+<li><strong>The 80% Rule:</strong> 5x more people read the headline than the body. The headline IS the ad.</li>
+<li><strong>Research-First:</strong> Test everything. Study what actually works (response data), not what people say they like.</li>
+</ul>
+<p><strong>Key Principles:</strong></p>
+<ul>
+<li>Headlines that promise a benefit outperform all others</li>
+<li>Specifics beat generalities (&quot;At 60mph...&quot; vs &quot;luxury ride&quot;)</li>
+<li>Long copy outsells short copy — people who read past the headline are real prospects</li>
+<li>Photos outsell illustrations. Captions are read 2x more than body copy.</li>
+<li>Write conversationally, as if speaking to one person</li>
+</ul>
+<p><strong>Best Quote:</strong> <em>&quot;The consumer is not a moron, she is your wife.&quot;</em></p>
+<hr>
+<h2 id="tier-2-the-additional-12">Tier 2: The Additional 12</h2>
+<h3 id="9-positioning-al-ries-amp-jack-trout-1981">9. Positioning — Al Ries &amp; Jack Trout (1981)</h3>
+<p><strong>Big Idea:</strong> Marketing is a battle of perceptions, not products. Own a word in the prospect&#x27;s mind.</p>
+<p><strong>Key Framework:</strong> If you can&#x27;t be first in a category, create a new category you can be first in.</p>
+<p><strong>Why It Matters:</strong> A small business will never out-feature a corporation. But it can own a position in a niche. &quot;Personal injury in WA&quot; or &quot;headshot photographer in Brisbane&quot; — that&#x27;s ownable territory.</p>
+<h3 id="10-blue-ocean-strategy-w-chan-kim-amp-renee-mauborgne-2005">10. Blue Ocean Strategy — W. Chan Kim &amp; Renee Mauborgne (2005)</h3>
+<p><strong>Big Idea:</strong> Stop competing in crowded markets. Create uncontested space.</p>
+<p><strong>Key Framework:</strong> The Four Actions Framework — Eliminate, Reduce, Raise, Create. Redesign your value proposition so comparison is impossible.</p>
+<p><strong>Why It Matters:</strong> Small businesses can&#x27;t win a price war. But they can redefine the playing field entirely.</p>
+<h3 id="11-permission-marketing-seth-godin-1999">11. Permission Marketing — Seth Godin (1999)</h3>
+<p><strong>Big Idea:</strong> Earn the privilege of delivering messages to people who want them.</p>
+<p><strong>Key Framework:</strong> Turn strangers into friends, friends into customers, by trading value for attention at every step.</p>
+<p><strong>Why It Matters:</strong> Interruption marketing requires massive budgets. Permission marketing requires trust — which small businesses build faster than corporations.</p>
+<h3 id="12-breakthrough-advertising-eugene-schwartz-1966">12. Breakthrough Advertising — Eugene Schwartz (1966)</h3>
+<p><strong>Big Idea:</strong> Match your message to your prospect&#x27;s awareness level.</p>
+<p><strong>Key Framework:</strong> 5 Stages of Customer Awareness — Unaware → Problem Aware → Solution Aware → Product Aware → Most Aware. Each stage needs a different message.</p>
+<p><strong>Why It Matters:</strong> Small businesses waste money showing &quot;buy now&quot; to people who don&#x27;t know they have a problem. Segment by awareness, craft the right message for each stage. Costs nothing extra.</p>
+<h3 id="13-crossing-the-chasm-geoffrey-moore-1991">13. Crossing the Chasm — Geoffrey Moore (1991)</h3>
+<p><strong>Big Idea:</strong> Most products die between early adopters and the mainstream.</p>
+<p><strong>Key Framework:</strong> Dominate one narrow beachhead segment completely before expanding. Early adopters buy on vision; the majority buys on proof.</p>
+<p><strong>Why It Matters:</strong> Don&#x27;t try to be everything to everyone. Own one niche, become the reference case, then expand.</p>
+<h3 id="14-contagious-jonah-berger-2013">14. Contagious — Jonah Berger (2013)</h3>
+<p><strong>Big Idea:</strong> Virality isn&#x27;t luck — it&#x27;s engineered.</p>
+<p><strong>Key Framework:</strong> STEPPS — Social Currency, Triggers, Emotion, Public, Practical Value, Stories.</p>
+<p><strong>Why It Matters:</strong> Small businesses can&#x27;t buy reach. But they can engineer shareability using this checklist.</p>
+<h3 id="15-made-to-stick-chip-heath-amp-dan-heath-2007">15. Made to Stick — Chip Heath &amp; Dan Heath (2007)</h3>
+<p><strong>Big Idea:</strong> Some ideas survive and others die. Here&#x27;s why.</p>
+<p><strong>Key Framework:</strong> SUCCESs — Simple, Unexpected, Concrete, Credible, Emotional, Stories.</p>
+<p><strong>Why It Matters:</strong> Corporations repeat mediocre messages a million times. Small businesses get one shot to be remembered. This is the formula.</p>
+<h3 id="16-how-brands-grow-byron-sharp-2010">16. How Brands Grow — Byron Sharp (2010)</h3>
+<p><strong>Big Idea:</strong> Brands grow by acquiring new buyers, not increasing loyalty.</p>
+<p><strong>Key Framework:</strong> Mental Availability (being thought of) + Physical Availability (being easy to buy). Distinctive brand assets matter more than differentiated positioning.</p>
+<p><strong>Why It Matters:</strong> Stop obsessing over loyal customers. Focus on being visible, memorable, and easy to buy from. Reach beats frequency.</p>
+<h3 id="17-the-22-immutable-laws-of-marketing-al-ries-amp-jack-trout-1993">17. The 22 Immutable Laws of Marketing — Al Ries &amp; Jack Trout (1993)</h3>
+<p><strong>Big Idea:</strong> 22 laws that govern marketing success like gravity governs physics.</p>
+<p><strong>Key Laws:</strong> Law of Leadership (be first), Law of Category (create a new one), Law of Focus (own one word), Law of the Opposite (if you&#x27;re #2, play opposite of #1).</p>
+<p><strong>Why It Matters:</strong> These laws are MORE powerful for small businesses. &quot;Create a new category&quot; is the ultimate small business weapon.</p>
+<h3 id="18-the-long-tail-chris-anderson-2006">18. The Long Tail — Chris Anderson (2006)</h3>
+<p><strong>Big Idea:</strong> The internet made niche markets collectively larger than hit markets.</p>
+<p><strong>Key Framework:</strong> Democratized production + democratized distribution + filter power = viable niche businesses.</p>
+<p><strong>Why It Matters:</strong> You don&#x27;t need mass appeal. You need to be findable by the specific people who want exactly what you offer. The long tail validates every niche business.</p>
+<h3 id="19-they-ask-you-answer-marcus-sheridan-2017">19. They Ask, You Answer — Marcus Sheridan (2017)</h3>
+<p><strong>Big Idea:</strong> Answer every question your customers are asking — especially the uncomfortable ones.</p>
+<p><strong>Key Framework:</strong> The Big 5 content topics driving 80% of sales traffic: Pricing, Problems, Comparisons, Reviews, &quot;Best Of&quot; lists.</p>
+<p><strong>Why It Matters:</strong> Zero ad budget required. One blog post answering &quot;how much does X cost?&quot; generated $3M+ in revenue. Meet prospects at the moment of need with honest answers.</p>
+<h3 id="20-duct-tape-marketing-john-jantsch-2007">20. Duct Tape Marketing — John Jantsch (2007)</h3>
+<p><strong>Big Idea:</strong> Marketing is a system, not random tactics.</p>
+<p><strong>Key Framework:</strong> The Marketing Hourglass — Know → Like → Trust → Try → Buy → Repeat → Refer.</p>
+<p><strong>Why It Matters:</strong> Written specifically for small businesses with no marketing team. The complete system for owners doing it themselves.</p>
+<hr>
+<h1 id="the-12-indelible-principles">THE 12 INDELIBLE PRINCIPLES</h1>
+<p><em>The truths that were true in 1960, are true in 2026, and will be true in 2050. These don&#x27;t change with technology.</em></p>
+<ol>
+<li><strong>People buy with emotion, justify with logic</strong> — (Cialdini, Ogilvy, neuroscience)</li>
+<li><strong>The customer is the hero, not you</strong> — (Miller/StoryBrand)</li>
+<li><strong>Reciprocity drives everything</strong> — Give value first, the sale follows (Cialdini)</li>
+<li><strong>Specificity beats cleverness</strong> — &quot;At 60mph, the loudest noise...&quot; outsells &quot;luxury ride&quot; (Ogilvy)</li>
+<li><strong>Social proof is the shortcut</strong> — People do what other people do (Cialdini)</li>
+<li><strong>Repetition builds trust</strong> — Don&#x27;t change your message because you&#x27;re bored (Levinson)</li>
+<li><strong>Scarcity creates urgency</strong> — Honest scarcity moves people. Fake scarcity destroys you (Cialdini)</li>
+<li><strong>Remarkable beats good</strong> — &quot;Very good&quot; is invisible (Godin)</li>
+<li><strong>Clarity beats complexity</strong> — If you confuse, you lose (Miller)</li>
+<li><strong>Follow-up is where the money lives</strong> — 68% of lost business is poor follow-up (Levinson)</li>
+<li><strong>Price signals value</strong> — Cheap attracts bad clients and thin margins (Hormozi, Godin)</li>
+<li><strong>Sell the transformation, not the product</strong> — Nobody wants a drill. They want a beautiful home.</li>
+</ol>
+<hr>
+<h1 id="mapping-books-chapters">MAPPING: BOOKS → CHAPTERS</h1>
+<h2 id="part-0-the-manifesto">Part 0 — The Manifesto</h2>
+<div class="table-wrap"><table><thead><tr><th>Chapter</th><th>Key Sources</th></tr></thead><tbody><tr><td>Ch 1: The Lie</td><td>Godin (TV-Industrial Complex is dead), Levinson (imagination &gt; budget), Anderson (Long Tail validates niche)</td></tr><tr><td>Ch 2: The Method</td><td>All 12 Indelible Principles as the foundation of the NB worldview</td></tr></tbody></table></div>
+<h2 id="part-1-brand">Part 1 — Brand</h2>
+<div class="table-wrap"><table><thead><tr><th>Chapter</th><th>Key Sources</th></tr></thead><tbody><tr><td>Ch 3: What Makes a Brand Iconic</td><td>Ries &amp; Trout (own a word in the mind), Sharp (distinctive brand assets), Godin (remarkable or invisible)</td></tr><tr><td>Ch 4: Building Your Brand on a Budget</td><td>Levinson (imagination &gt; money), Jantsch (systematic approach), NB Brand Bible pipeline</td></tr><tr><td>Ch 5: Brand Traps</td><td>Sharp (differentiation is overrated vs distinctiveness), Ries &amp; Trout (losing focus)</td></tr></tbody></table></div>
+<h2 id="part-2-web">Part 2 — Web</h2>
+<div class="table-wrap"><table><thead><tr><th>Chapter</th><th>Key Sources</th></tr></thead><tbody><tr><td>Ch 6: The 10/10 Website</td><td>Miller (Grunt Test — 5 seconds to understand), Ogilvy (benefit-first headlines), Hormozi (value stacking)</td></tr><tr><td>Ch 7: Building It Yourself</td><td>NB open-source stack, Levinson (DIY with imagination), Jantsch (small business systems)</td></tr><tr><td>Ch 8: Web Traps</td><td>Godin (permission vs interruption), Sharp (physical availability — make it easy to buy)</td></tr></tbody></table></div>
+<h2 id="part-3-content">Part 3 — Content</h2>
+<div class="table-wrap"><table><thead><tr><th>Chapter</th><th>Key Sources</th></tr></thead><tbody><tr><td>Ch 9: Content That Actually Works</td><td>Heath &amp; Heath (SUCCESs for sticky ideas), Miller (storytelling), Ogilvy (specifics &gt; generalities)</td></tr><tr><td>Ch 10: The Content Machine</td><td>Sheridan (Big 5 topics), Godin (permission-based), Levinson (marketing calendar)</td></tr><tr><td>Ch 11: Content Traps</td><td>Weinberg (50% rule — content without distribution is waste), Sharp (mental availability)</td></tr></tbody></table></div>
+<h2 id="part-4-social">Part 4 — Social</h2>
+<div class="table-wrap"><table><thead><tr><th>Chapter</th><th>Key Sources</th></tr></thead><tbody><tr><td>Ch 12: Social Media as a Weapon</td><td>Berger (STEPPS for virality), Godin (smallest viable market), Cialdini (social proof + liking)</td></tr><tr><td>Ch 13: The Posting Playbook</td><td>NB content strategy (feed vs reels split), Levinson (consistency + calendar)</td></tr><tr><td>Ch 14: Social Traps</td><td>Sharp (reach &gt; frequency), Godin (vanity metrics vs enrollment)</td></tr></tbody></table></div>
+<h2 id="part-5-email">Part 5 — Email</h2>
+<div class="table-wrap"><table><thead><tr><th>Chapter</th><th>Key Sources</th></tr></thead><tbody><tr><td>Ch 15: The Most Underrated Channel</td><td>Godin (permission marketing originated with email), Cialdini (reciprocity via value-first)</td></tr><tr><td>Ch 16: Building the Machine</td><td>NB self-hosted Mautic stack, Schwartz (5 awareness stages for sequence design), Jantsch (hourglass)</td></tr><tr><td>Ch 17: Email Traps</td><td>Godin (interruption vs permission), Cialdini (fake scarcity destroys trust)</td></tr></tbody></table></div>
+<h2 id="part-6-seo-amp-discovery">Part 6 — SEO &amp; Discovery</h2>
+<div class="table-wrap"><table><thead><tr><th>Chapter</th><th>Key Sources</th></tr></thead><tbody><tr><td>Ch 18: How People Actually Find You</td><td>Sheridan (They Ask, You Answer), Anderson (Long Tail), Schwartz (awareness stages)</td></tr><tr><td>Ch 19: Ranking Without an Agency</td><td>Sheridan (Big 5 content), NB SEO keyword clusters, Levinson (free/cheap weapons)</td></tr><tr><td>Ch 20: SEO Traps</td><td>Sharp (mental availability ≠ gaming algorithms), Ries &amp; Trout (focus)</td></tr></tbody></table></div>
+<h2 id="part-7-advertising">Part 7 — Advertising</h2>
+<div class="table-wrap"><table><thead><tr><th>Chapter</th><th>Key Sources</th></tr></thead><tbody><tr><td>Ch 21: Paid Attention Done Right</td><td>Ogilvy (benefit headlines, Big Idea, research-first), Schwartz (match message to awareness), Cialdini (all 7 principles in ad creative)</td></tr><tr><td>Ch 22: Running Ads That Don&#x27;t Waste Money</td><td>Weinberg (Bullseye — test cheap, focus on winner), Hormozi (Grand Slam Offer in ad), Levinson (measure profits)</td></tr><tr><td>Ch 23: Advertising Traps</td><td>Ogilvy (if it doesn&#x27;t sell, it isn&#x27;t creative), Godin (interruption without permission = waste)</td></tr></tbody></table></div>
+<h2 id="part-8-sales-amp-conversion">Part 8 — Sales &amp; Conversion</h2>
+<div class="table-wrap"><table><thead><tr><th>Chapter</th><th>Key Sources</th></tr></thead><tbody><tr><td>Ch 24: Turning Attention Into Money</td><td>Hormozi (Value Equation, Grand Slam Offer), Miller (plan + CTA + stakes), Cialdini (commitment &amp; consistency)</td></tr><tr><td>Ch 25: The Sales System</td><td>Jantsch (hourglass: Know→Like→Trust→Try→Buy→Repeat→Refer), Levinson (follow-up obsession), NB pipeline</td></tr><tr><td>Ch 26: Sales Traps</td><td>Hormozi (competing on price = already lost), Ries &amp; Trout (losing positioning), Moore (chasm — selling to wrong audience)</td></tr></tbody></table></div>
+<h2 id="part-9-analytics-amp-measurement">Part 9 — Analytics &amp; Measurement</h2>
+<div class="table-wrap"><table><thead><tr><th>Chapter</th><th>Key Sources</th></tr></thead><tbody><tr><td>Ch 27: What to Actually Measure</td><td>Levinson (profits not revenue), Ogilvy (direct-response measurement), Weinberg (traction = the only metric)</td></tr><tr><td>Ch 28: Your Dashboard</td><td>NB self-hosted Matomo/Metabase stack, Sharp (mental + physical availability metrics)</td></tr><tr><td>Ch 29: Analytics Traps</td><td>Godin (brand metrics ≠ direct metrics — know which you&#x27;re doing), Sharp (loyalty is overrated)</td></tr></tbody></table></div>
+<h2 id="part-10-systems-amp-automation">Part 10 — Systems &amp; Automation</h2>
+<div class="table-wrap"><table><thead><tr><th>Chapter</th><th>Key Sources</th></tr></thead><tbody><tr><td>Ch 30: The Machine Behind the Machine</td><td>Jantsch (marketing is a system), Levinson (combinations compound), Godin (permission at scale)</td></tr><tr><td>Ch 31: Building Your Stack</td><td>NB open-source self-hosted stack, Anderson (democratized tools), Levinson (200 weapons, most free)</td></tr><tr><td>Ch 32: Systems Traps</td><td>Kim &amp; Mauborgne (automating a broken process just breaks it faster), Jantsch (system before tools)</td></tr></tbody></table></div>
+<h2 id="part-11-the-full-stack">Part 11 — The Full Stack</h2>
+<div class="table-wrap"><table><thead><tr><th>Chapter</th><th>Key Sources</th></tr></thead><tbody><tr><td>Ch 33: How It All Connects</td><td>All 12 Indelible Principles in action across the full system</td></tr><tr><td>Ch 34: Your 90-Day Plan</td><td>Weinberg (Bullseye for channel selection), Moore (beachhead first), Jantsch (hourglass build-out)</td></tr></tbody></table></div>
+<hr>
+<h1 id="quick-reference-who-said-what">QUICK REFERENCE: WHO SAID WHAT</h1>
+<div class="table-wrap"><table><thead><tr><th>Author</th><th>Core Contribution</th><th>Use When Writing About</th></tr></thead><tbody><tr><td>Levinson</td><td>Imagination &gt; budget, follow-up, consistency</td><td>Budget, DIY, discipline</td></tr><tr><td>Hormozi</td><td>Value equation, premium pricing, Grand Slam Offers</td><td>Pricing, offers, conversion</td></tr><tr><td>Miller</td><td>Customer = hero, SB7, clarity wins</td><td>Messaging, websites, copy</td></tr><tr><td>Weinberg</td><td>19 channels, Bullseye, 50% rule</td><td>Channel strategy, testing</td></tr><tr><td>Godin (This Is Marketing)</td><td>Smallest viable market, permission, status</td><td>Positioning, audience, trust</td></tr><tr><td>Godin (Purple Cow)</td><td>Remarkable or invisible, sneezers</td><td>Product, differentiation</td></tr><tr><td>Cialdini</td><td>7 persuasion principles</td><td>Psychology, conversion, ethics</td></tr><tr><td>Ogilvy</td><td>Sell don&#x27;t entertain, headlines, specifics, research</td><td>Ads, copy, creative</td></tr><tr><td>Ries &amp; Trout</td><td>Own a word, create categories, 22 laws</td><td>Positioning, strategy</td></tr><tr><td>Kim &amp; Mauborgne</td><td>Blue oceans, value innovation</td><td>Competition, differentiation</td></tr><tr><td>Schwartz</td><td>5 awareness stages</td><td>Funnels, email sequences, ads</td></tr><tr><td>Moore</td><td>Cross the chasm, beachhead strategy</td><td>Launch, niche-first growth</td></tr><tr><td>Berger</td><td>STEPPS for virality</td><td>Social, content, sharing</td></tr><tr><td>Heath &amp; Heath</td><td>SUCCESs for sticky ideas</td><td>Messaging, content, pitching</td></tr><tr><td>Sharp</td><td>Mental/physical availability, reach &gt; loyalty</td><td>Brand, distribution, reach</td></tr><tr><td>Anderson</td><td>Long tail, niche viability</td><td>SEO, niche strategy</td></tr><tr><td>Sheridan</td><td>Answer every question, Big 5 topics</td><td>Content, SEO, trust</td></tr><tr><td>Jantsch</td><td>Marketing hourglass, system-first</td><td>Systems, small business ops</td></tr></tbody></table></div>
+<hr>
+<p><em>This reference doc is the intellectual backbone of The Nunya Bunya Method. Every chapter stands on the shoulders of these giants — and adds the NB layer: open-source tools, self-hosted infrastructure, AI-powered workflows, and the practical how-to that turns philosophy into action for small businesses fighting to survive.</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Products/the-nunya-bunya-method-reference.md</div>
+    </main>
+  </div>
+</body>
+</html>

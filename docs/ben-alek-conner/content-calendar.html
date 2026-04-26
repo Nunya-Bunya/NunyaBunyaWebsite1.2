@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben Alek Conner — Content Calendar | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link active"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-alek-conner">Ben Alek Conner</a> &rsaquo;
+          Ben Alek Conner — Content Calendar
+        </div>
+        <h1 class="doc-title">Ben Alek Conner — Content Calendar</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#127908; Ben Alek Conner</span>
+          <span class="doc-path">06-Ben Alek Conner / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="ben-alek-conner-content-calendar">Ben Alek Conner — Content Calendar</h1>
+<h3 id="march-7-april-5-2026-30-days">March 7 – April 5, 2026 (30 Days)</h3>
+<p><strong>Building businesses. Making films. Sharing the journey.</strong></p>
+<p><strong>Platforms:</strong> Instagram (5x/wk) · TikTok (5x/wk) · YouTube (1x/wk) · LinkedIn (3x/wk)</p>
+<p><strong>Content Pillars:</strong> Entrepreneurship &amp; Business · Filmmaking &amp; Creative · Health &amp; ADHD · Marketing Systems · Personal Growth</p>
+<hr>
+<h2 id="day-1-saturday-march-07-2026">Day 1 — Saturday, March 07, 2026</h2>
+<h3 id="instagram-reel-entrepreneurship">Instagram · Reel · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> Running 5 businesses at 28: what nobody tells you</p>
+<p><strong>Hook:</strong> Everyone wants to own a business. Nobody talks about this part.</p>
+<p><strong>CTA:</strong> Follow for the unfiltered journey</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-marketing-systems">TikTok · Video · <em>Marketing Systems</em></h3>
+<p><strong>Topic:</strong> The AI system I use to manage all my business content</p>
+<p><strong>Hook:</strong> 5 businesses. 1 system. Here it is.</p>
+<p><strong>CTA:</strong> Follow for more</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-2-sunday-march-08-2026">Day 2 — Sunday, March 08, 2026</h2>
+<h3 id="instagram-carousel-filmmaking">Instagram · Carousel · <em>Filmmaking</em></h3>
+<p><strong>Topic:</strong> My feature film: where we are right now (honest update)</p>
+<p><strong>Hook:</strong> The part of filmmaking nobody films</p>
+<p><strong>CTA:</strong> Follow to watch this get made</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-post-entrepreneurship">LinkedIn · Post · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> Year 2 of Nunya Bunya: revenue, lessons, reality</p>
+<p><strong>Hook:</strong> I&#x27;ll share the real numbers. Because nobody else does.</p>
+<p><strong>CTA:</strong> Follow for the quarterly breakdown</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-3-monday-march-09-2026">Day 3 — Monday, March 09, 2026</h2>
+<h3 id="instagram-static-health-amp-adhd">Instagram · Static · <em>Health &amp; ADHD</em></h3>
+<p><strong>Topic:</strong> ADHD and entrepreneurship: the brutal honest reality</p>
+<p><strong>Hook:</strong> My brain is both my superpower and my biggest obstacle</p>
+<p><strong>CTA:</strong> Tag someone who needs to hear this</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-entrepreneurship">TikTok · Video · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> A week in my life running multiple businesses</p>
+<p><strong>Hook:</strong> Monday 5am. Here we go.</p>
+<p><strong>CTA:</strong> Follow for the full week series</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-4-tuesday-march-10-2026">Day 4 — Tuesday, March 10, 2026</h2>
+<h3 id="instagram-reel-marketing-systems">Instagram · Reel · <em>Marketing Systems</em></h3>
+<p><strong>Topic:</strong> The content system that saves me 10 hours a week</p>
+<p><strong>Hook:</strong> I almost hired a full-time social media manager. Then I built this instead.</p>
+<p><strong>CTA:</strong> Save this system</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-article-entrepreneurship">LinkedIn · Article · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> How I structure my week across 5 businesses (with actual time blocks)</p>
+<p><strong>Hook:</strong> My calendar is the only reason any of this works.</p>
+<p><strong>CTA:</strong> Save + comment your biggest scheduling challenge</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-5-wednesday-march-11-2026">Day 5 — Wednesday, March 11, 2026</h2>
+<h3 id="instagram-carousel-filmmaking">Instagram · Carousel · <em>Filmmaking</em></h3>
+<p><strong>Topic:</strong> Screenwriting process: from idea to first draft</p>
+<p><strong>Hook:</strong> I wrote my first screenplay in 4 weeks. Here&#x27;s how.</p>
+<p><strong>CTA:</strong> Follow for weekly filmmaking content</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-health-amp-adhd">TikTok · Video · <em>Health &amp; ADHD</em></h3>
+<p><strong>Topic:</strong> My morning routine as an ADHD entrepreneur (no fluff)</p>
+<p><strong>Hook:</strong> No ice baths. No 4am wakeups. Just what actually works for me.</p>
+<p><strong>CTA:</strong> Comment your routine</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-post-marketing-systems">LinkedIn · Post · <em>Marketing Systems</em></h3>
+<p><strong>Topic:</strong> The AI tools that run my marketing while I sleep</p>
+<p><strong>Hook:</strong> Automation isn&#x27;t lazy. It&#x27;s strategic.</p>
+<p><strong>CTA:</strong> DM me for the full tool stack</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-6-thursday-march-12-2026">Day 6 — Thursday, March 12, 2026</h2>
+<h3 id="instagram-reel-personal-growth">Instagram · Reel · <em>Personal Growth</em></h3>
+<p><strong>Topic:</strong> Lessons from my worst business failure (and what I built after)</p>
+<p><strong>Hook:</strong> I lost $20,000 and 6 months of my life. Here&#x27;s what it taught me.</p>
+<p><strong>CTA:</strong> Drop a fire emoji if you&#x27;ve been through something similar</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-7-friday-march-13-2026">Day 7 — Friday, March 13, 2026</h2>
+<h3 id="instagram-static-entrepreneurship">Instagram · Static · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> Sunday business review: what I&#x27;m working on this week</p>
+<p><strong>Hook:</strong> My actual goals for the next 7 days. Accountability post.</p>
+<p><strong>CTA:</strong> Drop your week&#x27;s #1 goal in the comments</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-filmmaking">TikTok · Video · <em>Filmmaking</em></h3>
+<p><strong>Topic:</strong> Location scouting for my film: Brisbane&#x27;s hidden gems</p>
+<p><strong>Hook:</strong> You won&#x27;t believe these places exist in Brisbane</p>
+<p><strong>CTA:</strong> Follow for the full film journey</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-8-saturday-march-14-2026">Day 8 — Saturday, March 14, 2026</h2>
+<h3 id="instagram-reel-entrepreneurship">Instagram · Reel · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> How I went from zero clients to 12 in 6 months (Nunya Bunya story)</p>
+<p><strong>Hook:</strong> No big launch. No viral post. Just this.</p>
+<p><strong>CTA:</strong> Follow for the full agency building series</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-post-personal-growth">LinkedIn · Post · <em>Personal Growth</em></h3>
+<p><strong>Topic:</strong> The book that changed how I think about building businesses</p>
+<p><strong>Hook:</strong> I&#x27;ve read it 3 times. I&#x27;ll read it again.</p>
+<p><strong>CTA:</strong> What&#x27;s the book that changed your thinking? Comment below</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-9-sunday-march-15-2026">Day 9 — Sunday, March 15, 2026</h2>
+<h3 id="instagram-carousel-health-amp-adhd">Instagram · Carousel · <em>Health &amp; ADHD</em></h3>
+<p><strong>Topic:</strong> My supplement stack for ADHD focus (what works, what doesn&#x27;t)</p>
+<p><strong>Hook:</strong> I&#x27;ve spent $3,000 testing this. Here&#x27;s the honest breakdown.</p>
+<p><strong>CTA:</strong> Save this — always consult your GP first</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-marketing-systems">TikTok · Video · <em>Marketing Systems</em></h3>
+<p><strong>Topic:</strong> Watch me plan 30 days of content in real time (timelapse)</p>
+<p><strong>Hook:</strong> Start to finish: 47 minutes to plan a full content month</p>
+<p><strong>CTA:</strong> Follow for weekly marketing content</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-10-monday-march-16-2026">Day 10 — Monday, March 16, 2026</h2>
+<h3 id="instagram-reel-filmmaking">Instagram · Reel · <em>Filmmaking</em></h3>
+<p><strong>Topic:</strong> The hardest part of making an independent film (it&#x27;s not what you think)</p>
+<p><strong>Hook:</strong> Funding? Casting? No. It&#x27;s this.</p>
+<p><strong>CTA:</strong> Follow to watch my film get made live</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-article-entrepreneurship">LinkedIn · Article · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> Year 2 goals: Where I am vs. where I said I&#x27;d be</p>
+<p><strong>Hook:</strong> Public accountability is the most effective productivity system I&#x27;ve found.</p>
+<p><strong>CTA:</strong> Follow for quarterly goal updates</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-11-tuesday-march-17-2026">Day 11 — Tuesday, March 17, 2026</h2>
+<h3 id="instagram-reel-marketing-systems">Instagram · Reel · <em>Marketing Systems</em></h3>
+<p><strong>Topic:</strong> I gave AI my entire business. Here&#x27;s what happened.</p>
+<p><strong>Hook:</strong> 6 months of AI-first operations. The real results.</p>
+<p><strong>CTA:</strong> Save this post</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-entrepreneurship">TikTok · Video · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> Cold outreach that actually works in 2026 (we tested 500 messages)</p>
+<p><strong>Hook:</strong> Most cold outreach fails for this one reason</p>
+<p><strong>CTA:</strong> Follow for the full breakdown</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-12-wednesday-march-18-2026">Day 12 — Wednesday, March 18, 2026</h2>
+<h3 id="instagram-carousel-personal-growth">Instagram · Carousel · <em>Personal Growth</em></h3>
+<p><strong>Topic:</strong> My 4-year plan: building a $1M portfolio of businesses</p>
+<p><strong>Hook:</strong> I wrote this down 18 months ago. Here&#x27;s what&#x27;s changed.</p>
+<p><strong>CTA:</strong> Follow the journey</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-post-marketing-systems">LinkedIn · Post · <em>Marketing Systems</em></h3>
+<p><strong>Topic:</strong> The content calendar system I use across 5 brands</p>
+<p><strong>Hook:</strong> One system. Five brands. Here&#x27;s exactly how it works.</p>
+<p><strong>CTA:</strong> DM &#x27;CALENDAR&#x27; for the template</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-13-thursday-march-19-2026">Day 13 — Thursday, March 19, 2026</h2>
+<h3 id="instagram-reel-filmmaking">Instagram · Reel · <em>Filmmaking</em></h3>
+<p><strong>Topic:</strong> Pre-production week 1: casting begins</p>
+<p><strong>Hook:</strong> We saw 40 actors in 2 days. Here&#x27;s how we choose.</p>
+<p><strong>CTA:</strong> Follow the film journey</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-health-amp-adhd">TikTok · Video · <em>Health &amp; ADHD</em></h3>
+<p><strong>Topic:</strong> Productivity system for ADHD brains (I&#x27;ve tried everything — this works)</p>
+<p><strong>Hook:</strong> ADHD + business is a wild ride. Here&#x27;s my actual system.</p>
+<p><strong>CTA:</strong> Follow for weekly ADHD + entrepreneur content</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-14-friday-march-20-2026">Day 14 — Friday, March 20, 2026</h2>
+<h3 id="instagram-static-entrepreneurship">Instagram · Static · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> Revenue milestone: first $10k month across all businesses</p>
+<p><strong>Hook:</strong> Sharing this for the people who are still in the early days.</p>
+<p><strong>CTA:</strong> Comment &#x27;MILESTONE&#x27; if you&#x27;re still working toward yours</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-post-personal-growth">LinkedIn · Post · <em>Personal Growth</em></h3>
+<p><strong>Topic:</strong> How I structure my reading habit as an entrepreneur (30 books/year)</p>
+<p><strong>Hook:</strong> I read 30 books last year while building 5 businesses.</p>
+<p><strong>CTA:</strong> Comment your current read</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-15-saturday-march-21-2026">Day 15 — Saturday, March 21, 2026</h2>
+<h3 id="instagram-reel-health-amp-adhd">Instagram · Reel · <em>Health &amp; ADHD</em></h3>
+<p><strong>Topic:</strong> What I eat in a day as an ADHD entrepreneur (brain food protocol)</p>
+<p><strong>Hook:</strong> Nutrition is the most underrated performance tool for entrepreneurs.</p>
+<p><strong>CTA:</strong> Save this for your meal planning</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-filmmaking">TikTok · Video · <em>Filmmaking</em></h3>
+<p><strong>Topic:</strong> Budget breakdown: making a feature film on an indie budget</p>
+<p><strong>Hook:</strong> People think films cost millions. They don&#x27;t have to.</p>
+<p><strong>CTA:</strong> Follow for the full transparency series</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-16-sunday-march-22-2026">Day 16 — Sunday, March 22, 2026</h2>
+<h3 id="instagram-carousel-marketing-systems">Instagram · Carousel · <em>Marketing Systems</em></h3>
+<p><strong>Topic:</strong> Every tool in my business stack (free and paid)</p>
+<p><strong>Hook:</strong> Here&#x27;s exactly what runs my businesses.</p>
+<p><strong>CTA:</strong> Save + comment what tool you couldn&#x27;t live without</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-article-entrepreneurship">LinkedIn · Article · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> The hiring mistake I made at Nunya Bunya (and how I fixed it)</p>
+<p><strong>Hook:</strong> I hired fast and paid slowly. Here&#x27;s the lesson.</p>
+<p><strong>CTA:</strong> Follow for honest founder content</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-17-monday-march-23-2026">Day 17 — Monday, March 23, 2026</h2>
+<h3 id="instagram-reel-personal-growth">Instagram · Reel · <em>Personal Growth</em></h3>
+<p><strong>Topic:</strong> Year 3 goals: public commitment post</p>
+<p><strong>Hook:</strong> Sharing this so I can&#x27;t back out.</p>
+<p><strong>CTA:</strong> Comment your #1 goal for 2026</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-entrepreneurship">TikTok · Video · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> What it&#x27;s really like running a marketing agency in Brisbane</p>
+<p><strong>Hook:</strong> The reality vs. the Instagram version</p>
+<p><strong>CTA:</strong> Follow for the unfiltered version</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-18-tuesday-march-24-2026">Day 18 — Tuesday, March 24, 2026</h2>
+<h3 id="instagram-static-filmmaking">Instagram · Static · <em>Filmmaking</em></h3>
+<p><strong>Topic:</strong> Behind the script: the theme of my feature film explained</p>
+<p><strong>Hook:</strong> Every film has something it&#x27;s really about. Here&#x27;s mine.</p>
+<p><strong>CTA:</strong> Follow to watch it get made</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-post-marketing-systems">LinkedIn · Post · <em>Marketing Systems</em></h3>
+<p><strong>Topic:</strong> AI is not replacing marketers. It&#x27;s replacing bad marketers.</p>
+<p><strong>Hook:</strong> A hot take that I fully stand behind.</p>
+<p><strong>CTA:</strong> Agree or disagree? Comment below</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-19-wednesday-march-25-2026">Day 19 — Wednesday, March 25, 2026</h2>
+<h3 id="instagram-reel-entrepreneurship">Instagram · Reel · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> How to start a service business with $0 (I actually did this)</p>
+<p><strong>Hook:</strong> No investors. No savings. Just clients.</p>
+<p><strong>CTA:</strong> Save + share with someone who needs to hear this</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-health-amp-adhd">TikTok · Video · <em>Health &amp; ADHD</em></h3>
+<p><strong>Topic:</strong> My evening shutdown routine as an ADHD business owner</p>
+<p><strong>Hook:</strong> The shutdown routine is the most important productivity hack nobody uses.</p>
+<p><strong>CTA:</strong> Comment your shutdown ritual below</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-20-thursday-march-26-2026">Day 20 — Thursday, March 26, 2026</h2>
+<h3 id="instagram-carousel-marketing-systems">Instagram · Carousel · <em>Marketing Systems</em></h3>
+<p><strong>Topic:</strong> How I built a content machine for 5 businesses with one system</p>
+<p><strong>Hook:</strong> Start once. Scale forever. Here&#x27;s the blueprint.</p>
+<p><strong>CTA:</strong> Save this blueprint</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-article-entrepreneurship">LinkedIn · Article · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> 6 months of running Nunya Bunya: the numbers, the lessons, what&#x27;s next</p>
+<p><strong>Hook:</strong> Transparent founder update. Real numbers included.</p>
+<p><strong>CTA:</strong> Follow for quarterly updates</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-21-friday-march-27-2026">Day 21 — Friday, March 27, 2026</h2>
+<h3 id="instagram-reel-filmmaking">Instagram · Reel · <em>Filmmaking</em></h3>
+<p><strong>Topic:</strong> First table read: the room&#x27;s reaction (unfiltered)</p>
+<p><strong>Hook:</strong> This is the moment you find out if your script actually works.</p>
+<p><strong>CTA:</strong> Follow to watch this film happen live</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-entrepreneurship">TikTok · Video · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> The one metric I track above all others in my businesses</p>
+<p><strong>Hook:</strong> Revenue is a lagging indicator. Track this instead.</p>
+<p><strong>CTA:</strong> Comment what you track below</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-22-saturday-march-28-2026">Day 22 — Saturday, March 28, 2026</h2>
+<h3 id="instagram-static-personal-growth">Instagram · Static · <em>Personal Growth</em></h3>
+<p><strong>Topic:</strong> Things I stopped doing that changed my life</p>
+<p><strong>Hook:</strong> Subtraction is more powerful than addition.</p>
+<p><strong>CTA:</strong> Comment the thing you stopped doing that helped the most</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-post-entrepreneurship">LinkedIn · Post · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> The unsexy truth about building multiple businesses simultaneously</p>
+<p><strong>Hook:</strong> It&#x27;s not balance. It&#x27;s prioritisation. Here&#x27;s how I do it.</p>
+<p><strong>CTA:</strong> Save + share with a fellow founder</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-23-sunday-march-29-2026">Day 23 — Sunday, March 29, 2026</h2>
+<h3 id="instagram-reel-health-amp-adhd">Instagram · Reel · <em>Health &amp; ADHD</em></h3>
+<p><strong>Topic:</strong> 3 months on my new training program: honest update</p>
+<p><strong>Hook:</strong> I promised to share this. Here it is.</p>
+<p><strong>CTA:</strong> Follow for the weekly health + business updates</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-marketing-systems">TikTok · Video · <em>Marketing Systems</em></h3>
+<p><strong>Topic:</strong> Building a personal brand when you have multiple businesses</p>
+<p><strong>Hook:</strong> Which brand do I post as? Here&#x27;s how I solved this.</p>
+<p><strong>CTA:</strong> Follow for more</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-24-monday-march-30-2026">Day 24 — Monday, March 30, 2026</h2>
+<h3 id="instagram-carousel-filmmaking">Instagram · Carousel · <em>Filmmaking</em></h3>
+<p><strong>Topic:</strong> Pre-production checklist: everything you need before you shoot</p>
+<p><strong>Hook:</strong> Made this for indie filmmakers. Stealing it is encouraged.</p>
+<p><strong>CTA:</strong> Save this checklist — share with your film crew</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-article-personal-growth">LinkedIn · Article · <em>Personal Growth</em></h3>
+<p><strong>Topic:</strong> How ADHD shaped me as an entrepreneur (the good, the bad, the unexpected)</p>
+<p><strong>Hook:</strong> ADHD is not an excuse. It&#x27;s a framework.</p>
+<p><strong>CTA:</strong> Share with someone who needs to hear this</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-25-tuesday-march-31-2026">Day 25 — Tuesday, March 31, 2026</h2>
+<h3 id="instagram-reel-entrepreneurship">Instagram · Reel · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> What $10k/month actually looks like for a solo founder</p>
+<p><strong>Hook:</strong> The breakdown nobody shares. I&#x27;m sharing it.</p>
+<p><strong>CTA:</strong> Follow for full transparency on the journey</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="tiktok-video-filmmaking">TikTok · Video · <em>Filmmaking</em></h3>
+<p><strong>Topic:</strong> Cinematography lesson: the shot that changed how I see filmmaking</p>
+<p><strong>Hook:</strong> One composition. Changed everything.</p>
+<p><strong>CTA:</strong> Follow for weekly film tips</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+<h2 id="day-26-wednesday-april-01-2026">Day 26 — Wednesday, April 01, 2026</h2>
+<h3 id="instagram-static-marketing-systems">Instagram · Static · <em>Marketing Systems</em></h3>
+<p><strong>Topic:</strong> End of March: content performance review</p>
+<p><strong>Hook:</strong> What worked. What flopped. What I&#x27;m changing.</p>
+<p><strong>CTA:</strong> Comment your March content win below</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<h3 id="linkedin-post-entrepreneurship">LinkedIn · Post · <em>Entrepreneurship</em></h3>
+<p><strong>Topic:</strong> Q1 wrap-up: what I achieved, what I missed, and what&#x27;s next</p>
+<p><strong>Hook:</strong> Accountability post. Here are my actual Q1 results.</p>
+<p><strong>CTA:</strong> Follow for Q2 updates</p>
+<p><strong>Status:</strong> ☐ Planned  ☐ In Production  ☐ Scheduled  ☐ Published</p>
+<hr>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">06-Ben Alek Conner/01-strategy/Documents/CONTENT CALENDAR.md</div>
+    </main>
+  </div>
+</body>
+</html>

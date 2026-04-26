@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shlink Tracked Short Links Reference | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          Shlink Tracked Short Links Reference
+        </div>
+        <h1 class="doc-title">Shlink Tracked Short Links Reference</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="shlink-tracked-short-links-reference">Shlink Tracked Short Links Reference</h1>
+<p><strong>Server:</strong> https://go.nunyabunya.com</p>
+<p><strong>API Key Location:</strong> <code>00-Ben HQ/marketing-stack/.env</code> (<code>SHLINK<em>API</em>KEY</code>)</p>
+<p><strong>Setup Script:</strong> <code>00-Ben HQ/scripts/setup-shlink-links.py</code></p>
+<p><strong>Link Mapping JSON:</strong> <code>00-Ben HQ/scripts/shlink-links.json</code></p>
+<p><strong>Weekly Digest:</strong> <code>00-Ben HQ/scripts/cron/shlink_digest.py</code> (posts to Slack #alerts)</p>
+<hr>
+<h2 id="how-to-use">How to Use</h2>
+<pre><code class="lang-bash"># Create all links (idempotent, skips existing)
+python3 &quot;00-Ben HQ/scripts/setup-shlink-links.py&quot;
+
+# Preview without creating
+python3 &quot;00-Ben HQ/scripts/setup-shlink-links.py&quot; --dry-run
+
+# List existing links from Shlink
+python3 &quot;00-Ben HQ/scripts/setup-shlink-links.py&quot; --list</code></pre>
+<hr>
+<h2 id="utm-pattern-reference">UTM Pattern Reference</h2>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Values</th></tr></thead><tbody><tr><td><code>utm_source</code></td><td>twitter, instagram, facebook, linkedin, email, direct</td></tr><tr><td><code>utm_medium</code></td><td>bio, post, ad, signature, qr, shortlink</td></tr><tr><td><code>utm_campaign</code></td><td>brand, booking, lead-magnet, case-study, outreach, launch, promo</td></tr></tbody></table></div>
+<p><strong>Slug format:</strong> <code>{business}-{channel}</code> or <code>{business}-{type}-{channel}</code></p>
+<hr>
+<h2 id="nunya-bunya-nb">NUNYA BUNYA (NB)</h2>
+<h3 id="homepage-links">Homepage Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/nb</code></td><td>Generic homepage (print, verbal, cards)</td></tr><tr><td><code>go.nunyabunya.com/nb-twitter</code></td><td>Twitter/X bio link</td></tr><tr><td><code>go.nunyabunya.com/nb-instagram</code></td><td>Instagram bio link</td></tr><tr><td><code>go.nunyabunya.com/nb-facebook</code></td><td>Facebook bio link</td></tr><tr><td><code>go.nunyabunya.com/nb-linkedin</code></td><td>LinkedIn bio link</td></tr><tr><td><code>go.nunyabunya.com/nb-email</code></td><td>Email channel link</td></tr><tr><td><code>go.nunyabunya.com/nb-qr</code></td><td>QR code link</td></tr><tr><td><code>go.nunyabunya.com/nb-sig</code></td><td>Email signature link</td></tr></tbody></table></div>
+<h3 id="booking-links">Booking Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/nb-book</code></td><td>Generic booking link</td></tr><tr><td><code>go.nunyabunya.com/nb-book-twitter</code></td><td>Booking from Twitter</td></tr><tr><td><code>go.nunyabunya.com/nb-book-instagram</code></td><td>Booking from Instagram</td></tr><tr><td><code>go.nunyabunya.com/nb-book-facebook</code></td><td>Booking from Facebook</td></tr><tr><td><code>go.nunyabunya.com/nb-book-linkedin</code></td><td>Booking from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/nb-book-email</code></td><td>Booking from email</td></tr><tr><td><code>go.nunyabunya.com/nb-book-qr</code></td><td>Booking from QR code</td></tr></tbody></table></div>
+<h3 id="lead-magnet-links">Lead Magnet Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/nb-lead</code></td><td>Generic lead magnet</td></tr><tr><td><code>go.nunyabunya.com/nb-lead-twitter</code></td><td>Lead magnet from Twitter</td></tr><tr><td><code>go.nunyabunya.com/nb-lead-instagram</code></td><td>Lead magnet from Instagram</td></tr><tr><td><code>go.nunyabunya.com/nb-lead-facebook</code></td><td>Lead magnet from Facebook</td></tr><tr><td><code>go.nunyabunya.com/nb-lead-linkedin</code></td><td>Lead magnet from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/nb-lead-email</code></td><td>Lead magnet from email</td></tr><tr><td><code>go.nunyabunya.com/nb-lead-qr</code></td><td>Lead magnet from QR code</td></tr></tbody></table></div>
+<h3 id="case-study-links">Case Study Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/nb-cs-zinia</code></td><td>Zinia Massage case study</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-zinia-twitter</code></td><td>Zinia case study from Twitter</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-zinia-instagram</code></td><td>Zinia case study from Instagram</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-zinia-facebook</code></td><td>Zinia case study from Facebook</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-zinia-linkedin</code></td><td>Zinia case study from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-zinia-email</code></td><td>Zinia case study from email</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-zinia-qr</code></td><td>Zinia case study from QR code</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-pawesome</code></td><td>Pawesome case study</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-pawesome-twitter</code></td><td>Pawesome case study from Twitter</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-pawesome-instagram</code></td><td>Pawesome case study from Instagram</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-pawesome-facebook</code></td><td>Pawesome case study from Facebook</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-pawesome-linkedin</code></td><td>Pawesome case study from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-pawesome-email</code></td><td>Pawesome case study from email</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-pawesome-qr</code></td><td>Pawesome case study from QR code</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-conner</code></td><td>Conner Injury Law case study</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-conner-twitter</code></td><td>Conner case study from Twitter</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-conner-instagram</code></td><td>Conner case study from Instagram</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-conner-facebook</code></td><td>Conner case study from Facebook</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-conner-linkedin</code></td><td>Conner case study from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-conner-email</code></td><td>Conner case study from email</td></tr><tr><td><code>go.nunyabunya.com/nb-cs-conner-qr</code></td><td>Conner case study from QR code</td></tr></tbody></table></div>
+<h3 id="campaign-links">Campaign Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/nb-outreach</code></td><td>Outreach campaign</td></tr><tr><td><code>go.nunyabunya.com/nb-launch</code></td><td>Launch campaign</td></tr><tr><td><code>go.nunyabunya.com/nb-promo</code></td><td>Promo campaign</td></tr></tbody></table></div>
+<hr>
+<h2 id="power-portraits-pp">POWER PORTRAITS (PP)</h2>
+<h3 id="homepage-links">Homepage Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/pp</code></td><td>Generic homepage</td></tr><tr><td><code>go.nunyabunya.com/pp-twitter</code></td><td>Twitter/X bio link</td></tr><tr><td><code>go.nunyabunya.com/pp-instagram</code></td><td>Instagram bio link</td></tr><tr><td><code>go.nunyabunya.com/pp-facebook</code></td><td>Facebook bio link</td></tr><tr><td><code>go.nunyabunya.com/pp-linkedin</code></td><td>LinkedIn bio link</td></tr><tr><td><code>go.nunyabunya.com/pp-email</code></td><td>Email channel link</td></tr><tr><td><code>go.nunyabunya.com/pp-qr</code></td><td>QR code link</td></tr><tr><td><code>go.nunyabunya.com/pp-sig</code></td><td>Email signature link</td></tr></tbody></table></div>
+<h3 id="booking-links">Booking Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/pp-book</code></td><td>Generic booking link</td></tr><tr><td><code>go.nunyabunya.com/pp-book-twitter</code></td><td>Booking from Twitter</td></tr><tr><td><code>go.nunyabunya.com/pp-book-instagram</code></td><td>Booking from Instagram</td></tr><tr><td><code>go.nunyabunya.com/pp-book-facebook</code></td><td>Booking from Facebook</td></tr><tr><td><code>go.nunyabunya.com/pp-book-linkedin</code></td><td>Booking from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/pp-book-email</code></td><td>Booking from email</td></tr><tr><td><code>go.nunyabunya.com/pp-book-qr</code></td><td>Booking from QR code</td></tr></tbody></table></div>
+<h3 id="lead-magnet-links">Lead Magnet Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/pp-lead</code></td><td>Generic lead magnet</td></tr><tr><td><code>go.nunyabunya.com/pp-lead-twitter</code></td><td>Lead magnet from Twitter</td></tr><tr><td><code>go.nunyabunya.com/pp-lead-instagram</code></td><td>Lead magnet from Instagram</td></tr><tr><td><code>go.nunyabunya.com/pp-lead-facebook</code></td><td>Lead magnet from Facebook</td></tr><tr><td><code>go.nunyabunya.com/pp-lead-linkedin</code></td><td>Lead magnet from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/pp-lead-email</code></td><td>Lead magnet from email</td></tr><tr><td><code>go.nunyabunya.com/pp-lead-qr</code></td><td>Lead magnet from QR code</td></tr></tbody></table></div>
+<h3 id="campaign-links">Campaign Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/pp-outreach</code></td><td>Outreach campaign</td></tr><tr><td><code>go.nunyabunya.com/pp-launch</code></td><td>Launch campaign</td></tr><tr><td><code>go.nunyabunya.com/pp-promo</code></td><td>Promo campaign</td></tr></tbody></table></div>
+<hr>
+<h2 id="pawesome-dog-walkers">PAWESOME DOG WALKERS</h2>
+<h3 id="homepage-links">Homepage Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/pawesome</code></td><td>Generic homepage</td></tr><tr><td><code>go.nunyabunya.com/pawesome-twitter</code></td><td>Twitter/X bio link</td></tr><tr><td><code>go.nunyabunya.com/pawesome-instagram</code></td><td>Instagram bio link</td></tr><tr><td><code>go.nunyabunya.com/pawesome-facebook</code></td><td>Facebook bio link</td></tr><tr><td><code>go.nunyabunya.com/pawesome-linkedin</code></td><td>LinkedIn bio link</td></tr><tr><td><code>go.nunyabunya.com/pawesome-email</code></td><td>Email channel link</td></tr><tr><td><code>go.nunyabunya.com/pawesome-qr</code></td><td>QR code link</td></tr><tr><td><code>go.nunyabunya.com/pawesome-sig</code></td><td>Email signature link</td></tr></tbody></table></div>
+<h3 id="booking-links">Booking Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/pawesome-book</code></td><td>Generic booking link</td></tr><tr><td><code>go.nunyabunya.com/pawesome-book-twitter</code></td><td>Booking from Twitter</td></tr><tr><td><code>go.nunyabunya.com/pawesome-book-instagram</code></td><td>Booking from Instagram</td></tr><tr><td><code>go.nunyabunya.com/pawesome-book-facebook</code></td><td>Booking from Facebook</td></tr><tr><td><code>go.nunyabunya.com/pawesome-book-linkedin</code></td><td>Booking from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/pawesome-book-email</code></td><td>Booking from email</td></tr><tr><td><code>go.nunyabunya.com/pawesome-book-qr</code></td><td>Booking from QR code</td></tr></tbody></table></div>
+<h3 id="lead-magnet-links">Lead Magnet Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/pawesome-lead</code></td><td>Generic lead magnet</td></tr><tr><td><code>go.nunyabunya.com/pawesome-lead-twitter</code></td><td>Lead magnet from Twitter</td></tr><tr><td><code>go.nunyabunya.com/pawesome-lead-instagram</code></td><td>Lead magnet from Instagram</td></tr><tr><td><code>go.nunyabunya.com/pawesome-lead-facebook</code></td><td>Lead magnet from Facebook</td></tr><tr><td><code>go.nunyabunya.com/pawesome-lead-linkedin</code></td><td>Lead magnet from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/pawesome-lead-email</code></td><td>Lead magnet from email</td></tr><tr><td><code>go.nunyabunya.com/pawesome-lead-qr</code></td><td>Lead magnet from QR code</td></tr></tbody></table></div>
+<h3 id="campaign-links">Campaign Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/pawesome-outreach</code></td><td>Outreach campaign</td></tr><tr><td><code>go.nunyabunya.com/pawesome-launch</code></td><td>Launch campaign</td></tr><tr><td><code>go.nunyabunya.com/pawesome-promo</code></td><td>Promo campaign</td></tr></tbody></table></div>
+<hr>
+<h2 id="orca-film-awards">ORCA FILM AWARDS</h2>
+<h3 id="homepage-links">Homepage Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/orca</code></td><td>Generic homepage</td></tr><tr><td><code>go.nunyabunya.com/orca-twitter</code></td><td>Twitter/X bio link</td></tr><tr><td><code>go.nunyabunya.com/orca-instagram</code></td><td>Instagram bio link</td></tr><tr><td><code>go.nunyabunya.com/orca-facebook</code></td><td>Facebook bio link</td></tr><tr><td><code>go.nunyabunya.com/orca-linkedin</code></td><td>LinkedIn bio link</td></tr><tr><td><code>go.nunyabunya.com/orca-email</code></td><td>Email channel link</td></tr><tr><td><code>go.nunyabunya.com/orca-qr</code></td><td>QR code link</td></tr><tr><td><code>go.nunyabunya.com/orca-sig</code></td><td>Email signature link</td></tr></tbody></table></div>
+<h3 id="lead-magnet-join-links">Lead Magnet (Join) Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/orca-lead</code></td><td>Generic join/membership link</td></tr><tr><td><code>go.nunyabunya.com/orca-lead-twitter</code></td><td>Join from Twitter</td></tr><tr><td><code>go.nunyabunya.com/orca-lead-instagram</code></td><td>Join from Instagram</td></tr><tr><td><code>go.nunyabunya.com/orca-lead-facebook</code></td><td>Join from Facebook</td></tr><tr><td><code>go.nunyabunya.com/orca-lead-linkedin</code></td><td>Join from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/orca-lead-email</code></td><td>Join from email</td></tr><tr><td><code>go.nunyabunya.com/orca-lead-qr</code></td><td>Join from QR code</td></tr></tbody></table></div>
+<h3 id="campaign-links">Campaign Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/orca-outreach</code></td><td>Outreach campaign</td></tr><tr><td><code>go.nunyabunya.com/orca-launch</code></td><td>Launch campaign</td></tr><tr><td><code>go.nunyabunya.com/orca-promo</code></td><td>Promo campaign</td></tr></tbody></table></div>
+<hr>
+<h2 id="conner-law-group-clg">CONNER LAW GROUP (CLG)</h2>
+<h3 id="homepage-links">Homepage Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/clg</code></td><td>Generic homepage</td></tr><tr><td><code>go.nunyabunya.com/clg-twitter</code></td><td>Twitter/X bio link</td></tr><tr><td><code>go.nunyabunya.com/clg-instagram</code></td><td>Instagram bio link</td></tr><tr><td><code>go.nunyabunya.com/clg-facebook</code></td><td>Facebook bio link</td></tr><tr><td><code>go.nunyabunya.com/clg-linkedin</code></td><td>LinkedIn bio link</td></tr><tr><td><code>go.nunyabunya.com/clg-email</code></td><td>Email channel link</td></tr><tr><td><code>go.nunyabunya.com/clg-qr</code></td><td>QR code link</td></tr><tr><td><code>go.nunyabunya.com/clg-sig</code></td><td>Email signature link</td></tr></tbody></table></div>
+<h3 id="booking-links">Booking Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/clg-book</code></td><td>Generic consultation booking</td></tr><tr><td><code>go.nunyabunya.com/clg-book-twitter</code></td><td>Booking from Twitter</td></tr><tr><td><code>go.nunyabunya.com/clg-book-instagram</code></td><td>Booking from Instagram</td></tr><tr><td><code>go.nunyabunya.com/clg-book-facebook</code></td><td>Booking from Facebook</td></tr><tr><td><code>go.nunyabunya.com/clg-book-linkedin</code></td><td>Booking from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/clg-book-email</code></td><td>Booking from email</td></tr><tr><td><code>go.nunyabunya.com/clg-book-qr</code></td><td>Booking from QR code</td></tr></tbody></table></div>
+<h3 id="lead-magnet-links">Lead Magnet Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/clg-lead</code></td><td>Generic free case review</td></tr><tr><td><code>go.nunyabunya.com/clg-lead-twitter</code></td><td>Free case review from Twitter</td></tr><tr><td><code>go.nunyabunya.com/clg-lead-instagram</code></td><td>Free case review from Instagram</td></tr><tr><td><code>go.nunyabunya.com/clg-lead-facebook</code></td><td>Free case review from Facebook</td></tr><tr><td><code>go.nunyabunya.com/clg-lead-linkedin</code></td><td>Free case review from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/clg-lead-email</code></td><td>Free case review from email</td></tr><tr><td><code>go.nunyabunya.com/clg-lead-qr</code></td><td>Free case review from QR code</td></tr></tbody></table></div>
+<h3 id="campaign-links">Campaign Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/clg-outreach</code></td><td>Outreach campaign</td></tr><tr><td><code>go.nunyabunya.com/clg-launch</code></td><td>Launch campaign</td></tr><tr><td><code>go.nunyabunya.com/clg-promo</code></td><td>Promo campaign</td></tr></tbody></table></div>
+<hr>
+<h2 id="ben-alek-conner-bac">BEN ALEK CONNER (BAC)</h2>
+<h3 id="homepage-links">Homepage Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/bac</code></td><td>Generic homepage</td></tr><tr><td><code>go.nunyabunya.com/bac-twitter</code></td><td>Twitter/X bio link</td></tr><tr><td><code>go.nunyabunya.com/bac-instagram</code></td><td>Instagram bio link</td></tr><tr><td><code>go.nunyabunya.com/bac-facebook</code></td><td>Facebook bio link</td></tr><tr><td><code>go.nunyabunya.com/bac-linkedin</code></td><td>LinkedIn bio link</td></tr><tr><td><code>go.nunyabunya.com/bac-email</code></td><td>Email channel link</td></tr><tr><td><code>go.nunyabunya.com/bac-qr</code></td><td>QR code link</td></tr><tr><td><code>go.nunyabunya.com/bac-sig</code></td><td>Email signature link</td></tr></tbody></table></div>
+<h3 id="booking-links">Booking Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/bac-book</code></td><td>Generic meeting booking</td></tr><tr><td><code>go.nunyabunya.com/bac-book-twitter</code></td><td>Booking from Twitter</td></tr><tr><td><code>go.nunyabunya.com/bac-book-instagram</code></td><td>Booking from Instagram</td></tr><tr><td><code>go.nunyabunya.com/bac-book-facebook</code></td><td>Booking from Facebook</td></tr><tr><td><code>go.nunyabunya.com/bac-book-linkedin</code></td><td>Booking from LinkedIn</td></tr><tr><td><code>go.nunyabunya.com/bac-book-email</code></td><td>Booking from email</td></tr><tr><td><code>go.nunyabunya.com/bac-book-qr</code></td><td>Booking from QR code</td></tr></tbody></table></div>
+<h3 id="campaign-links">Campaign Links</h3>
+<div class="table-wrap"><table><thead><tr><th>Link</th><th>Use Case</th></tr></thead><tbody><tr><td><code>go.nunyabunya.com/bac-outreach</code></td><td>Outreach campaign</td></tr><tr><td><code>go.nunyabunya.com/bac-launch</code></td><td>Launch campaign</td></tr><tr><td><code>go.nunyabunya.com/bac-promo</code></td><td>Promo campaign</td></tr></tbody></table></div>
+<hr>
+<h2 id="quick-copy-paste-social-bios">Quick Copy-Paste: Social Bios</h2>
+<p><strong>Nunya Bunya Twitter:</strong> <code>go.nunyabunya.com/nb-twitter</code></p>
+<p><strong>Nunya Bunya Instagram:</strong> <code>go.nunyabunya.com/nb-instagram</code></p>
+<p><strong>Power Portraits Twitter:</strong> <code>go.nunyabunya.com/pp-twitter</code></p>
+<p><strong>Power Portraits Instagram:</strong> <code>go.nunyabunya.com/pp-instagram</code></p>
+<p><strong>Pawesome Twitter:</strong> <code>go.nunyabunya.com/pawesome-twitter</code></p>
+<p><strong>Pawesome Instagram:</strong> <code>go.nunyabunya.com/pawesome-instagram</code></p>
+<p><strong>ORCA Twitter:</strong> <code>go.nunyabunya.com/orca-twitter</code></p>
+<p><strong>ORCA Instagram:</strong> <code>go.nunyabunya.com/orca-instagram</code></p>
+<p><strong>CLG Facebook:</strong> <code>go.nunyabunya.com/clg-facebook</code></p>
+<p><strong>BAC Twitter:</strong> <code>go.nunyabunya.com/bac-twitter</code></p>
+<p><strong>BAC Instagram:</strong> <code>go.nunyabunya.com/bac-instagram</code></p>
+<h2 id="quick-copy-paste-email-signatures">Quick Copy-Paste: Email Signatures</h2>
+<p><strong>Nunya Bunya:</strong> <code>go.nunyabunya.com/nb-sig</code></p>
+<p><strong>Power Portraits:</strong> <code>go.nunyabunya.com/pp-sig</code></p>
+<p><strong>Pawesome:</strong> <code>go.nunyabunya.com/pawesome-sig</code></p>
+<p><strong>ORCA:</strong> <code>go.nunyabunya.com/orca-sig</code></p>
+<p><strong>CLG:</strong> <code>go.nunyabunya.com/clg-sig</code></p>
+<p><strong>BAC:</strong> <code>go.nunyabunya.com/bac-sig</code></p>
+<h2 id="quick-copy-paste-booking-links">Quick Copy-Paste: Booking Links</h2>
+<p><strong>Nunya Bunya:</strong> <code>go.nunyabunya.com/nb-book</code></p>
+<p><strong>Power Portraits:</strong> <code>go.nunyabunya.com/pp-book</code></p>
+<p><strong>Pawesome:</strong> <code>go.nunyabunya.com/pawesome-book</code></p>
+<p><strong>CLG:</strong> <code>go.nunyabunya.com/clg-book</code></p>
+<p><strong>BAC:</strong> <code>go.nunyabunya.com/bac-book</code></p>
+<hr>
+<p><em>Generated by <code>00-Ben HQ/scripts/setup-shlink-links.py</code></em></p>
+<p><em>Last updated: 2026-04-19</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/SHLINK-TRACKING-LINKS.md</div>
+    </main>
+  </div>
+</body>
+</html>

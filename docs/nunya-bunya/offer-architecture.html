@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nunya Bunya -- Offer Architecture | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Nunya Bunya -- Offer Architecture
+        </div>
+        <h1 class="doc-title">Nunya Bunya -- Offer Architecture</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Docs</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="nunya-bunya-offer-architecture">Nunya Bunya -- Offer Architecture</h1>
+<p><strong>Purpose:</strong> Define the current Nunya Bunya offer ladder in one practical place.</p>
+<p><strong>Status:</strong> Working canonical draft created on 2026-04-13.</p>
+<p>This document resolves the current offer drift across the workspace:</p>
+<ul>
+<li>Old model: <code>Starter</code>, <code>Growth</code>, <code>Scale</code>, <code>Enterprise</code></li>
+<li>Current model: <code>Bedrock</code> one-time packages + gemstone retainers</li>
+</ul>
+<p>For client-facing use, prefer the current model.</p>
+<p>Treat the old tier names as historical/internal references unless deliberately revived.</p>
+<hr>
+<h2 id="1-offer-strategy">1. Offer Strategy</h2>
+<p>Nunya Bunya should not lead with &quot;AI marketing.&quot;</p>
+<p>It should lead with:</p>
+<blockquote>We build the marketing system your business should already have.</blockquote>
+<p>The strongest offer logic is:</p>
+<ol>
+<li>build the foundation</li>
+<li>prove the system works</li>
+<li>then manage and improve it monthly</li>
+</ol>
+<p>That makes the ladder:</p>
+<pre><code class="lang-text">Free / Low-ticket diagnostic
+        -&gt;
+Bedrock setup package
+        -&gt;
+Monthly retainer
+        -&gt;
+Premium growth partnership</code></pre>
+<hr>
+<h2 id="2-offer-ladder">2. Offer Ladder</h2>
+<div class="table-wrap"><table><thead><tr><th>Stage</th><th>Offer</th><th>Purpose</th></tr></thead><tbody><tr><td>Lead capture</td><td>Business Foundation Kit / Free Audit</td><td>Generate qualified leads and diagnose business gaps</td></tr><tr><td>Entry build</td><td>Bedrock Lite</td><td>Get a small business online with basic marketing infrastructure</td></tr><tr><td>Core build</td><td>Bedrock</td><td>Build the full foundational marketing system</td></tr><tr><td>Premium build</td><td>Bedrock Pro</td><td>Add strategy, content, SEO, and a deeper business/brand system</td></tr><tr><td>Monthly management</td><td>NB Onyx</td><td>Maintain and improve the core marketing machine</td></tr><tr><td>Growth retainer</td><td>NB Tanzanite</td><td>Expand campaigns, content, reporting, and optimization</td></tr><tr><td>Premium partnership</td><td>NB Black Opal</td><td>High-touch growth system with video, podcast, ads, and dedicated strategy</td></tr></tbody></table></div>
+<hr>
+<h2 id="3-current-primary-offer">3. Current Primary Offer</h2>
+<h3 id="bedrock">Bedrock</h3>
+<p>Bedrock should be the main near-term sales anchor.</p>
+<p>Why:</p>
+<ul>
+<li>easier to sell before strong case studies exist</li>
+<li>concrete deliverables</li>
+<li>faster proof cycle</li>
+<li>natural path into retainer</li>
+<li>fits the current &quot;first paying client&quot; phase</li>
+</ul>
+<p>Suggested positioning:</p>
+<blockquote>Bedrock is a complete marketing foundation for Brisbane businesses that need their website, funnel, email, booking, analytics, and lead capture fixed without hiring a full agency team.</blockquote>
+<hr>
+<h2 id="4-bedrock-packages">4. Bedrock Packages</h2>
+<h3 id="bedrock-lite">Bedrock Lite</h3>
+<p><strong>Price:</strong> $2,000 + GST</p>
+<p><strong>Best for:</strong> Early-stage or very small businesses that need the basics done properly.</p>
+<p><strong>Client gets:</strong></p>
+<ul>
+<li>simple website or high-converting landing page</li>
+<li>lead magnet or simple opt-in asset</li>
+<li>email capture setup</li>
+<li>basic thank-you page</li>
+<li>simple analytics/tracking</li>
+<li>handoff notes</li>
+</ul>
+<p><strong>Do not include:</strong></p>
+<ul>
+<li>ad campaign setup</li>
+<li>full CRM automation</li>
+<li>full content calendar</li>
+<li>deep brand strategy</li>
+</ul>
+<p><strong>Sales angle:</strong></p>
+<blockquote>The fastest way to stop looking unfinished online.</blockquote>
+<hr>
+<h3 id="bedrock">Bedrock</h3>
+<p><strong>Price:</strong> $3,500 + GST</p>
+<p><strong>Best for:</strong> Local service businesses that need a real marketing system, not random posts and a half-finished website.</p>
+<p><strong>Client gets:</strong></p>
+<ul>
+<li>website or refreshed website structure, usually 5-8 pages</li>
+<li>landing page for one core offer or service</li>
+<li>lead magnet PDF</li>
+<li>email list setup</li>
+<li>5-email welcome or nurture sequence</li>
+<li>booking system setup</li>
+<li>Slack or email notifications for leads/bookings</li>
+<li>basic CRM setup</li>
+<li>analytics and tracking</li>
+<li>ad copy and creative direction for launch campaign</li>
+<li>handoff guide</li>
+</ul>
+<p><strong>Review rule:</strong></p>
+<p>All visible deliverables require review before going live.</p>
+<p><strong>Sales angle:</strong></p>
+<blockquote>Website, landing page, email, booking, tracking, and campaign assets built as one connected system.</blockquote>
+<hr>
+<h3 id="bedrock-pro">Bedrock Pro</h3>
+<p><strong>Price:</strong> $8,000-$10,000 + GST</p>
+<p><strong>Best for:</strong> Businesses that need the full business/brand/marketing foundation, not just a website and funnel.</p>
+<p><strong>Client gets everything in Bedrock, plus:</strong></p>
+<ul>
+<li>brand strategy document</li>
+<li>style guide</li>
+<li>customer personas</li>
+<li>messaging framework</li>
+<li>content strategy</li>
+<li>90-day content calendar</li>
+<li>90 days of generated draft content</li>
+<li>Mixpost scheduling setup for approved content</li>
+<li>SEO keyword strategy</li>
+<li>4 blog posts</li>
+<li>competitor analysis</li>
+<li>printed or PDF Business Bible</li>
+</ul>
+<p><strong>Sales angle:</strong></p>
+<blockquote>A complete business and marketing foundation built from one deep intake.</blockquote>
+<hr>
+<h2 id="5-retainers">5. Retainers</h2>
+<p>The retainer structure is strategically useful, but the scope needs to stay simple enough to sell and deliver.</p>
+<h3 id="nb-onyx">NB Onyx</h3>
+<p><strong>Price:</strong> $3,500/mo + GST</p>
+<p><strong>Best for:</strong> Businesses that have a foundation and need consistent marketing management.</p>
+<p><strong>Suggested scope:</strong></p>
+<ul>
+<li>monthly strategy review</li>
+<li>content calendar</li>
+<li>weekly social content drafts</li>
+<li>basic email/newsletter support</li>
+<li>reputation/review monitoring</li>
+<li>analytics dashboard</li>
+<li>monthly report</li>
+<li>light landing page or funnel updates</li>
+<li>ongoing optimization recommendations</li>
+</ul>
+<p><strong>Not included by default:</strong></p>
+<ul>
+<li>full ad spend management</li>
+<li>weekly video production</li>
+<li>podcast production</li>
+<li>major website rebuilds</li>
+</ul>
+<p><strong>Positioning:</strong></p>
+<blockquote>Keep the machine running and improving.</blockquote>
+<hr>
+<h3 id="nb-tanzanite">NB Tanzanite</h3>
+<p><strong>Price:</strong> $5,000/mo + GST</p>
+<p><strong>Best for:</strong> Businesses ready to actively grow through campaigns, content, and optimization.</p>
+<p><strong>Suggested scope:</strong></p>
+<ul>
+<li>everything in Onyx</li>
+<li>paid ad campaign management</li>
+<li>campaign landing page iterations</li>
+<li>expanded content output</li>
+<li>SEO content plan</li>
+<li>blog/article drafts</li>
+<li>conversion tracking and reporting</li>
+<li>monthly campaign testing plan</li>
+<li>priority strategy support</li>
+</ul>
+<p><strong>Positioning:</strong></p>
+<blockquote>Turn the foundation into a growth engine.</blockquote>
+<hr>
+<h3 id="nb-black-opal">NB Black Opal</h3>
+<p><strong>Price:</strong> $12,000/mo + GST</p>
+<p><strong>Best for:</strong> Established businesses with budget, ambition, and enough operational capacity to handle growth.</p>
+<p><strong>Suggested scope:</strong></p>
+<ul>
+<li>everything in Tanzanite</li>
+<li>dedicated strategist</li>
+<li>video content system</li>
+<li>podcast or YouTube channel support</li>
+<li>premium campaign production</li>
+<li>advanced reporting</li>
+<li>deeper competitor and market intelligence</li>
+<li>weekly review cadence</li>
+<li>broader creative direction</li>
+<li>custom automation and funnel builds</li>
+</ul>
+<p><strong>Positioning:</strong></p>
+<blockquote>Full-stack growth partnership for businesses that want the whole machine.</blockquote>
+<hr>
+<h2 id="6-conversion-path">6. Conversion Path</h2>
+<p>Best near-term sales path:</p>
+<ol>
+<li>Free audit or Business Foundation Kit</li>
+<li>Bedrock or Bedrock Lite</li>
+<li>Results documentation</li>
+<li>Retainer offer within 30 days</li>
+<li>Month 1 retainer discount if they convert</li>
+</ol>
+<p>Existing rule to preserve:</p>
+<ul>
+<li>Bedrock buyers who convert to retainer within 30 days get Month 1 at 50% off</li>
+</ul>
+<hr>
+<h2 id="7-what-to-sell-first">7. What To Sell First</h2>
+<h3 id="for-first-external-clients">For first external clients</h3>
+<p>Sell:</p>
+<ul>
+<li>Bedrock at $3,500</li>
+<li>or a strategic trade/cash hybrid only if it creates proof</li>
+</ul>
+<p>Avoid selling:</p>
+<ul>
+<li>complex retainers before proof</li>
+<li>too many custom add-ons</li>
+<li>vague &quot;AI marketing&quot; services</li>
+</ul>
+<h3 id="why">Why</h3>
+<p>The agency needs a clear win, a clear case study, and a repeatable delivery pattern.</p>
+<p>Bedrock is the cleanest path to that.</p>
+<hr>
+<h2 id="8-offer-guardrails">8. Offer Guardrails</h2>
+<h3 id="always-say">Always say</h3>
+<ul>
+<li>We build connected systems.</li>
+<li>You own your data and assets.</li>
+<li>AI creates leverage, but a human reviews before anything goes live.</li>
+<li>The point is not more content. The point is better customer flow.</li>
+</ul>
+<h3 id="avoid-saying">Avoid saying</h3>
+<ul>
+<li>&quot;No fluff&quot;</li>
+<li>&quot;Revolutionary&quot;</li>
+<li>&quot;Guaranteed ROI&quot;</li>
+<li>&quot;Fully automated agency&quot;</li>
+<li>&quot;Set and forget&quot;</li>
+</ul>
+<h3 id="use-carefully">Use carefully</h3>
+<ul>
+<li>AI-powered</li>
+<li>automation</li>
+<li>open-source stack</li>
+<li>low-cost infrastructure</li>
+</ul>
+<p>These are advantages, but they should support the business outcome rather than become the whole pitch.</p>
+<hr>
+<h2 id="9-naming-notes">9. Naming Notes</h2>
+<h3 id="current-client-facing-names">Current client-facing names</h3>
+<ul>
+<li>Bedrock Lite</li>
+<li>Bedrock</li>
+<li>Bedrock Pro</li>
+<li>NB Onyx</li>
+<li>NB Tanzanite</li>
+<li>NB Black Opal</li>
+</ul>
+<h3 id="retired-or-historical-names">Retired or historical names</h3>
+<ul>
+<li>Starter</li>
+<li>Growth</li>
+<li>Scale</li>
+<li>Enterprise</li>
+<li>Launchpad</li>
+</ul>
+<p>These old names still exist in some templates and financial projections.</p>
+<p>They should be updated or annotated during cleanup.</p>
+<hr>
+<h2 id="10-recommended-cleanup-tasks">10. Recommended Cleanup Tasks</h2>
+<ol>
+<li>Update sales docs to use Bedrock and gemstone retainers consistently</li>
+<li>Add package one-pagers for each offer</li>
+<li>Update old templates that still reference Starter/Growth/Scale/Enterprise</li>
+<li>Build a Bedrock delivery checklist</li>
+<li>Create a retainer scope matrix</li>
+<li>Create a &quot;Who this is for / not for&quot; section for every offer</li>
+</ol>
+<hr>
+<h2 id="11-simple-client-facing-summary">11. Simple Client-Facing Summary</h2>
+<h3 id="bedrock">Bedrock</h3>
+<p>For businesses that need their marketing foundation built.</p>
+<h3 id="nb-onyx">NB Onyx</h3>
+<p>For businesses that need consistent marketing management.</p>
+<h3 id="nb-tanzanite">NB Tanzanite</h3>
+<p>For businesses that want active campaign growth.</p>
+<h3 id="nb-black-opal">NB Black Opal</h3>
+<p>For businesses that want a high-touch growth system with content, ads, automation, video, and strategy.</p>
+<hr>
+<h2 id="12-working-recommendation">12. Working Recommendation</h2>
+<p>For the next 30-60 days, Nunya Bunya should focus on:</p>
+<ol>
+<li>selling Bedrock</li>
+<li>documenting results</li>
+<li>turning successful Bedrock clients into retainers</li>
+<li>tightening retainer scope only after real delivery feedback</li>
+</ol>
+<p>That gives the agency proof, cash, and a cleaner operational rhythm.</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Docs/OFFER-ARCHITECTURE.md</div>
+    </main>
+  </div>
+</body>
+</html>

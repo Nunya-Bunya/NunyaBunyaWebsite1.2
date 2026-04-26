@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nunya Bunya -- Source of Truth | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Nunya Bunya -- Source of Truth
+        </div>
+        <h1 class="doc-title">Nunya Bunya -- Source of Truth</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Docs</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="nunya-bunya-source-of-truth">Nunya Bunya -- Source of Truth</h1>
+<p><strong>Last Updated:</strong> 2026-04-05</p>
+<hr>
+<h2 id="identity">Identity</h2>
+<ul>
+<li><strong>What:</strong> AI-powered digital marketing agency serving small-to-medium businesses</li>
+<li><strong>Mission:</strong> Deliver enterprise-grade marketing to SMBs using AI automation and open-source infrastructure, at a fraction of traditional agency cost</li>
+<li><strong>Vision:</strong> Full-stack automated marketing -- from a single client brief to deployed website, ads, email sequences, and content, all AI-generated with human review</li>
+<li><strong>Location:</strong> Brisbane, Queensland, Australia</li>
+<li><strong>Legal Entity:</strong> Nunya Bunya Pty Ltd | ABN 48 890 965 530</li>
+<li><strong>Revenue Status:</strong> $0 MRR from agency services. Zero paying external clients as of April 2026. Ben&#x27;s only income is $3,000/mo from demand letters (Conner Law Group)</li>
+<li><strong>Role in Portfolio:</strong> This is Ben&#x27;s MAIN business. All other businesses (Power Portraits, ORCA, Bella Rhyder, Ben Alek Conner, Conner Law Group) are internal NB clients</li>
+</ul>
+<hr>
+<h2 id="brand">Brand</h2>
+<ul>
+<li><strong>Positioning:</strong> AI-first agency that builds, not just manages. &quot;We don&#x27;t just run your marketing -- we build you a machine.&quot;</li>
+<li><strong>Tagline:</strong> AI-Powered Marketing, Built for Growth</li>
+<li><strong>Domain:</strong> nunyabunya.com (NOT .com.au)</li>
+<li><strong>Email:</strong> hello@nunyabunya.com</li>
+<li><strong>Tone of Voice:</strong> Confident, direct, slightly edgy. Bold. Precise. Results-focused. Australian. Plain English, no jargon unless it lands a point. No corporate fluff, no passive voice, no excessive exclamation.</li>
+<li><strong>Colors:</strong> NB Black #0D0D0D (primary bg) | NB Gold #C9A84C (accent -- headlines, CTAs) | NB White #FFFFFF (body text) | NB Muted #888888 (secondary text)</li>
+<li><strong>Typography:</strong> Arial / Helvetica Neue (headings bold 700, body regular 400) | JetBrains Mono for code/data</li>
+<li><strong>Logo:</strong> Gold wordmark on black background. Never place on light backgrounds without a dark container.</li>
+<li><strong>Content Pillars:</strong> AI Marketing Education | Client Results | Behind the Agency | Industry Commentary | Offers &amp; Services</li>
+</ul>
+<hr>
+<h2 id="services-packages">Services / Packages</h2>
+<h3 id="retainer-tiers-monthly-gst-named-after-gemstones-in-ascending-value">Retainer Tiers (Monthly, +GST) — Named after gemstones in ascending value</h3>
+<div class="table-wrap"><table><thead><tr><th>Tier</th><th>Price</th><th>Key Inclusions</th></tr></thead><tbody><tr><td><strong>NB Onyx</strong></td><td>$3,500/mo</td><td>TBD — needs specifics brainstormed (see Backburner)</td></tr><tr><td><strong>NB Tanzanite</strong></td><td>$5,000/mo</td><td>TBD — needs specifics brainstormed</td></tr><tr><td><strong>NB Black Opal</strong></td><td>$12,000/mo</td><td>TBD — premium: includes video, podcast, bespoke YT channel, full ads, dedicated strategist</td></tr></tbody></table></div>
+<p>Note: Old tier names (Starter $1,500 / Growth $2,800 / Scale $4,500 / Enterprise $6,500) retired 2026-04-06. New pricing reflects higher value + AI automation. Specifics to be defined.</p>
+<h3 id="bedrock-one-time-packages-renamed-from-launchpad-2026-04-06">Bedrock One-Time Packages (renamed from Launchpad, 2026-04-06)</h3>
+<div class="table-wrap"><table><thead><tr><th>Tier</th><th>Price</th><th>Includes</th></tr></thead><tbody><tr><td><strong>Bedrock Lite</strong></td><td>$2,000</td><td>Website + landing page + lead magnet + email list</td></tr><tr><td><strong>Bedrock</strong></td><td>$3,500</td><td>Website (5-8 pages) + landing page + ad campaign + lead magnet PDF + email list + 5-email drip + booking system + Slack notifications + automations + analytics + CRM setup</td></tr><tr><td><strong>Bedrock Pro</strong></td><td>$8,000-10,000</td><td>Everything above + Brand Strategy + Style Guide + Personas + Content Strategy + 90-day content calendar + 90 days generated content + scheduled in Mixpost + SEO keyword strategy + 4 blog posts + competitor analysis + printed Business Bible</td></tr></tbody></table></div>
+<h3 id="contract-terms">Contract Terms</h3>
+<ul>
+<li>3-month minimum, then rolling monthly with 30 days notice</li>
+<li>Invoiced 25th, due 1st (7-day grace period)</li>
+<li>Ad spend is separate (client-funded)</li>
+<li>Bedrock Package buyers who convert to retainer within 30 days get Month 1 at 50% off</li>
+<li>100% satisfaction guarantee on Bedrock Packages (full refund, no questions asked)</li>
+</ul>
+<hr>
+<h2 id="target-market">Target Market</h2>
+<ul>
+<li><strong>Who:</strong> Small-to-medium businesses in Brisbane and Southeast Queensland</li>
+<li><strong>Sweet Spot:</strong> Local service businesses (trades, health/wellness, hospitality, professional services, law firms) that need marketing but can&#x27;t afford or don&#x27;t want a full in-house team</li>
+<li><strong>Mindset:</strong> Business owners who know they need to market but don&#x27;t know how, or are doing it inconsistently</li>
+<li><strong>Primary Competition:</strong> Not other agencies -- it&#x27;s inertia. Convincing SMBs that marketing matters is the real sales challenge.</li>
+</ul>
+<hr>
+<h2 id="tech-stack">Tech Stack</h2>
+<h3 id="self-hosted-on-hetzner-ip-5223795-16-audmo">Self-Hosted on Hetzner (IP: 5.223.79.5, ~$16 AUD/mo)</h3>
+<div class="table-wrap"><table><thead><tr><th>Service</th><th>URL</th><th>Purpose</th></tr></thead><tbody><tr><td>Mautic</td><td>mautic.nunyabunya.com</td><td>Email marketing, lead capture, drip campaigns, lead scoring, automation</td></tr><tr><td>Twenty CRM</td><td>crm.nunyabunya.com</td><td>Contact/deal management, sales pipeline</td></tr><tr><td>Matomo</td><td>analytics.nunyabunya.com</td><td>Website analytics (replaces GA4) -- privacy-first, self-owned data</td></tr><tr><td>Metabase</td><td>reports.nunyabunya.com</td><td>Dashboards, client reporting, single view of all data</td></tr><tr><td>Shlink</td><td>go.nunyabunya.com / links.nunyabunya.com</td><td>Link shortener + click tracking</td></tr><tr><td>Mixpost</td><td>via Traefik</td><td>Social media scheduling (replaces Buffer)</td></tr><tr><td>n8n</td><td>via Traefik</td><td>Workflow automations (lead notifications, hot lead alerts, follow-ups, review requests)</td></tr><tr><td>Traefik</td><td>--</td><td>Reverse proxy, SSL/TLS, routing</td></tr><tr><td>NB Agents</td><td>Port 8000</td><td>AI agent system (43 agents, 8 pipelines)</td></tr><tr><td>HQ Dashboard</td><td>via Traefik</td><td>Internal overview dashboard</td></tr></tbody></table></div>
+<h3 id="external-tools">External Tools</h3>
+<div class="table-wrap"><table><thead><tr><th>Tool</th><th>Purpose</th><th>Cost</th></tr></thead><tbody><tr><td>Cal.com</td><td>Booking/scheduling</td><td>Free tier</td></tr><tr><td>Vercel</td><td>Website/landing page hosting</td><td>Free tier</td></tr><tr><td>Amazon SES</td><td>Email delivery (SMTP)</td><td>~$1/mo</td></tr><tr><td>Meta Pixel (shared)</td><td>Retargeting (ID: 251483972902519)</td><td>Free</td></tr><tr><td>Claude Max</td><td>AI coding/management via Claude Code CLI</td><td>$100/mo (personal)</td></tr><tr><td>ElevenLabs</td><td>Voice generation for video scripts</td><td>$5-22/mo</td></tr></tbody></table></div>
+<h3 id="key-rule-no-paid-saas">Key Rule: NO Paid SaaS</h3>
+<p>No HubSpot, no Calendly, no GA4, no Mailchimp, no Hootsuite, no Sprout Social. Everything self-hosted or free tier. Total infrastructure cost: ~$16/mo.</p>
+<h3 id="matomo-site-ids">Matomo Site IDs</h3>
+<p>1 = nunyabunya.com | 2 = powerportraitsphotography.com | 3 = benalekconner.com | 4 = orcafilmawards.com</p>
+<hr>
+<h2 id="client-roster">Client Roster</h2>
+<h3 id="paying-external-clients-zero">Paying External Clients: ZERO</h3>
+<p>This is the critical gap. First paying client is a major milestone.</p>
+<h3 id="past-prospects-never-signed">Past Prospects (never signed)</h3>
+<p>Placid Auto Group, North Star FC, Test Cafe -- all archived to <code>01-Nunya Bunya/Clients/_Archive/</code></p>
+<h3 id="internal-clients-benx27s-own-businesses-no-revenue">Internal Clients (Ben&#x27;s own businesses, no revenue)</h3>
+<p>Nunya Bunya (self), Power Portraits, ORCA Film Awards, Ben Alek Conner, Bella Rhyder, Merkel &amp; Conner, Conner Injury Law, MBCS</p>
+<h3 id="where-to-track">Where to Track</h3>
+<ul>
+<li>Twenty CRM: crm.nunyabunya.com</li>
+<li>Mautic: mautic.nunyabunya.com</li>
+<li>Metabase: reports.nunyabunya.com</li>
+<li>Client files: <code>01-Nunya Bunya/Clients/</code></li>
+</ul>
+<hr>
+<h2 id="operations">Operations</h2>
+<h3 id="delivery-model">Delivery Model</h3>
+<ul>
+<li>Contractor-based, no employees. Ben reviews daily, not doing execution work.</li>
+<li>AI-agent-driven production: 43 agents handle content generation, SEO, ads, reporting, research</li>
+<li>Human-in-the-loop: all client-facing deliverables require review before publishing</li>
+</ul>
+<h3 id="new-client-onboarding-5-phases-1-2-hours-total">New Client Onboarding (5 phases, 1-2 hours total)</h3>
+<ol>
+<li><strong>Stack Config (30min):</strong> Slack channel, client_configs.json, Mautic segment + drip, Matomo site, Twenty CRM entry</li>
+<li><strong>Landing Page (30min):</strong> Offer page + lead magnet page + thank-you page, wire forms to Mautic + Slack</li>
+<li><strong>Tracking (15min):</strong> Meta Pixel + Matomo tracking on all pages, Shlink short links</li>
+<li><strong>Ad Setup (30min):</strong> Ad copy variations, retargeting audiences, campaigns</li>
+<li><strong>Handoff (15min):</strong> Welcome email, Metabase dashboard, update internal tracking</li>
+</ol>
+<h3 id="standard-funnel-architecture">Standard Funnel Architecture</h3>
+<p>Traffic --&gt; Landing Page --&gt; Form Submit --&gt; (Mautic contact + Slack notification + thank-you page) --&gt; 5-email drip sequence --&gt; Conversion --&gt; Post-conversion automation (review request day 7)</p>
+<h3 id="lead-scoring-mautic">Lead Scoring (Mautic)</h3>
+<p>Email opened +5 | Link clicked +10 | Landing page visit +10 | Form submit +20 | Pricing page +15 | Multiple visits in 7 days +10 | Hot lead alert at 50+ points --&gt; Slack alert + &quot;Hot Leads&quot; segment</p>
+<h3 id="automation-recipes-n8n-mautic">Automation Recipes (n8n + Mautic)</h3>
+<ol>
+<li>New lead --&gt; Mautic contact + Slack notification + CRM entry</li>
+<li>Hot lead (50+ points) --&gt; Urgent Slack alert + &quot;Hot Leads&quot; segment</li>
+<li>Follow-up reminder (48hrs, no booking) --&gt; Slack reminder</li>
+<li>Review request (7 days post-conversion) --&gt; Email with Google review link</li>
+<li>Re-engagement (30 days inactive) --&gt; &quot;We miss you&quot; email, then archive if still inactive</li>
+</ol>
+<h3 id="offboarding">Offboarding</h3>
+<p>Full 10-phase process documented: notice handling, continued service during 30-day notice, platform-by-platform access revocation, creative/data handover, financial close-out, exit survey, case study request, review request, alumni referral program ($250 per referred paying client), relationship maintenance at 1/3/6 months post-departure.</p>
+<h3 id="website-builds">Website Builds</h3>
+<ul>
+<li>Static: HTML + Tailwind CSS on Vercel</li>
+<li>Dynamic: Next.js + Tailwind on Vercel</li>
+<li>WordPress: for SEO-heavy sites needing blog CMS</li>
+<li>E-commerce: Shopify (client manages)</li>
+</ul>
+<hr>
+<h2 id="content-amp-marketing">Content &amp; Marketing</h2>
+<h3 id="platform-cadence">Platform Cadence</h3>
+<div class="table-wrap"><table><thead><tr><th>Platform</th><th>Frequency</th><th>Focus</th></tr></thead><tbody><tr><td>Instagram</td><td>5x/week</td><td>Client results, BTS, tips, reels</td></tr><tr><td>LinkedIn</td><td>3x/week</td><td>Agency positioning, case studies, B2B</td></tr><tr><td>Facebook</td><td>3x/week</td><td>Community, offers, brand awareness</td></tr><tr><td>TikTok</td><td>2x/week</td><td>Short-form tips, AI marketing content</td></tr></tbody></table></div>
+<h3 id="content-calendar">Content Calendar</h3>
+<p>30-day rolling calendar exists (March 7 - April 5, 2026 as template). Each post includes: platform, format (reel/carousel/static/article/video), pillar, topic, hook, CTA, and status tracker.</p>
+<h3 id="lead-gen-content">Lead Gen Content</h3>
+<ul>
+<li>Free advice posts (in <code>Sales Assets/free-advice-posts.md</code>)</li>
+<li>DIY Marketing Stack guide (published content -- positions NB as the expert who can do it for you)</li>
+<li>YouTube video planned: &quot;I Built an Open-Source Marketing Stack That Replaces $10K/mo in SaaS&quot; (20-30min, for Ben Alek Conner channel)</li>
+</ul>
+<hr>
+<h2 id="financial-model">Financial Model</h2>
+<h3 id="current-state-april-2026">Current State (April 2026)</h3>
+<ul>
+<li>Agency MRR: $0 (zero paying clients)</li>
+<li>Ben&#x27;s income: $3,000/mo (demand letters only)</li>
+<li>Infrastructure cost: ~$16/mo (Hetzner) + ~$100/mo (Claude Max) + ~$5-22/mo (ElevenLabs)</li>
+</ul>
+<h3 id="projections-from-financial-projections-doc-march-2026">Projections (from Financial Projections doc, March 2026)</h3>
+<ul>
+<li>Target: $35,000 MRR by July 2027 (Month 17)</li>
+<li>Modeled break-even: Month 2-3 (once first clients sign)</li>
+<li>Target client mix at $35K: 3 Starter + 4 Growth + 4 Scale + 2 Enterprise = 13 clients</li>
+<li>Year 1 projected revenue: $202K-225K | Net profit: $50K-95K</li>
+<li>Year 2 projected revenue: $493K-568K | Net profit: $213K-288K</li>
+<li>Gross margin by tier: Starter 46.7% | Growth 53.6% | Scale 55.6% | Enterprise 56.9%</li>
+</ul>
+<h3 id="cost-structure-contractor-based">Cost Structure (contractor-based)</h3>
+<ul>
+<li>Phase 1 ($0-15K MRR): $5,600-7,300/mo</li>
+<li>Phase 2 ($15-25K MRR): $13,400-19,600/mo</li>
+<li>Phase 3 ($25-35K MRR): $25,700-34,800/mo</li>
+</ul>
+<h3 id="lean-package-margins-ai-driven-near-zero-tool-cost">Lean Package Margins (AI-driven, near-zero tool cost)</h3>
+<ul>
+<li>Starter: ~95% margin | Growth: ~90% | Scale: ~85% | Enterprise: ~80%</li>
+<li>These margins are achievable ONLY with full AI automation and self-hosted stack</li>
+</ul>
+<hr>
+<h2 id="strategy">Strategy</h2>
+<h3 id="current-phase-pre-revenue-infrastructure-complete">Current Phase: Pre-Revenue / Infrastructure Complete</h3>
+<p>The hard part (building the full self-hosted marketing stack + 43 AI agents + 8 pipelines) is done. The work now is getting the first paying client and proving the system works end-to-end with a real human.</p>
+<h3 id="immediate-priorities">Immediate Priorities</h3>
+<ol>
+<li><strong>First paying client</strong> -- even at a discount, even as a trade deal. One real client with real results &gt; a perfect system with zero users.</li>
+<li><strong>Build the Launchpad orchestrator</strong> -- single command to run the full onboarding package</li>
+<li><strong>Build Slack-based approval queue</strong> -- review all AI-generated deliverables before they go live</li>
+<li><strong>Document the before/after obsessively</strong> -- this becomes the case study that sells the next 5 clients</li>
+</ol>
+<h3 id="growth-plan">Growth Plan</h3>
+<ol>
+<li>Prove with 5-10 clients, document failure modes</li>
+<li>Build NBHQ dashboard approval queue (replaces Slack review once at 3+ clients)</li>
+<li>Scale to 13 clients / $35K MRR by mid-2027</li>
+<li>THEN consider self-serve SaaS product (different business, $10M+ idea if executed)</li>
+</ol>
+<h3 id="competitive-advantage">Competitive Advantage</h3>
+<p>Nobody offers the full stack (website + landing page + ads + lead magnet + email + booking + automation + content + brand strategy) generated from a single brief and deployed automatically. GoHighLevel, Vendasta, Durable.ai, Jasper -- they each do pieces. NB does the whole thing, self-hosted, for $16/mo in infrastructure.</p>
+<h3 id="key-gaps-to-close">Key Gaps to Close</h3>
+<ol>
+<li><strong>Website Builder Agent</strong> -- biggest missing piece. No agent yet takes scraped content + stock images and outputs a deployable website</li>
+<li><strong>Approval Queue System</strong> -- critical for quality control at scale. &quot;If a human will see it, you see it first.&quot;</li>
+<li><strong>Cal.com client provisioning</strong> -- not yet automated per-client</li>
+<li><strong>Stripe integration</strong> -- payment links not yet wired through n8n</li>
+<li><strong>Stock image sourcing pipeline</strong> -- needs Unsplash/Pexels API alongside Replicate Flux</li>
+</ol>
+<hr>
+<h2 id="core-operating-principles">Core Operating Principles</h2>
+<ul>
+<li><strong>&quot;If a human will see it, you see it first.&quot;</strong> — Every client-facing or public-facing deliverable must be reviewed and approved by Ben before deployment. AI generates drafts. Humans make them premium. Infrastructure (tracking, segments, CRM entries, Slack channels) can auto-deploy. Content, ads, emails, websites, and designs cannot.</li>
+<li><strong>&quot;The workbench is the product.&quot;</strong> — The agents are the factory floor. The review/editing workbench (where Ben edits, reworks, and approves) is what makes NB&#x27;s output premium. Prioritize the review experience over adding more agents.</li>
+<li><strong>&quot;The approval queue is the product.&quot;</strong> — Quality control isn&#x27;t overhead. It IS the differentiator between generic AI output and premium agency output.</li>
+</ul>
+<hr>
+<h2 id="key-decisions-amp-clarifications">Key Decisions &amp; Clarifications</h2>
+<ul>
+<li><strong>Content Studio</strong> = internal Nunya Bunya production workflow (NOT a separate business)</li>
+<li><strong>Default WordPress publish status:</strong> &quot;draft&quot; (NEVER auto-publish without approval)</li>
+<li><strong>No auto-publishing ad changes</strong> -- all copy requires team approval before going live</li>
+<li><strong>Use Mixpost, not Buffer</strong> -- self-hosted social scheduling</li>
+<li><strong>Domain is nunyabunya.com</strong> -- NOT .com.au. Some old docs reference .com.au incorrectly.</li>
+<li><strong>NO paid SaaS</strong> -- no HubSpot, no Calendly, no GA4, no Mailchimp. Self-hosted or free tier only.</li>
+<li><strong>Never use &quot;no fluff&quot; in NB copy</strong> -- be specific about what you deliver instead</li>
+<li><strong>PDF formatting</strong> -- use fixed @page sizing, not viewport, for HTML-to-PDF documents</li>
+<li><strong>Shared Meta Pixel</strong> -- one pixel (251483972902519) across all NB clients</li>
+<li><strong>Contractor model</strong> -- no employees. Flexible, lean, scale-as-needed.</li>
+</ul>
+<hr>
+<h2 id="key-file-paths">Key File Paths</h2>
+<div class="table-wrap"><table><thead><tr><th>Document</th><th>Location</th></tr></thead><tbody><tr><td>Client Contract</td><td><code>01-Nunya Bunya/Documents/CLIENT CONTRACT.md</code></td></tr><tr><td>Financial Projections</td><td><code>01-Nunya Bunya/Documents/FINANCIAL PROJECTIONS.md</code></td></tr><tr><td>Brand Style Guide</td><td><code>01-Nunya Bunya/Documents/BRAND STYLE GUIDE.md</code></td></tr><tr><td>Content Calendar</td><td><code>01-Nunya Bunya/Documents/CONTENT CALENDAR.md</code></td></tr><tr><td>Lean Packages</td><td><code>01-Nunya Bunya/Documents/LEAN PACKAGES -- Free Tool Stack.md</code></td></tr><tr><td>Onboarding SOP</td><td><code>01-Nunya Bunya/Documents/GUIDE - New Client Setup (Internal).md</code></td></tr><tr><td>Post-Setup SOPs</td><td><code>01-Nunya Bunya/Documents/GUIDE - Post-Setup SOPs.md</code></td></tr><tr><td>Offboarding Checklist</td><td><code>01-Nunya Bunya/Documents/CLIENT OFFBOARDING CHECKLIST.md</code></td></tr><tr><td>DIY Marketing Guide</td><td><code>01-Nunya Bunya/Documents/GUIDE - DIY Marketing Stack for Small Business.md</code></td></tr><tr><td>Launchpad Assessment</td><td><code>01-Nunya Bunya/Documents/LAUNCHPAD-PACKAGE-ASSESSMENT.md</code></td></tr><tr><td>Client Configs</td><td><code>00-Ben HQ/NunyaBunyaAgents/client_configs.json</code></td></tr><tr><td>Marketing Stack (local)</td><td><code>00-Ben HQ/marketing-stack/</code></td></tr><tr><td>NBHQ Site</td><td><code>01-Nunya Bunya/Site/nunyabunya-site/</code></td></tr><tr><td>Free Advice Posts</td><td><code>01-Nunya Bunya/Sales Assets/free-advice-posts.md</code></td></tr><tr><td>Brand Assets</td><td><code>01-Nunya Bunya/Brand Assets/</code></td></tr></tbody></table></div>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Docs/SOURCE-OF-TRUTH.md</div>
+    </main>
+  </div>
+</body>
+</html>

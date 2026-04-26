@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUNYA BUNYA -- 5-YEAR ROADMAP | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link active"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-hq">Ben HQ</a> &rsaquo;
+          NUNYA BUNYA -- 5-YEAR ROADMAP
+        </div>
+        <h1 class="doc-title">NUNYA BUNYA -- 5-YEAR ROADMAP</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#9670; Ben HQ</span>
+          <span class="doc-path">00-Ben HQ / Five Year Plan</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="nunya-bunya-5-year-roadmap">NUNYA BUNYA -- 5-YEAR ROADMAP</h1>
+<h2 id="mrr-targets-summary">MRR Targets Summary</h2>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th>Period</th><th>MRR Target</th><th>Annual Revenue</th><th>Theme</th></tr></thead><tbody><tr><td>1</td><td>Nov 2025 - Nov 2026</td><td>$15K</td><td>$180K</td><td>Foundation</td></tr><tr><td>2</td><td>Nov 2026 - Nov 2027</td><td>$35K</td><td>$420K</td><td>Scale</td></tr><tr><td>3</td><td>Nov 2027 - Nov 2028</td><td>$60K</td><td>$720K</td><td>Breakthrough</td></tr><tr><td>4</td><td>Nov 2028 - Nov 2029</td><td>$85K</td><td>$1.02M</td><td>Mastery</td></tr><tr><td>5</td><td>Nov 2029 - Nov 2030</td><td>$100K</td><td>$1.2M</td><td>Legacy</td></tr></tbody></table></div>
+<hr>
+<hr>
+<h1 id="year-1-foundation-nov-2025-nov-2026">YEAR 1: FOUNDATION (Nov 2025 - Nov 2026)</h1>
+<p><strong>Structure:</strong> Goal &gt; Subgoals &gt; Milestones &gt; Tasks</p>
+<hr>
+<h2 id="goal-1-nunya-bunya-15k-mrr-by-november-2026">GOAL 1: NUNYA BUNYA - $15K MRR BY NOVEMBER 2026</h2>
+<h3 id="subgoal-11-foundation-amp-first-clients-1k-gt-5k-mrr">SUBGOAL 1.1: Foundation &amp; First Clients ($1K &gt; $5K MRR)</h3>
+<p><strong>Deadline:</strong> December 31, 2025</p>
+<h4 id="milestone-111-service-packages-created">Milestone 1.1.1: Service Packages Created</h4>
+<p><strong>Deadline:</strong> December 7, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Research 10 competitor agencies in Brisbane pricing</li>
+<li><span class="cb cb-empty">&#9744;</span> Define Tier 1 package deliverables ($1,000-1,500/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Define Tier 2 package deliverables ($2,000-3,000/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Define Tier 3 package deliverables ($4,000-6,000/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create pricing sheet in Canva/Google Docs</li>
+<li><span class="cb cb-empty">&#9744;</span> Write package descriptions (50-100 words each)</li>
+<li><span class="cb cb-empty">&#9744;</span> Design service package PDF</li>
+<li><span class="cb cb-empty">&#9744;</span> Get feedback from 2-3 business owners</li>
+<li><span class="cb cb-empty">&#9744;</span> Finalize packages and pricing</li>
+</ul>
+<h4 id="milestone-112-first-client-signed">Milestone 1.1.2: First Client Signed</h4>
+<p><strong>Deadline:</strong> December 15, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create list of 50 potential Brisbane clients (Google Maps research)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up LinkedIn Sales Navigator (free trial)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write 3 outreach email templates</li>
+<li><span class="cb cb-empty">&#9744;</span> Write 3 LinkedIn DM templates</li>
+<li><span class="cb cb-empty">&#9744;</span> Send 25 outreach messages (Week 1)</li>
+<li><span class="cb cb-empty">&#9744;</span> Follow up with 10 non-responders</li>
+<li><span class="cb cb-empty">&#9744;</span> Book 3 discovery calls</li>
+<li><span class="cb cb-empty">&#9744;</span> Prepare discovery call script/questions</li>
+<li><span class="cb cb-empty">&#9744;</span> Run 3 discovery calls</li>
+<li><span class="cb cb-empty">&#9744;</span> Send 3 proposals</li>
+<li><span class="cb cb-empty">&#9744;</span> Follow up on proposals</li>
+<li><span class="cb cb-empty">&#9744;</span> Close first client ($1K+ MRR)</li>
+</ul>
+<h4 id="milestone-113-client-delivery-system-built">Milestone 1.1.3: Client Delivery System Built</h4>
+<p><strong>Deadline:</strong> December 31, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Set up Airtable base for client management</li>
+<li><span class="cb cb-empty">&#9744;</span> Create client onboarding checklist template</li>
+<li><span class="cb cb-empty">&#9744;</span> Create content calendar template</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Later.com for social scheduling (free plan)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Canva team workspace</li>
+<li><span class="cb cb-empty">&#9744;</span> Create 10 social media post templates</li>
+<li><span class="cb cb-empty">&#9744;</span> Write client communication email templates (onboarding, check-ins, reports)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create monthly reporting template</li>
+<li><span class="cb cb-empty">&#9744;</span> Document standard operating procedure for social media posting</li>
+<li><span class="cb cb-empty">&#9744;</span> Document standard operating procedure for client communication</li>
+<li><span class="cb cb-empty">&#9744;</span> Test entire workflow with first client</li>
+</ul>
+<h4 id="milestone-114-second-amp-third-clients-signed">Milestone 1.1.4: Second &amp; Third Clients Signed</h4>
+<p><strong>Deadline:</strong> December 31, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Send 25 more outreach messages</li>
+<li><span class="cb cb-empty">&#9744;</span> Leverage first client for testimonial</li>
+<li><span class="cb cb-empty">&#9744;</span> Ask first client for 2-3 referrals</li>
+<li><span class="cb cb-empty">&#9744;</span> Book 5 discovery calls</li>
+<li><span class="cb cb-empty">&#9744;</span> Close second client</li>
+<li><span class="cb cb-empty">&#9744;</span> Close third client</li>
+<li><span class="cb cb-empty">&#9744;</span> Achieve $3K-5K MRR by end of December</li>
+</ul>
+<hr>
+<h3 id="subgoal-12-scaling-to-10k-mrr">SUBGOAL 1.2: Scaling to $10K MRR</h3>
+<p><strong>Deadline:</strong> March 31, 2026</p>
+<h4 id="milestone-121-hire-first-contractorva">Milestone 1.2.1: Hire First Contractor/VA</h4>
+<p><strong>Deadline:</strong> January 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Write job description for social media VA</li>
+<li><span class="cb cb-empty">&#9744;</span> Post job on Upwork/Fiverr/OnlineJobs.ph</li>
+<li><span class="cb cb-empty">&#9744;</span> Review 20+ applications</li>
+<li><span class="cb cb-empty">&#9744;</span> Interview 5 candidates (15-min video calls)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hire 1 VA (10-20 hours/week, $400-800/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create VA training document</li>
+<li><span class="cb cb-empty">&#9744;</span> Train VA on social media templates</li>
+<li><span class="cb cb-empty">&#9744;</span> Train VA on scheduling tools</li>
+<li><span class="cb cb-empty">&#9744;</span> Assign first 2 clients to VA for execution</li>
+<li><span class="cb cb-empty">&#9744;</span> Monitor quality for 2 weeks</li>
+</ul>
+<h4 id="milestone-122-clients-4-6-signed">Milestone 1.2.2: Clients 4-6 Signed</h4>
+<p><strong>Deadline:</strong> February 28, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Send 50 outreach messages in January</li>
+<li><span class="cb cb-empty">&#9744;</span> Create case study from first 3 clients (before/after results)</li>
+<li><span class="cb cb-empty">&#9744;</span> Update website with case studies</li>
+<li><span class="cb cb-empty">&#9744;</span> Run discovery calls (target: 8-10 in January)</li>
+<li><span class="cb cb-empty">&#9744;</span> Close client #4</li>
+<li><span class="cb cb-empty">&#9744;</span> Close client #5</li>
+<li><span class="cb cb-empty">&#9744;</span> Close client #6</li>
+<li><span class="cb cb-empty">&#9744;</span> Achieve $7.5K MRR by end of February</li>
+</ul>
+<h4 id="milestone-123-systems-amp-templates-complete">Milestone 1.2.3: Systems &amp; Templates Complete</h4>
+<p><strong>Deadline:</strong> February 28, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create 50 social media post templates (10 per content bucket)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create 20 video script templates</li>
+<li><span class="cb cb-empty">&#9744;</span> Build email marketing campaign templates (5 sequences)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create SEO blog post template</li>
+<li><span class="cb cb-empty">&#9744;</span> Document video production workflow</li>
+<li><span class="cb cb-empty">&#9744;</span> Create client reporting automation (Airtable &gt; Google Sheets &gt; PDF)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Zapier automations (3-5 key workflows)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create pricing calculator tool</li>
+<li><span class="cb cb-empty">&#9744;</span> Build proposal template library (5 versions)</li>
+</ul>
+<h4 id="milestone-124-10k-mrr-achieved">Milestone 1.2.4: $10K MRR Achieved</h4>
+<p><strong>Deadline:</strong> March 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Send 50 more outreach messages in March</li>
+<li><span class="cb cb-empty">&#9744;</span> Close clients #7-8</li>
+<li><span class="cb cb-empty">&#9744;</span> Upsell 2 existing clients to higher tier</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit $10K MRR milestone</li>
+<li><span class="cb cb-empty">&#9744;</span> Celebrate milestone (take Tracy to nice dinner!)</li>
+<li><span class="cb cb-empty">&#9744;</span> Review what worked vs what didn&#x27;t</li>
+<li><span class="cb cb-empty">&#9744;</span> Plan next quarter scaling strategy</li>
+</ul>
+<hr>
+<h3 id="subgoal-13-scaling-to-15k-mrr">SUBGOAL 1.3: Scaling to $15K MRR</h3>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<h4 id="milestone-131-hire-contractors-2-3">Milestone 1.3.1: Hire Contractors 2-3</h4>
+<p><strong>Deadline:</strong> June 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Hire video editor VA ($600-1000/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hire copywriter contractor ($800-1200/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Train both on your systems</li>
+<li><span class="cb cb-empty">&#9744;</span> Delegate 50% of client work to team</li>
+<li><span class="cb cb-empty">&#9744;</span> Your role shifts to sales + strategy + QA</li>
+</ul>
+<h4 id="milestone-132-clients-9-12-signed">Milestone 1.3.2: Clients 9-12 Signed</h4>
+<p><strong>Deadline:</strong> September 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Continue consistent outreach (50 messages/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Implement referral program (offer incentive)</li>
+<li><span class="cb cb-empty">&#9744;</span> Close clients #9-12</li>
+<li><span class="cb cb-empty">&#9744;</span> Focus on higher-tier clients ($2.5K-5K each)</li>
+</ul>
+<h4 id="milestone-133-15k-mrr-achieved">Milestone 1.3.3: $15K MRR Achieved</h4>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Hit $15K MRR</li>
+<li><span class="cb cb-empty">&#9744;</span> Document entire business system</li>
+<li><span class="cb cb-empty">&#9744;</span> Create operations manual</li>
+<li><span class="cb cb-empty">&#9744;</span> Year 1 goal achieved!</li>
+</ul>
+<hr>
+<h2 id="goal-2-power-portraits-100k-annual-revenue">GOAL 2: POWER PORTRAITS - $100K ANNUAL REVENUE</h2>
+<h3 id="subgoal-21-launch-amp-first-50-sessions">SUBGOAL 2.1: Launch &amp; First 50 Sessions</h3>
+<p><strong>Deadline:</strong> February 28, 2026</p>
+<h4 id="milestone-211-business-setup-complete">Milestone 2.1.1: Business Setup Complete</h4>
+<p><strong>Deadline:</strong> December 15, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Register business name (Power Portraits)</li>
+<li><span class="cb cb-empty">&#9744;</span> Purchase domain (powerportraits.com.au or similar)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Instagram account (@powerportraitsbrisbane)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Facebook business page</li>
+<li><span class="cb cb-empty">&#9744;</span> Get business liability insurance quote</li>
+<li><span class="cb cb-empty">&#9744;</span> Purchase liability insurance</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Calendly for bookings</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Stripe for payments</li>
+<li><span class="cb cb-empty">&#9744;</span> Create pricing structure (3 tiers: $300, $500, $800)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write service descriptions for each package</li>
+</ul>
+<h4 id="milestone-212-portfolio-amp-website-live">Milestone 2.1.2: Portfolio &amp; Website Live</h4>
+<p><strong>Deadline:</strong> December 31, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Shoot 10 portfolio images (friends/family as models)</li>
+<li><span class="cb cb-empty">&#9744;</span> Edit 10 portfolio images</li>
+<li><span class="cb cb-empty">&#9744;</span> Build simple website (Squarespace/Wix/Webflow)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write website copy (homepage, about, services, contact)</li>
+<li><span class="cb cb-empty">&#9744;</span> Upload portfolio to website</li>
+<li><span class="cb cb-empty">&#9744;</span> Add booking/contact form</li>
+<li><span class="cb cb-empty">&#9744;</span> Test booking flow end-to-end</li>
+<li><span class="cb cb-empty">&#9744;</span> Launch website</li>
+<li><span class="cb cb-empty">&#9744;</span> Share launch post on personal social media</li>
+</ul>
+<h4 id="milestone-213-marketing-system-active">Milestone 2.1.3: Marketing System Active</h4>
+<p><strong>Deadline:</strong> January 15, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create Instagram content calendar (30 days)</li>
+<li><span class="cb cb-empty">&#9744;</span> Shoot 20 Instagram posts in advance</li>
+<li><span class="cb cb-empty">&#9744;</span> Write captions for all 20 posts</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Later.com for Instagram scheduling</li>
+<li><span class="cb cb-empty">&#9744;</span> Research 50 Brisbane businesses for corporate headshot outreach</li>
+<li><span class="cb cb-empty">&#9744;</span> Write corporate headshot pitch email</li>
+<li><span class="cb cb-empty">&#9744;</span> Send 25 corporate outreach emails</li>
+<li><span class="cb cb-empty">&#9744;</span> Join 3-5 Brisbane Facebook groups (parents, small business, etc.)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create Facebook ad (budget $100-200 for testing)</li>
+<li><span class="cb cb-empty">&#9744;</span> Run Facebook ad for 2 weeks</li>
+</ul>
+<h4 id="milestone-214-first-20-paying-sessions">Milestone 2.1.4: First 20 Paying Sessions</h4>
+<p><strong>Deadline:</strong> January 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Book first 5 clients (offer launch discount if needed)</li>
+<li><span class="cb cb-empty">&#9744;</span> Complete first 5 sessions</li>
+<li><span class="cb cb-empty">&#9744;</span> Edit and deliver first 5 sessions</li>
+<li><span class="cb cb-empty">&#9744;</span> Get testimonials from first 5 clients</li>
+<li><span class="cb cb-empty">&#9744;</span> Ask for referrals from first 5 clients</li>
+<li><span class="cb cb-empty">&#9744;</span> Book sessions 6-10</li>
+<li><span class="cb cb-empty">&#9744;</span> Complete sessions 6-10</li>
+<li><span class="cb cb-empty">&#9744;</span> Book sessions 11-20</li>
+<li><span class="cb cb-empty">&#9744;</span> Complete sessions 11-20</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit 20 sessions milestone (~$6K-10K revenue)</li>
+</ul>
+<h4 id="milestone-215-50-sessions-complete">Milestone 2.1.5: 50 Sessions Complete</h4>
+<p><strong>Deadline:</strong> February 28, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Book 30 more sessions (sessions 21-50)</li>
+<li><span class="cb cb-empty">&#9744;</span> Complete all 30 sessions</li>
+<li><span class="cb cb-empty">&#9744;</span> Deliver all sessions on time</li>
+<li><span class="cb cb-empty">&#9744;</span> Maintain 5-star reviews</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit 50 sessions milestone (~$15K-25K revenue YTD)</li>
+</ul>
+<hr>
+<h3 id="subgoal-22-scale-to-50k-sessions-51-100">SUBGOAL 2.2: Scale to $50K (Sessions 51-100+)</h3>
+<p><strong>Deadline:</strong> May 31, 2026</p>
+<h4 id="milestone-221-workflow-optimized">Milestone 2.2.1: Workflow Optimized</h4>
+<p><strong>Deadline:</strong> March 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create Lightroom editing presets (5 styles)</li>
+<li><span class="cb cb-empty">&#9744;</span> Build client questionnaire template</li>
+<li><span class="cb cb-empty">&#9744;</span> Create pre-session email template</li>
+<li><span class="cb cb-empty">&#9744;</span> Create post-session email template</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up automated email sequences (Mailchimp/Convertkit)</li>
+<li><span class="cb cb-empty">&#9744;</span> Batch booking: offer specific shoot days only</li>
+<li><span class="cb cb-empty">&#9744;</span> Reduce editing time to 1 hour per session max</li>
+</ul>
+<h4 id="milestone-222-sessions-51-100-complete">Milestone 2.2.2: Sessions 51-100 Complete</h4>
+<p><strong>Deadline:</strong> May 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Book and complete sessions 51-75</li>
+<li><span class="cb cb-empty">&#9744;</span> Book and complete sessions 76-100</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit 100 sessions milestone (~$30K-50K revenue YTD)</li>
+<li><span class="cb cb-empty">&#9744;</span> Document successful marketing channels</li>
+<li><span class="cb cb-empty">&#9744;</span> Double down on what&#x27;s working</li>
+</ul>
+<hr>
+<h3 id="subgoal-23-hit-100k-annual-revenue">SUBGOAL 2.3: Hit $100K Annual Revenue</h3>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<h4 id="milestone-231-consider-second-shooter">Milestone 2.3.1: Consider Second Shooter</h4>
+<p><strong>Deadline:</strong> August 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Calculate if demand supports second shooter</li>
+<li><span class="cb cb-empty">&#9744;</span> Post job for assistant photographer</li>
+<li><span class="cb cb-empty">&#9744;</span> Interview 3-5 candidates</li>
+<li><span class="cb cb-empty">&#9744;</span> Hire assistant for trial (shadow 3 shoots)</li>
+<li><span class="cb cb-empty">&#9744;</span> Train assistant on your style/workflow</li>
+<li><span class="cb cb-empty">&#9744;</span> Assign assistant to 5-10 simple sessions</li>
+</ul>
+<h4 id="milestone-232-sessions-101-200-complete">Milestone 2.3.2: Sessions 101-200+ Complete</h4>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Book and complete remaining sessions to hit $100K</li>
+<li><span class="cb cb-empty">&#9744;</span> Track weekly: how many sessions to reach goal?</li>
+<li><span class="cb cb-empty">&#9744;</span> Increase prices if demand is high</li>
+<li><span class="cb cb-empty">&#9744;</span> Focus on corporate clients (higher value)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit $100K annual revenue milestone!</li>
+</ul>
+<hr>
+<h2 id="goal-3-short-documentary-1">GOAL 3: SHORT DOCUMENTARY #1</h2>
+<h3 id="subgoal-31-pre-production">SUBGOAL 3.1: Pre-Production</h3>
+<p><strong>Deadline:</strong> December 31, 2025</p>
+<h4 id="milestone-311-subject-locked-amp-story-clear">Milestone 3.1.1: Subject Locked &amp; Story Clear</h4>
+<p><strong>Deadline:</strong> December 7, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Reach out to woman from doomsday cult story</li>
+<li><span class="cb cb-empty">&#9744;</span> Schedule initial interview (informal, off-camera)</li>
+<li><span class="cb cb-empty">&#9744;</span> Understand her story and what she&#x27;s comfortable sharing</li>
+<li><span class="cb cb-empty">&#9744;</span> Identify other potential interview subjects (birth father? cult members?)</li>
+<li><span class="cb cb-empty">&#9744;</span> Research legal considerations (defamation, privacy)</li>
+<li><span class="cb cb-empty">&#9744;</span> Decide if you need lawyer consultation ($300-500)</li>
+<li><span class="cb cb-empty">&#9744;</span> Get signed release forms from subject</li>
+<li><span class="cb cb-empty">&#9744;</span> Write treatment (1-2 pages: what&#x27;s the story?)</li>
+<li><span class="cb cb-empty">&#9744;</span> Confirm this is a 10-15 min short doc (not feature yet)</li>
+</ul>
+<h4 id="milestone-312-production-plan-complete">Milestone 3.1.2: Production Plan Complete</h4>
+<p><strong>Deadline:</strong> December 15, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Scout interview location (her home? neutral location?)</li>
+<li><span class="cb cb-empty">&#9744;</span> Plan B-roll shots (15-20 specific shots needed)</li>
+<li><span class="cb cb-empty">&#9744;</span> Check if you need filming permits (public spaces)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create shot list (20-30 shots)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write interview questions (15-20 questions)</li>
+<li><span class="cb cb-empty">&#9744;</span> Book interview date</li>
+<li><span class="cb cb-empty">&#9744;</span> Confirm you have all equipment (FX30, lenses, audio gear, lighting)</li>
+<li><span class="cb cb-empty">&#9744;</span> Test all equipment 1 week before shoot</li>
+<li><span class="cb cb-empty">&#9744;</span> Create shooting schedule</li>
+</ul>
+<hr>
+<h3 id="subgoal-32-production">SUBGOAL 3.2: Production</h3>
+<p><strong>Deadline:</strong> January 15, 2026</p>
+<h4 id="milestone-321-interview-filmed">Milestone 3.2.1: Interview Filmed</h4>
+<p><strong>Deadline:</strong> January 5, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Set up interview location (lighting, audio, camera)</li>
+<li><span class="cb cb-empty">&#9744;</span> Record 60-90 minute interview</li>
+<li><span class="cb cb-empty">&#9744;</span> Get multiple takes of key emotional moments</li>
+<li><span class="cb cb-empty">&#9744;</span> Back up footage immediately (2 copies minimum)</li>
+<li><span class="cb cb-empty">&#9744;</span> Review footage same day (is anything missing?)</li>
+</ul>
+<h4 id="milestone-322-b-roll-filmed">Milestone 3.2.2: B-Roll Filmed</h4>
+<p><strong>Deadline:</strong> January 15, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Film 15-20 planned B-roll shots</li>
+<li><span class="cb cb-empty">&#9744;</span> Film additional spontaneous B-roll (25-30 more shots)</li>
+<li><span class="cb cb-empty">&#9744;</span> Get establishing shots of locations</li>
+<li><span class="cb cb-empty">&#9744;</span> Get close-ups, details, textures</li>
+<li><span class="cb cb-empty">&#9744;</span> Back up all footage</li>
+</ul>
+<hr>
+<h3 id="subgoal-33-post-production">SUBGOAL 3.3: Post-Production</h3>
+<p><strong>Deadline:</strong> February 15, 2026</p>
+<h4 id="milestone-331-edit-complete">Milestone 3.3.1: Edit Complete</h4>
+<p><strong>Deadline:</strong> February 10, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Import all footage to editing software</li>
+<li><span class="cb cb-empty">&#9744;</span> Create project structure/bins</li>
+<li><span class="cb cb-empty">&#9744;</span> Watch all footage and tag best moments</li>
+<li><span class="cb cb-empty">&#9744;</span> Build rough cut (assembly edit - 20-30 min long)</li>
+<li><span class="cb cb-empty">&#9744;</span> Trim to 15-18 minutes</li>
+<li><span class="cb cb-empty">&#9744;</span> Refine edit to 10-15 minutes (final length)</li>
+<li><span class="cb cb-empty">&#9744;</span> Add music (source royalty-free tracks or license music)</li>
+<li><span class="cb cb-empty">&#9744;</span> Sound design and mixing</li>
+<li><span class="cb cb-empty">&#9744;</span> Color grade all footage</li>
+<li><span class="cb cb-empty">&#9744;</span> Add titles/credits</li>
+<li><span class="cb cb-empty">&#9744;</span> Export master file (ProRes or high-quality format)</li>
+</ul>
+<h4 id="milestone-332-delivery-amp-festival-submission">Milestone 3.3.2: Delivery &amp; Festival Submission</h4>
+<p><strong>Deadline:</strong> February 15, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create DCP or required festival formats</li>
+<li><span class="cb cb-empty">&#9744;</span> Design poster/key art</li>
+<li><span class="cb cb-empty">&#9744;</span> Write synopsis (short &amp; long versions)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write director&#x27;s statement</li>
+<li><span class="cb cb-empty">&#9744;</span> Create director bio</li>
+<li><span class="cb cb-empty">&#9744;</span> Shoot still photos from film for press kit</li>
+<li><span class="cb cb-empty">&#9744;</span> Build press kit PDF</li>
+<li><span class="cb cb-empty">&#9744;</span> Research 10-15 appropriate film festivals</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit to first 5 festivals</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit to next 5 festivals</li>
+<li><span class="cb cb-empty">&#9744;</span> Create FilmFreeway account and upload materials</li>
+</ul>
+<hr>
+<h2 id="goal-4-micro-short-film-3-5-min-narrative">GOAL 4: MICRO SHORT FILM (3-5 MIN NARRATIVE)</h2>
+<h3 id="subgoal-41-script-amp-pre-production">SUBGOAL 4.1: Script &amp; Pre-Production</h3>
+<p><strong>Deadline:</strong> March 15, 2026</p>
+<h4 id="milestone-411-script-complete">Milestone 4.1.1: Script Complete</h4>
+<p><strong>Deadline:</strong> February 20, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Brainstorm 10 micro short film ideas</li>
+<li><span class="cb cb-empty">&#9744;</span> Choose one idea to develop</li>
+<li><span class="cb cb-empty">&#9744;</span> Write outline (beginning, middle, end)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write first draft (3-5 pages max)</li>
+<li><span class="cb cb-empty">&#9744;</span> Get feedback from 2-3 people</li>
+<li><span class="cb cb-empty">&#9744;</span> Revise script (second draft)</li>
+<li><span class="cb cb-empty">&#9744;</span> Finalize script</li>
+<li><span class="cb cb-empty">&#9744;</span> Lock shooting script</li>
+</ul>
+<h4 id="milestone-412-cast-amp-crew-secured">Milestone 4.1.2: Cast &amp; Crew Secured</h4>
+<p><strong>Deadline:</strong> March 7, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> List roles needed (1-3 actors max)</li>
+<li><span class="cb cb-empty">&#9744;</span> Post casting call (StarNow, Brisbane casting groups)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hold auditions (record auditions)</li>
+<li><span class="cb cb-empty">&#9744;</span> Cast actors</li>
+<li><span class="cb cb-empty">&#9744;</span> Get actor agreements signed</li>
+<li><span class="cb cb-empty">&#9744;</span> Find 1-2 crew members (AC, sound person) or go solo</li>
+<li><span class="cb cb-empty">&#9744;</span> Confirm crew availability for shoot date</li>
+</ul>
+<h4 id="milestone-413-location-amp-production-plan">Milestone 4.1.3: Location &amp; Production Plan</h4>
+<p><strong>Deadline:</strong> March 15, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Scout 2-3 potential locations</li>
+<li><span class="cb cb-empty">&#9744;</span> Choose final location(s)</li>
+<li><span class="cb cb-empty">&#9744;</span> Get location agreements signed</li>
+<li><span class="cb cb-empty">&#9744;</span> Create shot list (25-40 shots for 3-5 min film)</li>
+<li><span class="cb cb-empty">&#9744;</span> Storyboard key shots (at least 10-15 frames)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create shooting schedule (likely 1-2 day shoot)</li>
+<li><span class="cb cb-empty">&#9744;</span> Check equipment list</li>
+<li><span class="cb cb-empty">&#9744;</span> Rent any additional equipment needed</li>
+<li><span class="cb cb-empty">&#9744;</span> Hold rehearsal with actors (1-2 hours)</li>
+</ul>
+<hr>
+<h3 id="subgoal-42-production">SUBGOAL 4.2: Production</h3>
+<p><strong>Deadline:</strong> March 31, 2026</p>
+<h4 id="milestone-421-principal-photography-complete">Milestone 4.2.1: Principal Photography Complete</h4>
+<p><strong>Deadline:</strong> March 28, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Day 1 shoot (complete 50% of shots)</li>
+<li><span class="cb cb-empty">&#9744;</span> Back up footage Day 1</li>
+<li><span class="cb cb-empty">&#9744;</span> Review Day 1 footage</li>
+<li><span class="cb cb-empty">&#9744;</span> Day 2 shoot (complete remaining 50%)</li>
+<li><span class="cb cb-empty">&#9744;</span> Back up all footage</li>
+<li><span class="cb cb-empty">&#9744;</span> Get pickup shots if needed (1 more day max)</li>
+</ul>
+<hr>
+<h3 id="subgoal-43-post-production">SUBGOAL 4.3: Post-Production</h3>
+<p><strong>Deadline:</strong> April 30, 2026</p>
+<h4 id="milestone-431-edit-amp-delivery-complete">Milestone 4.3.1: Edit &amp; Delivery Complete</h4>
+<p><strong>Deadline:</strong> April 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Import and organize footage</li>
+<li><span class="cb cb-empty">&#9744;</span> Build rough cut</li>
+<li><span class="cb cb-empty">&#9744;</span> Refine edit to 3-5 minutes</li>
+<li><span class="cb cb-empty">&#9744;</span> Add music</li>
+<li><span class="cb cb-empty">&#9744;</span> Sound design &amp; mix</li>
+<li><span class="cb cb-empty">&#9744;</span> Color grade</li>
+<li><span class="cb cb-empty">&#9744;</span> Add titles/credits</li>
+<li><span class="cb cb-empty">&#9744;</span> Export master file</li>
+<li><span class="cb cb-empty">&#9744;</span> Create festival submission package</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit to 5-10 festivals</li>
+</ul>
+<hr>
+<h2 id="goal-5-short-documentary-2">GOAL 5: SHORT DOCUMENTARY #2</h2>
+<h3 id="subgoal-51-development-amp-pre-production">SUBGOAL 5.1: Development &amp; Pre-Production</h3>
+<p><strong>Deadline:</strong> May 31, 2026</p>
+<h4 id="milestone-511-subject-chosen">Milestone 5.1.1: Subject Chosen</h4>
+<p><strong>Deadline:</strong> May 15, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Brainstorm 5-10 potential documentary subjects (Brisbane-focused?)</li>
+<li><span class="cb cb-empty">&#9744;</span> Research each subject (is there enough story?)</li>
+<li><span class="cb cb-empty">&#9744;</span> Reach out to top 3 subjects</li>
+<li><span class="cb cb-empty">&#9744;</span> Have informal meetings with each</li>
+<li><span class="cb cb-empty">&#9744;</span> Choose final subject</li>
+<li><span class="cb cb-empty">&#9744;</span> Get agreement/release signed</li>
+<li><span class="cb cb-empty">&#9744;</span> Write treatment</li>
+</ul>
+<h4 id="milestone-512-production-plan-complete">Milestone 5.1.2: Production Plan Complete</h4>
+<p><strong>Deadline:</strong> May 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Interview questions written</li>
+<li><span class="cb cb-empty">&#9744;</span> Shot list created</li>
+<li><span class="cb cb-empty">&#9744;</span> B-roll plan created</li>
+<li><span class="cb cb-empty">&#9744;</span> Schedule established</li>
+<li><span class="cb cb-empty">&#9744;</span> Equipment checked</li>
+</ul>
+<hr>
+<h3 id="subgoal-52-production">SUBGOAL 5.2: Production</h3>
+<p><strong>Deadline:</strong> June 30, 2026</p>
+<h4 id="milestone-521-filming-complete">Milestone 5.2.1: Filming Complete</h4>
+<p><strong>Deadline:</strong> June 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Film primary interview</li>
+<li><span class="cb cb-empty">&#9744;</span> Film secondary interviews (if applicable)</li>
+<li><span class="cb cb-empty">&#9744;</span> Film all B-roll</li>
+<li><span class="cb cb-empty">&#9744;</span> Back up all footage</li>
+</ul>
+<hr>
+<h3 id="subgoal-53-post-production-amp-festival-submission">SUBGOAL 5.3: Post-Production &amp; Festival Submission</h3>
+<p><strong>Deadline:</strong> August 15, 2026</p>
+<h4 id="milestone-531-complete-amp-submit">Milestone 5.3.1: Complete &amp; Submit</h4>
+<p><strong>Deadline:</strong> August 15, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Edit complete (10-15 min final)</li>
+<li><span class="cb cb-empty">&#9744;</span> Sound &amp; color done</li>
+<li><span class="cb cb-empty">&#9744;</span> Export master</li>
+<li><span class="cb cb-empty">&#9744;</span> Create festival package</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit to 10-15 festivals</li>
+</ul>
+<hr>
+<h2 id="goal-6-short-film-1-8-15-min-narrative">GOAL 6: SHORT FILM #1 (8-15 MIN NARRATIVE)</h2>
+<h3 id="subgoal-61-script-development">SUBGOAL 6.1: Script Development</h3>
+<p><strong>Deadline:</strong> July 31, 2026</p>
+<h4 id="milestone-611-script-complete">Milestone 6.1.1: Script Complete</h4>
+<p><strong>Deadline:</strong> July 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Brainstorm 5-10 short film ideas</li>
+<li><span class="cb cb-empty">&#9744;</span> Choose one to develop</li>
+<li><span class="cb cb-empty">&#9744;</span> Write outline</li>
+<li><span class="cb cb-empty">&#9744;</span> Write first draft (8-15 pages)</li>
+<li><span class="cb cb-empty">&#9744;</span> Get feedback from 3-5 people</li>
+<li><span class="cb cb-empty">&#9744;</span> Major revision (second draft)</li>
+<li><span class="cb cb-empty">&#9744;</span> Polish script (third draft)</li>
+<li><span class="cb cb-empty">&#9744;</span> Lock shooting script</li>
+</ul>
+<hr>
+<h3 id="subgoal-62-pre-production">SUBGOAL 6.2: Pre-Production</h3>
+<p><strong>Deadline:</strong> September 15, 2026</p>
+<h4 id="milestone-621-casting-complete">Milestone 6.2.1: Casting Complete</h4>
+<p><strong>Deadline:</strong> August 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Break down script (how many actors needed?)</li>
+<li><span class="cb cb-empty">&#9744;</span> Post casting calls</li>
+<li><span class="cb cb-empty">&#9744;</span> Hold auditions (2-3 days)</li>
+<li><span class="cb cb-empty">&#9744;</span> Callbacks for key roles</li>
+<li><span class="cb cb-empty">&#9744;</span> Cast all roles</li>
+<li><span class="cb cb-empty">&#9744;</span> Sign actor agreements</li>
+<li><span class="cb cb-empty">&#9744;</span> Hold table read</li>
+</ul>
+<h4 id="milestone-622-crew-secured">Milestone 6.2.2: Crew Secured</h4>
+<p><strong>Deadline:</strong> September 7, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> List crew positions needed (DP, AC, sound, gaffer, PA, etc.)</li>
+<li><span class="cb cb-empty">&#9744;</span> Post crew calls (Brisbane film groups)</li>
+<li><span class="cb cb-empty">&#9744;</span> Interview potential crew</li>
+<li><span class="cb cb-empty">&#9744;</span> Hire/confirm crew</li>
+<li><span class="cb cb-empty">&#9744;</span> Hold crew meeting</li>
+</ul>
+<h4 id="milestone-623-locations-amp-equipment-locked">Milestone 6.2.3: Locations &amp; Equipment Locked</h4>
+<p><strong>Deadline:</strong> September 15, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Scout 5-10 potential locations</li>
+<li><span class="cb cb-empty">&#9744;</span> Choose final 2-4 locations</li>
+<li><span class="cb cb-empty">&#9744;</span> Get location agreements</li>
+<li><span class="cb cb-empty">&#9744;</span> Create detailed shot list (80-120 shots)</li>
+<li><span class="cb cb-empty">&#9744;</span> Storyboard key sequences (30-50 frames)</li>
+<li><span class="cb cb-empty">&#9744;</span> Equipment list finalized</li>
+<li><span class="cb cb-empty">&#9744;</span> Rent any additional equipment</li>
+<li><span class="cb cb-empty">&#9744;</span> Create detailed shooting schedule (3-5 day shoot)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hold production meeting (full cast &amp; crew)</li>
+</ul>
+<hr>
+<h3 id="subgoal-63-production">SUBGOAL 6.3: Production</h3>
+<p><strong>Deadline:</strong> October 15, 2026</p>
+<h4 id="milestone-631-principal-photography-complete">Milestone 6.3.1: Principal Photography Complete</h4>
+<p><strong>Deadline:</strong> October 10, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Production Day 1</li>
+<li><span class="cb cb-empty">&#9744;</span> Production Day 2</li>
+<li><span class="cb cb-empty">&#9744;</span> Production Day 3</li>
+<li><span class="cb cb-empty">&#9744;</span> Production Day 4 (if needed)</li>
+<li><span class="cb cb-empty">&#9744;</span> Production Day 5 (if needed)</li>
+<li><span class="cb cb-empty">&#9744;</span> Back up all footage daily</li>
+<li><span class="cb cb-empty">&#9744;</span> Review footage each evening</li>
+</ul>
+<h4 id="milestone-632-pickup-shots">Milestone 6.3.2: Pickup Shots</h4>
+<p><strong>Deadline:</strong> October 15, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Review all footage</li>
+<li><span class="cb cb-empty">&#9744;</span> List any missing shots</li>
+<li><span class="cb cb-empty">&#9744;</span> Schedule pickup day (if needed)</li>
+<li><span class="cb cb-empty">&#9744;</span> Complete pickups</li>
+</ul>
+<hr>
+<h3 id="subgoal-64-post-production">SUBGOAL 6.4: Post-Production</h3>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<h4 id="milestone-641-picture-lock">Milestone 6.4.1: Picture Lock</h4>
+<p><strong>Deadline:</strong> November 15, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Import and organize all footage</li>
+<li><span class="cb cb-empty">&#9744;</span> Build assembly edit (rough cut)</li>
+<li><span class="cb cb-empty">&#9744;</span> Refine to rough cut (20-30 min)</li>
+<li><span class="cb cb-empty">&#9744;</span> Cut to 15-18 minutes</li>
+<li><span class="cb cb-empty">&#9744;</span> Fine cut to final length (8-15 min)</li>
+<li><span class="cb cb-empty">&#9744;</span> Get feedback from trusted viewers</li>
+<li><span class="cb cb-empty">&#9744;</span> Final revisions</li>
+<li><span class="cb cb-empty">&#9744;</span> Picture lock</li>
+</ul>
+<h4 id="milestone-642-post-production-complete">Milestone 6.4.2: Post-Production Complete</h4>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Sound design</li>
+<li><span class="cb cb-empty">&#9744;</span> Dialogue editing</li>
+<li><span class="cb cb-empty">&#9744;</span> ADR if needed</li>
+<li><span class="cb cb-empty">&#9744;</span> Music composition or licensing</li>
+<li><span class="cb cb-empty">&#9744;</span> Sound mix</li>
+<li><span class="cb cb-empty">&#9744;</span> Color grading</li>
+<li><span class="cb cb-empty">&#9744;</span> VFX if needed</li>
+<li><span class="cb cb-empty">&#9744;</span> Titles and credits</li>
+<li><span class="cb cb-empty">&#9744;</span> Export master file</li>
+<li><span class="cb cb-empty">&#9744;</span> Create DCP and festival formats</li>
+</ul>
+<h4 id="milestone-643-festival-submission-package">Milestone 6.4.3: Festival Submission Package</h4>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Design poster</li>
+<li><span class="cb cb-empty">&#9744;</span> Shoot behind-the-scenes stills</li>
+<li><span class="cb cb-empty">&#9744;</span> Write synopsis (3 versions: 25, 50, 100 words)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write director&#x27;s statement</li>
+<li><span class="cb cb-empty">&#9744;</span> Update director bio</li>
+<li><span class="cb cb-empty">&#9744;</span> Create press kit PDF</li>
+<li><span class="cb cb-empty">&#9744;</span> List 20-30 target festivals</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit to first 10 festivals</li>
+</ul>
+<hr>
+<h2 id="goal-7-feature-screenplay-1">GOAL 7: FEATURE SCREENPLAY #1</h2>
+<h3 id="subgoal-71-concept-development">SUBGOAL 7.1: Concept Development</h3>
+<p><strong>Deadline:</strong> December 31, 2025</p>
+<h4 id="milestone-711-concept-chosen">Milestone 7.1.1: Concept Chosen</h4>
+<p><strong>Deadline:</strong> December 15, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Brainstorm 10-15 feature film ideas</li>
+<li><span class="cb cb-empty">&#9744;</span> Write logline for each (1 sentence)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write 1-paragraph summary for top 5 ideas</li>
+<li><span class="cb cb-empty">&#9744;</span> Get feedback from 2-3 trusted people</li>
+<li><span class="cb cb-empty">&#9744;</span> Choose one concept to develop</li>
+<li><span class="cb cb-empty">&#9744;</span> Research similar films (watch 5-10 films in similar genre/tone)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write 2-page treatment</li>
+</ul>
+<h4 id="milestone-712-outline-complete">Milestone 7.1.2: Outline Complete</h4>
+<p><strong>Deadline:</strong> December 31, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Write character bios for main characters (3-5 characters)</li>
+<li><span class="cb cb-empty">&#9744;</span> Outline Act 1 (beats, key scenes)</li>
+<li><span class="cb cb-empty">&#9744;</span> Outline Act 2A (beats, key scenes)</li>
+<li><span class="cb cb-empty">&#9744;</span> Outline Act 2B (beats, key scenes)</li>
+<li><span class="cb cb-empty">&#9744;</span> Outline Act 3 (beats, key scenes)</li>
+<li><span class="cb cb-empty">&#9744;</span> Identify 10-12 major plot points</li>
+<li><span class="cb cb-empty">&#9744;</span> Complete beat sheet (Save the Cat or similar structure)</li>
+</ul>
+<hr>
+<h3 id="subgoal-72-first-draft">SUBGOAL 7.2: First Draft</h3>
+<p><strong>Deadline:</strong> March 31, 2026</p>
+<h4 id="milestone-721-act-1-complete-25-30-pages">Milestone 7.2.1: Act 1 Complete (25-30 pages)</h4>
+<p><strong>Deadline:</strong> January 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Write 3 pages per day, 5 days per week = 15 pages/week</li>
+<li><span class="cb cb-empty">&#9744;</span> Week 1: Pages 1-15 (establish world, introduce protagonist)</li>
+<li><span class="cb cb-empty">&#9744;</span> Week 2: Pages 16-30 (inciting incident, Act 1 turn)</li>
+<li><span class="cb cb-empty">&#9744;</span> Review and light edit of Act 1</li>
+</ul>
+<h4 id="milestone-722-act-2a-complete-25-30-pages">Milestone 7.2.2: Act 2A Complete (25-30 pages)</h4>
+<p><strong>Deadline:</strong> February 28, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Week 3: Pages 31-45</li>
+<li><span class="cb cb-empty">&#9744;</span> Week 4: Pages 46-60 (midpoint approaching)</li>
+<li><span class="cb cb-empty">&#9744;</span> Review and light edit of Act 2A</li>
+</ul>
+<h4 id="milestone-723-act-2b-complete-25-30-pages">Milestone 7.2.3: Act 2B Complete (25-30 pages)</h4>
+<p><strong>Deadline:</strong> March 20, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Week 5: Pages 61-75 (midpoint and beyond)</li>
+<li><span class="cb cb-empty">&#9744;</span> Week 6: Pages 76-90 (low point, Act 2 turn)</li>
+<li><span class="cb cb-empty">&#9744;</span> Review and light edit of Act 2B</li>
+</ul>
+<h4 id="milestone-724-act-3-complete-20-30-pages">Milestone 7.2.4: Act 3 Complete (20-30 pages)</h4>
+<p><strong>Deadline:</strong> March 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Week 7: Pages 91-105 (climax building)</li>
+<li><span class="cb cb-empty">&#9744;</span> Week 8: Pages 106-115 (climax and resolution)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write &quot;FADE OUT&quot;</li>
+<li><span class="cb cb-empty">&#9744;</span> Celebrate completing first draft!</li>
+<li><span class="cb cb-empty">&#9744;</span> Don&#x27;t read it for 1-2 weeks (gain perspective)</li>
+</ul>
+<hr>
+<h3 id="subgoal-73-revision-amp-polish">SUBGOAL 7.3: Revision &amp; Polish</h3>
+<p><strong>Deadline:</strong> June 30, 2026</p>
+<h4 id="milestone-731-second-draft-complete">Milestone 7.3.1: Second Draft Complete</h4>
+<p><strong>Deadline:</strong> May 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Read entire first draft, take notes</li>
+<li><span class="cb cb-empty">&#9744;</span> Identify major structural issues</li>
+<li><span class="cb cb-empty">&#9744;</span> Identify character inconsistencies</li>
+<li><span class="cb cb-empty">&#9744;</span> List scenes to cut, add, or revise</li>
+<li><span class="cb cb-empty">&#9744;</span> Revise Act 1 (address notes)</li>
+<li><span class="cb cb-empty">&#9744;</span> Revise Act 2A (address notes)</li>
+<li><span class="cb cb-empty">&#9744;</span> Revise Act 2B (address notes)</li>
+<li><span class="cb cb-empty">&#9744;</span> Revise Act 3 (address notes)</li>
+<li><span class="cb cb-empty">&#9744;</span> Read through entire second draft</li>
+<li><span class="cb cb-empty">&#9744;</span> Check page count (target: 95-115 pages)</li>
+</ul>
+<h4 id="milestone-732-third-draft-amp-feedback">Milestone 7.3.2: Third Draft &amp; Feedback</h4>
+<p><strong>Deadline:</strong> June 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Give to 3-5 trusted readers (other writers, filmmakers)</li>
+<li><span class="cb cb-empty">&#9744;</span> Get written feedback from all readers</li>
+<li><span class="cb cb-empty">&#9744;</span> Identify common notes (if 3+ people say same thing, it&#x27;s real)</li>
+<li><span class="cb cb-empty">&#9744;</span> Make revision plan based on feedback</li>
+<li><span class="cb cb-empty">&#9744;</span> Revise problem areas</li>
+<li><span class="cb cb-empty">&#9744;</span> Polish dialogue</li>
+<li><span class="cb cb-empty">&#9744;</span> Polish action lines</li>
+<li><span class="cb cb-empty">&#9744;</span> Final proofread</li>
+<li><span class="cb cb-empty">&#9744;</span> Format check (proper screenplay format)</li>
+<li><span class="cb cb-empty">&#9744;</span> Save as PDF</li>
+<li><span class="cb cb-empty">&#9744;</span> Screenplay #1 COMPLETE!</li>
+</ul>
+<hr>
+<h3 id="subgoal-74-competition-submission">SUBGOAL 7.4: Competition Submission</h3>
+<p><strong>Deadline:</strong> August 31, 2026</p>
+<h4 id="milestone-741-submit-to-major-competitions">Milestone 7.4.1: Submit to Major Competitions</h4>
+<p><strong>Deadline:</strong> August 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Research competition deadlines (Nicholl, PAGE, Austin, etc.)</li>
+<li><span class="cb cb-empty">&#9744;</span> Check which competitions are open</li>
+<li><span class="cb cb-empty">&#9744;</span> Write logline (perfect 1-2 sentence version)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write synopsis (1 page max)</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit to Nicholl Fellowship (if deadline open)</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit to PAGE Awards</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit to Austin Film Festival</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit to ScreenCraft</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit to BlueCat</li>
+<li><span class="cb cb-empty">&#9744;</span> Track submissions in spreadsheet (competition, date submitted, result)</li>
+</ul>
+<hr>
+<h2 id="goal-8-youtube-channel-5-10k-subscribers">GOAL 8: YOUTUBE CHANNEL - 5-10K SUBSCRIBERS</h2>
+<h3 id="subgoal-81-channel-setup-amp-first-10-videos">SUBGOAL 8.1: Channel Setup &amp; First 10 Videos</h3>
+<p><strong>Deadline:</strong> February 28, 2026</p>
+<h4 id="milestone-811-channel-launched">Milestone 8.1.1: Channel Launched</h4>
+<p><strong>Deadline:</strong> December 15, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create YouTube channel (Ben Alek Conner or similar)</li>
+<li><span class="cb cb-empty">&#9744;</span> Design channel banner (Canva)</li>
+<li><span class="cb cb-empty">&#9744;</span> Design channel icon/profile pic</li>
+<li><span class="cb cb-empty">&#9744;</span> Write channel description (100-150 words)</li>
+<li><span class="cb cb-empty">&#9744;</span> Add channel links (Instagram, website, etc.)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create channel trailer (2-3 min intro video)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up channel sections/playlists</li>
+<li><span class="cb cb-empty">&#9744;</span> Install VidIQ or TubeBuddy browser extension</li>
+</ul>
+<h4 id="milestone-812-content-strategy-defined">Milestone 8.1.2: Content Strategy Defined</h4>
+<p><strong>Deadline:</strong> December 20, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Define 4-5 content buckets (agency tips, filmmaking, health journey, Brisbane, creative entrepreneur)</li>
+<li><span class="cb cb-empty">&#9744;</span> Research keywords for each bucket (VidIQ)</li>
+<li><span class="cb cb-empty">&#9744;</span> Brainstorm 50 video ideas (10 per bucket)</li>
+<li><span class="cb cb-empty">&#9744;</span> Choose first 10 videos to make</li>
+<li><span class="cb cb-empty">&#9744;</span> Create title templates for each content type</li>
+<li><span class="cb cb-empty">&#9744;</span> Create thumbnail templates (Canva)</li>
+</ul>
+<h4 id="milestone-813-first-3-videos-published">Milestone 8.1.3: First 3 Videos Published</h4>
+<p><strong>Deadline:</strong> December 31, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Video 1: Script/outline (500-800 words)</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 1: Film (set up, record, 1-2 hours)</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 1: Edit (2-3 hours)</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 1: Create thumbnail</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 1: Write title and description (SEO optimized)</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 1: Upload and schedule</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 1: PUBLISH</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 2: Repeat process</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 2: PUBLISH</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 3: Repeat process</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 3: PUBLISH</li>
+</ul>
+<h4 id="milestone-814-videos-4-10-published-weekly">Milestone 8.1.4: Videos 4-10 Published (Weekly)</h4>
+<p><strong>Deadline:</strong> February 15, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Video 4: Plan, film, edit, publish</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 5: Plan, film, edit, publish</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 6: Plan, film, edit, publish</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 7: Plan, film, edit, publish</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 8: Plan, film, edit, publish</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 9: Plan, film, edit, publish</li>
+<li><span class="cb cb-empty">&#9744;</span> Video 10: Plan, film, edit, publish</li>
+<li><span class="cb cb-empty">&#9744;</span> Review analytics: what&#x27;s working?</li>
+</ul>
+<hr>
+<h3 id="subgoal-82-consistent-publishing-amp-growth-to-1k-subs">SUBGOAL 8.2: Consistent Publishing &amp; Growth to 1K Subs</h3>
+<p><strong>Deadline:</strong> May 31, 2026</p>
+<h4 id="milestone-821-1000-subscribers-monetization-eligible">Milestone 8.2.1: 1,000 Subscribers (Monetization Eligible)</h4>
+<p><strong>Deadline:</strong> May 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Publish 1 video per week consistently (Videos 11-25)</li>
+<li><span class="cb cb-empty">&#9744;</span> Engage with every comment (first 48 hours)</li>
+<li><span class="cb cb-empty">&#9744;</span> Collaborate with 1-2 other Brisbane creators</li>
+<li><span class="cb cb-empty">&#9744;</span> Share videos on LinkedIn, Instagram, Facebook</li>
+<li><span class="cb cb-empty">&#9744;</span> Optimize titles and thumbnails (A/B test)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create end screen template (subscribe CTA)</li>
+<li><span class="cb cb-empty">&#9744;</span> Add cards to videos (link related content)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit 1,000 subscribers</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit 4,000 watch hours</li>
+<li><span class="cb cb-empty">&#9744;</span> Apply for YouTube Partner Program</li>
+</ul>
+<hr>
+<h3 id="subgoal-83-scale-to-5-10k-subscribers">SUBGOAL 8.3: Scale to 5-10K Subscribers</h3>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<h4 id="milestone-831-consistent-weekly-uploads">Milestone 8.3.1: Consistent Weekly Uploads</h4>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Publish videos 26-50 (weekly uploads)</li>
+<li><span class="cb cb-empty">&#9744;</span> Experiment with video length (what performs best?)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create a &quot;series&quot; (multi-part story arc)</li>
+<li><span class="cb cb-empty">&#9744;</span> Document making Short Film #1 (behind-the-scenes series)</li>
+<li><span class="cb cb-empty">&#9744;</span> Try one &quot;viral&quot; style video per month</li>
+<li><span class="cb cb-empty">&#9744;</span> Improve production quality incrementally</li>
+<li><span class="cb cb-empty">&#9744;</span> Build community (respond to comments, ask questions)</li>
+</ul>
+<h4 id="milestone-832-5000-10000-subscribers-achieved">Milestone 8.3.2: 5,000-10,000 Subscribers Achieved</h4>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Track monthly growth rate</li>
+<li><span class="cb cb-empty">&#9744;</span> Double down on what works</li>
+<li><span class="cb cb-empty">&#9744;</span> Cut what doesn&#x27;t work</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit 5K subscribers minimum</li>
+<li><span class="cb cb-empty">&#9744;</span> Stretch goal: 10K subscribers</li>
+<li><span class="cb cb-empty">&#9744;</span> If monetized: First AdSense payment received</li>
+</ul>
+<hr>
+<h2 id="goal-9-photography-project-1-photobook-1">GOAL 9: PHOTOGRAPHY PROJECT #1 / PHOTOBOOK #1</h2>
+<h3 id="subgoal-91-curate-body-of-work">SUBGOAL 9.1: Curate Body of Work</h3>
+<p><strong>Deadline:</strong> June 30, 2026</p>
+<h4 id="milestone-911-portfolio-selection">Milestone 9.1.1: Portfolio Selection</h4>
+<p><strong>Deadline:</strong> June 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Review all portraits shot (should be 400-500 by June)</li>
+<li><span class="cb cb-empty">&#9744;</span> Export favorites to separate folder</li>
+<li><span class="cb cb-empty">&#9744;</span> Narrow down to 200 potential images</li>
+<li><span class="cb cb-empty">&#9744;</span> Choose theme/concept for photobook (if applicable)</li>
+<li><span class="cb cb-empty">&#9744;</span> Narrow down to 100 images</li>
+<li><span class="cb cb-empty">&#9744;</span> Get feedback from 2-3 photographers</li>
+<li><span class="cb cb-empty">&#9744;</span> Final selection: 60-80 images for photobook</li>
+</ul>
+<hr>
+<h3 id="subgoal-92-photobook-design-amp-production">SUBGOAL 9.2: Photobook Design &amp; Production</h3>
+<p><strong>Deadline:</strong> September 30, 2026</p>
+<h4 id="milestone-921-design-complete">Milestone 9.2.1: Design Complete</h4>
+<p><strong>Deadline:</strong> August 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Research photobook printing services (Blurb, Artifact Uprising, local printer)</li>
+<li><span class="cb cb-empty">&#9744;</span> Choose format (size, paper, binding)</li>
+<li><span class="cb cb-empty">&#9744;</span> Lay out photobook in InDesign or Blurb software</li>
+<li><span class="cb cb-empty">&#9744;</span> Sequence images (storytelling through order)</li>
+<li><span class="cb cb-empty">&#9744;</span> Add any text (intro, captions, essay)</li>
+<li><span class="cb cb-empty">&#9744;</span> Design cover</li>
+<li><span class="cb cb-empty">&#9744;</span> Proofread all text</li>
+<li><span class="cb cb-empty">&#9744;</span> Export print-ready PDF</li>
+</ul>
+<h4 id="milestone-922-photobook-published">Milestone 9.2.2: Photobook Published</h4>
+<p><strong>Deadline:</strong> September 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Order proof copy</li>
+<li><span class="cb cb-empty">&#9744;</span> Review proof, make corrections</li>
+<li><span class="cb cb-empty">&#9744;</span> Place final print order (25-100 copies)</li>
+<li><span class="cb cb-empty">&#9744;</span> Receive books</li>
+<li><span class="cb cb-empty">&#9744;</span> Photobook #1 COMPLETE!</li>
+<li><span class="cb cb-empty">&#9744;</span> Plan launch event or online announcement</li>
+</ul>
+<hr>
+<h2 id="goal-10-health-quit-smoking-lose-15-20kg-half-marathon">GOAL 10: HEALTH - QUIT SMOKING, LOSE 15-20KG, HALF-MARATHON</h2>
+<h3 id="subgoal-101-quit-smoking">SUBGOAL 10.1: Quit Smoking</h3>
+<p><strong>Deadline:</strong> December 31, 2025 (STAY QUIT FOREVER)</p>
+<h4 id="milestone-1011-quit-plan-amp-quit-date">Milestone 10.1.1: Quit Plan &amp; Quit Date</h4>
+<p><strong>Deadline:</strong> December 7, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Set quit date (ideally December 1-7, 2025)</li>
+<li><span class="cb cb-empty">&#9744;</span> Research quit methods (cold turkey? NRT? Champix?)</li>
+<li><span class="cb cb-empty">&#9744;</span> Talk to doctor about quit aids if needed</li>
+<li><span class="cb cb-empty">&#9744;</span> Tell Tracy and 3 close friends (accountability)</li>
+<li><span class="cb cb-empty">&#9744;</span> Remove all cigarettes and smoking paraphernalia</li>
+<li><span class="cb cb-empty">&#9744;</span> Download quit smoking app (Smoke Free or similar)</li>
+<li><span class="cb cb-empty">&#9744;</span> Plan coping strategies (what to do when craving hits)</li>
+<li><span class="cb cb-empty">&#9744;</span> Stock up on substitutes (gum, mints, fidget tools)</li>
+</ul>
+<h4 id="milestone-1012-first-week-smoke-free">Milestone 10.1.2: First Week Smoke-Free</h4>
+<p><strong>Deadline:</strong> December 14, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Day 1: Survive (hardest day)</li>
+<li><span class="cb cb-empty">&#9744;</span> Day 2: Survive</li>
+<li><span class="cb cb-empty">&#9744;</span> Day 3: Survive (nicotine mostly out of system)</li>
+<li><span class="cb cb-empty">&#9744;</span> Day 4-7: Survive</li>
+<li><span class="cb cb-empty">&#9744;</span> Log each day in app</li>
+<li><span class="cb cb-empty">&#9744;</span> Celebrate 1 week smoke-free!</li>
+</ul>
+<h4 id="milestone-1013-first-month-smoke-free">Milestone 10.1.3: First Month Smoke-Free</h4>
+<p><strong>Deadline:</strong> January 7, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Week 2: Track daily (physical cravings subsiding)</li>
+<li><span class="cb cb-empty">&#9744;</span> Week 3: Track daily (habit cravings remain)</li>
+<li><span class="cb cb-empty">&#9744;</span> Week 4: Track daily</li>
+<li><span class="cb cb-empty">&#9744;</span> Celebrate 1 month smoke-free!</li>
+<li><span class="cb cb-empty">&#9744;</span> Treat yourself (nice dinner, new gear, etc.)</li>
+</ul>
+<h4 id="milestone-1014-three-months-smoke-free">Milestone 10.1.4: Three Months Smoke-Free</h4>
+<p><strong>Deadline:</strong> March 7, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Month 2: Stay vigilant</li>
+<li><span class="cb cb-empty">&#9744;</span> Month 3: New non-smoker identity forming</li>
+<li><span class="cb cb-empty">&#9744;</span> Celebrate 3 months smoke-free!</li>
+<li><span class="cb cb-empty">&#9744;</span> You&#x27;re now a non-smoker (most relapse risk past)</li>
+</ul>
+<hr>
+<h3 id="subgoal-102-lose-first-8-12kg-120kg-gt-108-112kg">SUBGOAL 10.2: Lose First 8-12kg (120kg &gt; 108-112kg)</h3>
+<p><strong>Deadline:</strong> March 31, 2026</p>
+<h4 id="milestone-1021-diet-amp-systems-established">Milestone 10.2.1: Diet &amp; Systems Established</h4>
+<p><strong>Deadline:</strong> December 15, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Download MyFitnessPal app</li>
+<li><span class="cb cb-empty">&#9744;</span> Calculate TDEE (Total Daily Energy Expenditure)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set calorie target (TDEE - 500 = ~0.5kg/week loss)</li>
+<li><span class="cb cb-empty">&#9744;</span> Research keto meal plans</li>
+<li><span class="cb cb-empty">&#9744;</span> Create 7-day meal plan</li>
+<li><span class="cb cb-empty">&#9744;</span> Grocery shop for Week 1</li>
+<li><span class="cb cb-empty">&#9744;</span> Meal prep Sunday for Week 1</li>
+<li><span class="cb cb-empty">&#9744;</span> Track food every day for 1 week</li>
+<li><span class="cb cb-empty">&#9744;</span> Weigh yourself Monday morning (baseline)</li>
+</ul>
+<h4 id="milestone-1022-first-4kg-lost-116kg">Milestone 10.2.2: First 4kg Lost (116kg)</h4>
+<p><strong>Deadline:</strong> January 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Week 1-8: Track food, stay in calorie target</li>
+<li><span class="cb cb-empty">&#9744;</span> Weigh in: 116kg (4kg lost)</li>
+</ul>
+<h4 id="milestone-1023-next-4-8kg-lost-108-112kg">Milestone 10.2.3: Next 4-8kg Lost (108-112kg)</h4>
+<p><strong>Deadline:</strong> March 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Continue tracking daily</li>
+<li><span class="cb cb-empty">&#9744;</span> Adjust calories if weight loss stalls</li>
+<li><span class="cb cb-empty">&#9744;</span> Meal prep every Sunday</li>
+<li><span class="cb cb-empty">&#9744;</span> Weigh in weekly</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit 108-112kg by end of March</li>
+<li><span class="cb cb-empty">&#9744;</span> Total: 8-12kg lost in 4 months!</li>
+</ul>
+<hr>
+<h3 id="subgoal-103-running-habit-amp-half-marathon">SUBGOAL 10.3: Running Habit &amp; Half-Marathon</h3>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<h4 id="milestone-1031-couch-to-5k-complete">Milestone 10.3.1: Couch to 5K Complete</h4>
+<p><strong>Deadline:</strong> March 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Download C25K app</li>
+<li><span class="cb cb-empty">&#9744;</span> Get proper running shoes (go to running store for fitting)</li>
+<li><span class="cb cb-empty">&#9744;</span> Weeks 1-9: C25K workout 3x per week</li>
+<li><span class="cb cb-empty">&#9744;</span> Run 5K without stopping!</li>
+<li><span class="cb cb-empty">&#9744;</span> Celebrate completing C25K program</li>
+</ul>
+<h4 id="milestone-1032-10k-training">Milestone 10.3.2: 10K Training</h4>
+<p><strong>Deadline:</strong> June 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Download 5K to 10K training plan</li>
+<li><span class="cb cb-empty">&#9744;</span> Follow plan for 8-12 weeks</li>
+<li><span class="cb cb-empty">&#9744;</span> Run 3-4x per week consistently</li>
+<li><span class="cb cb-empty">&#9744;</span> Complete first 10K run</li>
+<li><span class="cb cb-empty">&#9744;</span> Consider entering local 10K race</li>
+</ul>
+<h4 id="milestone-1033-half-marathon-training">Milestone 10.3.3: Half-Marathon Training</h4>
+<p><strong>Deadline:</strong> October 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Download half-marathon training plan (12-16 weeks)</li>
+<li><span class="cb cb-empty">&#9744;</span> Follow plan consistently</li>
+<li><span class="cb cb-empty">&#9744;</span> Long run each weekend (gradually build to 18-20K)</li>
+<li><span class="cb cb-empty">&#9744;</span> Cross-training 1-2x per week (gym, cycling, swimming)</li>
+<li><span class="cb cb-empty">&#9744;</span> Taper 2 weeks before race</li>
+</ul>
+<h4 id="milestone-1034-half-marathon-complete">Milestone 10.3.4: Half-Marathon Complete!</h4>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Register for half-marathon race (Brisbane area)</li>
+<li><span class="cb cb-empty">&#9744;</span> Complete race</li>
+<li><span class="cb cb-empty">&#9744;</span> Finish under 2 hours 30 minutes (stretch goal: under 2 hours)</li>
+<li><span class="cb cb-empty">&#9744;</span> CELEBRATE! You ran 21.1km!</li>
+</ul>
+<hr>
+<h3 id="subgoal-104-reach-100-105kg-total">SUBGOAL 10.4: Reach 100-105kg Total</h3>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<h4 id="milestone-1041-consistent-weight-loss">Milestone 10.4.1: Consistent Weight Loss</h4>
+<p><strong>Deadline:</strong> November 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Continue tracking food daily (all year)</li>
+<li><span class="cb cb-empty">&#9744;</span> Weigh in every Monday</li>
+<li><span class="cb cb-empty">&#9744;</span> Adjust calories every 5kg lost (recalculate TDEE)</li>
+<li><span class="cb cb-empty">&#9744;</span> Meal prep every Sunday</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit 100-105kg by end of November</li>
+<li><span class="cb cb-empty">&#9744;</span> Total: 15-20kg lost in Year 1!</li>
+</ul>
+<hr>
+<h2 id="goal-11-adhd-amp-mental-health-management">GOAL 11: ADHD &amp; MENTAL HEALTH MANAGEMENT</h2>
+<h3 id="subgoal-111-medication-optimization">SUBGOAL 11.1: Medication Optimization</h3>
+<p><strong>Deadline:</strong> February 28, 2026</p>
+<h4 id="milestone-1111-initial-doctor-visit">Milestone 11.1.1: Initial Doctor Visit</h4>
+<p><strong>Deadline:</strong> December 15, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Book GP appointment</li>
+<li><span class="cb cb-empty">&#9744;</span> Write list of current symptoms (executive dysfunction, focus issues, etc.)</li>
+<li><span class="cb cb-empty">&#9744;</span> Discuss current medication (if any)</li>
+<li><span class="cb cb-empty">&#9744;</span> Get referral to psychiatrist if needed</li>
+<li><span class="cb cb-empty">&#9744;</span> Blood work if required</li>
+<li><span class="cb cb-empty">&#9744;</span> Try new medication or adjust dosage (if recommended)</li>
+</ul>
+<h4 id="milestone-1112-follow-up-amp-adjustment">Milestone 11.1.2: Follow-up &amp; Adjustment</h4>
+<p><strong>Deadline:</strong> February 28, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Try medication for 4-6 weeks</li>
+<li><span class="cb cb-empty">&#9744;</span> Track effectiveness daily (journal or app)</li>
+<li><span class="cb cb-empty">&#9744;</span> Note side effects</li>
+<li><span class="cb cb-empty">&#9744;</span> Follow-up appointment</li>
+<li><span class="cb cb-empty">&#9744;</span> Adjust medication if needed</li>
+<li><span class="cb cb-empty">&#9744;</span> Find optimal medication and dosage by end of Feb</li>
+</ul>
+<hr>
+<h3 id="subgoal-112-therapy-amp-systems">SUBGOAL 11.2: Therapy &amp; Systems</h3>
+<p><strong>Deadline:</strong> June 30, 2026</p>
+<h4 id="milestone-1121-therapist-found-amp-regular-sessions">Milestone 11.2.1: Therapist Found &amp; Regular Sessions</h4>
+<p><strong>Deadline:</strong> January 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Research therapists in Brisbane (ADHD-informed)</li>
+<li><span class="cb cb-empty">&#9744;</span> Book initial consultations with 2-3 therapists</li>
+<li><span class="cb cb-empty">&#9744;</span> Choose therapist</li>
+<li><span class="cb cb-empty">&#9744;</span> Schedule weekly or bi-weekly sessions</li>
+<li><span class="cb cb-empty">&#9744;</span> Attend first 8 sessions (2 months)</li>
+</ul>
+<h4 id="milestone-1122-adhd-management-systems-built">Milestone 11.2.2: ADHD Management Systems Built</h4>
+<p><strong>Deadline:</strong> June 30, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Daily routine established (morning, work, evening)</li>
+<li><span class="cb cb-empty">&#9744;</span> Task management system working</li>
+<li><span class="cb cb-empty">&#9744;</span> Pomodoro or similar focus technique in use</li>
+<li><span class="cb cb-empty">&#9744;</span> Accountability system (check-ins with Tracy or friend)</li>
+<li><span class="cb cb-empty">&#9744;</span> Weekly planning session every Sunday</li>
+<li><span class="cb cb-empty">&#9744;</span> Review what works, adjust what doesn&#x27;t</li>
+</ul>
+<hr>
+<h2 id="goal-12-legal-automation-for-dadx27s-firms">GOAL 12: LEGAL AUTOMATION FOR DAD&#x27;S FIRMS</h2>
+<h3 id="subgoal-121-demand-letter-generator-built">SUBGOAL 12.1: Demand Letter Generator Built</h3>
+<p><strong>Deadline:</strong> January 31, 2026</p>
+<h4 id="milestone-1211-system-design-amp-template-creation">Milestone 12.1.1: System Design &amp; Template Creation</h4>
+<p><strong>Deadline:</strong> December 31, 2025</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Map current demand letter workflow (what info is needed?)</li>
+<li><span class="cb cb-empty">&#9744;</span> Identify data sources (PDFs, case sheets, medical records)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create 3-5 demand letter templates (different case types)</li>
+<li><span class="cb cb-empty">&#9744;</span> Test AI/automation tool (Claude? GPT? Custom solution?)</li>
+<li><span class="cb cb-empty">&#9744;</span> Build intake form for case information</li>
+<li><span class="cb cb-empty">&#9744;</span> Document step-by-step process</li>
+</ul>
+<h4 id="milestone-1212-system-testing-amp-refinement">Milestone 12.1.2: System Testing &amp; Refinement</h4>
+<p><strong>Deadline:</strong> January 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Test system with 3-5 real cases</li>
+<li><span class="cb cb-empty">&#9744;</span> Get feedback from dad/law firm staff</li>
+<li><span class="cb cb-empty">&#9744;</span> Refine templates based on feedback</li>
+<li><span class="cb cb-empty">&#9744;</span> Fix any bugs or issues</li>
+<li><span class="cb cb-empty">&#9744;</span> Create user guide for law firm staff</li>
+<li><span class="cb cb-empty">&#9744;</span> Train 1-2 people on using the system</li>
+</ul>
+<hr>
+<h3 id="subgoal-122-system-running-amp-time-saved">SUBGOAL 12.2: System Running &amp; Time Saved</h3>
+<p><strong>Deadline:</strong> March 31, 2026</p>
+<h4 id="milestone-1221-fully-operational">Milestone 12.2.1: Fully Operational</h4>
+<p><strong>Deadline:</strong> March 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> System used for 100% of new demand letters</li>
+<li><span class="cb cb-empty">&#9744;</span> Track time saved per letter (before: 2-3 hours &gt; after: 30 mins?)</li>
+<li><span class="cb cb-empty">&#9744;</span> Document total time saved per week</li>
+<li><span class="cb cb-empty">&#9744;</span> Confirm 10-20 hours/week saved</li>
+<li><span class="cb cb-empty">&#9744;</span> Use saved time for creative projects!</li>
+</ul>
+<hr>
+<h2 id="year-1-recurring-tasks">YEAR 1 RECURRING TASKS</h2>
+<h3 id="daily-non-negotiables">Daily Non-Negotiables</h3>
+<ul>
+<li>Morning: 30-60 min work on priority #1 (before checking email/socials)</li>
+<li>Exercise: Run OR gym OR active recovery (30-60 min)</li>
+<li>Track food in MyFitnessPal (all meals)</li>
+<li>Client check-ins: respond to messages within 24 hours</li>
+<li>No smoking (check-in with self)</li>
+<li>Evening: Plan tomorrow&#x27;s top 3 tasks</li>
+</ul>
+<h3 id="weekly-non-negotiables">Weekly Non-Negotiables</h3>
+<ul>
+<li>Sunday: Weekly planning session (review goals, plan week)</li>
+<li>Sunday: Meal prep for week</li>
+<li>Monday: Weigh-in and log weight</li>
+<li>Monday: Review agency metrics (MRR, pipeline, this week&#x27;s deliverables)</li>
+<li>Client work: 20-30 hours across the week</li>
+<li>Creative work: 10-15 hours across the week</li>
+<li>Run 3-4x per week (per C25K plan)</li>
+<li>Publish 1 YouTube video</li>
+<li>3+ hours quality time with Tracy</li>
+<li>Therapy appointment (if on weekly schedule)</li>
+</ul>
+<h3 id="monthly-milestones-to-check">Monthly Milestones to Check</h3>
+<ul>
+<li>Nunya Bunya MRR: On track to goal?</li>
+<li>Power Portraits sessions: How many this month?</li>
+<li>Weight: Lost 1-2kg this month?</li>
+<li>Creative projects: Made progress per plan?</li>
+<li>YouTube: 4 videos published?</li>
+<li>Smoke-free: Still going strong?</li>
+<li>Spending: Within budget?</li>
+</ul>
+<h3 id="quarterly-review-dates">Quarterly Review Dates</h3>
+<ul>
+<li>Q1 Review: March 31, 2026</li>
+<li>Q2 Review: June 30, 2026</li>
+<li>Q3 Review: September 30, 2026</li>
+<li>Q4 Review: December 31, 2026</li>
+</ul>
+<hr>
+<h2 id="year-1-critical-success-metrics-nov-30-2026">YEAR 1 CRITICAL SUCCESS METRICS (NOV 30, 2026)</h2>
+<p><strong>Must Achieve:</strong></p>
+<ul>
+<li>Nunya Bunya: $15K MRR</li>
+<li>Power Portraits: $100K annual revenue</li>
+<li>Smoke-free for 12 months</li>
+<li>Lost 15-20kg (now 100-105kg)</li>
+<li>Half-marathon completed</li>
+<li>Tracy relationship thriving</li>
+</ul>
+<p><strong>Should Achieve:</strong></p>
+<ul>
+<li>2 short films complete</li>
+<li>2 short documentaries complete</li>
+<li>Feature Screenplay #1 complete</li>
+<li>YouTube: 5-10K subscribers</li>
+<li>25-50 videos published</li>
+<li>Photobook #1 published</li>
+</ul>
+<p><strong>Nice to Have:</strong></p>
+<ul>
+<li>Festival selections for shorts</li>
+<li>Feature Screenplay #2 started or complete</li>
+<li>YouTube: 10K+ subscribers (stretch goal)</li>
+<li>Lost 20kg+ (108kg or less)</li>
+</ul>
+<hr>
+<hr>
+<h1 id="year-2-scale-nov-2026-nov-2027">YEAR 2: SCALE (Nov 2026 - Nov 2027)</h1>
+<hr>
+<h2 id="goal-1-nunya-bunya-35k-mrr-by-november-2027">GOAL 1: NUNYA BUNYA - $35K MRR BY NOVEMBER 2027</h2>
+<h3 id="subgoal-11-scale-from-15k-to-25k-mrr">SUBGOAL 1.1: Scale from $15K to $25K MRR</h3>
+<p><strong>Deadline:</strong> March 31, 2027</p>
+<h4 id="milestone-111-hire-contractors-4-5">Milestone 1.1.1: Hire Contractors 4-5</h4>
+<p><strong>Deadline:</strong> December 31, 2026</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Write job descriptions for video editor and graphic designer</li>
+<li><span class="cb cb-empty">&#9744;</span> Post jobs on Upwork/Fiverr/OnlineJobs.ph</li>
+<li><span class="cb cb-empty">&#9744;</span> Review 30+ applications</li>
+<li><span class="cb cb-empty">&#9744;</span> Interview 8-10 candidates</li>
+<li><span class="cb cb-empty">&#9744;</span> Hire video editor ($800-1200/month) and graphic designer ($600-1000/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create training materials, onboard, assign first projects</li>
+<li><span class="cb cb-empty">&#9744;</span> Review work and document feedback/revision process</li>
+</ul>
+<h4 id="milestone-112-advanced-service-packages-created">Milestone 1.1.2: Advanced Service Packages Created</h4>
+<p><strong>Deadline:</strong> January 15, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Design Premium Video Package ($4K-6K/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Design Brand Strategy Package ($3K-5K/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Design E-commerce Marketing Package ($3K-5K/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create package comparison sheet, sales deck, case studies, ROI calculator</li>
+<li><span class="cb cb-empty">&#9744;</span> Price test with 2-3 existing clients</li>
+</ul>
+<h4 id="milestone-113-clients-13-18-signed-20k-mrr">Milestone 1.1.3: Clients 13-18 Signed ($20K MRR)</h4>
+<p><strong>Deadline:</strong> February 28, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Build list of 100 potential clients (enterprise/larger businesses)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create industry-specific pitch templates (3 industries)</li>
+<li><span class="cb cb-empty">&#9744;</span> Send 300 outreach messages (Dec-Feb, 100/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Run 20+ discovery calls</li>
+<li><span class="cb cb-empty">&#9744;</span> Close clients #13-18</li>
+<li><span class="cb cb-empty">&#9744;</span> Achieve $20K MRR</li>
+</ul>
+<h4 id="milestone-114-25k-mrr-achieved">Milestone 1.1.4: $25K MRR Achieved</h4>
+<p><strong>Deadline:</strong> March 31, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Send 100 outreach messages in March</li>
+<li><span class="cb cb-empty">&#9744;</span> Upsell 2-3 existing clients to premium packages</li>
+<li><span class="cb cb-empty">&#9744;</span> Close clients #19-20</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit $25K MRR milestone</li>
+</ul>
+<hr>
+<h3 id="subgoal-12-scale-from-25k-to-35k-mrr">SUBGOAL 1.2: Scale from $25K to $35K MRR</h3>
+<p><strong>Deadline:</strong> November 30, 2027</p>
+<h4 id="milestone-121-team-expansion-to-8-10-people">Milestone 1.2.1: Team Expansion to 8-10 People</h4>
+<p><strong>Deadline:</strong> June 30, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Hire copywriter #2, social media manager VA, account manager/coordinator</li>
+<li><span class="cb cb-empty">&#9744;</span> Create organizational chart and define roles</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up weekly team meeting and project management tool</li>
+<li><span class="cb cb-empty">&#9744;</span> Document escalation process</li>
+</ul>
+<h4 id="milestone-122-operations-amp-systems-solidified">Milestone 1.2.2: Operations &amp; Systems Solidified</h4>
+<p><strong>Deadline:</strong> July 31, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create operations manual (50-100 pages)</li>
+<li><span class="cb cb-empty">&#9744;</span> Document all client workflows and quality control checklist</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up monthly client reporting automation</li>
+<li><span class="cb cb-empty">&#9744;</span> Implement time tracking, financial dashboard</li>
+<li><span class="cb cb-empty">&#9744;</span> Document hiring process, create employee handbook</li>
+</ul>
+<h4 id="milestone-123-clients-21-28-signed">Milestone 1.2.3: Clients 21-28 Signed</h4>
+<p><strong>Deadline:</strong> October 31, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Implement referral program (10% off for referrer and referee)</li>
+<li><span class="cb cb-empty">&#9744;</span> Send 100 outreach messages per month (Apr-Oct)</li>
+<li><span class="cb cb-empty">&#9744;</span> Partner with 2-3 complementary service providers</li>
+<li><span class="cb cb-empty">&#9744;</span> Attend 2-3 Brisbane networking events</li>
+<li><span class="cb cb-empty">&#9744;</span> Close clients #21-28</li>
+</ul>
+<h4 id="milestone-124-35k-mrr-achieved">Milestone 1.2.4: $35K MRR Achieved</h4>
+<p><strong>Deadline:</strong> November 30, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Hit $35K MRR milestone</li>
+<li><span class="cb cb-empty">&#9744;</span> Annual revenue: $420K</li>
+<li><span class="cb cb-empty">&#9744;</span> Team running smoothly with minimal daily oversight</li>
+<li><span class="cb cb-empty">&#9744;</span> Working 35-40 hrs/week on business (down from 50-60)</li>
+</ul>
+<hr>
+<h2 id="goal-2-power-portraits-150k-annual-revenue">GOAL 2: POWER PORTRAITS - $150K ANNUAL REVENUE</h2>
+<h3 id="subgoal-21-scale-to-125k-sessions-201-300">SUBGOAL 2.1: Scale to $125K (Sessions 201-300)</h3>
+<p><strong>Deadline:</strong> May 31, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Increase prices by 10-20%, create VIP package ($1000-1500)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up email marketing with welcome + post-session sequences</li>
+<li><span class="cb cb-empty">&#9744;</span> Create Facebook/Instagram ad campaign ($500/month budget)</li>
+<li><span class="cb cb-empty">&#9744;</span> Complete sessions 201-300 (avg 12-25/month ramping up)</li>
+<li><span class="cb cb-empty">&#9744;</span> Revenue: ~$90K-120K YTD</li>
+</ul>
+<h3 id="subgoal-22-hit-150k-with-second-shooter-amp-systems">SUBGOAL 2.2: Hit $150K with Second Shooter &amp; Systems</h3>
+<p><strong>Deadline:</strong> November 30, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Hire &amp; train second photographer (commission-based or hourly)</li>
+<li><span class="cb cb-empty">&#9744;</span> Decide on studio space (optional Year 2)</li>
+<li><span class="cb cb-empty">&#9744;</span> Complete sessions 301-400 (split with second shooter)</li>
+<li><span class="cb cb-empty">&#9744;</span> Revenue: $150K annual achieved!</li>
+</ul>
+<hr>
+<h2 id="goal-3-feature-film-1-pre-to-post-to-festivals">GOAL 3: FEATURE FILM #1 - PRE TO POST TO FESTIVALS</h2>
+<h3 id="subgoal-31-pre-production">SUBGOAL 3.1: Pre-Production</h3>
+<p><strong>Deadline:</strong> February 28, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Script finalized &amp; budgeted ($30K-80K)</li>
+<li><span class="cb cb-empty">&#9744;</span> Apply for film grants, pitch investors, secure $30K minimum</li>
+<li><span class="cb cb-empty">&#9744;</span> Key creative team assembled (DP, PD, sound, AC, gaffer)</li>
+<li><span class="cb cb-empty">&#9744;</span> Casting complete (leads + supporting, table read, rehearsals)</li>
+<li><span class="cb cb-empty">&#9744;</span> Locations &amp; crew locked (12-20 people)</li>
+<li><span class="cb cb-empty">&#9744;</span> Detailed shot list (200-400 shots), shooting schedule (15-25 days)</li>
+<li><span class="cb cb-empty">&#9744;</span> Equipment, insurance, craft services all booked</li>
+</ul>
+<h3 id="subgoal-32-principal-photography">SUBGOAL 3.2: Principal Photography</h3>
+<p><strong>Deadline:</strong> April 30, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> 4 weeks of shooting (Days 1-25)</li>
+<li><span class="cb cb-empty">&#9744;</span> Back up footage daily, review dailies</li>
+<li><span class="cb cb-empty">&#9744;</span> Pickups if needed (1-2 days)</li>
+<li><span class="cb cb-empty">&#9744;</span> Wrap party!</li>
+</ul>
+<h3 id="subgoal-33-post-production">SUBGOAL 3.3: Post-Production</h3>
+<p><strong>Deadline:</strong> September 30, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Assembly edit and rough cut (by June 15)</li>
+<li><span class="cb cb-empty">&#9744;</span> Fine cut and picture lock (by July 31)</li>
+<li><span class="cb cb-empty">&#9744;</span> Sound design &amp; mix (by August 31)</li>
+<li><span class="cb cb-empty">&#9744;</span> Color grading &amp; VFX (by September 15)</li>
+<li><span class="cb cb-empty">&#9744;</span> Delivery &amp; festival package (by September 30)</li>
+<li><span class="cb cb-empty">&#9744;</span> Feature Film #1 COMPLETE!</li>
+</ul>
+<h3 id="subgoal-34-festival-strategy-amp-submissions">SUBGOAL 3.4: Festival Strategy &amp; Submissions</h3>
+<p><strong>Deadline:</strong> November 30, 2027</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Research 50+ festivals, create submission calendar</li>
+<li><span class="cb cb-empty">&#9744;</span> First wave: Sundance, SXSW, Tribeca, Australian fests (Oct)</li>
+<li><span class="cb cb-empty">&#9744;</span> Second wave: 10-15 more festivals (Nov)</li>
+<li><span class="cb cb-empty">&#9744;</span> Total: 25-35 festival submissions</li>
+</ul>
+<hr>
+<h2 id="goal-4-feature-screenplay-2">GOAL 4: FEATURE SCREENPLAY #2</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Concept development (Dec 2026)</li>
+<li><span class="cb cb-empty">&#9744;</span> Beat sheet &amp; outline (Jan 2027)</li>
+<li><span class="cb cb-empty">&#9744;</span> First draft Acts 1-3 (Mar-May 2027)</li>
+<li><span class="cb cb-empty">&#9744;</span> Second draft (Jul 2027)</li>
+<li><span class="cb cb-empty">&#9744;</span> Third draft &amp; feedback, Screenplay #2 COMPLETE (Aug 2027)</li>
+</ul>
+<hr>
+<h2 id="goal-5-feature-screenplay-3">GOAL 5: FEATURE SCREENPLAY #3</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Concept &amp; outline (Jul-Aug 2027)</li>
+<li><span class="cb cb-empty">&#9744;</span> First draft Acts 1-3 (Sep-Nov 2027)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set aside for revision in Year 3</li>
+</ul>
+<hr>
+<h2 id="goal-6-screenplay-competition-submissions">GOAL 6: SCREENPLAY COMPETITION SUBMISSIONS</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Polish all 3 screenplays</li>
+<li><span class="cb cb-empty">&#9744;</span> Budget $1,500-2,500 for competition fees</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit Screenplay #1 to 5 major competitions</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit Screenplay #2 to 5 major competitions</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit Screenplay #3 to 3-5 competitions</li>
+<li><span class="cb cb-empty">&#9744;</span> Target: Nicholl, PAGE, Austin, ScreenCraft, BlueCat, Final Draft, TrackingB, Script Pipeline, AWG</li>
+</ul>
+<hr>
+<h2 id="goal-7-podcast-season-1-12-episodes">GOAL 7: PODCAST SEASON 1 (12 EPISODES)</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Podcast planning, technical setup, cover art, recording setup (Dec 2026)</li>
+<li><span class="cb cb-empty">&#9744;</span> Episodes 1-3 recorded, edited, published (Jan 2027)</li>
+<li><span class="cb cb-empty">&#9744;</span> Episodes 4-8 published (Feb-May 2027)</li>
+<li><span class="cb cb-empty">&#9744;</span> Episodes 9-12, Season 1 complete (Jun-Aug 2027)</li>
+<li><span class="cb cb-empty">&#9744;</span> Monetization exploration (sponsorships, affiliates, Patreon)</li>
+</ul>
+<hr>
+<h2 id="goal-8-youtube-25-50k-subscribers">GOAL 8: YOUTUBE - 25-50K SUBSCRIBERS</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Content strategy refinement based on Year 1 analytics</li>
+<li><span class="cb cb-empty">&#9744;</span> Videos 51-100 published (weekly, Dec 2026 - Aug 2027)</li>
+<li><span class="cb cb-empty">&#9744;</span> Behind-the-scenes Feature Film #1 content (10-15 videos)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit 25K subscribers (by Aug 2027)</li>
+<li><span class="cb cb-empty">&#9744;</span> Push toward 50K with collaborations, Shorts, community posts</li>
+<li><span class="cb cb-empty">&#9744;</span> Revenue: $1,000-3,000/month from ads</li>
+</ul>
+<hr>
+<h2 id="goal-9-photography-project-2">GOAL 9: PHOTOGRAPHY PROJECT #2</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Choose project theme from Year 2 sessions</li>
+<li><span class="cb cb-empty">&#9744;</span> Curate 60-80 final images</li>
+<li><span class="cb cb-empty">&#9744;</span> Gallery exhibition planned or photobook #2 started</li>
+</ul>
+<hr>
+<h2 id="goal-10-health-lose-15kg-more-marathon-complete">GOAL 10: HEALTH - LOSE 15KG MORE, MARATHON COMPLETE</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Continue weight loss: 105kg &gt; 85-90kg</li>
+<li><span class="cb cb-empty">&#9744;</span> Marathon training (16-20 weeks) and MARATHON COMPLETE</li>
+<li><span class="cb cb-empty">&#9744;</span> Try competitive sports (pickleball/racquetball)</li>
+<li><span class="cb cb-empty">&#9744;</span> Enter first tournament</li>
+<li><span class="cb cb-empty">&#9744;</span> Smoke-free for 2 years</li>
+</ul>
+<hr>
+<h2 id="goal-11-adhd-amp-mental-health-maintenance">GOAL 11: ADHD &amp; MENTAL HEALTH - MAINTENANCE</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Quarterly medication reviews</li>
+<li><span class="cb cb-empty">&#9744;</span> Therapy continues (26-52 sessions)</li>
+<li><span class="cb cb-empty">&#9744;</span> Daily &amp; weekly routines solidified</li>
+<li><span class="cb cb-empty">&#9744;</span> Systems automated (bills, savings, scheduling, reporting)</li>
+</ul>
+<hr>
+<h2 id="goal-12-relationship-quality-time-with-tracy">GOAL 12: RELATIONSHIP - QUALITY TIME WITH TRACY</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Weekly date night (no work talk)</li>
+<li><span class="cb cb-empty">&#9744;</span> Monthly adventure (day trips, experiences)</li>
+<li><span class="cb cb-empty">&#9744;</span> Work boundaries: No work after 7pm weeknights, no work Sundays</li>
+<li><span class="cb cb-empty">&#9744;</span> Monthly check-ins on relationship health</li>
+</ul>
+<hr>
+<h2 id="year-2-critical-success-metrics-nov-30-2027">YEAR 2 CRITICAL SUCCESS METRICS (NOV 30, 2027)</h2>
+<p><strong>Must Achieve:</strong></p>
+<ul>
+<li>Nunya Bunya: $35K MRR</li>
+<li>Power Portraits: $150K annual revenue</li>
+<li>Feature Film #1: Complete and submitted to 25+ festivals</li>
+<li>Smoke-free for 2 years</li>
+<li>Weight: 85-90kg (30-35kg total loss)</li>
+<li>Marathon completed</li>
+<li>Tracy relationship thriving</li>
+</ul>
+<p><strong>Should Achieve:</strong></p>
+<ul>
+<li>Feature Screenplay #2 complete</li>
+<li>Feature Screenplay #3 complete (at least first draft)</li>
+<li>All 3 screenplays submitted to competitions</li>
+<li>Podcast Season 1 complete (12 episodes)</li>
+<li>YouTube: 25-50K subscribers</li>
+<li>100+ videos published (cumulative)</li>
+<li>Photography Project #2 complete</li>
+</ul>
+<p><strong>Nice to Have:</strong></p>
+<ul>
+<li>Festival acceptance for Feature Film #1</li>
+<li>YouTube: 50K+ subscribers</li>
+<li>Podcast Season 2 started</li>
+<li>Screenplay competition placement</li>
+<li>Weight: 85kg or less</li>
+</ul>
+<hr>
+<hr>
+<h1 id="year-3-breakthrough-nov-2027-nov-2028">YEAR 3: BREAKTHROUGH (Nov 2027 - Nov 2028)</h1>
+<hr>
+<h2 id="goal-1-nunya-bunya-60k-mrr-by-november-2028">GOAL 1: NUNYA BUNYA - $60K MRR BY NOVEMBER 2028</h2>
+<h3 id="subgoal-11-scale-from-35k-to-45k-mrr">SUBGOAL 1.1: Scale from $35K to $45K MRR</h3>
+<p><strong>Deadline:</strong> March 31, 2028</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Hire operations manager ($50K-70K annual) to run day-to-day</li>
+<li><span class="cb cb-empty">&#9744;</span> 4-6 week onboarding: shadow, take over standups, client check-ins, project management</li>
+<li><span class="cb cb-empty">&#9744;</span> Design premium packages: &quot;Executive Marketing&quot; ($8K-12K/month), &quot;Growth Accelerator&quot; ($6K-10K/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Focus outreach on larger businesses (&gt;$1M revenue)</li>
+<li><span class="cb cb-empty">&#9744;</span> Close clients #29-36</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit $45K MRR</li>
+</ul>
+<h3 id="subgoal-12-scale-from-45k-to-60k-mrr">SUBGOAL 1.2: Scale from $45K to $60K MRR</h3>
+<p><strong>Deadline:</strong> November 30, 2028</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Team expansion to 12-15 people (senior video producer, copywriter #2, ads specialist, client success manager)</li>
+<li><span class="cb cb-empty">&#9744;</span> Business operating without you (test: 2-week vacation)</li>
+<li><span class="cb cb-empty">&#9744;</span> Strategic partnerships &amp; referrals (5-10 partners, VIP referral program)</li>
+<li><span class="cb cb-empty">&#9744;</span> Close clients #37-45</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit $60K MRR! Annual revenue: $720K</li>
+<li><span class="cb cb-empty">&#9744;</span> Take-home: $200K-300K (30-40% margins)</li>
+</ul>
+<hr>
+<h2 id="goal-2-power-portraits-180k-annual-revenue-studio">GOAL 2: POWER PORTRAITS - $180K ANNUAL REVENUE + STUDIO</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Open studio space ($800-1500/month rental, build-out, launch event)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hire &amp; train studio manager ($40K-50K annual)</li>
+<li><span class="cb cb-empty">&#9744;</span> Sessions 401-550 complete (mix of on-location and studio)</li>
+<li><span class="cb cb-empty">&#9744;</span> Passive income streams (prints, studio rental, workshops, online course, presets)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit $180K annual revenue</li>
+</ul>
+<hr>
+<h2 id="goal-3-feature-film-1-festival-circuit-amp-distribution">GOAL 3: FEATURE FILM #1 - FESTIVAL CIRCUIT &amp; DISTRIBUTION</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Track festival acceptances/rejections from Year 2 submissions</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit to 15-20 more festivals</li>
+<li><span class="cb cb-empty">&#9744;</span> Attend 2-4 festival screenings, Q&amp;A, network</li>
+<li><span class="cb cb-empty">&#9744;</span> Distribution outreach (20-30 companies)</li>
+<li><span class="cb cb-empty">&#9744;</span> Secure distribution deal or plan self-release</li>
+</ul>
+<hr>
+<h2 id="goal-4-feature-documentary-1-production">GOAL 4: FEATURE DOCUMENTARY #1 - PRODUCTION</h2>
+<h3 id="pre-production-by-feb-2028">Pre-Production (by Feb 2028)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Subject &amp; story locked, treatment written</li>
+<li><span class="cb cb-empty">&#9744;</span> Funding secured ($20K minimum)</li>
+<li><span class="cb cb-empty">&#9744;</span> Production planning (interviews, locations, crew, equipment)</li>
+</ul>
+<h3 id="production-by-jun-2028">Production (by Jun 2028)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Film primary subject (5-10 sessions, 20-40 hours verite)</li>
+<li><span class="cb cb-empty">&#9744;</span> Film 8-15 interviews (15-25 hours)</li>
+<li><span class="cb cb-empty">&#9744;</span> B-roll &amp; archival (10-20 hours)</li>
+</ul>
+<h3 id="post-production-begins-by-nov-2028">Post-Production Begins (by Nov 2028)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Organize footage (40-80 hours total), transcribe interviews</li>
+<li><span class="cb cb-empty">&#9744;</span> Assembly edit (90-120 min)</li>
+<li><span class="cb cb-empty">&#9744;</span> Rough cut (75-90 min)</li>
+<li><span class="cb cb-empty">&#9744;</span> Documentary continues into Year 4</li>
+</ul>
+<hr>
+<h2 id="goal-5-feature-screenplay-4">GOAL 5: FEATURE SCREENPLAY #4</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Polish Screenplay #3 (revision from Year 2 first draft)</li>
+<li><span class="cb cb-empty">&#9744;</span> Screenplay #4: Concept, outline, first draft, revision, polish</li>
+<li><span class="cb cb-empty">&#9744;</span> ALL 4 FEATURE SCREENPLAYS DONE</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit all 4 to competitions (20-30 submissions, $2K-3K budget)</li>
+</ul>
+<hr>
+<h2 id="goal-6-podcast-season-2-12-more-episodes-24-total">GOAL 6: PODCAST SEASON 2 (12 MORE EPISODES = 24 TOTAL)</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Season 1 review, plan Season 2</li>
+<li><span class="cb cb-empty">&#9744;</span> Episodes 13-24 published (Jan-Aug 2028)</li>
+<li><span class="cb cb-empty">&#9744;</span> Track downloads (goal: 3K-5K per episode)</li>
+<li><span class="cb cb-empty">&#9744;</span> Secure 1-3 sponsors ($500-2000 per episode)</li>
+</ul>
+<hr>
+<h2 id="goal-7-youtube-75-100k-subscribers">GOAL 7: YOUTUBE - 75-100K SUBSCRIBERS</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Documentary production content (15-20 videos)</li>
+<li><span class="cb cb-empty">&#9744;</span> Videos 126-200 published (weekly)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit 75K subscribers</li>
+<li><span class="cb cb-empty">&#9744;</span> Push toward 100K (Silver Play Button!)</li>
+<li><span class="cb cb-empty">&#9744;</span> Revenue: $2K-5K/month from ads</li>
+</ul>
+<hr>
+<h2 id="goal-8-photography-project-3-amp-photobook-2">GOAL 8: PHOTOGRAPHY PROJECT #3 &amp; PHOTOBOOK #2</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Curate Project #3 theme from Year 3 sessions</li>
+<li><span class="cb cb-empty">&#9744;</span> Design and publish Photobook #2 (60-80 images)</li>
+<li><span class="cb cb-empty">&#9744;</span> Major exhibition (gallery or independent popup)</li>
+</ul>
+<hr>
+<h2 id="goal-9-get-repped-secure-commercial-directing-representation">GOAL 9: GET REPPED - SECURE COMMERCIAL DIRECTING REPRESENTATION</h2>
+<h3 id="prepare-representation-package-by-jun-2028">Prepare Representation Package (by Jun 2028)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Build strong portfolio (festival selections, commercial work from NB clients)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create commercial director reel (2-3 min) + feature film reel (5-7 min)</li>
+<li><span class="cb cb-empty">&#9744;</span> Update IMDb, build professional website</li>
+<li><span class="cb cb-empty">&#9744;</span> Pitch materials: director&#x27;s statement, bio, one-sheet, digital press kit</li>
+<li><span class="cb cb-empty">&#9744;</span> YouTube audience (75K+) as proof of audience-building skills</li>
+</ul>
+<h3 id="target-commercial-representation-by-sep-2028">Target Commercial Representation (by Sep 2028)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Research commercial production companies (Australian + international)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create target list (20-30 companies)</li>
+<li><span class="cb cb-empty">&#9744;</span> Query campaign emphasizing: marketing agency owner + feature filmmaker</li>
+<li><span class="cb cb-empty">&#9744;</span> Send queries, take meetings</li>
+</ul>
+<h3 id="sign-with-commercial-rep-by-nov-2028">Sign with Commercial Rep (by Nov 2028)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Meet with 5-10 potential reps</li>
+<li><span class="cb cb-empty">&#9744;</span> Discuss terms (commission typically 25-30%)</li>
+<li><span class="cb cb-empty">&#9744;</span> Sign representation agreement</li>
+<li><span class="cb cb-empty">&#9744;</span> YOU&#x27;RE REPPED FOR COMMERCIAL WORK!</li>
+</ul>
+<hr>
+<h2 id="goal-10-health-reach-82kg-improve-marathon-time-tournament-placement">GOAL 10: HEALTH - REACH 82KG, IMPROVE MARATHON TIME, TOURNAMENT PLACEMENT</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Lose final 3-8kg (90kg &gt; 82kg)</li>
+<li><span class="cb cb-empty">&#9744;</span> Maintain 82kg &amp; build muscle</li>
+<li><span class="cb cb-empty">&#9744;</span> Train for and complete second marathon (goal: sub-4 hours)</li>
+<li><span class="cb cb-empty">&#9744;</span> Regular competitive sports training, enter 3-5 tournaments</li>
+<li><span class="cb cb-empty">&#9744;</span> Goal: Place in top 50% at tournament</li>
+</ul>
+<hr>
+<h2 id="goal-11-adhd-amp-mental-health-stability">GOAL 11: ADHD &amp; MENTAL HEALTH - STABILITY</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Quarterly psychiatrist appointments</li>
+<li><span class="cb cb-empty">&#9744;</span> Bi-weekly therapy (26 sessions)</li>
+<li><span class="cb cb-empty">&#9744;</span> Routines automatic, life runs with minimal friction</li>
+</ul>
+<hr>
+<h2 id="goal-12-relationship-with-tracy">GOAL 12: RELATIONSHIP WITH TRACY</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> 52 weekly date nights, 12 monthly adventures</li>
+<li><span class="cb cb-empty">&#9744;</span> Quarterly relationship check-ins</li>
+</ul>
+<hr>
+<h2 id="year-3-critical-success-metrics-nov-30-2028">YEAR 3 CRITICAL SUCCESS METRICS (NOV 30, 2028)</h2>
+<p><strong>Must Achieve:</strong></p>
+<ul>
+<li>Nunya Bunya: $60K MRR ($720K annual)</li>
+<li>Power Portraits: $180K annual + studio operational</li>
+<li>Business running without you (25-30 hrs/week max)</li>
+<li>Feature Documentary #1: Production complete</li>
+<li>GET REPPED: Commercial directing representation secured</li>
+<li>Smoke-free for 3 years</li>
+<li>Weight: 82kg achieved and maintained</li>
+<li>Tracy relationship thriving</li>
+</ul>
+<p><strong>Should Achieve:</strong></p>
+<ul>
+<li>Feature Film #1: 5+ festival acceptances, distribution secured</li>
+<li>4 feature screenplays complete, all submitted to competitions</li>
+<li>Podcast Season 2 complete (24 total episodes)</li>
+<li>YouTube: 75-100K subscribers, 200+ videos</li>
+<li>Photobook #2 published, photography exhibition</li>
+<li>Second marathon: improved time</li>
+</ul>
+<hr>
+<hr>
+<h1 id="year-4-mastery-nov-2028-nov-2029">YEAR 4: MASTERY (Nov 2028 - Nov 2029)</h1>
+<hr>
+<h2 id="goal-1-nunya-bunya-85k-mrr-by-november-2029">GOAL 1: NUNYA BUNYA - $85K MRR BY NOVEMBER 2029</h2>
+<h3 id="subgoal-11-scale-from-60k-to-70k-mrr">SUBGOAL 1.1: Scale from $60K to $70K MRR</h3>
+<p><strong>Deadline:</strong> March 31, 2029</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create &quot;Enterprise Marketing Package&quot; ($15K-20K/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Upsell 3-5 existing clients to higher tiers</li>
+<li><span class="cb cb-empty">&#9744;</span> Close clients #46-50 (high-value, $5K+ MRR each)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit $70K MRR</li>
+</ul>
+<h3 id="subgoal-12-scale-from-70k-to-85k-mrr">SUBGOAL 1.2: Scale from $70K to $85K MRR</h3>
+<p><strong>Deadline:</strong> November 30, 2029</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Team optimization: 15-18 people, promote top performers</li>
+<li><span class="cb cb-empty">&#9744;</span> Hire senior account director ($60K-80K annual)</li>
+<li><span class="cb cb-empty">&#9744;</span> Productized service offerings (&quot;Marketing-in-a-Box&quot;), improve margins to 40-45%</li>
+<li><span class="cb cb-empty">&#9744;</span> Close clients #51-55</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit $85K MRR! Annual revenue: $1.02M</li>
+<li><span class="cb cb-empty">&#9744;</span> $100K MRR within reach in Year 5</li>
+</ul>
+<h3 id="subgoal-13-business-optimization-amp-exit-readiness">SUBGOAL 1.3: Business Optimization &amp; Exit-Readiness</h3>
+<p><strong>Deadline:</strong> November 30, 2029</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Business runs completely without you (test: 4-week sabbatical)</li>
+<li><span class="cb cb-empty">&#9744;</span> Financial optimization: 40-45% margins, $300K-400K owner draw</li>
+<li><span class="cb cb-empty">&#9744;</span> Business valuation (if considering exit)</li>
+<li><span class="cb cb-empty">&#9744;</span> Your hours: 20-25/week (and optional)</li>
+</ul>
+<hr>
+<h2 id="goal-2-power-portraits-200k-annual-revenue">GOAL 2: POWER PORTRAITS - $200K+ ANNUAL REVENUE</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Studio manager running 90%+ of operations</li>
+<li><span class="cb cb-empty">&#9744;</span> Premium experiences: &quot;Luxury Portrait&quot; ($2K-3K), &quot;Executive Branding&quot; ($2.5K-4K)</li>
+<li><span class="cb cb-empty">&#9744;</span> Sessions 551-650 complete (you shooting 30-40%, second shooter 60-70%)</li>
+<li><span class="cb cb-empty">&#9744;</span> Ancillary revenue: prints ($20K-30K), studio rental ($10K-15K), workshops ($10K-15K), digital ($5K-10K)</li>
+<li><span class="cb cb-empty">&#9744;</span> Total revenue: $200K-250K</li>
+<li><span class="cb cb-empty">&#9744;</span> Strategic decision: Keep growing vs maintain vs sell</li>
+</ul>
+<hr>
+<h2 id="goal-3-feature-film-2-pre-production-to-production">GOAL 3: FEATURE FILM #2 - PRE-PRODUCTION TO PRODUCTION</h2>
+<h3 id="pre-production-by-mar-2029">Pre-Production (by Mar 2029)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Select script from 4 screenplays (based on feedback, rep advice, budget)</li>
+<li><span class="cb cb-empty">&#9744;</span> Funding secured ($50K-150K)</li>
+<li><span class="cb cb-empty">&#9744;</span> Key creative team assembled (20-30 crew)</li>
+<li><span class="cb cb-empty">&#9744;</span> Casting complete, rehearsals done</li>
+<li><span class="cb cb-empty">&#9744;</span> Locations, logistics, equipment locked</li>
+</ul>
+<h3 id="principal-photography-by-may-2029">Principal Photography (by May 2029)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> 4-5 weeks of shooting (Days 1-30)</li>
+<li><span class="cb cb-empty">&#9744;</span> Pickups if needed</li>
+<li><span class="cb cb-empty">&#9744;</span> Principal photography complete!</li>
+</ul>
+<h3 id="post-production-begins-by-nov-2029">Post-Production Begins (by Nov 2029)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Assembly edit and rough cut (by Jul)</li>
+<li><span class="cb cb-empty">&#9744;</span> Fine cut in progress (continues into Year 5)</li>
+</ul>
+<hr>
+<h2 id="goal-4-feature-documentary-2-post-production-to-festivals">GOAL 4: FEATURE DOCUMENTARY #2 - POST-PRODUCTION TO FESTIVALS</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Complete post-production: fine cut, picture lock, sound design &amp; mix, color grading</li>
+<li><span class="cb cb-empty">&#9744;</span> Feature Documentary #2 COMPLETE</li>
+<li><span class="cb cb-empty">&#9744;</span> Create festival package (poster, trailer, synopsis, press kit)</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit to 30-40 festivals ($2K-3K budget)</li>
+</ul>
+<hr>
+<h2 id="goal-5-commercial-directing-with-rep">GOAL 5: COMMERCIAL DIRECTING WITH REP</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Build commercial director reel from NB client work (2-3 min, multiple versions)</li>
+<li><span class="cb cb-empty">&#9744;</span> Build commercial director portfolio on website</li>
+<li><span class="cb cb-empty">&#9744;</span> Rep submits you for 15-25 jobs, write treatments, pitch meetings</li>
+<li><span class="cb cb-empty">&#9744;</span> Book 2-4 commercial jobs ($10K-30K+ budget each)</li>
+<li><span class="cb cb-empty">&#9744;</span> Potential income: $30K-100K from commercial work</li>
+<li><span class="cb cb-empty">&#9744;</span> Build reputation: easy to work with, creative, delivers</li>
+</ul>
+<hr>
+<h2 id="goal-6-podcast-season-3-complete-3-seasons-goal">GOAL 6: PODCAST SEASON 3 - COMPLETE 3 SEASONS GOAL</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Episodes 25-36 published (Dec 2028 - May 2029)</li>
+<li><span class="cb cb-empty">&#9744;</span> 3 SEASONS, 36 EPISODES - GOAL ACHIEVED</li>
+<li><span class="cb cb-empty">&#9744;</span> Evaluate: Continue with Season 4+ or complete at 3 seasons</li>
+</ul>
+<hr>
+<h2 id="goal-7-youtube-150k-subscribers">GOAL 7: YOUTUBE - 150K SUBSCRIBERS</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Feature Film #2 production content (15-20 videos)</li>
+<li><span class="cb cb-empty">&#9744;</span> Videos 201-275 published (weekly)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit 125K subscribers (by Aug 2029)</li>
+<li><span class="cb cb-empty">&#9744;</span> Push toward 150K</li>
+<li><span class="cb cb-empty">&#9744;</span> Revenue: $4K-8K/month from ads</li>
+</ul>
+<hr>
+<h2 id="goal-8-photography-exhibitions-amp-potential-book-3">GOAL 8: PHOTOGRAPHY - EXHIBITIONS &amp; POTENTIAL BOOK #3</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Sessions 651-700+ (mostly second photographer)</li>
+<li><span class="cb cb-empty">&#9744;</span> Major exhibition (apply to prestigious galleries, 40-60 prints)</li>
+<li><span class="cb cb-empty">&#9744;</span> Opening night (200-300 attendees), sell prints ($10K-30K potential)</li>
+<li><span class="cb cb-empty">&#9744;</span> Consider Photobook #3</li>
+</ul>
+<hr>
+<h2 id="goal-9-health-maintain-80kg-win-tournament">GOAL 9: HEALTH - MAINTAIN 80KG, WIN TOURNAMENT</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Weight maintenance: 80-82kg all year</li>
+<li><span class="cb cb-empty">&#9744;</span> Competitive sports: 2-3x per week, enter 6-8 tournaments</li>
+<li><span class="cb cb-empty">&#9744;</span> WIN FIRST TOURNAMENT (or place top 3)</li>
+<li><span class="cb cb-empty">&#9744;</span> Optional: Third marathon</li>
+</ul>
+<hr>
+<h2 id="goal-10-relationship-with-tracy">GOAL 10: RELATIONSHIP WITH TRACY</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> 52 weekly date nights, 12 monthly adventures</li>
+<li><span class="cb cb-empty">&#9744;</span> Quarterly relationship check-ins</li>
+<li><span class="cb cb-empty">&#9744;</span> Consider major life milestones (marriage, kids, living situation)</li>
+</ul>
+<hr>
+<h2 id="goal-11-adhd-amp-mental-health">GOAL 11: ADHD &amp; MENTAL HEALTH</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Quarterly psychiatrist check-ins</li>
+<li><span class="cb cb-empty">&#9744;</span> Therapy as needed</li>
+<li><span class="cb cb-empty">&#9744;</span> All routines automatic, ADHD managed through structure</li>
+</ul>
+<hr>
+<h2 id="goal-12-industry-networking-amp-commercial-relationships">GOAL 12: INDUSTRY NETWORKING &amp; COMMERCIAL RELATIONSHIPS</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Build relationships with agency producers and creative directors</li>
+<li><span class="cb cb-empty">&#9744;</span> Attend 2-3 commercial industry events</li>
+<li><span class="cb cb-empty">&#9744;</span> Attend 2-4 festival screenings for Documentary #2</li>
+<li><span class="cb cb-empty">&#9744;</span> Two careers now: commercial + narrative (both inform each other)</li>
+</ul>
+<hr>
+<h2 id="year-4-critical-success-metrics-nov-30-2029">YEAR 4 CRITICAL SUCCESS METRICS (NOV 30, 2029)</h2>
+<p><strong>Must Achieve:</strong></p>
+<ul>
+<li>Nunya Bunya: $85K MRR ($1.02M annual)</li>
+<li>Business runs without you (20-25 hrs/week)</li>
+<li>Power Portraits: $200K+ annual</li>
+<li>Feature Film #2: Production complete, in post</li>
+<li>Feature Documentary #2: Complete, submitted to festivals</li>
+<li>Podcast: 3 seasons complete (36 episodes)</li>
+<li>Smoke-free for 4 years</li>
+<li>Weight: 80-82kg maintained</li>
+<li>Tracy relationship thriving</li>
+</ul>
+<p><strong>Should Achieve:</strong></p>
+<ul>
+<li>2-4 commercial jobs booked ($30K-100K income)</li>
+<li>YouTube: 140-150K subscribers, 275+ videos</li>
+<li>Documentary #2: Festival acceptances</li>
+<li>Photography: Major exhibition</li>
+<li>Tournament win or top 3 placement</li>
+</ul>
+<hr>
+<hr>
+<h1 id="year-5-legacy-nov-2029-nov-2030">YEAR 5: LEGACY (Nov 2029 - Nov 2030)</h1>
+<hr>
+<h2 id="goal-1-nunya-bunya-100k-mrr-by-november-2030">GOAL 1: NUNYA BUNYA - $100K MRR BY NOVEMBER 2030</h2>
+<h3 id="subgoal-11-scale-from-85k-to-95k-mrr">SUBGOAL 1.1: Scale from $85K to $95K MRR</h3>
+<p><strong>Deadline:</strong> May 31, 2030</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create &quot;Enterprise Suite&quot; package ($18K-25K/month)</li>
+<li><span class="cb cb-empty">&#9744;</span> Target companies with $10M+ annual revenue</li>
+<li><span class="cb cb-empty">&#9744;</span> Close 1-2 enterprise clients</li>
+<li><span class="cb cb-empty">&#9744;</span> Document: &quot;How to Run Nunya Bunya Without Ben&quot;</li>
+<li><span class="cb cb-empty">&#9744;</span> Test: 6-8 week sabbatical, business thrives</li>
+<li><span class="cb cb-empty">&#9744;</span> Close clients #56-60</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit $95K MRR</li>
+</ul>
+<h3 id="subgoal-12-hit-100k-mrr-goal-achieved">SUBGOAL 1.2: Hit $100K MRR - GOAL ACHIEVED</h3>
+<p><strong>Deadline:</strong> November 30, 2030</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Upsell 2-3 existing clients to enterprise tier</li>
+<li><span class="cb cb-empty">&#9744;</span> Close 1-2 more premium clients</li>
+<li><span class="cb cb-empty">&#9744;</span> HIT $100K MRR! Annual revenue: $1.2 MILLION</li>
+<li><span class="cb cb-empty">&#9744;</span> Celebrate (party, dream vacation with Tracy)</li>
+<li><span class="cb cb-empty">&#9744;</span> Reflect on 5-year journey ($1K &gt; $100K MRR)</li>
+</ul>
+<h3 id="subgoal-13-strategic-decision-for-future">SUBGOAL 1.3: Strategic Decision for Future</h3>
+<p><strong>Deadline:</strong> November 30, 2030</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Option A: Maintain at $100K (lifestyle business)</li>
+<li><span class="cb cb-empty">&#9744;</span> Option B: Scale to $150K-200K MRR (build to sell)</li>
+<li><span class="cb cb-empty">&#9744;</span> Option C: Sell business ($3M-5M potential valuation)</li>
+<li><span class="cb cb-empty">&#9744;</span> Discuss with Tracy, financial advisor</li>
+<li><span class="cb cb-empty">&#9744;</span> Make strategic decision for Year 6+</li>
+</ul>
+<hr>
+<h2 id="goal-2-power-portraits-maintain-200k-or-strategic-exit">GOAL 2: POWER PORTRAITS - MAINTAIN $200K+ OR STRATEGIC EXIT</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> You shooting 10-20% of sessions (VIP only), 5-10 hrs/week</li>
+<li><span class="cb cb-empty">&#9744;</span> Revenue: $200K-250K maintained</li>
+<li><span class="cb cb-empty">&#9744;</span> Evaluate future: Keep as passive income ($80K-120K profit) vs scale vs sell ($400K-800K)</li>
+</ul>
+<hr>
+<h2 id="goal-3-feature-film-2-complete-amp-festival-circuit">GOAL 3: FEATURE FILM #2 - COMPLETE &amp; FESTIVAL CIRCUIT</h2>
+<h3 id="complete-post-production-by-mar-2030">Complete Post-Production (by Mar 2030)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Picture lock (by Jan)</li>
+<li><span class="cb cb-empty">&#9744;</span> Sound &amp; color (by Mar 15)</li>
+<li><span class="cb cb-empty">&#9744;</span> Delivery &amp; mastering</li>
+<li><span class="cb cb-empty">&#9744;</span> Feature Film #2 COMPLETE</li>
+</ul>
+<h3 id="festival-package-amp-strategy-by-apr-2030">Festival Package &amp; Strategy (by Apr 2030)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Professional poster, trailer, teaser, synopsis, press kit</li>
+</ul>
+<h3 id="festival-circuit-by-nov-2030">Festival Circuit (by Nov 2030)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Submit to 40-50 festivals</li>
+<li><span class="cb cb-empty">&#9744;</span> Attend 2-4 key screenings</li>
+<li><span class="cb cb-empty">&#9744;</span> Awards campaign if applicable</li>
+</ul>
+<hr>
+<h2 id="goal-4-feature-documentary-2-distribution-amp-impact">GOAL 4: FEATURE DOCUMENTARY #2 - DISTRIBUTION &amp; IMPACT</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Continue festival circuit from Year 4</li>
+<li><span class="cb cb-empty">&#9744;</span> Attend 3-5 festival screenings</li>
+<li><span class="cb cb-empty">&#9744;</span> Secure distribution deal (theatrical, streaming, or self-release)</li>
+<li><span class="cb cb-empty">&#9744;</span> Marketing campaign and release</li>
+<li><span class="cb cb-empty">&#9744;</span> Documentary released!</li>
+</ul>
+<hr>
+<h2 id="goal-5-commercial-directing-scale-to-5-10-jobs">GOAL 5: COMMERCIAL DIRECTING - SCALE TO 5-10 JOBS</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Rep submitting for 50-90 commercial jobs throughout year</li>
+<li><span class="cb cb-empty">&#9744;</span> Book 5-8 commercial jobs ($15K-80K+ per job)</li>
+<li><span class="cb cb-empty">&#9744;</span> Working with national/international brands</li>
+<li><span class="cb cb-empty">&#9744;</span> Total income from commercial work: $100K-300K (before commission)</li>
+<li><span class="cb cb-empty">&#9744;</span> After rep commission: $70K-210K take-home</li>
+<li><span class="cb cb-empty">&#9744;</span> Established commercial director</li>
+</ul>
+<hr>
+<h2 id="goal-6-youtube-200k-subscribers">GOAL 6: YOUTUBE - 200K+ SUBSCRIBERS</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Feature Film #2 release content (10-15 videos)</li>
+<li><span class="cb cb-empty">&#9744;</span> Videos 276-350 published (weekly)</li>
+<li><span class="cb cb-empty">&#9744;</span> &quot;5-Year Journey Complete&quot; documentary-style video</li>
+<li><span class="cb cb-empty">&#9744;</span> &quot;$1K to $100K MRR: How I Did It&quot;</li>
+<li><span class="cb cb-empty">&#9744;</span> Goal: 200K subscribers (realistic: 180-195K)</li>
+<li><span class="cb cb-empty">&#9744;</span> Revenue: $5K-10K/month from ads</li>
+<li><span class="cb cb-empty">&#9744;</span> 350+ total videos published</li>
+</ul>
+<hr>
+<h2 id="goal-7-consider-next-creative-project">GOAL 7: CONSIDER NEXT CREATIVE PROJECT</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Evaluate: Feature Film #3? Documentary #3? Limited series? Creative break?</li>
+<li><span class="cb cb-empty">&#9744;</span> Discuss with rep and Tracy</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin development if pursuing (screenplay, treatment, pilot)</li>
+</ul>
+<hr>
+<h2 id="goal-8-photography-photobook-3-or-retrospective">GOAL 8: PHOTOGRAPHY - PHOTOBOOK #3 OR RETROSPECTIVE</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Complete Photobook #3 if started in Year 4</li>
+<li><span class="cb cb-empty">&#9744;</span> Consider retrospective exhibition: &quot;Five Years&quot; (80-100 images)</li>
+<li><span class="cb cb-empty">&#9744;</span> Or step back from photography to focus on film</li>
+</ul>
+<hr>
+<h2 id="goal-9-health-maintain-80kg-compete-regularly">GOAL 9: HEALTH - MAINTAIN 80KG, COMPETE REGULARLY</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Maintain 80-82kg (second year at goal weight, permanent lifestyle)</li>
+<li><span class="cb cb-empty">&#9744;</span> Competitive sports: Win 2+ tournaments</li>
+<li><span class="cb cb-empty">&#9744;</span> Optional: Fourth marathon or new athletic challenge (triathlon? ultra?)</li>
+</ul>
+<hr>
+<h2 id="goal-10-relationship-amp-life-planning">GOAL 10: RELATIONSHIP &amp; LIFE PLANNING</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> 52 weekly date nights, 12 monthly adventures</li>
+<li><span class="cb cb-empty">&#9744;</span> Big vacation to celebrate $100K MRR</li>
+<li><span class="cb cb-empty">&#9744;</span> Discuss future: marriage, kids, where to live</li>
+<li><span class="cb cb-empty">&#9744;</span> What does the next chapter look like?</li>
+</ul>
+<hr>
+<h2 id="goal-11-adhd-amp-mental-health-thriving">GOAL 11: ADHD &amp; MENTAL HEALTH - THRIVING</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Quarterly psychiatrist check-ins</li>
+<li><span class="cb cb-empty">&#9744;</span> Therapy as needed</li>
+<li><span class="cb cb-empty">&#9744;</span> All systems automatic, ADHD fully managed</li>
+<li><span class="cb cb-empty">&#9744;</span> High productivity, low stress, life feels effortless</li>
+</ul>
+<hr>
+<h2 id="goal-12-financial-planning-amp-wealth-building">GOAL 12: FINANCIAL PLANNING &amp; WEALTH BUILDING</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Hire financial advisor</li>
+<li><span class="cb cb-empty">&#9744;</span> Net worth: $500K-1M+</li>
+<li><span class="cb cb-empty">&#9744;</span> Investment strategy, retirement planning, tax optimization, estate planning</li>
+<li><span class="cb cb-empty">&#9744;</span> Multiple income streams:</li>
+<li>Nunya Bunya: $300K-400K take-home</li>
+<li>Power Portraits: $80K-120K profit</li>
+<li>Commercial directing: $70K-210K</li>
+<li>YouTube: $60K-120K annually</li>
+<li>Film distribution royalties</li>
+<li>Passive income (courses, books)</li>
+<li><span class="cb cb-empty">&#9744;</span> Total annual income: $500K-850K+</li>
+</ul>
+<hr>
+<h2 id="year-5-critical-success-metrics-nov-30-2030">YEAR 5 CRITICAL SUCCESS METRICS (NOV 30, 2030)</h2>
+<p><strong>Must Achieve:</strong></p>
+<ul>
+<li>Nunya Bunya: $100K MRR ($1.2M annual) - GOAL ACHIEVED</li>
+<li>Business runs without you (15-20 hrs/week or less)</li>
+<li>Power Portraits: $200K+ maintained or sold</li>
+<li>Feature Film #2: Complete, on festival circuit</li>
+<li>Feature Documentary #2: Released with distribution</li>
+<li>Smoke-free for 5 YEARS</li>
+<li>Weight: 80-82kg maintained</li>
+<li>Tracy relationship thriving</li>
+<li>Financial freedom achieved</li>
+</ul>
+<p><strong>Should Achieve:</strong></p>
+<ul>
+<li>Commercial work: 5-8 jobs completed ($100K-300K income)</li>
+<li>YouTube: 180-200K subscribers, 350+ videos</li>
+<li>Feature Film #2: Festival acceptances and awards</li>
+<li>Documentary #2: Streaming or theatrical release</li>
+<li>Multiple tournament wins</li>
+<li>Photobook #3 published</li>
+<li>Net worth: $500K-1M+</li>
+</ul>
+<p><strong>Nice to Have:</strong></p>
+<ul>
+<li>Feature Film #2: Major festival win</li>
+<li>YouTube: 200K+ subscribers</li>
+<li>Commercial work: $250K+ income</li>
+<li>Screenplay option or sale</li>
+<li>Power Portraits sold for $500K-800K</li>
+<li>MRR above $100K</li>
+</ul>
+<hr>
+<h2 id="the-5-year-transformation">THE 5-YEAR TRANSFORMATION</h2>
+<p><strong>November 2025 (Start):</strong></p>
+<ul>
+<li>Weight: 120kg, smoking</li>
+<li>Business: $1K MRR</li>
+<li>Films: 0 completed</li>
+<li>YouTube: 0 subscribers</li>
+<li>Income: ~$50K/year</li>
+<li>Age: 34</li>
+<li>Status: Aspiring filmmaker with a dream</li>
+</ul>
+<p><strong>November 2030 (End):</strong></p>
+<ul>
+<li>Weight: 80kg, 5 years smoke-free (40kg lost)</li>
+<li>Business: $100K MRR ($1.2M annual)</li>
+<li>Films: 2 features + 2 feature docs + 4 shorts = 8 films</li>
+<li>Screenplays: 4 feature scripts written</li>
+<li>YouTube: 180-200K subscribers, 350+ videos</li>
+<li>Podcast: 3 seasons, 36 episodes</li>
+<li>Photography: 3 photobooks, multiple exhibitions</li>
+<li>Income: $500K-850K/year</li>
+<li>Age: 39</li>
+<li>Status: Established filmmaker with commercial representation and financial freedom</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">00-Ben HQ/Five Year Plan/5-YEAR-NB-ROADMAP.md</div>
+    </main>
+  </div>
+</body>
+</html>

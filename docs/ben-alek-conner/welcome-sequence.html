@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben Alek Conner -- Welcome Email Sequence (5 Emails) | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link active"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-alek-conner">Ben Alek Conner</a> &rsaquo;
+          Ben Alek Conner -- Welcome Email Sequence (5 Emails)
+        </div>
+        <h1 class="doc-title">Ben Alek Conner -- Welcome Email Sequence (5 Emails)</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#127908; Ben Alek Conner</span>
+          <span class="doc-path">06-Ben Alek Conner / 05-content / Email Sequences</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="ben-alek-conner-welcome-email-sequence-5-emails">Ben Alek Conner -- Welcome Email Sequence (5 Emails)</h1>
+<p><strong>Mautic Campaign:</strong> <code>bac-welcome-drip</code></p>
+<p><strong>Trigger:</strong> Contact submits Mautic form (Solopreneur Stack lead magnet download OR benalekconner.com newsletter/contact subscribe)</p>
+<p><strong>Segment:</strong> <code>bac-newsletter-subscribers</code></p>
+<p><strong>Tags applied on entry:</strong> <code>bac</code>, <code>welcome-sequence</code>, <code>solopreneur-stack</code></p>
+<hr>
+<h2 id="email-1-welcome-who-i-am-and-what-you-signed-up-for">Email 1: Welcome -- Who I Am and What You Signed Up For</h2>
+<p><strong>Send:</strong> Immediately on signup</p>
+<p><strong>Mautic email name:</strong> <code>bac-welcome-01-thanks</code></p>
+<p><strong>Subject:</strong> Hey -- thanks for signing up</p>
+<p><strong>Alt subject:</strong> You&#x27;re in. Here&#x27;s what happens next.</p>
+<p><strong>Preview text:</strong> Filmmaker. Agency founder. Dog walker. It makes sense, I promise.</p>
+<hr>
+<p><strong>Body:</strong></p>
+<p>Hey {contactfield=firstname|there},</p>
+<p>Thanks for subscribing. I appreciate you trusting me with your inbox -- I know how crowded it is in there.</p>
+<p>Quick version of who I am: my name&#x27;s Ben. I&#x27;m a filmmaker, photographer, and digital marketing strategist based in Brisbane. I run a marketing agency called Nunya Bunya, a portrait photography studio called Power Portraits, and a dog walking business called Pawesome. I also run the ORCA Film Awards, which is an independent voting body for overlooked films. And I&#x27;m building all of it at the same time, from scratch, in public.</p>
+<p>Yeah, it&#x27;s a lot. But that&#x27;s kind of the point. I&#x27;m documenting what it actually looks like to build multiple businesses with almost no budget, a severe ADHD diagnosis, and a stubbornness that borders on clinical.</p>
+<p>Here&#x27;s what you&#x27;ll get from me:</p>
+<ul>
+<li>Honest updates on what&#x27;s working and what&#x27;s failing across my businesses</li>
+<li>The tools and systems I use to run everything (most of them cost nothing)</li>
+<li>Behind-the-scenes from my photography, filmmaking, and YouTube channel</li>
+<li>The occasional existential crisis, handled with reasonable grace</li>
+</ul>
+<p>If you grabbed the Solopreneur Stack one-pager and haven&#x27;t downloaded it yet, here it is:</p>
+<p><a href="https://benalekconner.com/solopreneur-stack?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-1"><strong>Download the Solopreneur Stack</strong></a></p>
+<p>I&#x27;ll send you a few more emails over the next month to share some of my best stuff. After that, you&#x27;ll hear from me weekly with whatever I learned that week worth sharing.</p>
+<p>Hit reply if you want to say hi. I read every one.</p>
+<p>Talk soon,</p>
+<p>Ben</p>
+<hr>
+<p><strong>CTA button text:</strong> Download the Solopreneur Stack</p>
+<p><strong>CTA URL:</strong> <code>https://benalekconner.com/solopreneur-stack?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-1</code></p>
+<p><strong>Mautic notes:</strong></p>
+<ul>
+<li>Add tag <code>email-1-sent</code> on send</li>
+<li>Track open + click</li>
+<li>If CTA clicked, add tag <code>downloaded-solopreneur-stack</code></li>
+</ul>
+<hr>
+<h2 id="email-2-the-16month-story">Email 2: The $16/Month Story</h2>
+<p><strong>Send:</strong> Day 3 after signup</p>
+<p><strong>Mautic email name:</strong> <code>bac-welcome-02-stack-story</code></p>
+<p><strong>Subject:</strong> My entire marketing stack costs $16/month</p>
+<p><strong>Alt subject:</strong> How I replaced $800/month of SaaS with open-source tools</p>
+<p><strong>Preview text:</strong> The real version. Including everything that went wrong.</p>
+<hr>
+<p><strong>Body:</strong></p>
+<p>Hey {contactfield=firstname|there},</p>
+<p>When I started Nunya Bunya, I had a problem that every new business owner has: I needed email marketing, analytics, a CRM, a booking system, link tracking, and social scheduling. The &quot;standard&quot; answer is HubSpot + Calendly + Mailchimp + Google Analytics + Bitly. That&#x27;s about $300-800/month before you&#x27;ve made a dollar.</p>
+<p>I couldn&#x27;t afford that. So I didn&#x27;t pay it.</p>
+<p>Instead, I built the entire stack on open-source tools, self-hosted on a single Hetzner server that costs me about $16/month AUD.</p>
+<p>Here&#x27;s what runs on it:</p>
+<ul>
+<li><strong>Mautic</strong> -- email marketing and automation (replaces Mailchimp/HubSpot)</li>
+<li><strong>Matomo</strong> -- web analytics (replaces Google Analytics)</li>
+<li><strong>Twenty CRM</strong> -- contact and deal management (replaces HubSpot CRM)</li>
+<li><strong>n8n</strong> -- workflow automation (replaces Zapier)</li>
+<li><strong>Shlink</strong> -- link tracking (replaces Bitly)</li>
+<li><strong>Cal.com</strong> -- appointment booking (replaces Calendly)</li>
+</ul>
+<p>That&#x27;s the clean version. Here&#x27;s what actually happened.</p>
+<p>The first time I set up Mautic, I misconfigured the mail transport and it bounced every email for three days before I noticed. My Matomo install broke twice during updates. I spent an entire weekend debugging an n8n workflow that turned out to have a single misplaced bracket. The CRM migration ate a Saturday I&#x27;ll never get back.</p>
+<p>But once it worked, it worked. And now I run email campaigns, track every website visitor, manage leads, automate outreach, and book calls -- across multiple businesses -- for the price of two coffees a month.</p>
+<p>I&#x27;m not saying everyone should do this. If you have the budget for paid tools, they&#x27;re easier to set up. But if you&#x27;re bootstrapping and you&#x27;re willing to learn, the open-source path is real and it works.</p>
+<p>The Solopreneur Stack one-pager has the full list with links to every tool. If you want to go deeper on any of them, just reply and tell me which one -- I&#x27;ll point you to the best setup guides I&#x27;ve found.</p>
+<p>-- Ben</p>
+<hr>
+<p><strong>Mautic notes:</strong></p>
+<ul>
+<li>Add tag <code>email-2-sent</code> on send</li>
+<li>Track open + click</li>
+<li>If reply detected, add tag <code>engaged-reply</code> and move to segment <code>bac-engaged</code></li>
+</ul>
+<hr>
+<h2 id="email-3-behind-the-scenes-what-ix27m-working-on-right-now">Email 3: Behind the Scenes -- What I&#x27;m Working on Right Now</h2>
+<p><strong>Send:</strong> Day 7 after signup</p>
+<p><strong>Mautic email name:</strong> <code>bac-welcome-03-bts</code></p>
+<p><strong>Subject:</strong> What I&#x27;m actually working on this week</p>
+<p><strong>Alt subject:</strong> Behind the scenes -- April 2026 update</p>
+<p><strong>Preview text:</strong> The honest version of running too many businesses at once.</p>
+<hr>
+<p><strong>Body:</strong></p>
+<p>Hey {contactfield=firstname|there},</p>
+<p>This email is the format you&#x27;ll get from me going forward -- an honest look at what I&#x27;m working on, what&#x27;s going well, and what&#x27;s a mess.</p>
+<p><strong>What I&#x27;m building right now:</strong></p>
+<p>Nunya Bunya (the agency) is the main business. We help small businesses and solopreneurs set up their marketing from scratch -- websites, email, social, the whole system. Most of our clients are local Brisbane businesses who&#x27;ve been burned by agencies that charge a lot and deliver PowerPoint decks. We actually build the thing.</p>
+<p>Power Portraits is a portrait photography studio. Headshots, personal branding shoots, the kind of photos that make people look like the version of themselves they see in their head. I started it because I kept getting asked to shoot headshots and realized there was a business in it.</p>
+<p>Pawesome Dog Walkers is exactly what it sounds like. I walk dogs in Brisbane&#x27;s inner north. It started as a cash flow play while the other businesses grew, and honestly, it&#x27;s become one of the most enjoyable parts of my week. Dogs don&#x27;t care about your conversion rates.</p>
+<p>ORCA Film Awards is a passion project -- an independent awards body that nominates overlooked and underseen films. Think of it as the anti-Oscars. We recruit volunteer critics and voters who actually watch the films the Academy ignores.</p>
+<p><strong>What&#x27;s going well:</strong></p>
+<p>The marketing systems are humming. Email automations are running, content is going out consistently, and the self-hosted stack is stable (finally). Pawesome is getting bookings through word of mouth, which is the best kind of marketing.</p>
+<p><strong>What&#x27;s hard:</strong></p>
+<p>Time. There is never enough of it. ADHD makes context-switching between businesses feel like changing gears in a car with a broken clutch. Some days I build an entire email funnel before lunch. Other days I stare at a blank screen for forty-five minutes and then walk the dog instead.</p>
+<p>This is what building looks like. It&#x27;s not pretty, but it&#x27;s real.</p>
+<p>More soon,</p>
+<p>Ben</p>
+<hr>
+<p><strong>Mautic notes:</strong></p>
+<ul>
+<li>Add tag <code>email-3-sent</code> on send</li>
+<li>Track open</li>
+<li>This email establishes the newsletter format -- future weekly sends follow this template</li>
+</ul>
+<hr>
+<h2 id="email-4-the-youtube-pilot">Email 4: The YouTube Pilot</h2>
+<p><strong>Send:</strong> Day 14 after signup</p>
+<p><strong>Mautic email name:</strong> <code>bac-welcome-04-youtube</code></p>
+<p><strong>Subject:</strong> I&#x27;m starting a YouTube channel. Here&#x27;s why.</p>
+<p><strong>Alt subject:</strong> Episode 1 is coming. Let me tell you about it.</p>
+<p><strong>Preview text:</strong> A docuseries about building businesses from scratch. No tutorials. No vlogs.</p>
+<hr>
+<p><strong>Body:</strong></p>
+<p>Hey {contactfield=firstname|there},</p>
+<p>I&#x27;ve been sitting on this for a while, so here it is: I&#x27;m making a YouTube channel.</p>
+<p>Not a tutorial channel. Not a vlog. A docuseries.</p>
+<p>The concept is simple. Each episode pairs a film review with a real chapter from my life building these businesses. The film provides the lens, my life provides the story. Think essay film meets founder diary.</p>
+<p>Episode 1 is called &quot;No Other Choice.&quot; It&#x27;s paired with the Park Chan-wook film of the same name -- a story about a master craftsman who gets cut loose from the system and has to rebuild on his own terms. The parallel to what I&#x27;m doing felt too obvious to ignore.</p>
+<p>The episode covers the first phase of building Nunya Bunya: registering the business, buying the domain, building the website, setting up the marketing machine, printing flyers, knocking on doors. All of it filmed in a fast-cut montage that&#x27;s designed to feel like competence, not content.</p>
+<p>I&#x27;m not interested in making videos where I sit in front of a camera and explain things. I want to make something that feels like a film. Shallow depth of field. Sound design. Colour grading. The kind of thing where someone watches it and thinks &quot;this person actually knows how to make things.&quot;</p>
+<p>If that sounds like something you&#x27;d watch, I&#x27;d genuinely appreciate a YouTube subscribe. It helps more than you&#x27;d think, especially early on.</p>
+<p><a href="https://youtube.com/@benalekconner?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-4"><strong>Subscribe on YouTube</strong></a></p>
+<p>I&#x27;ll let you know when Episode 1 drops.</p>
+<p>-- Ben</p>
+<hr>
+<p><strong>CTA button text:</strong> Subscribe on YouTube</p>
+<p><strong>CTA URL:</strong> <code>https://youtube.com/@benalekconner?utm<em>source=mautic&amp;utm</em>medium=email&amp;utm<em>campaign=welcome-sequence&amp;utm</em>content=email-4</code></p>
+<p><strong>Mautic notes:</strong></p>
+<ul>
+<li>Add tag <code>email-4-sent</code> on send</li>
+<li>Track open + click</li>
+<li>If CTA clicked, add tag <code>clicked-youtube-subscribe</code></li>
+</ul>
+<hr>
+<h2 id="email-5-what-would-you-build">Email 5: What Would You Build?</h2>
+<p><strong>Send:</strong> Day 30 after signup</p>
+<p><strong>Mautic email name:</strong> <code>bac-welcome-05-engagement</code></p>
+<p><strong>Subject:</strong> One question for you</p>
+<p><strong>Alt subject:</strong> I&#x27;m curious about something</p>
+<p><strong>Preview text:</strong> What are you building? I want to know.</p>
+<hr>
+<p><strong>Body:</strong></p>
+<p>Hey {contactfield=firstname|there},</p>
+<p>You&#x27;ve been on this list for about a month now, so I want to ask you something directly.</p>
+<p>What are you building?</p>
+<p>It doesn&#x27;t have to be a business. It could be a creative project, a career shift, a side hustle, a skill you&#x27;re developing. Whatever it is that you&#x27;re putting energy into right now -- I want to hear about it.</p>
+<p>I ask because the most useful conversations I&#x27;ve had in the last year haven&#x27;t been with mentors or business coaches. They&#x27;ve been with people who are in the middle of building something and willing to be honest about where they&#x27;re stuck.</p>
+<p>So if you&#x27;ve got thirty seconds, hit reply and tell me:</p>
+<ol>
+<li>What you&#x27;re working on</li>
+<li>The one thing that&#x27;s giving you the most trouble right now</li>
+</ol>
+<p>I&#x27;ll read every reply. If I can help, I will. If I can&#x27;t, I&#x27;ll tell you that too.</p>
+<p>This isn&#x27;t a sales pitch. I&#x27;m not going to funnel you into a course or a coaching program. I&#x27;m asking because I&#x27;m genuinely interested, and because the best ideas I&#x27;ve had for my own businesses have come from conversations exactly like this one.</p>
+<p>Talk soon,</p>
+<p>Ben</p>
+<hr>
+<p><strong>Mautic notes:</strong></p>
+<ul>
+<li>Add tag <code>email-5-sent</code> on send</li>
+<li>Add tag <code>welcome-sequence-complete</code> on send</li>
+<li>Track open</li>
+<li>If reply detected, add tag <code>engaged-reply</code> and move to segment <code>bac-engaged</code></li>
+<li>After this email, contact moves to weekly newsletter segment <code>bac-weekly-newsletter</code></li>
+</ul>
+<hr>
+<h2 id="sequence-summary">Sequence Summary</h2>
+<div class="table-wrap"><table><thead><tr><th>Email</th><th>Day</th><th>Subject</th><th>Goal</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>Hey -- thanks for signing up</td><td>Introduce Ben, deliver lead magnet, set expectations</td></tr><tr><td>2</td><td>3</td><td>My entire marketing stack costs $16/month</td><td>Share value, build credibility, show the real story</td></tr><tr><td>3</td><td>7</td><td>What I&#x27;m actually working on this week</td><td>Establish newsletter format, build connection</td></tr><tr><td>4</td><td>14</td><td>I&#x27;m starting a YouTube channel. Here&#x27;s why.</td><td>Drive YouTube subscribes, tease Episode 1</td></tr><tr><td>5</td><td>30</td><td>One question for you</td><td>Spark replies, build community, identify engaged subscribers</td></tr></tbody></table></div>
+<p><strong>After sequence completes:</strong> Contact enters <code>bac-weekly-newsletter</code> segment for ongoing weekly emails following the Email 3 format (honest update on what Ben is building/learning).</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">06-Ben Alek Conner/05-content/Email Sequences/welcome-sequence.md</div>
+    </main>
+  </div>
+</body>
+</html>

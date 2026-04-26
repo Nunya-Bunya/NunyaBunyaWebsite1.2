@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORCA Film Awards - 30-Day Content Calendar | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link active"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#orca">ORCA Film Awards</a> &rsaquo;
+          ORCA Film Awards - 30-Day Content Calendar
+        </div>
+        <h1 class="doc-title">ORCA Film Awards - 30-Day Content Calendar</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#127916; ORCA Film Awards</span>
+          <span class="doc-path">04-ORCA Film Awards / 05-content</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="orca-film-awards-30-day-content-calendar">ORCA Film Awards - 30-Day Content Calendar</h1>
+<h2 id="april-9-may-8-2026">April 9 - May 8, 2026</h2>
+<h2 id="platforms-facebook-tiktok-twitter">Platforms: Facebook, TikTok, Twitter</h2>
+<hr>
+<p><strong>DAY 1 - April 9 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> Just watched SIRAT and I&#x27;m still shaking. Oliver Laxe takes a simple premise - father searching for missing daughter in Morocco - and turns it into pure anxiety fuel. Every frame drips with dread, but it&#x27;s the human moments that&#x27;ll wreck you. Cannes jury knew what they were doing with this one. Stream it on Hulu before everyone catches on. #ORCAFilmAwards #IndieFilm #CinemaLovers #Hulu</p>
+<p><strong>VISUAL:</strong> Still from Sirat - desert landscape with lone figure</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;This Cannes winner is giving me nightmares&quot; | BODY: &quot;SIRAT on Hulu. Father loses daughter in Morocco. Sounds simple? It&#x27;s NOT. Oliver Laxe films pure dread but makes you care about every character. Shot like a thriller, hits like family trauma.&quot; | CTA: &quot;Go watch it and tell me I&#x27;m wrong&quot;</p>
+<p><strong>VISUAL:</strong> Quick cuts between tense film moments, reviewer talking to camera</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> SIRAT is what happens when arthouse meets thriller and both win. Hulu has a masterpiece and nobody&#x27;s talking about it. #ORCAFilmAwards #FilmTwitter</p>
+<hr>
+<p><strong>DAY 2 - April 10 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Writer Recruitment</p>
+<p><strong>COPY:</strong> CALLING ALL FILM WRITERS 📝 ORCA is looking for passionate voices who live and breathe cinema. First assignment dropping soon - we need someone who can write about under-the-radar gems without using the phrase &quot;tour de force.&quot; Love foreign films? Indie darlings? Films that should&#x27;ve won Oscars but didn&#x27;t? We want YOU. Drop your best film hot take in the comments and let&#x27;s talk. #ORCAFilmAwards #FilmWriters #WritingOpportunity #IndieFilm</p>
+<p><strong>VISUAL:</strong> Vintage typewriter with film reels</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Writer Recruitment</p>
+<p><strong>COPY:</strong> Film writers: tired of writing &quot;masterpiece&quot; about Marvel movies? We&#x27;re recruiting. First writing gig involves actual cinema. DM us. #ORCAFilmAwards #FilmWriters</p>
+<hr>
+<p><strong>DAY 3 - April 11 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> Lee Byung-hun in NO OTHER CHOICE is absolutely unhinged and I&#x27;m here for it. Park Chan-wook directs this Venice darling about a man who literally kills his job competition - but it&#x27;s not what you think. Three Golden Globe noms and somehow still flying under the radar. This is premium Korean cinema doing what it does best: making you question everything. #ORCAFilmAwards #Korean Cinema #ParkChanwook #VeniceFilmFestival</p>
+<p><strong>VISUAL:</strong> Dramatic still from No Other Choice</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;Park Chan-wook made another banger and y&#x27;all sleeping&quot; | BODY: &quot;NO OTHER CHOICE. Lee Byung-hun kills people for jobs. Literally. 3 Golden Globe noms. Venice went crazy for it. It&#x27;s psychological warfare disguised as a thriller.&quot; | CTA: &quot;Park Chan-wook doesn&#x27;t miss - go stream it&quot;</p>
+<p><strong>VISUAL:</strong> Split screen showing intense Lee Byung-hun scenes</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> Park Chan-wook + Lee Byung-hun + workplace violence = NO OTHER CHOICE is the Korean thriller nobody&#x27;s talking about. 3 Globe noms for a reason. #ORCAFilmAwards #KoreanCinema</p>
+<hr>
+<p><strong>DAY 4 - April 12 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> Hot take: Amanda Seyfried&#x27;s performance in THE TESTAMENT OF ANN LEE is her career best and it&#x27;s not even close. Fight me in the replies. #ORCAFilmAwards #FilmTwitter #HotTakes</p>
+<hr>
+<p><strong>DAY 5 - April 13 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> Sunday film debate: What&#x27;s the most underrated performance of 2025 so far? Wrong answers only welcome. #ORCAFilmAwards #FilmTwitter #SundayDebate</p>
+<hr>
+<p><strong>DAY 6 - April 14 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> THE TESTAMENT OF ANN LEE quietly dropped on Hulu and Amanda Seyfried just delivered the performance of her career. No fanfare, no awards buzz, just pure acting mastery in an intimate drama that trusts its audience. Seyfried strips away everything you think you know about her and rebuilds it from scratch. This is the kind of film that reminds you why you fell in love with movies in the first place. #ORCAFilmAwards #AmandaSeyfried #Hulu #IndieFilm</p>
+<p><strong>VISUAL:</strong> Close-up still of Amanda Seyfried from the film</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;Amanda Seyfried just ended everyone&#x27;s career&quot; | BODY: &quot;THE TESTAMENT OF ANN LEE on Hulu. She&#x27;s incredible. Like, forget everything else she&#x27;s done incredible. Intimate drama, no BS, just pure performance. Hidden on Hulu like it&#x27;s nothing.&quot; | CTA: &quot;Go witness this masterclass&quot;</p>
+<p><strong>VISUAL:</strong> Emotional scenes from the film, text overlay highlighting &quot;career best&quot;</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> THE TESTAMENT OF ANN LEE: Amanda Seyfried&#x27;s career-defining performance hiding on Hulu. This is what great acting looks like. #ORCAFilmAwards #IndieFilm</p>
+<hr>
+<p><strong>DAY 7 - April 15 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Article Promo</p>
+<p><strong>COPY:</strong> 🚨 NEW ARTICLE ALERT 🚨 Our first deep dive is LIVE on orcafilmawards.com! &quot;Why Venice 2025 Was the Festival That Mattered Most&quot; - unpacking the films that&#x27;ll define cinema&#x27;s next chapter. We&#x27;re talking Park Chan-wook, experimental horror, and the movies that big festivals are too scared to champion. Link in bio - this is the film criticism you&#x27;ve been waiting for. #ORCAFilmAwards #VeniceFilmFestival #FilmCriticism</p>
+<p><strong>VISUAL:</strong> Article header image with Venice Film Festival branding</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Article Promo</p>
+<p><strong>COPY:</strong> First ORCA article is live: &quot;Why Venice 2025 Was the Festival That Mattered Most&quot; 🎬 The takes are hot, the analysis is hotter. orcafilmawards.com #ORCAFilmAwards #Venice2025</p>
+<hr>
+<p><strong>DAY 8 - April 16 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> A LITTLE PRAYER with David Strathairn is the kind of quiet American drama they don&#x27;t make anymore - and thank god someone still is. Set in North Carolina, it follows a patriarch discovering his son&#x27;s affair, but it&#x27;s really about family secrets and how they poison everything. Strathairn is magnetic as always, finding depths in what could&#x27;ve been a typical family melodrama. This is storytelling that trusts silence as much as words. #ORCAFilmAwards #DavidStrathairn #IndieFilm #AmericanCinema</p>
+<p><strong>VISUAL:</strong> Rural North Carolina setting with David Strathairn</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;David Strathairn in a family drama hits different&quot; | BODY: &quot;A LITTLE PRAYER. North Carolina. Family secrets. Patriarch discovers son&#x27;s affair. Sounds boring? It&#x27;s NOT. Strathairn makes every silence count. Real American storytelling.&quot; | CTA: &quot;If you love character studies, this is it&quot;</p>
+<p><strong>VISUAL:</strong> Contemplative shots from the film, focus on Strathairn&#x27;s performance</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> A LITTLE PRAYER: David Strathairn proving quiet American dramas can still devastate. This North Carolina family story hits every note perfectly. #ORCAFilmAwards #IndieFilm</p>
+<hr>
+<p><strong>DAY 9 - April 17 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> FRIDAY FILM POLL 🎬 Which underrated 2025 film deserves more attention? Vote and tell us why in the comments!</p>
+<p>A) SIRAT (Oliver Laxe&#x27;s Cannes thriller)</p>
+<p>B) THE TESTAMENT OF ANN LEE (Seyfried&#x27;s career best)</p>
+<p>C) A LITTLE PRAYER (Strathairn family drama)</p>
+<p>D) Something else entirely (drop your pick!)</p>
+<p>#ORCAFilmAwards #FilmPoll #IndieFilm #CinemaLovers</p>
+<p><strong>VISUAL:</strong> Collage of the four film options</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> Quick poll: Which 2025 underseen film hits hardest?</p>
+<p>A) SIRAT</p>
+<p>B) THE TESTAMENT OF ANN LEE</p>
+<p>C) A LITTLE PRAYER</p>
+<p>D) Other (reply with your pick)</p>
+<p>#ORCAFilmAwards #FilmTwitter</p>
+<hr>
+<p><strong>DAY 10 - April 18 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> THE HOUSEMAID is the most innovative horror film you haven&#x27;t seen yet. Get this: it&#x27;s a haunted house story told entirely from the ghost&#x27;s POV. Sounds gimmicky? It&#x27;s brilliant. This experimental approach turns every horror trope inside out while delivering genuine scares. Available on HBO Max and absolutely worth your weekend. It&#x27;s proof that horror can be both artistically ambitious and pants-wettingly scary. #ORCAFilmAwards #Horror #HBOMax #ExperimentalFilm</p>
+<p><strong>VISUAL:</strong> Eerie shot from The Housemaid showing ghostly perspective</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;Horror movie told from the GHOST&#x27;S POV&quot; | BODY: &quot;THE HOUSEMAID on HBO Max. Haunted house but YOU&#x27;RE the ghost. Sounds weird? It&#x27;s genius. Every scare flipped. Every trope reversed. Actually terrifying AND innovative.&quot; | CTA: &quot;Horror fans, this is your weekend watch&quot;</p>
+<p><strong>VISUAL:</strong> POV shots mimicking ghost perspective, creepy house imagery</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> THE HOUSEMAID: haunted house story from the ghost&#x27;s POV. HBO Max has the most innovative horror of 2025 and nobody&#x27;s talking about it. #ORCAFilmAwards #Horror #HBOMax</p>
+<hr>
+<p><strong>DAY 11 - April 19 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Behind the Scenes</p>
+<p><strong>COPY:</strong> Writing assignments going out Monday. Three film critics about to join the ORCA family. The future of indie film criticism starts here. #ORCAFilmAwards #BehindTheScenes</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Hot Take</p>
+<p><strong>COPY:</strong> Second tweet: Experimental doesn&#x27;t mean unwatchable. THE HOUSEMAID proves you can innovate AND entertain. More filmmakers need this memo. #ORCAFilmAwards #FilmTwitter #HotTakes</p>
+<hr>
+<p><strong>DAY 12 - April 20 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> Sunday question: What&#x27;s the weirdest film concept that actually worked? THE HOUSEMAID (ghost POV horror) got me thinking... #ORCAFilmAwards #FilmTwitter #SundayQuestion</p>
+<hr>
+<p><strong>DAY 13 - April 21 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Writer Recruitment</p>
+<p><strong>COPY:</strong> 🎬 ASSIGNMENT DROP #1 🎬 Attention film writers! Our first official writing assignment is here: &quot;The Lost Art of the Mid-Budget Thriller&quot; - exploring how films like SIRAT and NO OTHER CHOICE are keeping intelligent suspense alive. Looking for 800-1000 words of passionate analysis, due next Friday. Already applied? Check your DMs. New to ORCA? This is your chance - comment with your best thriller hot take and we might just send you the brief. orcafilmawards.com #ORCAFilmAwards #FilmWriters #WritingOpportunity</p>
+<p><strong>VISUAL:</strong> Assignment brief mockup with ORCA branding</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Behind the Scenes</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;We&#x27;re hiring film writers and here&#x27;s the assignment&quot; | BODY: &quot;First ORCA writing gig: &#x27;The Lost Art of Mid-Budget Thrillers.&#x27; 800 words on why SIRAT and NO OTHER CHOICE matter. Due Friday. Want in? Show us your thriller hot take.&quot; | CTA: &quot;Comment your best take - we&#x27;re watching&quot;</p>
+<p><strong>VISUAL:</strong> Document/assignment visual, cut to reviewer speaking directly to camera</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Writer Recruitment</p>
+<p><strong>COPY:</strong> Assignment #1 live: &quot;The Lost Art of the Mid-Budget Thriller.&quot; 800 words, due Friday. Want in? Your thriller hot take in replies gets you considered. #ORCAFilmAwards #FilmWriters</p>
+<hr>
+<p><strong>DAY 14 - April 22 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> GCFF Preview</p>
+<p><strong>COPY:</strong> 🎊 GOLD COAST FILM FESTIVAL STARTS TODAY! 🎊 Our home state is about to become Australia&#x27;s cinema capital for the next 12 days. Opening night is WOLFRAM - Warwick Thornton&#x27;s Berlin-acclaimed follow-up that exists in the same universe as Sweet Country. We&#x27;ll be covering the festival extensively, championing the QLD films that deserve global attention. Who&#x27;s heading to the coast? #GCFF2026 #GoldCoastFilmFestival #ORCAFilmAwards #QLDFilm #AustralianCinema</p>
+<p><strong>VISUAL:</strong> Gold Coast Film Festival logo with cinema strip overlay</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> GCFF Preview</p>
+<p><strong>COPY:</strong> GOLD COAST FILM FESTIVAL STARTS TODAY! WOLFRAM opens tonight. 12 days of cinema gold on our doorstep. QLD about to show the world how it&#x27;s done. #GCFF2026 #ORCAFilmAwards #QLDFilm</p>
+<hr>
+<p><strong>DAY 15 - April 23 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> FRIENDSHIP might be the most unhinged comedy of 2025. Tim Robinson and Paul Rudd as suburban neighbors where one becomes obsessed with the other&#x27;s weatherman career? It&#x27;s as bonkers as it sounds. This gonzo comedy commits fully to its absurd premise and somehow makes it work. Paul Rudd has never been weirder, Tim Robinson has never been more Tim Robinson. Streaming now and guaranteed to confuse your algorithm. #ORCAFilmAwards #Comedy #TimRobinson #PaulRuddiPVOD #GonzoComedy</p>
+<p><strong>VISUAL:</strong> Still showing Tim Robinson and Paul Rudd in suburban setting</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;Tim Robinson and Paul Rudd made the weirdest comedy&quot; | BODY: &quot;FRIENDSHIP. Suburban neighbors. One&#x27;s obsessed with the other being a weatherman. It&#x27;s UNHINGED. Robinson&#x27;s chaos meets Rudd&#x27;s deadpan. Somehow works perfectly.&quot; | CTA: &quot;If you like weird comedy, this is it&quot;</p>
+<p><strong>VISUAL:</strong> Quick cuts of absurd comedy moments, weatherman footage</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> FRIENDSHIP: Tim Robinson + Paul Rudd + weatherman obsession = the most wonderfully unhinged comedy of 2025. Stream it for the chaos. #ORCAFilmAwards #Comedy</p>
+<hr>
+<p><strong>DAY 16 - April 24 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Article Promo</p>
+<p><strong>COPY:</strong> 📝 NEW ORCA ARTICLE 📝 &quot;Gold Coast vs Cannes: Why Australia&#x27;s Festival Scene Matters More Than You Think&quot; is live on orcafilmawards.com! Our deep dive into how GCFF is championing films that the big European festivals overlook. From WOLFRAM to local QLD productions, we&#x27;re breaking down why the Gold Coast is becoming unmissable for serious cinema lovers. Plus: our hot takes on this year&#x27;s programming. #ORCAFilmAwards #GCFF2026 #AustralianCinema #FilmFestivals</p>
+<p><strong>VISUAL:</strong> Split image - Gold Coast skyline vs Cannes red carpet</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Article Promo</p>
+<p><strong>COPY:</strong> New article: &quot;Gold Coast vs Cannes: Why Australia&#x27;s Festival Scene Matters More&quot; 🇦🇺 The takes are spicy, the analysis is thorough. orcafilmawards.com #ORCAFilmAwards #GCFF2026</p>
+<hr>
+<p><strong>DAY 17 - April 25 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> LILY featuring Barbie Ferreira and John Leguizamo is the father-figure story that&#x27;ll gut you without warning. What starts as a simple relationship drama becomes something much deeper about chosen family and second chances. Ferreira continues proving she&#x27;s one of her generation&#x27;s most naturalistic actors, while Leguizamo brings decades of lived-in wisdom to every scene. Available on Hulu and absolutely essential viewing. #ORCAFilmAwards #BarbieFerreira #JohnLeguizamo #Hulu #ChosenFamily</p>
+<p><strong>VISUAL:</strong> Intimate scene between Ferreira and Leguizamo</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;This Barbie Ferreira movie will destroy you&quot; | BODY: &quot;LILY on Hulu. Her and John Leguizamo. Father figure story but deeper. Chosen family vibes. She&#x27;s incredible as always, he brings the wisdom. Emotional damage guaranteed.&quot; | CTA: &quot;Bring tissues and stream it&quot;</p>
+<p><strong>VISUAL:</strong> Emotional moments from film, focus on performances</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> LILY: Barbie Ferreira + John Leguizamo + chosen family feels = prepare for emotional damage. Hulu has another winner nobody&#x27;s discussing. #ORCAFilmAwards #IndieFilm</p>
+<hr>
+<p><strong>DAY 18 - April 26 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> GCFF Preview</p>
+<p><strong>COPY:</strong> Day 5 GCFF highlight: THE AI DOC. Most talked-about Sundance film of 2025. &quot;How I Become an Apocaloptimist&quot; - the title alone deserves attention. #GCFF2026 #ORCAFilmAwards #Sundance</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> Second tweet: Weekend GCFF question: Which film are you most excited to see? Local QLD productions or international premieres? Both valid answers. #GCFF2026 #QLDFilm</p>
+<hr>
+<p><strong>DAY 19 - April 27 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Hot Take</p>
+<p><strong>COPY:</strong> Hot take: Gold Coast is producing better indie films than Sydney right now. ALL MY FRIENDS ARE BACK IN BRISBANE world premiere Tuesday proves it. #GCFF2026 #QLDFilm #HotTakes</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> GCFF Preview</p>
+<p><strong>COPY:</strong> Second tweet: GCFF week 2 starts tomorrow. FRANZ (Agnieszka Holland), CONNEMARA (Cannes premiere), and QLD&#x27;s own romcom world premiere. Cinema heaven. #GCFF2026 #ORCAFilmAwards</p>
+<hr>
+<p><strong>DAY 20 - April 28 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> THE LOST BUS with Matthew McConaughey is survival thriller perfection based on the true Camp Fire school bus escape. McConaughey delivers his best performance in years as the driver who refused to abandon his kids. This isn&#x27;t just disaster movie spectacle - it&#x27;s a masterclass in tension and human decency under pressure. The kind of true story that restores your faith in people while keeping you glued to the screen. Stream it now. #ORCAFilmAwards #MatthewMcConaughey #SurvivalThriller #TrueStory #CampFire</p>
+<p><strong>VISUAL:</strong> Intense scene from The Lost Bus with McConaughey</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;McConaughey&#x27;s best performance in YEARS&quot; | BODY: &quot;THE LOST BUS. True story Camp Fire escape. School bus driver saves kids. McConaughey&#x27;s incredible. Not just disaster movie - pure human drama. Based on real heroism.&quot; | CTA: &quot;This true story will restore your faith&quot;</p>
+<p><strong>VISUAL:</strong> Dramatic bus scenes, real Camp Fire footage, McConaughey performance clips</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> THE LOST BUS: McConaughey&#x27;s career resurgence continues with this Camp Fire true story. Sometimes heroes drive school buses. #ORCAFilmAwards #TrueStory</p>
+<hr>
+<p><strong>DAY 21 - April 29 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> GCFF Preview</p>
+<p><strong>COPY:</strong> 🎬 GCFF WORLD PREMIERE TONIGHT 🎬 ALL MY FRIENDS ARE BACK IN BRISBANE - the QLD romcom we&#x27;ve all been waiting for! Local stories, local talent, global appeal. This is why we champion Australian cinema - because sometimes the best stories come from our own backyard. Who&#x27;s catching the premiere? We&#x27;ll be reviewing this one extensively. #GCFF2026 #QLDFilm #AustralianCinema #WorldPremiere #BrisbaneFilm #ORCAFilmAwards</p>
+<p><strong>VISUAL:</strong> Brisbane skyline with romantic comedy styling</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> GCFF Preview</p>
+<p><strong>COPY:</strong> ALL MY FRIENDS ARE BACK IN BRISBANE world premiere TONIGHT at GCFF! QLD romcom representing. Local stories deserve global stages. #GCFF2026 #QLDFilm #ORCAFilmAwards</p>
+<hr>
+<p><strong>DAY 22 - April 30 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Writer Recruitment</p>
+<p><strong>COPY:</strong> 🔥 ASSIGNMENT DROP #2 🔥 Looking for film writers who understand the festival circuit! New assignment: &quot;GCFF 2026: The Local Films That Matter&quot; - 1000 words on why regional Australian cinema is having its moment. We need someone who gets that ALL MY FRIENDS ARE BACK IN BRISBANE and the QLD horror scene represent more than just local pride. Due Monday May 5th. Previous applicants check DMs. New writers - show us your Australian cinema hot take below! #ORCAFilmAwards #FilmWriters #GCFF2026 #AustralianCinema</p>
+<p><strong>VISUAL:</strong> Assignment brief with Gold Coast Film Festival imagery</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Writer Recruitment</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;We&#x27;re hiring film writers who get Australian cinema&quot; | BODY: &quot;Assignment 2: &#x27;GCFF 2026: The Local Films That Matter.&#x27; 1000 words on QLD cinema&#x27;s moment. Due Monday. Want the gig? Drop your Aussie film hot take.&quot; | CTA: &quot;Australian cinema nerds, this is your shot&quot;</p>
+<p><strong>VISUAL:</strong> GCFF footage, local film clips, assignment text overlay</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Writer Recruitment</p>
+<p><strong>COPY:</strong> Assignment #2: &quot;GCFF 2026: Local Films That Matter&quot; - 1000 words, due Monday. Show us your Australian cinema hot take for consideration. #ORCAFilmAwards #FilmWriters #GCFF2026</p>
+<hr>
+<p><strong>DAY 23 - May 1 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> GOOD FORTUNE with Keanu Reeves is the fantasy film that&#x27;s finally finding its audience on PVOD. Initially slept on during its theatrical run, this genuinely inventive story about luck, fate, and second chances deserves way more attention. Reeves brings his trademark thoughtfulness to a role that could&#x27;ve been pure schmaltz in lesser hands. The fantasy elements feel earned rather than gimmicky, and the emotional payoff is real. Don&#x27;t let this one slip by again. #ORCAFilmAwards #KeanuReeves #Fantasy #PVOD #SecondChances</p>
+<p><strong>VISUAL:</strong> Mystical scene from Good Fortune featuring Keanu Reeves</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> GOOD FORTUNE: Keanu Reeves in a fantasy that actually works. Slept-on theatrical release finding life on PVOD. Sometimes second chances apply to films too. #ORCAFilmAwards #KeanuReeves</p>
+<hr>
+<p><strong>DAY 24 - May 2 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> Can we talk about MARTY SUPREME? Timothee Chalamet&#x27;s ping-pong drama earned 9 Oscar nominations and $178M worldwide, but now that it&#x27;s on HBO Max, it&#x27;s clear this was 2025&#x27;s most underrated Best Picture contender. Chalamet disappears into the role completely, and the sports sequences are filmed with genuine artistry. This is crowd-pleasing filmmaking that doesn&#x27;t insult your intelligence. Stream it this weekend. #ORCAFilmAwards #TimotheeChalamet #HBOMax #Oscars #TableTennis #BestPicture</p>
+<p><strong>VISUAL:</strong> Chalamet in intense ping-pong action from Marty Supreme</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;Timothee Chalamet ping-pong movie is actually incredible&quot; | BODY: &quot;MARTY SUPREME on HBO Max. 9 Oscar noms, $178M worldwide. Chalamet disappears into ping-pong champion role. Sports movie that&#x27;s actually art. Crowd-pleasing but smart.&quot; | CTA: &quot;Don&#x27;t sleep on this Best Picture contender&quot;</p>
+<p><strong>VISUAL:</strong> Quick ping-pong montage, Oscar nomination graphics, Chalamet transformation shots</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> MARTY SUPREME on HBO Max: 9 Oscar noms weren&#x27;t enough. Chalamet&#x27;s ping-pong masterpiece was 2025&#x27;s most underrated Best Picture contender. #ORCAFilmAwards #Oscars #HBOMax</p>
+<hr>
+<p><strong>DAY 25 - May 3 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> GCFF Preview</p>
+<p><strong>COPY:</strong> 🎬 FINAL GCFF WEEKEND 🎬 Last chance to catch the films that&#x27;ll define 2026! Today&#x27;s highlights: ISLANDS (Berlinale winner), THE HOLY BOY (Venice debut), and the QLD horror showcase featuring MANHUNT, 100% PURE RAGE, and DEATHKEEPER. Queensland&#x27;s horror scene is absolutely killing it (pun intended). If you&#x27;re on the Gold Coast, don&#x27;t miss these local productions that are genuinely world-class. #GCFF2026 #QLDHorror #GoldCoastFilmFestival #AustralianCinema #Horror #ORCAFilmAwards</p>
+<p><strong>VISUAL:</strong> Collage of QLD horror film posters</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> GCFF Preview</p>
+<p><strong>COPY:</strong> FINAL GCFF WEEKEND! QLD horror showcase today: MANHUNT, 100% PURE RAGE, DEATHKEEPER. Our local horror scene is legitimately world-class. #GCFF2026 #QLDHorror #ORCAFilmAwards</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Hot Take</p>
+<p><strong>COPY:</strong> Second tweet: Hot take: Queensland is producing Australia&#x27;s best genre films right now. GCFF&#x27;s horror lineup proves it. Melbourne and Sydney, take notes. #GCFF2026 #QLDFilm</p>
+<hr>
+<p><strong>DAY 26 - May 4 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> GCFF wrap-up question: Which film surprised you most? International premiere or local QLD production? Both answers welcome with reasoning. #GCFF2026 #ORCAFilmAwards</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Behind the Scenes</p>
+<p><strong>COPY:</strong> Second tweet: GCFF coverage wrapping up. 12 days of exceptional cinema. Article roundup coming this week with our festival winners and losers. #GCFF2026 #BehindTheScenes</p>
+<hr>
+<p><strong>DAY 27 - May 5 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> THE DRAMA dropped April 3rd and it&#x27;s the A24 film everyone should be talking about. Zendaya and Robert Pattinson as a couple forced to confess the worst thing they&#x27;ve ever done? Kristoffer Borgli (SICK OF MYSELF) directs this psychological pressure cooker with surgical precision. Both actors strip themselves raw in performances that feel genuinely dangerous. This is relationship horror at its most effective - intimate, uncomfortable, and absolutely riveting. Still in theaters and worth the trip. #ORCAFilmAwards #A24 #Zendaya #RobertPattinson #KristofferBorgli #TheDrama #PsychologicalHorror</p>
+<p><strong>VISUAL:</strong> Intense close-up of Zendaya and Pattinson from The Drama</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;Zendaya and Robert Pattinson in psychological horror&quot; | BODY: &quot;THE DRAMA. A24. Couple confesses worst things ever done. Kristoffer Borgli directs. Both actors go DEEP. Relationship horror that feels dangerous. Still in theaters.&quot; | CTA: &quot;If you love uncomfortable cinema, GO&quot;</p>
+<p><strong>VISUAL:</strong> Tense scenes from film, A24 branding, theater information</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> THE DRAMA: Zendaya + Pattinson + relationship horror = A24&#x27;s most uncomfortable masterpiece. Kristoffer Borgli doesn&#x27;t miss. Still in theaters. #ORCAFilmAwards #A24</p>
+<hr>
+<p><strong>DAY 28 - May 6 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Article Promo</p>
+<p><strong>COPY:</strong> 🏆 MAJOR ARTICLE DROP 🏆 &quot;GCFF 2026: The Festival That Changed Everything&quot; is live on orcafilmawards.com! Our comprehensive wrap-up covering 12 days of exceptional cinema. Winners, losers, surprises, and why Queensland just announced itself as Australia&#x27;s new film capital. From WOLFRAM&#x27;s opening night triumph to the local horror showcase that had international buyers scrambling. This is our most ambitious piece yet. #ORCAFilmAwards #GCFF2026 #AustralianCinema #FilmFestivals #QLDFilm</p>
+<p><strong>VISUAL:</strong> GCFF montage with ORCA article layout</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Article Promo</p>
+<p><strong>COPY:</strong> GCFF 2026 comprehensive wrap-up is LIVE! &quot;The Festival That Changed Everything&quot; - 12 days, major winners, why QLD just became Australia&#x27;s film capital. orcafilmawards.com #ORCAFilmAwards #GCFF2026</p>
+<hr>
+<p><strong>DAY 29 - May 7 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> DEAD MAN WIRE reunites Bill Skarsgard with serious filmmaking, and Gus Van Sant proves he&#x27;s still got it. This true-life hostage crisis thriller featuring Al Pacino in a small but crucial role is exactly the kind of intelligent suspense cinema needs more of. Van Sant films violence with restraint, focusing on psychology over spectacle. Skarsgard continues his evolution beyond horror into genuinely compelling dramatic territory. Currently in theaters and absolutely worth seeking out. #ORCAFilmAwards #GusVanSant #BillSkarsgard #AlPacino #TrueStory #HostageCrisis #IndieFilm</p>
+<p><strong>VISUAL:</strong> Tense scene from Dead Man Wire with Skarsgard</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;Bill Skarsgard in a Gus Van Sant thriller&quot; | BODY: &quot;DEAD MAN WIRE. True hostage crisis. Al Pacino supporting. Van Sant directs with restraint. Skarsgard proves he&#x27;s more than horror. Psychology over spectacle.&quot; | CTA: &quot;Smart thriller fans, this is your movie&quot;</p>
+<p><strong>VISUAL:</strong> Thriller scenes, Van Sant director credit, cast highlights</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Review</p>
+<p><strong>COPY:</strong> DEAD MAN WIRE: Gus Van Sant + Bill Skarsgard + true hostage crisis = intelligent thriller filmmaking. Pacino in support. Still in theaters. #ORCAFilmAwards #GusVanSant</p>
+<hr>
+<p><strong>DAY 30 - May 8 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Writer Recruitment</p>
+<p><strong>COPY:</strong> 🎬 FINAL WRITER RECRUITMENT 🎬 ORCA is growing and we need one more passionate film voice! Assignment #3: &quot;The State of Under-the-Radar Cinema in 2026&quot; - 1200 words exploring why films like SIRAT, THE TESTAMENT OF ANN LEE, and THE HOUSEMAID matter more than box office champions. We want writers who understand that cinema&#x27;s future lies in the margins, not the multiplex. Previous applicants encouraged to reapply. New voices - drop your most passionate defense of an underseen 2025 film below. Due next Friday. Let&#x27;s find our final critic! #ORCAFilmAwards #FilmWriters #IndieFilm #FilmCriticism #UnderseeFilm</p>
+<p><strong>VISUAL:</strong> Collage of all the underseen films reviewed this month</p>
+<p><strong>PLATFORM:</strong> TikTok</p>
+<p><strong>TYPE:</strong> Writer Recruitment</p>
+<p><strong>SCRIPT:</strong> HOOK: &quot;Last chance to join ORCA as a film writer&quot; | BODY: &quot;Assignment 3: &#x27;The State of Under-the-Radar Cinema in 2026.&#x27; 1200 words. Why underseen films matter more than blockbusters. Due Friday.&quot; | CTA: &quot;Defend your favorite underseen film in comments&quot;</p>
+<p><strong>VISUAL:</strong> Montage of reviewed films, writer recruitment graphics</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Writer Recruitment</p>
+<p><strong>COPY:</strong> Final ORCA writer recruitment! Assignment: &quot;The State of Under-the-Radar Cinema in 2026&quot; - 1200 words defending why margins matter more than multiplex. Your turn. #ORCAFilmAwards #FilmWriters</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Behind the Scenes</p>
+<p><strong>COPY:</strong> Second tweet: 30 days, 15+ film reviews, 3 writer assignments, 1 major festival. ORCA&#x27;s first month in the books. The real work starts now. #ORCAFilmAwards #BehindTheScenes</p>
+<hr>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">04-ORCA Film Awards/05-content/orca-30-day-content-april-2026.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asset Inventory | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  /* Inventory-specific styles */
+  .inv-controls {
+    display: flex; gap: 12px; align-items: center; margin-bottom: 24px; flex-wrap: wrap;
+  }
+  .inv-controls .view-btn {
+    background: var(--dark2); border: 1px solid var(--subtle); color: var(--muted);
+    padding: 8px 16px; border-radius: 8px; font-size: 12px; cursor: pointer;
+    font-family: var(--font-heading); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; transition: all 0.2s;
+  }
+  .inv-controls .view-btn.active { border-color: var(--teal); color: var(--teal); background: rgba(0,229,204,0.08); }
+  .inv-controls .view-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* KPI row */
+  .inv-kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 32px; }
+  .inv-kpi {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px; padding: 20px; text-align: center;
+  }
+  .inv-kpi .num { font-family: var(--font-heading); font-weight: 900; font-size: 42px; line-height: 1; }
+  .inv-kpi .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 6px; }
+  .inv-kpi .sub { font-size: 12px; color: var(--muted); margin-top: 4px; font-weight: 300; }
+
+  /* Progress ring */
+  .progress-ring { position: relative; width: 56px; height: 56px; margin: 0 auto 8px; }
+  .progress-ring svg { transform: rotate(-90deg); }
+  .progress-ring .pct {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: var(--font-heading); font-weight: 900; font-size: 14px;
+  }
+
+  /* Matrix view */
+  .inv-matrix { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .inv-matrix thead th {
+    background: var(--dark3); padding: 10px 8px; text-align: center;
+    font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+    border-bottom: 1px solid var(--subtle); position: sticky; top: 0; z-index: 2;
+  }
+  .inv-matrix thead th:first-child { text-align: left; padding-left: 16px; min-width: 200px; }
+  .inv-matrix thead th .biz-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; vertical-align: middle;
+  }
+  .inv-matrix tbody td {
+    padding: 6px 8px; text-align: center; font-size: 13px; font-weight: 400;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .inv-matrix tbody td:first-child {
+    text-align: left; padding-left: 24px; color: rgba(255,255,255,0.7); font-weight: 300;
+  }
+  .inv-matrix tbody tr:hover { background: rgba(0,229,204,0.03); }
+  .inv-matrix .cat-row td {
+    background: var(--dark3); padding: 10px 16px;
+    font-family: var(--font-heading); font-weight: 700; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--white);
+    text-align: left; border-bottom: 1px solid var(--subtle);
+  }
+  .inv-matrix .cat-row td .cat-icon { margin-right: 8px; }
+  .inv-matrix .cat-row td .cat-score {
+    float: right; font-family: var(--font-body); font-size: 11px; font-weight: 500;
+    color: var(--muted); text-transform: none; letter-spacing: 0;
+  }
+
+  /* Cell states */
+  .cell-count {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 32px; height: 28px; border-radius: 6px; font-weight: 600;
+    font-family: var(--font-heading); font-size: 14px; transition: all 0.15s;
+  }
+  .cell-count.zero { background: rgba(255,45,120,0.1); color: var(--magenta); }
+  .cell-count.has { background: rgba(0,229,204,0.1); color: var(--teal); }
+  .cell-count.many { background: rgba(0,229,204,0.2); color: var(--teal); font-weight: 900; }
+  .cell-count.na { background: transparent; color: rgba(255,255,255,0.15); font-size: 11px; font-weight: 400; }
+
+  /* Business column view */
+  .inv-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .inv-col-card {
+    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 12px; overflow: hidden;
+    transition: all 0.2s;
+  }
+  .inv-col-card:hover { border-color: rgba(255,255,255,0.15); }
+  .inv-col-header {
+    padding: 20px; border-bottom: 1px solid var(--subtle); display: flex;
+    align-items: center; justify-content: space-between;
+  }
+  .inv-col-header .biz-name {
+    font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+  }
+  .inv-col-header .biz-badge {
+    font-family: var(--font-heading); font-weight: 900; font-size: 12px;
+    padding: 4px 12px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .inv-col-body { padding: 16px 20px; }
+  .inv-col-cat {
+    margin-bottom: 16px;
+  }
+  .inv-col-cat-label {
+    font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+    margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+  }
+  .inv-col-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 4px 0; font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.7);
+  }
+  .inv-col-item .item-count { font-family: var(--font-heading); font-weight: 700; font-size: 14px; }
+  .inv-col-item .item-count.zero { color: var(--magenta); }
+  .inv-col-item .item-count.has { color: var(--teal); }
+  .inv-col-item .item-count.na { color: rgba(255,255,255,0.15); font-weight: 400; font-size: 11px; }
+
+  /* Progress bar */
+  .inv-progress-bar {
+    height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; margin-top: 4px;
+  }
+  .inv-progress-bar .fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
+
+  /* Business progress bars in KPI */
+  .biz-progress-list { margin-top: 20px; }
+  .biz-progress-row {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+  }
+  .biz-progress-row .biz-label {
+    font-size: 12px; font-weight: 500; width: 60px; text-align: right; flex-shrink: 0;
+  }
+  .biz-progress-row .bar-wrap { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+  .biz-progress-row .bar-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+  .biz-progress-row .bar-pct {
+    font-family: var(--font-heading); font-weight: 700; font-size: 13px; width: 40px; flex-shrink: 0;
+  }
+
+  /* Editable cells */
+  .cell-count.editable { cursor: pointer; }
+  .cell-count.editable:hover { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .cell-edit-input {
+    width: 48px; height: 28px; background: var(--dark); border: 2px solid var(--teal);
+    border-radius: 6px; color: var(--teal); text-align: center; font-family: var(--font-heading);
+    font-size: 14px; font-weight: 700; outline: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 1200px) {
+    .inv-kpi-row { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .inv-kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .inv-columns { grid-template-columns: 1fr; }
+  }
+
+  /* Edit mode banner */
+  .edit-banner {
+    background: rgba(0,229,204,0.1); border: 1px solid var(--teal); border-radius: 8px;
+    padding: 12px 20px; margin-bottom: 20px; display: none; align-items: center;
+    justify-content: space-between;
+  }
+  .edit-banner.active { display: flex; }
+  .edit-banner .msg { font-size: 13px; color: var(--teal); font-weight: 500; }
+  .edit-banner .actions { display: flex; gap: 8px; }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Asset <span>Inventory</span></h1>
+        <div class="date">What's built vs. what's missing across every business</div>
+      </div>
+    </div>
+
+    <!-- Edit Mode Banner -->
+    <div class="edit-banner" id="editBanner">
+      <div class="msg">Edit mode: click any cell to update the count. Changes auto-save to localStorage.</div>
+      <div class="actions">
+        <button class="btn-teal btn-small" onclick="exportData()">Export JSON</button>
+        <button class="btn-outline btn-small" onclick="toggleEdit()">Done</button>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="inv-controls">
+      <button class="view-btn active" data-view="matrix" onclick="setView('matrix')">Matrix View</button>
+      <button class="view-btn" data-view="columns" onclick="setView('columns')">By Business</button>
+      <div style="flex:1"></div>
+      <button class="view-btn" id="editBtn" onclick="toggleEdit()">&#9998; Edit Counts</button>
+    </div>
+
+    <!-- KPI Summary -->
+    <div class="inv-kpi-row" id="kpiRow"></div>
+
+    <!-- Per-business progress bars -->
+    <div class="section" style="margin-bottom:32px">
+      <div class="section-header">Completion by Business</div>
+      <div class="card">
+        <div class="biz-progress-list" id="bizProgress"></div>
+      </div>
+    </div>
+
+    <!-- Matrix View -->
+    <div id="matrixView" class="section">
+      <div class="table-wrap" style="max-height: calc(100vh - 200px); overflow-y: auto;">
+        <table class="inv-matrix" id="matrixTable"></table>
+      </div>
+    </div>
+
+    <!-- Column View -->
+    <div id="columnsView" class="section" style="display:none">
+      <div class="inv-columns" id="columnCards"></div>
+    </div>
+
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script src="/nb-admin-inventory-data.js"></script>
+<script>
+  let currentView = 'matrix';
+  let editMode = false;
+  let liveData = {};
+
+  function init() {
+    NB_ADMIN.renderSidebar('inventory');
+
+    // Load saved overrides from localStorage, merge with defaults
+    const saved = JSON.parse(localStorage.getItem('nbhq_inventory') || '{}');
+    INVENTORY_BUSINESSES.forEach(b => {
+      liveData[b.id] = { ...(INVENTORY_COUNTS[b.id] || {}), ...(saved[b.id] || {}) };
+    });
+
+    render();
+  }
+
+  function render() {
+    renderKPIs();
+    renderBizProgress();
+    renderMatrix();
+    renderColumns();
+  }
+
+  function getStats(bizId) {
+    const counts = liveData[bizId] || {};
+    let total = 0, built = 0, zeros = 0;
+    INVENTORY_CATEGORIES.forEach(cat => {
+      cat.items.forEach(item => {
+        const v = counts[item.id];
+        if (v === -1) return; // N/A
+        total++;
+        if (v > 0) built++;
+        else zeros++;
+      });
+    });
+    return { total, built, zeros, pct: total ? Math.round((built / total) * 100) : 0 };
+  }
+
+  function getAllStats() {
+    let totalItems = 0, totalBuilt = 0, totalZeros = 0, totalNA = 0;
+    let totalCount = 0;
+    INVENTORY_BUSINESSES.forEach(b => {
+      const counts = liveData[b.id] || {};
+      INVENTORY_CATEGORIES.forEach(cat => {
+        cat.items.forEach(item => {
+          const v = counts[item.id];
+          if (v === -1) { totalNA++; return; }
+          totalItems++;
+          if (v > 0) { totalBuilt++; totalCount += v; }
+          else totalZeros++;
+        });
+      });
+    });
+    return { totalItems, totalBuilt, totalZeros, totalNA, totalCount, pct: totalItems ? Math.round((totalBuilt / totalItems) * 100) : 0 };
+  }
+
+  function renderKPIs() {
+    const s = getAllStats();
+    document.getElementById('kpiRow').innerHTML = `
+      <div class="inv-kpi">
+        <div class="num" style="color:var(--teal)">${s.pct}%</div>
+        <div class="label">Overall Completion</div>
+        <div class="sub">${s.totalBuilt} of ${s.totalItems} items built</div>
+      </div>
+      <div class="inv-kpi">
+        <div class="num" style="color:var(--teal)">${s.totalCount}</div>
+        <div class="label">Total Deliverables</div>
+        <div class="sub">across all businesses</div>
+      </div>
+      <div class="inv-kpi">
+        <div class="num" style="color:var(--magenta)">${s.totalZeros}</div>
+        <div class="label">Gaps</div>
+        <div class="sub">items still at zero</div>
+      </div>
+      <div class="inv-kpi">
+        <div class="num" style="color:var(--yellow)">${INVENTORY_BUSINESSES.length}</div>
+        <div class="label">Businesses</div>
+        <div class="sub">${INVENTORY_CATEGORIES.length} categories tracked</div>
+      </div>
+      <div class="inv-kpi">
+        <div class="num" style="color:var(--purple)">${INVENTORY_CATEGORIES.reduce((a,c) => a + c.items.length, 0)}</div>
+        <div class="label">Items Tracked</div>
+        <div class="sub">per business</div>
+      </div>
+    `;
+  }
+
+  function renderBizProgress() {
+    const el = document.getElementById('bizProgress');
+    el.innerHTML = INVENTORY_BUSINESSES.map(b => {
+      const s = getStats(b.id);
+      const barColor = s.pct >= 70 ? b.color : s.pct >= 40 ? 'var(--yellow)' : 'var(--magenta)';
+      return `
+        <div class="biz-progress-row">
+          <div class="biz-label" style="color:${b.color}">${b.short}</div>
+          <div class="bar-wrap">
+            <div class="bar-fill" style="width:${s.pct}%;background:${barColor}"></div>
+          </div>
+          <div class="bar-pct" style="color:${barColor}">${s.pct}%</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderMatrix() {
+    const table = document.getElementById('matrixTable');
+    // Header
+    let html = `<thead><tr>
+      <th>Item</th>
+      ${INVENTORY_BUSINESSES.map(b => `<th><span class="biz-dot" style="background:${b.color}"></span>${b.short}</th>`).join('')}
+    </tr></thead><tbody>`;
+
+    INVENTORY_CATEGORIES.forEach(cat => {
+      // Category scores per business
+      const catScores = INVENTORY_BUSINESSES.map(b => {
+        const counts = liveData[b.id] || {};
+        let t = 0, d = 0;
+        cat.items.forEach(item => { const v = counts[item.id]; if (v === -1) return; t++; if (v > 0) d++; });
+        return t ? Math.round((d/t)*100) : 100;
+      });
+      const avgScore = Math.round(catScores.reduce((a,v) => a+v, 0) / catScores.length);
+
+      html += `<tr class="cat-row"><td colspan="${INVENTORY_BUSINESSES.length + 1}">
+        <span class="cat-icon">${cat.icon}</span>${cat.label}
+        <span class="cat-score">${avgScore}% complete</span>
+      </td></tr>`;
+
+      cat.items.forEach(item => {
+        html += `<tr><td>${item.label}</td>`;
+        INVENTORY_BUSINESSES.forEach(b => {
+          const v = (liveData[b.id] || {})[item.id];
+          if (v === -1) {
+            html += `<td><span class="cell-count na">N/A</span></td>`;
+          } else if (editMode) {
+            html += `<td><input class="cell-edit-input" type="number" min="-1"
+              value="${v || 0}" data-biz="${b.id}" data-item="${item.id}"
+              onchange="updateCell(this)" onfocus="this.select()"></td>`;
+          } else {
+            const cls = v === 0 ? 'zero' : v >= 5 ? 'many' : 'has';
+            html += `<td><span class="cell-count ${cls} ${editMode ? '' : 'editable'}"
+              onclick="cellClick(this, '${b.id}', '${item.id}')">${v}</span></td>`;
+          }
+        });
+        html += '</tr>';
+      });
+    });
+
+    html += '</tbody>';
+    table.innerHTML = html;
+  }
+
+  function renderColumns() {
+    const el = document.getElementById('columnCards');
+    el.innerHTML = INVENTORY_BUSINESSES.map(b => {
+      const s = getStats(b.id);
+      const counts = liveData[b.id] || {};
+      const barColor = s.pct >= 70 ? b.color : s.pct >= 40 ? 'var(--yellow)' : 'var(--magenta)';
+
+      let body = INVENTORY_CATEGORIES.map(cat => {
+        let items = cat.items.map(item => {
+          const v = counts[item.id];
+          if (v === -1) return `<div class="inv-col-item"><span>${item.label}</span><span class="item-count na">N/A</span></div>`;
+          const cls = v === 0 ? 'zero' : 'has';
+          return `<div class="inv-col-item"><span>${item.label}</span><span class="item-count ${cls}">${v}</span></div>`;
+        }).join('');
+        return `<div class="inv-col-cat">
+          <div class="inv-col-cat-label">${cat.icon} ${cat.label}</div>
+          ${items}
+        </div>`;
+      }).join('');
+
+      return `<div class="inv-col-card">
+        <div class="inv-col-header">
+          <div class="biz-name" style="color:${b.color}">${b.name}</div>
+          <div class="biz-badge" style="background:${b.color}20;color:${b.color}">${s.pct}%</div>
+        </div>
+        <div style="padding:0 20px 8px">
+          <div class="inv-progress-bar"><div class="fill" style="width:${s.pct}%;background:${barColor}"></div></div>
+        </div>
+        <div class="inv-col-body">${body}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // Edit functionality
+  function toggleEdit() {
+    editMode = !editMode;
+    document.getElementById('editBtn').classList.toggle('active', editMode);
+    document.getElementById('editBanner').classList.toggle('active', editMode);
+    render();
+  }
+
+  function cellClick(el, bizId, itemId) {
+    if (editMode) return;
+    // Quick-edit: replace span with input
+    const current = (liveData[bizId] || {})[itemId] || 0;
+    const input = document.createElement('input');
+    input.className = 'cell-edit-input';
+    input.type = 'number';
+    input.min = -1;
+    input.value = current;
+    input.dataset.biz = bizId;
+    input.dataset.item = itemId;
+    input.onchange = () => updateCell(input);
+    input.onblur = () => render();
+    input.onkeydown = (e) => { if (e.key === 'Enter') { updateCell(input); render(); } if (e.key === 'Escape') render(); };
+    el.replaceWith(input);
+    input.focus();
+    input.select();
+  }
+
+  function updateCell(input) {
+    const bizId = input.dataset.biz;
+    const itemId = input.dataset.item;
+    const val = parseInt(input.value) || 0;
+    if (!liveData[bizId]) liveData[bizId] = {};
+    liveData[bizId][itemId] = val;
+    saveToLocalStorage();
+    render();
+  }
+
+  function saveToLocalStorage() {
+    localStorage.setItem('nbhq_inventory', JSON.stringify(liveData));
+  }
+
+  function exportData() {
+    const json = JSON.stringify(liveData, null, 2);
+    const blob = new Blob([`// INVENTORY_COUNTS — exported ${new Date().toISOString()}\nconst INVENTORY_COUNTS = ${json};\n`], { type: 'application/javascript' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'nb-admin-inventory-data-export.js'; a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function setView(view) {
+    currentView = view;
+    document.querySelectorAll('.view-btn[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+    document.getElementById('matrixView').style.display = view === 'matrix' ? 'block' : 'none';
+    document.getElementById('columnsView').style.display = view === 'columns' ? 'block' : 'none';
+  }
+
+  init();
+</script>
+</body>
+</html>

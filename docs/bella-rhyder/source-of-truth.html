@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bella Rhyder -- Source of Truth | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link active"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#bella-rhyder">Bella Rhyder</a> &rsaquo;
+          Bella Rhyder -- Source of Truth
+        </div>
+        <h1 class="doc-title">Bella Rhyder -- Source of Truth</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#10024; Bella Rhyder</span>
+          <span class="doc-path">07-Bella Rhyder / 01-strategy</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="bella-rhyder-source-of-truth">Bella Rhyder -- Source of Truth</h1>
+<p><strong>Last Updated:</strong> 2026-04-05</p>
+<hr>
+<h2 id="identity">Identity</h2>
+<ul>
+<li><strong>What:</strong> Premium active lifestyle e-commerce fashion brand (activewear, swimwear, bags, hats, accessories)</li>
+<li><strong>Mission:</strong> Empower Australian women to move freely, feel confident, and live fully -- every day</li>
+<li><strong>Vision:</strong> Be Australia&#x27;s most loved active lifestyle brand; the brand in every Queensland woman&#x27;s wardrobe, gym bag, and beach holiday</li>
+<li><strong>Tagline:</strong> Move Boldly. Live Freely.</li>
+<li><strong>Name meaning:</strong> Bella (beautiful) + Rhyder (a rider -- someone who moves through life with momentum and intention)</li>
+<li><strong>Founded:</strong> 2026</li>
+<li><strong>Location:</strong> Brisbane, Queensland, Australia</li>
+<li><strong>Revenue status:</strong> Pre-launch. Targeting June 1, 2026 store launch</li>
+<li><strong>Funding:</strong> Bootstrapped / self-funded, revenue reinvestment model</li>
+<li><strong>Estimated launch capital:</strong> $58,500--$92,000 AUD</li>
+</ul>
+<hr>
+<h2 id="brand">Brand</h2>
+<ul>
+<li><strong>Positioning:</strong> Premium coastal lifestyle activewear. Above fast fashion ($30--70), below luxury ($200+). &quot;Lululemon quality with a Queensland soul.&quot; No Australian activewear brand authentically owns Queensland -- that is the strategic gap</li>
+<li><strong>Personality (5 words):</strong> Bold, Vibrant, Authentic, Empowering, Effortless</li>
+<li><strong>Tone of voice:</strong> Empowering not prescriptive. Energetic not exhausting. Confident not arrogant. Conversational not casual. Queensland-honest</li>
+<li><strong>Language to avoid:</strong> &quot;Slay,&quot; &quot;girlboss,&quot; &quot;hustle,&quot; &quot;flattering,&quot; &quot;slimming,&quot; weight-loss language, excessive exclamation marks, ALL CAPS in running copy</li>
+<li><strong>Target demographic:</strong> Active women 22--45, primarily Queensland (Brisbane, Gold Coast, Sunshine Coast), household income $65K--$130K+. Fitness-forward, shops online, discovers via Instagram/TikTok, values quality over quantity</li>
+</ul>
+<h3 id="visual-identity">Visual Identity</h3>
+<ul>
+<li><strong>Primary colors:</strong> Midnight Navy (#1A1A2E, 60%), White (#FFFFFF, 25%), Warm Gold (#E8B86D, 10%)</li>
+<li><strong>Accent colors:</strong> Coral Terracotta (#D4654A), Sand (#F2E8D9), Soft Blush (#F0D9D2), Dark Charcoal (#2C2C3E) -- 5% combined, campaign/seasonal use only</li>
+<li><strong>Fonts:</strong> Playfair Display (headlines), DM Sans (body/UI), Cormorant Garamond Italic (taglines/accents)</li>
+<li><strong>Photography:</strong> Natural light, golden hour, warm tones, Queensland outdoor locations, movement-led, diverse models, no stock photography, no cold/blue tones, no heavy retouching</li>
+<li><strong>Logo variants:</strong> Primary (Navy), Reversed (White), Gold, Monochrome Black, Monochrome White. BR monogram for favicon/small use</li>
+</ul>
+<hr>
+<h2 id="products">Products</h2>
+<p>Five categories, all targeting the active Queensland woman:</p>
+<div class="table-wrap"><table><thead><tr><th>Category</th><th>Price Range (AUD)</th><th>Key Items</th></tr></thead><tbody><tr><td><strong>Activewear</strong></td><td>$49--$199</td><td>Leggings, sports bras, shorts/skorts, crop tops, seamless co-ord sets, tanks</td></tr><tr><td><strong>Swimwear</strong></td><td>$55--$150</td><td>One-pieces, bikini tops/bottoms/sets, cover-ups/kaftans</td></tr><tr><td><strong>Bags</strong></td><td>$35--$185</td><td>Gym duffel, beach tote, backpack, mini crossbody, yoga mat accessories</td></tr><tr><td><strong>Hats &amp; Headwear</strong></td><td>$25--$65</td><td>Bucket hat, wide-brim beach hat, performance cap/visor, beanie</td></tr><tr><td><strong>Lifestyle Accessories</strong></td><td>$15--$50</td><td>Water bottle, resistance bands, scrunchies, phone armband, socks, keychains</td></tr></tbody></table></div>
+<ul>
+<li><strong>Pricing strategy:</strong> Value-based, mid-premium. Psychological pricing ($89 not $90). Bundle discounts 10--15%</li>
+<li><strong>Gross margin target:</strong> 55--65% (accessories higher ~70%, swimwear ~58%)</li>
+<li><strong>Average order value target:</strong> $145--$165 AUD</li>
+<li><strong>Shipping:</strong> Free standard over $100. Standard $9.95, Express $14.95</li>
+<li><strong>Returns:</strong> 30-day window, free return shipping. 12-month warranty on defects</li>
+</ul>
+<hr>
+<h2 id="e-commerce">E-Commerce</h2>
+<ul>
+<li><strong>Platform:</strong> Shopify (DTC, direct-to-consumer)</li>
+<li><strong>Domain:</strong> bellaryder.com.au (not yet live)</li>
+<li><strong>Payment:</strong> Visa, Mastercard, Amex, PayPal, Afterpay, Apple Pay, Google Pay</li>
+<li><strong>Fulfilment:</strong> In-house from Brisbane (Year 1--2), evaluate 3PL Year 3</li>
+<li><strong>Shipping carriers:</strong> Australia Post (primary), Sendle (secondary). 3--7 business days Australia-wide</li>
+<li><strong>Integrations planned:</strong> Klaviyo (email), Judge.me (reviews), Meta Commerce Manager (social shopping), Gorgias (CS), Xero (accounting)</li>
+<li><strong>Waitlist:</strong> Live, collecting emails via landing page. 15% off first order for waitlist members. Mautic segment 10 triggers welcome sequence (emails 31--33)</li>
+</ul>
+<h3 id="existing-site-assets">Existing Site Assets</h3>
+<ul>
+<li>Waitlist landing page: <code>/Site/waitlist.html</code></li>
+<li>Thank you page: <code>/Site/thankyou.html</code></li>
+<li>Main page: <code>/Site/index.html</code></li>
+<li>Waitlist API: <code>/Site/api/waitlist.js</code></li>
+<li>Deployed via Vercel (<code>vercel.json</code> present)</li>
+</ul>
+<hr>
+<h2 id="strategy">Strategy</h2>
+<h3 id="current-phase-pre-launch-q2-2026">Current Phase: Pre-Launch (Q2 2026)</h3>
+<ul>
+<li>Business plan, brand identity, market research, and pricing strategy: DONE</li>
+<li>Content and launch plan: DONE</li>
+<li>Product photography (AI-generated): DONE (Launch Photos folder)</li>
+<li>Email waitlist: LIVE (collecting via landing page + Mautic)</li>
+<li>Next: E-commerce platform setup (Shopify), real product photography, website launch June 2026</li>
+</ul>
+<h3 id="launch-plan">Launch Plan</h3>
+<ul>
+<li><strong>Pre-launch (April--May 2026):</strong> Instagram + TikTok teaser content 6 weeks before. Email waitlist via landing page. Seed product with 15--25 Brisbane micro-influencers. Complete website + photography + copywriting</li>
+<li><strong>Launch day:</strong> Monday June 1, 2026, 9:00 AM AEST. Coordinated social + email blast. Free shipping first 24 hours. 10--15% off for waitlist members</li>
+<li><strong>Post-launch:</strong> Weekly content cadence. First UGC campaign. Meta paid ads from Month 3--4 ($8K Year 1 budget). Email nurture for repeat purchase</li>
+</ul>
+<h3 id="phased-growth">Phased Growth</h3>
+<div class="table-wrap"><table><thead><tr><th>Phase</th><th>Timeline</th><th>Focus</th><th>Revenue Target</th></tr></thead><tbody><tr><td>Phase 1</td><td>Year 1 (Jun 2026--May 2027)</td><td>DTC e-commerce, organic social, influencer gifting</td><td>$120,000</td></tr><tr><td>Phase 2</td><td>Year 2 (2027--28)</td><td>Wholesale (10--20 boutique stockists QLD/NSW), paid social scale</td><td>$280,000</td></tr><tr><td>Phase 3</td><td>Year 3 (2028--29)</td><td>Brisbane flagship store (James St / New Farm / Teneriffe), 30+ stockists</td><td>$500,000 ARR</td></tr><tr><td>Phase 4</td><td>2029+</td><td>Multi-location, NZ expansion, omnichannel</td><td>Growth</td></tr></tbody></table></div>
+<h3 id="marketing-channels">Marketing Channels</h3>
+<div class="table-wrap"><table><thead><tr><th>Channel</th><th>Role</th></tr></thead><tbody><tr><td>Instagram</td><td>Primary -- brand home, community hub, sales driver. 5x/week feed + daily Stories</td></tr><tr><td>TikTok</td><td>Secondary -- discovery engine, viral. 3x/week</td></tr><tr><td>Pinterest</td><td>Tertiary -- long-tail SEO, evergreen. 5--10 pins/week</td></tr><tr><td>Email (Klaviyo/Mautic)</td><td>Owned -- nurture, retention, revenue backbone</td></tr><tr><td>Meta Paid Ads</td><td>Conversion + retargeting from Month 3--4</td></tr><tr><td>Influencer Gifting</td><td>Earned -- awareness, social proof</td></tr></tbody></table></div>
+<h3 id="content-pillars-5">Content Pillars (5)</h3>
+<ol>
+<li>Product Showcase (30%)</li>
+<li>Lifestyle &amp; Movement (25%)</li>
+<li>Community &amp; UGC (20%)</li>
+<li>Education (15%)</li>
+<li>Behind the Scenes (10%)</li>
+</ol>
+<h3 id="influencer-tiers">Influencer Tiers</h3>
+<ul>
+<li><strong>Tier 1 (5K--15K):</strong> Gifting only, 20--30 active partners</li>
+<li><strong>Tier 2 (15K--50K):</strong> Gifting + 15% affiliate commission, 10--20 active</li>
+<li><strong>Tier 3 (20K+, Year 2+):</strong> Paid $500--$2,000/mo + product + affiliate, 2--3 ambassadors</li>
+</ul>
+<hr>
+<h2 id="financial-summary">Financial Summary</h2>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr></thead><tbody><tr><td>Revenue</td><td>$120,000</td><td>$280,000</td><td>$500,000</td></tr><tr><td>Gross Margin</td><td>60%</td><td>62%</td><td>65%</td></tr><tr><td>Marketing Spend</td><td>$13,000</td><td>$35,000</td><td>$65,000</td></tr><tr><td>Net Result</td><td>Near breakeven</td><td>$30K--$50K</td><td>$80K--$120K</td></tr></tbody></table></div>
+<ul>
+<li><strong>CAC:</strong> $35--$55 Year 1, declining to $25--$40</li>
+<li><strong>Repeat purchase rate target:</strong> 20% Year 1, 30% Year 2</li>
+<li><strong>Email list target:</strong> 3,000 Year 1, 12,000 Year 2, 25,000 Year 3</li>
+</ul>
+<hr>
+<h2 id="documentation-status">Documentation Status</h2>
+<div class="table-wrap"><table><thead><tr><th>Category</th><th>Status</th></tr></thead><tbody><tr><td>FOUNDATIONAL (Business Plan, Brand Style Guide, Market Analysis, Pricing Guide)</td><td>4/7 complete</td></tr><tr><td>MARKETING (Content Calendar, Media Kit, Elevator Pitch)</td><td>4/7 complete</td></tr><tr><td>CONTENT &amp; LAUNCH (Brand Bible, Launch Content Plan, Social Media Strategy, Brand Guidelines, Logos)</td><td>7/9 complete</td></tr><tr><td>CLIENT EXPERIENCE, OPERATIONS, TEAM, CLIENT WORK, ARCHIVE</td><td>Not started</td></tr><tr><td><strong>Overall</strong></td><td><strong>15/44 (34%)</strong></td></tr></tbody></table></div>
+<h3 id="key-document-locations">Key Document Locations</h3>
+<ul>
+<li>Business Plan: <code>FOUNDATIONAL/BUSINESS PLAN.md</code></li>
+<li>Brand Style Guide: <code>FOUNDATIONAL/BRAND STYLE GUIDE.md</code></li>
+<li>Market Analysis: <code>FOUNDATIONAL/MARKET ANALYSIS.md</code></li>
+<li>Pricing Guide: <code>FOUNDATIONAL/PRICING GUIDE.md</code></li>
+<li>Brand Bible: <code>CONTENT &amp; LAUNCH/BRAND BIBLE.md</code></li>
+<li>Launch Content Plan: <code>CONTENT &amp; LAUNCH/LAUNCH CONTENT PLAN.md</code></li>
+<li>Social Media Strategy: <code>CONTENT &amp; LAUNCH/SOCIAL MEDIA STRATEGY.md</code></li>
+<li>Brand Guidelines: <code>CONTENT &amp; LAUNCH/BRAND GUIDELINES.md</code></li>
+<li>Elevator Pitch: <code>MARKETING/ELEVATOR PITCH.md</code></li>
+<li>Waitlist Email Sequence: <code>Email Sequences/waitlist-welcome-sequence.md</code></li>
+<li>Site files: <code>Site/</code> (Vercel-deployed waitlist)</li>
+</ul>
+<hr>
+<h2 id="key-decisions-amp-clarifications">Key Decisions &amp; Clarifications</h2>
+<ul>
+<li><strong>Bella Rhyder = sister&#x27;s dream business.</strong> Ben&#x27;s sister wants to run a fashion brand someday</li>
+<li><strong>Sister has schizophrenia.</strong> This is a long-term dream that Ben is building the digital foundation for</li>
+<li><strong>Ben builds the digital foundation</strong> -- brand, e-commerce, content, strategy -- with the goal that his sister can eventually run a brick-and-mortar store</li>
+<li><strong>Ben is listed as Business Owner</strong> in all current documentation; he is building this on her behalf</li>
+<li><strong>Brick-and-mortar is the long-term goal</strong> (Phase 3, Year 3 / 2028--29), starting with a Brisbane flagship in James Street, Teneriffe, or New Farm</li>
+<li><strong>No outside funding</strong> -- bootstrapped and self-funded</li>
+<li><strong>All product photography is currently AI-generated</strong> (Gemini) -- real photography needed before launch</li>
+<li><strong>Shopify store not yet built</strong> -- this is the next major milestone</li>
+<li><strong>Launch date June 1, 2026</strong> -- ~2 months away from today (April 5, 2026)</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">07-Bella Rhyder/01-strategy/SOURCE-OF-TRUTH.md</div>
+    </main>
+  </div>
+</body>
+</html>

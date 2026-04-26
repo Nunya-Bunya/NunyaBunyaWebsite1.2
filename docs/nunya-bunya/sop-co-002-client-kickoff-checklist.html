@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOP-CO-002 — Client Kickoff Checklist | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          SOP-CO-002 — Client Kickoff Checklist
+        </div>
+        <h1 class="doc-title">SOP-CO-002 — Client Kickoff Checklist</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / SOPs / Client Onboarding</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="sop-co-002-client-kickoff-checklist">SOP-CO-002 — Client Kickoff Checklist</h1>
+<p><strong>Category:</strong> Client Onboarding</p>
+<p><strong>Owner:</strong> Ben Conner</p>
+<p><strong>Created:</strong> 2026-03-23</p>
+<p><strong>Status:</strong> Active</p>
+<hr>
+<h2 id="purpose">Purpose</h2>
+<p>Standardize what you need from every new client before any work begins. Nothing starts until everything on this list is confirmed.</p>
+<hr>
+<h2 id="before-you-start-non-negotiables">Before You Start — Non-Negotiables</h2>
+<p>These must be completed before you touch anything:</p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Item</th><th>Status Template</th></tr></thead><tbody><tr><td>1</td><td><strong>Signed contract</strong></td><td>☐</td></tr><tr><td>2</td><td><strong>First month&#x27;s payment received</strong></td><td>☐</td></tr><tr><td>3</td><td><strong>Monthly ad spend budget confirmed</strong> (recommend $1,500-$3,000/mo starting)</td><td>☐</td></tr></tbody></table></div>
+<hr>
+<h2 id="access-amp-accounts-needed">Access &amp; Accounts Needed</h2>
+<p>Collect all of these during onboarding. Use the table below — copy it into each client&#x27;s folder.</p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Item</th><th>Details</th><th>Status</th></tr></thead><tbody><tr><td>4</td><td><strong>Facebook Business Manager access</strong></td><td>Client adds you as Partner, or you help them create one</td><td>☐</td></tr><tr><td>5</td><td><strong>Google Ads access</strong></td><td>Client creates account, adds you as admin (or you set up under your Manager Account)</td><td>☐</td></tr><tr><td>6</td><td><strong>Website CMS / hosting login</strong></td><td>For tracking pixels, landing pages, DNS changes</td><td>☐</td></tr><tr><td>7</td><td><strong>Google My Business access</strong></td><td>Client adds you as Manager, or you set it up for them</td><td>☐</td></tr><tr><td>8</td><td><strong>Social media account access</strong></td><td>Facebook Page admin, Instagram login, etc.</td><td>☐</td></tr><tr><td>9</td><td><strong>Domain registrar access</strong> (if needed)</td><td>For DNS changes (subdomains, email verification)</td><td>☐</td></tr><tr><td>10</td><td><strong>Google Analytics access</strong></td><td>Or you install Matomo and give them access</td><td>☐</td></tr></tbody></table></div>
+<hr>
+<h2 id="assets-needed-from-client">Assets Needed From Client</h2>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Item</th><th>Notes</th><th>Status</th></tr></thead><tbody><tr><td>11</td><td><strong>Logo</strong> (high-res PNG + vector if they have it)</td><td>For ads, landing pages, social</td><td>☐</td></tr><tr><td>12</td><td><strong>Brand colors</strong></td><td>Hex codes, or pull from their website</td><td>☐</td></tr><tr><td>13</td><td><strong>Photos</strong></td><td>Product photos, team photos, location photos — real, not stock</td><td>☐</td></tr><tr><td>14</td><td><strong>Best contact number</strong></td><td>For lead notifications — who should be called/texted?</td><td>☐</td></tr><tr><td>15</td><td><strong>Lead contact email</strong></td><td>Where should lead notifications go?</td><td>☐</td></tr></tbody></table></div>
+<hr>
+<h2 id="information-needed">Information Needed</h2>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Item</th><th>Notes</th><th>Status</th></tr></thead><tbody><tr><td>16</td><td><strong>What does a &quot;lead&quot; look like?</strong></td><td>Form fill? Phone call? Booking? Purchase?</td><td>☐</td></tr><tr><td>17</td><td><strong>Service area / target geography</strong></td><td>Local, state, national?</td><td>☐</td></tr><tr><td>18</td><td><strong>Target audience</strong></td><td>Who is their ideal customer?</td><td>☐</td></tr><tr><td>19</td><td><strong>Top 3 competitors</strong></td><td>Who are they competing against?</td><td>☐</td></tr><tr><td>20</td><td><strong>Current marketing</strong></td><td>What have they tried? What worked? What didn&#x27;t?</td><td>☐</td></tr><tr><td>21</td><td><strong>Any existing ad accounts or campaigns?</strong></td><td>Don&#x27;t want to duplicate or conflict</td><td>☐</td></tr></tbody></table></div>
+<hr>
+<h2 id="what-the-client-does-not-need-to-decide">What The Client Does NOT Need to Decide</h2>
+<p>Make this clear upfront — it saves time and positions you as the expert:</p>
+<ul>
+<li>Budget split between platforms (Google vs Meta vs other) — <strong>your call</strong></li>
+<li>A/B testing strategy — <strong>your call</strong></li>
+<li>Audience targeting details — <strong>your call</strong></li>
+<li>Ad creative direction — <strong>your call</strong> (they approve final versions)</li>
+<li>Technical setup — <strong>your call</strong></li>
+<li>Posting schedule — <strong>your call</strong></li>
+</ul>
+<p><strong>What they hear:</strong></p>
+<blockquote>&quot;I need the contract signed, first month&#x27;s payment, and your ad budget. Then I handle everything. You&#x27;ll get a report every two weeks showing how many leads came in and what they cost. That&#x27;s it.&quot;</blockquote>
+<hr>
+<h2 id="onboarding-flow">Onboarding Flow</h2>
+<pre><code>Day 0:  Contract signed + payment received
+Day 1:  Collect all access + assets (this checklist)
+Day 2:  Install tracking, audit website, set up accounts
+Day 3:  Research competitors, keywords, audiences
+Day 4:  Build landing page + lead capture
+Day 5:  Launch ads
+Day 7:  First check-in call with client
+Day 14: First performance report</code></pre>
+<hr>
+<h2 id="add-to-contract">Add To Contract</h2>
+<p>The following should be referenced in the contract or sent as an onboarding email immediately after signing:</p>
+<p><strong>Suggested contract clause:</strong></p>
+<blockquote>&quot;Upon signing, the Client agrees to provide the Service Provider with access to the following within 5 business days: Facebook Business Manager, Google Ads account (or credentials to create one), website CMS/hosting, domain registrar (if DNS changes are required), social media accounts, brand assets (logo, photos), and confirmation of monthly ad spend budget. Delays in providing access may delay campaign launch timelines.&quot;</blockquote>
+<p><strong>Suggested onboarding email:</strong></p>
+<blockquote>Subject: Let&#x27;s get started — what I need from you<br><br>Hey [name],<br><br>Excited to kick things off. To get your campaigns up and running as fast as possible, I need a few things from you:<br><br>1. Facebook Business Manager — add me as a Partner (I&#x27;ll send instructions)<br>2. Google Ads — I&#x27;ll set this up, just need your approval<br>3. Website login — [platform name] so I can install tracking<br>4. Your logo (high res) and any photos of your [business/products/team]<br>5. Confirm your monthly ad budget (I recommend $X-$Y to start)<br>6. Best phone number for lead notifications<br><br>Once I have these, I&#x27;ll have ads running within 5 business days.<br><br>Talk soon,<br>Ben</blockquote>
+<hr>
+<h2 id="template-client-onboarding-tracker">Template: Client Onboarding Tracker</h2>
+<p>Copy this into each new client&#x27;s folder as <code>onboarding-checklist.md</code>:</p>
+<pre><code class="lang-markdown"># [CLIENT NAME] — Onboarding Checklist
+
+**Contract signed:** ☐
+**First payment received:** ☐
+**Ad budget confirmed:** $___/month
+
+## Access
+- [ ] Facebook Business Manager
+- [ ] Google Ads
+- [ ] Website CMS/hosting
+- [ ] Google My Business
+- [ ] Social media accounts
+- [ ] Domain registrar
+- [ ] Google Analytics
+
+## Assets
+- [ ] Logo (high-res)
+- [ ] Brand colors
+- [ ] Photos
+- [ ] Contact number for leads
+- [ ] Contact email for leads
+
+## Info
+- [ ] Lead definition
+- [ ] Service area
+- [ ] Target audience
+- [ ] Top 3 competitors
+- [ ] Current marketing efforts
+- [ ] Existing ad accounts
+
+## Launch
+- [ ] Tracking installed
+- [ ] Landing page built
+- [ ] Ads launched
+- [ ] First check-in call scheduled</code></pre>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/SOPs/Client Onboarding/SOP-CO-002 — Client Kickoff Checklist.md</div>
+    </main>
+  </div>
+</body>
+</html>

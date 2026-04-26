@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SERVICE AGREEMENT | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link active"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#power-portraits">Power Portraits</a> &rsaquo;
+          SERVICE AGREEMENT
+        </div>
+        <h1 class="doc-title">SERVICE AGREEMENT</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#128247; Power Portraits</span>
+          <span class="doc-path">02-Power Portraits / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="service-agreement">SERVICE AGREEMENT</h1>
+<p><strong>Power Portraits Photography</strong></p>
+<hr>
+<p><strong>Ben Alek Conner</strong> trading as <strong>Power Portraits Photography</strong></p>
+<p>ABN: 48 890 965 530 | Brisbane, Queensland, Australia</p>
+<p>Website: powerportraits.com.au</p>
+<hr>
+<p><em>This agreement sets out the terms between Power Portraits Photography and the Client for professional portrait photography services. It is intended to be fair and straightforward for both parties. Please read it carefully before signing.</em></p>
+<hr>
+<h2 id="1-parties">1. Parties</h2>
+<h3 id="photographer">Photographer</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Name</strong></td><td>Ben Alek Conner</td></tr><tr><td><strong>Trading as</strong></td><td>Power Portraits Photography</td></tr><tr><td><strong>ABN</strong></td><td>48 890 965 530</td></tr><tr><td><strong>Email</strong></td><td>[PHOTOGRAPHER EMAIL]</td></tr><tr><td><strong>Phone</strong></td><td>[PHOTOGRAPHER PHONE]</td></tr></tbody></table></div>
+<h3 id="client">Client</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Full Name</strong></td><td>[CLIENT NAME]</td></tr><tr><td><strong>Business Name</strong> <em>(if applicable)</em></td><td>[CLIENT BUSINESS NAME]</td></tr><tr><td><strong>ABN</strong> <em>(if applicable)</em></td><td>[CLIENT ABN]</td></tr><tr><td><strong>Address</strong></td><td>[CLIENT ADDRESS]</td></tr><tr><td><strong>Email</strong></td><td>[CLIENT EMAIL]</td></tr><tr><td><strong>Phone</strong></td><td>[CLIENT PHONE]</td></tr></tbody></table></div>
+<hr>
+<h2 id="2-services">2. Services</h2>
+<p>The Photographer agrees to provide the following portrait photography services to the Client:</p>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Package</strong></td><td>[PACKAGE]</td></tr><tr><td><strong>Session Date</strong></td><td>[SESSION DATE]</td></tr><tr><td><strong>Session Time</strong></td><td>[SESSION TIME]</td></tr><tr><td><strong>Location(s)</strong></td><td>[LOCATION]</td></tr><tr><td><strong>Estimated Duration</strong></td><td>[DURATION]</td></tr><tr><td><strong>Number of Retouched Images</strong></td><td>[NUMBER OF IMAGES]</td></tr><tr><td><strong>Additional Services / Add-Ons</strong></td><td>[ADD-ONS OR &quot;Nil&quot;]</td></tr></tbody></table></div>
+<p>A full description of package inclusions can be found in the Power Portraits Service Packages document provided to the Client at the time of enquiry.</p>
+<hr>
+<h2 id="3-investment-and-payment">3. Investment and Payment</h2>
+<h3 id="31-fees">3.1 Fees</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Total Fee (inc. GST)</strong></td><td>$[TOTAL FEE]</td></tr><tr><td><strong>Deposit (50%)</strong></td><td>$[DEPOSIT AMOUNT]</td></tr><tr><td><strong>Balance Due</strong></td><td>$[BALANCE AMOUNT]</td></tr></tbody></table></div>
+<p>All prices are quoted in Australian dollars and are inclusive of GST.</p>
+<h3 id="32-deposit">3.2 Deposit</h3>
+<p>A 50% deposit is required to confirm the booking. Your session date is not secured until the deposit has been received.</p>
+<p>The deposit is <strong>non-refundable</strong> within 48 hours of the session date. Outside that window, the deposit is fully refundable if the Client cancels.</p>
+<h3 id="33-balance">3.3 Balance</h3>
+<p>The remaining balance is due upon delivery of the online gallery. Payment must be received before final high-resolution images are released.</p>
+<h3 id="34-payment-methods">3.4 Payment Methods</h3>
+<p>Payment may be made by:</p>
+<ul>
+<li>Bank transfer (details provided on invoice)</li>
+<li>Credit or debit card</li>
+<li>PayPal</li>
+</ul>
+<h3 id="35-late-payment">3.5 Late Payment</h3>
+<p>If the balance remains unpaid for more than 14 days after gallery delivery, a reminder will be issued. If payment is not received within 30 days of gallery delivery, Power Portraits reserves the right to suspend gallery access until the balance is settled.</p>
+<hr>
+<h2 id="4-scheduling-and-cancellation">4. Scheduling and Cancellation</h2>
+<p>Life happens. Here is how we handle changes:</p>
+<div class="table-wrap"><table><thead><tr><th>Notice Given</th><th>Outcome</th></tr></thead><tbody><tr><td><strong>48+ hours before session</strong></td><td>Free reschedule to a mutually agreed date</td></tr><tr><td><strong>24–48 hours before session</strong></td><td>$75 rescheduling fee applies</td></tr><tr><td><strong>Less than 24 hours before session</strong></td><td>Deposit forfeited</td></tr><tr><td><strong>No-show (no contact)</strong></td><td>Full session fee charged</td></tr></tbody></table></div>
+<h3 id="41-rescheduling-by-the-photographer">4.1 Rescheduling by the Photographer</h3>
+<p>If the Photographer needs to reschedule for any reason, the Client will be offered a new date at no additional cost. If no suitable alternative can be found, the Client will receive a full refund including any deposit paid.</p>
+<h3 id="42-lateness">4.2 Lateness</h3>
+<p>If the Client arrives more than 30 minutes late without prior notice, the session may be shortened accordingly. The full fee remains payable.</p>
+<hr>
+<h2 id="5-session-details">5. Session Details</h2>
+<h3 id="51-arrival">5.1 Arrival</h3>
+<p>The Photographer will arrive at the session location approximately 20 minutes before the scheduled start time to set up equipment and assess lighting conditions.</p>
+<h3 id="52-duration">5.2 Duration</h3>
+<p>Session duration is as specified in Section 2 above and corresponds to the booked package. The Photographer will make every effort to use the full allocated time, but the session may conclude earlier if the shot list is complete and both parties are satisfied.</p>
+<h3 id="53-direction">5.3 Direction</h3>
+<p>The Photographer provides professional direction throughout the session, including guidance on posing, expression, and positioning. Clients are encouraged to share ideas, references, and preferences — collaboration produces the best results.</p>
+<h3 id="54-weather-contingency-outdoor-sessions">5.4 Weather Contingency (Outdoor Sessions)</h3>
+<p>If an outdoor session is affected by severe weather (heavy rain, dangerous wind, extreme heat), the Photographer will contact the Client as early as possible to discuss options:</p>
+<ul>
+<li><strong>Reschedule</strong> to the next available date at no cost</li>
+<li><strong>Relocate</strong> to a suitable covered or indoor alternative, if one is available and agreed</li>
+</ul>
+<p>The decision to postpone will be made in good faith by either party. Light rain or overcast conditions are not automatic grounds for cancellation — sometimes they make for beautiful photographs.</p>
+<hr>
+<h2 id="6-image-delivery">6. Image Delivery</h2>
+<h3 id="61-delivery-timeline">6.1 Delivery Timeline</h3>
+<div class="table-wrap"><table><thead><tr><th>Package</th><th>Standard Delivery</th></tr></thead><tbody><tr><td>The Session</td><td>5–7 business days</td></tr><tr><td>The Portrait</td><td>5–7 business days</td></tr><tr><td>The Editorial</td><td>3–5 business days</td></tr><tr><td>Corporate</td><td>48–72 hours</td></tr></tbody></table></div>
+<p>Timelines begin from the session date. The Photographer will notify the Client if delivery is expected to exceed these timeframes.</p>
+<h3 id="62-delivery-method">6.2 Delivery Method</h3>
+<p>All images are delivered via a private online gallery (Pixieset). The Client will receive a link and password by email.</p>
+<h3 id="63-gallery-access">6.3 Gallery Access</h3>
+<p>The online gallery remains active for <strong>90 days</strong> from the date of delivery. The Client is responsible for downloading all images within this period.</p>
+<p>After 90 days, the gallery will be archived. Retrieval of archived images incurs a <strong>$50 archive retrieval fee</strong>.</p>
+<h3 id="64-file-formats">6.4 File Formats</h3>
+<p>Each delivered image includes:</p>
+<ul>
+<li>High-resolution version (300 DPI, print-ready)</li>
+<li>Web-optimised version (72 DPI)</li>
+<li>Multiple aspect ratios: 1:1, 4:5, 2:3, 16:9</li>
+</ul>
+<hr>
+<h2 id="7-retouching">7. Retouching</h2>
+<h3 id="71-standard-retouching">7.1 Standard Retouching</h3>
+<p>All delivered images are professionally retouched. Retouching includes colour grading, exposure correction, skin refinement, and minor blemish removal.</p>
+<h3 id="72-retouching-philosophy">7.2 Retouching Philosophy</h3>
+<p>Power Portraits preserves natural skin texture. We do not over-smooth, heavily reshape, or digitally alter a person&#x27;s features. The goal is to present you at your best — not as someone else. If you have specific retouching requests, please discuss them before or during the session.</p>
+<h3 id="73-feedback-rounds">7.3 Feedback Rounds</h3>
+<div class="table-wrap"><table><thead><tr><th>Package</th><th>Retouching Feedback Rounds</th></tr></thead><tbody><tr><td>The Session</td><td>1 round</td></tr><tr><td>The Portrait</td><td>2 rounds</td></tr><tr><td>The Editorial</td><td>Unlimited</td></tr><tr><td>Corporate</td><td>1 round per team member</td></tr></tbody></table></div>
+<p>A feedback round consists of the Client reviewing images and requesting specific adjustments. Requests should be submitted in a single consolidated list per round.</p>
+<h3 id="74-additional-retouching">7.4 Additional Retouching</h3>
+<p>Retouching beyond the included rounds, or requests that go beyond the scope of standard retouching (e.g., background replacement, composite work, extensive body modification), will be quoted separately at <strong>$35 per image</strong>.</p>
+<hr>
+<h2 id="8-copyright-and-usage">8. Copyright and Usage</h2>
+<h3 id="81-copyright-ownership">8.1 Copyright Ownership</h3>
+<p>The Photographer retains full copyright of all images produced under this agreement, in accordance with the <em>Copyright Act 1968</em> (Cth). This is standard practice under Australian law.</p>
+<h3 id="82-client-licence">8.2 Client Licence</h3>
+<p>Upon full payment, the Client is granted a <strong>non-exclusive, worldwide, perpetual licence</strong> to use the delivered, retouched images for:</p>
+<ul>
+<li><strong>Personal use</strong> — social media, printing, gifts, personal websites</li>
+<li><strong>Professional and commercial use</strong> — LinkedIn, company websites, email signatures, press releases, speaker profiles, publications, business proposals, marketing materials, and related professional purposes</li>
+</ul>
+<p>This licence is included in the session fee. No additional payment is required.</p>
+<h3 id="83-restrictions">8.3 Restrictions</h3>
+<p>The Client may <strong>not</strong>:</p>
+<ul>
+<li>Resell, sub-licence, or distribute images to third parties for their commercial use</li>
+<li>Enter images into photography competitions or awards on the Client&#x27;s behalf</li>
+<li>Remove, crop out, or obscure any watermark applied to preview or sample images</li>
+<li>Materially alter images in a way that misrepresents the Photographer&#x27;s work (e.g., applying heavy filters that distort colour and quality)</li>
+</ul>
+<h3 id="84-portfolio-and-marketing-use">8.4 Portfolio and Marketing Use</h3>
+<p>The Photographer may use images produced under this agreement for portfolio display, website content, social media, marketing materials, award submissions, and editorial purposes — unless the Client requests exclusion in writing.</p>
+<p>A separate <strong>Model Release Form</strong> will be provided for the Client to specify their preferences regarding portfolio and promotional usage. The Client may opt out entirely, and this will have no effect on the quality of service received.</p>
+<h3 id="85-credit">8.5 Credit</h3>
+<p>Where images are published by the Photographer, credit to the Client (e.g., social media tagging) may be given but is not obligatory. The Client may request not to be tagged or credited.</p>
+<hr>
+<h2 id="9-model-release">9. Model Release</h2>
+<p>A separate Model Release Form will be provided alongside this agreement. The Model Release governs the specific ways in which the Photographer may use the Client&#x27;s images for promotional and commercial purposes.</p>
+<p>Signing this Service Agreement does not automatically grant the Photographer promotional usage rights. Those rights are addressed exclusively through the Model Release Form.</p>
+<hr>
+<h2 id="10-liability">10. Liability</h2>
+<h3 id="101-insurance">10.1 Insurance</h3>
+<p>The Photographer carries current public liability insurance for all sessions.</p>
+<h3 id="102-limitation-of-liability">10.2 Limitation of Liability</h3>
+<p>The Photographer exercises professional care in all aspects of the session, image handling, and delivery. However:</p>
+<ul>
+<li>The Photographer is not liable for any loss, damage, or injury arising from circumstances beyond reasonable control</li>
+<li>The Photographer is not liable for the Client&#x27;s dissatisfaction with their own appearance in otherwise technically competent photographs</li>
+<li>In all circumstances, the Photographer&#x27;s maximum liability under this agreement is limited to <strong>the total fee paid by the Client</strong> for the session in question</li>
+</ul>
+<h3 id="103-equipment-and-data">10.3 Equipment and Data</h3>
+<p>The Photographer uses professional-grade equipment and follows industry-standard backup procedures. In the highly unlikely event of complete data loss (e.g., simultaneous failure of all storage media), the Photographer will offer a complimentary reshoot at the earliest mutually convenient date.</p>
+<hr>
+<h2 id="11-force-majeure">11. Force Majeure</h2>
+<p>Neither party is liable for failure to perform obligations under this agreement where that failure is caused by circumstances beyond reasonable control, including but not limited to:</p>
+<ul>
+<li>Serious illness or medical emergency</li>
+<li>Severe weather events (cyclone, storm, flood)</li>
+<li>Equipment failure despite reasonable maintenance</li>
+<li>Government restrictions, lockdowns, or public health orders</li>
+<li>Natural disaster or other extraordinary events</li>
+</ul>
+<p>In such cases, the session will be rescheduled to a mutually agreed date at no additional cost. If rescheduling is not possible, the Client will receive a full refund.</p>
+<hr>
+<h2 id="12-privacy">12. Privacy</h2>
+<h3 id="121-data-collection">12.1 Data Collection</h3>
+<p>Power Portraits collects personal information (name, contact details, session preferences) solely for the purpose of delivering photography services, communicating about bookings, and issuing invoices.</p>
+<h3 id="122-data-handling">12.2 Data Handling</h3>
+<p>All personal data is handled in accordance with the <em>Privacy Act 1988</em> (Cth) and the Australian Privacy Principles. Client data is stored securely and will not be sold, shared, or disclosed to third parties except where required by law.</p>
+<h3 id="123-images">12.3 Images</h3>
+<p>Session images are stored on encrypted drives and secure cloud storage. The Photographer retains image files for a minimum of 12 months following the session date, after which they may be deleted from active storage.</p>
+<h3 id="124-client-rights">12.4 Client Rights</h3>
+<p>The Client has the right to access, correct, or request deletion of their personal information at any time by contacting the Photographer in writing.</p>
+<hr>
+<h2 id="13-dispute-resolution">13. Dispute Resolution</h2>
+<p>Both parties agree to resolve any dispute arising from this agreement in good faith. The process is:</p>
+<ol>
+<li><strong>Direct discussion</strong> — The parties will first attempt to resolve the matter through open and honest communication.</li>
+<li><strong>Mediation</strong> — If direct discussion does not resolve the dispute within 14 days, either party may refer the matter to mediation through a qualified mediator in Queensland. Mediation costs will be shared equally.</li>
+<li><strong>Legal proceedings</strong> — Court action should only be pursued as a last resort. This agreement is governed by the laws of Queensland, Australia, and any proceedings will be subject to the jurisdiction of the courts of Queensland.</li>
+</ol>
+<hr>
+<h2 id="14-entire-agreement">14. Entire Agreement</h2>
+<p>This document, together with the Model Release Form and any written amendments, constitutes the entire agreement between the Photographer and the Client regarding the services described.</p>
+<ul>
+<li>No verbal agreements or understandings outside this document are binding.</li>
+<li>Any changes or additions to this agreement must be made in writing and signed by both parties.</li>
+<li>If any provision of this agreement is found to be invalid or unenforceable, the remaining provisions continue in full force and effect.</li>
+</ul>
+<hr>
+<h2 id="15-signatures">15. Signatures</h2>
+<p>By signing below, both parties confirm that they have read, understood, and agree to the terms set out in this agreement.</p>
+<hr>
+<h3 id="session-summary">Session Summary</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Package</strong></td><td>[PACKAGE]</td></tr><tr><td><strong>Session Date</strong></td><td>[SESSION DATE]</td></tr><tr><td><strong>Session Time</strong></td><td>[SESSION TIME]</td></tr><tr><td><strong>Location(s)</strong></td><td>[LOCATION]</td></tr><tr><td><strong>Total Fee (inc. GST)</strong></td><td>$[TOTAL FEE]</td></tr><tr><td><strong>Deposit Paid</strong></td><td>$[DEPOSIT AMOUNT]</td></tr></tbody></table></div>
+<hr>
+<h3 id="client">Client</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Full Name (print clearly)</strong></td><td>[CLIENT NAME]</td></tr><tr><td><strong>Signature</strong></td><td></td></tr><tr><td><strong>Date</strong></td><td></td></tr></tbody></table></div>
+<hr>
+<h3 id="photographer">Photographer</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Full Name (print clearly)</strong></td><td>Ben Alek Conner</td></tr><tr><td><strong>Trading as</strong></td><td>Power Portraits Photography</td></tr><tr><td><strong>Signature</strong></td><td></td></tr><tr><td><strong>Date</strong></td><td></td></tr></tbody></table></div>
+<hr>
+<h2 id="important-notice">Important Notice</h2>
+<p><em>This agreement has been prepared for use by Power Portraits Photography in Queensland, Australia. It is written in plain language and intended to be fair to both parties. It does not constitute legal advice. Either party with specific legal concerns should seek independent legal advice before signing.</em></p>
+<p><em>For questions about this agreement:</em></p>
+<p><strong>Power Portraits Photography</strong> | [PHOTOGRAPHER EMAIL] | [PHOTOGRAPHER PHONE] | powerportraits.com.au</p>
+<hr>
+<p><em>Power Portraits Photography — Service Agreement | Brisbane, Queensland, Australia | ABN: 48 890 965 530</em></p>
+<p><em>Version 1.0 — April 2026</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">02-Power Portraits/01-strategy/Documents/SERVICE AGREEMENT TEMPLATE.md</div>
+    </main>
+  </div>
+</body>
+</html>

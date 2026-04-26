@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power Portraits — Social Media Strategy | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link active"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#power-portraits">Power Portraits</a> &rsaquo;
+          Power Portraits — Social Media Strategy
+        </div>
+        <h1 class="doc-title">Power Portraits — Social Media Strategy</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#128247; Power Portraits</span>
+          <span class="doc-path">02-Power Portraits / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="power-portraits-social-media-strategy">Power Portraits — Social Media Strategy</h1>
+<p><strong>Last updated:</strong> 9 April 2026</p>
+<p><strong>Owner:</strong> Ben Conner</p>
+<p><strong>Brand voice:</strong> Literary, unhurried, quietly commanding. Elegant sentences, interesting word choice. Australian English.</p>
+<p><strong>Visual identity:</strong> Ink #0F0F0F / Parchment #F5F0E8 / Antique Brass #B08D57. Cormorant Garamond (display), Inter (body). Monochromatic colour blocking, directional light, minimal retouching, negative space.</p>
+<hr>
+<h2 id="1-platform-strategy">1. Platform Strategy</h2>
+<h3 id="instagram-primary-b2c">Instagram (Primary — B2C)</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Purpose</strong></td><td>Portfolio showcase. Attract individual bookings from creative professionals across SEQ.</td></tr><tr><td><strong>Frequency</strong></td><td>4–5 posts/week + daily Stories</td></tr><tr><td><strong>Audience</strong></td><td>Actors, musicians, solopreneurs, freelance creatives in Brisbane/Gold Coast/Sunshine Coast, 22–50</td></tr></tbody></table></div>
+<p><strong>Content mix:</strong></p>
+<ul>
+<li><strong>Portrait posts</strong> — Full-bleed, no borders, no watermarks. One subject per image. Let the photograph carry itself.</li>
+<li><strong>Behind-the-scenes / process</strong> — Lighting setups, location scouting, tethered shooting, editing decisions. Show craft.</li>
+<li><strong>Client testimonials</strong> — Designed quote cards (Parchment background, Cormorant Garamond, Antique Brass accent line).</li>
+<li><strong>Reels (15–45 sec)</strong> — Session snippets, before/after reveals, lighting breakdowns, &quot;one light, one subject&quot; mini-studies.</li>
+<li><strong>Stories (daily)</strong> — Polls (&quot;Which crop?&quot;), BTS clips, session countdowns, reshares of client work.</li>
+</ul>
+<p><strong>Grid aesthetic:</strong> Dark and warm palette. Alternate between portrait posts and text/mood posts. The grid should feel curated but not rigid — no forced 3-column pattern. Let it breathe.</p>
+<p><strong>Hashtag strategy (15–20 per post, rotate sets):</strong></p>
+<ul>
+<li>Local: <code>#brisbanephotographer</code> <code>#brisbaneheadshots</code> <code>#seqcreatives</code> <code>#brisbanecreatives</code> <code>#goldcoastphotographer</code></li>
+<li>Niche: <code>#actorheadshots</code> <code>#musicianportraits</code> <code>#editorialportrait</code> <code>#solopreneurbranding</code> <code>#personalbrandphotography</code></li>
+<li>Broad: <code>#portraitphotography</code> <code>#headshots</code> <code>#studiolight</code> <code>#portraitmood</code> <code>#naturallight</code></li>
+</ul>
+<p><strong>Engagement rules:</strong></p>
+<ul>
+<li>Respond to every comment and DM within 4 hours during business hours.</li>
+<li>Follow and meaningfully engage with local creatives, acting schools (QUT, NIDA alumni), music venues, co-working spaces.</li>
+<li>No automated engagement. No follow/unfollow.</li>
+</ul>
+<hr>
+<h3 id="linkedin-primary-b2b">LinkedIn (Primary — B2B)</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Purpose</strong></td><td>Attract corporate clients. Build authority with HR directors, marketing managers, and founders who need team headshots.</td></tr><tr><td><strong>Frequency</strong></td><td>3 posts/week</td></tr><tr><td><strong>Audience</strong></td><td>Brisbane-based business owners, HR/people &amp; culture leads, marketing directors</td></tr></tbody></table></div>
+<p><strong>Content:</strong></p>
+<ul>
+<li><strong>Thought leadership</strong> — The commercial value of considered professional imagery. Why the cheapest headshot is the most expensive decision. How visual identity shapes perception before a word is spoken.</li>
+<li><strong>Corporate shoot case studies</strong> — Before/after of a team&#x27;s visual presence. Process, logistics, outcomes.</li>
+<li><strong>Articles</strong> — Long-form posts on personal branding, the psychology of portraiture, what clients actually need from professional photos.</li>
+</ul>
+<p><strong>Tone:</strong> Still literary, still unhurried. Slightly more structured than Instagram. No corporate buzzwords (&quot;synergy,&quot; &quot;leverage,&quot; &quot;thought leader&quot;). Write like an essayist who happens to run a studio.</p>
+<hr>
+<h3 id="google-business-profile">Google Business Profile</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Purpose</strong></td><td>Local SEO dominance. Reviews.</td></tr><tr><td><strong>Target</strong></td><td>50+ reviews in Year 1</td></tr><tr><td><strong>Frequency</strong></td><td>1 post/week (portfolio image + brief caption)</td></tr></tbody></table></div>
+<p><strong>Actions:</strong></p>
+<ul>
+<li>Respond to every review — positive or negative — within 24 hours.</li>
+<li>Upload 3–5 new photos monthly.</li>
+<li>Keep hours, services, and booking link current.</li>
+<li>Ask every client for a review at gallery delivery (include direct link in the delivery email).</li>
+</ul>
+<hr>
+<h3 id="tiktok-secondary-experimental">TikTok (Secondary / Experimental)</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Purpose</strong></td><td>Reach younger creatives — emerging actors, musicians, content creators</td></tr><tr><td><strong>Frequency</strong></td><td>2–3 posts/week</td></tr><tr><td><strong>Audience</strong></td><td>18–30, Brisbane and broader AU</td></tr></tbody></table></div>
+<p><strong>Content:</strong></p>
+<ul>
+<li>Short-form BTS (raw, unpolished is fine here — the contrast with the finished work is the point)</li>
+<li>Transformation reveals (walking in vs. final portrait)</li>
+<li>&quot;How to pose&quot; tips for non-models</li>
+<li>Lighting breakdowns (&quot;one window, one reflector, this is what you get&quot;)</li>
+<li>&quot;What I&#x27;d charge for this&quot; — honest pricing transparency</li>
+</ul>
+<p><strong>Tone:</strong> Slightly more casual. Still never cheap, never gimmicky. The intelligence should still be visible. Think of it as a private studio tour, not a performance.</p>
+<hr>
+<h2 id="2-content-pillars">2. Content Pillars</h2>
+<p>Every piece of content falls into one of five pillars. This keeps the feed balanced and purposeful.</p>
+<h3 id="pillar-1-the-work">Pillar 1: The Work</h3>
+<p>Portfolio images. Full-bleed portraits with minimal captioning. Let the photograph do the talking.</p>
+<p><strong>Captions:</strong> Brief, evocative, about the subject — not about the camera settings. Write about the person, not the process.</p>
+<blockquote><em>&quot;Mara came in saying she doesn&#x27;t photograph well. She was wrong.&quot;</em><br><br><em>&quot;Thirty seconds into the session, the performance stopped and the person arrived.&quot;</em></blockquote>
+<p><strong>Platforms:</strong> Instagram (feed + Reels), LinkedIn (selectively), Google Business Profile, TikTok (as transformation reveals)</p>
+<hr>
+<h3 id="pillar-2-behind-the-lens">Pillar 2: Behind the Lens</h3>
+<p>Process, setup, lighting diagrams, location scouting, editing decisions. This pillar demonstrates craft and intentionality — it answers the question &quot;why should I pay more for this?&quot;</p>
+<p><strong>Example posts:</strong></p>
+<ul>
+<li>Photo of the lighting setup alongside the final image</li>
+<li>Time-lapse of a culling session</li>
+<li>Annotated before/after showing what retouching actually means (and what it doesn&#x27;t)</li>
+<li>&quot;Why I chose this background colour&quot; — a 60-second explanation of colour theory in practice</li>
+</ul>
+<p><strong>Platforms:</strong> Instagram (Reels + Stories), TikTok, LinkedIn (editing and selection process for corporate context)</p>
+<hr>
+<h3 id="pillar-3-the-creative">Pillar 3: The Creative</h3>
+<p>Spotlight on the client&#x27;s creative work. Tag them, celebrate their projects, link to their portfolio or upcoming show. This is the engine of community and referrals.</p>
+<p><strong>Example posts:</strong></p>
+<ul>
+<li>Portrait of an actor + mention of their upcoming production</li>
+<li>Musician portrait + link to their new single</li>
+<li>Solopreneur headshot + shout-out to their business launch</li>
+</ul>
+<p><strong>Why this matters:</strong> Every client becomes an ambassador. Their audience sees the portrait, wonders who took it, clicks through. Organic referral loop.</p>
+<p><strong>Platforms:</strong> Instagram (feed + Stories), LinkedIn (if client is a business professional)</p>
+<hr>
+<h3 id="pillar-4-perspective">Pillar 4: Perspective</h3>
+<p>Thought pieces on image, perception, personal branding, and the role of portraiture in a digital world. This is where the full brand voice lives — literary, considered, occasionally provocative.</p>
+<p><strong>Example posts:</strong></p>
+<ul>
+<li>&quot;Your headshot is not a photograph. It is a first sentence.&quot;</li>
+<li>&quot;The case against the ring light&quot; — why flattering light and good light are not the same thing</li>
+<li>&quot;What your LinkedIn photo is actually saying about you&quot;</li>
+<li>&quot;Portraiture in the age of AI-generated faces&quot; — why the real thing matters more than ever</li>
+</ul>
+<p><strong>Platforms:</strong> LinkedIn (primary — long-form), Instagram (carousel or single image with long caption)</p>
+<hr>
+<h3 id="pillar-5-invitation">Pillar 5: Invitation</h3>
+<p>Availability, session openings, seasonal offers, referral reminders. These are framed as invitations — warm, specific, with a clear reason to act now. Never desperate. Never &quot;BOOK NOW 50% OFF!!!&quot;</p>
+<p><strong>Example posts:</strong></p>
+<ul>
+<li>&quot;I have two studio sessions open next Thursday. If you&#x27;ve been meaning to update your headshots before pilot season, this would be a good week.&quot;</li>
+<li>&quot;Referral note: if someone you&#x27;ve worked with needs portraits, I&#x27;ll look after them — and I&#x27;ll send you a print as a thank you.&quot;</li>
+<li>&quot;The winter light in the studio right now is extraordinary. I&#x27;m keeping a few afternoon slots open to make the most of it.&quot;</li>
+</ul>
+<p><strong>Platforms:</strong> Instagram (feed + Stories), LinkedIn (session availability for corporate), Google Business Profile</p>
+<hr>
+<h2 id="3-posting-cadence">3. Posting Cadence</h2>
+<h3 id="weekly-schedule">Weekly Schedule</h3>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Instagram</th><th>LinkedIn</th><th>TikTok</th><th>GBP</th></tr></thead><tbody><tr><td><strong>Monday</strong></td><td>The Work (portrait post)</td><td>Perspective (thought piece)</td><td>—</td><td>—</td></tr><tr><td><strong>Tuesday</strong></td><td>Behind the Lens (Reel)</td><td>—</td><td>BTS / How-to</td><td>—</td></tr><tr><td><strong>Wednesday</strong></td><td>The Creative (client spotlight)</td><td>The Creative (professional spotlight)</td><td>—</td><td>Portfolio post</td></tr><tr><td><strong>Thursday</strong></td><td>The Work (portrait post)</td><td>—</td><td>Transformation reveal</td><td>—</td></tr><tr><td><strong>Friday</strong></td><td>Invitation or Perspective (carousel)</td><td>Invitation (availability)</td><td>Posing tips</td><td>—</td></tr><tr><td><strong>Saturday</strong></td><td>Behind the Lens or The Work (optional)</td><td>—</td><td>—</td><td>—</td></tr><tr><td><strong>Sunday</strong></td><td>Rest / batch content for the week</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>
+<p><strong>Stories (Instagram):</strong> Daily. Mix of BTS clips, polls, session previews, reshared client tags, and personal moments that show the human behind the camera.</p>
+<p><strong>Batch day:</strong> Sunday or one designated weekday. Write captions, edit Reels, schedule the full week. Use a scheduling tool (Mixpost via the marketing stack) to queue posts.</p>
+<hr>
+<h2 id="4-engagement-strategy">4. Engagement Strategy</h2>
+<h3 id="daily-actions-1520-minutes">Daily Actions (15–20 minutes)</h3>
+<ul>
+<li>Comment meaningfully on 10–15 local creative accounts (actors, musicians, Brisbane creatives, co-working spaces, creative agencies)</li>
+<li>Respond to all comments on own posts</li>
+<li>Respond to all DMs within 4 hours during business hours</li>
+<li>Reshare any client posts that tag Power Portraits to Stories</li>
+</ul>
+<h3 id="weekly-actions">Weekly Actions</h3>
+<ul>
+<li>Identify 2–3 potential collaboration partners (MUAs, stylists, creative directors, wardrobe stylists, acting coaches)</li>
+<li>Engage with their content for a week before proposing anything</li>
+<li>Share client work to Stories (with permission — ask at session or include in release form)</li>
+</ul>
+<h3 id="monthly-actions">Monthly Actions</h3>
+<ul>
+<li>DM 5 past clients checking in — no sales pitch, genuine interest in their work</li>
+<li>Review which posts drove the most profile visits and DMs — double down on those formats</li>
+<li>One collaboration shoot with a local creative (MUA, stylist, model) to generate fresh portfolio content and cross-promote</li>
+</ul>
+<h3 id="principles">Principles</h3>
+<ul>
+<li>No follow/unfollow tactics. Ever.</li>
+<li>No engagement pods or comment groups.</li>
+<li>No generic comments (&quot;Great shot!&quot; &quot;Love this!&quot;). Write something specific or don&#x27;t write anything.</li>
+<li>Build genuine relationships. The goal is to be a known and respected part of Brisbane&#x27;s creative community, not to game an algorithm.</li>
+</ul>
+<hr>
+<h2 id="5-paid-strategy">5. Paid Strategy</h2>
+<h3 id="monthly-budget-300500">Monthly Budget: $300–$500</h3>
+<p>Split as conditions dictate, but starting allocation:</p>
+<div class="table-wrap"><table><thead><tr><th>Channel</th><th>Monthly Spend</th><th>Objective</th></tr></thead><tbody><tr><td>Instagram (boosted posts)</td><td>$150–$250</td><td>Reach + profile visits</td></tr><tr><td>Google Ads (Search)</td><td>$150–$250</td><td>Direct bookings</td></tr><tr><td>LinkedIn</td><td>$0 (organic only, Year 1)</td><td>—</td></tr><tr><td>TikTok</td><td>$0 (organic only)</td><td>—</td></tr></tbody></table></div>
+<h3 id="instagram-paid">Instagram Paid</h3>
+<ul>
+<li><strong>What to boost:</strong> Top-performing portfolio posts (highest save/share rate, not just likes). Boost posts that are already working organically.</li>
+<li><strong>Targeting:</strong> Brisbane + Gold Coast + Sunshine Coast. Age 25–45. Interests: acting, music, entrepreneurship, personal branding, photography, creative arts.</li>
+<li><strong>Duration:</strong> 5–7 days per boost. $30–$50 per post.</li>
+<li><strong>Goal:</strong> Profile visits and DM inquiries, not vanity reach.</li>
+</ul>
+<h3 id="google-ads-search">Google Ads (Search)</h3>
+<ul>
+<li><strong>Keywords:</strong> &quot;Brisbane headshot photographer,&quot; &quot;actor headshots Brisbane,&quot; &quot;musician photos Brisbane,&quot; &quot;professional portraits Brisbane,&quot; &quot;corporate headshots Brisbane&quot;</li>
+<li><strong>Landing page:</strong> Dedicated booking/enquiry page with portfolio samples, testimonials, and a clear call to action.</li>
+<li><strong>CPA target:</strong> Under $50 per enquiry. If CPA exceeds $75 consistently, pause and reassess keyword/ad copy.</li>
+<li><strong>Ad copy tone:</strong> Match brand voice. No &quot;cheap headshots&quot; or &quot;affordable photos.&quot; Position on quality and craft.</li>
+</ul>
+<h3 id="rules">Rules</h3>
+<ul>
+<li>Never boost a post that hasn&#x27;t performed organically first.</li>
+<li>Review ad performance weekly. Kill underperformers at the 7-day mark.</li>
+<li>No paid LinkedIn until organic reach proves the audience is there (reassess at 6 months).</li>
+</ul>
+<hr>
+<h2 id="6-metrics-and-kpis">6. Metrics and KPIs</h2>
+<h3 id="monthly-targets">Monthly Targets</h3>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Target</th><th>Tracking</th></tr></thead><tbody><tr><td>Instagram follower growth</td><td>+100/month</td><td>Native analytics</td></tr><tr><td>Instagram engagement rate</td><td>&gt;3%</td><td>Native analytics</td></tr><tr><td>Website clicks from social</td><td>50/month</td><td>Matomo (UTM-tagged links)</td></tr><tr><td>DM enquiries (all platforms)</td><td>10/month</td><td>Manual count (log in CRM)</td></tr><tr><td>Bookings attributed to social</td><td>4/month</td><td>Twenty CRM (source tracking)</td></tr><tr><td>Google reviews</td><td>4–5/month</td><td>Google Business Profile</td></tr><tr><td>LinkedIn connections (targeted)</td><td>+50/month</td><td>Native analytics</td></tr><tr><td>Cost per enquiry (paid)</td><td>&lt;$50</td><td>Google Ads + Instagram Ads Manager</td></tr></tbody></table></div>
+<h3 id="quarterly-review">Quarterly Review</h3>
+<p>Every 3 months, review:</p>
+<ol>
+<li>Which content pillar drives the most enquiries? Increase its share.</li>
+<li>Which platform delivers the best cost-per-booking? Shift budget.</li>
+<li>Are we reaching the right audience? Check follower demographics against target.</li>
+<li>Is the brand voice consistent? Read back through the last 30 posts — does it sound like one person wrote them?</li>
+</ol>
+<h3 id="tracking-setup">Tracking Setup</h3>
+<ul>
+<li><strong>Website analytics:</strong> Matomo (self-hosted, via marketing stack). All social links use UTM parameters: <code>?utm<em>source=instagram&amp;utm</em>medium=social&amp;utm_campaign=portfolio</code></li>
+<li><strong>CRM:</strong> Twenty CRM. Every enquiry logged with source. Every booking tagged with acquisition channel.</li>
+<li><strong>Platform analytics:</strong> Instagram Insights, LinkedIn Analytics, TikTok Analytics, Google Business Profile Insights.</li>
+<li><strong>Review in:</strong> Metabase dashboard (consolidate key metrics weekly).</li>
+</ul>
+<hr>
+<h2 id="7-visual-guidelines-for-social">7. Visual Guidelines for Social</h2>
+<h3 id="portrait-posts-instagram-linkedin-gbp">Portrait Posts (Instagram, LinkedIn, GBP)</h3>
+<ul>
+<li>Full-bleed. No borders, no frames, no watermarks.</li>
+<li>Export at platform-native resolution (1080x1350 for Instagram portrait, 1080x1080 for square).</li>
+<li>Colour-accurate. No Instagram filters. No presets that shift skin tones.</li>
+<li>If the image needs a filter to look good, the image isn&#x27;t good enough.</li>
+</ul>
+<h3 id="quote-text-posts">Quote / Text Posts</h3>
+<ul>
+<li>Background: Parchment #F5F0E8</li>
+<li>Text: Ink #0F0F0F</li>
+<li>Display font: Cormorant Garamond (for the quote or headline)</li>
+<li>Body font: Inter (for attribution or secondary text)</li>
+<li>Accent elements: Antique Brass #B08D57 (thin rules, decorative lines, pull-quote marks)</li>
+<li>Keep text minimal. If it needs more than 30 words on the image, make it a carousel instead.</li>
+</ul>
+<h3 id="stories">Stories</h3>
+<ul>
+<li>Dark backgrounds (Ink #0F0F0F or near-black from the shoot environment)</li>
+<li>Minimal text overlays — Inter, white or Parchment</li>
+<li>Antique Brass accent elements (thin lines, location tags, timestamps)</li>
+<li>Use the &quot;close friends&quot; list for VIP clients to share exclusive BTS</li>
+</ul>
+<h3 id="reels-and-tiktok">Reels and TikTok</h3>
+<ul>
+<li>No flashy transitions. Clean cuts. Let the work carry it.</li>
+<li>Audio: Ambient studio sounds, understated music. No trending audio that clashes with the brand.</li>
+<li>Text overlays: Inter, clean, positioned with breathing room.</li>
+<li>Thumbnail: Choose a frame that works as a still photograph. If the thumbnail doesn&#x27;t look like a Power Portraits image, reshoot it.</li>
+<li>Aspect ratio: 9:16 (1080x1920)</li>
+</ul>
+<h3 id="carousels">Carousels</h3>
+<ul>
+<li>First slide: Hook (Cormorant Garamond headline on Parchment or over a darkened portrait)</li>
+<li>Interior slides: Mix of images and text. Keep text slides to 2–3 sentences max.</li>
+<li>Final slide: Clear call to action (&quot;Link in bio to book&quot; or &quot;DM to enquire&quot;). Never aggressive.</li>
+</ul>
+<h3 id="colour-accuracy">Colour Accuracy</h3>
+<ul>
+<li>Calibrate monitor before any social export.</li>
+<li>Export in sRGB colour space for all social platforms.</li>
+<li>Never use filters that alter skin tones or colour temperature.</li>
+<li>If a platform&#x27;s compression degrades the image noticeably, adjust export sharpening to compensate.</li>
+</ul>
+<hr>
+<h2 id="appendix-content-ideas-bank">Appendix: Content Ideas Bank</h2>
+<p>Keep a running list. When inspiration strikes, add it here. Pull from this list during Sunday batch sessions.</p>
+<p><strong>The Work:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Monochromatic portrait series — one colour per week</li>
+<li><span class="cb cb-empty">&#9744;</span> &quot;Hands&quot; series — creative professionals and their tools</li>
+<li><span class="cb cb-empty">&#9744;</span> Environmental portraits — musicians at their venue, actors at their theatre</li>
+</ul>
+<p><strong>Behind the Lens:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> &quot;One light&quot; series — what you can do with a single source</li>
+<li><span class="cb cb-empty">&#9744;</span> Editing philosophy video — what gets retouched and what doesn&#x27;t</li>
+<li><span class="cb cb-empty">&#9744;</span> Studio tour Reel</li>
+</ul>
+<p><strong>The Creative:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Quarterly &quot;creatives to watch&quot; carousel featuring recent clients</li>
+<li><span class="cb cb-empty">&#9744;</span> Collaboration shoot with a Brisbane MUA — full BTS to final</li>
+<li><span class="cb cb-empty">&#9744;</span> Musician portrait + Spotify embed in carousel</li>
+</ul>
+<p><strong>Perspective:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> &quot;The death of the ring light&quot; — essay post</li>
+<li><span class="cb cb-empty">&#9744;</span> &quot;What AI headshots get wrong&quot; — timely, positions the craft</li>
+<li><span class="cb cb-empty">&#9744;</span> &quot;Your face is not the problem&quot; — on camera anxiety and self-perception</li>
+</ul>
+<p><strong>Invitation:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Seasonal mini-session announcements (autumn light, winter moody, spring colour)</li>
+<li><span class="cb cb-empty">&#9744;</span> Referral program launch post</li>
+<li><span class="cb cb-empty">&#9744;</span> &quot;Portfolio refresh&quot; campaign for returning clients</li>
+</ul>
+<hr>
+<p><em>This document is a living strategy. Review and update quarterly, or whenever something stops working.</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">02-Power Portraits/01-strategy/Documents/SOCIAL MEDIA STRATEGY.md</div>
+    </main>
+  </div>
+</body>
+</html>

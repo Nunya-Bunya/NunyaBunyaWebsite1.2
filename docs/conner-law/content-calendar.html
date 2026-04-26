@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONNER LAW GROUP — CONTENT CALENDAR | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link active"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#conner-law">Conner Law</a> &rsaquo;
+          CONNER LAW GROUP — CONTENT CALENDAR
+        </div>
+        <h1 class="doc-title">CONNER LAW GROUP — CONTENT CALENDAR</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(74,144,217,0.12);color:#4A90D9">&#9878; Conner Law</span>
+          <span class="doc-path">05-Conner Law / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="conner-law-group-content-calendar">CONNER LAW GROUP — CONTENT CALENDAR</h1>
+<h3 id="april-june-2026-q2-2026">April – June 2026 (Q2 2026)</h3>
+<p><strong>Covers: LinkedIn | Facebook | Google Business Profile</strong></p>
+<p><em>All entities: Conner Law Group | Conner Injury Law | Merkel &amp; Conner | MBCS | KevLaw AI</em></p>
+<hr>
+<h2 id="overview-amp-structure">OVERVIEW &amp; STRUCTURE</h2>
+<h3 id="publishing-cadence">Publishing Cadence</h3>
+<div class="table-wrap"><table><thead><tr><th>Platform</th><th>Frequency</th><th>Responsible Party</th></tr></thead><tbody><tr><td>LinkedIn</td><td>3 posts per week (across entities)</td><td>Marketing Manager / Principal</td></tr><tr><td>Facebook</td><td>5 posts per week (primarily Conner Injury Law)</td><td>Marketing Manager</td></tr><tr><td>Google Business Profile</td><td>1 post per week per active entity</td><td>Marketing Manager</td></tr></tbody></table></div>
+<h3 id="content-pillars">Content Pillars</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Pillar</th><th>Description</th><th>Primary Platforms</th></tr></thead><tbody><tr><td>1</td><td>Legal Education</td><td>Plain-English explainers on personal injury rights, Queensland law, claim processes, and business legal needs</td><td>LinkedIn, Facebook</td></tr><tr><td>2</td><td>Case Type Spotlights</td><td>Deep focus on specific claim types — CTP, WorkCover, public liability, medical negligence — how they work and what to expect</td><td>LinkedIn, Facebook</td></tr><tr><td>3</td><td>Client Testimonials (Anonymised)</td><td>Real client outcomes, anonymised in full compliance with QLS solicitor advertising rules</td><td>LinkedIn, Facebook, GBP</td></tr><tr><td>4</td><td>KevLaw AI Updates</td><td>Product features, law firm efficiency content, legal technology commentary</td><td>LinkedIn</td></tr><tr><td>5</td><td>Community &amp; Brisbane</td><td>Local Brisbane content, community connection, QLD-specific events and context</td><td>Facebook, GBP</td></tr></tbody></table></div>
+<h3 id="content-type-codes">Content Type Codes</h3>
+<div class="table-wrap"><table><thead><tr><th>Code</th><th>Format</th></tr></thead><tbody><tr><td>EDU</td><td>Educational post — text or branded graphic</td></tr><tr><td>VID</td><td>Short video (60–90 seconds, fully captioned)</td></tr><tr><td>CAR</td><td>Carousel (3–8 slides)</td></tr><tr><td>IMG</td><td>Single image with caption</td></tr><tr><td>TXT</td><td>Text-only post (LinkedIn native)</td></tr><tr><td>REV</td><td>Client review / testimonial spotlight</td></tr><tr><td>UPD</td><td>KevLaw AI product or firm update</td></tr><tr><td>COM</td><td>Community / Brisbane content</td></tr></tbody></table></div>
+<h3 id="responsible-parties">Responsible Parties</h3>
+<div class="table-wrap"><table><thead><tr><th>Role</th><th>Responsibilities</th></tr></thead><tbody><tr><td>Marketing Manager</td><td>All post copy drafting, scheduling, image creation, GBP posts, performance tracking</td></tr><tr><td>Principal (Ben Alek Conner)</td><td>KevLaw AI posts, founder-voice posts, final approval on all external content</td></tr><tr><td>Responsible Solicitor</td><td>Legal accuracy review on all practice area content before publication</td></tr></tbody></table></div>
+<hr>
+<h2 id="april-2026">APRIL 2026</h2>
+<h3 id="week-1-1-to-5-april-2026">Week 1 — 1 to 5 April 2026</h3>
+<p><strong>Theme: Know Your Rights — Personal Injury Fundamentals</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Tue 1 Apr</td><td>LinkedIn</td><td>Conner Injury Law</td><td>Legal Education</td><td>EDU</td><td>&quot;Were you injured in a car accident in Queensland? Here is what happens next — a plain-English guide to the CTP claims process under MAIC, from day one to settlement.&quot;</td><td>Marketing Manager</td></tr><tr><td>Tue 1 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>IMG</td><td>&quot;If you&#x27;ve been in a car accident that wasn&#x27;t your fault, you may be entitled to compensation for medical costs, lost income, and pain and suffering. Here&#x27;s what to do first.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 2 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>TXT</td><td>&quot;Not sure if your injury is &#x27;bad enough&#x27; to claim? Here&#x27;s the honest answer: if you&#x27;ve been injured through someone else&#x27;s negligence, it is always worth a free conversation with a solicitor. There is no obligation and no cost.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 2 Apr</td><td>GBP</td><td>Conner Injury Law</td><td>Legal Education</td><td>GBP</td><td>&quot;Injured in a car accident in Brisbane? Our personal injury team offers a free initial consultation — no win, no fee. Call us today to find out what your claim may be worth.&quot; [Call CTA]</td><td>Marketing Manager</td></tr><tr><td>Thu 3 Apr</td><td>LinkedIn</td><td>KevLaw AI</td><td>KevLaw AI</td><td>UPD</td><td>&quot;We built KevLaw AI because we were tired of watching our solicitors spend 40 minutes on documents that follow the same format every time. Here is what we built, and why we are now bringing it to other firms.&quot;</td><td>Principal</td></tr><tr><td>Thu 3 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>VID</td><td>Short video: &quot;What is a CTP claim? What does MAIC actually do?&quot; — 60-second plain-English explainer, subtitled throughout</td><td>Marketing Manager</td></tr><tr><td>Fri 4 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Community</td><td>IMG</td><td>&quot;Our Brisbane team is here for everyday Queenslanders — not just clients who already know the system. If you have been injured, the first call is always free.&quot; (Team photo, Brisbane setting)</td><td>Marketing Manager</td></tr><tr><td>Week</td><td>GBP</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>GBP</td><td>&quot;Business law for Brisbane SMEs. Commercial contracts, employment law, shareholder agreements — practical advice without the large-firm price tag. Contact Merkel &amp; Conner.&quot; [Website CTA]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h3 id="week-2-7-to-13-april-2026">Week 2 — 7 to 13 April 2026</h3>
+<p><strong>Theme: Workplace Injuries &amp; WorkCover Queensland</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Mon 7 Apr</td><td>LinkedIn</td><td>Conner Injury Law</td><td>Legal Education</td><td>EDU</td><td>&quot;The difference between a statutory WorkCover claim and a common law damages claim in Queensland — what injured workers need to understand before deciding which path to take.&quot;</td><td>Marketing Manager</td></tr><tr><td>Mon 7 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Case Type Spotlight</td><td>CAR</td><td>Carousel: &quot;5 things you must do immediately after a workplace injury in Queensland&quot; — Report the injury / See a GP same day / Lodge a WorkCover claim / Document everything / Speak to a solicitor</td><td>Marketing Manager</td></tr><tr><td>Tue 8 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>TXT</td><td>&quot;WorkCover pays your wages while you recover — but did you know you may also be entitled to common law damages if your employer was negligent? Here is the difference, explained plainly.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 9 Apr</td><td>LinkedIn</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>TXT</td><td>&quot;Three commercial contract mistakes that Brisbane SMEs make — and how to avoid them. Number two surprises almost every founder we speak with.&quot; (Business law education)</td><td>Marketing Manager</td></tr><tr><td>Wed 9 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>IMG</td><td>&quot;You have 6 months to report a workplace injury to WorkCover Queensland. Don&#x27;t miss the deadline.&quot; (Timeline infographic)</td><td>Marketing Manager</td></tr><tr><td>Thu 10 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Community</td><td>IMG</td><td>&quot;Our Brisbane team handles WorkCover claims, CTP claims, and public liability matters across South East Queensland. Wherever you are, we are easy to reach.&quot;</td><td>Marketing Manager</td></tr><tr><td>Fri 11 Apr</td><td>LinkedIn</td><td>KevLaw AI</td><td>KevLaw AI</td><td>UPD</td><td>&quot;KevLaw AI feature spotlight: Notice of Claim generation. First draft in under 60 seconds — here is how it works and why it matters for high-volume personal injury practices.&quot;</td><td>Principal</td></tr><tr><td>Sat 12 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>VID</td><td>&quot;What is WorkCover Queensland and how does the claims process work?&quot; — 90-second plain-English explainer, subtitled</td><td>Marketing Manager</td></tr><tr><td>Week</td><td>GBP</td><td>Conner Injury Law</td><td>Case Type Spotlight</td><td>GBP</td><td>&quot;Injured at work in Queensland? Conner Injury Law handles WorkCover claims and common law damages — no win, no fee. Free consultation available.&quot; [Call CTA]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h3 id="week-3-14-to-20-april-2026">Week 3 — 14 to 20 April 2026</h3>
+<p><strong>Theme: Slip, Trip, and Fall — Public Liability Claims</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Mon 14 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>EDU</td><td>&quot;Slipped and fallen in a shopping centre, café, car park, or footpath in Brisbane? You may have a public liability claim. Here is what it involves and what you need to prove.&quot;</td><td>Marketing Manager</td></tr><tr><td>Tue 15 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>CAR</td><td>Carousel: &quot;Who is responsible when you are injured in a public place in Queensland?&quot; — Shopping centre operators / Local councils / Restaurant and café owners / Landlords / Event organisers</td><td>Marketing Manager</td></tr><tr><td>Wed 16 Apr</td><td>LinkedIn</td><td>Conner Injury Law</td><td>Case Type Spotlight</td><td>EDU</td><td>&quot;Public liability law in Queensland: what injured claimants need to know about the <em>Civil Liability Act 2003</em> (Qld), duty of care, and establishing a viable claim.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 16 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Client Testimonial</td><td>REV</td><td>&quot;&#x27;I slipped on a wet floor at a Brisbane shopping centre. I wasn&#x27;t sure I had a claim. Three months later, our matter settled.&#x27; — Client, initials withheld, public liability matter.&quot; (QLS-compliant anonymised testimonial)</td><td>Marketing Manager</td></tr><tr><td>Thu 17 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Community</td><td>IMG</td><td>&quot;Our team is proud to serve Brisbane — from the CBD to the outer suburbs. If you&#x27;ve been injured anywhere in South East Queensland, we can help.&quot;</td><td>Marketing Manager</td></tr><tr><td>Fri 18 Apr</td><td>LinkedIn</td><td>Conner Injury Law</td><td>Case Type Spotlight</td><td>TXT</td><td>&quot;You do not need to have a perfect liability case to make a public liability claim. Contributory negligence in Queensland — how shared fault affects your claim and your payout.&quot;</td><td>Marketing Manager</td></tr><tr><td>Week</td><td>GBP</td><td>Conner Law Group</td><td>Community</td><td>GBP</td><td>&quot;Conner Law Group — personal injury, business law, medical-legal support, and legal technology. Brisbane&#x27;s integrated legal services group.&quot; [Website CTA]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h3 id="week-4-21-to-27-april-2026">Week 4 — 21 to 27 April 2026</h3>
+<p><strong>Theme: ANZAC Week + TPD and Income Protection Claims</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Mon 21 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>TXT</td><td>&quot;When does a personal injury claim become a Total Permanent Disability (TPD) claim? If your injury has permanently affected your ability to work, your superannuation fund may owe you a significant benefit.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 23 Apr</td><td>LinkedIn</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>EDU</td><td>&quot;What every Queensland business owner should have in their shareholder agreement — and what is typically absent until it is too late.&quot; (Commercial law education post)</td><td>Marketing Manager</td></tr><tr><td>Wed 23 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>VID</td><td>&quot;What is a TPD claim? How does it work alongside a personal injury claim?&quot; — 75-second explainer, subtitled</td><td>Marketing Manager</td></tr><tr><td>Thu 24 Apr</td><td>Facebook</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>IMG</td><td>&quot;Your commercial lease renewal is coming up. Before you sign — here are three clauses your solicitor should be reviewing.&quot;</td><td>Marketing Manager</td></tr><tr><td>Fri 25 Apr</td><td>Facebook</td><td>Conner Law Group</td><td>Community</td><td>IMG</td><td>&quot;ANZAC Day 2026. Lest we forget. Our Brisbane team pauses to honour the service and sacrifice of all Australians.&quot; (Respectful ANZAC Day acknowledgement — no promotional content)</td><td>Marketing Manager</td></tr><tr><td>Week</td><td>GBP</td><td>Conner Injury Law</td><td>Client Testimonial</td><td>GBP</td><td>&quot;Rated 5 stars by our Brisbane clients. See why Queenslanders trust Conner Injury Law for personal injury claims — from WorkCover to motor vehicle accidents.&quot; [Review link]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h2 id="may-2026">MAY 2026</h2>
+<h3 id="week-5-28-april-to-4-may-2026">Week 5 — 28 April to 4 May 2026</h3>
+<p><strong>Theme: Medical Negligence &amp; Complex Personal Injury</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Mon 28 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Case Type Spotlight</td><td>EDU</td><td>&quot;Medical negligence claims are some of the most complex personal injury matters in Queensland. Here is how to know if you have a claim — and what to do first if you believe your treatment fell below standard.&quot;</td><td>Marketing Manager</td></tr><tr><td>Tue 29 Apr</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>CAR</td><td>Carousel: &quot;The 4 elements you must establish in a medical negligence claim in Queensland&quot; — Duty of care / Breach of duty / Causation / Damage — each explained in plain language</td><td>Marketing Manager</td></tr><tr><td>Wed 30 Apr</td><td>LinkedIn</td><td>Conner Injury Law</td><td>Case Type Spotlight</td><td>EDU</td><td>&quot;Medical negligence in Queensland: understanding the difference between a poor outcome and a compensable error. Key considerations for plaintiffs and the expert evidence required to succeed.&quot;</td><td>Marketing Manager</td></tr><tr><td>Thu 1 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Community</td><td>IMG</td><td>&quot;Complex cases. Real people. Our Brisbane personal injury team handles medical negligence matters with the specialist care and preparation they require.&quot;</td><td>Marketing Manager</td></tr><tr><td>Fri 2 May</td><td>LinkedIn</td><td>KevLaw AI</td><td>KevLaw AI</td><td>UPD</td><td>&quot;We are opening applications for our KevLaw AI beta programme — free access for Queensland personal injury law firms. Here is what you get and how to apply.&quot;</td><td>Principal</td></tr><tr><td>Week</td><td>GBP</td><td>Conner Injury Law</td><td>Legal Education</td><td>GBP</td><td>&quot;Personal injury claims in Queensland — from first call to settlement, in plain English. No win, no fee. Free initial consultation with Conner Injury Law, Brisbane.&quot; [Call CTA]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h3 id="week-6-5-to-10-may-2026">Week 6 — 5 to 10 May 2026</h3>
+<p><strong>Theme: Understanding Compensation — What You Can Claim</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Mon 5 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>EDU</td><td>&quot;Personal injury claims in Queensland can cover more than your medical bills. Here are the main heads of damage you may be entitled to claim.&quot;</td><td>Marketing Manager</td></tr><tr><td>Tue 6 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>CAR</td><td>Carousel: &quot;What can you claim after a personal injury in Queensland?&quot; — Past and future medical expenses / Lost income / Pain and suffering (general damages) / Home assistance / Future economic loss / Superannuation</td><td>Marketing Manager</td></tr><tr><td>Wed 7 May</td><td>LinkedIn</td><td>Conner Injury Law</td><td>Legal Education</td><td>TXT</td><td>&quot;The Injury Scale Value (ISV) in Queensland: how courts and insurers assess general damages in personal injury claims, and why your ISV rating has a direct impact on your settlement.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 7 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Client Testimonial</td><td>REV</td><td>&quot;&#x27;After a serious motor vehicle accident left me unable to work for eight months, the Conner Injury Law team settled my matter and the result was life-changing.&#x27; — Client, initials withheld, Brisbane.&quot;</td><td>Marketing Manager</td></tr><tr><td>Thu 8 May</td><td>Facebook</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>IMG</td><td>&quot;Hiring your first employee? The employment contract is the most important document you will sign as a business owner. Here are five clauses Brisbane employers most often overlook.&quot;</td><td>Marketing Manager</td></tr><tr><td>Fri 9 May</td><td>LinkedIn</td><td>KevLaw AI</td><td>KevLaw AI</td><td>UPD</td><td>&quot;How KevLaw AI reduces letter-of-demand drafting time from 45 minutes to under 5 minutes — a workflow breakdown with real examples from our Queensland personal injury practice.&quot;</td><td>Principal</td></tr><tr><td>Week</td><td>GBP</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>GBP</td><td>&quot;Business law for Brisbane SMEs — commercial contracts, employment law, shareholder agreements. Practical legal advice without the large-firm price tag. Merkel &amp; Conner.&quot; [Contact CTA]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h3 id="week-7-11-to-17-may-2026">Week 7 — 11 to 17 May 2026</h3>
+<p><strong>Theme: Psychological Injury &amp; Mental Health Awareness Month</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Mon 11 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>EDU</td><td>&quot;The psychological impact of a serious injury is real — and it is compensable in Queensland. Anxiety, depression, and PTSD following an accident are not &#x27;soft&#x27; injuries. Here is how psychological harm is recognised in personal injury claims.&quot;</td><td>Marketing Manager</td></tr><tr><td>Tue 12 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Community</td><td>IMG</td><td>&quot;If you are struggling after an accident — physically or mentally — you do not have to navigate the legal and medical process alone. Our Brisbane team is here to take the legal weight off your shoulders.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 13 May</td><td>LinkedIn</td><td>Conner Injury Law</td><td>Legal Education</td><td>TXT</td><td>&quot;Psychological injury in Queensland personal injury law: how courts assess anxiety, depression, and PTSD claims, and why specialist psychiatric evidence is critical to quantifying this head of damage.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 13 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>VID</td><td>&quot;Your personal injury settlement — what happens on the day? A walkthrough of the compulsory conference and settlement process in Queensland.&quot; — 75-second video, subtitled</td><td>Marketing Manager</td></tr><tr><td>Thu 14 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Community</td><td>IMG</td><td>&quot;Mental Health Awareness Month. Recovery from injury is not just physical. Our team understands that — and we support our clients through every stage of the process.&quot;</td><td>Marketing Manager</td></tr><tr><td>Fri 15 May</td><td>LinkedIn</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>TXT</td><td>&quot;Restraint of trade clauses in Queensland employment agreements — when they are enforceable, when they are not, and what the courts actually look at.&quot;</td><td>Marketing Manager</td></tr><tr><td>Week</td><td>GBP</td><td>Conner Injury Law</td><td>Community</td><td>GBP</td><td>&quot;Conner Injury Law — Brisbane&#x27;s personal injury team. We understand the physical, financial, and emotional toll of an injury. Free initial consultation available.&quot; [Call CTA]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h3 id="week-8-18-to-24-may-2026">Week 8 — 18 to 24 May 2026</h3>
+<p><strong>Theme: MBCS Spotlight &amp; Medical-Legal Process</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Mon 18 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>EDU</td><td>&quot;Settlement or court? Most personal injury claims in Queensland settle before reaching trial. Here is how we decide which path is right for your matter, and what factors influence that decision.&quot;</td><td>Marketing Manager</td></tr><tr><td>Tue 19 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>CAR</td><td>Carousel: &quot;What does &#x27;no win, no fee&#x27; actually mean? Breaking down the conditional costs model — disbursements, success fees, and what you actually take home.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 20 May</td><td>LinkedIn</td><td>MBCS</td><td>Case Type Spotlight</td><td>EDU</td><td>&quot;What is an independent medical examination (IME), and why does the quality of expert medical evidence determine the outcome of a personal injury claim? What Queensland law firms need to know.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 20 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Client Testimonial</td><td>REV</td><td>&quot;&#x27;I didn&#x27;t know I had a right to claim. Conner Injury Law walked me through every step, in plain English, from day one.&#x27; — Client, initials withheld, public liability matter, Brisbane.&quot;</td><td>Marketing Manager</td></tr><tr><td>Thu 21 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Community</td><td>VID</td><td>&quot;We are a Brisbane firm. Our team lives here, works here, and understands the roads, the communities, and the people we serve.&quot; — 60-second brand video</td><td>Marketing Manager</td></tr><tr><td>Fri 22 May</td><td>LinkedIn</td><td>KevLaw AI</td><td>KevLaw AI</td><td>UPD</td><td>&quot;The most time-consuming documents in a personal injury practice — and how KevLaw AI handles each one. A breakdown of the six document types we automated first and the time savings at each step.&quot;</td><td>Principal</td></tr><tr><td>Week</td><td>GBP</td><td>Conner Injury Law</td><td>Client Testimonial</td><td>GBP</td><td>&quot;Our Brisbane clients rate us 5 stars. &#x27;Professional, compassionate, and they got a result I didn&#x27;t think was possible.&#x27; — recent Conner Injury Law client. See our latest reviews.&quot; [Review link]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h3 id="week-9-25-to-31-may-2026">Week 9 — 25 to 31 May 2026</h3>
+<p><strong>Theme: Time Limits &amp; Limitation Periods — Act Before It&#x27;s Too Late</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Mon 25 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>EDU</td><td>&quot;How long do you have to make a personal injury claim in Queensland? The three-year limitation period explained — and why the clock starts earlier than most people think.&quot;</td><td>Marketing Manager</td></tr><tr><td>Tue 26 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>CAR</td><td>Carousel: &quot;Limitation periods for different injury types in Queensland&quot; — Motor vehicle accident (CTP) / WorkCover statutory claim / Common law damages / Public liability / Medical negligence / Injuries to children (different rules apply)</td><td>Marketing Manager</td></tr><tr><td>Wed 27 May</td><td>LinkedIn</td><td>Conner Injury Law</td><td>Legal Education</td><td>TXT</td><td>&quot;Limitation periods and minors in Queensland: how the <em>Limitation of Actions Act 1974</em> (Qld) treats the three-year limitation period where the claimant was under 18 at the time of the incident, and what parents and guardians need to know.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 27 May</td><td>Facebook</td><td>Conner Injury Law</td><td>Community</td><td>IMG</td><td>&quot;If you were injured in Queensland in the past three years and have not spoken to a solicitor, do not wait. The clock is running — and the first call is always free.&quot;</td><td>Marketing Manager</td></tr><tr><td>Thu 28 May</td><td>Facebook</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>TXT</td><td>&quot;Mid-year is a natural time for business owners to review their legal position. Here are three questions to ask your commercial solicitor before 1 July.&quot;</td><td>Marketing Manager</td></tr><tr><td>Fri 29 May</td><td>LinkedIn</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>EDU</td><td>&quot;Buying or selling a business in Queensland? The difference between an asset sale and a share sale — and why it matters more than the headline purchase price.&quot;</td><td>Marketing Manager</td></tr><tr><td>Week</td><td>GBP</td><td>MBCS</td><td>Case Type Spotlight</td><td>GBP</td><td>&quot;MBCS — medical-legal support for Queensland law firms. We coordinate IMEs, prepare medical chronologies, and build your file. So your solicitors can focus on advocacy.&quot; [Contact CTA]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h2 id="june-2026">JUNE 2026</h2>
+<h3 id="week-10-1-to-7-june-2026">Week 10 — 1 to 7 June 2026</h3>
+<p><strong>Theme: End of Financial Year — Business Law &amp; EOFY</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Mon 1 Jun</td><td>Facebook</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>EDU</td><td>&quot;End of financial year is approaching. Here are five legal matters your Brisbane business should resolve before 30 June to start FY27 on the right footing.&quot;</td><td>Marketing Manager</td></tr><tr><td>Tue 2 Jun</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>TXT</td><td>&quot;If you were injured more than 12 months ago and have not yet spoken to a lawyer — do not wait. The three-year limitation period applies. Here is what to do today.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 3 Jun</td><td>LinkedIn</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>EDU</td><td>&quot;EOFY legal checklist for Queensland SMEs: commercial contracts, corporate structure, shareholder agreements, employment obligations — what to review and action before 1 July 2026.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 3 Jun</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>CAR</td><td>Carousel: &quot;Your most common personal injury questions, answered plainly&quot; — Can I claim if it was partly my fault? / Does it go to court? / How long will it take? / What does no win, no fee actually mean? / How much is my claim worth?</td><td>Marketing Manager</td></tr><tr><td>Thu 4 Jun</td><td>Facebook</td><td>Merkel &amp; Conner</td><td>Case Type Spotlight</td><td>IMG</td><td>&quot;Buying or selling a business in Brisbane this year? Asset sale versus share sale — the legal implications of each explained for Queensland buyers and sellers.&quot;</td><td>Marketing Manager</td></tr><tr><td>Fri 5 Jun</td><td>LinkedIn</td><td>KevLaw AI</td><td>KevLaw AI</td><td>UPD</td><td>&quot;KevLaw AI beta — what we have learned from our first cohort of Queensland law firms. Key findings, product updates, and what is coming in the second half of 2026.&quot;</td><td>Principal</td></tr><tr><td>Week</td><td>GBP</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>GBP</td><td>&quot;EOFY approaching — is your business legally prepared? Merkel &amp; Conner offers commercial contract review, employment law advice, and corporate structuring for Brisbane SMEs.&quot; [Contact CTA]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h3 id="week-11-8-to-14-june-2026">Week 11 — 8 to 14 June 2026</h3>
+<p><strong>Theme: Motor Vehicle Accidents — CTP Deep Dive</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Mon 8 Jun</td><td>Facebook</td><td>Conner Injury Law</td><td>Case Type Spotlight</td><td>EDU</td><td>&quot;Queensland&#x27;s CTP (compulsory third party) insurance scheme — how it protects you if you&#x27;re injured in a motor vehicle accident, and what the Motor Accident Insurance Commission actually does.&quot;</td><td>Marketing Manager</td></tr><tr><td>Tue 9 Jun</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>VID</td><td>&quot;Rear-end collision in Brisbane — are you automatically entitled to compensation? Our personal injury team explains the law in plain English.&quot; — 60-second video, subtitled</td><td>Marketing Manager</td></tr><tr><td>Wed 10 Jun</td><td>LinkedIn</td><td>Conner Injury Law</td><td>Case Type Spotlight</td><td>EDU</td><td>&quot;Motor vehicle accident claims in Queensland: from Notice of Accident Claim to final settlement — the CTP scheme, what it covers, MAIC&#x27;s role, and why early legal advice consistently improves outcomes.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 10 Jun</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>CAR</td><td>Carousel: &quot;Motor vehicle accident claim timeline in Queensland&quot; — Accident / Medical treatment / Instruct solicitor / Notice of claim lodged / Investigation / Compulsory conference / Settlement or litigation</td><td>Marketing Manager</td></tr><tr><td>Thu 11 Jun</td><td>Facebook</td><td>Conner Injury Law</td><td>Community</td><td>IMG</td><td>&quot;Brisbane&#x27;s roads are busy. Motor vehicle accidents happen every day across South East Queensland. If you&#x27;ve been in an accident, understanding your rights takes less than five minutes.&quot;</td><td>Marketing Manager</td></tr><tr><td>Fri 12 Jun</td><td>LinkedIn</td><td>MBCS</td><td>Legal Education</td><td>EDU</td><td>&quot;Why thoroughly documented medical-legal files consistently achieve better outcomes at compulsory conference — and how MBCS supports Queensland personal injury firms to build them.&quot;</td><td>Marketing Manager</td></tr><tr><td>Week</td><td>GBP</td><td>Conner Injury Law</td><td>Case Type Spotlight</td><td>GBP</td><td>&quot;Injured in a car accident in Queensland? Conner Injury Law handles CTP and MAIC claims — no win, no fee. Free consultation available today.&quot; [Call CTA]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h3 id="week-12-15-to-21-june-2026">Week 12 — 15 to 21 June 2026</h3>
+<p><strong>Theme: Referral Partners + Firm Culture</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Mon 15 Jun</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>EDU</td><td>&quot;If you are a GP, physiotherapist, chiropractor, or allied health practitioner in Brisbane — your patients may not know they have a right to make a personal injury claim. Here is how we work with treating practitioners.&quot;</td><td>Marketing Manager</td></tr><tr><td>Tue 16 Jun</td><td>Facebook</td><td>Conner Law Group</td><td>Community</td><td>IMG</td><td>&quot;The Conner Law Group Brisbane team — personal injury, business law, medical-legal support, and legal technology. Built in Brisbane, for Queensland.&quot; (Authentic team photo)</td><td>Marketing Manager</td></tr><tr><td>Wed 17 Jun</td><td>LinkedIn</td><td>Conner Law Group</td><td>Community</td><td>TXT</td><td>&quot;What makes a good referral relationship in the legal industry? A frank note for accountants, financial advisers, GPs, and allied health practitioners who work with clients who might need a personal injury or business law solicitor.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 17 Jun</td><td>Facebook</td><td>Conner Injury Law</td><td>Client Testimonial</td><td>REV</td><td>&quot;&#x27;The team at Conner Injury Law understood that my injuries went beyond the physical. They fought for everything I was entitled to.&#x27; — Client, initials withheld, motor vehicle accident, Brisbane.&quot;</td><td>Marketing Manager</td></tr><tr><td>Thu 18 Jun</td><td>Facebook</td><td>Conner Injury Law</td><td>Community</td><td>VID</td><td>&quot;We built Conner Injury Law for the people who weren&#x27;t sure they had a claim — and found out they did.&quot; — 60-second brand video featuring Brisbane team</td><td>Marketing Manager</td></tr><tr><td>Fri 19 Jun</td><td>LinkedIn</td><td>KevLaw AI</td><td>KevLaw AI</td><td>UPD</td><td>&quot;Looking ahead to the second half of 2026: KevLaw AI&#x27;s roadmap — new document types, LEAP integration timeline, and our approach to expanding beyond Queensland.&quot;</td><td>Principal</td></tr><tr><td>Week</td><td>GBP</td><td>KevLaw AI</td><td>KevLaw AI</td><td>GBP</td><td>&quot;KevLaw AI — legal document automation for Queensland law firms. Beta access now available. Reduce document drafting time by over 70%. Find out more at kevlawai.com.au&quot; [Website CTA]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h3 id="week-13-22-to-30-june-2026">Week 13 — 22 to 30 June 2026</h3>
+<p><strong>Theme: Q2 Close — Looking Ahead to FY27</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Entity</th><th>Pillar</th><th>Type</th><th>Post Topic</th><th>Responsible</th></tr></thead><tbody><tr><td>Mon 22 Jun</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>EDU</td><td>&quot;School holidays are coming. If your child was injured during the school year — at sport, at school, or in another setting — the limitation period rules for minors are different. Know your options.&quot;</td><td>Marketing Manager</td></tr><tr><td>Tue 23 Jun</td><td>Facebook</td><td>Merkel &amp; Conner</td><td>Legal Education</td><td>TXT</td><td>&quot;Before 30 June: three things every Queensland business owner should confirm with their commercial solicitor before the new financial year.&quot;</td><td>Marketing Manager</td></tr><tr><td>Wed 24 Jun</td><td>LinkedIn</td><td>Conner Law Group</td><td>Community</td><td>TXT</td><td>&quot;Q2 2026 — three months in. What Conner Law Group has built, what we&#x27;ve learned, and where we are headed in the second half of the year.&quot; (Founder post — authentic and forward-looking)</td><td>Principal</td></tr><tr><td>Wed 24 Jun</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>VID</td><td>&quot;What to expect at your first appointment with a personal injury solicitor — our Brisbane team answers the most common questions.&quot; — 90-second video, subtitled</td><td>Marketing Manager</td></tr><tr><td>Thu 25 Jun</td><td>Facebook</td><td>Conner Law Group</td><td>Community</td><td>IMG</td><td>&quot;The Conner Law Group team. Brisbane&#x27;s integrated legal services group — personal injury, business law, medical-legal support, and legal technology.&quot; (Full group photo)</td><td>Marketing Manager</td></tr><tr><td>Fri 26 Jun</td><td>LinkedIn</td><td>KevLaw AI</td><td>KevLaw AI</td><td>UPD</td><td>&quot;KevLaw AI end of Q2 update: subscriber numbers, most-used document types, feature requests actioned, and what is coming in Q3. Full update below.&quot;</td><td>Principal</td></tr><tr><td>Mon 29 Jun</td><td>Facebook</td><td>Conner Injury Law</td><td>Legal Education</td><td>EDU</td><td>&quot;End of financial year. Did you receive a personal injury settlement this financial year? Here is what you need to understand about the tax treatment of personal injury compensation in Australia.&quot;</td><td>Marketing Manager</td></tr><tr><td>Tue 30 Jun</td><td>Facebook</td><td>Conner Law Group</td><td>Community</td><td>IMG</td><td>&quot;30 June 2026. End of financial year — and for Conner Law Group, the close of a strong first half. Thank you to every client, referrer, and partner who has worked with us.&quot;</td><td>Marketing Manager</td></tr><tr><td>Week</td><td>GBP</td><td>Conner Injury Law</td><td>Legal Education</td><td>GBP</td><td>&quot;Half the financial year is done. If you were injured in the past 12 months and haven&#x27;t yet spoken to a solicitor, call us today. Free consultation, no win, no fee.&quot; [Call CTA]</td><td>Marketing Manager</td></tr></tbody></table></div>
+<hr>
+<h2 id="content-governance-amp-workflow">CONTENT GOVERNANCE &amp; WORKFLOW</h2>
+<h3 id="approval-process">Approval Process</h3>
+<ol>
+<li>Marketing Manager drafts all post copy and identifies imagery — minimum 5 business days before scheduled publish date</li>
+<li>All posts shared to Principal (Ben Alek Conner) for approval — minimum 48 hours before scheduled publish</li>
+<li>Any post referencing specific legal rights, claim types, legislation, or legal processes to be reviewed by the responsible solicitor before publication</li>
+<li>Client testimonials and anonymised outcomes reviewed for compliance with Queensland Law Society <em>Solicitors&#x27; Advertising Guidelines</em> before publication</li>
+<li>All published posts saved to the shared marketing drive with date, platform, engagement metrics recorded monthly</li>
+</ol>
+<h3 id="legal-compliance-standards">Legal Compliance Standards</h3>
+<ul>
+<li>All testimonials and client stories are anonymised in full — no identifying details, no specific settlement figures without legal approval</li>
+<li>All posts containing legal information include: &quot;This information is general in nature and does not constitute legal advice. Please contact us for advice specific to your circumstances.&quot;</li>
+<li>No guarantees of outcomes in any post or graphic</li>
+<li>KevLaw AI posts include: &quot;KevLaw AI generates first-draft documents for review by a qualified legal practitioner. Outputs do not constitute legal advice.&quot;</li>
+<li>All advertising complies with the Queensland Law Society <em>Solicitors&#x27; Advertising Guidelines</em></li>
+</ul>
+<h3 id="image-amp-video-standards">Image &amp; Video Standards</h3>
+<ul>
+<li>All images from the approved Conner Law Group brand asset library, licensed stock (Unsplash/Getty/Pexels — license verified), or original brand photography</li>
+<li>No image used without confirmed license or original creation</li>
+<li>Video: minimum iPhone 13 quality, 1080p; fully captioned via Kapwing or Rev; exported at correct platform dimensions</li>
+<li>All post graphics designed in Canva (Conner Law Group shared workspace) using brand templates</li>
+</ul>
+<h3 id="hashtag-reference">Hashtag Reference</h3>
+<div class="table-wrap"><table><thead><tr><th>Entity</th><th>Primary Hashtags</th></tr></thead><tbody><tr><td>Conner Law Group</td><td>#ConnerLawGroup #BrisbaneLaw #QueenslandLaw</td></tr><tr><td>Conner Injury Law</td><td>#ConnerInjuryLaw #PersonalInjuryQLD #NoWinNoFee #BrisbanePersonalInjury #CTPClaim</td></tr><tr><td>Merkel &amp; Conner</td><td>#MerkelConner #BusinessLawBrisbane #QueenslandBusinessLaw #SMELegal</td></tr><tr><td>MBCS</td><td>#MBCS #MedicoLegal #MedicalLegalQLD #PersonalInjurySupport</td></tr><tr><td>KevLaw AI</td><td>#KevLawAI #LegalTech #AustralianLegalTech #LawFirmAutomation #LegalAI</td></tr></tbody></table></div>
+<h3 id="monthly-reporting">Monthly Reporting</h3>
+<p>At the end of each month, the Marketing Manager compiles and submits to the Principal:</p>
+<ul>
+<li>Total posts published versus planned</li>
+<li>Engagement metrics per platform: impressions, likes, shares, comments, profile visits, follower growth</li>
+<li>Google Business Profile insights: searches, views, calls, direction requests, website clicks</li>
+<li>Top-performing post of the month per platform</li>
+<li>Enquiries attributed to content (via CRM intake field: &quot;How did you hear about us?&quot;)</li>
+<li>Recommendations for the following month&#x27;s content approach</li>
+</ul>
+<p><strong>Report due:</strong> 7th of each following month.</p>
+<hr>
+<p><em>Conner Law Group | Brisbane, Queensland, Australia</em></p>
+<p><em>Content Calendar — Q2 2026 (April–June) | Version 2.0 | March 2026</em></p>
+<p><em>Owner: Marketing Manager | Final approval: Ben Alek Conner, Principal</em></p>
+<p><em>Next period: July–September 2026 (Q3 2026) — draft due: 23 June 2026</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">05-Conner Law/01-strategy/Documents/CONTENT CALENDAR.md</div>
+    </main>
+  </div>
+</body>
+</html>

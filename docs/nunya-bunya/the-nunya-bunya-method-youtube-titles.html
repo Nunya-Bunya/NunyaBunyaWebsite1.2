@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Nunya Bunya Method — YouTube Series Titles | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          The Nunya Bunya Method — YouTube Series Titles
+        </div>
+        <h1 class="doc-title">The Nunya Bunya Method — YouTube Series Titles</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Products</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="the-nunya-bunya-method-youtube-series-titles">The Nunya Bunya Method — YouTube Series Titles</h1>
+<h2 id="113-videos-one-per-chapter">113 Videos, One Per Chapter</h2>
+<p>Each video maps 1:1 to a book chapter. Film in the same order you write — the research is already done.</p>
+<hr>
+<h2 id="part-0-the-manifesto-3-videos">Part 0 — The Manifesto (3 videos)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>YouTube Title</th></tr></thead><tbody><tr><td>1</td><td>The Marketing Industry Is Lying to Small Businesses. Here&#x27;s How.</td></tr><tr><td>2</td><td>12 Marketing Rules That Haven&#x27;t Changed in 60 Years (And Never Will)</td></tr><tr><td>3</td><td>How I Built a Full Marketing Agency Stack for $50/Month</td></tr></tbody></table></div>
+<h2 id="part-1-brand-11-videos">Part 1 — Brand (11 videos)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>YouTube Title</th></tr></thead><tbody><tr><td>4</td><td>What Makes a Brand Iconic (It&#x27;s Not the Logo)</td></tr><tr><td>5</td><td>How to Position Your Brand So You Have Zero Competition</td></tr><tr><td>6</td><td>How to Name a Business (That You Won&#x27;t Regret in 2 Years)</td></tr><tr><td>7</td><td>How to Design a Logo That Actually Works at Every Size</td></tr><tr><td>8</td><td>Color Psychology in Marketing: How to Pick a Palette That Sells</td></tr><tr><td>9</td><td>The 3-Font System: Typography Rules Every Business Should Know</td></tr><tr><td>10</td><td>How to Direct Brand Photography With Nothing But a Phone</td></tr><tr><td>11</td><td>How to Build a Template Library So Every Post Looks Professional</td></tr><tr><td>12</td><td>How to Write a Brand Voice Guide (That People Actually Use)</td></tr><tr><td>13</td><td>I Built a 17-Agent AI Pipeline That Creates Entire Brand Identities</td></tr><tr><td>14</td><td>5 Branding Mistakes That Make Your Business Look Amateur</td></tr></tbody></table></div>
+<h2 id="part-2-web-16-videos">Part 2 — Web (16 videos)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>YouTube Title</th></tr></thead><tbody><tr><td>15</td><td>What a 10/10 Website Actually Looks Like (And Why Yours Isn&#x27;t One)</td></tr><tr><td>16</td><td>Website Architecture: What Pages You Need and What Each One Does</td></tr><tr><td>17</td><td>The Perfect Homepage Formula (5 Sections, Every Time)</td></tr><tr><td>18</td><td>How to Write a Service Page That Actually Converts</td></tr><tr><td>19</td><td>Landing Pages vs Websites: Why You Need Both (And How to Build Them)</td></tr><tr><td>20</td><td>Web Copywriting: How to Write Headlines, CTAs, and Microcopy That Convert</td></tr><tr><td>21</td><td>Design Principles That Make Any Website Look Expensive (On Any Budget)</td></tr><tr><td>22</td><td>How I Got a 98 Lighthouse Score (And Why Your Slow Site Is Losing You Money)</td></tr><tr><td>23</td><td>Website Animation: When It Helps, When It Hurts, and How to Do It Right</td></tr><tr><td>24</td><td>How to Tell a Story Through a Website (The Scroll IS the Narrative)</td></tr><tr><td>25</td><td>Mobile-First Design: Your Site Looks Terrible on Phones (Let&#x27;s Fix It)</td></tr><tr><td>26</td><td>Web Accessibility: The Legal Requirement That&#x27;s Also Good Business</td></tr><tr><td>27</td><td>Forms, Booking Pages &amp; Lead Capture: The Free Tools I Actually Use</td></tr><tr><td>28</td><td>How to Build and Deploy a Website for Free (Step by Step)</td></tr><tr><td>29</td><td>My Exact Website Build Workflow (From Blank Screen to Live in a Day)</td></tr><tr><td>30</td><td>Stop Paying Rent on Your Website (And Other Web Traps Killing Your Business)</td></tr></tbody></table></div>
+<h2 id="part-3-content-9-videos">Part 3 — Content (9 videos)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>YouTube Title</th></tr></thead><tbody><tr><td>31</td><td>The Only 5 Types of Content That Actually Drive Sales</td></tr><tr><td>32</td><td>Marketing Copywriting: The Formulas That Write Themselves</td></tr><tr><td>33</td><td>Marketing Photography With Just a Phone (Settings, Composition, Lighting)</td></tr><tr><td>34</td><td>How to Film, Edit, and Publish Marketing Videos With Just a Phone</td></tr><tr><td>35</td><td>Graphic Design for People Who Can&#x27;t Design (4 Rules That Fix Everything)</td></tr><tr><td>36</td><td>How I Use AI to Write Marketing Content (Without It Sounding Like AI)</td></tr><tr><td>37</td><td>1 Blog Post = 10+ Pieces of Content (The Repurposing Pyramid)</td></tr><tr><td>38</td><td>How I Create 30 Days of Content in One Sitting</td></tr><tr><td>39</td><td>Your Content Strategy Isn&#x27;t Working Because You Don&#x27;t Have One</td></tr></tbody></table></div>
+<h2 id="part-4-social-media-10-videos">Part 4 — Social Media (10 videos)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>YouTube Title</th></tr></thead><tbody><tr><td>40</td><td>Social Media Is a Weapon (Most Businesses Use It Like a Toy)</td></tr><tr><td>41</td><td>Which Social Platform Should Your Business Actually Be On?</td></tr><tr><td>42</td><td>Your Social Profile Has 3 Seconds to Convince Someone (Here&#x27;s the Formula)</td></tr><tr><td>43</td><td>The Content Pillar System: Never Run Out of Post Ideas Again</td></tr><tr><td>44</td><td>How to Create a Week of Social Content in 2 Hours</td></tr><tr><td>45</td><td>The 15-Minute Daily Engagement Routine That Actually Grows Your Following</td></tr><tr><td>46</td><td>Hashtags in 2026: What Still Works and What&#x27;s Dead</td></tr><tr><td>47</td><td>How to Cross-Post Without Looking Lazy (Free Scheduling Tools Included)</td></tr><tr><td>48</td><td>I Automated My Entire Social Media Pipeline (Here&#x27;s How)</td></tr><tr><td>49</td><td>Vanity Metrics Are Lying to You (The Social Media Traps Nobody Talks About)</td></tr></tbody></table></div>
+<h2 id="part-5-email-11-videos">Part 5 — Email (11 videos)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>YouTube Title</th></tr></thead><tbody><tr><td>50</td><td>Email Marketing Crushes Every Other Channel (Here&#x27;s the Data)</td></tr><tr><td>51</td><td>How to Set Up Self-Hosted Email Marketing for $0/Month (Mautic Tutorial)</td></tr><tr><td>52</td><td>How to Build an Email List from Zero (Lead Magnets That Actually Convert)</td></tr><tr><td>53</td><td>How to Write Marketing Emails People Actually Open and Click</td></tr><tr><td>54</td><td>The 5-Email Welcome Sequence Every Business Needs (With Templates)</td></tr><tr><td>55</td><td>Email Automation: How to Nurture Leads on Autopilot</td></tr><tr><td>56</td><td>How to Write a Newsletter People Look Forward To (Not Delete)</td></tr><tr><td>57</td><td>Stop Blasting Your Whole Email List (Segmentation for Beginners)</td></tr><tr><td>58</td><td>SPF, DKIM, DMARC Explained: Why Your Emails Land in Spam (And How to Fix It)</td></tr><tr><td>59</td><td>My Complete Email Marketing System (Self-Hosted, Automated, $0/Month)</td></tr><tr><td>60</td><td>You&#x27;re Wasting Money on Mailchimp (Email Marketing Traps for Small Business)</td></tr></tbody></table></div>
+<h2 id="part-6-seo-amp-discovery-9-videos">Part 6 — SEO &amp; Discovery (9 videos)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>YouTube Title</th></tr></thead><tbody><tr><td>61</td><td>How People Actually Find Your Business Online (It&#x27;s Not How You Think)</td></tr><tr><td>62</td><td>Keyword Research With Free Tools Only (Step by Step)</td></tr><tr><td>63</td><td>On-Page SEO: The Checklist I Use on Every Single Page</td></tr><tr><td>64</td><td>Technical SEO for Non-Developers (Sitemaps, Schema, Speed — All of It)</td></tr><tr><td>65</td><td>Local SEO: How to Dominate the Google Map Pack in Your City</td></tr><tr><td>66</td><td>The Pillar Page Strategy That Ranks Brand New Websites</td></tr><tr><td>67</td><td>Link Building That Actually Works (Without Buying Links or Begging)</td></tr><tr><td>68</td><td>My Exact SEO Workflow: Keyword Clusters, Content Briefs, and Quarterly Audits</td></tr><tr><td>69</td><td>$500/Month SEO Packages Are a Scam (What They Actually Do With Your Money)</td></tr></tbody></table></div>
+<h2 id="part-7-advertising-12-videos">Part 7 — Advertising (12 videos)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>YouTube Title</th></tr></thead><tbody><tr><td>70</td><td>The Psychology Behind Every Ad That&#x27;s Ever Made You Buy Something</td></tr><tr><td>71</td><td>How to Design Scroll-Stopping Ad Images (Even If You&#x27;re Not a Designer)</td></tr><tr><td>72</td><td>How to Make Video Ads With Just Your Phone (That Actually Convert)</td></tr><tr><td>73</td><td>Ad Copywriting: The Headline Formulas That Print Money</td></tr><tr><td>74</td><td>Meta Ads for Beginners: Campaign Setup Without Wasting Money</td></tr><tr><td>75</td><td>How to Test, Optimize, and Scale Meta Ads on $5/Day</td></tr><tr><td>76</td><td>Google Ads for Small Business: Search, Display, and YouTube on a Real Budget</td></tr><tr><td>77</td><td>Why Your Ads Aren&#x27;t Converting (Your Landing Page Is the Problem)</td></tr><tr><td>78</td><td>Ad Tracking in 2026: Pixels, UTMs, and Attribution Explained Simply</td></tr><tr><td>79</td><td>Retargeting: How to Follow Up With People Who Already Showed Interest</td></tr><tr><td>80</td><td>My Complete Ad Workflow: Creative, Testing, Scaling, and Reporting</td></tr><tr><td>81</td><td>Stop Boosting Posts (And Other Ad Mistakes Burning Your Money)</td></tr></tbody></table></div>
+<h2 id="part-8-sales-amp-conversion-12-videos">Part 8 — Sales &amp; Conversion (12 videos)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>YouTube Title</th></tr></thead><tbody><tr><td>82</td><td>How to Turn Website Visitors Into Paying Customers</td></tr><tr><td>83</td><td>How to Design an Offer So Good People Feel Stupid Saying No</td></tr><tr><td>84</td><td>How to Price Your Services (Stop Charging by the Hour)</td></tr><tr><td>85</td><td>The Customer Journey Explained: From Stranger to Repeat Buyer</td></tr><tr><td>86</td><td>CRM Setup for Small Business (Free, Self-Hosted, Actually Useful)</td></tr><tr><td>87</td><td>How to Set Up a Booking System That Converts (Cal.com Walkthrough)</td></tr><tr><td>88</td><td>Proposals, Contracts, and Invoices: The Free Tools That Replace $500/Month in SaaS</td></tr><tr><td>89</td><td>68% of Sales Are Lost to Bad Follow-Up (Here&#x27;s the System That Fixes It)</td></tr><tr><td>90</td><td>Client Onboarding: How the First 48 Hours Determine Everything</td></tr><tr><td>91</td><td>How to Get Referrals Without Being Awkward About It</td></tr><tr><td>92</td><td>My Complete Sales Pipeline: From Lead to Closed Deal to Referral</td></tr><tr><td>93</td><td>5 Sales Mistakes That Keep Small Businesses Broke</td></tr></tbody></table></div>
+<h2 id="part-9-analytics-amp-measurement-7-videos">Part 9 — Analytics &amp; Measurement (7 videos)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>YouTube Title</th></tr></thead><tbody><tr><td>94</td><td>The Only Marketing Metrics That Actually Matter</td></tr><tr><td>95</td><td>How to Set Up Self-Hosted Analytics for Free (Matomo + Metabase)</td></tr><tr><td>96</td><td>How to Build a Marketing Dashboard That Makes Decisions for You</td></tr><tr><td>97</td><td>UTMs, Link Tracking, and Attribution: Know Exactly Where Your Money Goes</td></tr><tr><td>98</td><td>How to Read Your Marketing Data (Weekly Review in 15 Minutes)</td></tr><tr><td>99</td><td>My Complete Reporting Stack: Dashboards, Tracking, and Weekly Reviews</td></tr><tr><td>100</td><td>You&#x27;re Measuring the Wrong Things (Analytics Traps for Small Business)</td></tr></tbody></table></div>
+<h2 id="part-10-systems-amp-automation-10-videos">Part 10 — Systems &amp; Automation (10 videos)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>YouTube Title</th></tr></thead><tbody><tr><td>101</td><td>Why Systems Beat Hustle (Every Single Time)</td></tr><tr><td>102</td><td>Self-Hosting for Beginners: Your Own Server for $5/Month</td></tr><tr><td>103</td><td>Docker Explained Simply: Deploy Any Tool in 5 Minutes</td></tr><tr><td>104</td><td>I Replaced $2,000/Month in SaaS With Free Open-Source Tools (Full Stack Tour)</td></tr><tr><td>105</td><td>n8n Automation: 10 Marketing Workflows That Run While You Sleep</td></tr><tr><td>106</td><td>Supabase for Marketers: Store and Connect All Your Business Data</td></tr><tr><td>107</td><td>How I Built AI Into My Marketing Automation (Claude API + n8n)</td></tr><tr><td>108</td><td>Self-Hosted Stack Maintenance: Backups, Security, and Not Breaking Things</td></tr><tr><td>109</td><td>Full Tour: The Entire Nunya Bunya Marketing Machine</td></tr><tr><td>110</td><td>You Don&#x27;t Need Another Tool (The SaaS Addiction Killing Small Business)</td></tr></tbody></table></div>
+<h2 id="part-11-the-full-stack-3-videos">Part 11 — The Full Stack (3 videos)</h2>
+<div class="table-wrap"><table><thead><tr><th>Ch</th><th>YouTube Title</th></tr></thead><tbody><tr><td>111</td><td>The Complete Marketing System: How Every Piece Feeds Every Other Piece</td></tr><tr><td>112</td><td>Your 90-Day Marketing Plan: From Nothing to a Full System</td></tr><tr><td>113</td><td>Every Free Marketing Tool I Use (The Complete List)</td></tr></tbody></table></div>
+<hr>
+<h2 id="production-notes">Production Notes</h2>
+<ul>
+<li>Each video maps 1:1 to a book chapter</li>
+<li>Film in the order you write — the research is already done</li>
+<li>Chapters with screen-share potential: 22, 28, 29, 51, 58, 62-64, 74-78, 86-88, 95-97, 102-109</li>
+<li>Chapters with talking-head potential: 1-3, 4-6, 12, 31, 40, 50, 82-84, 101, 111</li>
+<li>&quot;NB Way&quot; chapters are the best for &quot;full tour&quot; style content</li>
+<li>&quot;Trap&quot; chapters are the most shareable — controversy gets clicks</li>
+<li>The Manifesto videos (1-3) should be filmed first — they set the tone for the whole series</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Products/the-nunya-bunya-method-youtube-titles.md</div>
+    </main>
+  </div>
+</body>
+</html>

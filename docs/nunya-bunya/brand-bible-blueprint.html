@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Brand Bible — Ultimate Blueprint | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          The Brand Bible — Ultimate Blueprint
+        </div>
+        <h1 class="doc-title">The Brand Bible — Ultimate Blueprint</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Docs</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="the-brand-bible-ultimate-blueprint">The Brand Bible — Ultimate Blueprint</h1>
+<p><strong>Created:</strong> 2026-04-07</p>
+<p><strong>Purpose:</strong> Define the definitive Brand Bible product that Nunya Bunya will create for every client. This is not a document — it&#x27;s a weapon. It should be the single most valuable physical object a small business owner has ever been handed.</p>
+<hr>
+<h2 id="the-vision">The Vision</h2>
+<p>When a business owner holds their Brand Bible, they should feel three things:</p>
+<ol>
+<li><strong>Clarity</strong> — &quot;I finally understand my own business&quot;</li>
+<li><strong>Confidence</strong> — &quot;I know exactly what to say, how to look, and where to go&quot;</li>
+<li><strong>Pride</strong> — &quot;This is the most professional thing anyone has ever made for me&quot;</li>
+</ol>
+<p>Most small business owners operate from gut feel, scattered notes, and whatever their cousin said at Christmas. The Brand Bible replaces all of that with a single, definitive source of truth that they can open to any page and find an answer.</p>
+<hr>
+<h2 id="the-sections-29-total-organized-into-5-parts">The Sections (29 total, organized into 5 parts)</h2>
+<h3 id="part-i-who-you-are-identity">PART I: WHO YOU ARE (Identity)</h3>
+<p><strong>1. Cover Page</strong></p>
+<ul>
+<li>Business name, logo (full color, large)</li>
+<li>&quot;Brand Bible&quot; in elegant typography</li>
+<li>&quot;Prepared by Nunya Bunya&quot; with date</li>
+<li>Version number (Brand Bibles get updated annually)</li>
+<li>Premium feel: think Vogue cover, not PowerPoint</li>
+</ul>
+<p><strong>2. Table of Contents</strong></p>
+<ul>
+<li>Clean, elegant, with page numbers</li>
+<li>Section tabs color-coded by Part</li>
+</ul>
+<p><strong>3. Founder&#x27;s Letter</strong></p>
+<ul>
+<li>A personal letter FROM the business owner TO themselves (we ghostwrite it, they approve)</li>
+<li>Why they started this business</li>
+<li>What they want it to become</li>
+<li>What they stand for</li>
+<li>This page alone will make them emotional. That&#x27;s the point. When they&#x27;re having a bad month, they open to this page and remember why.</li>
+</ul>
+<p><strong>4. Mission, Vision &amp; Values</strong></p>
+<ul>
+<li>Mission: What you do and for whom (one sentence)</li>
+<li>Vision: Where you&#x27;re going (one sentence)</li>
+<li>Values: 3-5 core values with one-line explanations</li>
+<li>Each value should have a &quot;what this looks like in practice&quot; example</li>
+<li>NOT corporate fluff. Real, specific, human.</li>
+</ul>
+<p><strong>5. Origin Story</strong></p>
+<ul>
+<li>How the business started (2-3 paragraphs, narrative style)</li>
+<li>The turning point / &quot;aha moment&quot;</li>
+<li>What makes the founder uniquely qualified</li>
+<li>This is the story they tell at networking events, on podcasts, in interviews</li>
+</ul>
+<p><strong>6. Brand Personality</strong></p>
+<ul>
+<li>If your brand were a person, who would they be?</li>
+<li>5 personality traits with explanations</li>
+<li>Tone spectrum: &quot;We are [warm] not [cold]. We are [confident] not [arrogant].&quot;</li>
+<li>Communication do&#x27;s and don&#x27;ts with examples</li>
+<li>Sample social media post in the brand voice vs. NOT in the brand voice</li>
+</ul>
+<p><strong>7. Legal &amp; Compliance</strong></p>
+<ul>
+<li>Business registration (ABN, company structure, trading name)</li>
+<li>Required licenses and permits for the industry (e.g., health practitioner registration, food safety, trade licenses)</li>
+<li>Insurance requirements: public liability, professional indemnity, workers comp (with recommended minimums)</li>
+<li>Industry body memberships and accreditations (e.g., Massage &amp; Myotherapy Australia, Master Builders, etc.)</li>
+<li>Privacy obligations (Australian Privacy Principles, how you collect/store customer data)</li>
+<li>Consumer law basics (ACCC obligations, refund policy requirements, advertising standards)</li>
+<li>Workplace health &amp; safety essentials</li>
+<li>&quot;Red flags&quot; checklist: things that will get you fined, sued, or shut down if you ignore them</li>
+<li>This section should scare them just enough to take it seriously, then immediately reassure them with a clear checklist. Not a legal textbook — a practical &quot;here&#x27;s what you need to have in place before you open the doors&quot; guide.</li>
+</ul>
+<hr>
+<h3 id="part-ii-how-you-look-visual-identity">PART II: HOW YOU LOOK (Visual Identity)</h3>
+<p><strong>8. Logo Suite</strong></p>
+<ul>
+<li>Primary logo (full color)</li>
+<li>Secondary logo (horizontal/stacked variant)</li>
+<li>Icon/mark only</li>
+<li>White version (for dark backgrounds)</li>
+<li>Minimum size requirements</li>
+<li>Clear space rules (with measurements)</li>
+<li>What NEVER to do (stretched, wrong colors, on busy backgrounds — show bad examples)</li>
+</ul>
+<p><strong>9. Color Palette</strong></p>
+<ul>
+<li>Primary color with hex, RGB, CMYK, Pantone</li>
+<li>Secondary colors (2-3)</li>
+<li>Accent color</li>
+<li>Background colors</li>
+<li>Text colors</li>
+<li>Color hierarchy: when to use which</li>
+<li>Color combinations that work (show examples)</li>
+<li>Color combinations that DON&#x27;T work (show bad examples)</li>
+<li>Large swatches — full page, beautiful, frame-worthy</li>
+</ul>
+<p><strong>10. Typography</strong></p>
+<ul>
+<li>Primary heading font (name, weights, where to download)</li>
+<li>Secondary body font</li>
+<li>Accent/display font (if any)</li>
+<li>Font pairing examples (headlines + body together)</li>
+<li>Size scale: H1, H2, H3, body, caption, button</li>
+<li>Line height and letter spacing rules</li>
+<li>Fonts to NEVER use (show examples of bad pairings)</li>
+</ul>
+<p><strong>11. Photography &amp; Imagery Style</strong></p>
+<ul>
+<li>Mood board (6-9 reference images showing the desired aesthetic)</li>
+<li>Do&#x27;s: warm lighting, natural tones, lifestyle shots, real people</li>
+<li>Don&#x27;ts: stock photo clichés, overly posed, clinical, cold lighting</li>
+<li>Photo treatment: filters, color grading, cropping style</li>
+<li>Example: &quot;Here&#x27;s a photo that IS on brand&quot; vs &quot;Here&#x27;s one that ISN&#x27;T&quot;</li>
+<li>Guidelines for phone photography (for when the owner takes their own photos)</li>
+</ul>
+<p><strong>12. Graphic Elements &amp; Patterns</strong></p>
+<ul>
+<li>Icons style (line, filled, custom?)</li>
+<li>Border/divider styles</li>
+<li>Background patterns or textures</li>
+<li>Social media frame templates</li>
+<li>Business card design</li>
+<li>Email signature design</li>
+<li>Any branded graphics (badges, stamps, seals)</li>
+</ul>
+<hr>
+<h3 id="part-iii-who-you-serve-customers">PART III: WHO YOU SERVE (Customers)</h3>
+<p><strong>13. Ideal Customer Profiles (Personas)</strong></p>
+<ul>
+<li>3-4 detailed personas</li>
+<li>Each gets a full page with:</li>
+<li>Name, age, occupation, photo (stock or AI)</li>
+<li>Daily routine</li>
+<li>Pain points (what keeps them up at night)</li>
+<li>Goals (what they want)</li>
+<li>How they find businesses like yours</li>
+<li>What would make them choose YOU over a competitor</li>
+<li>Direct quotes: &quot;I wish I could find someone who...&quot;</li>
+<li>Best channels to reach them</li>
+</ul>
+<p><strong>14. Customer Journey Map</strong></p>
+<ul>
+<li>Stage 1: Awareness (they realize they have a problem)</li>
+<li>Stage 2: Consideration (they research options)</li>
+<li>Stage 3: Decision (they choose you)</li>
+<li>Stage 4: Experience (the actual service)</li>
+<li>Stage 5: Loyalty (they come back)</li>
+<li>Stage 6: Advocacy (they tell others)</li>
+<li>At each stage: what the customer thinks, feels, does, and what YOU should be doing</li>
+</ul>
+<p><strong>15. Voice of the Customer</strong></p>
+<ul>
+<li>Best reviews (full quotes, attributed)</li>
+<li>Common praise themes (&quot;professional&quot;, &quot;welcoming&quot;, &quot;pain gone&quot;)</li>
+<li>Common objections or concerns and how to address them</li>
+<li>Testimonial graphics (designed, shareable, social-media-ready)</li>
+<li>NPS score or satisfaction metric if available</li>
+</ul>
+<hr>
+<h3 id="part-iv-what-you-offer-products-amp-strategy">PART IV: WHAT YOU OFFER (Products &amp; Strategy)</h3>
+<p><strong>16. Service/Product Menu</strong></p>
+<ul>
+<li>Every service with description, duration, price</li>
+<li>Presented as a beautiful menu (think restaurant menu design)</li>
+<li>Grouped by customer need, not by internal categories</li>
+<li>Each service: who it&#x27;s for, what to expect, recommended frequency</li>
+<li>Upsell pathways: &quot;If you liked X, try Y&quot;</li>
+</ul>
+<p><strong>17. Pricing Strategy</strong></p>
+<ul>
+<li>Price positioning (budget / mid / premium — and why)</li>
+<li>Competitor price comparison (table)</li>
+<li>Value justification: what makes your price worth it</li>
+<li>Special offers / first-time pricing</li>
+<li>Package deals / loyalty pricing</li>
+</ul>
+<p><strong>18. Pricing Psychology &amp; Packages</strong></p>
+<ul>
+<li>Anchoring: show the premium option first so the mid-tier feels reasonable</li>
+<li>Tiering: Good / Better / Best structure with clear value steps between each</li>
+<li>Package design: bundle services that naturally go together (e.g., &quot;The Recovery Package: deep tissue + hot stone + stretching consultation&quot;)</li>
+<li>First-visit offers: what to offer to get them in the door without devaluing the service (free consult, not discounted service)</li>
+<li>Upsell pathways: &quot;Clients who book X usually add Y&quot; — design these intentionally, not randomly</li>
+<li>Membership / prepaid models: when they make sense and how to price them (e.g., &quot;Buy 5 get 1 free&quot; vs &quot;Monthly membership at 15% off&quot;)</li>
+<li>Price presentation: how the numbers appear on menus, websites, and quotes (never lead with the price — lead with the outcome)</li>
+<li>Psychological triggers: charm pricing ($89 not $90), decoy pricing, time-based urgency (without being sleazy)</li>
+<li>This section turns their price list into a revenue strategy. Most small businesses set prices once and never think about it again. This makes them think about it properly.</li>
+</ul>
+<p><strong>19. Competitive Landscape</strong></p>
+<ul>
+<li>Top 5 competitors (name, location, pricing, strengths, weaknesses)</li>
+<li>Your differentiators (what you do that they don&#x27;t)</li>
+<li>Competitive positioning map (2x2 matrix: price vs. quality, or similar)</li>
+<li>Opportunities they&#x27;re missing that you can capture</li>
+</ul>
+<p><strong>20. Unique Selling Proposition</strong></p>
+<ul>
+<li>The ONE thing that makes you different, in one sentence</li>
+<li>The elevator pitch (30 seconds)</li>
+<li>The dinner party answer (&quot;So what do you do?&quot;)</li>
+<li>The website headline</li>
+<li>All four should say the same thing differently</li>
+</ul>
+<hr>
+<h3 id="part-v-how-you-grow-marketing-amp-operations">PART V: HOW YOU GROW (Marketing &amp; Operations)</h3>
+<p><strong>21. Marketing Strategy Overview</strong></p>
+<ul>
+<li>Goals for the next 12 months</li>
+<li>Key channels and why each one matters</li>
+<li>Budget allocation (pie chart)</li>
+<li>Key metrics to track</li>
+<li>One-page strategy summary (the &quot;cheat sheet&quot; they can stick on their wall)</li>
+</ul>
+<p><strong>22. Partnerships &amp; Referral Strategy</strong></p>
+<ul>
+<li>Top 10 businesses to partner with (specific types, not generic — e.g., for a massage therapist: physios, chiropractors, gyms, yoga studios, hotels, corporate offices, real estate agents doing settlement gifts)</li>
+<li>Why each partner benefits from referring to you (it has to be mutual — what&#x27;s in it for them?)</li>
+<li>Referral agreement template: how it works, what you offer in return (reciprocal referrals, commission, gift cards, co-marketing)</li>
+<li>Co-marketing opportunities: joint social posts, shared flyers, bundled packages, event collaborations</li>
+<li>Community presence: local events, markets, sponsorships, charity partnerships — where to show up and why</li>
+<li>Introduction script: exactly what to say when you walk into a physio&#x27;s office for the first time</li>
+<li>Referral tracking: how to know which partners are sending you clients (unique booking links, &quot;how did you hear about us&quot; field, partner codes)</li>
+<li>This is the most underused growth channel for local businesses. A single strong referral partner can be worth more than $10K in ad spend. Most business owners know they should do it but don&#x27;t know how to start the conversation.</li>
+</ul>
+<p><strong>23. Content Strategy</strong></p>
+<ul>
+<li>Content pillars (4-5 themes they&#x27;ll create content about)</li>
+<li>Platform-by-platform plan (what to post where, how often)</li>
+<li>Content calendar template (monthly view)</li>
+<li>30 content ideas ready to use (headlines + format + platform)</li>
+<li>Hashtag strategy per platform</li>
+</ul>
+<p><strong>24. SEO Strategy</strong></p>
+<ul>
+<li>Target keywords (primary + secondary + long-tail)</li>
+<li>Keyword clusters mapped to content</li>
+<li>Local SEO checklist (Google Business Profile, citations, reviews)</li>
+<li>Blog post topics mapped to keywords</li>
+<li>Current rankings baseline (if available)</li>
+</ul>
+<p><strong>25. Paid Advertising Playbook</strong></p>
+<ul>
+<li>Meta Ads: 5 ad copy variations ready to run</li>
+<li>Google Ads: 3 ad variations ready to run</li>
+<li>Targeting strategy (audiences, demographics, interests)</li>
+<li>Budget recommendations</li>
+<li>Expected metrics (CPC, CPA, ROAS)</li>
+<li>Ad creative guidelines (what works, what doesn&#x27;t)</li>
+<li>Retargeting strategy</li>
+</ul>
+<p><strong>26. Email Marketing Playbook</strong></p>
+<ul>
+<li>Lead magnet strategy (what to offer, how to capture)</li>
+<li>Welcome sequence (5 emails, fully written)</li>
+<li>Monthly newsletter template</li>
+<li>Re-engagement sequence</li>
+<li>Review request sequence</li>
+<li>Subject line formulas that work</li>
+</ul>
+<p><strong>27. Sales Process</strong></p>
+<ul>
+<li>How enquiries come in (channels)</li>
+<li>Response time targets</li>
+<li>Consultation/discovery process</li>
+<li>How to close (scripts/talking points)</li>
+<li>Follow-up cadence</li>
+<li>Objection handling (top 5 objections + responses)</li>
+</ul>
+<p><strong>28. 90-Day Action Plan</strong></p>
+<ul>
+<li>Week-by-week breakdown</li>
+<li>Each week: 2-3 specific actions with expected outcomes</li>
+<li>Milestone markers (end of month 1, 2, 3)</li>
+<li>KPI targets for each month</li>
+<li>&quot;If you do nothing else, do THESE 3 things&quot; summary</li>
+</ul>
+<p><strong>29. Quick Reference Cards (Pull-Out Section)</strong></p>
+<ul>
+<li>One-page brand cheat sheet (logo, colors, fonts, voice — laminated)</li>
+<li>Social media posting schedule (laminated)</li>
+<li>Elevator pitch card (wallet-sized)</li>
+<li>Emergency contact card (who to call for what)</li>
+<li>QR code linking to digital versions of all documents</li>
+</ul>
+<hr>
+<h2 id="design-principles-for-the-physical-bible">Design Principles for the Physical Bible</h2>
+<p><strong>Paper:</strong> 160gsm matte coated (thick, luxurious, no bleed-through)</p>
+<p><strong>Cover:</strong> Leatherette or linen with foil-stamped business name</p>
+<p><strong>Binding:</strong> Lay-flat binding (so it stays open on a desk) or premium ring binder with custom cover</p>
+<p><strong>Size:</strong> A4 portrait</p>
+<p><strong>Page count:</strong> 50-80 pages (depending on business complexity)</p>
+<p><strong>Tabs:</strong> Color-coded section dividers with printed tabs</p>
+<p><strong>Inserts:</strong> Pull-out cards in a pocket at the back (elevator pitch, cheat sheet)</p>
+<p><strong>Sleeve:</strong> Custom cardboard sleeve or box for presentation</p>
+<p><strong>The unboxing experience matters.</strong> When they open it, it should feel like opening a luxury product. Tissue paper. A handwritten note from you. The Brand Bible in its sleeve. A business card. Maybe a small branded item (pen, notebook). First impressions are everything.</p>
+<hr>
+<h2 id="what-we-currently-generate-vs-whatx27s-missing">What We Currently Generate vs. What&#x27;s Missing</h2>
+<div class="table-wrap"><table><thead><tr><th>Section</th><th>Currently Generated</th><th>Quality</th><th>Needs</th></tr></thead><tbody><tr><td>Cover</td><td>✅ Yes</td><td>70%</td><td>Better typography, version number</td></tr><tr><td>Table of Contents</td><td>✅ Yes</td><td>80%</td><td>Tab color coding</td></tr><tr><td>Founder&#x27;s Letter</td><td>❌ No</td><td>—</td><td>NEW: Ghostwrite based on client interview</td></tr><tr><td>Mission/Vision/Values</td><td>✅ Yes</td><td>60%</td><td>More specific, less corporate</td></tr><tr><td>Origin Story</td><td>❌ No</td><td>—</td><td>NEW: Based on client interview</td></tr><tr><td>Brand Personality</td><td>✅ Partial</td><td>50%</td><td>Need tone spectrum, voice examples</td></tr><tr><td>Legal &amp; Compliance</td><td>❌ No</td><td>—</td><td>NEW: Insurance, licenses, permits, privacy, consumer law, industry registrations</td></tr><tr><td>Logo Suite</td><td>✅ Partial</td><td>40%</td><td>Only primary logo. Need variants, rules, bad examples</td></tr><tr><td>Color Palette</td><td>✅ Yes</td><td>70%</td><td>Need CMYK/Pantone, large swatches, combinations</td></tr><tr><td>Typography</td><td>✅ Yes</td><td>60%</td><td>Need size scale, spacing rules, bad examples</td></tr><tr><td>Photography Style</td><td>✅ Partial</td><td>50%</td><td>Need mood board, do/don&#x27;t examples</td></tr><tr><td>Graphic Elements</td><td>❌ No</td><td>—</td><td>NEW: Icons, patterns, templates</td></tr><tr><td>Customer Personas</td><td>✅ Yes</td><td>70%</td><td>Need photos, daily routines, quotes</td></tr><tr><td>Customer Journey</td><td>❌ No</td><td>—</td><td>NEW: Full 6-stage map</td></tr><tr><td>Voice of Customer</td><td>✅ Yes</td><td>80%</td><td>Good — real reviews featured</td></tr><tr><td>Service Menu</td><td>✅ Yes</td><td>80%</td><td>Good — needs restaurant-menu styling</td></tr><tr><td>Pricing Strategy</td><td>❌ No</td><td>—</td><td>NEW: Competitor comparison, value justification</td></tr><tr><td>Pricing Psychology &amp; Packages</td><td>❌ No</td><td>—</td><td>NEW: Anchoring, tiering, package design, upsell pathways</td></tr><tr><td>Competitive Landscape</td><td>❌ No</td><td>—</td><td>NEW: Top 5 competitors analysis</td></tr><tr><td>USP</td><td>❌ No</td><td>—</td><td>NEW: Elevator pitch, dinner party answer</td></tr><tr><td>Marketing Strategy</td><td>✅ Yes</td><td>60%</td><td>Need budget allocation, metrics</td></tr><tr><td>Partnerships &amp; Referral Strategy</td><td>❌ No</td><td>—</td><td>NEW: Partner identification, referral agreements, co-marketing, intro scripts</td></tr><tr><td>Content Strategy</td><td>❌ No</td><td>—</td><td>NEW: Pillars, 30 ideas, hashtags</td></tr><tr><td>SEO Strategy</td><td>❌ No</td><td>—</td><td>NEW: Keywords, clusters, blog topics</td></tr><tr><td>Ad Playbook</td><td>✅ Yes (via orchestrator)</td><td>70%</td><td>Need creative guidelines</td></tr><tr><td>Email Playbook</td><td>✅ Yes (via orchestrator)</td><td>70%</td><td>Need newsletter template</td></tr><tr><td>Sales Process</td><td>❌ No</td><td>—</td><td>NEW: Scripts, objection handling</td></tr><tr><td>90-Day Plan</td><td>✅ Yes</td><td>80%</td><td>Good — needs KPI targets</td></tr><tr><td>Quick Reference Cards</td><td>❌ No</td><td>—</td><td>NEW: Pull-out laminated cards</td></tr></tbody></table></div>
+<p><strong>Currently generated: 14/29 sections (48%)</strong></p>
+<p><strong>At acceptable quality: ~10/29 (34%)</strong></p>
+<p><strong>At $15K quality: ~5/29 (17%)</strong></p>
+<hr>
+<h2 id="how-to-get-to-100">How to Get to 100%</h2>
+<h3 id="phase-1-client-interview-30-min">Phase 1: Client Interview (30 min)</h3>
+<p>Many sections can&#x27;t be generated from scraping alone. We need a structured client interview:</p>
+<ul>
+<li>Why did you start this business?</li>
+<li>What do you want it to become in 5 years?</li>
+<li>Describe your ideal customer</li>
+<li>What do people usually say after their first visit?</li>
+<li>What&#x27;s the one thing you do better than anyone?</li>
+<li>What are your top 3 values?</li>
+</ul>
+<p>This interview feeds into: Founder&#x27;s Letter, Origin Story, Mission/Vision, USP, Brand Personality.</p>
+<h3 id="phase-2-ai-generation-automated">Phase 2: AI Generation (automated)</h3>
+<p>Everything else can be generated by our agents using scraped data + interview responses:</p>
+<ul>
+<li>Personas (audience<em>research</em>agent)</li>
+<li>Competitor analysis (competitor<em>analysis</em>agent)</li>
+<li>Content strategy (content_generator)</li>
+<li>SEO strategy (seo_agent)</li>
+<li>Ad variations (ads<em>agent / creative</em>strategist)</li>
+<li>Email sequences (content_generator)</li>
+<li>90-day plan (strategy_agent)</li>
+</ul>
+<h3 id="phase-3-design-semi-automated">Phase 3: Design (semi-automated)</h3>
+<ul>
+<li>HTML template with print-ready A4 styling</li>
+<li>Mood boards assembled from stock photos</li>
+<li>Color swatch pages</li>
+<li>Service menu designed like a restaurant menu</li>
+<li>Quick reference cards as separate printable pages</li>
+</ul>
+<h3 id="phase-4-print">Phase 4: Print</h3>
+<ul>
+<li>Export to PDF</li>
+<li>Print on premium paper</li>
+<li>Bind in custom cover</li>
+<li>Add section tabs</li>
+<li>Package in presentation sleeve</li>
+</ul>
+<hr>
+<h2 id="pricing">Pricing</h2>
+<div class="table-wrap"><table><thead><tr><th>Tier</th><th>Contents</th><th>Price</th></tr></thead><tbody><tr><td><strong>Digital Only</strong></td><td>PDF of all 29 sections</td><td>Included in Bedrock ($3,500)</td></tr><tr><td><strong>Printed Standard</strong></td><td>Spiral bound, 160gsm paper, clear cover</td><td>+$200</td></tr><tr><td><strong>Printed Premium</strong></td><td>Leatherette cover, foil stamp, lay-flat binding, section tabs</td><td>+$500</td></tr><tr><td><strong>Printed Deluxe</strong></td><td>Full leather, gold foil, archival paper, custom box, pull-out cards</td><td>+$1,000</td></tr></tbody></table></div>
+<p>The Premium and Deluxe versions are pure profit. Cost to produce: $50-100. Sell for $500-1,000. The perceived value of a physical, leatherbound book with their business name stamped in gold is enormous.</p>
+<hr>
+<h2 id="the-killer-feature">The Killer Feature</h2>
+<p><strong>Annual Updates.</strong> Every year, we update the Brand Bible with:</p>
+<ul>
+<li>New reviews</li>
+<li>Updated competitor analysis</li>
+<li>Refreshed 90-day plan</li>
+<li>New content ideas</li>
+<li>Performance data from the past year</li>
+<li>Any brand evolution (new services, pricing changes)</li>
+</ul>
+<p>The client pays $500/year for the update. We print a new edition. They have a living document that grows with their business. This creates recurring revenue AND keeps the client engaged.</p>
+<hr>
+<p><em>This blueprint is the spec for building the Brand Bible generator agent.</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Docs/BRAND-BIBLE-BLUEPRINT.md</div>
+    </main>
+  </div>
+</body>
+</html>

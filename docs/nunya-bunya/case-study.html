@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study: Brisbane Zinia Massage | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Case Study: Brisbane Zinia Massage
+        </div>
+        <h1 class="doc-title">Case Study: Brisbane Zinia Massage</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Clients / brisbane-zinia-massage / 06-reporting / case-study</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="case-study-brisbane-zinia-massage">Case Study: Brisbane Zinia Massage</h1>
+<h2 id="at-a-glance">At a Glance</h2>
+<p><strong>Client:</strong> Brisbane Zinia Massage</p>
+<p><strong>Industry:</strong> Massage Therapy &amp; Wellness</p>
+<p><strong>Location:</strong> Brisbane CBD, Queensland</p>
+<p><strong>Services Provided:</strong> Complete brand development, website design &amp; build, SEO setup, content strategy, AI brand photography, analytics implementation</p>
+<p><strong>Timeline:</strong> 3 weeks from discovery to launch</p>
+<hr>
+<h2 id="the-client">The Client</h2>
+<p>Brisbane Zinia Massage is a boutique wellness practice located in the heart of Brisbane&#x27;s CBD. Led by Mary, an experienced massage therapist specialising in remedial massage, deep tissue massage, and traditional Chinese massage, the practice focuses on helping clients recover from stress, sports fatigue, and the physical demands of modern life.</p>
+<p>Operating from Suite 2 at 117 Queen Street, Mary offers personalised treatments designed to relieve muscle tension, improve circulation, and restore balance. Her unique offering includes traditional clinic services as well as premium mobile massage services for 4-star and 5-star hotels within 2km of the CBD—available 24 hours a day.</p>
+<h2 id="the-challenge">The Challenge</h2>
+<p>When Brisbane Zinia Massage first approached Nunya Bunya, their online presence wasn&#x27;t doing justice to Mary&#x27;s expertise or the quality of her services. The practice faced several critical challenges:</p>
+<p><strong>No Professional Brand Identity:</strong> Without a cohesive brand strategy, potential clients couldn&#x27;t understand what made Brisbane Zinia Massage different from dozens of other massage therapists in Brisbane.</p>
+<p><strong>Confusing Website Experience:</strong> The existing website lacked clear navigation, professional imagery, and compelling service descriptions. Visitors couldn&#x27;t easily understand the range of services offered or how to book appointments.</p>
+<p><strong>Missing SEO Foundation:</strong> The site had no proper SEO structure, meaning potential clients searching for &quot;remedial massage Brisbane CBD&quot; or &quot;mobile massage Brisbane&quot; simply weren&#x27;t finding Mary&#x27;s services.</p>
+<p><strong>Poor Mobile Experience:</strong> With many clients searching for massage services on their phones, the non-responsive design was turning away bookings before they even began.</p>
+<p><strong>Unclear Value Proposition:</strong> The unique combination of traditional Chinese massage expertise, convenient CBD location, and premium hotel outcall services wasn&#x27;t being communicated effectively.</p>
+<h2 id="the-solution">The Solution</h2>
+<p>Nunya Bunya developed a comprehensive digital transformation strategy that positioned Brisbane Zinia Massage as the premium choice for therapeutic massage in Brisbane&#x27;s CBD.</p>
+<p><strong>Brand Bible (BFK):</strong> We created a complete brand strategy document establishing Brisbane Zinia Massage&#x27;s warm, nurturing, and professional tone. This included messaging frameworks, brand personality, and positioning against competitors.</p>
+<p><strong>Website Design &amp; Build:</strong> A complete redesign focusing on user experience, clear service presentation, and conversion optimisation. The new site makes it easy for clients to understand services and book appointments.</p>
+<p><strong>SEO Setup:</strong> Comprehensive Schema.org markup, optimised meta tags, and keyword targeting for terms like &quot;remedial massage Brisbane,&quot; &quot;deep tissue massage CBD,&quot; and &quot;mobile massage Brisbane.&quot;</p>
+<p><strong>Content Strategy:</strong> Development of content pillars around pain relief, wellness education, and recovery techniques, with an editorial calendar for ongoing content creation.</p>
+<p><strong>AI Brand Photography:</strong> Professional imagery showcasing Mary&#x27;s techniques, the serene treatment environment, and the unique mobile service offering.</p>
+<p><strong>Analytics Setup:</strong> Matomo tracking and Meta Pixel implementation to measure website performance and support future digital marketing campaigns.</p>
+<h2 id="the-process">The Process</h2>
+<p><strong>Discovery &amp; Audit (Week 1):</strong> We conducted comprehensive research into Brisbane&#x27;s massage therapy market, analysed competitor positioning, and identified key opportunities for differentiation. The audit revealed significant gaps in local SEO and mobile user experience.</p>
+<p><strong>Brand Development (Week 1-2):</strong> Creation of the Brand Bible established Brisbane Zinia Massage&#x27;s positioning as the go-to practice for therapeutic massage that combines traditional Chinese medicine principles with modern remedial techniques.</p>
+<p><strong>Website Design &amp; Build (Week 2-3):</strong> Built on a responsive framework with clear service hierarchies, intuitive booking flows, and mobile-first design principles. Special attention was paid to showcasing the unique hotel outcall service.</p>
+<p><strong>Content &amp; SEO (Week 3):</strong> Implementation of targeted keyword strategies, creation of service-specific landing pages, and development of educational content that positions Mary as a trusted wellness expert.</p>
+<p><strong>Launch &amp; Handover (Week 3):</strong> Comprehensive testing across devices, analytics setup, and training Mary on content management and booking system administration.</p>
+<h2 id="before-amp-after">Before &amp; After</h2>
+<p>The transformation was immediately apparent. The original website featured cluttered layouts, unclear navigation, and amateur photography that failed to convey the professional, therapeutic nature of Mary&#x27;s practice.</p>
+<p>The new Brisbane Zinia Massage website presents a clean, calming aesthetic that immediately communicates professionalism and expertise. Service pages now clearly explain each treatment type, duration options, and pricing—removing confusion and building confidence for potential clients.</p>
+<p>The mobile experience went from practically unusable to seamless, with thumb-friendly navigation and one-touch booking capabilities. The unique hotel outcall service now has dedicated prominence, appealing to Brisbane&#x27;s significant business traveller market.</p>
+<p>Most importantly, the site now tells Mary&#x27;s story effectively—establishing trust through her qualifications in traditional Chinese massage and positioning the practice as a haven for recovery and wellness in the busy CBD.</p>
+<h2 id="the-website">The Website</h2>
+<p>Every design decision serves Brisbane Zinia Massage&#x27;s dual goals: educating potential clients about therapeutic massage benefits and making bookings as frictionless as possible.</p>
+<p><strong>Calming Colour Palette:</strong> Warm, neutral tones create an immediate sense of tranquillity and professionalism, reflecting the nurturing experience clients can expect.</p>
+<p><strong>Service-Focused Architecture:</strong> Each massage type has dedicated space explaining techniques, benefits, and ideal client scenarios. This educational approach builds trust and helps clients choose the right treatment.</p>
+<p><strong>Clear Pricing Structure:</strong> Transparent pricing by duration removes barriers to booking and positions the services as accessible yet professional.</p>
+<p><strong>Mobile-First Booking:</strong> The booking system works seamlessly on mobile devices, recognising that many clients search for massage services while experiencing pain or stress.</p>
+<p><strong>Hotel Outcall Prominence:</strong> The unique mobile service gets featured placement, appealing to Brisbane&#x27;s business district clientele and differentiating from clinic-only competitors.</p>
+<p><em>Note: See the scroll-through video for the full experience of how these elements work together to create a compelling user journey.</em></p>
+<h2 id="results">Results</h2>
+<p>The impact was immediate and measurable:</p>
+<p><strong>Professional Positioning:</strong> Brisbane Zinia Massage now projects the expert, therapeutic brand that Mary&#x27;s qualifications and experience deserve.</p>
+<p><strong>Improved User Experience:</strong> [X%] reduction in bounce rate and [X%] increase in time spent on service pages, indicating visitors are finding the information they need.</p>
+<p><strong>SEO Foundation:</strong> Proper technical setup means the site now ranks for relevant local searches, with [X% increase] in organic traffic within the first month.</p>
+<p><strong>Mobile Performance:</strong> [X%] of traffic now comes from mobile devices, with booking completions increasing [X%] compared to the previous site.</p>
+<p><strong>Clear Service Communication:</strong> The structured presentation of massage types, benefits, and pricing has eliminated confusion and reduced pre-booking enquiries by [X%].</p>
+<p><strong>Brand Differentiation:</strong> The combination of traditional Chinese massage expertise and premium mobile services now stands out clearly in Brisbane&#x27;s competitive massage therapy market.</p>
+<h2 id="whatx27s-next">What&#x27;s Next</h2>
+<p>With a solid digital foundation in place, Brisbane Zinia Massage is positioned for strategic growth. Key opportunities include:</p>
+<ul>
+<li><strong>Google Ads campaigns</strong> targeting specific conditions like &quot;back pain relief Brisbane&quot; and &quot;sports massage CBD&quot;</li>
+<li><strong>Content marketing</strong> through wellness blog posts and recovery guides to build authority</li>
+<li><strong>Local partnerships</strong> with Brisbane gyms, corporate wellness programs, and luxury hotels</li>
+<li><strong>Social proof collection</strong> through client testimonials and before/after case studies</li>
+</ul>
+<p>The analytics setup provides clear visibility into what&#x27;s working, enabling data-driven decisions about where to invest marketing efforts for maximum return.</p>
+<hr>
+<p><strong>Want results like this for your business?</strong> If you&#x27;re ready to transform your online presence and attract more qualified leads, let&#x27;s talk about your digital marketing goals. Contact Nunya Bunya today for a free consultation.</p>
+<p><em>[TESTIMONIAL PLACEHOLDER]</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Clients/brisbane-zinia-massage/06-reporting/case-study/CASE-STUDY.md</div>
+    </main>
+  </div>
+</body>
+</html>

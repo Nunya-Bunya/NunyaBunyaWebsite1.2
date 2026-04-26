@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keyword Strategy -- All 7 Businesses | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          Keyword Strategy -- All 7 Businesses
+        </div>
+        <h1 class="doc-title">Keyword Strategy -- All 7 Businesses</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="keyword-strategy-all-7-businesses">Keyword Strategy -- All 7 Businesses</h1>
+<p><strong>Created:</strong> 2026-03-26</p>
+<p><strong>Last Updated:</strong> 2026-03-26</p>
+<p><strong>Status:</strong> Active -- Review quarterly</p>
+<hr>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-nunya-bunya">Nunya Bunya -- AI Marketing Agency</a></li>
+<li><a href="#2-power-portraits">Power Portraits -- Headshot Photography</a></li>
+<li><a href="#3-ben-alek-conner">Ben Alek Conner -- Personal Brand</a></li>
+<li><a href="#4-orca-film-awards">ORCA Film Awards -- Independent Film Awards</a></li>
+<li><a href="#5-merkel--conner">Merkel &amp; Conner -- Personal Injury Law</a></li>
+<li><a href="#6-conner-injury-law">Conner Injury Law -- Personal Injury Law</a></li>
+<li><a href="#7-mbcs">MBCS -- Law Firm</a></li>
+<li><a href="#8-cross-business-synergies">Cross-Business Keyword Synergies</a></li>
+<li><a href="#9-implementation-priorities">Implementation Priorities</a></li>
+</ol>
+<hr>
+<h2 id="1-nunya-bunya">1. Nunya Bunya</h2>
+<p><strong>Business:</strong> AI-powered digital marketing agency, Brisbane</p>
+<p><strong>Target Market:</strong> Small-to-medium businesses in Brisbane/QLD needing marketing help</p>
+<p><strong>Differentiator:</strong> AI-driven approach, lean pricing ($1,500-$6,500/mo packages)</p>
+<h3 id="primary-keywords-high-intent">Primary Keywords (High Intent)</h3>
+<div class="table-wrap"><table><thead><tr><th>Keyword</th><th>Est. Monthly Search (AU)</th><th>Competition</th><th>Priority</th></tr></thead><tbody><tr><td>digital marketing agency brisbane</td><td>1,000-2,500</td><td>Very High</td><td>1</td></tr><tr><td>marketing agency brisbane</td><td>800-1,500</td><td>Very High</td><td>2</td></tr><tr><td>SEO agency brisbane</td><td>500-1,000</td><td>High</td><td>3</td></tr><tr><td>social media marketing brisbane</td><td>300-800</td><td>Medium-High</td><td>4</td></tr><tr><td>AI marketing agency australia</td><td>100-300</td><td>Low-Medium</td><td>5</td></tr></tbody></table></div>
+<h3 id="long-tail-keywords-blog-content-targets">Long-Tail Keywords (Blog Content Targets)</h3>
+<ol>
+<li>&quot;affordable marketing agency brisbane&quot; -- 50-150/mo, low competition</li>
+<li>&quot;small business marketing brisbane&quot; -- 100-300/mo, medium competition</li>
+<li>&quot;AI SEO services brisbane&quot; -- 20-80/mo, low competition (emerging)</li>
+<li>&quot;best digital marketing agency brisbane for small business&quot; -- 50-100/mo, low</li>
+<li>&quot;content marketing agency brisbane&quot; -- 50-150/mo, medium</li>
+<li>&quot;google ads management brisbane&quot; -- 100-300/mo, medium</li>
+<li>&quot;social media management for small business brisbane&quot; -- 30-80/mo, low</li>
+<li>&quot;how to market a small business in brisbane&quot; -- 20-50/mo, very low</li>
+<li>&quot;AI marketing tools for small business australia&quot; -- 50-150/mo, low</li>
+<li>&quot;local SEO brisbane small business&quot; -- 50-100/mo, low</li>
+<li>&quot;digital marketing cost brisbane&quot; -- 30-80/mo, low</li>
+<li>&quot;marketing automation for small business australia&quot; -- 30-80/mo, low</li>
+</ol>
+<h3 id="local-keywords">Local Keywords</h3>
+<ul>
+<li>&quot;marketing agency near me brisbane&quot;</li>
+<li>&quot;digital marketing south brisbane&quot;</li>
+<li>&quot;SEO company brisbane CBD&quot;</li>
+<li>&quot;marketing consultant brisbane&quot;</li>
+<li>&quot;brisbane marketing services&quot;</li>
+<li>&quot;QLD digital marketing agency&quot;</li>
+<li>&quot;marketing help brisbane small business&quot;</li>
+</ul>
+<h3 id="competitor-keywords-who-ranks-for-what">Competitor Keywords (Who Ranks for What)</h3>
+<div class="table-wrap"><table><thead><tr><th>Competitor</th><th>Keywords They Own</th></tr></thead><tbody><tr><td>BAMBRICK (25+ years)</td><td>&quot;digital marketing brisbane&quot;, &quot;SEO brisbane&quot;, &quot;google ads brisbane&quot;</td></tr><tr><td>Uprise Digital</td><td>&quot;digital marketing agency brisbane&quot;, &quot;brisbane SEO agency&quot;</td></tr><tr><td>Social Direct</td><td>&quot;social media marketing brisbane&quot;, &quot;google ads brisbane&quot;</td></tr><tr><td>Ape-X</td><td>&quot;affordable marketing brisbane&quot;, &quot;content writing brisbane&quot;</td></tr><tr><td>SOUP Agency</td><td>&quot;full service digital marketing brisbane&quot;</td></tr><tr><td>Excite Media</td><td>&quot;marketing agency brisbane&quot;, &quot;web design brisbane&quot;</td></tr><tr><td>Resurge Digital</td><td>&quot;SEO brisbane&quot;, &quot;digital marketing brisbane&quot;</td></tr></tbody></table></div>
+<p><strong>Gap Opportunity:</strong> No Brisbane agency is owning &quot;AI marketing agency brisbane&quot; or &quot;AI SEO brisbane&quot; yet. The digital-marketing-brisbane.com.au site has a page on AI SEO but it is not dominant. This is Nunya Bunya&#x27;s best angle.</p>
+<h3 id="content-ideas">Content Ideas</h3>
+<ol>
+<li>&quot;How AI Is Changing Small Business Marketing in Brisbane (2026 Guide)&quot;</li>
+<li>&quot;Digital Marketing Agency vs DIY: What Brisbane Small Businesses Should Know&quot;</li>
+<li>&quot;Brisbane Marketing Costs: What to Expect in 2026&quot;</li>
+<li>&quot;5 AI Marketing Tools Every Brisbane Business Should Be Using&quot;</li>
+<li>&quot;Local SEO Checklist for Brisbane Small Businesses&quot;</li>
+<li>&quot;Why Your Brisbane Business Needs an AI-Powered Marketing Strategy&quot;</li>
+<li>&quot;Google Ads vs Meta Ads: Which Works Better for Brisbane Businesses?&quot;</li>
+<li>&quot;How Brisbane Businesses Can Compete with AI Search (ChatGPT, Perplexity)&quot;</li>
+<li>&quot;Content Marketing on a Budget: A Guide for Brisbane SMBs&quot;</li>
+<li>&quot;The Future of Marketing: How AI Agents Are Replacing Traditional Agencies&quot;</li>
+</ol>
+<hr>
+<h2 id="2-power-portraits">2. Power Portraits</h2>
+<p><strong>Business:</strong> Professional portrait and headshot photography, Brisbane</p>
+<p><strong>Target Market:</strong> Professionals needing LinkedIn/corporate headshots, business owners needing brand photos</p>
+<p><strong>Differentiator:</strong> Modern, approachable style; competitive pricing</p>
+<h3 id="primary-keywords-high-intent">Primary Keywords (High Intent)</h3>
+<div class="table-wrap"><table><thead><tr><th>Keyword</th><th>Est. Monthly Search (AU)</th><th>Competition</th><th>Priority</th></tr></thead><tbody><tr><td>headshots brisbane</td><td>300-800</td><td>High</td><td>1</td></tr><tr><td>corporate headshots brisbane</td><td>200-500</td><td>High</td><td>2</td></tr><tr><td>linkedin headshots brisbane</td><td>100-300</td><td>Medium</td><td>3</td></tr><tr><td>portrait photographer brisbane</td><td>300-600</td><td>High</td><td>4</td></tr><tr><td>professional headshot photographer brisbane</td><td>100-300</td><td>Medium</td><td>5</td></tr></tbody></table></div>
+<h3 id="long-tail-keywords-blog-content-targets">Long-Tail Keywords (Blog Content Targets)</h3>
+<ol>
+<li>&quot;best headshot photographer brisbane&quot; -- 50-100/mo, medium</li>
+<li>&quot;affordable headshots brisbane&quot; -- 30-80/mo, low</li>
+<li>&quot;corporate team photos brisbane&quot; -- 30-50/mo, low</li>
+<li>&quot;business branding photography brisbane&quot; -- 30-80/mo, low</li>
+<li>&quot;executive portrait photographer brisbane&quot; -- 20-40/mo, low</li>
+<li>&quot;actor headshots brisbane&quot; -- 30-80/mo, low</li>
+<li>&quot;headshot photography pricing brisbane&quot; -- 20-50/mo, low</li>
+<li>&quot;personal branding photographer brisbane&quot; -- 30-80/mo, low</li>
+<li>&quot;team headshots for company brisbane&quot; -- 10-30/mo, very low</li>
+<li>&quot;natural light headshots brisbane&quot; -- 10-20/mo, very low</li>
+<li>&quot;how to prepare for a professional headshot&quot; -- 200-500/mo (national), low</li>
+<li>&quot;what to wear for corporate headshots&quot; -- 300-800/mo (national), low</li>
+</ol>
+<h3 id="local-keywords">Local Keywords</h3>
+<ul>
+<li>&quot;headshot photographer near me&quot; (Brisbane geo)</li>
+<li>&quot;corporate photographer brisbane CBD&quot;</li>
+<li>&quot;headshots south brisbane&quot;</li>
+<li>&quot;portrait studio brisbane&quot;</li>
+<li>&quot;professional photos brisbane&quot;</li>
+<li>&quot;headshot mini session brisbane&quot;</li>
+<li>&quot;on location headshot photographer brisbane&quot;</li>
+</ul>
+<h3 id="competitor-keywords">Competitor Keywords</h3>
+<div class="table-wrap"><table><thead><tr><th>Competitor</th><th>Keywords/USP</th></tr></thead><tbody><tr><td>Hipshots Photography (Morningside)</td><td>&quot;headshots brisbane&quot;, $145 for 3 images</td></tr><tr><td>Brisbane Headshots (New Farm)</td><td>&quot;brisbane headshots&quot;, &quot;corporate photography brisbane&quot;</td></tr><tr><td>Sheona Beach</td><td>&quot;linkedin headshots brisbane&quot;, $100 express option</td></tr><tr><td>Tyler Alberti</td><td>&quot;corporate headshots brisbane&quot;, packages from $330</td></tr><tr><td>VERAS Studio (West End)</td><td>&quot;portrait studio brisbane&quot;</td></tr><tr><td>Twin Lotus Production (Wynnum)</td><td>&quot;brisbane headshot photographer&quot;, $250 studio fee</td></tr><tr><td>Hero Shot Photography</td><td>&quot;corporate headshots brisbane&quot;, 10+ years experience</td></tr></tbody></table></div>
+<p><strong>Gap Opportunity:</strong> The term &quot;personal branding photographer brisbane&quot; has growing demand as more entrepreneurs invest in personal brands. Also &quot;AI headshots vs real headshots&quot; is a trending topic with very low competition -- perfect for a comparison blog post that drives bookings.</p>
+<h3 id="content-ideas">Content Ideas</h3>
+<ol>
+<li>&quot;What to Wear for Your Professional Headshot (2026 Guide)&quot;</li>
+<li>&quot;AI Headshots vs Real Headshots: Why Authenticity Wins&quot;</li>
+<li>&quot;How to Prepare for Your Brisbane Corporate Headshot Session&quot;</li>
+<li>&quot;LinkedIn Headshot Tips: First Impressions That Get You Hired&quot;</li>
+<li>&quot;Corporate Team Photo Day: How to Plan It (Brisbane Edition)&quot;</li>
+<li>&quot;How Often Should You Update Your Professional Headshot?&quot;</li>
+<li>&quot;Studio vs Outdoor Headshots: Which Style Suits You?&quot;</li>
+<li>&quot;Personal Branding Photography: More Than Just a Headshot&quot;</li>
+<li>&quot;Why Every Brisbane Business Owner Needs Professional Brand Photos&quot;</li>
+<li>&quot;The Psychology of a Great Headshot: What Makes People Trust You&quot;</li>
+</ol>
+<hr>
+<h2 id="3-ben-alek-conner">3. Ben Alek Conner</h2>
+<p><strong>Business:</strong> Personal brand -- photographer, content creator, YouTuber</p>
+<p><strong>Target Market:</strong> Aspiring creatives, small business owners wanting to learn content/marketing</p>
+<p><strong>Differentiator:</strong> Multi-disciplinary creative (photo + video + marketing + AI)</p>
+<h3 id="primary-keywords-high-intent">Primary Keywords (High Intent)</h3>
+<div class="table-wrap"><table><thead><tr><th>Keyword</th><th>Est. Monthly Search (AU)</th><th>Competition</th><th>Priority</th></tr></thead><tbody><tr><td>content creator brisbane</td><td>50-200</td><td>Low</td><td>1</td></tr><tr><td>personal branding photographer brisbane</td><td>30-80</td><td>Low</td><td>2</td></tr><tr><td>youtube marketing tips</td><td>1,000-5,000 (global)</td><td>High</td><td>3</td></tr><tr><td>content creation tips</td><td>2,000-8,000 (global)</td><td>High</td><td>4</td></tr><tr><td>how to start a youtube channel australia</td><td>200-500</td><td>Medium</td><td>5</td></tr></tbody></table></div>
+<h3 id="long-tail-keywords-blogyoutube-content-targets">Long-Tail Keywords (Blog/YouTube Content Targets)</h3>
+<ol>
+<li>&quot;how to build a personal brand in australia&quot; -- 50-150/mo, low</li>
+<li>&quot;content creator tips for beginners&quot; -- 500-2,000/mo (global), medium</li>
+<li>&quot;photography tips for content creators&quot; -- 100-300/mo, low</li>
+<li>&quot;how to use AI for content creation&quot; -- 500-2,000/mo (global), medium</li>
+<li>&quot;brisbane photographer youtube&quot; -- 10-30/mo, very low</li>
+<li>&quot;personal brand photography ideas&quot; -- 100-300/mo, low</li>
+<li>&quot;how to get clients as a photographer&quot; -- 300-800/mo (global), medium</li>
+<li>&quot;creative business tips australia&quot; -- 30-80/mo, low</li>
+<li>&quot;youtube channel growth strategies 2026&quot; -- 200-500/mo (global), medium</li>
+<li>&quot;behind the scenes content creation&quot; -- 100-300/mo, low</li>
+<li>&quot;AI tools for content creators 2026&quot; -- 300-1,000/mo (global), medium</li>
+<li>&quot;how to monetize content creation in australia&quot; -- 30-80/mo, low</li>
+</ol>
+<h3 id="local-keywords">Local Keywords</h3>
+<ul>
+<li>&quot;brisbane content creator&quot;</li>
+<li>&quot;brisbane photographer for hire&quot;</li>
+<li>&quot;creative professional brisbane&quot;</li>
+<li>&quot;video production brisbane freelance&quot;</li>
+<li>&quot;brisbane youtube creator&quot;</li>
+</ul>
+<h3 id="competitor-keywords-personal-brand-space">Competitor Keywords (Personal Brand Space)</h3>
+<div class="table-wrap"><table><thead><tr><th>Competitor/Peer</th><th>What They Rank For</th></tr></thead><tbody><tr><td>Zahrina Robertson</td><td>&quot;personal brand photographer sydney/melbourne/brisbane&quot;</td></tr><tr><td>Creatir</td><td>&quot;product photographer brisbane&quot;, &quot;content creator brisbane&quot;</td></tr><tr><td>Ariana Gillrie</td><td>&quot;content creation brisbane&quot;, &quot;food photographer brisbane&quot;</td></tr><tr><td>Creating Content Co</td><td>&quot;branding photographer brisbane&quot;</td></tr></tbody></table></div>
+<p><strong>Gap Opportunity:</strong> The intersection of &quot;AI + content creation + personal branding&quot; is virtually uncontested in the Australian market. Positioning as the AI-savvy content creator/photographer is a clear differentiation play.</p>
+<h3 id="content-ideas-youtube-blog">Content Ideas (YouTube + Blog)</h3>
+<ol>
+<li>&quot;How I Use AI to Run 7 Businesses (My Exact Workflow)&quot;</li>
+<li>&quot;Building a Personal Brand in Brisbane: A Step-by-Step Guide&quot;</li>
+<li>&quot;The Best AI Tools for Content Creators in 2026&quot;</li>
+<li>&quot;How to Start a Photography Business in Australia (What I Learned)&quot;</li>
+<li>&quot;Content Creation Gear Guide: What I Actually Use&quot;</li>
+<li>&quot;From Zero to Content Creator: My Brisbane Journey&quot;</li>
+<li>&quot;Why Every Business Owner Should Be a Content Creator&quot;</li>
+<li>&quot;AI Photography Tools: Threat or Opportunity?&quot;</li>
+<li>&quot;How to Shoot, Edit, and Post in One Day (Content Creator Workflow)&quot;</li>
+<li>&quot;5 Lessons from Running a Marketing Agency in Brisbane&quot;</li>
+</ol>
+<hr>
+<h2 id="4-orca-film-awards">4. ORCA Film Awards</h2>
+<p><strong>Business:</strong> Film awards body + film news/review publication + YouTube show</p>
+<p><strong>Target Market:</strong> Film enthusiasts, cinephiles, critics, and people who care about underseen/indie/international cinema</p>
+<p><strong>What ORCA is NOT:</strong> A film festival. Does NOT accept submissions from filmmakers. Members nominate and vote on existing films.</p>
+<p><strong>Differentiator:</strong> An alternative awards voice championing underseen, indie, and international films that the Oscars overlook. Operates through film criticism, essays, and a growing body of voting members.</p>
+<p><strong>Trajectory:</strong> Voting body → Film news/review publication → Press credentials + festival coverage → Full awards ceremony</p>
+<h3 id="primary-keywords-high-intent">Primary Keywords (High Intent)</h3>
+<div class="table-wrap"><table><thead><tr><th>Keyword</th><th>Est. Monthly Search (Global)</th><th>Competition</th><th>Priority</th></tr></thead><tbody><tr><td>best indie films [year]</td><td>1,000-5,000</td><td>Medium</td><td>1</td></tr><tr><td>underrated films [year]</td><td>2,000-8,000</td><td>Medium</td><td>2</td></tr><tr><td>independent film reviews</td><td>500-1,500</td><td>Medium</td><td>3</td></tr><tr><td>best foreign films [year]</td><td>1,000-3,000</td><td>Medium</td><td>4</td></tr><tr><td>films the oscars missed</td><td>500-2,000</td><td>Low</td><td>5</td></tr></tbody></table></div>
+<h3 id="long-tail-keywords-blogseo-content-targets">Long-Tail Keywords (Blog/SEO Content Targets)</h3>
+<ol>
+<li>&quot;best underseen films [year]&quot; -- 500-2,000/mo, low</li>
+<li>&quot;indie films you haven&#x27;t seen&quot; -- 300-1,000/mo, low</li>
+<li>&quot;best international films not on oscar radar&quot; -- 100-300/mo, very low</li>
+<li>&quot;independent film news&quot; -- 200-500/mo, medium</li>
+<li>&quot;best films at [festival name] [year]&quot; -- 200-1,000/mo (seasonal), medium</li>
+<li>&quot;film awards that aren&#x27;t the oscars&quot; -- 100-300/mo, low</li>
+<li>&quot;foreign film reviews [year]&quot; -- 200-500/mo, low</li>
+<li>&quot;hidden gem movies [year]&quot; -- 1,000-5,000/mo, medium</li>
+<li>&quot;best A24 films ranked&quot; -- 500-2,000/mo, medium (example -- adjust for trending studios/distributors)</li>
+<li>&quot;alternative film awards&quot; -- 100-300/mo, very low</li>
+<li>&quot;film criticism website&quot; -- 100-300/mo, low</li>
+<li>&quot;cannes film festival reviews [year]&quot; -- 500-2,000/mo (seasonal), medium</li>
+</ol>
+<h3 id="seasonal-keywords-awards-cycle-festival-calendar">Seasonal Keywords (Awards Cycle + Festival Calendar)</h3>
+<ul>
+<li>&quot;best films of [year]&quot; -- peaks Dec-Feb (massive volume)</li>
+<li>&quot;oscar snubs [year]&quot; -- peaks Jan-Mar (huge opportunity for ORCA&#x27;s positioning)</li>
+<li>&quot;[festival] reviews [year]&quot; (Cannes, Venice, TIFF, Sundance, Berlin) -- peaks around each festival</li>
+<li>&quot;award season predictions [year]&quot; -- peaks Oct-Feb</li>
+<li>&quot;best foreign language film [year]&quot; -- peaks during awards season</li>
+</ul>
+<h3 id="competitor-keywords-publicationawards-peers-not-submission-platforms">Competitor Keywords (Publication/Awards Peers, NOT Submission Platforms)</h3>
+<div class="table-wrap"><table><thead><tr><th>Competitor</th><th>Keywords They Own</th></tr></thead><tbody><tr><td>IndieWire</td><td>&quot;independent film news&quot;, &quot;indie film reviews&quot;, festival coverage</td></tr><tr><td>The Film Stage</td><td>&quot;film reviews&quot;, &quot;cannes reviews&quot;, art-house coverage</td></tr><tr><td>Letterboxd</td><td>&quot;best films [year]&quot;, community-driven film ratings</td></tr><tr><td>Sight &amp; Sound (BFI)</td><td>&quot;greatest films of all time&quot;, &quot;best films [decade]&quot;</td></tr><tr><td>Gotham Awards / Spirit Awards</td><td>&quot;independent film awards&quot;, alternative to Oscars</td></tr><tr><td>A.V. Club / Vulture</td><td>&quot;best movies [year]&quot;, film criticism, pop culture</td></tr></tbody></table></div>
+<p><strong>Gap Opportunity:</strong> There is no major awards body specifically positioned as &quot;the anti-Oscars&quot; championing underseen cinema with a growing democratic voting membership. The Gotham Awards and Spirit Awards are industry-insider events. ORCA can own the space of &quot;the people&#x27;s alternative to the Oscars&quot; -- a community of critics and cinephiles who shine a light on what Hollywood ignores. The &quot;oscar snubs&quot; keyword cluster alone is massive and perfectly aligned with ORCA&#x27;s mission.</p>
+<h3 id="content-ideas">Content Ideas</h3>
+<ol>
+<li>&quot;The 20 Best Films the Oscars Completely Ignored This Year&quot;</li>
+<li>&quot;ORCA Winners [Year]: The Films That Deserved More Attention&quot;</li>
+<li>&quot;[Festival] Dispatch: The Films You Need to Watch From [Cannes/Venice/TIFF/Sundance]&quot;</li>
+<li>&quot;Why Independent Film Matters More Than Ever&quot;</li>
+<li>&quot;The Most Underrated Films of [Year] So Far&quot;</li>
+<li>&quot;ORCA Reviews: [Film Title] -- In-Depth Analysis&quot;</li>
+<li>&quot;Foreign Film Roundup: The Best International Cinema of [Quarter/Year]&quot;</li>
+<li>&quot;How the Oscars Lost Their Way (And What ORCA Is Doing About It)&quot;</li>
+<li>&quot;Become an ORCA Voter: How Our Awards Process Works&quot;</li>
+<li>&quot;The Rise of A24 and What It Means for Independent Cinema&quot;</li>
+</ol>
+<hr>
+<h2 id="5-merkel-amp-conner">5. Merkel &amp; Conner</h2>
+<p><strong>Business:</strong> Personal injury law firm</p>
+<p><strong>Target Market:</strong> Injured individuals in their service area seeking compensation</p>
+<p><strong>Note:</strong> Personal injury is one of the most competitive (and expensive) keyword categories. Average CPC is $70-$250+ per click. SEO is the long game here.</p>
+<h3 id="primary-keywords-high-intent">Primary Keywords (High Intent)</h3>
+<div class="table-wrap"><table><thead><tr><th>Keyword</th><th>Est. Monthly Search</th><th>Competition</th><th>Priority</th></tr></thead><tbody><tr><td>personal injury lawyer [city]</td><td>500-2,000</td><td>Very High</td><td>1</td></tr><tr><td>car accident lawyer [city]</td><td>500-2,000</td><td>Very High</td><td>2</td></tr><tr><td>injury compensation lawyer [city]</td><td>200-500</td><td>High</td><td>3</td></tr><tr><td>no win no fee lawyer [city]</td><td>300-800</td><td>High</td><td>4</td></tr><tr><td>workers compensation lawyer [city]</td><td>200-500</td><td>High</td><td>5</td></tr></tbody></table></div>
+<h3 id="long-tail-keywords-blog-content-targets">Long-Tail Keywords (Blog Content Targets)</h3>
+<ol>
+<li>&quot;what to do after a car accident [state]&quot; -- 200-500/mo, medium</li>
+<li>&quot;how to make a personal injury claim [state]&quot; -- 100-300/mo, medium</li>
+<li>&quot;how long does a personal injury claim take&quot; -- 200-500/mo, medium</li>
+<li>&quot;average compensation for car accident [state]&quot; -- 200-500/mo, medium</li>
+<li>&quot;no win no fee personal injury lawyer near me&quot; -- 100-300/mo, medium</li>
+<li>&quot;can I claim compensation for [injury type]&quot; -- varies, low-medium</li>
+<li>&quot;workers comp claim denied what to do&quot; -- 100-300/mo, low</li>
+<li>&quot;slip and fall compensation [state]&quot; -- 100-200/mo, medium</li>
+<li>&quot;how much is my injury claim worth&quot; -- 200-500/mo, medium</li>
+<li>&quot;free personal injury consultation [city]&quot; -- 50-100/mo, low</li>
+<li>&quot;time limit for personal injury claim [state]&quot; -- 100-300/mo, low</li>
+<li>&quot;medical negligence lawyer [city]&quot; -- 100-200/mo, high</li>
+</ol>
+<h3 id="local-keywords">Local Keywords</h3>
+<ul>
+<li>&quot;personal injury lawyer near me&quot;</li>
+<li>&quot;car accident attorney [city]&quot;</li>
+<li>&quot;best injury lawyer [city]&quot;</li>
+<li>&quot;[city] compensation lawyers&quot;</li>
+<li>&quot;accident lawyer [suburb]&quot;</li>
+<li>&quot;injury claim lawyer [city] free consultation&quot;</li>
+</ul>
+<h3 id="competitor-keywords">Competitor Keywords</h3>
+<div class="table-wrap"><table><thead><tr><th>Competitor</th><th>Keywords/Strengths</th></tr></thead><tbody><tr><td>Slater and Gordon</td><td>National brand, &quot;car accident lawyers brisbane&quot;, multiple office locations</td></tr><tr><td>Shine Lawyers</td><td>&quot;personal injury lawyers QLD&quot;, strong brand</td></tr><tr><td>Splatt Lawyers</td><td>&quot;accredited specialist personal injury&quot;, &quot;no win no fee brisbane&quot;</td></tr><tr><td>Turner Freeman</td><td>&quot;car accident lawyer brisbane&quot;, national presence</td></tr><tr><td>Attwood Marshall</td><td>&quot;car accident lawyers brisbane&quot;, Gold Coast + Brisbane</td></tr><tr><td>Best Injury Lawyers</td><td>&quot;best injury lawyers brisbane&quot;, strong Google presence</td></tr></tbody></table></div>
+<h3 id="content-ideas">Content Ideas</h3>
+<ol>
+<li>&quot;What to Do Immediately After a Car Accident in [State] (Step by Step)&quot;</li>
+<li>&quot;How Much Compensation Can You Get for a Car Accident in [State]?&quot;</li>
+<li>&quot;Workers Compensation Claims: Your Rights Explained&quot;</li>
+<li>&quot;No Win No Fee Explained: What It Really Means&quot;</li>
+<li>&quot;5 Mistakes That Can Ruin Your Personal Injury Claim&quot;</li>
+<li>&quot;How Long Does a CTP Claim Take in Queensland?&quot;</li>
+<li>&quot;Slip and Fall at Work: Can You Claim Compensation?&quot;</li>
+<li>&quot;Medical Negligence in [State]: When Can You Sue?&quot;</li>
+<li>&quot;Time Limits for Injury Claims in [State] -- Do Not Miss These Deadlines&quot;</li>
+<li>&quot;How to Choose the Right Personal Injury Lawyer&quot;</li>
+</ol>
+<hr>
+<h2 id="6-conner-injury-law">6. Conner Injury Law</h2>
+<p><strong>Business:</strong> Personal injury law firm</p>
+<p><strong>Target Market:</strong> Same as Merkel &amp; Conner -- injured individuals seeking compensation</p>
+<p><strong>Note:</strong> Should target slightly different geographic or niche keywords to avoid cannibalizing Merkel &amp; Conner.</p>
+<h3 id="primary-keywords-high-intent">Primary Keywords (High Intent)</h3>
+<div class="table-wrap"><table><thead><tr><th>Keyword</th><th>Est. Monthly Search</th><th>Competition</th><th>Priority</th></tr></thead><tbody><tr><td>injury lawyer [city/region]</td><td>300-1,000</td><td>Very High</td><td>1</td></tr><tr><td>car accident compensation [city]</td><td>200-500</td><td>High</td><td>2</td></tr><tr><td>personal injury attorney [city]</td><td>300-800</td><td>Very High</td><td>3</td></tr><tr><td>accident claim lawyer [city]</td><td>100-300</td><td>High</td><td>4</td></tr><tr><td>compensation lawyer near me</td><td>300-800</td><td>High</td><td>5</td></tr></tbody></table></div>
+<h3 id="long-tail-keywords-differentiated-from-mampc">Long-Tail Keywords (Differentiated from M&amp;C)</h3>
+<ol>
+<li>&quot;free injury claim assessment [city]&quot; -- 30-80/mo, low</li>
+<li>&quot;motorcycle accident lawyer [city]&quot; -- 50-150/mo, medium</li>
+<li>&quot;uber accident compensation [state]&quot; -- 30-80/mo, low (emerging)</li>
+<li>&quot;dog bite compensation [state]&quot; -- 30-80/mo, low</li>
+<li>&quot;workplace injury lawyer [city]&quot; -- 100-200/mo, medium</li>
+<li>&quot;rideshare accident claim [state]&quot; -- 20-50/mo, very low</li>
+<li>&quot;pedestrian hit by car compensation [state]&quot; -- 30-80/mo, low</li>
+<li>&quot;truck accident lawyer [city]&quot; -- 50-100/mo, medium</li>
+<li>&quot;spinal injury compensation [state]&quot; -- 50-100/mo, medium</li>
+<li>&quot;traumatic brain injury lawyer [city]&quot; -- 30-80/mo, low</li>
+<li>&quot;hit and run accident lawyer [city]&quot; -- 30-80/mo, low</li>
+<li>&quot;CTP claim process [state]&quot; -- 50-150/mo, low</li>
+</ol>
+<h3 id="niche-differentiation-strategy">Niche Differentiation Strategy</h3>
+<p>To avoid competing with Merkel &amp; Conner for the same terms:</p>
+<ul>
+<li><strong>M&amp;C</strong> focuses on general PI, car accidents, and workers comp</li>
+<li><strong>Conner Injury Law</strong> targets specific injury types (motorcycle, rideshare, catastrophic) and different geographic suburbs or regions</li>
+</ul>
+<h3 id="content-ideas-focused-on-specific-injury-types">Content Ideas (Focused on Specific Injury Types)</h3>
+<ol>
+<li>&quot;Motorcycle Accident Claims in [State]: What You Need to Know&quot;</li>
+<li>&quot;Rideshare Accident? Your Rights When Uber/DiDi Is Involved&quot;</li>
+<li>&quot;Catastrophic Injury Claims: How Compensation Works&quot;</li>
+<li>&quot;CTP Claims in Queensland: The Complete Process Explained&quot;</li>
+<li>&quot;What Happens If You Are Hit by an Uninsured Driver?&quot;</li>
+<li>&quot;Pedestrian Accident Compensation: A Survivor&#x27;s Guide&quot;</li>
+<li>&quot;How to Document Your Injuries for a Stronger Claim&quot;</li>
+<li>&quot;Whiplash After a Car Accident: Is It Worth Claiming?&quot;</li>
+<li>&quot;Truck Accident Claims: Why They Are Different from Car Accidents&quot;</li>
+<li>&quot;Understanding Pain and Suffering Compensation in [State]&quot;</li>
+</ol>
+<hr>
+<h2 id="7-mbcs">7. MBCS</h2>
+<p><strong>Business:</strong> Law firm (broader practice areas beyond PI)</p>
+<p><strong>Target Market:</strong> Individuals and businesses needing legal services</p>
+<p><strong>Note:</strong> Without specific practice area info, targeting common multi-practice firm keywords. Adjust once practice areas are confirmed.</p>
+<h3 id="primary-keywords-high-intent">Primary Keywords (High Intent)</h3>
+<div class="table-wrap"><table><thead><tr><th>Keyword</th><th>Est. Monthly Search</th><th>Competition</th><th>Priority</th></tr></thead><tbody><tr><td>lawyers [city]</td><td>500-2,000</td><td>Very High</td><td>1</td></tr><tr><td>law firm [city]</td><td>300-1,000</td><td>Very High</td><td>2</td></tr><tr><td>solicitors [city]</td><td>200-800</td><td>High</td><td>3</td></tr><tr><td>legal advice [city]</td><td>200-500</td><td>High</td><td>4</td></tr><tr><td>compensation lawyers [city]</td><td>200-500</td><td>High</td><td>5</td></tr></tbody></table></div>
+<h3 id="long-tail-keywords-multi-practice">Long-Tail Keywords (Multi-Practice)</h3>
+<ol>
+<li>&quot;family lawyer [city]&quot; -- 200-500/mo, high</li>
+<li>&quot;property lawyer [city]&quot; -- 200-500/mo, high</li>
+<li>&quot;conveyancing lawyer [city]&quot; -- 200-500/mo, medium</li>
+<li>&quot;employment lawyer [city]&quot; -- 100-300/mo, medium</li>
+<li>&quot;wills and estates lawyer [city]&quot; -- 100-300/mo, medium</li>
+<li>&quot;commercial lawyer [city]&quot; -- 100-200/mo, medium</li>
+<li>&quot;criminal lawyer [city]&quot; -- 200-500/mo, high</li>
+<li>&quot;business lawyer [city]&quot; -- 100-200/mo, medium</li>
+<li>&quot;free legal consultation [city]&quot; -- 100-200/mo, low</li>
+<li>&quot;affordable lawyer [city]&quot; -- 50-150/mo, low</li>
+<li>&quot;contract dispute lawyer [city]&quot; -- 50-100/mo, low</li>
+<li>&quot;small business legal advice [city]&quot; -- 50-100/mo, low</li>
+</ol>
+<h3 id="local-keywords">Local Keywords</h3>
+<ul>
+<li>&quot;lawyers near me&quot;</li>
+<li>&quot;[city] solicitors&quot;</li>
+<li>&quot;legal services [city]&quot;</li>
+<li>&quot;best lawyers [city]&quot;</li>
+<li>&quot;law firm [suburb]&quot;</li>
+<li>&quot;[practice area] lawyer near me&quot;</li>
+</ul>
+<h3 id="content-ideas">Content Ideas</h3>
+<ol>
+<li>&quot;How to Choose the Right Lawyer for Your Case&quot;</li>
+<li>&quot;Do You Need a Lawyer? 10 Situations Where Legal Help Saves You Money&quot;</li>
+<li>&quot;Free Legal Consultation: What to Expect and How to Prepare&quot;</li>
+<li>&quot;Understanding Legal Fees in [State]: Fixed vs Hourly&quot;</li>
+<li>&quot;Property Settlement: What a Conveyancing Lawyer Actually Does&quot;</li>
+<li>&quot;Wills and Estate Planning: Why You Cannot Afford to Wait&quot;</li>
+<li>&quot;Employment Law Basics: Know Your Rights as a Worker in [State]&quot;</li>
+<li>&quot;Small Business Legal Checklist: 7 Things Every Owner Needs&quot;</li>
+<li>&quot;What to Do If You Receive a Legal Letter&quot;</li>
+<li>&quot;How Long Does a Court Case Take in [State]?&quot;</li>
+</ol>
+<hr>
+<h2 id="8-cross-business-synergies">8. Cross-Business Synergies</h2>
+<p>These are keyword clusters where multiple businesses can support each other.</p>
+<h3 id="nunya-bunya-power-portraits">Nunya Bunya + Power Portraits</h3>
+<ul>
+<li>&quot;personal branding package brisbane&quot; -- Nunya Bunya markets, Power Portraits delivers the photography component</li>
+<li>&quot;business brand photoshoot brisbane&quot; -- cross-promote between both sites</li>
+<li>Content synergy: Nunya Bunya blog posts about personal branding link to Power Portraits for photo services</li>
+</ul>
+<h3 id="nunya-bunya-law-firms-mampc-conner-injury-law-mbcs">Nunya Bunya + Law Firms (M&amp;C, Conner Injury Law, MBCS)</h3>
+<ul>
+<li>Nunya Bunya uses the law firms as case studies for &quot;law firm marketing brisbane&quot;</li>
+<li>Keyword target: &quot;law firm SEO brisbane&quot;, &quot;legal marketing agency brisbane&quot;</li>
+<li>Content: &quot;How We Grew a Brisbane Law Firm&#x27;s Leads by X% with AI Marketing&quot;</li>
+</ul>
+<h3 id="ben-alek-conner-nunya-bunya">Ben Alek Conner + Nunya Bunya</h3>
+<ul>
+<li>YouTube content about AI marketing directly feeds Nunya Bunya authority</li>
+<li>Keyword target: &quot;AI marketing agency owner&quot;, &quot;marketing entrepreneur australia&quot;</li>
+<li>Content: Ben creates behind-the-scenes content about building Nunya Bunya</li>
+</ul>
+<h3 id="orca-film-awards-ben-alek-conner">ORCA Film Awards + Ben Alek Conner</h3>
+<ul>
+<li>Ben&#x27;s personal brand as filmmaker drives awareness to ORCA</li>
+<li>Keyword targets: &quot;filmmaker brisbane&quot;, &quot;independent film australia&quot;</li>
+<li>Content: Ben&#x27;s filmmaking journey content links to ORCA submissions</li>
+</ul>
+<h3 id="all-law-firms-content-coordination">All Law Firms -- Content Coordination</h3>
+<p>To avoid keyword cannibalization between the three firms:</p>
+<ul>
+<li><strong>Merkel &amp; Conner:</strong> Own general PI terms + car accidents + workers comp</li>
+<li><strong>Conner Injury Law:</strong> Own niche injury types (motorcycle, rideshare, catastrophic)</li>
+<li><strong>MBCS:</strong> Own non-PI practice areas (family, property, employment, wills)</li>
+<li>Each firm targets different suburbs/regions where possible</li>
+</ul>
+<hr>
+<h2 id="9-implementation-priorities">9. Implementation Priorities</h2>
+<h3 id="tier-1-start-immediately-highest-roi">Tier 1 -- Start Immediately (Highest ROI)</h3>
+<div class="table-wrap"><table><thead><tr><th>Action</th><th>Business</th><th>Why</th></tr></thead><tbody><tr><td>Publish 2 blog posts/month targeting &quot;AI marketing brisbane&quot; cluster</td><td>Nunya Bunya</td><td>Low competition, high differentiation</td></tr><tr><td>Build dedicated landing pages for each PI practice area</td><td>Merkel &amp; Conner</td><td>Standard law firm SEO, huge volume</td></tr><tr><td>Optimize Google Business Profile with headshot keywords</td><td>Power Portraits</td><td>Local pack rankings drive bookings</td></tr><tr><td>Create &quot;what to wear for headshots&quot; evergreen guide</td><td>Power Portraits</td><td>300-800 monthly searches, easy to rank</td></tr></tbody></table></div>
+<h3 id="tier-2-next-30-days">Tier 2 -- Next 30 Days</h3>
+<div class="table-wrap"><table><thead><tr><th>Action</th><th>Business</th><th>Why</th></tr></thead><tbody><tr><td>Launch YouTube series on AI content creation</td><td>Ben Alek Conner</td><td>Builds authority, feeds Nunya Bunya</td></tr><tr><td>Build submissions landing page with SEO-optimized copy</td><td>ORCA Film Awards</td><td>Capture &quot;film festival submissions&quot; searches</td></tr><tr><td>Differentiate Conner Injury Law with niche injury type pages</td><td>Conner Injury Law</td><td>Avoid cannibalizing M&amp;C</td></tr><tr><td>Start monthly blog cadence for all law firms</td><td>All 3 law firms</td><td>Compound SEO growth</td></tr></tbody></table></div>
+<h3 id="tier-3-next-60-90-days">Tier 3 -- Next 60-90 Days</h3>
+<div class="table-wrap"><table><thead><tr><th>Action</th><th>Business</th><th>Why</th></tr></thead><tbody><tr><td>Build comparison/review content (&quot;AI headshots vs real&quot;)</td><td>Power Portraits</td><td>Trending topic, drives bookings</td></tr><tr><td>Target &quot;filmfreeway alternatives&quot; with ORCA content</td><td>ORCA Film Awards</td><td>Captures filmmakers shopping platforms</td></tr><tr><td>Create &quot;brisbane small business marketing&quot; guide (5,000+ words)</td><td>Nunya Bunya</td><td>Pillar content for SEO authority</td></tr><tr><td>Launch cross-linking strategy between all 7 sites</td><td>All</td><td>Domain authority boost</td></tr></tbody></table></div>
+<h3 id="quick-wins-can-do-today">Quick Wins (Can Do Today)</h3>
+<ol>
+<li><strong>Google Business Profile</strong> -- Ensure all 7 businesses have optimized GBP listings with correct categories, photos, and keyword-rich descriptions</li>
+<li><strong>Title Tags &amp; Meta Descriptions</strong> -- Update homepage title tags to include primary keywords for each business</li>
+<li><strong>Internal Linking</strong> -- Add links between related businesses where natural</li>
+<li><strong>Schema Markup</strong> -- Add LocalBusiness schema to all law firm and service business websites</li>
+<li><strong>Review Generation</strong> -- Start asking clients for Google reviews (reviews significantly impact local pack rankings)</li>
+</ol>
+<hr>
+<h2 id="appendix-keyword-research-tools-used">Appendix: Keyword Research Tools Used</h2>
+<ul>
+<li>Web search analysis of competitor SERPs (March 2026)</li>
+<li>Competitor website review (Clutch, Semrush agency directories, GoodFirms)</li>
+<li>Search volume estimates based on industry benchmarks and keyword research data</li>
+<li>Brisbane/QLD geographic search patterns</li>
+</ul>
+<p><strong>Note:</strong> Search volume figures are estimates based on available data and industry patterns. For precise monthly volumes, run these keyword lists through Google Keyword Planner, Semrush, or Ahrefs with Australian location targeting.</p>
+<hr>
+<h2 id="review-schedule">Review Schedule</h2>
+<ul>
+<li><strong>Monthly:</strong> Check rankings for Tier 1 keywords</li>
+<li><strong>Quarterly:</strong> Full keyword review, update long-tail targets based on what is ranking</li>
+<li><strong>Bi-annually:</strong> Full competitive analysis refresh</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/keyword-strategy.md</div>
+    </main>
+  </div>
+</body>
+</html>

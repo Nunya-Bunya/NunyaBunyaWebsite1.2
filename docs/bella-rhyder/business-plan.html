@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bella Rhyder — Business Plan | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link active"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#bella-rhyder">Bella Rhyder</a> &rsaquo;
+          Bella Rhyder — Business Plan
+        </div>
+        <h1 class="doc-title">Bella Rhyder — Business Plan</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#10024; Bella Rhyder</span>
+          <span class="doc-path">07-Bella Rhyder / 01-strategy / FOUNDATIONAL</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="bella-rhyder-business-plan">Bella Rhyder — Business Plan</h1>
+<p><strong>Version 2.0 | March 2026</strong></p>
+<p><strong>Owner: Ben Alek Conner | Brisbane, Queensland, Australia</strong></p>
+<p><strong>Confidential — Not for Distribution</strong></p>
+<hr>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>Bella Rhyder is a Brisbane-based e-commerce fashion and lifestyle brand built for the modern active woman. Founded on the belief that movement is a way of life — not just a gym session — Bella Rhyder offers premium activewear, swimwear, bags, hats, and accessories designed to carry women seamlessly from morning training to afternoon coffee, from surf to street, without compromise.</p>
+<p><strong>Business Model:</strong> Direct-to-consumer e-commerce platform with brick-and-mortar expansion goals.</p>
+<p>The brand&#x27;s guiding promise: <strong>Move Boldly. Live Freely.</strong></p>
+<p>Bella Rhyder launches via direct-to-consumer e-commerce in June 2026, serving Australian women aged 22–45 who prioritise quality, aesthetics, and an active outdoor lifestyle. The business targets <strong>$500,000 in annual recurring revenue by the end of Year 3</strong> through a staged growth strategy: e-commerce scale, wholesale boutique expansion in Year 2, and a Brisbane flagship retail presence in Year 3.</p>
+<p>Australia&#x27;s women&#x27;s activewear market is growing at 7–9% annually and is estimated at over $2 billion AUD. Bella Rhyder is positioned to capture a meaningful share through a differentiated brand identity, influencer-led marketing, and a curated product range that emphasises versatility, quality fabrics, and authentic Queensland lifestyle aesthetics.</p>
+<p><strong>Financial Targets:</strong></p>
+<ul>
+<li>Year 1 (2026–27): $120,000 revenue (E-commerce focus)</li>
+<li>Year 2 (2027–28): $280,000 revenue (Wholesale expansion)</li>
+<li>Year 3 (2028–29): $500,000 ARR (Brick-and-mortar launch)</li>
+</ul>
+<p><strong>Funding:</strong> Bootstrapped / self-funded launch with revenue reinvestment model.</p>
+<p><strong>Expansion Roadmap:</strong></p>
+<ul>
+<li><strong>Phase 1 (2026):</strong> E-commerce platform optimization and market penetration</li>
+<li><strong>Phase 2 (2027):</strong> Wholesale partnerships with boutique retailers</li>
+<li><strong>Phase 3 (2028):</strong> Flagship brick-and-mortar store launch in Brisbane CBD</li>
+<li><strong>Phase 4 (2029+):</strong> Multi-location expansion and omnichannel integration</li>
+</ul>
+<hr>
+<h2 id="brand-mission-amp-values">Brand Mission &amp; Values</h2>
+<h3 id="mission">Mission</h3>
+<p>To design activewear and lifestyle products that empower women to show up boldly in every environment — from the gym to the beach, from the boardwalk to the café.</p>
+<h3 id="vision">Vision</h3>
+<p>To be Australia&#x27;s most loved lifestyle activewear brand for women who live actively and unapologetically.</p>
+<h3 id="tagline">Tagline</h3>
+<p>Move Boldly. Live Freely.</p>
+<h3 id="core-values">Core Values</h3>
+<p><strong>1. Movement Without Limits</strong></p>
+<p>Everything Bella Rhyder makes is designed to move with the body — functional, unrestricted, and built for real life. Performance is non-negotiable.</p>
+<p><strong>2. Intentional Quality</strong></p>
+<p>Each product is crafted from considered fabrics and materials. We choose quality over quantity and design pieces that last beyond a single season.</p>
+<p><strong>3. Coastal Confidence</strong></p>
+<p>Rooted in Brisbane and the broader Queensland lifestyle, Bella Rhyder draws from sun, surf, and outdoor living. The brand celebrates confidence in the outdoors and authentic Australian identity.</p>
+<p><strong>4. Empowered Femininity</strong></p>
+<p>We design for strength and softness simultaneously. Bella Rhyder celebrates women in all their dimensions — athlete, adventurer, professional, mother, creator.</p>
+<p><strong>5. Sustainability-Conscious Growth</strong></p>
+<p>Bella Rhyder is committed to progressively improving the environmental profile of its products — recycled fabrics, reduced packaging waste — without compromising performance or value.</p>
+<hr>
+<h2 id="product-range-overview">Product Range Overview</h2>
+<p>Bella Rhyder offers five product categories, each positioned to serve the active Queensland woman across every part of her day.</p>
+<h3 id="category-1-activewear">Category 1: Activewear</h3>
+<p><strong>Positioning:</strong> Premium performance activewear for training, yoga, Pilates, running, and gym use. Fabrics prioritise four-way stretch, moisture-wicking, and squat-proof construction. Aesthetic is bold yet clean — dark navy (#1A1A2E) base tones with gold (#E8B86D) design details.</p>
+<p><strong>Core Products:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Product</th><th>Price Range (AUD)</th></tr></thead><tbody><tr><td>High-waist leggings (full, 7/8, biker)</td><td>$89–$129</td></tr><tr><td>High-support sports bra</td><td>$65–$90</td></tr><tr><td>Training shorts and skorts</td><td>$55–$79</td></tr><tr><td>Crop tops and long-sleeve training tops</td><td>$49–$79</td></tr><tr><td>Seamless co-ord sets</td><td>$139–$199</td></tr><tr><td>Performance tank</td><td>$50–$70</td></tr></tbody></table></div>
+<h3 id="category-2-swimwear">Category 2: Swimwear</h3>
+<p><strong>Positioning:</strong> Resort-ready swimwear that transitions from beach to poolside with ease. Australian-influenced prints and classic silhouettes designed for the Queensland lifestyle. UV-protective fabrics where applicable.</p>
+<p><strong>Core Products:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Product</th><th>Price Range (AUD)</th></tr></thead><tbody><tr><td>One-piece swimsuit (classic, cut-out)</td><td>$110–$150</td></tr><tr><td>Bikini top (triangle, underwire, bandeau)</td><td>$65–$90</td></tr><tr><td>Bikini bottom (high-waist, classic)</td><td>$55–$75</td></tr><tr><td>Bikini set</td><td>$110–$145</td></tr><tr><td>Cover-up / kaftan</td><td>$69–$99</td></tr></tbody></table></div>
+<h3 id="category-3-bags">Category 3: Bags</h3>
+<p><strong>Positioning:</strong> Lifestyle-functional bags for the active woman&#x27;s daily movements. From gym duffel to beach tote to yoga mat carrier — designed for the transition from workout to social life.</p>
+<p><strong>Core Products:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Product</th><th>Price Range (AUD)</th></tr></thead><tbody><tr><td>Gym duffle bag (medium and large)</td><td>$120–$160</td></tr><tr><td>Beach tote (canvas, waterproof-lined)</td><td>$75–$110</td></tr><tr><td>Backpack (everyday carry, laptop-compatible)</td><td>$140–$185</td></tr><tr><td>Mini crossbody (post-gym, casual)</td><td>$45–$65</td></tr><tr><td>Yoga mat strap and carry bag</td><td>$35–$55</td></tr></tbody></table></div>
+<h3 id="category-4-hats-amp-headwear">Category 4: Hats &amp; Headwear</h3>
+<p><strong>Positioning:</strong> Sun-smart and stylish headwear for the beach, trail, and outdoor lifestyle. Designed to pair with every Bella Rhyder outfit.</p>
+<p><strong>Core Products:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Product</th><th>Price Range (AUD)</th></tr></thead><tbody><tr><td>Bucket hat (signature and reversible)</td><td>$50–$65</td></tr><tr><td>Wide-brim beach hat</td><td>$55–$79</td></tr><tr><td>Performance cap and visor</td><td>$45–$60</td></tr><tr><td>Beanie (winter seasonal)</td><td>$40–$55</td></tr></tbody></table></div>
+<h3 id="category-5-lifestyle-accessories">Category 5: Lifestyle Accessories</h3>
+<p><strong>Positioning:</strong> Finishing touches that complete the Bella Rhyder lifestyle aesthetic. Functional, high-affinity items for gifting and basket-building.</p>
+<p><strong>Core Products:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Product</th><th>Price Range (AUD)</th></tr></thead><tbody><tr><td>Insulated water bottle</td><td>$35–$50</td></tr><tr><td>Resistance band set</td><td>$30–$45</td></tr><tr><td>Scrunchie set</td><td>$20–$28</td></tr><tr><td>Phone armband</td><td>$25–$35</td></tr><tr><td>Socks (performance and lifestyle)</td><td>$15–$22</td></tr><tr><td>Keychain / bag charm</td><td>$18–$30</td></tr></tbody></table></div>
+<p><strong>Gross Margin Target: 55–65% across all categories</strong></p>
+<hr>
+<h2 id="market-analysis">Market Analysis</h2>
+<h3 id="the-australian-womenx27s-activewear-market">The Australian Women&#x27;s Activewear Market</h3>
+<p>Australia&#x27;s activewear and athleisure market is valued at over <strong>AUD $2 billion</strong> and growing at approximately 7–9% per annum, driven by:</p>
+<ul>
+<li>Post-pandemic health and wellness culture that has permanently shifted consumer behaviour</li>
+<li>Growing female participation in gym, Pilates, yoga, running, and outdoor activity</li>
+<li>Normalisation of activewear as everyday wear (athleisure as a lifestyle, not a trend)</li>
+<li>Social media driving aspirational fitness culture and product discovery</li>
+<li>Premium segment outperforming mass market as consumers trade up for quality and longevity</li>
+<li>Queensland&#x27;s year-round warm climate driving higher per-capita activewear and swimwear spend</li>
+</ul>
+<h3 id="the-queensland-advantage">The Queensland Advantage</h3>
+<p>Queensland is Australia&#x27;s third-largest state by population (5.4 million) and home to Australia&#x27;s most active outdoor lifestyle culture. Brisbane&#x27;s rapid growth, the South East Queensland population corridor (Brisbane → Gold Coast → Sunshine Coast), and a climate suited to outdoor living year-round create a uniquely fertile market for a brand built on active, coastal living. No premium activewear brand authentically &quot;owns&quot; Queensland — this is Bella Rhyder&#x27;s strategic position.</p>
+<h3 id="target-customer-profile">Target Customer Profile</h3>
+<p><strong>The Bella Rhyder Woman:</strong></p>
+<ul>
+<li><strong>Age:</strong> 22–45</li>
+<li><strong>Location:</strong> Queensland-centric (Brisbane, Gold Coast, Sunshine Coast), with national shipping reach</li>
+<li><strong>Lifestyle:</strong> Active, health-conscious, socially engaged, outdoor-oriented</li>
+<li><strong>Fitness activities:</strong> Gym, Pilates, yoga, running, swimming, beach, hiking, tennis</li>
+<li><strong>Shopping behaviour:</strong> Shops primarily online, discovers brands via Instagram and TikTok, values aesthetics as much as function, willing to invest in fewer, better-quality pieces</li>
+<li><strong>Income:</strong> $65,000–$130,000+ household</li>
+<li><strong>Values:</strong> Health, community, self-expression, travel, sustainability, quality</li>
+</ul>
+<h3 id="competitive-landscape">Competitive Landscape</h3>
+<div class="table-wrap"><table><thead><tr><th>Brand</th><th>Origin</th><th>Positioning</th><th>Price Point</th><th>Our Differentiation</th></tr></thead><tbody><tr><td>Lululemon</td><td>Canada</td><td>Premium yoga/athleisure, global leader</td><td>$$$$</td><td>No Australian identity, over-exposed globally, limited swimwear</td></tr><tr><td>Lorna Jane</td><td>Australia</td><td>Mid-market, motivational, strong retail</td><td>$$</td><td>Dated brand aesthetic, mass market appeal, younger consumer avoidance</td></tr><tr><td>PE Nation</td><td>Australia</td><td>Bold, fashion-forward, Sydney-centric</td><td>$$$$</td><td>Urban focus, limited coastal lifestyle positioning, less accessible price</td></tr><tr><td>Cotton On Body</td><td>Australia</td><td>Mass market, accessible</td><td>$</td><td>Low quality perception, no premium positioning, no lifestyle brand identity</td></tr><tr><td>Nimble Activewear</td><td>Australia</td><td>Premium, sustainable, understated</td><td>$$$</td><td>Limited lifestyle range, conservative aesthetic, minimal Queensland identity</td></tr><tr><td><strong>Bella Rhyder</strong></td><td><strong>Australia</strong></td><td><strong>Premium coastal lifestyle, QLD-rooted</strong></td><td><strong>$$$</strong></td><td><strong>Authentic Queensland identity, full product ecosystem (swim + active + accessories), integrated lifestyle brand</strong></td></tr></tbody></table></div>
+<p><strong>Bella Rhyder&#x27;s differentiation:</strong> Premium quality and lifestyle aesthetics at accessible price points, a genuine Queensland coastal identity, an integrated swimwear and accessories range, and a marketing strategy built on authentic influencer community.</p>
+<h3 id="market-size-estimate">Market Size Estimate</h3>
+<ul>
+<li>Australia has approximately 5.2 million women aged 22–45</li>
+<li>Approximately 35% participate in gym/fitness activities regularly (~1.8 million women)</li>
+<li>Target addressable market (Queensland + major cities, premium segment): ~450,000 women</li>
+<li>Conservative penetration target Year 1: 650 customers averaging $185/order = ~$120,000</li>
+</ul>
+<hr>
+<h2 id="business-model">Business Model</h2>
+<h3 id="primary-model-direct-to-consumer-e-commerce">Primary Model: Direct-to-Consumer E-Commerce</h3>
+<p>Bella Rhyder operates as a direct-to-consumer (DTC) e-commerce brand, selling exclusively through its owned Shopify website. This model maximises margin, maintains full brand control, and enables direct customer relationships from Day 1.</p>
+<p><strong>Platform:</strong> Shopify (e-commerce), integrated with Klaviyo (email), Judge.me (reviews), and Meta Commerce Manager (social shopping)</p>
+<p><strong>Headquarters:</strong> Brisbane, Queensland, Australia</p>
+<p><strong>Fulfilment:</strong> Brisbane-based (in-house Year 1, 3PL evaluation Year 2)</p>
+<p><strong>Shipping:</strong> National via Australia Post and/or Sendle</p>
+<p><strong>Product Sourcing:</strong> Initial range sourced from quality Australian and international suppliers with private label branding; custom manufacturing progression in Years 2–3</p>
+<h3 id="revenue-streams">Revenue Streams</h3>
+<ul>
+<li>Product sales (primary): activewear, swimwear, bags, hats, accessories</li>
+<li>Curated bundles and sets (higher average order value)</li>
+<li>Seasonal limited-edition drops (urgency and repeat traffic)</li>
+<li>Wholesale boutique partnerships (Phase 2)</li>
+</ul>
+<h3 id="phase-overview">Phase Overview</h3>
+<p><strong>Phase 1 — E-Commerce Launch (Year 1: June 2026–May 2027)</strong></p>
+<p>Launch DTC Shopify store, establish brand on Instagram and TikTok, build email list, sell initial product range nationally. Focus: brand awareness, customer acquisition, first repeat purchase cycle.</p>
+<p><strong>Phase 2 — Wholesale &amp; Boutique Expansion (Year 2: 2027–28)</strong></p>
+<p>Approach curated Brisbane, Gold Coast, and Sunshine Coast boutiques with a wholesale offer. Target 10–20 stockist partners. Pop-up retail at markets, fitness events, and surf festivals.</p>
+<p><strong>Phase 3 — Flagship Consideration (Year 3: 2028–29)</strong></p>
+<p>Evaluate viability of a Brisbane flagship retail store (New Farm, Fortitude Valley, or James Street precinct) as a brand experience hub. Serves brand building, photography, and community events.</p>
+<hr>
+<h2 id="launch-strategy">Launch Strategy</h2>
+<h3 id="phase-1-e-commerce-launch-june-2026">Phase 1: E-Commerce Launch (June 2026)</h3>
+<p><strong>Pre-Launch (April–May 2026)</strong></p>
+<ul>
+<li>Build Instagram and TikTok presence with teaser content 6 weeks before launch</li>
+<li>Collect email waitlist via landing page with launch-day early access incentive (10% off first order)</li>
+<li>Seed product with 15–25 Brisbane-based micro-influencers for launch content</li>
+<li>Complete website, photography, and copywriting</li>
+<li>Set up Klaviyo welcome sequence and launch-day email campaign</li>
+</ul>
+<p><strong>Launch Day (June 1, 2026)</strong></p>
+<ul>
+<li>Coordinated social media launch across Instagram and TikTok</li>
+<li>Launch-day email to waitlist: early access + 10% off, free shipping first 24 hours</li>
+<li>Influencer launch content goes live simultaneously</li>
+<li>Press release to Australian lifestyle and fashion media</li>
+</ul>
+<p><strong>Post-Launch (June–December 2026)</strong></p>
+<ul>
+<li>Weekly content cadence established</li>
+<li>First customer UGC campaign initiated immediately</li>
+<li>Meta paid social ads activated once first sales data validates creative</li>
+<li>Email nurture sequences built for repeat purchase and referral</li>
+</ul>
+<h3 id="phase-2-wholesale-2027">Phase 2: Wholesale (2027)</h3>
+<ul>
+<li>Identify 30 target boutiques across QLD and NSW</li>
+<li>Develop wholesale lookbook and terms sheet</li>
+<li>Attend trade shows (Life Instyle, Reed Gift Fairs)</li>
+<li>Target: 10–15 confirmed stockists by end of Year 2</li>
+</ul>
+<h3 id="phase-3-flagship-2028">Phase 3: Flagship (2028)</h3>
+<ul>
+<li>Evaluate Brisbane inner-suburb retail opportunity</li>
+<li>Potential location: James Street, Teneriffe, or New Farm</li>
+<li>Store concept: brand experience hub with community events and photography studio</li>
+</ul>
+<hr>
+<h2 id="financial-overview">Financial Overview</h2>
+<h3 id="revenue-targets">Revenue Targets</h3>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th>Revenue Target</th><th>Key Drivers</th></tr></thead><tbody><tr><td>Year 1 (2026–27)</td><td>$120,000</td><td>DTC e-commerce launch, organic social, influencer gifting</td></tr><tr><td>Year 2 (2027–28)</td><td>$280,000</td><td>Paid social (Meta), wholesale network, email list</td></tr><tr><td>Year 3 (2028–29)</td><td>$500,000</td><td>Scaled paid media, 20+ stockists, strong repeat rate</td></tr></tbody></table></div>
+<h3 id="key-financial-assumptions">Key Financial Assumptions</h3>
+<ul>
+<li><strong>Average Order Value (AOV):</strong> $165 (blended across all categories)</li>
+<li><strong>Gross Margin:</strong> 55–65% product-dependent (accessories higher, activewear 55–60%)</li>
+<li><strong>Customer Acquisition Cost (CAC):</strong> $35–$55 Year 1, declining to $25–$40 as organic/referral grows</li>
+<li><strong>Repeat Purchase Rate Target:</strong> 30% by end of Year 2</li>
+<li><strong>Email List Target:</strong> 3,000 by end of Year 1; 12,000 by end of Year 2</li>
+</ul>
+<h3 id="startup-capital-requirements">Startup Capital Requirements</h3>
+<div class="table-wrap"><table><thead><tr><th>Category</th><th>Estimated Cost (AUD)</th></tr></thead><tbody><tr><td>Initial Inventory (first range)</td><td>$25,000–$40,000</td></tr><tr><td>Website Build (Shopify + apps)</td><td>$3,000–$5,000</td></tr><tr><td>Brand Identity &amp; Photography</td><td>$5,000–$8,000</td></tr><tr><td>Pre-launch &amp; First 3 Months Marketing</td><td>$8,000–$12,000</td></tr><tr><td>Influencer Seeding (product cost)</td><td>$3,000–$5,000</td></tr><tr><td>Packaging</td><td>$2,500–$4,000</td></tr><tr><td>Legal, Business Setup, IP</td><td>$2,000–$3,000</td></tr><tr><td>Working Capital Reserve</td><td>$10,000–$15,000</td></tr><tr><td><strong>Total Estimated Launch Capital</strong></td><td><strong>$58,500–$92,000</strong></td></tr></tbody></table></div>
+<h3 id="year-1-cost-structure">Year 1 Cost Structure</h3>
+<div class="table-wrap"><table><thead><tr><th>Expense</th><th>Annual Budget</th></tr></thead><tbody><tr><td>Inventory / Manufacturing</td><td>$40,000</td></tr><tr><td>Shopify + Apps</td><td>$2,400</td></tr><tr><td>Photography &amp; Content</td><td>$8,000</td></tr><tr><td>Paid Social / Advertising</td><td>$8,000</td></tr><tr><td>Influencer Gifting</td><td>$5,000</td></tr><tr><td>Packaging</td><td>$3,500</td></tr><tr><td>Website Development</td><td>$4,000</td></tr><tr><td>Email Marketing (Klaviyo)</td><td>$1,200</td></tr><tr><td>Misc / Operational</td><td>$3,000</td></tr><tr><td><strong>Total Costs</strong></td><td><strong>$75,100</strong></td></tr></tbody></table></div>
+<p><strong>Year 1 Gross Margin Target: 60%</strong></p>
+<p><strong>Year 1 Revenue Target: $120,000</strong></p>
+<h3 id="three-year-financial-summary">Three-Year Financial Summary</h3>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr></thead><tbody><tr><td>Revenue</td><td>$120,000</td><td>$280,000</td><td>$500,000</td></tr><tr><td>Gross Margin (%)</td><td>60%</td><td>62%</td><td>65%</td></tr><tr><td>Marketing Spend</td><td>$13,000</td><td>$35,000</td><td>$65,000</td></tr><tr><td>Net Result</td><td>Near breakeven</td><td>$30,000–$50,000</td><td>$80,000–$120,000</td></tr></tbody></table></div>
+<h3 id="working-capital-notes">Working Capital Notes</h3>
+<ul>
+<li>Inventory is the primary working capital need as the business scales</li>
+<li>Reorder cycles managed conservatively in Year 1 to avoid overstock</li>
+<li>Revenue from sales partially funds subsequent inventory from Month 3</li>
+<li>A business line of credit should be established by Month 6 to support reorder cycles</li>
+</ul>
+<hr>
+<h2 id="marketing-strategy">Marketing Strategy</h2>
+<h3 id="channel-overview">Channel Overview</h3>
+<div class="table-wrap"><table><thead><tr><th>Channel</th><th>Priority</th><th>Role</th></tr></thead><tbody><tr><td>Instagram</td><td>Primary</td><td>Brand home, community hub, primary sales driver</td></tr><tr><td>TikTok</td><td>Secondary</td><td>Discovery engine, viral potential, younger audience</td></tr><tr><td>Pinterest</td><td>Tertiary</td><td>Long-tail discovery, lifestyle inspiration, SEO</td></tr><tr><td>Email (Klaviyo)</td><td>Owned</td><td>Nurture, retention, repeat purchase, revenue backbone</td></tr><tr><td>Meta Paid Ads</td><td>Paid</td><td>Conversion and retargeting from Month 4</td></tr><tr><td>Influencer Gifting</td><td>Earned</td><td>Awareness, social proof, launch fuel</td></tr></tbody></table></div>
+<h3 id="content-pillars-5">Content Pillars (5)</h3>
+<ol>
+<li><strong>Product Showcase</strong> — How it looks, how it moves, styling options, fabric stories</li>
+<li><strong>Lifestyle &amp; Movement</strong> — Active Queensland lifestyle: beach, gym, outdoor, coastal</li>
+<li><strong>Behind the Scenes</strong> — Brand story, founder, design process, photoshoots</li>
+<li><strong>Community &amp; UGC</strong> — Customer content, real women, community building, testimonials</li>
+<li><strong>Education</strong> — Fabric knowledge, care guides, sizing, sustainability content</li>
+</ol>
+<h3 id="influencer-strategy">Influencer Strategy</h3>
+<ul>
+<li><strong>Micro-influencers (5K–50K followers):</strong> Queensland and Australian fitness, lifestyle, beach categories</li>
+<li><strong>Phase 1 (Year 1):</strong> Gifting-first, 15–25 active gifting partners</li>
+<li><strong>Phase 2 (Year 2):</strong> Affiliate programme (15% commission), 10–20 affiliates</li>
+<li><strong>Phase 3 (Year 3):</strong> 2–3 paid brand ambassadors ($500–$2,000/month)</li>
+</ul>
+<h3 id="paid-social-meta-ads">Paid Social (Meta Ads)</h3>
+<ul>
+<li>Activated Month 3–4 once organic has validated creative performance</li>
+<li>Year 1 budget: $8,000 (concentrated Q3–Q4)</li>
+<li>Year 2 budget: $25,000 — scaled on proven ROAS performers</li>
+<li>Target ROAS: 3:1 Year 1, 4:1 Year 2</li>
+</ul>
+<h3 id="email-marketing-klaviyo">Email Marketing (Klaviyo)</h3>
+<ul>
+<li>Welcome series: 5 emails over 14 days (brand story → hero products → community → reviews → offer)</li>
+<li>Post-purchase: 3-email series (thank you, style tips, review request)</li>
+<li>Abandoned cart: 3-email sequence (1 hour, 24 hours, 72 hours)</li>
+<li>Campaigns: Weekly during launch, bi-weekly ongoing</li>
+<li>Target open rate: 35%+ | Click rate: 4%+</li>
+</ul>
+<h3 id="pr-amp-press">PR &amp; Press</h3>
+<ul>
+<li>Target: Body + Soul, Women&#x27;s Health Australia, Marie Claire Australia, Broadsheet Brisbane, Courier Mail Lifestyle, Fashion Journal</li>
+<li>Approach: Media kit + press releases for launch and new collections</li>
+<li>Pitch angles: Queensland brand story, premium Australian activewear, founder journey</li>
+</ul>
+<hr>
+<h2 id="team-amp-operations">Team &amp; Operations</h2>
+<h3 id="year-1-team-structure">Year 1 Team Structure</h3>
+<div class="table-wrap"><table><thead><tr><th>Role</th><th>Type</th><th>Responsibility</th></tr></thead><tbody><tr><td>Founder / Creative Director</td><td>Full-time</td><td>Brand vision, product direction, content, partnerships</td></tr><tr><td>Operations / E-Commerce Manager</td><td>Part-time contractor</td><td>Shopify, fulfilment, customer service, suppliers</td></tr><tr><td>Photographer / Videographer</td><td>Quarterly retainer</td><td>Campaign and product shoots</td></tr><tr><td>Graphic Designer</td><td>Project-based</td><td>Brand assets, marketing collateral</td></tr><tr><td>Social Media VA</td><td>Part-time</td><td>Scheduling, community management, analytics</td></tr><tr><td>Bookkeeper</td><td>Monthly</td><td>Financial reporting, BAS, reconciliation</td></tr></tbody></table></div>
+<h3 id="year-2-hires-as-revenue-supports">Year 2 Hires (as revenue supports)</h3>
+<ul>
+<li>Full-time Marketing / Social Media Coordinator</li>
+<li>Full-time Operations / Customer Service Coordinator</li>
+</ul>
+<h3 id="technology-stack">Technology Stack</h3>
+<div class="table-wrap"><table><thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody><tr><td>Shopify</td><td>E-commerce platform</td></tr><tr><td>Klaviyo</td><td>Email marketing and automation</td></tr><tr><td>Judge.me</td><td>Product reviews</td></tr><tr><td>Gorgias</td><td>Customer service</td></tr><tr><td>Later / Planoly</td><td>Social media scheduling</td></tr><tr><td>Canva Pro</td><td>Design and marketing assets</td></tr><tr><td>Google Analytics 4 + Shopify Analytics</td><td>Performance tracking</td></tr><tr><td>Xero</td><td>Accounting (integrated with Shopify)</td></tr><tr><td>Notion</td><td>Project management and SOPs</td></tr></tbody></table></div>
+<h3 id="fulfilment">Fulfilment</h3>
+<ul>
+<li><strong>Year 1–2:</strong> In-house fulfilment from Brisbane</li>
+<li><strong>Year 3:</strong> Evaluate third-party logistics (3PL) if order volume warrants</li>
+<li><strong>Carriers:</strong> Australia Post (primary), Sendle (secondary)</li>
+<li><strong>Shipping promise:</strong> 3–7 business days Australia-wide</li>
+</ul>
+<h3 id="risk-analysis">Risk Analysis</h3>
+<div class="table-wrap"><table><thead><tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr></thead><tbody><tr><td>Slow initial sales</td><td>Medium</td><td>High</td><td>Strong pre-launch influencer seeding; paid ads ready to activate Month 3</td></tr><tr><td>Manufacturing delays</td><td>Medium</td><td>Medium</td><td>12-week lead time buffer; dual supplier strategy from Year 2</td></tr><tr><td>Platform algorithm change</td><td>High</td><td>Medium</td><td>Multi-channel strategy; email list as primary owned asset</td></tr><tr><td>Cash flow strain</td><td>Medium</td><td>High</td><td>Lean inventory model; staged ordering based on sales data</td></tr><tr><td>Product quality issues</td><td>Low</td><td>High</td><td>Sample approval process; QC on all bulk orders</td></tr><tr><td>Competitor response</td><td>Low</td><td>Medium</td><td>Brand differentiation and community make direct response unlikely</td></tr></tbody></table></div>
+<hr>
+<h2 id="3-year-milestones">3-Year Milestones</h2>
+<h3 id="year-1-june-2026may-2027">Year 1 (June 2026–May 2027)</h3>
+<ul>
+<li>Launch e-commerce store June 1, 2026</li>
+<li>Instagram: 10,000+ followers by end of Year 1</li>
+<li>TikTok: 5,000+ followers</li>
+<li>Email list: 3,000–5,000 subscribers</li>
+<li>First 750 orders shipped</li>
+<li>15–25 influencer partnerships active</li>
+<li>Revenue: $120,000</li>
+<li>Net Promoter Score established (target: 60+)</li>
+<li>Repeat purchase rate: 20%+</li>
+</ul>
+<h3 id="year-2-202728">Year 2 (2027–28)</h3>
+<ul>
+<li>Wholesale: 10–20 boutique stockists across QLD and NSW</li>
+<li>Instagram: 20,000–30,000 followers</li>
+<li>TikTok: 10,000+ followers</li>
+<li>Email list: 12,000+ subscribers</li>
+<li>Second seasonal collection launched</li>
+<li>Meta ads ROAS consistently above 3.5</li>
+<li>Revenue: $280,000</li>
+<li>Repeat purchase rate: 30%+</li>
+</ul>
+<h3 id="year-3-202829">Year 3 (2028–29)</h3>
+<ul>
+<li>$500,000 ARR achieved</li>
+<li>Wholesale network: 30+ stockists nationally</li>
+<li>Brisbane flagship retail location evaluated</li>
+<li>2–3 paid brand ambassadors</li>
+<li>International shipping launched (NZ)</li>
+<li>Instagram: 40,000–60,000 followers</li>
+<li>Email list: 25,000+ subscribers</li>
+</ul>
+<hr>
+<p><em>Bella Rhyder Business Plan — Version 2.0 | March 2026</em></p>
+<p><em>Owner: Ben Alek Conner | Brisbane, Queensland, Australia</em></p>
+<p><em>Confidential — Not for Distribution</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">07-Bella Rhyder/01-strategy/FOUNDATIONAL/BUSINESS PLAN.md</div>
+    </main>
+  </div>
+</body>
+</html>

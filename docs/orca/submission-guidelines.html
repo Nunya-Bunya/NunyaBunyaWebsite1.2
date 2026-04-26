@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEPRECATED — DO NOT USE | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link active"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#orca">ORCA Film Awards</a> &rsaquo;
+          DEPRECATED — DO NOT USE
+        </div>
+        <h1 class="doc-title">DEPRECATED — DO NOT USE</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#127916; ORCA Film Awards</span>
+          <span class="doc-path">04-ORCA Film Awards / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="deprecated-do-not-use">DEPRECATED — DO NOT USE</h1>
+<blockquote><strong>THIS DOCUMENT IS WRONG.</strong> ORCA Film Awards does NOT accept film submissions from filmmakers. It is NOT a film festival. It does NOT charge entry fees. This document was auto-generated from an incorrect model and must not be referenced, published, or distributed. See the corrected BUSINESS PLAN.md and IMPLEMENTATION CHECKLIST.md in the root 04-ORCA Film Awards folder for the accurate ORCA model.</blockquote>
+<hr>
+<p><del># ORCA Film Awards 2026 — Submission Guidelines</del></p>
+<p><del><strong>Official Filmmaker Submission Guidelines</strong></del></p>
+<p><del>Brisbane, Australia | Submissions Open: 1 February 2026 | Final Deadline: 31 August 2026</del></p>
+<hr>
+<h2 id="welcome-to-orca-film-awards">Welcome to ORCA Film Awards</h2>
+<p>ORCA Film Awards exists to celebrate the craft of cinema — to honour the filmmakers who push the boundaries of storytelling, who pour their vision onto the screen with courage and conviction. Whether you are an emerging voice or an established auteur, ORCA is the platform where Australian and international cinema meets its audience.</p>
+<p>We are proud to be Brisbane&#x27;s premier film awards event and content platform, dedicated to recognising excellence across every discipline of filmmaking. These guidelines have been designed to ensure a transparent, fair, and prestigious submission process for all entrants.</p>
+<p>Please read this document in full before submitting. Incomplete or non-compliant submissions may be disqualified without refund.</p>
+<hr>
+<h2 id="1-eligibility-criteria">1. Eligibility Criteria</h2>
+<h3 id="11-who-may-submit">1.1 Who May Submit</h3>
+<ul>
+<li>Filmmakers of any nationality, background, or career stage are welcome to submit.</li>
+<li>Films may have been produced anywhere in the world.</li>
+<li>At least one key creative (director, producer, or writer) must be contactable and available for communication throughout the judging period.</li>
+<li>Films must not have been previously submitted to ORCA Film Awards in a prior year in the same category.</li>
+</ul>
+<h3 id="12-film-types-accepted">1.2 Film Types Accepted</h3>
+<p>ORCA Film Awards accepts entries across the following primary categories:</p>
+<div class="table-wrap"><table><thead><tr><th>Category</th><th>Description</th></tr></thead><tbody><tr><td><strong>Narrative Fiction</strong></td><td>Scripted dramatic works, any genre</td></tr><tr><td><strong>Documentary</strong></td><td>Non-fiction, investigative, observational, or hybrid documentary</td></tr><tr><td><strong>Experimental / Art Film</strong></td><td>Non-linear, avant-garde, or formally innovative works</td></tr><tr><td><strong>Animation</strong></td><td>Any animation technique: 2D, 3D, stop-motion, mixed media</td></tr><tr><td><strong>Music Video</strong></td><td>Commissioned or independent music film works</td></tr><tr><td><strong>Student Film</strong></td><td>Works made while enrolled in an accredited film or media program</td></tr></tbody></table></div>
+<h3 id="13-length-categories">1.3 Length Categories</h3>
+<p>Films are assessed within the following length divisions:</p>
+<div class="table-wrap"><table><thead><tr><th>Division</th><th>Runtime</th></tr></thead><tbody><tr><td><strong>Short Film</strong></td><td>Under 15 minutes (including credits)</td></tr><tr><td><strong>Mid-Length Film</strong></td><td>15 minutes to 59 minutes</td></tr><tr><td><strong>Feature Film</strong></td><td>60 minutes or longer</td></tr><tr><td><strong>Documentary Short</strong></td><td>Under 30 minutes</td></tr><tr><td><strong>Documentary Feature</strong></td><td>30 minutes or longer</td></tr><tr><td><strong>Experimental</strong></td><td>Duration is part of the formal work — no strict limit</td></tr></tbody></table></div>
+<p>Submission fees are applied per division. If a film qualifies in multiple divisions, the entrant selects the most appropriate category at submission. Changes after payment are not guaranteed.</p>
+<h3 id="14-completion-period">1.4 Completion Period</h3>
+<p>Films must have been completed (principal photography and post-production finalised) no earlier than <strong>1 January 2023</strong>. Retrospective submissions for older works will not be accepted.</p>
+<h3 id="15-language-requirements">1.5 Language Requirements</h3>
+<p>Films in any language are accepted. Non-English language films must include English subtitles embedded in the submission file or provided as a separate SRT/VTT file. Failure to include subtitles for non-English dialogue may result in scoring penalties at the judges&#x27; discretion.</p>
+<hr>
+<h2 id="2-submission-requirements">2. Submission Requirements</h2>
+<h3 id="21-technical-specifications-video">2.1 Technical Specifications — Video</h3>
+<p>To ensure consistent viewing quality across all judging panels, submissions must meet the following minimum technical requirements:</p>
+<div class="table-wrap"><table><thead><tr><th>Specification</th><th>Requirement</th></tr></thead><tbody><tr><td><strong>Minimum Resolution</strong></td><td>1920 x 1080 (Full HD)</td></tr><tr><td><strong>Preferred Resolution</strong></td><td>3840 x 2160 (4K UHD)</td></tr><tr><td><strong>Accepted Codecs</strong></td><td>H.264, H.265/HEVC, ProRes 422, ProRes 4444, DNxHD</td></tr><tr><td><strong>Container Formats</strong></td><td>.MP4, .MOV, .MKV</td></tr><tr><td><strong>Frame Rate</strong></td><td>23.976, 24, 25, 29.97, or 30fps</td></tr><tr><td><strong>Colour Space</strong></td><td>Rec.709 or Rec.2020 (HDR submissions must be clearly flagged)</td></tr><tr><td><strong>Maximum File Size — Short</strong></td><td>8 GB</td></tr><tr><td><strong>Maximum File Size — Feature</strong></td><td>25 GB</td></tr></tbody></table></div>
+<p>Submissions that do not meet minimum resolution or codec requirements will be rejected. If you are uncertain about your export settings, contact our technical support team before submitting.</p>
+<h3 id="22-technical-specifications-audio">2.2 Technical Specifications — Audio</h3>
+<div class="table-wrap"><table><thead><tr><th>Specification</th><th>Requirement</th></tr></thead><tbody><tr><td><strong>Audio Codec</strong></td><td>AAC, PCM/WAV, FLAC</td></tr><tr><td><strong>Sample Rate</strong></td><td>48 kHz minimum</td></tr><tr><td><strong>Bit Depth</strong></td><td>16-bit minimum; 24-bit preferred</td></tr><tr><td><strong>Channels</strong></td><td>Stereo (2.0) minimum; 5.1 surround accepted</td></tr><tr><td><strong>Loudness Standard</strong></td><td>EBU R128 or ATSC A/85 normalisation preferred</td></tr></tbody></table></div>
+<h3 id="23-required-accompanying-materials">2.3 Required Accompanying Materials</h3>
+<p>Every submission must include the following:</p>
+<ol>
+<li><strong>Completed online submission form</strong> — filmmaker details, film details, synopsis, genre, runtime</li>
+<li><strong>Film file</strong> — per technical specifications above, uploaded via the secure portal</li>
+<li><strong>Poster or key art</strong> — minimum 1920 x 2700px, JPEG or PNG</li>
+<li><strong>Director&#x27;s statement</strong> — 100 to 400 words, plain text or PDF</li>
+<li><strong>Short synopsis</strong> — up to 150 words</li>
+<li><strong>Full credits list</strong> — PDF or plain text, listing all principal cast and crew</li>
+<li><strong>Proof of rights declaration</strong> — a signed declaration confirming the entrant holds all necessary rights to submit the work (template provided in the submission portal)</li>
+</ol>
+<h3 id="24-optional-supporting-materials">2.4 Optional Supporting Materials</h3>
+<ul>
+<li>Behind-the-scenes stills (minimum 2400px wide, JPEG or TIFF)</li>
+<li>Trailer or teaser (MP4 or MOV, under 3 minutes)</li>
+<li>EPK (Electronic Press Kit) in PDF format</li>
+<li>Previous festival screening history</li>
+</ul>
+<hr>
+<h2 id="3-entry-fees">3. Entry Fees</h2>
+<p>All fees are listed in Australian Dollars (AUD) and include GST. Fees are non-refundable once payment is processed.</p>
+<h3 id="31-short-film-under-15-minutes">3.1 Short Film (Under 15 Minutes)</h3>
+<div class="table-wrap"><table><thead><tr><th>Tier</th><th>Dates</th><th>Fee (AUD)</th></tr></thead><tbody><tr><td><strong>Early Bird</strong></td><td>1 Feb – 31 Mar 2026</td><td>$30</td></tr><tr><td><strong>Standard</strong></td><td>1 Apr – 30 Jun 2026</td><td>$42</td></tr><tr><td><strong>Late</strong></td><td>1 Jul – 31 Aug 2026</td><td>$55</td></tr></tbody></table></div>
+<h3 id="32-mid-length-film-1559-minutes">3.2 Mid-Length Film (15–59 Minutes)</h3>
+<div class="table-wrap"><table><thead><tr><th>Tier</th><th>Dates</th><th>Fee (AUD)</th></tr></thead><tbody><tr><td><strong>Early Bird</strong></td><td>1 Feb – 31 Mar 2026</td><td>$38</td></tr><tr><td><strong>Standard</strong></td><td>1 Apr – 30 Jun 2026</td><td>$50</td></tr><tr><td><strong>Late</strong></td><td>1 Jul – 31 Aug 2026</td><td>$62</td></tr></tbody></table></div>
+<h3 id="33-feature-film-60-minutes">3.3 Feature Film (60+ Minutes)</h3>
+<div class="table-wrap"><table><thead><tr><th>Tier</th><th>Dates</th><th>Fee (AUD)</th></tr></thead><tbody><tr><td><strong>Early Bird</strong></td><td>1 Feb – 31 Mar 2026</td><td>$48</td></tr><tr><td><strong>Standard</strong></td><td>1 Apr – 30 Jun 2026</td><td>$58</td></tr><tr><td><strong>Late</strong></td><td>1 Jul – 31 Aug 2026</td><td>$65</td></tr></tbody></table></div>
+<h3 id="34-documentary-any-length">3.4 Documentary (Any Length)</h3>
+<div class="table-wrap"><table><thead><tr><th>Tier</th><th>Dates</th><th>Fee (AUD)</th></tr></thead><tbody><tr><td><strong>Early Bird</strong></td><td>1 Feb – 31 Mar 2026</td><td>$35</td></tr><tr><td><strong>Standard</strong></td><td>1 Apr – 30 Jun 2026</td><td>$47</td></tr><tr><td><strong>Late</strong></td><td>1 Jul – 31 Aug 2026</td><td>$60</td></tr></tbody></table></div>
+<h3 id="35-experimental-art-film">3.5 Experimental / Art Film</h3>
+<div class="table-wrap"><table><thead><tr><th>Tier</th><th>Dates</th><th>Fee (AUD)</th></tr></thead><tbody><tr><td><strong>Early Bird</strong></td><td>1 Feb – 31 Mar 2026</td><td>$30</td></tr><tr><td><strong>Standard</strong></td><td>1 Apr – 30 Jun 2026</td><td>$42</td></tr><tr><td><strong>Late</strong></td><td>1 Jul – 31 Aug 2026</td><td>$55</td></tr></tbody></table></div>
+<h3 id="36-student-film">3.6 Student Film</h3>
+<p>Student submissions receive a 30% discount across all tiers. Proof of enrolment (current student ID or letter from institution) must be uploaded at the time of submission. Discounts cannot be applied retrospectively after payment.</p>
+<h3 id="37-fee-waivers">3.7 Fee Waivers</h3>
+<p>A limited number of fee waivers are available for filmmakers experiencing genuine financial hardship. Applications must be submitted in writing to submissions@orcafilmawards.com.au before the submission deadline. Waivers are granted at the discretion of the ORCA team and are not guaranteed.</p>
+<hr>
+<h2 id="4-submission-process">4. Submission Process</h2>
+<p><strong>Step 1 — Create Your Account</strong></p>
+<p>Visit the ORCA submission portal at <strong>portal.orcafilmawards.com.au</strong> and create a filmmaker account. Use a valid email address you monitor regularly. All correspondence regarding your submission will be sent to this address.</p>
+<p><strong>Step 2 — Start a New Submission</strong></p>
+<p>From your dashboard, select &quot;New Submission&quot; and choose your film category and length division. Fill out all required fields completely and accurately. Incomplete forms cannot be progressed to payment.</p>
+<p><strong>Step 3 — Upload Your Film File</strong></p>
+<p>Upload your film file via the secure uploader. Large files may take significant time depending on your internet connection. Do not close your browser during upload. You will receive an upload confirmation email once the transfer is complete.</p>
+<p><strong>Step 4 — Upload Supporting Materials</strong></p>
+<p>Upload your poster, director&#x27;s statement, credits list, proof of rights declaration, and any optional materials. All files are stored securely and accessed only by authorised ORCA staff and judges.</p>
+<p><strong>Step 5 — Review and Confirm</strong></p>
+<p>Review your submission summary carefully before proceeding. Ensure all details — film title, director name, runtime, category — are accurate. Corrections after payment require written request and cannot always be accommodated.</p>
+<p><strong>Step 6 — Pay the Entry Fee</strong></p>
+<p>Select your applicable fee tier and proceed to payment. Payments are processed via secure Stripe gateway. Accepted methods: Visa, Mastercard, American Express, Apple Pay, Google Pay. A tax invoice will be issued by email.</p>
+<p><strong>Step 7 — Submission Confirmation</strong></p>
+<p>You will receive a confirmation email with your unique submission reference number. Keep this number — it is your identifier throughout the entire process. Your film is now officially entered into ORCA Film Awards 2026.</p>
+<hr>
+<h2 id="5-what-happens-after-submission">5. What Happens After Submission</h2>
+<h3 id="51-initial-review">5.1 Initial Review</h3>
+<p>All submissions undergo an initial technical and eligibility review by the ORCA submissions team within 10 business days of receipt. If your submission is found to be ineligible or technically non-compliant, you will be notified by email with the reason. Where possible, you may be given an opportunity to rectify the issue and resubmit.</p>
+<h3 id="52-selection-phase">5.2 Selection Phase</h3>
+<p>Eligible submissions are assigned to judging panels. Each film is reviewed by a minimum of two qualified judges. Judges are film industry professionals — directors, cinematographers, editors, screenwriters, producers — selected for their expertise and credibility.</p>
+<h3 id="53-shortlisting">5.3 Shortlisting</h3>
+<p>Shortlisted films are notified by email no later than <strong>30 September 2026</strong>. Shortlisted filmmakers are invited to attend the ORCA Film Awards ceremony and are included in the public nominees announcement.</p>
+<h3 id="54-finalists-and-winners">5.4 Finalists and Winners</h3>
+<p>Finalists are announced publicly on <strong>15 October 2026</strong>. Winners are revealed exclusively at the ORCA Film Awards ceremony in Brisbane. Winners receive an ORCA Award trophy, a certificate of achievement, and are promoted across all ORCA platforms and marketing channels throughout the season.</p>
+<h3 id="55-screening-rights">5.5 Screening Rights</h3>
+<p>By entering ORCA Film Awards, you grant ORCA a non-exclusive, royalty-free licence to screen or exhibit your film during the ORCA Film Awards event and associated programming for the 2026 season. This does not affect your ownership or any commercial distribution rights.</p>
+<hr>
+<h2 id="6-judging-criteria-overview">6. Judging Criteria Overview</h2>
+<p>Films are evaluated across ten criteria, each scored out of 10, for a possible total of 100 points:</p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Criterion</th><th>Focus</th></tr></thead><tbody><tr><td>1</td><td><strong>Direction</strong></td><td>Vision, control of the frame, command of performance</td></tr><tr><td>2</td><td><strong>Screenplay / Story</strong></td><td>Narrative construction, dialogue, thematic depth</td></tr><tr><td>3</td><td><strong>Cinematography</strong></td><td>Visual storytelling, composition, lighting</td></tr><tr><td>4</td><td><strong>Editing and Pacing</strong></td><td>Rhythm, structure, continuity</td></tr><tr><td>5</td><td><strong>Sound Design and Score</strong></td><td>Sonic world, music integration, technical audio quality</td></tr><tr><td>6</td><td><strong>Production Design</strong></td><td>Art direction, costume, location choices</td></tr><tr><td>7</td><td><strong>Performances</strong></td><td>Authenticity, range, emotional truth</td></tr><tr><td>8</td><td><strong>Emotional Impact</strong></td><td>The film&#x27;s ability to move, provoke, or resonate</td></tr><tr><td>9</td><td><strong>Originality and Innovation</strong></td><td>Distinctiveness of voice and approach</td></tr><tr><td>10</td><td><strong>Technical Execution</strong></td><td>Overall professional execution across departments</td></tr></tbody></table></div>
+<p>Full scoring rubrics are provided to judges separately. Judges&#x27; decisions are final and not subject to appeal.</p>
+<hr>
+<h2 id="7-rights-and-permissions">7. Rights and Permissions</h2>
+<h3 id="71-ownership">7.1 Ownership</h3>
+<p>You must own or control all rights necessary to submit and exhibit the work, including music, footage, and performance rights. ORCA takes no responsibility for rights disputes arising from submitted content.</p>
+<h3 id="72-third-party-content">7.2 Third-Party Content</h3>
+<p>If your film incorporates third-party music, stock footage, archival material, or other licensed content, you must hold valid licences for festival and awards event use. Submission of a work containing improperly licensed material may result in disqualification.</p>
+<h3 id="73-orcax27s-use-of-your-materials">7.3 ORCA&#x27;s Use of Your Materials</h3>
+<p>ORCA may use your film&#x27;s title, poster, still frames, director&#x27;s statement, and synopsis for promotional purposes related to the ORCA Film Awards (website, social media, press materials, ceremony presentations). If you have objections to specific promotional uses, please notify us in writing at the time of submission.</p>
+<hr>
+<h2 id="8-terms-and-conditions">8. Terms and Conditions</h2>
+<ol>
+<li><strong>Non-Refundable Fees.</strong> All submission fees are non-refundable, including in cases of disqualification, technical issues, or withdrawal.</li>
+<li><strong>One Submission Per Film Per Category.</strong> Each film may be entered in multiple categories, but duplicate entries within the same category will be removed and no refund issued.</li>
+<li><strong>Accurate Information.</strong> Entrants are responsible for the accuracy of all submission information. Misrepresentation — including false claims of student status — may result in disqualification.</li>
+<li><strong>Withdrawal.</strong> If you wish to withdraw your film from consideration, notify us in writing before 31 August 2026. Withdrawal does not entitle you to a refund.</li>
+<li><strong>Force Majeure.</strong> ORCA Film Awards reserves the right to postpone, cancel, or modify the event or any of its programs due to circumstances beyond its control. In such cases, ORCA&#x27;s liability to entrants is limited to reasonable notification of changes.</li>
+<li><strong>Disqualification.</strong> ORCA reserves the right to disqualify any submission that violates these guidelines, contains unlawful content, or is submitted in bad faith.</li>
+<li><strong>Governing Law.</strong> These terms are governed by the laws of Queensland, Australia.</li>
+<li><strong>Agreement.</strong> By submitting a film and paying the entry fee, you confirm that you have read and agree to these submission guidelines and terms in full.</li>
+</ol>
+<hr>
+<h2 id="contact">Contact</h2>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Submissions Enquiries</strong></td><td>submissions@orcafilmawards.com.au</td></tr><tr><td><strong>Technical Support</strong></td><td>tech@orcafilmawards.com.au</td></tr><tr><td><strong>General Enquiries</strong></td><td>hello@orcafilmawards.com.au</td></tr><tr><td><strong>Website</strong></td><td>www.orcafilmawards.com.au</td></tr></tbody></table></div>
+<p>ORCA Film Awards is based in Brisbane, Queensland, Australia.</p>
+<hr>
+<p><em>ORCA Film Awards 2026. All rights reserved. These guidelines are subject to change. Filmmakers are advised to check the website for the most current version. Last reviewed: March 2026.</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">04-ORCA Film Awards/01-strategy/Documents/SUBMISSION GUIDELINES.md</div>
+    </main>
+  </div>
+</body>
+</html>

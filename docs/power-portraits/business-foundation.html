@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POWER PORTRAITS — BUSINESS FOUNDATION DOCUMENT | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link active"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#power-portraits">Power Portraits</a> &rsaquo;
+          POWER PORTRAITS — BUSINESS FOUNDATION DOCUMENT
+        </div>
+        <h1 class="doc-title">POWER PORTRAITS — BUSINESS FOUNDATION DOCUMENT</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#128247; Power Portraits</span>
+          <span class="doc-path">02-Power Portraits / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="power-portraits-business-foundation-document">POWER PORTRAITS — BUSINESS FOUNDATION DOCUMENT</h1>
+<p><strong>Your Image. Your Power.</strong></p>
+<p><em>Confidential Business Document — Ben Alek Conner, Founder</em></p>
+<hr>
+<h2 id="1-mission-amp-vision">1. MISSION &amp; VISION</h2>
+<h3 id="mission-statement">Mission Statement</h3>
+<p>Power Portraits exists to transform how professionals show up in the world. We create premium headshots and portraits that capture not just a face, but a presence — the confidence, authority, and authenticity that makes careers accelerate and brands unforgettable.</p>
+<h3 id="vision-statement">Vision Statement</h3>
+<p>To become Brisbane&#x27;s most sought-after headshot studio for professionals who understand that their image is their most powerful business asset — and to build a studio brand recognized for consistently delivering photographs that change how clients see themselves and how the world sees them.</p>
+<h3 id="core-values">Core Values</h3>
+<ol>
+<li><strong>Excellence Without Compromise</strong> — Every image delivered meets a standard we&#x27;d be proud to display on our own wall.</li>
+<li><strong>Client Transformation</strong> — We measure success not just in pixels, but in the confidence clients feel when they see their photos.</li>
+<li><strong>Authenticity</strong> — We capture who you actually are at your best, not a stiff corporate cliche.</li>
+<li><strong>Relationship-First Business</strong> — Clients are collaborators, not transactions.</li>
+<li><strong>Continuous Craft</strong> — We invest constantly in technique, equipment, and aesthetic refinement.</li>
+</ol>
+<hr>
+<h2 id="2-brand-positioning-amp-story">2. BRAND POSITIONING &amp; STORY</h2>
+<h3 id="the-gap-we-fill">The Gap We Fill</h3>
+<p>Brisbane&#x27;s photography market is split between two extremes: budget operators running factory-style headshots (poorly lit, generic backgrounds, minimal retouching) and high-end fashion/commercial photographers who charge $2,000+ for a personal brand session most professionals can&#x27;t justify.</p>
+<p>Power Portraits occupies the premium-but-accessible middle ground — delivering work that rivals the top-tier photographers, at pricing that makes sense for ambitious professionals ready to invest in their image.</p>
+<h3 id="brand-story">Brand Story</h3>
+<p>Ben Alek Conner founded Power Portraits after recognizing a consistent pattern: talented professionals were being held back not by their skills or credentials, but by how they presented themselves online. A weak LinkedIn photo signals weakness. A powerful, professional portrait signals authority — before you&#x27;ve said a word.</p>
+<p>The &quot;Power Portrait&quot; concept was born from the understanding that a great headshot isn&#x27;t documentation — it&#x27;s a statement. It says: <em>I take myself seriously. You should too.</em></p>
+<h3 id="positioning-statement">Positioning Statement</h3>
+<p>For Brisbane professionals who are serious about their career and brand, Power Portraits delivers premium headshots and portraits that communicate confidence, authority, and authenticity — because your image is your first impression, and first impressions set the trajectory of every opportunity that follows.</p>
+<h3 id="competitive-differentiators">Competitive Differentiators</h3>
+<ul>
+<li><strong>Power Coaching Element</strong>: The Executive Package includes 30 minutes of pre-session confidence and posture coaching — competitors don&#x27;t offer this</li>
+<li><strong>Location Variety</strong>: We shoot in Brisbane&#x27;s most compelling professional backdrops (CBD architecture, Southbank, South Bank Parklands, waterfront) — not just a studio backdrop</li>
+<li><strong>Brand Consultation</strong>: Pre-session questionnaire ensures every shoot is tailored to the client&#x27;s specific professional positioning</li>
+<li><strong>Same-Day Delivery Option</strong>: Available on Corporate packages — no competitor in Brisbane currently offers this as standard</li>
+<li><strong>Premium Retouching</strong>: Natural, skin-perfecting retouching that looks polished but never plastic</li>
+<li><strong>Gallery Experience</strong>: Clients receive a curated, beautifully presented online gallery — not a Dropbox link</li>
+</ul>
+<hr>
+<h2 id="3-target-market-analysis">3. TARGET MARKET ANALYSIS</h2>
+<h3 id="primary-markets">Primary Markets</h3>
+<h4 id="3a-brisbane-corporate-professionals">3A. Brisbane Corporate Professionals</h4>
+<ul>
+<li><strong>Who</strong>: Senior managers, department heads, C-suite executives at Brisbane&#x27;s major employers (mining, resources, finance, law, consulting, property development)</li>
+<li><strong>Age Range</strong>: 32–58</li>
+<li><strong>Pain Point</strong>: Outdated or low-quality LinkedIn photos that undermine their professional stature</li>
+<li><strong>Trigger Events</strong>: Promotion, new role, career change, speaking engagement, media appearance, company rebrand</li>
+<li><strong>Average Spend</strong>: $450–$800 (Professional or Executive package)</li>
+<li><strong>Where They Are</strong>: LinkedIn, professional associations (Queensland Law Society, AICD, CPA Australia, Brisbane Chamber of Commerce)</li>
+</ul>
+<h4 id="3b-entrepreneurs-amp-business-owners">3B. Entrepreneurs &amp; Business Owners</h4>
+<ul>
+<li><strong>Who</strong>: Founders, coaches, consultants, real estate agents, financial advisors, personal brand builders</li>
+<li><strong>Age Range</strong>: 28–50</li>
+<li><strong>Pain Point</strong>: Their brand image doesn&#x27;t match the quality of their actual service</li>
+<li><strong>Trigger Events</strong>: Business launch, rebranding, website refresh, media pitch, speaking circuit entry</li>
+<li><strong>Average Spend</strong>: $450–$800</li>
+<li><strong>Where They Are</strong>: LinkedIn, Instagram, local networking events (BNI, Chambers of Commerce, co-working spaces)</li>
+</ul>
+<h4 id="3c-actors-amp-creatives">3C. Actors &amp; Creatives</h4>
+<ul>
+<li><strong>Who</strong>: Professional actors, models, presenters, performers needing current headshots for agencies</li>
+<li><strong>Age Range</strong>: 18–45</li>
+<li><strong>Pain Point</strong>: Need industry-standard headshots that open doors with agencies and casting directors</li>
+<li><strong>Average Spend</strong>: $250–$450 (Essential or Professional)</li>
+<li><strong>Where They Are</strong>: Queensland Theatre Company, La Boite Theatre, Brisbane acting schools, Talent Agency contacts</li>
+</ul>
+<h4 id="3d-corporate-teams">3D. Corporate Teams</h4>
+<ul>
+<li><strong>Who</strong>: HR managers and marketing directors at Brisbane companies needing consistent team headshots</li>
+<li><strong>Size</strong>: 5–100+ employees</li>
+<li><strong>Pain Point</strong>: Inconsistent headshots across teams make the &quot;About Us&quot; page look unprofessional; onboarding takes months to align new hires</li>
+<li><strong>Average Spend</strong>: $2,500–$10,000+ depending on team size</li>
+<li><strong>Where They Are</strong>: LinkedIn, Chamber events, referrals from existing individual clients</li>
+</ul>
+<h4 id="3e-linkedin-focused-professionals">3E. LinkedIn-Focused Professionals</h4>
+<ul>
+<li><strong>Who</strong>: Job seekers, career changers, mid-career professionals building their personal brand online</li>
+<li><strong>Age Range</strong>: 25–45</li>
+<li><strong>Pain Point</strong>: Know their current photo is costing them opportunities but haven&#x27;t invested in a proper update</li>
+<li><strong>Trigger Event</strong>: Starting job search, platform algorithm awareness, visible peers with great headshots</li>
+<li><strong>Average Spend</strong>: $250–$450</li>
+</ul>
+<h3 id="brisbane-market-context">Brisbane Market Context</h3>
+<ul>
+<li>Brisbane&#x27;s CBD employment base is approximately 200,000+ workers</li>
+<li>Queensland&#x27;s resources and energy sector creates a constant pipeline of high-earning professionals with image needs</li>
+<li>The 2032 Olympics infrastructure boom is bringing an influx of professionals, consultants, and media personalities</li>
+<li>Significant growth in executive coaching, personal branding, and thought leadership culture in Brisbane since 2022</li>
+</ul>
+<hr>
+<h2 id="4-service-packages">4. SERVICE PACKAGES</h2>
+<h3 id="essential-package-250-aud">ESSENTIAL PACKAGE — $250 AUD</h3>
+<p><strong>Ideal for:</strong> Professionals needing a current, high-quality headshot for LinkedIn or corporate use</p>
+<p><strong>What&#x27;s Included:</strong></p>
+<ul>
+<li>1-hour session</li>
+<li>2 locations (within Brisbane CBD or agreed locations)</li>
+<li>Professional lighting and direction throughout</li>
+<li>10 fully retouched, high-resolution digital images</li>
+<li>Online gallery delivery within 5–7 business days</li>
+<li>Commercial use licence for personal/professional purposes</li>
+<li>1 round of retouching feedback</li>
+</ul>
+<p><strong>Best For:</strong> LinkedIn updates, corporate directories, website bios, job applications</p>
+<hr>
+<h3 id="professional-package-450-aud">PROFESSIONAL PACKAGE — $450 AUD</h3>
+<p><strong>Ideal for:</strong> Entrepreneurs, business owners, and professionals wanting a comprehensive image library</p>
+<p><strong>What&#x27;s Included:</strong></p>
+<ul>
+<li>2-hour session</li>
+<li>3 locations (within Brisbane CBD/surrounds)</li>
+<li>Up to 3 wardrobe changes</li>
+<li>Professional lighting and direction throughout</li>
+<li>25 fully retouched, high-resolution digital images</li>
+<li>Online gallery delivery within 5–7 business days</li>
+<li>Commercial use licence</li>
+<li>2 rounds of retouching feedback</li>
+<li>Pre-session style consultation call (15 minutes)</li>
+</ul>
+<p><strong>Best For:</strong> Website hero images, LinkedIn profiles, speaking engagements, press kits, real estate profiles</p>
+<hr>
+<h3 id="executive-package-800-aud">EXECUTIVE PACKAGE — $800 AUD</h3>
+<p><strong>Ideal for:</strong> C-suite executives, public figures, keynote speakers, and personal brand leaders</p>
+<p><strong>What&#x27;s Included:</strong></p>
+<ul>
+<li>3-hour session</li>
+<li>Unlimited locations within agreed Brisbane area</li>
+<li>Unlimited wardrobe changes</li>
+<li>30-minute pre-session Power Coaching (confidence, posture, presence coaching before we pick up the camera)</li>
+<li>50 fully retouched, high-resolution digital images</li>
+<li>Online gallery delivery within 3–5 business days</li>
+<li>Full commercial use licence</li>
+<li>Unlimited retouching feedback rounds</li>
+<li>30-minute pre-session strategy call to align images with your professional brand</li>
+<li>Priority scheduling and booking support</li>
+</ul>
+<p><strong>Best For:</strong> Media appearances, book covers, keynote speaker profiles, executive team pages, major rebrands</p>
+<hr>
+<h3 id="corporate-package-25005000-aud">CORPORATE PACKAGE — $2,500–$5,000+ AUD</h3>
+<p><strong>Ideal for:</strong> Businesses needing consistent, professional headshots for their entire team</p>
+<p><strong>What&#x27;s Included:</strong></p>
+<ul>
+<li>On-site setup at your Brisbane office or agreed location</li>
+<li>Dedicated session time per team member (15–20 minutes each)</li>
+<li>Consistent lighting, background, and framing across all team members</li>
+<li>Individual online galleries for each team member</li>
+<li>3–5 retouched images per person</li>
+<li>Same-day preview delivery option (additional fee)</li>
+<li>Standard 5–7 business day full delivery</li>
+<li>Brand guideline compliance (we match your company&#x27;s colour/backdrop preferences)</li>
+<li>Bulk pricing and volume discounts</li>
+<li>Dedicated account manager (Ben) for the full project</li>
+</ul>
+<p><strong>Pricing Tiers:</strong></p>
+<ul>
+<li>Team Starter (5–10 people): $2,500</li>
+<li>Team Professional (11–25 people): $3,500–$4,500</li>
+<li>Enterprise (26+ people): Custom quote (typically $150–$180/person)</li>
+</ul>
+<p><strong>Optional Add-ons:</strong></p>
+<ul>
+<li>Same-day delivery: +$500</li>
+<li>Video content (short personal brand clips): +$800</li>
+<li>Additional retouched images: $25/image</li>
+</ul>
+<hr>
+<h2 id="5-pricing-strategy-amp-rationale">5. PRICING STRATEGY &amp; RATIONALE</h2>
+<h3 id="pricing-philosophy">Pricing Philosophy</h3>
+<p>Power Portraits is positioned as a premium service — not the cheapest option, never the most expensive. Pricing is set to:</p>
+<ol>
+<li>Reflect genuine value and quality</li>
+<li>Attract serious, committed clients who respect the craft</li>
+<li>Support sustainable business growth and equipment investment</li>
+<li>Create clear package tiers that guide clients toward higher-value options</li>
+</ol>
+<h3 id="price-anchoring">Price Anchoring</h3>
+<p>The Executive Package at $800 serves as the anchor — when clients see the full range, the Professional Package at $450 appears to be exceptional value (and it is). The Essential at $250 captures the entry-level market without undercutting brand perception.</p>
+<h3 id="gst-treatment">GST Treatment</h3>
+<p>All prices are quoted GST-inclusive. GST (10%) is itemized separately on invoices for business clients claiming the input tax credit.</p>
+<h3 id="deposit-policy">Deposit Policy</h3>
+<ul>
+<li>50% deposit required at booking (non-refundable within 48 hours of session)</li>
+<li>Balance due on gallery delivery</li>
+<li>Corporate packages: 50% deposit on signing, 50% on delivery</li>
+</ul>
+<h3 id="price-review-schedule">Price Review Schedule</h3>
+<ul>
+<li>Annual price review each January</li>
+<li>Year 2 planned increase: 10–15% across all packages as brand reputation builds</li>
+<li>Corporate pricing reviewed per project</li>
+</ul>
+<hr>
+<h2 id="6-studio-setup-requirements">6. STUDIO SETUP REQUIREMENTS</h2>
+<h3 id="operational-model">Operational Model</h3>
+<p>Power Portraits operates as a <strong>location-based studio</strong> — sessions take place at Brisbane&#x27;s most compelling professional environments rather than a fixed studio space. This reduces overhead dramatically while delivering superior, non-generic results. A portable studio kit enables us to shoot in-office for corporate clients.</p>
+<h3 id="fixed-studio-option">Fixed Studio Option</h3>
+<p>As revenue grows past $100K annually, the option to lease a dedicated studio space in Brisbane&#x27;s inner suburbs (Fortitude Valley, West End, or Milton) will be evaluated. Target: ~$2,000–$2,500/month for a suitable space.</p>
+<h3 id="home-base-requirements">Home Base Requirements</h3>
+<ul>
+<li>Professional editing workstation (see Equipment List)</li>
+<li>Client consultation area (video calls for pre-session consultations)</li>
+<li>Equipment storage and charging station</li>
+<li>Reliable high-speed internet for gallery uploads</li>
+</ul>
+<h3 id="brisbane-shooting-locations">Brisbane Shooting Locations</h3>
+<p><strong>CBD/Corporate:</strong></p>
+<ul>
+<li>George Street corridor (heritage architecture)</li>
+<li>Eagle Street Pier precinct (waterfront, glass towers)</li>
+<li>Queen Street Mall architectural details</li>
+<li>Brisbane Magistrates Court surrounds (legal/authority aesthetic)</li>
+</ul>
+<p><strong>Cultural/Creative:</strong></p>
+<ul>
+<li>South Bank Parklands (varied backdrops, greenery, architecture)</li>
+<li>Gallery of Modern Art precinct</li>
+<li>Howard Smith Wharves (industrial, premium feel)</li>
+<li>Fortitude Valley laneways (creative professionals)</li>
+</ul>
+<p><strong>Open/Green:</strong></p>
+<ul>
+<li>New Farm Park</li>
+<li>Brisbane Botanic Gardens</li>
+<li>Roma Street Parkland</li>
+</ul>
+<hr>
+<h2 id="7-equipment-list">7. EQUIPMENT LIST</h2>
+<h3 id="camera-system">Camera System</h3>
+<ul>
+<li><strong>Primary Body</strong>: Sony A7 IV or Canon EOS R6 Mark II (full-frame mirrorless)</li>
+<li><strong>Backup Body</strong>: Sony A7 III or similar</li>
+<li><strong>Primary Lens</strong>: 85mm f/1.4 — the headshot standard; beautiful subject isolation</li>
+<li><strong>Secondary Lens</strong>: 35mm f/1.8 — environmental portraits, wider shots</li>
+<li><strong>Telephoto Option</strong>: 135mm f/1.8 — compressed, flattering for editorial work</li>
+</ul>
+<h3 id="lighting-system">Lighting System</h3>
+<ul>
+<li><strong>Key Light</strong>: Profoto B10 Plus (portable, battery-powered, professional quality)</li>
+<li><strong>Fill Light/Reflector</strong>: 5-in-1 collapsible reflector (gold, silver, white, black, diffuser)</li>
+<li><strong>Rim/Hair Light</strong>: Profoto B10 or Godox AD200Pro (portable speedlight alternative)</li>
+<li><strong>Light Modifier</strong>: Profoto OCF Softbox 60x60cm + strip box for rim lighting</li>
+<li><strong>Light Stand</strong>: 2x heavy-duty light stands with sand bags</li>
+</ul>
+<h3 id="backdrop-system">Backdrop System</h3>
+<ul>
+<li><strong>Portable Backdrop Stand</strong>: Neewer backdrop support system (portable, sets up in 5 minutes)</li>
+<li><strong>Backdrops</strong>: Light grey, dark grey/charcoal, white, black (reversible muslin)</li>
+<li><strong>Seamless Paper</strong>: White and grey rolls for clean studio-style looks</li>
+<li><strong>Clamps and Weights</strong>: For securing backdrops outdoors</li>
+</ul>
+<h3 id="support-amp-accessories">Support &amp; Accessories</h3>
+<ul>
+<li><strong>Tripod</strong>: Gitzo GT2543L or Really Right Stuff equivalent (heavy-duty)</li>
+<li><strong>Memory Cards</strong>: 4x 128GB V90 SD cards (two brands, redundancy)</li>
+<li><strong>Card Reader</strong>: Thunderbolt SD card reader</li>
+<li><strong>Tethering Cable</strong>: USB-C tethering cable for live preview</li>
+<li><strong>Color Checker</strong>: X-Rite ColorChecker Passport for consistent colour profiles</li>
+<li><strong>Remote Shutter</strong>: Wireless remote release</li>
+</ul>
+<h3 id="editing-amp-delivery">Editing &amp; Delivery</h3>
+<ul>
+<li><strong>Editing Software</strong>: Adobe Lightroom Classic + Adobe Photoshop CC (subscription)</li>
+<li><strong>Skin Retouching</strong>: Capture One Pro (alternative/supplement to Lightroom)</li>
+<li><strong>Gallery Delivery</strong>: Pixieset (professional online galleries, download management)</li>
+<li><strong>Cloud Backup</strong>: Two external SSDs (1TB each) + Backblaze cloud backup</li>
+<li><strong>Editing Monitor</strong>: Calibrated colour-accurate display (BenQ SW series or similar)</li>
+<li><strong>Colour Calibrator</strong>: X-Rite i1Display for monitor calibration</li>
+</ul>
+<h3 id="business-tools">Business Tools</h3>
+<ul>
+<li><strong>Booking System</strong>: HoneyBook or Studio Ninja (Australian CRM for photographers)</li>
+<li><strong>Invoicing</strong>: Xero (Australian accounting, GST-ready)</li>
+<li><strong>Contracts</strong>: Adobe Sign or HelloSign</li>
+<li><strong>Communication</strong>: Gmail (professional), Calendly for scheduling</li>
+</ul>
+<hr>
+<h2 id="8-booking-process-overview">8. BOOKING PROCESS OVERVIEW</h2>
+<h3 id="step-1-inquiry">Step 1: Inquiry</h3>
+<p>Client submits inquiry via website contact form, Instagram DM, LinkedIn message, or phone. Response target: within 4 business hours.</p>
+<h3 id="step-2-consultation-call-optional-but-recommended">Step 2: Consultation Call (Optional but Recommended)</h3>
+<p>15-minute call to understand the client&#x27;s goals, industry, how they want to be perceived, and which package suits them. This call also serves as a rapport-builder — clients who consult before booking have higher satisfaction rates.</p>
+<h3 id="step-3-package-selection-amp-booking">Step 3: Package Selection &amp; Booking</h3>
+<p>Client selects package. Invoice sent via Xero with 50% deposit link. Session is confirmed only upon receipt of deposit.</p>
+<h3 id="step-4-pre-session-questionnaire">Step 4: Pre-Session Questionnaire</h3>
+<p>Automated email sends the Pre-Session Questionnaire (what they do, brand positioning goals, wardrobe preferences, any specific requirements). Completed 48–72 hours before session.</p>
+<h3 id="step-5-booking-confirmation-amp-session-prep-guide">Step 5: Booking Confirmation &amp; Session Prep Guide</h3>
+<p>Full booking confirmation email sent with:</p>
+<ul>
+<li>Date, time, and meeting point</li>
+<li>Session Prep Guide (wardrobe, hair, skincare, mental prep)</li>
+<li>Location details and parking instructions</li>
+<li>Cancellation/rescheduling policy reminder</li>
+</ul>
+<h3 id="step-6-session-day">Step 6: Session Day</h3>
+<ul>
+<li>Ben arrives 20 minutes early to scout/set up</li>
+<li>Client welcomed, brief rapport conversation before shooting begins</li>
+<li>Power Coaching (Executive package only) before first shot</li>
+<li>Consistent direction throughout — clients are guided, never left to figure it out</li>
+</ul>
+<h3 id="step-7-gallery-delivery">Step 7: Gallery Delivery</h3>
+<ul>
+<li>Images culled and retouched within agreed timeframe</li>
+<li>Gallery published via Pixieset with password protection</li>
+<li>Gallery delivery email sent with download instructions and usage guidelines</li>
+</ul>
+<h3 id="step-8-post-session-follow-up">Step 8: Post-Session Follow-Up</h3>
+<ul>
+<li>Follow-up email 7 days after gallery delivery</li>
+<li>Review request (Google Business + Trustpilot)</li>
+<li>Referral encouragement (10% discount for referred bookings)</li>
+<li>6-month check-in for repeat booking opportunity</li>
+</ul>
+<hr>
+<h2 id="9-marketing-channels">9. MARKETING CHANNELS</h2>
+<h3 id="linkedin-primary-b2b-channel">LinkedIn (Primary B2B Channel)</h3>
+<ul>
+<li>Ben&#x27;s personal LinkedIn: Thought leadership content — posts about personal branding, professional image, client transformations (with permission)</li>
+<li>Power Portraits company page: Portfolio showcases, before/after concepts, testimonials</li>
+<li>LinkedIn outreach to HR managers, marketing directors, and business owners</li>
+<li>LinkedIn advertising: Targeted ads to Brisbane professionals by job title and industry</li>
+<li>Engage in Brisbane business communities and professional groups</li>
+</ul>
+<h3 id="instagram-primary-b2c-channel">Instagram (Primary B2C Channel)</h3>
+<ul>
+<li>Consistent aesthetic: Dark/gold brand colors, clean compositions</li>
+<li>Grid strategy: Alternating between portraits, behind-the-scenes, client stories, brand quotes</li>
+<li>Instagram Reels: Behind-the-scenes session footage, transformation reveals, tips content</li>
+<li>Stories: Daily/frequent — client reactions, session previews, booking slots available</li>
+<li>Hashtag strategy: #BrisbaneHeadshots #PowerPortraits #LinkedInPhoto #BrisbaneBusiness #ProfessionalHeadshots</li>
+<li>Collaborations with Brisbane business coaches, stylists, and career consultants</li>
+</ul>
+<h3 id="google-business-profile">Google Business Profile</h3>
+<ul>
+<li>Fully optimised Google Business listing</li>
+<li>Regular photo updates and posts</li>
+<li>Active review collection strategy (target: 50+ reviews in Year 1)</li>
+<li>Local SEO: &quot;Brisbane headshots&quot;, &quot;professional headshots Brisbane&quot;, &quot;LinkedIn headshots Brisbane&quot;</li>
+</ul>
+<h3 id="corporate-business-development">Corporate Business Development</h3>
+<ul>
+<li>Direct outreach to HR departments at Brisbane&#x27;s top 100 employers</li>
+<li>Partnership pitches to: business associations, co-working spaces, law firms, real estate agencies, financial planning groups</li>
+<li>Corporate proposal document (tailored HTML proposal)</li>
+<li>Attendance at Brisbane business networking events (CCIQ, Young Entrepreneurs, AICD events)</li>
+</ul>
+<h3 id="referral-network">Referral Network</h3>
+<ul>
+<li>LinkedIn coaches and career consultants (natural referral partners — their clients need headshots)</li>
+<li>Real estate agencies (agents need updated headshots regularly)</li>
+<li>Business coaches and personal branding consultants</li>
+<li>Hair and makeup artists (cross-referral relationship)</li>
+<li>Recruitment agencies (candidates need current headshots)</li>
+<li>10% referral commission or reciprocal promotion for active referral partners</li>
+</ul>
+<h3 id="website-amp-seo">Website &amp; SEO</h3>
+<ul>
+<li>Website: powerportraits.com.au</li>
+<li>Core pages: Home, Portfolio, Packages &amp; Pricing, About Ben, Corporate, Blog, Contact</li>
+<li>Blog content: &quot;Why Your LinkedIn Photo Is Costing You Opportunities&quot;, &quot;How to Choose What to Wear for Your Headshot&quot;, &quot;The Power of Professional Photography for Business Owners&quot;</li>
+<li>Schema markup for local business and photography service</li>
+<li>Google Ads: &quot;Brisbane headshots&quot;, &quot;professional photographer Brisbane&quot; — target CPA under $50</li>
+</ul>
+<hr>
+<h2 id="10-year-2-growth-strategy">10. YEAR 2 GROWTH STRATEGY</h2>
+<h3 id="revenue-target">Revenue Target</h3>
+<ul>
+<li>Year 1: $75,000–$100,000 AUD (establishing brand, building portfolio, first 150–200 sessions)</li>
+<li>Year 2: $150,000+ AUD (300+ sessions, price increases, corporate accounts)</li>
+</ul>
+<h3 id="session-volume-path">Session Volume Path</h3>
+<div class="table-wrap"><table><thead><tr><th>Month</th><th>Target Sessions/Month</th><th>Revenue Estimate</th></tr></thead><tbody><tr><td>Month 1–3</td><td>8–10</td><td>$2,500–$4,000/month</td></tr><tr><td>Month 4–6</td><td>12–15</td><td>$5,000–$7,000/month</td></tr><tr><td>Month 7–9</td><td>18–20</td><td>$7,500–$10,000/month</td></tr><tr><td>Month 10–12</td><td>22–25</td><td>$10,000–$13,000/month</td></tr><tr><td>Year 2 avg</td><td>25–30</td><td>$12,000–$15,000/month</td></tr></tbody></table></div>
+<h3 id="second-shooter-program">Second Shooter Program</h3>
+<ul>
+<li>Year 2: Hire/partner with a trained second photographer</li>
+<li>Second shooter handles overflow bookings, allows Ben to focus on Corporate and Executive work</li>
+<li>Second shooter works on contractor basis at $200–$300/session</li>
+<li>Quality control: All images retouched to Power Portraits standard by Ben</li>
+</ul>
+<h3 id="corporate-account-strategy">Corporate Account Strategy</h3>
+<ul>
+<li>Target: 5 recurring corporate accounts by end of Year 2</li>
+<li>Each account generates $3,000–$8,000/year in annual headshot sessions</li>
+<li>Dedicated corporate account management: quarterly check-ins, priority scheduling, bulk pricing</li>
+<li>Target industries: Law, Finance, Real Estate, Consulting, Resources/Mining</li>
+</ul>
+<h3 id="price-increase-strategy">Price Increase Strategy</h3>
+<ul>
+<li>Year 2 price review: Essential $300, Professional $550, Executive $950</li>
+<li>Corporate packages: +15% for new clients, grandfathered pricing for existing accounts</li>
+<li>Rationale: Portfolio depth, brand reputation, and review count justify premium positioning</li>
+</ul>
+<h3 id="studio-space-evaluation">Studio Space Evaluation</h3>
+<ul>
+<li>Trigger: Consistent 20+ sessions/month for 3 consecutive months</li>
+<li>Target area: Fortitude Valley or Milton (central, parking accessible)</li>
+<li>Budget: $2,000–$2,500/month lease</li>
+<li>Value add: Studio backdrop option, premium waiting area, product display</li>
+</ul>
+<hr>
+<h2 id="11-key-partnerships">11. KEY PARTNERSHIPS</h2>
+<h3 id="linkedin-coaches-amp-personal-branding-consultants">LinkedIn Coaches &amp; Personal Branding Consultants</h3>
+<ul>
+<li><strong>Approach</strong>: Mutual referral arrangement — they send clients who need headshots, we promote their services</li>
+<li><strong>Target</strong>: 5–10 active LinkedIn coaches operating in Brisbane</li>
+<li><strong>Structure</strong>: 10% referral fee or reciprocal promotion</li>
+<li><strong>Pitch</strong>: &quot;Your clients invest in your coaching — let&#x27;s make sure their profile photo matches the brand we&#x27;re building together&quot;</li>
+</ul>
+<h3 id="business-associations-amp-chambers-of-commerce">Business Associations &amp; Chambers of Commerce</h3>
+<ul>
+<li>Brisbane Chamber of Commerce &amp; Industry (CCIQ)</li>
+<li>Brisbane Young Entrepreneurs Association</li>
+<li>Property Council of Australia (Queensland Chapter)</li>
+<li>CPA Australia, CA ANZ (accountants)</li>
+<li>Queensland Law Society</li>
+<li><strong>Approach</strong>: Become a recommended/preferred supplier; sponsor or speak at events; feature in newsletters</li>
+</ul>
+<h3 id="real-estate-agencies">Real Estate Agencies</h3>
+<ul>
+<li>All major Brisbane real estate groups need agent headshots updated regularly (staff turnover, rebrands)</li>
+<li><strong>Target</strong>: 10 real estate agencies on retainer or preferred supplier list</li>
+<li><strong>Pitch</strong>: Consistent agency headshots for all agents, on-site option, matching brand standards</li>
+<li><strong>Volume</strong>: A large agency can generate 10–20+ headshots per year</li>
+</ul>
+<h3 id="hair-amp-makeup-artists">Hair &amp; Makeup Artists</h3>
+<ul>
+<li>Partner with 2–3 premium Brisbane hair and makeup artists</li>
+<li>Offer clients a recommended MUA list; MUA refers clients who need headshots</li>
+<li>Possible bundled package offering (Hair + Makeup + Headshot Session)</li>
+</ul>
+<h3 id="co-working-spaces">Co-Working Spaces</h3>
+<ul>
+<li>Brisbane&#x27;s premium co-working spaces (Hub Australia, WeWork, Fishburners, River City Labs)</li>
+<li>Resident professionals are precisely the target market</li>
+<li><strong>Approach</strong>: Become resident photographer; offer members-only discount; set up pop-up sessions quarterly</li>
+</ul>
+<h3 id="recruitment-agencies">Recruitment Agencies</h3>
+<ul>
+<li>Candidates actively job-seeking need current, high-quality headshots</li>
+<li>Recruitment agencies know exactly who needs them</li>
+<li><strong>Pitch</strong>: Refer your candidates to us — we&#x27;ll ensure they show up to interviews and on LinkedIn looking the part</li>
+<li><strong>Structure</strong>: 10% referral fee or co-branded offer for agency clients</li>
+</ul>
+<h3 id="corporate-hr-amp-marketing-contacts">Corporate HR &amp; Marketing Contacts</h3>
+<ul>
+<li>Build direct relationships with HR managers and Marketing Directors at Brisbane&#x27;s top 200 companies</li>
+<li>LinkedIn outreach campaign + follow-up with corporate proposal</li>
+<li>Target: mining/resources, legal, financial services, consulting, property</li>
+</ul>
+<hr>
+<p><em>Document last updated: March 2026</em></p>
+<p><em>Power Portraits — Ben Alek Conner | powerportraits.com.au</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">02-Power Portraits/01-strategy/Documents/BUSINESS FOUNDATION.md</div>
+    </main>
+  </div>
+</body>
+</html>

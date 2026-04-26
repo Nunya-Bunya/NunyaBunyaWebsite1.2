@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POWER PORTRAITS: 30-DAY LAUNCH CALENDAR | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link active"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#power-portraits">Power Portraits</a> &rsaquo;
+          POWER PORTRAITS: 30-DAY LAUNCH CALENDAR
+        </div>
+        <h1 class="doc-title">POWER PORTRAITS: 30-DAY LAUNCH CALENDAR</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#128247; Power Portraits</span>
+          <span class="doc-path">02-Power Portraits / 05-content</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="power-portraits-30-day-launch-calendar">POWER PORTRAITS: 30-DAY LAUNCH CALENDAR</h1>
+<p><strong>April 9 – May 8, 2026 | Brisbane Premium Portrait Photography</strong></p>
+<h2 id="calendar-overview">CALENDAR OVERVIEW</h2>
+<p><strong>Total Posts:</strong> 47 across 30 days</p>
+<ul>
+<li><strong>Instagram:</strong> 22 posts (5/week average)</li>
+<li><strong>LinkedIn:</strong> 13 posts (3/week average)</li>
+<li><strong>Facebook:</strong> 12 posts (3/week average)</li>
+</ul>
+<p><strong>Content Mix:</strong></p>
+<ul>
+<li>Portfolio/Visual: 12 posts</li>
+<li>Authority: 10 posts</li>
+<li>Offer/Booking: 8 posts</li>
+<li>Behind the Scenes: 7 posts</li>
+<li>Brisbane Local: 6 posts</li>
+<li>Engagement: 4 posts</li>
+</ul>
+<hr>
+<p><strong>DAY 1 – April 9 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Portfolio</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;In the golden hour before Brisbane surrenders to evening, we hunt for that singular moment where light becomes poetry.</p>
+<p>The city&#x27;s heartbeat slows. The river catches fire. And somewhere between shadow and luminescence, your authentic self emerges.</p>
+<p>This is where Power Portraits begins—in that liminal space where technique meets truth.</p>
+<p>#BrisbanePortraits #PremiumPortraiture #GoldenHourMagic #PortraitPhotography&quot;</p>
+<p><strong>VISUAL:</strong> Dramatic golden hour cityscape from Kangaroo Point cliffs, camera equipment silhouetted against Brisbane skyline, moody and cinematic</p>
+<p><strong>CTA:</strong> &quot;Follow our journey as we launch something extraordinary.&quot;</p>
+<hr>
+<p><strong>DAY 1 – April 9 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Authority</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Your LinkedIn profile receives 14 seconds of attention. In that brief eternity, what story does your headshot tell?</p>
+<p>After a decade capturing executives across three continents, I&#x27;ve observed a pattern: the most compelling professional portraits aren&#x27;t just technically proficient—they&#x27;re psychologically honest.</p>
+<p>They reveal competence without arrogance. Approachability without weakness. Authority earned, not assumed.</p>
+<p>Brisbane&#x27;s creative renaissance demands a new standard of professional portraiture. One that honors both the individual and their ambitions.</p>
+<p>Launching Power Portraits this month. Because your professional presence deserves more than a smartphone selfie against a blank wall.&quot;</p>
+<p><strong>VISUAL:</strong> Split screen showing generic corporate headshot vs. compelling portrait with dramatic lighting</p>
+<p><strong>CTA:</strong> &quot;What does your current headshot communicate? I&#x27;d love to know in the comments.&quot;</p>
+<hr>
+<p><strong>DAY 2 – April 10 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Behind the Scenes</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;The anatomy of anticipation: scouting Howard Smith Wharves at dawn, when the city still dreams and the light holds secrets.</p>
+<p>Every portrait begins with a conversation between photographer and place. Here, industrial bones meet organic curves. Harsh concrete softened by Queensland&#x27;s forgiving light.</p>
+<p>This is where we&#x27;ll capture Brisbane&#x27;s rising entrepreneurs—those who build empires before breakfast and dream in business plans.</p>
+<p>#BehindTheScenes #BrisbaneLocations #HowardSmithWharves #PortraitLocation&quot;</p>
+<p><strong>VISUAL:</strong> Time-lapse style images showing progression from pre-dawn setup to golden morning light at Howard Smith Wharves, equipment being positioned</p>
+<p><strong>CTA:</strong> &quot;Swipe to see how morning transforms everything ➡️&quot;</p>
+<hr>
+<p><strong>DAY 2 – April 10 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Brisbane Local</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Brisbane, you magnificent contradiction.</p>
+<p>One moment you&#x27;re serving up brutalist architecture that could intimidate a gargoyle, the next you&#x27;re painting the Story Bridge in colors that would make Monet weep.</p>
+<p>This city rewards the bold, the authentic, the unapologetically ambitious. It&#x27;s why Power Portraits chose to plant roots here.</p>
+<p>We see you, Brisbane creatives. The musicians who turn warehouse spaces into cathedrals of sound. The entrepreneurs who transform coffee meetings into million-dollar ventures. The artists who find poetry in concrete and steel.</p>
+<p>Your stories deserve to be told with the same intensity you bring to your craft.&quot;</p>
+<p><strong>VISUAL:</strong> Collage of iconic Brisbane locations with dramatic portrait-style lighting and mood</p>
+<p><strong>CTA:</strong> &quot;Tag a Brisbane creative whose story deserves to be captured beautifully.&quot;</p>
+<hr>
+<p><strong>DAY 3 – April 11 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Offer</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Pre-launch ritual: we need three brave souls to help us christenour lenses.</p>
+<p>The Session: $175 (usually $350)</p>
+<p>The Portrait: $325 (usually $650)</p>
+<p>The Editorial: $475 (usually $950)</p>
+<p>First three bookings only. Portfolio builders who become part of Power Portraits&#x27; origin story.</p>
+<p>Brisbane&#x27;s creative economy deserves portraiture that matches its ambition. Help us prove it.</p>
+<p>Link in bio to claim your place in history.</p>
+<p>#LaunchOffer #BrisbaneCreatives #PortfolioBuilding #PowerPortraits&quot;</p>
+<p><strong>VISUAL:</strong> Elegant pricing card with dramatic lighting, showcasing the three package levels with striking typography</p>
+<p><strong>CTA:</strong> &quot;Book now—link in bio. These won&#x27;t last long.&quot;</p>
+<hr>
+<p><strong>DAY 3 – April 11 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Offer</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Three portfolio positions available. Brisbane professionals who understand that exceptional work deserves exceptional presentation.</p>
+<p>I&#x27;m building Power Portraits&#x27; inaugural collection and need collaborators who appreciate the difference between a headshot and a portrait.</p>
+<p>50% investment for lifetime bragging rights as a founding client.</p>
+<p>Industries I&#x27;m particularly keen to work with:</p>
+<p>• Tech entrepreneurs</p>
+<p>• Creative directors</p>
+<p>• Management consultants</p>
+<p>• Legal advocates</p>
+<p>• Architects and designers</p>
+<p>Your professional image is your silent advocate in every Zoom call, every LinkedIn interaction, every first impression.</p>
+<p>Make it count.</p>
+<p>DM to discuss or visit powerportraitsphotography.com&quot;</p>
+<p><strong>VISUAL:</strong> Before/after grid showing transformation from amateur headshots to professional portraits</p>
+<p><strong>CTA:</strong> &quot;Ready to transform your professional presence? Message me directly.&quot;</p>
+<hr>
+<p><strong>DAY 4 – April 12 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Portfolio</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Study in contrasts: brutalist architecture meets Brisbane&#x27;s liquid gold afternoon light.</p>
+<p>The city gives us textures that range from whisper-soft to thunderously bold. Our job is finding which one amplifies your authentic self.</p>
+<p>Some faces demand the stark honesty of concrete. Others sing against the warmth of sandstone and river light.</p>
+<p>The best portraits happen when environment becomes extension of personality.</p>
+<p>#BrisbanePortraits #ArchitecturalPortraiture #NaturalLight #PortraitPhotography&quot;</p>
+<p><strong>VISUAL:</strong> Moody architectural portrait setup at South Bank, showing dramatic interplay between built environment and natural light</p>
+<p><strong>CTA:</strong> &quot;What environment speaks to your personality? Tell us below ⬇️&quot;</p>
+<hr>
+<p><strong>DAY 5 – April 13 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Authority</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;The five-second rule isn&#x27;t just for dropped food—it&#x27;s the window you have to make a first impression with your professional portrait.</p>
+<p>After reviewing thousands of LinkedIn profiles, here&#x27;s what separates the memorable from the forgettable:</p>
+<ol>
+<li>Eye contact that suggests competence, not desperation</li>
+<li>Lighting that reveals character, not just features</li>
+<li>Expression that invites conversation, not intimidation</li>
+<li>Background that supports, never competes</li>
+<li>Authenticity that can&#x27;t be faked or filtered</li>
+</ol>
+<p>Your headshot isn&#x27;t vanity—it&#x27;s business strategy. It&#x27;s the cover of your professional story.</p>
+<p>What story are you currently telling?&quot;</p>
+<p><strong>VISUAL:</strong> Educational graphic showing side-by-side examples of effective vs. ineffective professional portraits</p>
+<p><strong>CTA:</strong> &quot;Share this with someone whose LinkedIn profile needs an upgrade.&quot;</p>
+<hr>
+<p><strong>DAY 6 – April 14 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Behind the Scenes</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Gear talk: the instruments behind the intention.</p>
+<p>Canon R5 body—because detail matters when you&#x27;re capturing the architecture of a face.</p>
+<p>85mm f/1.2L—for that buttery bokeh that makes souls sing.</p>
+<p>Profoto B10X—portable power that bends light to our will.</p>
+<p>But here&#x27;s the secret: expensive equipment is just vocabulary. The poetry happens in the pause between heartbeats, when subject and photographer find shared truth.</p>
+<p>Technology serves vision, never the reverse.</p>
+<p>#GearPost #BehindTheScenes #CanonR5 #Profoto #PortraitPhotography&quot;</p>
+<p><strong>VISUAL:</strong> Flat lay of professional camera equipment arranged artistically with dramatic lighting, shot in brand colors</p>
+<p><strong>CTA:</strong> &quot;Gear questions? Drop them below—I love talking shop.&quot;</p>
+<hr>
+<p><strong>DAY 6 – April 14 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Authority</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;The executive presence paradox: how to look powerful without looking intimidating.</p>
+<p>In my decade of photographing C-suite leaders, I&#x27;ve noticed that the most effective professional portraits balance two competing demands:</p>
+<ol>
+<li>Authority that commands respect</li>
+<li>Approachability that invites collaboration</li>
+</ol>
+<p>The solution isn&#x27;t in forced smiles or power poses. It&#x27;s in capturing that moment when someone is genuinely engaged in discussing something they&#x27;re passionate about.</p>
+<p>That&#x27;s when competence becomes charisma.</p>
+<p>When expertise becomes approachable.</p>
+<p>When leadership becomes magnetic.</p>
+<p>Your professional portrait should make people want to have coffee with you—and trust you with their biggest challenges.&quot;</p>
+<p><strong>VISUAL:</strong> Split comparison showing stiff corporate headshot vs. engaging, authentic portrait of the same executive</p>
+<p><strong>CTA:</strong> &quot;What&#x27;s your experience with professional headshots? Share your story below.&quot;</p>
+<hr>
+<p><strong>DAY 7 – April 15 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Brisbane Local</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;New Farm Power House: where Brisbane&#x27;s creative pulse quickens.</p>
+<p>Industrial bones housing artistic dreams. Raw brick embracing contemporary vision. This is where the city&#x27;s cultural heartbeat reverberates strongest.</p>
+<p>For our creative collaborators—the musicians, designers, entrepreneurs who refuse to color inside predetermined lines—this venue offers textures that match your complexity.</p>
+<p>Brisbane rewards the brave. Your portraits should too.</p>
+<p>#NewFarmPowerHouse #BrisbaneCreatives #IndustrialPortraits #CreativeSpaces&quot;</p>
+<p><strong>VISUAL:</strong> Dramatic interior shots of New Farm Power House with portrait lighting setup, emphasizing industrial textures and architectural details</p>
+<p><strong>CTA:</strong> &quot;Tag a Brisbane creative who would shine in this space.&quot;</p>
+<hr>
+<p><strong>DAY 7 – April 15 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Behind the Scenes</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Location scouting is part architecture appreciation, part psychological profiling.</p>
+<p>Today: wandering through Fortitude Valley&#x27;s labyrinth of textures, hunting for the perfect backdrop for a tech entrepreneur&#x27;s portrait session.</p>
+<p>She&#x27;s building a startup that&#x27;s equal parts innovative and intimidating. Needs a portrait that whispers &#x27;I can solve your impossible problem&#x27; without shouting &#x27;I&#x27;m smarter than you.&#x27;</p>
+<p>Found it in the marriage of old brick and new glass—Brisbane&#x27;s signature move of honoring history while embracing tomorrow.</p>
+<p>Every location tells a story. Our job is matching the right story to the right face.&quot;</p>
+<p><strong>VISUAL:</strong> Behind-the-scenes video of walking through Fortitude Valley, showing potential portrait locations with running commentary</p>
+<p><strong>CTA:</strong> &quot;What&#x27;s your favorite Brisbane location for professional photos?&quot;</p>
+<hr>
+<p><strong>DAY 8 – April 16 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Portfolio</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Golden hour guerrilla session: when the light cooperates, we capture magic.</p>
+<p>Twenty minutes at Kangaroo Point. One subject brave enough to trust the process. Brisbane&#x27;s skyline as witness to transformation.</p>
+<p>This is what happens when technique meets spontaneity, when planned meets perfect accident.</p>
+<p>The best portraits can&#x27;t be entirely orchestrated. Sometimes you have to let Brisbane&#x27;s moods guide the moment.</p>
+<p>#GoldenHour #KangarooPoint #BrisbaneSkyline #NaturalPortrait #PowerPortraits&quot;</p>
+<p><strong>VISUAL:</strong> Stunning golden hour portrait with Brisbane city skyline, showing subject in perfect natural lighting with city backdrop</p>
+<p><strong>CTA:</strong> &quot;Sometimes the best sessions happen when you least expect them ✨&quot;</p>
+<hr>
+<p><strong>DAY 9 – April 17 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Portrait personality test: Which Brisbane location calls to your professional soul?</p>
+<p>A) Story Bridge drama—bold, architectural, impossible to ignore</p>
+<p>B) Botanic Gardens serenity—organic, thoughtful, naturally confident</p>
+<p>C) Fortitude Valley edge—industrial, creative, unapologetically authentic</p>
+<p>D) River terrace elegance—sophisticated, timeless, quietly powerful</p>
+<p>Drop your letter below. Bonus points if you tell us why it resonates.</p>
+<p>#BrisbaneLocations #PortraitPersonality #LocationQuiz #PowerPortraits&quot;</p>
+<p><strong>VISUAL:</strong> Four-panel grid showing each location with portrait-style lighting and mood, styled like a personality quiz</p>
+<p><strong>CTA:</strong> &quot;Vote below! And tag someone who embodies your chosen location&#x27;s energy.&quot;</p>
+<hr>
+<p><strong>DAY 9 – April 17 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Authority</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;The $50,000 headshot: how professional portraiture drives business results.</p>
+<p>A Brisbane management consultant recently shared their story: after updating their LinkedIn profile with a compelling professional portrait, their consultation inquiries increased 340% over six months.</p>
+<p>The portrait didn&#x27;t just show their face—it communicated competence, approachability, and the kind of quiet confidence that makes potential clients think, &#x27;This person can solve my problems.&#x27;</p>
+<p>ROI calculation: New portrait investment: $650. Additional revenue generated: $50,000+.</p>
+<p>Your professional image isn&#x27;t an expense. It&#x27;s infrastructure for your business growth.</p>
+<p>In Brisbane&#x27;s competitive professional landscape, standing out isn&#x27;t about being louder—it&#x27;s about being more authentically, compellingly yourself.&quot;</p>
+<p><strong>VISUAL:</strong> Professional case study graphic showing before/after business results, not just photos</p>
+<p><strong>CTA:</strong> &quot;What&#x27;s the ROI of your current professional image? Let&#x27;s discuss.&quot;</p>
+<hr>
+<p><strong>DAY 10 – April 18 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Offer</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Two portfolio spots remaining.</p>
+<p>For Brisbane creatives who understand that extraordinary work deserves extraordinary presentation.</p>
+<p>We&#x27;re not just taking pictures. We&#x27;re crafting visual narratives that open doors, start conversations, and leave lasting impressions.</p>
+<p>Half investment. Full impact. Lifetime bragging rights.</p>
+<p>Book today: powerportraitsphotography.com</p>
+<p>#LastCall #PortfolioBuilding #BrisbaneCreatives #PowerPortraits&quot;</p>
+<p><strong>VISUAL:</strong> Dramatic countdown-style graphic showing &quot;2 SPOTS REMAINING&quot; with previous portfolio examples</p>
+<p><strong>CTA:</strong> &quot;Don&#x27;t let someone else claim your spot. Book now.&quot;</p>
+<hr>
+<p><strong>DAY 10 – April 18 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Friday question for Brisbane&#x27;s creative community:</p>
+<p>What&#x27;s the most memorable professional portrait you&#x27;ve ever seen? Not necessarily the most technically perfect, but the one that made you think, &#x27;I want to work with that person.&#x27;</p>
+<p>Was it the confidence in their eyes? The authenticity of their expression? The way the lighting seemed to reveal their character?</p>
+<p>Great portraits aren&#x27;t just pictures—they&#x27;re invitations to trust, to collaborate, to believe in someone&#x27;s capability.</p>
+<p>What made that portrait unforgettable for you?&quot;</p>
+<p><strong>VISUAL:</strong> Collage of iconic professional portraits (from public domain/famous examples) with artistic treatment</p>
+<p><strong>CTA:</strong> &quot;Share your thoughts below—let&#x27;s discuss what makes a portrait truly powerful.&quot;</p>
+<hr>
+<p><strong>DAY 11 – April 19 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Portfolio</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Architecture of authenticity: finding the extraordinary in Brisbane&#x27;s everyday spaces.</p>
+<p>This underpass beneath the Story Bridge—most people rush through without seeing. We saw a cathedral of light and shadow, perfect for capturing a musician&#x27;s contemplative intensity.</p>
+<p>The best portrait locations aren&#x27;t always the most obvious ones. Sometimes magic hides in plain sight, waiting for the right eye to reveal it.</p>
+<p>Brisbane offers endless possibilities for those willing to look beyond the postcard-pretty.</p>
+<p>#StoryBridge #UnconventionalLocations #BrisbanePortraits #FindingMagic&quot;</p>
+<p><strong>VISUAL:</strong> Dramatic portrait in unexpected location under Story Bridge, showing how mundane spaces can become extraordinary with right lighting and vision</p>
+<p><strong>CTA:</strong> &quot;What overlooked Brisbane location would make an amazing portrait spot?&quot;</p>
+<hr>
+<p><strong>DAY 12 – April 20 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Portfolio</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Executive presence isn&#x27;t about power poses or corporate clichés.</p>
+<p>It&#x27;s about that moment when someone discusses a challenge they&#x27;re genuinely excited to solve. When competence becomes visible in their posture, their expression, their entire being.</p>
+<p>This Brisbane CEO runs a sustainable tech company. During our session, when she started describing her mission to revolutionize industrial waste management, her whole energy shifted.</p>
+<p>That&#x27;s the moment we captured. Not the sanitized boardroom version of leadership, but the authentic passion that drives exceptional results.</p>
+<p>Real executive presence can&#x27;t be faked. It can only be revealed.&quot;</p>
+<p><strong>VISUAL:</strong> Compelling corporate portrait showing genuine engagement and authority, professional but not stiff</p>
+<p><strong>CTA:</strong> &quot;How do you show authentic leadership in your professional interactions?&quot;</p>
+<hr>
+<p><strong>DAY 13 – April 21 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Behind the Scenes</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;The thirty-second rule: how we find the perfect light.</p>
+<p>Every portrait location gets the thirty-second treatment. Stand still. Watch how light moves. Notice where shadows fall, where highlights sing, where the magic lives.</p>
+<p>Here at GOMA, morning light dances through architectural angles, creating natural studios that change by the minute.</p>
+<p>Patience rewards the prepared. The best portraits happen when we let Brisbane&#x27;s natural rhythms guide our timing.</p>
+<p>#BehindTheScenes #GOMA #NaturalLight #PortraitProcess #BrisbanePortraits&quot;</p>
+<p><strong>VISUAL:</strong> Time-lapse or sequence showing how light changes in the same spot over 30 seconds at GOMA</p>
+<p><strong>CTA:</strong> &quot;Photography is 10% equipment, 90% understanding light. Agree? ✨&quot;</p>
+<hr>
+<p><strong>DAY 13 – April 21 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Brisbane Local</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Brisbane has this uncanny ability to make the industrial feel intimate and the intimate feel monumental.</p>
+<p>Take the Powerhouse at New Farm. Massive brick bones housing the most delicate artistic expressions. Or South Bank, where corporate towers reflect in the gentle Brisbane River like giants checking their appearance.</p>
+<p>This contradiction—this beautiful tension between hard and soft, ambitious and approachable—defines not just our city&#x27;s character, but the portraits we create here.</p>
+<p>Brisbane faces have this same duality. Professional ambition tempered by Queensland warmth. Serious purpose softened by authentic accessibility.</p>
+<p>Capturing that balance is what separates a good portrait from a Brisbane portrait.&quot;</p>
+<p><strong>VISUAL:</strong> Split-screen or diptych showing Brisbane&#x27;s industrial architecture alongside intimate creative spaces</p>
+<p><strong>CTA:</strong> &quot;What do you love most about Brisbane&#x27;s creative personality?&quot;</p>
+<hr>
+<p><strong>DAY 14 – April 22 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Portfolio</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;When a creative director says &#x27;make me look approachable but not soft, confident but not arrogant,&#x27; this is how we answer.</p>
+<p>West End warehouse. Natural light filtered through industrial windows. Expression caught between thoughtful pause and knowing smile.</p>
+<p>Brisbane&#x27;s creative leaders navigate complex personalities daily. Their portraits should reflect that nuanced intelligence.</p>
+<p>#WestEnd #CreativeDirector #NaturalLight #ProfessionalPortraits #Brisbane&quot;</p>
+<p><strong>VISUAL:</strong> Sophisticated portrait in industrial West End location, showcasing perfect balance of approachability and authority</p>
+<p><strong>CTA:</strong> &quot;The best brief: &#x27;Make me look like myself, but the best version.&#x27; What&#x27;s your portrait brief?&quot;</p>
+<hr>
+<p><strong>DAY 14 – April 22 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Offer</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;One portfolio position remaining. For the Brisbane professional who understands that exceptional personal branding isn&#x27;t vanity—it&#x27;s business strategy.</p>
+<p>Your LinkedIn profile. Your company website. Your speaking engagements. Your industry reputation. They all begin with how you choose to present yourself visually.</p>
+<p>We&#x27;re offering one final opportunity to join Power Portraits&#x27; founding collection at 50% investment.</p>
+<p>Not because the work is half-price. Because we&#x27;re building something important together, and the right collaborative partner is worth the investment.</p>
+<p>Brisbane&#x27;s professional landscape is evolving. Evolution requires authentic, compelling visual storytelling.</p>
+<p>Ready to be part of the story?</p>
+<p>powerportraitsphotography.com&quot;</p>
+<p><strong>VISUAL:</strong> Elegant &quot;FINAL SPOT&quot; graphic with portfolio examples and booking information</p>
+<p><strong>CTA:</strong> &quot;Message me directly or visit our website. This opportunity ends when the right person claims it.&quot;</p>
+<hr>
+<p><strong>DAY 15 – April 23 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Authority</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;The three-second decision: why professional portraits matter more than ever.</p>
+<p>LinkedIn research shows profile photos are viewed 14x more than profiles without them. But here&#x27;s what the data doesn&#x27;t capture: the split-second judgment that determines whether someone clicks &#x27;Connect&#x27; or keeps scrolling.</p>
+<p>Your portrait doesn&#x27;t just show your face. It communicates:</p>
+<p>• Competence level</p>
+<p>• Collaboration style</p>
+<p>• Cultural fit</p>
+<p>• Trust factor</p>
+<p>In three seconds, before they read a single word about your experience.</p>
+<p>Brisbane&#x27;s professional community is intimate enough that reputation travels fast, competitive enough that first impressions determine opportunities.</p>
+<p>Make those three seconds count.</p>
+<p>#ProfessionalBranding #LinkedInTips #FirstImpressions #BrisbaneNetworking&quot;</p>
+<p><strong>VISUAL:</strong> Data visualization showing impact of professional photos on profile engagement, styled elegantly</p>
+<p><strong>CTA:</strong> &quot;What story does your current profile photo tell? Be honest in the comments.&quot;</p>
+<hr>
+<p><strong>DAY 16 – April 24 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Behind the Scenes</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Equipment love: the Profoto B10X in Brisbane&#x27;s afternoon light.</p>
+<p>Portable enough for guerrilla sessions. Powerful enough to compete with Queensland sun. Smart enough to maintain consistent color temperature while we chase perfect moments.</p>
+<p>But here&#x27;s the thing about gear: it&#x27;s only as good as the vision behind it.</p>
+<p>Today&#x27;s session with a Brisbane entrepreneur—she needed corporate authority with creative edge. The B10X let us balance harsh architectural shadows with flattering fill light.</p>
+<p>Technology serving artistry. Always.</p>
+<p>#Profoto #B10X #PortraitLighting #TechTalk #BehindTheScenes&quot;</p>
+<p><strong>VISUAL:</strong> Action shot of lighting setup in use during actual portrait session, showing professional workflow</p>
+<p><strong>CTA:</strong> &quot;Gear nerds unite! What&#x27;s your favorite piece of creative equipment?&quot;</p>
+<hr>
+<p><strong>DAY 16 – April 24 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Authority</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;The psychology of professional portraits: why your brain makes decisions before your conscious mind catches up.</p>
+<p>Neuroscience tells us we form impressions within 100 milliseconds of seeing a face. By the time someone consciously thinks about your professional photo, their subconscious has already decided:</p>
+<p>Trustworthy or suspicious?</p>
+<p>Competent or uncertain?</p>
+<p>Collaborative or difficult?</p>
+<p>Hire-able or pass?</p>
+<p>These snap judgments aren&#x27;t fair, but they&#x27;re human. And in Brisbane&#x27;s tight-knit professional community, where reputation and relationships drive business, that first visual impression carries enormous weight.</p>
+<p>The solution isn&#x27;t perfect features or expensive styling. It&#x27;s authenticity captured with technical excellence. It&#x27;s showing your professional personality in a way that invites connection rather than intimidation.</p>
+<p>Your portrait is your advance team, making introductions and opening doors before you even enter the room.&quot;</p>
+<p><strong>VISUAL:</strong> Brain-scan style graphic showing rapid impression formation, styled professionally but approachably</p>
+<p><strong>CTA:</strong> &quot;Have you ever changed your mind about someone after seeing a different photo of them? Share your experience.&quot;</p>
+<hr>
+<p><strong>DAY 17 – April 25 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Portfolio</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Last portfolio session complete. Brisbane architect who designs spaces that make people feel simultaneously grounded and inspired.</p>
+<p>Captured her at the intersection of old and new Brisbane—heritage brick meets contemporary glass. Perfect metaphor for her design philosophy.</p>
+<p>Sometimes the best portraits happen when subject and setting share the same values.</p>
+<p>#BrisbaneArchitect #HeritageDesign #PortraitCompleted #ArchitecturalPortraiture&quot;</p>
+<p><strong>VISUAL:</strong> Stunning architectural portrait showcasing the connection between subject&#x27;s work and environmental choice</p>
+<p><strong>CTA:</strong> &quot;Portfolio building complete! Ready for the next phase ✨&quot;</p>
+<hr>
+<p><strong>DAY 17 – April 25 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Portfolio</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Portfolio building phase: complete.</p>
+<p>Three Brisbane professionals brave enough to trust a vision before it was proven. A management consultant who needed gravitas without intimidation. A creative director balancing approachability with authority. An architect whose portraits should reflect her design philosophy.</p>
+<p>Each session taught us something new about capturing professional authenticity in Brisbane&#x27;s unique cultural context.</p>
+<p>Now we know: this city&#x27;s professionals don&#x27;t want corporate clichés or artificial power poses. They want portraits that honor both their ambition and their humanity.</p>
+<p>The full Power Portraits experience launches May 1st.</p>
+<p>Brisbane&#x27;s creative and professional communities deserve portraiture that matches their sophistication. We&#x27;re ready to deliver it.&quot;</p>
+<p><strong>VISUAL:</strong> Triptych showing all three portfolio subjects in compelling professional portraits</p>
+<p><strong>CTA:</strong> &quot;Ready to experience the full Power Portraits process? Bookings open Monday.&quot;</p>
+<hr>
+<p><strong>DAY 18 – April 26 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Brisbane Local</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;South Bank Saturday: where Brisbane&#x27;s soul lives in public.</p>
+<p>Couples sharing quiet moments. Families claiming patches of green. Entrepreneurs having coffee meetings that shape the city&#x27;s future. Artists finding inspiration in the interplay of river light and urban energy.</p>
+<p>This is where we&#x27;ll capture Brisbane&#x27;s emerging leaders—the ones who build community while building empires.</p>
+<p>Because the best professional portraits don&#x27;t just show competence. They reveal the human connection that makes business personal.</p>
+<p>#SouthBank #BrisbaneCommunity #PublicSpaces #PortraitLocation&quot;</p>
+<p><strong>VISUAL:</strong> Candid lifestyle shots of South Bank showing its role as Brisbane&#x27;s community heart, with portrait potential highlighted</p>
+<p><strong>CTA:</strong> &quot;What Brisbane location makes you feel most like yourself?&quot;</p>
+<hr>
+<p><strong>DAY 19 – April 27 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Authority</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;The LinkedIn paradox: how to stand out while fitting in.</p>
+<p>Your professional portrait needs to accomplish two seemingly contradictory goals:</p>
+<ol>
+<li>Demonstrate that you belong in your industry&#x27;s professional culture</li>
+<li>Show what makes you uniquely valuable within that culture</li>
+</ol>
+<p>Too corporate, and you disappear into a sea of identical headshots. Too creative, and you risk being dismissed as unprofessional.</p>
+<p>The sweet spot? Authentic professionalism. Showing your genuine personality within the context of professional competence.</p>
+<p>For Brisbane professionals, this balance is especially crucial. Our city rewards both ambition and approachability. Your portrait should reflect this duality—serious about your work, but not taking yourself too seriously.</p>
+<p>It&#x27;s about being memorable for the right reasons.&quot;</p>
+<p><strong>VISUAL:</strong> Grid showing various professional portraits demonstrating the range between &quot;too corporate&quot; and &quot;perfectly balanced&quot;</p>
+<p><strong>CTA:</strong> &quot;What&#x27;s the biggest challenge you face in presenting your professional image online?&quot;</p>
+<hr>
+<p><strong>DAY 20 – April 28 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Offer</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Power Portraits: officially launching May 1st.</p>
+<p>Three portfolio sessions taught us everything about Brisbane&#x27;s professional portrait needs. Now we&#x27;re ready to deliver the full experience.</p>
+<p>The Session: $350 | Clean, confident, compelling</p>
+<p>The Portrait: $650 | Story-driven, strategically crafted</p>
+<p>The Editorial: $950 | Magazine-worthy, market-leading</p>
+<p>Corporate packages: Custom-designed for teams</p>
+<p>Early bird bookings: 15% off sessions booked in May.</p>
+<p>Brisbane&#x27;s creative and professional communities shaped us. Now we shape how the world sees you.</p>
+<p>powerportraitsphotography.com</p>
+<p>#PowerPortraitsLaunch #BrisbanePortraits #ProfessionalPhotography #EarlyBird&quot;</p>
+<p><strong>VISUAL:</strong> Elegant launch announcement with package information and booking details, showcasing brand sophistication</p>
+<p><strong>CTA:</strong> &quot;Ready to transform your professional presence? Link in bio to book.&quot;</p>
+<hr>
+<p><strong>DAY 20 – April 28 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Offer</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Power Portraits launches Thursday. Brisbane professionals who have been waiting for portraiture that matches their ambition—your moment has arrived.</p>
+<p>We&#x27;ve spent the past month understanding this city&#x27;s unique professional culture. Brisbane rewards authenticity over artifice. Substance over style. Genuine confidence over manufactured authority.</p>
+<p>Our launch packages reflect these values:</p>
+<p>✦ The Session ($350): Essential professional presence</p>
+<p>✦ The Portrait ($650): Strategic personal branding</p>
+<p>✦ The Editorial ($950): Market-leading visual storytelling</p>
+<p>✦ Corporate: Custom team experiences ($2,500+)</p>
+<p>Early booking incentive: 15% off May sessions for professionals who recognize the strategic value of exceptional visual branding.</p>
+<p>This isn&#x27;t about vanity. It&#x27;s about ensuring your professional image matches your professional capability.</p>
+<p>Ready to make the investment?&quot;</p>
+<p><strong>VISUAL:</strong> Professional launch graphic with package tiers and early bird offer details</p>
+<p><strong>CTA:</strong> &quot;Book your session at powerportraitsphotography.com or message me directly.&quot;</p>
+<hr>
+<p><strong>DAY 21 – April 29 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Behind the Scenes</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Launch week energy: final preparations for Brisbane&#x27;s newest portrait experience.</p>
+<p>Studio space optimized. Lighting rigs tested. Location permits secured. Portfolio polished.</p>
+<p>But the real preparation happened in conversations with Brisbane creatives over the past month. Understanding what makes this city&#x27;s professionals unique. Learning how ambition and authenticity coexist here.</p>
+<p>Ready to translate those insights into portraits that open doors.</p>
+<p>#LaunchWeek #StudioPrep #BehindTheScenes #BrisbaneReady&quot;</p>
+<p><strong>VISUAL:</strong> Time-lapse or montage of final studio preparations, showing professional setup and attention to detail</p>
+<p><strong>CTA:</strong> &quot;The countdown begins! Who&#x27;s ready for their Power Portrait experience?&quot;</p>
+<hr>
+<p><strong>DAY 21 – April 29 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Brisbane Local</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Brisbane taught us everything we needed to know about professional portraits.</p>
+<p>This city doesn&#x27;t do pretentious. It rewards genuine competence over manufactured authority. It celebrates ambition that serves community, not just ego.</p>
+<p>Walking through Fortitude Valley, observing meetings at Howard Smith Wharves, watching entrepreneurs turn coffee conversations into business partnerships at South Bank—we learned that Brisbane professionals want to be seen as both capable and approachable.</p>
+<p>Your portraits should reflect that balance. Serious about results, but not taking yourself too seriously. Professional without being pretentious. Confident without being intimidating.</p>
+<p>That&#x27;s the Brisbane way. That&#x27;s the Power Portraits way.</p>
+<p>Launching Thursday with that philosophy at our core.&quot;</p>
+<p><strong>VISUAL:</strong> Collage of Brisbane&#x27;s professional and creative spaces showing the city&#x27;s diverse business culture</p>
+<p><strong>CTA:</strong> &quot;What do you love most about Brisbane&#x27;s professional community?&quot;</p>
+<hr>
+<p><strong>DAY 22 – April 30 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Portfolio</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Eve of launch: reflecting on the portraits that taught us everything.</p>
+<p>Each session revealed something new about capturing authentic professional presence. The consultant who relaxed when we talked about problem-solving instead of posing. The creative director who came alive discussing her latest campaign. The architect whose passion for sustainable design transformed her entire expression.</p>
+<p>Real portraits happen in the conversation, not the composition.</p>
+<p>Tomorrow we launch with that truth guiding every session.</p>
+<p>#LaunchEve #PortraitPhilosophy #AuthenticityFirst #PowerPortraits&quot;</p>
+<p><strong>VISUAL:</strong> Artistic arrangement of the three portfolio portraits showing the depth and variety achieved</p>
+<p><strong>CTA:</strong> &quot;Ready to discover what happens when you forget you&#x27;re being photographed?&quot;</p>
+<hr>
+<p><strong>DAY 23 – May 1 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Offer</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Power Portraits: officially open.</p>
+<p>Brisbane professionals who understand that exceptional work deserves exceptional presentation—this is your invitation.</p>
+<p>No corporate clichés. No artificial power poses. No generic backdrop solutions.</p>
+<p>Just authentic professional portraiture that honors both your ambition and your humanity.</p>
+<p>Book your experience: powerportraitsphotography.com</p>
+<p>15% off May sessions. Because early adopters deserve rewards.</p>
+<p>#PowerPortraitsLaunch #BrisbanePortraits #AuthenticProfessional #BookNow&quot;</p>
+<p><strong>VISUAL:</strong> Grand launch announcement with call-to-action and early bird offer prominently featured</p>
+<p><strong>CTA:</strong> &quot;Your professional story starts now. Book today.&quot;</p>
+<hr>
+<p><strong>DAY 23 – May 1 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Offer</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;We&#x27;re live.</p>
+<p>After a month of understanding Brisbane&#x27;s professional culture, studying how exceptional portraiture drives business results, and collaborating with three brave early adopters, Power Portraits is officially serving Brisbane&#x27;s creative and professional communities.</p>
+<p>Our mission: portraiture that matches your professional capability. Visual storytelling that opens doors, starts conversations, and builds trust before you enter the room.</p>
+<p>Launch special: 15% off May bookings for professionals ready to invest in their visual presence.</p>
+<p>The question isn&#x27;t whether professional portraiture matters. LinkedIn analytics, hiring psychology research, and client testimonials have settled that debate.</p>
+<p>The question is: are you ready to ensure your professional image matches your professional ambition?</p>
+<p>powerportraitsphotography.com&quot;</p>
+<p><strong>VISUAL:</strong> Professional launch collage featuring portfolio examples and booking information</p>
+<p><strong>CTA:</strong> &quot;Ready to transform your professional presence? Book your session today.&quot;</p>
+<hr>
+<p><strong>DAY 23 – May 1 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Offer</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Today marks the beginning of something important for Brisbane&#x27;s creative and professional communities.</p>
+<p>Power Portraits isn&#x27;t just another photography service. We&#x27;re visual storytellers who understand that your professional image is business infrastructure, not vanity expense.</p>
+<p>After a month of portfolio building with Brisbane&#x27;s bravest early adopters, we&#x27;ve learned exactly what this city&#x27;s professionals need: authenticity captured with technical excellence. Competence communicated without intimidation. Professional presence that invites connection.</p>
+<p>Launch celebration: 15% off all May bookings.</p>
+<p>Because Brisbane deserves portraiture that matches its professional sophistication.</p>
+<p>Ready to see yourself as others should see you?&quot;</p>
+<p><strong>VISUAL:</strong> Community-focused launch announcement showing Brisbane landmarks and professional diversity</p>
+<p><strong>CTA:</strong> &quot;Book your Power Portrait experience today—link in comments.&quot;</p>
+<hr>
+<p><strong>DAY 24 – May 2 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Authority</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;The authenticity advantage: why genuine beats generic every time.</p>
+<p>Study after study confirms: audiences connect with authentic professional presentation over polished perfection. But authenticity isn&#x27;t accident—it&#x27;s intention.</p>
+<p>Real professional portraits capture you engaged in genuine thought, not staring blankly at a camera. Discussing challenges you&#x27;re excited to solve, not maintaining artificial expressions.</p>
+<p>Brisbane professionals understand this intuitively. This city rewards substance over style, competence over posturing.</p>
+<p>Your portraits should reflect these values.</p>
+<p>#AuthenticityAdvantage #ProfessionalAuthenticity #BrisbaneValues #PortraitPhilosophy&quot;</p>
+<p><strong>VISUAL:</strong> Split comparison showing generic vs. authentic professional portraits with annotations explaining the differences</p>
+<p><strong>CTA:</strong> &quot;Authenticity or perfection? Which do you value more in professional presentation?&quot;</p>
+<hr>
+<p><strong>DAY 25 – May 3 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Portfolio</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Saturday sessions: when Brisbane&#x27;s entrepreneurs make time for strategic investments.</p>
+<p>This startup founder chose dawn at Kangaroo Point. Needed portraits that communicate &#x27;I solve impossible problems&#x27; without suggesting &#x27;I&#x27;m impossible to work with.&#x27;</p>
+<p>Found the balance in natural light and genuine conversation about her mission to revolutionize supply chain logistics.</p>
+<p>The best portraits happen when subject forgets about the camera and remembers their purpose.</p>
+<p>#SaturdaySession #StartupFounder #KangarooPoint #EntrepreneurPortraits&quot;</p>
+<p><strong>VISUAL:</strong> Behind-the-scenes and final portrait from dawn session, showing both process and powerful result</p>
+<p><strong>CTA:</strong> &quot;Early morning sessions often produce the most authentic results ✨&quot;</p>
+<hr>
+<p><strong>DAY 26 – May 4 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Sunday question for Brisbane&#x27;s creative community:</p>
+<p>What&#x27;s the most unexpected place you&#x27;ve had your photo taken that actually turned out amazing?</p>
+<p>We&#x27;re always surprised by how ordinary locations can become extraordinary portrait settings when approached with the right vision. A parking garage becomes a study in geometric shadows. An under-bridge pathway becomes a cathedral of light.</p>
+<p>Brisbane offers endless possibilities for creative professionals willing to look beyond the obvious choices.</p>
+<p>Sometimes the perfect backdrop is hiding in plain sight, waiting for someone to see its potential.&quot;</p>
+<p><strong>VISUAL:</strong> Grid of unexpected Brisbane locations transformed into compelling portrait settings</p>
+<p><strong>CTA:</strong> &quot;Share your unexpected photo location story! Tag us if you&#x27;ve got the photos to prove it.&quot;</p>
+<hr>
+<p><strong>DAY 27 – May 5 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Behind the Scenes</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Monday motivation: setting up for a corporate team session.</p>
+<p>Eight executives. One shared vision of authentic leadership. Challenge: individual portraits that work together as a cohesive brand story.</p>
+<p>Solution: consistent lighting approach, varied individual expression. Each portrait distinctly personal, collectively powerful.</p>
+<p>Corporate portraiture isn&#x27;t about making everyone look the same. It&#x27;s about revealing what makes each leader uniquely valuable to the team.</p>
+<p>#CorporatePortraits #TeamSession #ExecutivePortraiture #BehindTheScenes&quot;</p>
+<p><strong>VISUAL:</strong> Setup shots showing multiple lighting configurations for team portrait session</p>
+<p><strong>CTA:</strong> &quot;Team portraits that actually look like a team? It&#x27;s possible when you plan for consistency.&quot;</p>
+<hr>
+<p><strong>DAY 27 – May 5 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Authority</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;The corporate portrait dilemma: individual authenticity vs. brand consistency.</p>
+<p>Last week&#x27;s executive team session highlighted a common challenge: how do you create portraits that showcase individual leadership styles while maintaining visual brand coherence?</p>
+<p>The solution isn&#x27;t uniform poses or identical expressions. It&#x27;s consistent technical approach applied to authentic individual moments.</p>
+<p>Same lighting quality. Same environmental sophistication. Same commitment to capturing genuine professional presence.</p>
+<p>But each executive&#x27;s portrait reveals their unique leadership personality:</p>
+<p>• The strategic visionary whose confidence comes from seeing long-term patterns</p>
+<p>• The operational genius whose competence shows in problem-solving focus</p>
+<p>• The cultural catalyst whose authority stems from genuine care for team development</p>
+<p>Corporate portraiture succeeds when it honors both individual authenticity and collective brand identity.</p>
+<p>Your team&#x27;s diversity is your competitive advantage. Your portraits should reflect that strength.&quot;</p>
+<p><strong>VISUAL:</strong> Professional grid showing team portraits with consistent style but individual personality</p>
+<p><strong>CTA:</strong> &quot;How does your team show both unity and individuality in your professional presentation?&quot;</p>
+<hr>
+<p><strong>DAY 28 – May 6 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Brisbane Local</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Tuesday exploring: West End&#x27;s creative ecosystem.</p>
+<p>Where established artists mentor emerging talent. Where coffee shop conversations become collaborative partnerships. Where industrial spaces house the most intimate creative work.</p>
+<p>This neighborhood understands that authentic creativity requires both vision and community support.</p>
+<p>Perfect metaphor for professional portraiture: individual excellence supported by collaborative environment.</p>
+<p>#WestEnd #CreativeEcosystem #BrisbaneCreatives #CommunitySupport&quot;</p>
+<p><strong>VISUAL:</strong> Documentary-style shots of West End&#x27;s creative spaces and collaborative work environments</p>
+<p><strong>CTA:</strong> &quot;What Brisbane neighborhood best represents your creative personality?&quot;</p>
+<hr>
+<p><strong>DAY 28 – May 6 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Authority</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;The confidence question: how to look self-assured without appearing arrogant in professional photos.</p>
+<p>It&#x27;s the most common concern we hear from Brisbane professionals: &#x27;I want to look confident, but I don&#x27;t want to seem intimidating or self-important.&#x27;</p>
+<p>The secret isn&#x27;t in your expression—it&#x27;s in your mindset during the session.</p>
+<p>Instead of thinking about looking confident, think about:</p>
+<p>• A problem you&#x27;re genuinely excited to solve</p>
+<p>• A project that showcases your favorite skills</p>
+<p>• A conversation with someone whose opinion you respect</p>
+<p>Authentic confidence comes from engagement, not posing. From competence applied to meaningful challenges, not generic authority displays.</p>
+<p>When you&#x27;re genuinely interested in discussing your work, confidence becomes a natural byproduct rather than a manufactured expression.</p>
+<p>Brisbane professionals intuitively understand this—your portraits should too.&quot;</p>
+<p><strong>VISUAL:</strong> Educational graphic showing body language and expression differences between authentic confidence and manufactured authority</p>
+<p><strong>CTA:</strong> &quot;What topic makes you naturally confident when discussing your professional expertise?&quot;</p>
+<hr>
+<p><strong>DAY 29 – May 7 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Portfolio</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Architecture and ambition: when subject and setting share the same language.</p>
+<p>This Brisbane developer transforms neglected urban spaces into community assets. Captured her where old industrial meets new residential—the physical manifestation of her work philosophy.</p>
+<p>Sometimes the most powerful portraits happen when environment becomes extension of professional mission.</p>
+<p>#UrbanDeveloper #BrisbaneRedevelopment #ArchitecturalPortraits #MissionDriven&quot;</p>
+<p><strong>VISUAL:</strong> Compelling portrait showing developer in urban redevelopment setting that reflects her work</p>
+<p><strong>CTA:</strong> &quot;When your environment tells your professional story as clearly as your expression ✨&quot;</p>
+<hr>
+<p><strong>DAY 29 – May 7 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Portfolio</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Professional storytelling through environmental choice.</p>
+<p>Yesterday&#x27;s session with a Brisbane urban developer who specializes in adaptive reuse projects. Instead of a generic office setting, we shot at the intersection of heritage preservation and contemporary development.</p>
+<p>The location wasn&#x27;t just a backdrop—it was a visual metaphor for her professional philosophy: honoring the past while building for the future.</p>
+<p>The resulting portraits communicate her expertise before she says a word about zoning regulations or community impact assessments.</p>
+<p>Strategic environmental choice transforms professional portraits from simple headshots into powerful business storytelling tools.</p>
+<p>Your professional environment should amplify your expertise, not distract from it.&quot;</p>
+<p><strong>VISUAL:</strong> Environmental portrait showing the connection between subject&#x27;s work and location choice</p>
+<p><strong>CTA:</strong> &quot;What location would best tell your professional story? Share your thoughts below.&quot;</p>
+<hr>
+<p><strong>DAY 30 – May 8 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;30-day reflection: what we&#x27;ve learned launching Power Portraits in Brisbane.</p>
+<p>This city taught us that professional portraiture succeeds when it honors both ambition and authenticity. When it reveals competence without arrogance, confidence without intimidation.</p>
+<p>Brisbane professionals don&#x27;t want corporate clichés or artificial authority displays. They want visual storytelling that matches their sophisticated approach to business and community building.</p>
+<p>Most importantly: the best portraits happen in genuine conversation, not manufactured poses.</p>
+<p>Thank you, Brisbane, for shaping our vision.</p>
+<p>What&#x27;s next? More stories. More authentic professional presentation. More doors opened through compelling visual communication.</p>
+<p>#30DayReflection #BrisbaneTaughtUs #PowerPortraits #AuthenticProfessional&quot;</p>
+<p><strong>VISUAL:</strong> Montage of the month&#x27;s best moments, locations, and portraits, showing the journey and growth</p>
+<p><strong>CTA:</strong> &quot;What portrait story should we tell next? Tag someone whose professional presence deserves exceptional presentation.&quot;</p>
+<hr>
+<p><strong>DAY 30 – May 8 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Facebook</p>
+<p><strong>TYPE:</strong> Brisbane Local</p>
+<p><strong>COPY:</strong></p>
+<p>&quot;Month one complete: Power Portraits is officially part of Brisbane&#x27;s creative ecosystem.</p>
+<p>Thirty days of location scouting, portfolio building, and learning from this city&#x27;s unique professional culture. Brisbane taught us that exceptional portraiture requires understanding not just technical excellence, but cultural authenticity.</p>
+<p>This city rewards genuine competence over manufactured authority. Collaborative leadership over intimidating presence. Professional ambition that serves community, not just ego.</p>
+<p>Those values now guide every portrait session, every client conversation, every creative decision.</p>
+<p>Brisbane shaped our vision. Now we help Brisbane professionals shape how the world sees them.</p>
+<p>Month two begins tomorrow. Ready to tell your professional story with the sophistication it deserves?&quot;</p>
+<p><strong>VISUAL:</strong> Celebration collage featuring Brisbane landmarks, client portraits, and behind-the-scenes moments from the launch month</p>
+<p><strong>CTA:</strong> &quot;Brisbane creatives and professionals: what story should we help you tell next?&quot;</p>
+<hr>
+<h1 id="calendar-complete">CALENDAR COMPLETE</h1>
+<p><strong>Total: 47 posts across 30 days</strong></p>
+<p><strong>Instagram: 22 posts | LinkedIn: 13 posts | Facebook: 12 posts</strong></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">02-Power Portraits/05-content/pp-30-day-content-april-2026.md</div>
+    </main>
+  </div>
+</body>
+</html>

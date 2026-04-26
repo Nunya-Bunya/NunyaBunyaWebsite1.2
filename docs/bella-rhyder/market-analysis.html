@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Analysis - Bella Rhyder | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link active"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#bella-rhyder">Bella Rhyder</a> &rsaquo;
+          Market Analysis - Bella Rhyder
+        </div>
+        <h1 class="doc-title">Market Analysis - Bella Rhyder</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#10024; Bella Rhyder</span>
+          <span class="doc-path">07-Bella Rhyder / 01-strategy / FOUNDATIONAL</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="market-analysis-bella-rhyder">Market Analysis - Bella Rhyder</h1>
+<h2 id="e-commerce-clothing-brand">E-Commerce Clothing Brand</h2>
+<p><strong>Analysis Date:</strong> March 2026</p>
+<p><strong>Target Market:</strong> Australian Women 22-45</p>
+<p><strong>Focus:</strong> Activewear &amp; Lifestyle Apparel</p>
+<hr>
+<h2 id="target-market-definition">🎯 TARGET MARKET DEFINITION</h2>
+<h3 id="primary-customer-profile">Primary Customer Profile</h3>
+<p><strong>&quot;Active Queensland Woman&quot;</strong></p>
+<ul>
+<li><strong>Age:</strong> 22-45 years old</li>
+<li><strong>Location:</strong> Primarily Queensland, Australia (70% of initial market)</li>
+<li><strong>Income:</strong> $60,000 - $120,000 AUD annually</li>
+<li><strong>Occupation:</strong> Professional, entrepreneur, or flexible work arrangements</li>
+<li><strong>Lifestyle:</strong> Active outdoor living, fitness enthusiast, coastal lifestyle</li>
+<li><strong>Values:</strong> Quality over quantity, sustainability, authentic experiences</li>
+</ul>
+<h3 id="secondary-markets">Secondary Markets</h3>
+<ul>
+<li><strong>Geographic Expansion:</strong> Sydney, Melbourne, Perth (Year 2)</li>
+<li><strong>Demographic Extension:</strong> 18-21 year olds (student market)</li>
+<li><strong>International:</strong> New Zealand (similar lifestyle/culture)</li>
+</ul>
+<hr>
+<h2 id="market-size-amp-growth">📊 MARKET SIZE &amp; GROWTH</h2>
+<h3 id="global-activewear-market">Global Activewear Market</h3>
+<ul>
+<li><strong>Total Market Value:</strong> $550 billion USD (2026)</li>
+<li><strong>Women&#x27;s Activewear Segment:</strong> $180 billion USD</li>
+<li><strong>Annual Growth Rate:</strong> 7-9% globally</li>
+<li><strong>Key Drivers:</strong> Health consciousness, athleisure trend, remote work</li>
+</ul>
+<h3 id="australian-market">Australian Market</h3>
+<ul>
+<li><strong>Total Activewear Market:</strong> $2.1 billion AUD (2026)</li>
+<li><strong>Women&#x27;s Segment:</strong> $1.2 billion AUD</li>
+<li><strong>Online Sales:</strong> $680 million AUD (32% of total)</li>
+<li><strong>Growth Rate:</strong> 8.5% annually (2021-2026)</li>
+<li><strong>E-commerce Growth:</strong> 15% annually in activewear</li>
+</ul>
+<h3 id="queensland-market-focus">Queensland Market Focus</h3>
+<ul>
+<li><strong>Population:</strong> 5.2 million</li>
+<li><strong>Women 22-45:</strong> ~800,000</li>
+<li><strong>Active Lifestyle Index:</strong> Above national average</li>
+<li><strong>Coastal Influence:</strong> Strong surf/beach culture</li>
+<li><strong>Climate:</strong> Year-round outdoor activities</li>
+</ul>
+<hr>
+<h2 id="customer-behaviors-amp-preferences">🏃‍♀️ CUSTOMER BEHAVIORS &amp; PREFERENCES</h2>
+<h3 id="shopping-habits">Shopping Habits</h3>
+<ul>
+<li><strong>Primary Channel:</strong> E-commerce (68% of apparel purchases)</li>
+<li><strong>Device Usage:</strong> Mobile shopping (55% of sessions)</li>
+<li><strong>Purchase Frequency:</strong> 3-4 apparel items per quarter</li>
+<li><strong>Average Order Value:</strong> $120-180 AUD</li>
+<li><strong>Return Rate:</strong> 25-30% (industry standard)</li>
+</ul>
+<h3 id="brand-loyalty-factors">Brand Loyalty Factors</h3>
+<ul>
+<li><strong>Quality &amp; Durability:</strong> 85% cite as top priority</li>
+<li><strong>Sustainability:</strong> 72% prefer eco-friendly brands</li>
+<li><strong>Style &amp; Fit:</strong> 78% value versatile, multi-use pieces</li>
+<li><strong>Price Sensitivity:</strong> 65% willing to pay premium for quality</li>
+<li><strong>Brand Story:</strong> 58% influenced by authentic brand narratives</li>
+</ul>
+<h3 id="pain-points">Pain Points</h3>
+<ul>
+<li><strong>Fit Issues:</strong> 40% of returns due to sizing problems</li>
+<li><strong>Quality Concerns:</strong> Fast fashion durability issues</li>
+<li><strong>Sustainability:</strong> Lack of transparent eco-practices</li>
+<li><strong>Style Limitations:</strong> Athletic wear not suitable for everyday use</li>
+</ul>
+<hr>
+<h2 id="competitive-analysis">🏆 COMPETITIVE ANALYSIS</h2>
+<h3 id="direct-competitors-activewear-brands">Direct Competitors (Activewear Brands)</h3>
+<h4 id="1-lorna-jane">1. Lorna Jane</h4>
+<ul>
+<li><strong>Market Position:</strong> Established Australian activewear leader</li>
+<li><strong>Price Range:</strong> $80-150 AUD</li>
+<li><strong>Strengths:</strong> Brand recognition, retail presence</li>
+<li><strong>Weaknesses:</strong> Premium pricing, less versatile designs</li>
+<li><strong>Market Share:</strong> ~15% Queensland activewear</li>
+</ul>
+<h4 id="2-lululemon">2. Lululemon</h4>
+<ul>
+<li><strong>Market Position:</strong> Global premium activewear</li>
+<li><strong>Price Range:</strong> $120-250 AUD</li>
+<li><strong>Strengths:</strong> Quality, brand prestige, community</li>
+<li><strong>Weaknesses:</strong> High price point, limited Australian sizing</li>
+<li><strong>Market Share:</strong> ~8% Australian market</li>
+</ul>
+<h4 id="3-cotton-on-body-active">3. Cotton On Body Active</h4>
+<ul>
+<li><strong>Market Position:</strong> Fast fashion activewear</li>
+<li><strong>Price Range:</strong> $30-70 AUD</li>
+<li><strong>Strengths:</strong> Affordable, trendy, accessible</li>
+<li><strong>Weaknesses:</strong> Quality concerns, fast fashion stigma</li>
+<li><strong>Market Share:</strong> ~12% budget segment</li>
+</ul>
+<h3 id="indirect-competitors">Indirect Competitors</h3>
+<ul>
+<li><strong>Athletic Specialty:</strong> Nike, Adidas, Puma</li>
+<li><strong>Fast Fashion:</strong> H&amp;M, Zara activewear lines</li>
+<li><strong>Department Stores:</strong> Target, Kmart activewear</li>
+<li><strong>Online-Only:</strong> ASOS, Boohoo activewear sections</li>
+</ul>
+<hr>
+<h2 id="competitive-advantages">💪 COMPETITIVE ADVANTAGES</h2>
+<h3 id="1-queensland-lifestyle-authenticity">1. Queensland Lifestyle Authenticity</h3>
+<ul>
+<li><strong>Local Roots:</strong> Brisbane-based brand understanding local climate/culture</li>
+<li><strong>Coastal Aesthetic:</strong> Surf-inspired designs vs generic athletic wear</li>
+<li><strong>Community Connection:</strong> Queensland-focused marketing and partnerships</li>
+</ul>
+<h3 id="2-versatility-focused-design">2. Versatility-Focused Design</h3>
+<ul>
+<li><strong>Multi-Use Pieces:</strong> Gym-to-street transition capability</li>
+<li><strong>Quality Construction:</strong> Premium fabrics that maintain performance</li>
+<li><strong>Inclusive Sizing:</strong> Extended size range (6-20) with proper fit</li>
+</ul>
+<h3 id="3-transparent-sustainability">3. Transparent Sustainability</h3>
+<ul>
+<li><strong>Materials Disclosure:</strong> Clear fabric sourcing information</li>
+<li><strong>Progressive Goals:</strong> Measurable sustainability targets</li>
+<li><strong>Packaging Reduction:</strong> Minimal, recyclable packaging</li>
+</ul>
+<h3 id="4-direct-to-consumer-model">4. Direct-to-Consumer Model</h3>
+<ul>
+<li><strong>No Retail Markup:</strong> Competitive pricing through DTC</li>
+<li><strong>Customer Data:</strong> Direct relationship for feedback/insights</li>
+<li><strong>Agile Product Development:</strong> Quick response to customer needs</li>
+</ul>
+<hr>
+<h2 id="market-trends-amp-opportunities">📈 MARKET TRENDS &amp; OPPORTUNITIES</h2>
+<h3 id="growing-trends">Growing Trends</h3>
+<ol>
+<li><strong>Athleisure Evolution:</strong> From gym-only to everyday wear (68% market growth)</li>
+<li><strong>Sustainability Demand:</strong> 73% of consumers prefer eco-friendly brands</li>
+<li><strong>Personalization:</strong> Custom sizing and style preferences</li>
+<li><strong>Multi-Channel Shopping:</strong> Online research, in-store pickup</li>
+<li><strong>Health &amp; Wellness:</strong> Increased focus on recovery and mental wellness products</li>
+</ol>
+<h3 id="market-gaps-amp-opportunities">Market Gaps &amp; Opportunities</h3>
+<ol>
+<li><strong>Local Queensland Brand:</strong> Limited authentic local activewear options</li>
+<li><strong>Versatile Activewear:</strong> Gap between technical athletic and casual wear</li>
+<li><strong>Inclusive Sizing:</strong> Most brands stop at size 14-16</li>
+<li><strong>Sustainable Activewear:</strong> Premium sustainable options limited</li>
+<li><strong>Coastal Lifestyle:</strong> Surf/beach-to-street wear underrepresented</li>
+</ol>
+<hr>
+<h2 id="market-entry-strategy">🎯 MARKET ENTRY STRATEGY</h2>
+<h3 id="phase-1-market-penetration-2026">Phase 1: Market Penetration (2026)</h3>
+<ul>
+<li><strong>Target:</strong> 5% of Queensland women&#x27;s activewear market</li>
+<li><strong>Customer Acquisition:</strong> Influencer partnerships, social media</li>
+<li><strong>Product Focus:</strong> Core activewear and swimwear categories</li>
+<li><strong>Price Position:</strong> Mid-range ($60-120 AUD) quality focus</li>
+</ul>
+<h3 id="phase-2-market-expansion-2027">Phase 2: Market Expansion (2027)</h3>
+<ul>
+<li><strong>Geographic:</strong> Sydney/Melbourne market entry</li>
+<li><strong>Product:</strong> Accessories and lifestyle categories</li>
+<li><strong>Distribution:</strong> Wholesale boutique partnerships</li>
+<li><strong>Brand Awareness:</strong> Targeted marketing campaigns</li>
+</ul>
+<h3 id="phase-3-market-leadership-2028">Phase 3: Market Leadership (2028+)</h3>
+<ul>
+<li><strong>Retail Presence:</strong> Flagship store as brand experience center</li>
+<li><strong>Product Innovation:</strong> New categories based on customer feedback</li>
+<li><strong>Market Share Target:</strong> 8-10% of target segment</li>
+<li><strong>International:</strong> New Zealand expansion</li>
+</ul>
+<hr>
+<h2 id="market-metrics-amp-kpis">📊 MARKET METRICS &amp; KPIs</h2>
+<h3 id="customer-acquisition">Customer Acquisition</h3>
+<ul>
+<li><strong>Target CAC:</strong> $45 AUD (customer acquisition cost)</li>
+<li><strong>Target Conversion Rate:</strong> 3.2% (website visitors to customers)</li>
+<li><strong>Target LTV:</strong> $380 AUD (customer lifetime value)</li>
+<li><strong>Target Retention:</strong> 65% repeat purchase rate</li>
+</ul>
+<h3 id="market-performance">Market Performance</h3>
+<ul>
+<li><strong>Market Share Target:</strong> 5% Queensland (Year 1), 8% national (Year 3)</li>
+<li><strong>Brand Awareness:</strong> 45% target in target demographic</li>
+<li><strong>Customer Satisfaction:</strong> 4.6/5 star rating target</li>
+<li><strong>Social Engagement:</strong> 5% engagement rate on content</li>
+</ul>
+<hr>
+<h2 id="market-risks-amp-mitigation">⚠️ MARKET RISKS &amp; MITIGATION</h2>
+<h3 id="competitive-risks">Competitive Risks</h3>
+<ul>
+<li><strong>Fast Fashion Disruption:</strong> Low-price competition</li>
+<li><strong>Global Brand Entry:</strong> International brands expanding in Australia</li>
+<li><strong>Mitigation:</strong> Local authenticity, quality differentiation, customer loyalty</li>
+</ul>
+<h3 id="market-risks">Market Risks</h3>
+<ul>
+<li><strong>Economic Downturn:</strong> Reduced discretionary spending</li>
+<li><strong>Trend Changes:</strong> Shifting fashion preferences</li>
+<li><strong>Mitigation:</strong> Versatile products, value-driven pricing, brand loyalty</li>
+</ul>
+<h3 id="operational-risks">Operational Risks</h3>
+<ul>
+<li><strong>Supply Chain:</strong> Global manufacturing disruptions</li>
+<li><strong>Seasonal Demand:</strong> Weather-dependent sales patterns</li>
+<li><strong>Mitigation:</strong> Diversified suppliers, inventory management, marketing flexibility</li>
+</ul>
+<hr>
+<h2 id="research-methodology">🔍 RESEARCH METHODOLOGY</h2>
+<h3 id="primary-research">Primary Research</h3>
+<ul>
+<li><strong>Customer Surveys:</strong> 200 Queensland women (22-45)</li>
+<li><strong>Focus Groups:</strong> 3 sessions with target demographic</li>
+<li><strong>Competitor Analysis:</strong> Mystery shopping and product testing</li>
+<li><strong>Influencer Interviews:</strong> 15 local fitness/lifestyle influencers</li>
+</ul>
+<h3 id="secondary-research">Secondary Research</h3>
+<ul>
+<li><strong>Industry Reports:</strong> IBISWorld, Statista, McKinsey</li>
+<li><strong>Market Data:</strong> Australian Bureau of Statistics</li>
+<li><strong>Competitive Intelligence:</strong> Brand websites, customer reviews</li>
+<li><strong>Trend Analysis:</strong> Social media listening, fashion reports</li>
+</ul>
+<h3 id="data-sources">Data Sources</h3>
+<ul>
+<li>Google Analytics (competitor website analysis)</li>
+<li>Social media monitoring tools</li>
+<li>Customer review platforms</li>
+<li>Industry association data</li>
+<li>Government economic indicators</li>
+</ul>
+<hr>
+<p><em>This market analysis will be updated quarterly to reflect changing market conditions and customer preferences.</em>&lt;/content&gt;</p>
+<p>&lt;parameter name=&quot;filePath&quot;&gt;/Users/benalekconner/Desktop/MASTER WORKSPACE/06-Bella Rhyder/MARKET ANALYSIS.md</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">07-Bella Rhyder/01-strategy/FOUNDATIONAL/MARKET ANALYSIS.md</div>
+    </main>
+  </div>
+</body>
+</html>

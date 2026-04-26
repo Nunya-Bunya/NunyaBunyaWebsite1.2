@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORCA Film Awards — Social Posts for Voting Push | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link active"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#orca">ORCA Film Awards</a> &rsaquo;
+          ORCA Film Awards — Social Posts for Voting Push
+        </div>
+        <h1 class="doc-title">ORCA Film Awards — Social Posts for Voting Push</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#127916; ORCA Film Awards</span>
+          <span class="doc-path">04-ORCA Film Awards / 05-content / PR</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="orca-film-awards-social-posts-for-voting-push">ORCA Film Awards — Social Posts for Voting Push</h1>
+<blockquote>Goal: 100 email signups before April 5, 2026<br>Strategy: Post in film communities as a genuine film lover sharing something cool, NOT as promotion</blockquote>
+<hr>
+<h2 id="reddit-posts">Reddit Posts</h2>
+<h3 id="rmovies-discussion-angle">r/movies (Discussion angle)</h3>
+<p><strong>Title:</strong> We created an awards show for films the Oscars ignore — 3rd year, voting is now open to everyone</p>
+<p>Every year the Oscars snub incredible films. So three years ago, we started the ORCA Film Awards — a community-voted awards show specifically for films that <em>didn&#x27;t</em> get Oscar nominations.</p>
+<p>This year&#x27;s nominees include Wake Up Dead Man, Mickey 17, 28 Years Later, The Life of Chuck, Twinless, and more. 20 categories including stuff the Oscars would never have — Best Villain, Best Blockbuster, Best Comedy.</p>
+<p>Anyone can vote, no account needed: orcafilmawards.com/vote</p>
+<p>Voting closes April 5. Would love to hear what you think about the nominees — who&#x27;d you pick for Best Picture?</p>
+<hr>
+<h3 id="rflicks-cinephile-angle">r/flicks (Cinephile angle)</h3>
+<p><strong>Title:</strong> What&#x27;s the best 2025/2026 film the Oscars completely ignored?</p>
+<p>Curious what this sub thinks. We run a small community awards show (ORCA Film Awards) for exactly these films — the ones the Academy won&#x27;t touch. Now in year 3.</p>
+<p>Our committee nominated films like No Other Choice, The Testament of Ann Lee, Rental Family, and Materialists alongside bigger names like Mickey 17 and 28 Years Later.</p>
+<p>If you want to vote: orcafilmawards.com/vote (closes April 5, takes 5 minutes)</p>
+<p>But mainly I&#x27;m just curious — what&#x27;s the one film from the past year that deserved way more attention than it got?</p>
+<hr>
+<h3 id="rhorror">r/horror</h3>
+<p><strong>Title:</strong> 28 Years Later, Resurrection, and Bring Her Back are all nominated for the ORCA Film Awards — the anti-Oscars</p>
+<p>The Oscars don&#x27;t take horror seriously. We do. The ORCA Film Awards celebrates films the Academy ignores, and this year horror is well represented:</p>
+<ul>
+<li>28 Years Later (Best Picture, Best Director)</li>
+<li>Resurrection (Best Picture)</li>
+<li>Bring Her Back (multiple categories)</li>
+<li>Die My Love</li>
+</ul>
+<p>Voting is open to everyone: orcafilmawards.com/vote</p>
+<p>Closes April 5.</p>
+<hr>
+<h2 id="facebook-group-posts">Facebook Group Posts</h2>
+<h3 id="general-film-groups">General Film Groups</h3>
+<p>The Oscars ignore incredible films every year. That&#x27;s why the ORCA Film Awards exist.</p>
+<p>We&#x27;re a community-voted awards show — now in our 3rd year — dedicated to the best films NOT nominated for an Oscar. This year&#x27;s nominees include Wake Up Dead Man, Mickey 17, 28 Years Later, The Life of Chuck, and more.</p>
+<p>Anyone can vote. It takes about 5 minutes and covers 20 categories.</p>
+<p>Vote here: orcafilmawards.com/vote</p>
+<p>Voting closes April 5.</p>
+<p>Who would you pick for Best Picture?</p>
+<hr>
+<h3 id="australian-film-groups">Australian Film Groups</h3>
+<p>We&#x27;re an Aussie-run film awards show and we need more voters! The ORCA Film Awards celebrate the best films the Oscars ignore — 20 categories, community-voted, completely free to participate.</p>
+<p>This year&#x27;s Best Picture nominees include No Other Choice, Wake Up Dead Man, Mickey 17, 28 Years Later, and The Life of Chuck.</p>
+<p>Takes 5 minutes to vote: orcafilmawards.com/vote</p>
+<p>Would love to get some Australian film lovers in the mix. Voting closes April 5.</p>
+<hr>
+<h2 id="twitterx-posts">Twitter/X Posts</h2>
+<h3 id="main-announcement">Main announcement</h3>
+<p>The 3rd Annual ORCA Film Awards are open for voting.</p>
+<p>20 categories. Films the Oscars ignored. Anyone can vote.</p>
+<p>No Other Choice. Wake Up Dead Man. Mickey 17. 28 Years Later. The Life of Chuck.</p>
+<p>Who deserves it?</p>
+<p>Vote: orcafilmawards.com/vote</p>
+<p>Closes April 5.</p>
+<p>#ORCAFilmAwards #FilmTwitter</p>
+<hr>
+<h3 id="engagement-post">Engagement post</h3>
+<p>What&#x27;s the best film from the last year that the Oscars completely snubbed?</p>
+<p>We built an entire awards show around that question. 3rd year running.</p>
+<p>orcafilmawards.com</p>
+<hr>
+<h3 id="countdown-post-use-closer-to-april-5">Countdown post (use closer to April 5)</h3>
+<p>5 days left to vote in the ORCA Film Awards.</p>
+<p>20 categories. Films the Academy won&#x27;t touch. Your vote actually counts.</p>
+<p>orcafilmawards.com/vote</p>
+<hr>
+<h2 id="posting-schedule">Posting Schedule</h2>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Post</th></tr></thead><tbody><tr><td>Day 1</td><td>Reddit r/movies + Twitter</td><td>Main announcement</td></tr><tr><td>Day 1</td><td>Facebook (2-3 film groups)</td><td>General film group post</td></tr><tr><td>Day 2</td><td>Reddit r/flicks</td><td>Cinephile angle</td></tr><tr><td>Day 2</td><td>Twitter</td><td>Engagement post</td></tr><tr><td>Day 3</td><td>Reddit r/horror</td><td>Horror angle</td></tr><tr><td>Day 3</td><td>Facebook (Aussie groups)</td><td>Australian angle</td></tr><tr><td>Day 4-5</td><td>Pitch 5 film blogs</td><td>Press release + pitch email</td></tr><tr><td>Day 7</td><td>Twitter + Reddit</td><td>&quot;1 week left&quot; reminder</td></tr><tr><td>Day 9</td><td>All platforms</td><td>&quot;Final days&quot; push</td></tr><tr><td>Day 10 (Apr 5)</td><td>Twitter</td><td>&quot;Last chance — voting closes tonight&quot;</td></tr></tbody></table></div>
+<hr>
+<h2 id="tips">Tips</h2>
+<ul>
+<li>On Reddit: engage genuinely with every comment. Answer questions. Don&#x27;t be promotional.</li>
+<li>On Facebook: ask a question at the end of every post to drive comments</li>
+<li>On Twitter: quote-tweet other film takes with the ORCA angle</li>
+<li>Track which posts drive traffic in Matomo (once deployed)</li>
+<li>Goal: 100 emails. Currently at 35. Need 65 more in ~9 days.</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">04-ORCA Film Awards/05-content/PR/social-posts-voting-push.md</div>
+    </main>
+  </div>
+</body>
+</html>

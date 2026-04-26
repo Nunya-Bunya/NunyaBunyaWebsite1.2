@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONNER LAW GROUP — BUSINESS PLAN | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link active"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#conner-law">Conner Law</a> &rsaquo;
+          CONNER LAW GROUP — BUSINESS PLAN
+        </div>
+        <h1 class="doc-title">CONNER LAW GROUP — BUSINESS PLAN</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(74,144,217,0.12);color:#4A90D9">&#9878; Conner Law</span>
+          <span class="doc-path">05-Conner Law / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="conner-law-group-business-plan">CONNER LAW GROUP — BUSINESS PLAN</h1>
+<p><strong>Confidential | Version 2.0 | March 2026</strong></p>
+<p>Owner: Ben Alek Conner | Brisbane, Queensland, Australia</p>
+<hr>
+<h2 id="table-of-contents">TABLE OF CONTENTS</h2>
+<ol>
+<li>Executive Summary</li>
+<li>Mission, Vision &amp; Values</li>
+<li>Business Structure &amp; Brand Architecture</li>
+<li>Services Overview</li>
+<li>Target Markets</li>
+<li>Competitive Advantage</li>
+<li>Financial Overview &amp; Revenue Goals</li>
+<li>Pricing &amp; Fee Structure</li>
+<li>Growth Strategy</li>
+<li>Marketing &amp; Business Development</li>
+<li>Technology Strategy</li>
+<li>Team Structure &amp; Key Personnel</li>
+<li>Operations</li>
+<li>Risk Management</li>
+<li>12-Month Milestones</li>
+<li>3-Year Strategic Milestones</li>
+<li>Conclusion</li>
+</ol>
+<hr>
+<h2 id="1-executive-summary">1. EXECUTIVE SUMMARY</h2>
+<p>Conner Law Group is a Brisbane-based legal services umbrella organisation comprising four strategically aligned business units: <strong>Merkel &amp; Conner</strong> (commercial and business law), <strong>Conner Injury Law</strong> (personal injury litigation), <strong>MBCS</strong> (medical-legal consulting and support services), and <strong>KevLaw AI</strong> (legal technology SaaS platform). Together, these entities form a vertically integrated legal services ecosystem capable of serving individuals, businesses, and the broader legal industry across Queensland and nationally.</p>
+<p>The firm operates from Brisbane, Queensland, and is positioned to capitalise on Queensland&#x27;s growing population, expanding business sector, and the significant volume of personal injury claims processed through the Queensland court system and the Motor Accident Insurance Commission (MAIC). In parallel, KevLaw AI represents a high-growth, scalable revenue stream extending the firm&#x27;s commercial footprint well beyond the traditional legal services market.</p>
+<p><strong>Financial objective:</strong> Conner Law Group targets multi-million AUD in combined annual revenue within 36 months, with KevLaw AI contributing a growing share of recurring SaaS revenue alongside established legal service streams.</p>
+<p>This business plan sets out the strategic, operational, and financial framework by which Conner Law Group will achieve these objectives. It is intended for internal planning, senior leadership alignment, and authorised external briefings.</p>
+<p><strong>Group at a glance:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Entity</th><th>Specialty</th><th>Revenue Model</th></tr></thead><tbody><tr><td>Merkel &amp; Conner</td><td>Commercial &amp; business law</td><td>Hourly / fixed fee / retainer</td></tr><tr><td>Conner Injury Law</td><td>Personal injury litigation</td><td>No win, no fee (contingency)</td></tr><tr><td>MBCS</td><td>Medical-legal consulting &amp; support</td><td>Per-file / per-service fees</td></tr><tr><td>KevLaw AI</td><td>Legal technology SaaS</td><td>Monthly subscription</td></tr></tbody></table></div>
+<hr>
+<h2 id="2-mission-vision-amp-values">2. MISSION, VISION &amp; VALUES</h2>
+<h3 id="mission-statement">Mission Statement</h3>
+<p>To deliver exceptional legal outcomes for individuals and businesses through expert representation, compassionate client service, and technology-driven efficiency — making quality legal services accessible across Queensland and beyond.</p>
+<h3 id="vision-statement">Vision Statement</h3>
+<p>To become Queensland&#x27;s most trusted, innovative, and integrated legal services group — a firm where clients receive not merely legal advice, but complete legal solutions backed by deep expertise, genuine care, and industry-leading technology.</p>
+<h3 id="core-values">Core Values</h3>
+<p><strong>Integrity</strong></p>
+<p>Every client engagement, every legal submission, and every internal decision is guided by unwavering ethical standards. We do not cut corners, and we do not compromise on honesty.</p>
+<p><strong>Excellence</strong></p>
+<p>We hold ourselves to the highest standard of legal practice. Our lawyers are specialists — not generalists — and we invest continuously in professional development, research, and advocacy skills.</p>
+<p><strong>Accessibility</strong></p>
+<p>Legal complexity should not be a barrier to justice. We communicate clearly, price fairly, and structure our services so that individuals and small businesses can access the same quality of representation as large corporations.</p>
+<p><strong>Innovation</strong></p>
+<p>Through KevLaw AI and internal process excellence, we embrace technology as a tool to improve outcomes, reduce costs, and create competitive advantages for our clients and our firm.</p>
+<p><strong>Community</strong></p>
+<p>Brisbane is our home. We are invested in the wellbeing of Queensland communities, and we maintain an active commitment to pro bono work, legal education, and local partnerships.</p>
+<hr>
+<h2 id="3-business-structure-amp-brand-architecture">3. BUSINESS STRUCTURE &amp; BRAND ARCHITECTURE</h2>
+<p>Conner Law Group operates as the parent umbrella brand over the following four entities:</p>
+<h3 id="31-merkel-amp-conner-commercial-amp-business-law">3.1 Merkel &amp; Conner — Commercial &amp; Business Law</h3>
+<p>A commercial law firm serving small-to-medium enterprises, startups, and established Queensland businesses with expertise in contracts, corporate structuring, employment law, property transactions, dispute resolution, and regulatory compliance.</p>
+<h3 id="32-conner-injury-law-personal-injury-litigation">3.2 Conner Injury Law — Personal Injury Litigation</h3>
+<p>A plaintiff-side personal injury firm specialising in motor vehicle accidents, workplace injuries, public liability claims, and medical negligence under Queensland&#x27;s statutory and common law frameworks, including CTP claims via MAIC.</p>
+<h3 id="33-mbcs-medical-legal-consulting-amp-support-services">3.3 MBCS — Medical-Legal Consulting &amp; Support Services</h3>
+<p>A specialist medical-legal support unit providing medico-legal report coordination, independent medical examination (IME) scheduling, medical chronologies, file preparation, and expert witness liaison for law firms across Queensland and nationally.</p>
+<h3 id="34-kevlaw-ai-legal-technology-saas">3.4 KevLaw AI — Legal Technology SaaS</h3>
+<p>A proprietary legal technology platform offering AI-assisted tools for law firms including document automation, precedent generation, client intake workflows, file management dashboards, and compliance tracking. Sold on a subscription (SaaS) model to law firms nationally.</p>
+<p><strong>Group structure diagram:</strong></p>
+<pre><code>Conner Law Group (Umbrella — Ben Alek Conner, Founder/MD)
+├── Merkel &amp; Conner          (Commercial &amp; Business Law)
+├── Conner Injury Law        (Personal Injury Litigation)
+├── MBCS                     (Medical-Legal Consulting &amp; Support)
+└── KevLaw AI                (Legal Technology SaaS)</code></pre>
+<p><strong>Legal structure:</strong> Each entity operates as a separate legal entity. Group-level strategy, brand coordination, and financial oversight are managed by Ben Alek Conner as Founder and Managing Director.</p>
+<p><strong>Location:</strong> Primary office in Brisbane, Queensland. Client meetings available at CBD office and by appointment at suburban locations.</p>
+<hr>
+<h2 id="4-services-overview">4. SERVICES OVERVIEW</h2>
+<h3 id="41-conner-injury-law-personal-injury-services">4.1 Conner Injury Law — Personal Injury Services</h3>
+<p><strong>Motor Vehicle Accidents (CTP Claims)</strong></p>
+<p>Claims under Queensland&#x27;s compulsory third party (CTP) insurance scheme administered by MAIC. Representation from initial notice through to negotiation, compulsory conference, and litigation in the District and Supreme Courts of Queensland.</p>
+<p><strong>Workplace Injuries</strong></p>
+<p>Workers&#x27; compensation claims under the <em>Workers&#x27; Compensation and Rehabilitation Act 2003</em> (Qld), including statutory claims with WorkCover Queensland, common law damages claims, and self-insurer disputes.</p>
+<p><strong>Public Liability</strong></p>
+<p>Claims arising from injuries suffered on public or private premises, including slip and fall incidents, inadequate maintenance, and occupier&#x27;s liability under the <em>Civil Liability Act 2003</em> (Qld).</p>
+<p><strong>Medical Negligence</strong></p>
+<p>Complex claims involving substandard medical treatment, surgical errors, misdiagnosis, and failure to obtain informed consent. Handled by experienced practitioners in partnership with specialist medical experts.</p>
+<p><strong>Total Permanent Disability (TPD) &amp; Income Protection</strong></p>
+<p>Superannuation-linked TPD claims and income protection disputes managed alongside personal injury matters.</p>
+<h3 id="42-merkel-amp-conner-business-law-services">4.2 Merkel &amp; Conner — Business Law Services</h3>
+<p><strong>Commercial Contracts</strong></p>
+<p>Drafting, reviewing, and negotiating service agreements, supply agreements, shareholder agreements, joint venture agreements, franchise agreements, and non-disclosure agreements.</p>
+<p><strong>Corporate Structuring</strong></p>
+<p>Advice on entity selection, company formation, trust structures, restructuring, and corporate governance for Queensland businesses.</p>
+<p><strong>Employment Law</strong></p>
+<p>Representing employers and executives in unfair dismissal matters, enterprise bargaining, employment contract preparation, restraint of trade enforcement, and workplace investigations.</p>
+<p><strong>Property &amp; Leasing</strong></p>
+<p>Commercial property transactions, due diligence, lease reviews, and development agreements.</p>
+<p><strong>Business Dispute Resolution</strong></p>
+<p>Mediation, arbitration, and litigation services for contractual disputes, partnership disputes, and commercial litigation in Queensland courts.</p>
+<p><strong>Startup &amp; SME Advisory</strong></p>
+<p>Founder agreements, IP protection, investment term sheets, and regulatory compliance for emerging Queensland businesses.</p>
+<h3 id="43-mbcs-medical-legal-consulting-amp-support-services">4.3 MBCS — Medical-Legal Consulting &amp; Support Services</h3>
+<p><strong>Medico-Legal Report Coordination</strong></p>
+<p>End-to-end coordination of independent medical examinations and medico-legal reports for law firms handling personal injury, workers&#x27; compensation, and medical negligence matters.</p>
+<p><strong>Medical Chronology Preparation</strong></p>
+<p>Detailed, court-ready medical chronologies prepared by experienced paralegals and medical professionals.</p>
+<p><strong>Expert Witness Liaison</strong></p>
+<p>Identification, briefing, and management of expert witnesses across medical, engineering, and vocational disciplines.</p>
+<p><strong>File Preparation Services</strong></p>
+<p>Outsourced file preparation and bundling for hearings and mediations, enabling law firms to reduce internal resource demands.</p>
+<p><strong>Rehabilitation &amp; Return-to-Work Coordination</strong></p>
+<p>Liaising with treating practitioners and rehabilitation providers to support clients&#x27; recovery and document functional capacity for legal proceedings.</p>
+<h3 id="44-kevlaw-ai-legal-technology-saas">4.4 KevLaw AI — Legal Technology SaaS</h3>
+<p><strong>Document Automation</strong></p>
+<p>AI-assisted generation of legal documents including correspondence, court forms, notices of claim, demand letters, and retainer agreements using firm-specific precedents.</p>
+<p><strong>Client Intake Automation</strong></p>
+<p>Customisable digital intake forms integrated with CRM and matter management platforms, reducing administrative burden and improving data capture accuracy.</p>
+<p><strong>AI Legal Research Assistant</strong></p>
+<p>Jurisdiction-aware legal research prompting and summarisation tools calibrated for Queensland and Australian law.</p>
+<p><strong>Compliance Tracker</strong></p>
+<p>Automated deadline and compliance tracking for litigation milestones, statutory timeframes, and court filing deadlines.</p>
+<p><strong>Precedent Library Management</strong></p>
+<p>Cloud-based precedent management with version control, access permissions, and AI-assisted drafting suggestions.</p>
+<hr>
+<h2 id="5-target-markets">5. TARGET MARKETS</h2>
+<h3 id="51-conner-injury-law-primary-markets">5.1 Conner Injury Law — Primary Markets</h3>
+<ul>
+<li>Individuals injured in motor vehicle accidents across South East Queensland, with a focus on Greater Brisbane</li>
+<li>Workers injured in Queensland workplaces, particularly in construction, manufacturing, logistics, and healthcare</li>
+<li>Individuals injured in public spaces including shopping centres, hospitality venues, and recreational facilities</li>
+<li>Clients with complex or high-value personal injury claims requiring experienced senior practitioners</li>
+</ul>
+<p><strong>Demographics:</strong> Adults aged 18–65, employed or formerly employed, with limited prior experience of the legal system. Many clients will be referred by treating practitioners, allied health providers, or prior clients.</p>
+<h3 id="52-merkel-amp-conner-primary-markets">5.2 Merkel &amp; Conner — Primary Markets</h3>
+<ul>
+<li>Queensland SMEs with 2–200 employees across professional services, construction, retail, hospitality, and technology sectors</li>
+<li>Business owners seeking transactional and advisory legal support without top-tier CBD firm pricing</li>
+<li>Startups and scale-ups in Brisbane&#x27;s growing technology and creative economy</li>
+<li>Property developers and investors requiring commercial property legal services</li>
+</ul>
+<h3 id="53-mbcs-primary-markets">5.3 MBCS — Primary Markets</h3>
+<ul>
+<li>Personal injury law firms in Queensland and nationally that lack in-house medical-legal support capability</li>
+<li>Sole practitioners and small firms handling WorkCover, CTP, and public liability matters</li>
+<li>Insurance companies and corporate defendants seeking independent expert coordination</li>
+<li>Litigation support companies seeking specialist subcontractors</li>
+</ul>
+<h3 id="54-kevlaw-ai-primary-markets">5.4 KevLaw AI — Primary Markets</h3>
+<ul>
+<li>Small-to-medium law firms (1–50 lawyers) in Queensland and nationally</li>
+<li>Personal injury and workers&#x27; compensation specialist firms with high document volume</li>
+<li>Progressive mid-tier firms seeking to reduce administrative costs and improve efficiency</li>
+<li>Legal aid organisations and community legal centres seeking cost-effective automation tools</li>
+</ul>
+<hr>
+<h2 id="6-competitive-advantage">6. COMPETITIVE ADVANTAGE</h2>
+<h3 id="61-vertical-integration">6.1 Vertical Integration</h3>
+<p>Conner Law Group&#x27;s unique structure means a personal injury client can receive legal representation (Conner Injury Law), medical-legal support coordination (MBCS), and digital file management (KevLaw AI) all within a single ecosystem. This reduces friction, improves case quality, and creates operational efficiencies unavailable to standalone competitors.</p>
+<h3 id="62-specialisation-without-sacrificing-breadth">6.2 Specialisation Without Sacrificing Breadth</h3>
+<p>Each business unit is a genuine specialist in its domain. Conner Injury Law focuses exclusively on plaintiff-side personal injury — it does not represent insurers or dilute its expertise across unrelated practice areas. This specialist positioning commands referrals from treating practitioners and allied health providers.</p>
+<h3 id="63-technology-differentiation-via-kevlaw-ai">6.3 Technology Differentiation via KevLaw AI</h3>
+<p>No other Queensland personal injury firm has built a proprietary legal technology SaaS platform. KevLaw AI provides Conner Law Group with an internal competitive advantage in efficiency and cost management, while simultaneously creating an external revenue stream that monetises that intellectual property at scale.</p>
+<h3 id="64-brand-architecture-clarity">6.4 Brand Architecture Clarity</h3>
+<p>The umbrella brand structure allows Conner Law Group to present a cohesive, authoritative identity while each sub-brand maintains focused market positioning. Clients are not confused by a generalist firm claiming to do everything.</p>
+<h3 id="65-brisbane-first-queensland-wide">6.5 Brisbane-First, Queensland-Wide</h3>
+<p>A deliberate focus on Brisbane and South East Queensland means deep local knowledge, established court relationships, and trusted practitioner networks — advantages that national firms struggle to replicate at the local level.</p>
+<h3 id="66-accessible-pricing-without-compromising-quality">6.6 Accessible Pricing Without Compromising Quality</h3>
+<p>Conner Injury Law&#x27;s no-win, no-fee contingency model removes financial barriers for injured claimants. Merkel &amp; Conner&#x27;s SME-aligned pricing ensures quality legal services are within reach of growing businesses.</p>
+<h3 id="67-founder-led-technology-augmented-practice">6.7 Founder-Led, Technology-Augmented Practice</h3>
+<p>Ben Alek Conner&#x27;s background spanning legal practice and technology entrepreneurship gives the group an unusually broad strategic perspective — able to build both the legal practice and the technology layer simultaneously.</p>
+<hr>
+<h2 id="7-financial-overview-amp-revenue-goals">7. FINANCIAL OVERVIEW &amp; REVENUE GOALS</h2>
+<h3 id="71-revenue-streams-by-business-unit">7.1 Revenue Streams by Business Unit</h3>
+<div class="table-wrap"><table><thead><tr><th>Business Unit</th><th>Revenue Model</th><th>FY2026 Target (AUD)</th><th>FY2027 Target (AUD)</th><th>FY2028 Target (AUD)</th></tr></thead><tbody><tr><td>Conner Injury Law</td><td>Contingency fees</td><td>$360,000</td><td>$720,000</td><td>$1,200,000</td></tr><tr><td>Merkel &amp; Conner</td><td>Hourly / fixed / retainer</td><td>$240,000</td><td>$480,000</td><td>$780,000</td></tr><tr><td>MBCS</td><td>Per-file / per-service</td><td>$180,000</td><td>$360,000</td><td>$600,000</td></tr><tr><td>KevLaw AI</td><td>SaaS subscriptions</td><td>$30,000</td><td>$240,000</td><td>$800,000</td></tr><tr><td><strong>Group Total</strong></td><td></td><td><strong>$810,000</strong></td><td><strong>$1,800,000</strong></td><td><strong>$3,380,000</strong></td></tr></tbody></table></div>
+<p><em>Note: Multi-million AUD combined revenue target is achievable by FY2027–FY2028 based on planned growth trajectories above. KevLaw AI trajectory is modelled conservatively; outperformance is possible with accelerated national expansion.</em></p>
+<h3 id="72-key-financial-assumptions">7.2 Key Financial Assumptions</h3>
+<ul>
+<li><strong>Conner Injury Law</strong> maintains a minimum active file count of 60–100 matters, with average settlement values of $80,000–$180,000 and legal fees representing 20–25% of settlements (conditional costs agreement model).</li>
+<li><strong>Merkel &amp; Conner</strong> targets a minimum of 30 active business clients by end of FY2026, growing to 80+ by FY2028, with average annual legal spend of $8,000–$25,000 per client.</li>
+<li><strong>MBCS</strong> charges per-file service fees ranging from $350–$2,500 depending on service type, with volume discounts available to high-throughput firm clients.</li>
+<li><strong>KevLaw AI</strong> launches formally in Q4 2026 / Q1 2027. Monthly subscription pricing ranges from $99 (Starter) to $499 (Enterprise). Target: 50 subscribing firms by end of FY2027, 200+ by end of FY2028.</li>
+</ul>
+<h3 id="73-cost-structure-estimated-annual-group">7.3 Cost Structure (Estimated Annual — Group)</h3>
+<div class="table-wrap"><table><thead><tr><th>Category</th><th>FY2026</th><th>FY2027</th><th>FY2028</th></tr></thead><tbody><tr><td>Solicitor &amp; practitioner salaries</td><td>$300,000</td><td>$420,000</td><td>$600,000</td></tr><tr><td>Support staff salaries</td><td>$96,000</td><td>$144,000</td><td>$216,000</td></tr><tr><td>Office &amp; premises</td><td>$54,000</td><td>$72,000</td><td>$96,000</td></tr><tr><td>Professional indemnity insurance</td><td>$18,000</td><td>$22,000</td><td>$28,000</td></tr><tr><td>Marketing &amp; business development</td><td>$36,000</td><td>$60,000</td><td>$90,000</td></tr><tr><td>KevLaw AI development &amp; hosting</td><td>$48,000</td><td>$72,000</td><td>$96,000</td></tr><tr><td>Technology &amp; software (other)</td><td>$12,000</td><td>$18,000</td><td>$28,000</td></tr><tr><td><strong>Total Operating Costs</strong></td><td><strong>$564,000</strong></td><td><strong>$808,000</strong></td><td><strong>$1,154,000</strong></td></tr></tbody></table></div>
+<h3 id="74-ebitda-group-estimated">7.4 EBITDA (Group Estimated)</h3>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th>Revenue</th><th>Total Costs</th><th>EBITDA</th><th>Margin</th></tr></thead><tbody><tr><td>FY2026</td><td>$810,000</td><td>$564,000</td><td>$246,000</td><td>30%</td></tr><tr><td>FY2027</td><td>$1,800,000</td><td>$808,000</td><td>$992,000</td><td>55%</td></tr><tr><td>FY2028</td><td>$3,380,000</td><td>$1,154,000</td><td>$2,226,000</td><td>66%</td></tr></tbody></table></div>
+<p><em>EBITDA margins improve significantly in FY2027–FY2028 as KevLaw AI&#x27;s high-margin SaaS revenue scales. Legal services divisions are targeted at 35–45% EBITDA margins. KevLaw AI targets 65%+ gross margin consistent with SaaS industry benchmarks.</em></p>
+<hr>
+<h2 id="8-pricing-amp-fee-structure">8. PRICING &amp; FEE STRUCTURE</h2>
+<h3 id="81-conner-injury-law-no-win-no-fee">8.1 Conner Injury Law — No Win, No Fee</h3>
+<p>Personal injury matters are handled on a conditional costs agreement (no win, no fee) in compliance with the <em>Legal Profession Act 2007</em> (Qld) and the <em>Legal Profession Regulation 2017</em> (Qld). Success fees and uplift charges are disclosed transparently at engagement and comply with statutory maximum uplift provisions. Standard contingency fee: 25% of settlement for standard matters; 25–33% for complex or high-value matters, as agreed.</p>
+<h3 id="82-merkel-amp-conner-commercial-rates">8.2 Merkel &amp; Conner — Commercial Rates</h3>
+<p>Standard hourly rates: $300–$600/hour (excluding GST) depending on practitioner seniority. Fixed-fee packages for defined scope matters: company formations ($2,500), employment contract suites ($1,800), standard commercial agreements ($850–$2,000), lease reviews ($950–$1,800). Monthly retainer arrangements available for clients requiring ongoing advisory support: $1,500–$3,500/month.</p>
+<h3 id="83-mbcs-per-service-pricing">8.3 MBCS — Per-Service Pricing</h3>
+<p>Transparent per-service fee schedule provided to all client firms upon engagement. Volume discounts available. Representative pricing: medical chronology ($450–$850), IME coordination ($500–$1,200), expert witness brief preparation ($800–$2,500), file preparation bundles ($350–$900).</p>
+<h3 id="84-kevlaw-ai-subscription-tiers">8.4 KevLaw AI — Subscription Tiers</h3>
+<div class="table-wrap"><table><thead><tr><th>Tier</th><th>Monthly Price (AUD)</th><th>Users</th><th>Features</th></tr></thead><tbody><tr><td>Starter</td><td>$99</td><td>1</td><td>20 documents/month, 5 core document types</td></tr><tr><td>Professional</td><td>$299</td><td>Up to 5</td><td>Unlimited documents, 20+ document types, custom branding</td></tr><tr><td>Growth Firm</td><td>$499</td><td>Up to 15</td><td>Full suite, priority support, API access</td></tr><tr><td>Enterprise</td><td>POA</td><td>15+</td><td>White-label, dedicated account management, custom integrations</td></tr></tbody></table></div>
+<p>Annual billing available with a 15% discount. 14-day free trial on all plans.</p>
+<hr>
+<h2 id="9-growth-strategy">9. GROWTH STRATEGY</h2>
+<h3 id="91-phase-1-foundation-months-112-2026">9.1 Phase 1 — Foundation (Months 1–12, 2026)</h3>
+<ul>
+<li>Finalise brand identity and digital presence for all four business units</li>
+<li>Build structured referral networks with treating practitioners (GPs, physiotherapists, orthopaedic surgeons, rehabilitation providers) for Conner Injury Law</li>
+<li>Systematise client intake, file management, and reporting processes across all units using KevLaw AI internally</li>
+<li>Launch KevLaw AI beta to a cohort of 10–20 Queensland law firms</li>
+<li>Develop MBCS external firm client base — target 10 external firms by end of FY2026</li>
+<li>Achieve $65,000/month combined revenue by Q4 2026</li>
+</ul>
+<h3 id="92-phase-2-acceleration-months-1324-2027">9.2 Phase 2 — Acceleration (Months 13–24, 2027)</h3>
+<ul>
+<li>Scale Conner Injury Law file volume through structured referral programme and Google Ads</li>
+<li>Expand Merkel &amp; Conner into additional commercial practice areas (construction law, franchise law)</li>
+<li>Launch KevLaw AI nationally with dedicated sales and onboarding function; target 50 paying firms</li>
+<li>Position MBCS as Queensland&#x27;s premier medical-legal support service through industry event presence and direct firm outreach</li>
+<li>Hire Group Operations Manager and additional practitioners across legal units</li>
+<li>Achieve $150,000+/month combined revenue by Q4 2027</li>
+</ul>
+<h3 id="93-phase-3-market-leadership-months-2536-2028">9.3 Phase 3 — Market Leadership (Months 25–36, 2028)</h3>
+<ul>
+<li>Achieve $3M+ in combined group revenue</li>
+<li>KevLaw AI at 200+ subscribing firms nationally; explore interstate legal expansion (NSW, Victoria)</li>
+<li>Investigate KevLaw AI institutional licensing or Series A funding conversation</li>
+<li>Establish Conner Law Group as a recognisable Queensland legal brand with media presence and thought leadership</li>
+<li>Total team of 25–30 staff across all units</li>
+</ul>
+<hr>
+<h2 id="10-marketing-amp-business-development">10. MARKETING &amp; BUSINESS DEVELOPMENT</h2>
+<h3 id="101-digital-marketing">10.1 Digital Marketing</h3>
+<ul>
+<li>Individual brand websites with SEO-optimised content targeting Queensland personal injury and commercial law search terms</li>
+<li>Google Ads campaigns targeting high-intent search queries in Brisbane and South East Queensland</li>
+<li>LinkedIn presence for professional brand development and B2B lead generation (Merkel &amp; Conner, MBCS, KevLaw AI)</li>
+<li>Facebook and Instagram for community engagement and personal injury brand awareness (Conner Injury Law)</li>
+<li>Google Business Profile actively managed across all applicable brand units</li>
+</ul>
+<h3 id="102-referral-networks">10.2 Referral Networks</h3>
+<p>The most valuable source of personal injury client referrals is the treating medical and allied health community. Conner Injury Law will invest in building and maintaining relationships with: general practitioners in Brisbane&#x27;s suburban and outer suburban areas; physiotherapy and chiropractic clinics; orthopaedic surgeons and pain management specialists; rehabilitation providers and occupational therapists; WorkCover-approved practitioners.</p>
+<p>Merkel &amp; Conner&#x27;s primary referral channels are: accountants, financial advisers, business brokers, and mortgage brokers in the Brisbane SME ecosystem.</p>
+<h3 id="103-content-amp-thought-leadership">10.3 Content &amp; Thought Leadership</h3>
+<p>Regular publication of legal education content — articles, FAQs, video explainers, and social media content — across all brand channels. Content is chosen for practical relevance to target clients and optimised for search visibility. Social media is managed to a formal content calendar (see separate Content Calendar document).</p>
+<h3 id="104-industry-events-amp-associations">10.4 Industry Events &amp; Associations</h3>
+<ul>
+<li>Queensland Law Society membership and participation across all practitioner units</li>
+<li>Australian Lawyers Alliance (ALA) membership for personal injury practitioners</li>
+<li>Brisbane business networking events for Merkel &amp; Conner</li>
+<li>LegalTech and innovation conference attendance for KevLaw AI</li>
+</ul>
+<hr>
+<h2 id="11-technology-strategy">11. TECHNOLOGY STRATEGY</h2>
+<p>Technology is central to the Conner Law Group competitive model. The Group&#x27;s technology strategy encompasses:</p>
+<p><strong>Internal Operations:</strong> KevLaw AI is deployed internally across all legal business units, providing document automation, client intake management, compliance tracking, and file management. This delivers measurable efficiency gains and reduces per-matter administrative cost.</p>
+<p><strong>KevLaw AI Product Roadmap:</strong></p>
+<ul>
+<li><em>Phase 1 (Q2–Q3 2026):</em> Core document engine for internal use — retainer agreements, letters of demand, settlement correspondence, client update letters</li>
+<li><em>Phase 2 (Q4 2026):</em> Invite-only beta with 10–20 Queensland law firms; collect feedback and refine</li>
+<li><em>Phase 3 (Q1–Q2 2027):</em> Public launch with formal pricing tiers; national marketing push</li>
+<li><em>Phase 4 (Q3–Q4 2027):</em> Integration with LEAP, Actionstep, and Smokeball; expand jurisdiction coverage</li>
+<li><em>Phase 5 (2028+):</em> National platform; explore institutional partnerships; potential external funding</li>
+</ul>
+<p><strong>Data Security &amp; Compliance:</strong> All systems comply with the <em>Privacy Act 1988</em> (Cth) and Australian Privacy Principles. Client data is stored on Australian servers. Legal professional privilege protections are built into system architecture. Annual cybersecurity audit.</p>
+<hr>
+<h2 id="12-team-structure-amp-key-personnel">12. TEAM STRUCTURE &amp; KEY PERSONNEL</h2>
+<h3 id="121-current-structure-march-2026">12.1 Current Structure (March 2026)</h3>
+<pre><code>Ben Alek Conner — Founder / Managing Director
+├── Merkel &amp; Conner
+│   ├── Principal Solicitor (Commercial &amp; Business Law)
+│   └── Paralegal / Legal Secretary
+├── Conner Injury Law
+│   ├── Senior Solicitor (Personal Injury)
+│   └── Paralegal / Intake Coordinator
+├── MBCS
+│   ├── Director / Medical-Legal Coordinator
+│   └── File Coordinator
+└── KevLaw AI
+    └── Developer (contractor)</code></pre>
+<h3 id="122-target-structure-end-of-fy2027">12.2 Target Structure (End of FY2027)</h3>
+<pre><code>Ben Alek Conner — Founder / Managing Director
+├── Group Operations Manager
+├── Marketing &amp; Content Manager (Group)
+├── Finance &amp; Administration Manager (Group)
+├── Merkel &amp; Conner
+│   ├── Principal Solicitor
+│   ├── Solicitor (Commercial Law)
+│   └── Paralegal
+├── Conner Injury Law
+│   ├── Senior Solicitor (Personal Injury)
+│   ├── Solicitor (Personal Injury)
+│   └── 2x Paralegals / Intake
+├── MBCS
+│   ├── Director
+│   ├── Medical-Legal Coordinator (x2)
+│   └── File Preparation Officer
+└── KevLaw AI
+    ├── Head of Product
+    ├── Lead Developer
+    └── Customer Success Manager</code></pre>
+<h3 id="123-culture-amp-people-principles">12.3 Culture &amp; People Principles</h3>
+<ul>
+<li>Manageable caseloads — quality over volume at all times</li>
+<li>Professional development budget: $2,000/year per solicitor</li>
+<li>All legal practitioners: Queensland Law Society members in good standing</li>
+<li>Quarterly performance reviews with clear KPIs tied to matter outcomes and client satisfaction</li>
+<li>Competitive remuneration at market rate; performance bonus tied to firm revenue</li>
+<li>Flexible hybrid working arrangements: 2–3 days in office, remainder remote</li>
+</ul>
+<hr>
+<h2 id="13-operations">13. OPERATIONS</h2>
+<p><strong>Office:</strong> Brisbane-based primary office in CBD or fringe CBD location. Professional presentation is essential given the client-facing nature of personal injury and business law practice.</p>
+<p><strong>Hours:</strong> Standard business hours Monday to Friday. After-hours appointment availability for personal injury clients as needed.</p>
+<p><strong>File Management:</strong> All matters managed within KevLaw AI&#x27;s practice management integration layer, ensuring consistent file standards, deadline tracking, and document management across all units.</p>
+<p><strong>Professional Indemnity Insurance:</strong> Maintained at appropriate coverage levels across all legal entities, reviewed annually.</p>
+<p><strong>Trust Accounting:</strong> Managed in strict compliance with the <em>Legal Profession Act 2007</em> (Qld) and Queensland Law Society trust accounting requirements.</p>
+<p><strong>Client Communication Standards:</strong> All client matters have a designated responsible practitioner. Clients receive substantive updates at a minimum every 30 days. Missed calls returned within one business day.</p>
+<hr>
+<h2 id="14-risk-management">14. RISK MANAGEMENT</h2>
+<div class="table-wrap"><table><thead><tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr></thead><tbody><tr><td>Key person dependency (founder / senior solicitors)</td><td>Medium</td><td>High</td><td>Documented processes, team redundancy, succession planning</td></tr><tr><td>KevLaw AI development delays</td><td>Medium</td><td>Medium</td><td>Phased MVP-first build; external development capacity; internal use first</td></tr><tr><td>CTP/MAIC reform impacting PI market</td><td>Low</td><td>High</td><td>Diversified revenue; monitoring Queensland legislative developments</td></tr><tr><td>Competition from national PI firms (Shine, Maurice Blackburn)</td><td>High</td><td>Medium</td><td>Specialist positioning, service quality, referral relationships</td></tr><tr><td>Cybersecurity incident</td><td>Low</td><td>High</td><td>Australian-hosted data, encryption, access controls, cyber insurance, annual security audit</td></tr><tr><td>Staff recruitment / retention challenges</td><td>Medium</td><td>Medium</td><td>Competitive pay, culture investment, flexible arrangements</td></tr><tr><td>Economic downturn reducing commercial clients</td><td>Low</td><td>Medium</td><td>Counter-cyclical personal injury revenue provides natural hedge</td></tr><tr><td>Client complaint or professional conduct matter</td><td>Low</td><td>High</td><td>Strong intake screening, proactive client communication, PI insurance, complaints process</td></tr><tr><td>Regulatory compliance failure (trust accounting)</td><td>Low</td><td>Very High</td><td>Strict QLS compliance, external compliance consultant engaged annually</td></tr></tbody></table></div>
+<hr>
+<h2 id="15-12-month-milestones">15. 12-MONTH MILESTONES</h2>
+<div class="table-wrap"><table><thead><tr><th>Month</th><th>Milestone</th></tr></thead><tbody><tr><td>Month 1–2</td><td>All four brand identities finalised; websites live; KevLaw AI MVP in internal use</td></tr><tr><td>Month 2–3</td><td>Conner Injury Law referral outreach launched; 20+ active PI files</td></tr><tr><td>Month 3</td><td>Merkel &amp; Conner at 15+ active business clients</td></tr><tr><td>Month 4</td><td>MBCS first 5 external firm clients onboarded</td></tr><tr><td>Month 5</td><td>KevLaw AI beta closed; formal invite-only beta to 15 QLD firms</td></tr><tr><td>Month 6</td><td>Group revenue run rate at $50,000/month</td></tr><tr><td>Month 7–8</td><td>Conner Injury Law at 60+ active files; first material settlements processed</td></tr><tr><td>Month 9</td><td>KevLaw AI beta at 20 participating firms; product iteration based on feedback</td></tr><tr><td>Month 10</td><td>First additional practitioner hire (Merkel &amp; Conner or Conner Injury Law)</td></tr><tr><td>Month 11</td><td>MBCS at 15+ external firm clients; national outreach commenced</td></tr><tr><td>Month 12</td><td>Full-year group revenue $810,000+; KevLaw AI public launch preparation confirmed</td></tr></tbody></table></div>
+<hr>
+<h2 id="16-3-year-strategic-milestones">16. 3-YEAR STRATEGIC MILESTONES</h2>
+<h3 id="end-of-year-1-fy2026">End of Year 1 (FY2026)</h3>
+<ul>
+<li>Combined group revenue: $810,000</li>
+<li>KevLaw AI: internal use operational; 15–20 beta firms</li>
+<li>Team: 8–12 people across all units</li>
+<li>Brand recognition established in Brisbane legal and business communities</li>
+</ul>
+<h3 id="end-of-year-2-fy2027">End of Year 2 (FY2027)</h3>
+<ul>
+<li>Combined group revenue: $1,800,000</li>
+<li>KevLaw AI: public launch completed; 50 paying subscribers; $20,000 MRR</li>
+<li>Conner Injury Law: 80+ active files; significant District Court matters in progress</li>
+<li>Merkel &amp; Conner: 50+ active business clients</li>
+<li>MBCS: 25+ external firm clients; interstate services offered</li>
+<li>Total team: 15–20 people</li>
+</ul>
+<h3 id="end-of-year-3-fy2028">End of Year 3 (FY2028)</h3>
+<ul>
+<li>Combined group revenue: $3,380,000 (multi-million AUD milestone achieved)</li>
+<li>KevLaw AI: 200+ subscribing firms nationally; $65,000+ MRR; Series A conversation or strategic partnership explored</li>
+<li>Conner Law Group: recognised Queensland legal brand with media presence and thought leadership platform</li>
+<li>Interstate legal services expansion commenced (NSW)</li>
+<li>Full team: 25–30 staff across all units</li>
+<li>EBITDA margin: 60%+ at group level</li>
+</ul>
+<hr>
+<h2 id="17-conclusion">17. CONCLUSION</h2>
+<p>Conner Law Group is not simply a law firm. It is an integrated legal services and legal technology business positioned at the intersection of exceptional client outcomes and scalable innovation. The four-unit structure — Merkel &amp; Conner, Conner Injury Law, MBCS, and KevLaw AI — creates a resilient, diversified business that generates revenue across multiple verticals while cross-referencing and strengthening each component.</p>
+<p>Brisbane&#x27;s legal market presents a genuine opportunity for a focused, technology-forward firm to capture market share from larger incumbents who are slower to adapt and more expensive to engage. Conner Law Group is built for this moment.</p>
+<p>The path to multi-million AUD revenue is clear, achievable, and grounded in the fundamentals of quality legal practice, disciplined business development, and smart deployment of technology.</p>
+<hr>
+<p><em>Conner Law Group | Brisbane, Queensland, Australia</em></p>
+<p><em>Confidential — For Internal Use and Authorised Distribution Only</em></p>
+<p><em>Prepared: March 2026 | Owner: Ben Alek Conner</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">05-Conner Law/01-strategy/Documents/BUSINESS PLAN.md</div>
+    </main>
+  </div>
+</body>
+</html>

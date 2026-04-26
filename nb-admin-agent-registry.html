@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Registry | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+/* Stats */
+.stat-row { display: flex; gap: 16px; margin: 16px 0 0; flex-wrap: wrap; }
+.stat-pill { font-size: 13px; font-weight: 600; color: var(--text, #e5e7eb); background: rgba(0,212,170,0.06); border: 1px solid rgba(0,212,170,0.1); padding: 6px 16px; border-radius: 8px; }
+.stat-pill span { color: var(--teal, #00D4AA); }
+
+/* Filters */
+.filter-bar { display: flex; gap: 12px; margin: 24px 0 16px; flex-wrap: wrap; align-items: center; }
+.filter-bar input { background: var(--card-bg, #1a1f2e); border: 1px solid var(--border, #2a2f3e); color: var(--text, #e5e7eb); padding: 8px 14px; border-radius: 8px; font-size: 14px; width: 300px; font-family: 'Plus Jakarta Sans', sans-serif; }
+.filter-bar input::placeholder { color: var(--muted, #6b7280); }
+.filter-bar input:focus { outline: none; border-color: var(--teal, #00D4AA); }
+.filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-pill { font-size: 12px; padding: 5px 12px; border-radius: 6px; cursor: pointer; border: 1px solid var(--border, #2a2f3e); background: transparent; color: var(--text-secondary, #9ca3af); transition: all 0.15s; }
+.filter-pill:hover { border-color: var(--teal, #00D4AA); color: var(--teal, #00D4AA); }
+.filter-pill.active { background: rgba(0,212,170,0.12); border-color: var(--teal, #00D4AA); color: var(--teal, #00D4AA); font-weight: 600; }
+
+/* Agent Table */
+.agent-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.agent-table th { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted, #6b7280); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border, #2a2f3e); }
+.agent-table td { font-size: 13px; padding: 10px 12px; border-bottom: 1px solid rgba(42,47,62,0.5); color: var(--text-secondary, #9ca3af); vertical-align: top; }
+.agent-table tr:hover td { background: rgba(0,212,170,0.03); }
+.agent-table tr.expanded td { background: rgba(0,212,170,0.05); border-bottom: none; }
+.agent-name { font-weight: 600; color: var(--text, #e5e7eb); cursor: pointer; }
+.agent-name:hover { color: var(--teal, #00D4AA); }
+.agent-category { font-size: 11px; background: rgba(0,212,170,0.08); border: 1px solid rgba(0,212,170,0.15); color: var(--teal, #00D4AA); padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.file-link { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--teal, #00D4AA); cursor: pointer; text-decoration: none; }
+.file-link:hover { text-decoration: underline; }
+.file-missing { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted, #6b7280); font-style: italic; }
+.status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+.status-dot.paired { background: #00D4AA; }
+.status-dot.directive-only { background: #f59e0b; }
+.status-dot.script-only { background: #3b82f6; }
+
+/* Expanded Content Viewer */
+.agent-detail { display: none; }
+.agent-detail.open { display: table-row; }
+.agent-detail td { padding: 0; }
+.detail-panel { background: rgba(0,0,0,0.25); border: 1px solid var(--border, #2a2f3e); border-top: none; margin: 0 12px 12px; border-radius: 0 0 8px 8px; }
+.detail-tabs { display: flex; border-bottom: 1px solid var(--border, #2a2f3e); }
+.detail-tab { padding: 10px 20px; font-size: 12px; font-weight: 600; color: var(--muted, #6b7280); cursor: pointer; border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 1px; font-family: 'Barlow Condensed', sans-serif; }
+.detail-tab:hover { color: var(--text, #e5e7eb); }
+.detail-tab.active { color: var(--teal, #00D4AA); border-bottom-color: var(--teal, #00D4AA); }
+.detail-content { padding: 16px 20px; max-height: 500px; overflow-y: auto; }
+.detail-content pre { font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6; color: var(--text-secondary, #9ca3af); white-space: pre-wrap; word-break: break-word; margin: 0; }
+.detail-content .loading-text { color: var(--muted, #6b7280); font-style: italic; }
+
+/* Count badge */
+.results-count { font-size: 13px; color: var(--muted, #6b7280); margin-left: auto; }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Agent Registry</h1>
+        <div class="date">Browse, search, and review all NunyaBunyaAgent directives and Python scripts</div>
+      </div>
+    </div>
+
+    <div class="stat-row" id="stats"></div>
+
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="Search agents by name, category, or description...">
+      <div class="filter-pills" id="categoryFilters"></div>
+      <div class="results-count" id="resultsCount"></div>
+    </div>
+
+    <table class="agent-table" id="agentTable">
+      <thead>
+        <tr>
+          <th style="width:30px"></th>
+          <th>Agent</th>
+          <th>Category</th>
+          <th>Directive</th>
+          <th>Script</th>
+          <th style="width:120px">Purpose</th>
+        </tr>
+      </thead>
+      <tbody id="agentBody"></tbody>
+    </table>
+
+    <div class="loading" id="loading"><div class="spinner"></div><p>Loading agent registry...</p></div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+// ── Agent Registry Data ──
+// Generated from AGENT_REGISTRY.md + full Directives/Execution scan
+const AGENTS = [
+  // Lead Generation & Sales
+  { name: 'Lead Engine', category: 'Lead Gen', directive: 'lead_engine.md', script: 'lead_engine.py', purpose: 'Unified scrape → enrich → email → queue. Subcommands: scrape, send, followup, report' },
+  { name: 'Google Maps Lead Gen', category: 'Lead Gen', directive: 'gmaps_lead_generation.md', script: 'gmaps_lead_pipeline.py', purpose: 'Scrape Google Maps for B2B leads with contact enrichment' },
+  { name: 'Google SERP Lead Scraper', category: 'Lead Gen', directive: 'google_serp_lead_scraper.md', script: 'scrape_apify.py', purpose: 'Scrape Google search results for local business leads' },
+  { name: 'Lead Qualifier', category: 'Lead Gen', directive: 'lead_qualifier.md', script: 'lead_qualifier.py', purpose: 'Score and qualify inbound leads, book appointments' },
+  { name: 'Upwork Scrape & Apply', category: 'Lead Gen', directive: 'upwork_scrape_apply.md', script: 'upwork_apify_scraper.py', purpose: 'Find and apply to Upwork jobs with AI proposals' },
+  { name: 'Create Proposal', category: 'Lead Gen', directive: 'create_proposal.md', script: 'create_proposal.py', purpose: 'Generate proposals from briefs or call transcripts' },
+  { name: 'Instantly Autoreply', category: 'Lead Gen', directive: 'instantly_autoreply.md', script: 'instantly_autoreply.py', purpose: 'AI auto-replies for cold email campaigns' },
+  { name: 'First Client Package', category: 'Lead Gen', directive: 'first_client_package.md', script: 'first_client_package.py', purpose: 'Zero-to-signed-client pipeline' },
+
+  // Strategy & Planning
+  { name: 'Strategy Agent (AI CMO)', category: 'Strategy', directive: 'strategy_agent.md', script: 'strategy_agent.py', purpose: '90-day marketing strategies, campaign briefs' },
+  { name: 'Content Marketing Agent', category: 'Strategy', directive: 'content_marketing_agent.md', script: null, purpose: 'Content strategy using 5 Ps + RACE framework' },
+  { name: 'Knowledge Base', category: 'Strategy', directive: 'knowledge_base.md', script: 'knowledge_base.py', purpose: 'Client memory system — ingest and query docs' },
+  { name: 'Creative Strategist', category: 'Strategy', directive: 'creative_strategist.md', script: null, purpose: 'Creative brief development' },
+  { name: 'Opening Gambit', category: 'Strategy', directive: 'opening_gambit.md', script: null, purpose: 'Client audit (first play in onboarding pipeline)' },
+  { name: 'The Fitout', category: 'Strategy', directive: 'the_fitout.md', script: null, purpose: 'Client build phase (second play)' },
+  { name: 'The Polish', category: 'Strategy', directive: 'the_polish.md', script: null, purpose: 'Client polish phase (third play)' },
+
+  // Content Production
+  { name: 'Content Generator', category: 'Content', directive: 'content_generator.md', script: 'content_generator.py', purpose: 'One topic → blog + social + email + ads' },
+  { name: 'Content Machine', category: 'Content', directive: 'content_machine.md', script: 'content_machine.py', purpose: 'Rapid single-keyword content package' },
+  { name: 'Short Form Video', category: 'Content', directive: 'short_form_video.md', script: 'short_form_video.py', purpose: 'Reels/TikTok/Shorts scripts with brand connection' },
+  { name: 'Social Agent', category: 'Content', directive: 'social_agent.md', script: 'social_agent.py', purpose: 'Platform-optimized posts + Buffer scheduling' },
+  { name: 'Bulk Reel Scripts', category: 'Content', directive: 'bulk_reel_scripts.md', script: null, purpose: 'Batch short-form video script generation' },
+  { name: 'Bulk Caption Generator', category: 'Content', directive: 'bulk_caption_generator.md', script: null, purpose: 'Batch social media captions' },
+  { name: 'Monthly Content Planner', category: 'Content', directive: 'monthly_content_planner.md', script: null, purpose: 'Monthly content planning' },
+  { name: 'Content Brief Orchestrator', category: 'Content', directive: 'content_brief_orchestrator.md', script: null, purpose: 'Content brief generation' },
+  { name: 'Caption Optimizer', category: 'Content', directive: 'caption_optimizer.md', script: null, purpose: 'Caption A/B testing and optimization' },
+  { name: 'Repost Curator', category: 'Content', directive: 'repost_curator.md', script: null, purpose: 'Content curation and repurposing' },
+  { name: 'Premium Value Post', category: 'Content', directive: 'premium_value_post.md', script: null, purpose: 'High-value social post format' },
+  { name: 'Standard Value Post', category: 'Content', directive: 'standard_value_post.md', script: null, purpose: 'Standard social post format' },
+  { name: 'Monthly Calendar Assembler', category: 'Content', directive: 'monthly_calendar_assembler.md', script: null, purpose: 'Assemble monthly content calendars' },
+  { name: 'Brief Parser', category: 'Content', directive: 'brief_parser.md', script: null, purpose: 'Parse content briefs into structured data' },
+
+  // SEO
+  { name: 'SEO Agent', category: 'SEO', directive: 'seo_agent.md', script: 'seo_agent.py', purpose: 'Weekly SEO analysis: keywords, gaps, content calendar' },
+  { name: 'SEO Opportunity Finder', category: 'SEO', directive: 'seo_opportunity_finder.md', script: 'seo_opportunity_finder.py', purpose: '50 ranked keyword opportunities + 12-week calendar' },
+  { name: 'Local SEO Tool', category: 'SEO', directive: 'local_seo_tool.md', script: 'local_seo_tool.py', purpose: 'Generate local landing pages per client' },
+
+  // Ads
+  { name: 'Ads Optimization Agent', category: 'Ads', directive: 'ads_agent.md', script: 'ads_agent.py', purpose: 'Monitor Google/Meta Ads, flag underperformers' },
+  { name: 'Ad Factory', category: 'Ads', directive: 'ad_factory.md', script: 'ad_factory.py', purpose: 'Generate ad creatives at scale' },
+  { name: 'Ad Creative', category: 'Ads', directive: 'ad_creative.md', script: 'ad_creative.py', purpose: 'Individual ad creative production' },
+
+  // Reputation & Analytics
+  { name: 'Reputation Agent', category: 'Reputation', directive: 'reputation_agent.md', script: 'reputation_agent.py', purpose: 'Monitor reviews, auto-respond, alert on negative' },
+  { name: 'GBP Metrics Collector', category: 'Reputation', directive: 'gbp_metrics_agent.md', script: 'gbp_metrics_agent.py', purpose: 'Daily Google Business Profile data' },
+  { name: 'Reporting Agent', category: 'Reporting', directive: 'reporting_agent.md', script: 'reporting_agent.py', purpose: 'Weekly client reports with insights' },
+  { name: 'Social Media Audit', category: 'Reputation', directive: 'social_media_audit_agent.md', script: null, purpose: 'Social media performance audit' },
+
+  // Foundational Research
+  { name: 'Audience Research', category: 'Research', directive: 'audience_research_agent.md', script: 'audience_research_agent.py', purpose: 'Demographics, psychographics, buying triggers' },
+  { name: 'Competitor Analysis', category: 'Research', directive: 'competitor_analysis_agent.md', script: 'competitor_analysis_agent.py', purpose: 'Competitor gaps and opportunities' },
+  { name: 'Market Research', category: 'Research', directive: 'market_research_agent.md', script: 'market_research_agent.py', purpose: 'Industry trends, market size, opportunities' },
+  { name: 'Customer Pain Points', category: 'Research', directive: 'customer_pain_point_agent.md', script: 'customer_pain_point_agent.py', purpose: 'Categorized pain points with messaging angles' },
+  { name: 'Customer Journey', category: 'Research', directive: 'customer_journey_agent.md', script: 'customer_journey_agent.py', purpose: '5-stage journey with content needs' },
+  { name: 'Brand Audit', category: 'Research', directive: 'brand_audit_agent.md', script: 'brand_audit_agent.py', purpose: 'Visual/messaging consistency scores' },
+  { name: 'Analytics Review', category: 'Research', directive: 'analytics_review_agent.md', script: 'analytics_review_agent.py', purpose: 'Traffic, keywords, conversion data' },
+  { name: 'Business Overview', category: 'Research', directive: 'business_overview_agent.md', script: 'business_overview_agent.py', purpose: 'Executive synthesis of all research' },
+
+  // Strategic Documents
+  { name: 'Brand Voice', category: 'Strategic', directive: 'brand_voice_agent.md', script: 'brand_voice_agent.py', purpose: 'Voice attributes, tone spectrum, vocabulary' },
+  { name: 'Audience Personas', category: 'Strategic', directive: 'audience_persona_agent.md', script: 'audience_persona_agent.py', purpose: '3-5 buyer personas with messaging' },
+  { name: 'Messaging Framework', category: 'Strategic', directive: 'messaging_framework_agent.md', script: 'messaging_framework_agent.py', purpose: 'Value prop, core messages, proof points' },
+  { name: 'Positioning', category: 'Strategic', directive: 'positioning_agent.md', script: 'positioning_agent.py', purpose: 'Positioning statements, elevator pitches' },
+  { name: 'Offer Strategy', category: 'Strategic', directive: 'offer_strategy_agent.md', script: 'offer_strategy_agent.py', purpose: 'Offer stack, pricing, value ladder' },
+  { name: 'Conversion Strategy', category: 'Strategic', directive: 'conversion_strategy_agent.md', script: 'conversion_strategy_agent.py', purpose: 'CRO recommendations, A/B priorities' },
+  { name: 'Funnel Strategy', category: 'Strategic', directive: 'funnel_strategy_agent.md', script: 'funnel_strategy_agent.py', purpose: 'Full funnel with email sequences' },
+  { name: 'Visual Identity', category: 'Strategic', directive: 'visual_identity_agent.md', script: 'visual_identity_agent.py', purpose: 'Color palette, typography, imagery' },
+  { name: 'Growth Strategy', category: 'Strategic', directive: 'growth_strategy_agent.md', script: 'growth_strategy_agent.py', purpose: '90-day roadmap, channel mix' },
+
+  // Website & Design
+  { name: 'Website Generator', category: 'Website', directive: 'website_generator.md', script: null, purpose: 'Brand Bible → full static site' },
+  { name: 'Website Builder', category: 'Website', directive: 'website_builder.md', script: null, purpose: 'Website from brief' },
+  { name: 'Website Redesign', category: 'Website', directive: 'website_redesign_agent.md', script: 'website_redesign_agent.py', purpose: 'Audit → content → build → case study' },
+  { name: 'Case Study Generator', category: 'Website', directive: 'case_study_generator.md', script: null, purpose: 'Template-based case studies' },
+  { name: 'Logo Package Builder', category: 'Website', directive: 'logo_package_builder.md', script: 'logo_package_builder.py', purpose: '7 logo variations, 11 sizes, 6 mockups' },
+  { name: 'Social Graphics', category: 'Website', directive: 'social_graphics_agent.md', script: 'social_graphics_agent.py', purpose: 'AI-generated branded graphics' },
+  { name: 'Blog Graphics', category: 'Website', directive: 'blog_graphics_agent.md', script: 'blog_graphics_agent.py', purpose: 'Featured images + in-article graphics' },
+  { name: 'Carousel Renderer', category: 'Website', directive: 'carousel_renderer.md', script: null, purpose: 'Multi-image carousel posts' },
+  { name: 'Static Renderer', category: 'Website', directive: 'static_renderer.md', script: null, purpose: 'Static image rendering' },
+  { name: 'Reel Packager', category: 'Website', directive: 'reel_packager.md', script: null, purpose: 'Package reels for publishing' },
+
+  // Brand Bible (Multi-Agent Pipeline)
+  { name: 'BB Executive Summary', category: 'Brand Bible', directive: 'bb_executive_summary.md', script: 'bb_executive_summary.py', purpose: 'Business overview section' },
+  { name: 'BB Market Analysis', category: 'Brand Bible', directive: 'bb_market_analysis.md', script: 'bb_market_analysis.py', purpose: 'Industry + local market analysis' },
+  { name: 'BB Financial Projections', category: 'Brand Bible', directive: 'bb_financial_projections.md', script: 'bb_financial_projections.py', purpose: 'Revenue projections, expenses' },
+  { name: 'BB Operations & Risk', category: 'Brand Bible', directive: 'bb_operations_risk.md', script: 'bb_operations_risk.py', purpose: 'Ops workflow + risk assessment' },
+  { name: 'BB Founder Identity', category: 'Brand Bible', directive: 'bb_founder_identity.md', script: 'bb_founder_identity.py', purpose: 'Founder letter, mission/vision' },
+  { name: 'BB Brand Personality', category: 'Brand Bible', directive: 'bb_brand_personality.md', script: 'bb_brand_personality.py', purpose: 'Personality traits, tone spectrum' },
+  { name: 'BB Customer Personas', category: 'Brand Bible', directive: 'bb_customer_personas.md', script: 'bb_customer_personas.py', purpose: '3 detailed customer personas' },
+  { name: 'BB Customer Journey', category: 'Brand Bible', directive: 'bb_customer_journey_voc.md', script: 'bb_customer_journey_voc.py', purpose: '6-stage journey + voice of customer' },
+  { name: 'BB Services & Pricing', category: 'Brand Bible', directive: 'bb_services_pricing.md', script: 'bb_services_pricing.py', purpose: 'Services menu + pricing psychology' },
+  { name: 'BB Competitive & USP', category: 'Brand Bible', directive: 'bb_competitive_usp.md', script: 'bb_competitive_usp.py', purpose: 'Competitive landscape + USP' },
+  { name: 'BB Five-Year Vision', category: 'Brand Bible', directive: 'bb_five_year_vision.md', script: 'bb_five_year_vision.py', purpose: 'Vision narrative + SWOT' },
+  { name: 'BB Visual Identity', category: 'Brand Bible', directive: 'bb_visual_identity.md', script: 'bb_visual_identity.py', purpose: 'Logo, colour, typography rules' },
+  { name: 'BB Marketing & Growth', category: 'Brand Bible', directive: 'bb_marketing_growth.md', script: 'bb_marketing_growth.py', purpose: 'Strategy + 90-day plan' },
+  { name: 'BB Toolkit', category: 'Brand Bible', directive: 'bb_toolkit.md', script: 'bb_toolkit.py', purpose: 'Business card, signage, profiles' },
+  { name: 'BB Content Calendar', category: 'Brand Bible', directive: 'bb_content_calendar.md', script: 'bb_content_calendar.py', purpose: '30-day content calendar' },
+  { name: 'BB Ads Playbook', category: 'Brand Bible', directive: 'bb_ads_playbook.md', script: 'bb_ads_playbook.py', purpose: 'Meta + Google ads playbook' },
+  { name: 'BB Email Playbook', category: 'Brand Bible', directive: 'bb_email_playbook.md', script: 'bb_email_playbook.py', purpose: 'Welcome sequence + lead magnets' },
+  { name: 'BB Graphics Package', category: 'Brand Bible', directive: 'bb_graphics_package.md', script: 'bb_graphics_package.py', purpose: 'Stock photos, mood board, logos' },
+  { name: 'BB Brand Assets', category: 'Brand Bible', directive: 'bb_brand_assets.md', script: 'bb_brand_assets.py', purpose: 'Social templates + print collateral' },
+  { name: 'BB Combiner', category: 'Brand Bible', directive: 'bb_combiner.md', script: 'bb_combiner.py', purpose: 'Assembles sections → HTML document' },
+  { name: 'BB Reviewer', category: 'Brand Bible', directive: 'bb_reviewer.md', script: 'bb_reviewer.py', purpose: 'Final quality pass' },
+  { name: 'Brand Bible Generator', category: 'Brand Bible', directive: 'brand_bible_generator.md', script: 'brand_bible_generator.py', purpose: 'Standalone full Brand Bible generator' },
+  { name: 'Brand Launch Kit', category: 'Brand Bible', directive: 'brand_launch_kit.md', script: 'brand_launch_kit.py', purpose: 'Visual identity → style guide → bible → banners' },
+  { name: 'Style Guide Generator', category: 'Brand Bible', directive: 'style_guide_generator.md', script: null, purpose: 'Visual style guide generation' },
+
+  // Video Production
+  { name: 'Video Hook-Story-Offer', category: 'Video', directive: 'video_hook_story_offer.md', script: null, purpose: 'Direct-response narrative videos' },
+  { name: 'Video Before/After', category: 'Video', directive: 'video_before_after.md', script: null, purpose: 'Transformation videos' },
+  { name: 'Video Testimonial', category: 'Video', directive: 'video_testimonial.md', script: null, purpose: 'Client testimonial format' },
+  { name: 'Video FAQ/Mythbust', category: 'Video', directive: 'video_faq_mythbust.md', script: null, purpose: 'FAQ/myth-busting format' },
+  { name: 'Video Listicle', category: 'Video', directive: 'video_listicle.md', script: null, purpose: 'Educational listicle format' },
+  { name: 'Video PAS', category: 'Video', directive: 'video_pas.md', script: null, purpose: 'Problem-Agitation-Solution videos' },
+  { name: 'Video Text Educational', category: 'Video', directive: 'video_text_educational.md', script: null, purpose: 'Text-overlay educational format' },
+  { name: 'Video UGC/BTS', category: 'Video', directive: 'video_ugc_bts.md', script: null, purpose: 'Behind-the-scenes content' },
+  { name: 'Video Trending Audio', category: 'Video', directive: 'video_trending_audio.md', script: null, purpose: 'Trending audio sync format' },
+  { name: 'Video Split Screen', category: 'Video', directive: 'video_split_screen.md', script: null, purpose: 'Multi-screen composition' },
+  { name: 'Jump Cut Editor', category: 'Video', directive: 'jump_cut_vad.md', script: 'jump_cut_vad_singlepass.py', purpose: 'Auto-remove silences from video' },
+  { name: 'Funnel Walkthrough Video', category: 'Video', directive: 'funnel_walkthrough_video.md', script: null, purpose: 'Funnel walkthrough explainer' },
+  { name: 'Short Doc Agent', category: 'Video', directive: 'short_doc_agent.md', script: null, purpose: 'Short documentary format' },
+  { name: 'Video Production Orchestrator', category: 'Video', directive: 'video_production_orchestrator.md', script: null, purpose: 'Video production workflow' },
+
+  // Orchestrators & Pipelines
+  { name: 'Pipeline Orchestrator', category: 'Pipeline', directive: 'deliverable_pipeline_orchestrator.md', script: 'deliverable_pipeline_orchestrator.py', purpose: 'Chain agents, pass context, pause/resume' },
+  { name: 'Bedrock Orchestrator', category: 'Pipeline', directive: 'bedrock_orchestrator.md', script: 'bedrock_orchestrator.py', purpose: 'Website + booking + notifications package' },
+  { name: 'Campaign Orchestrator', category: 'Pipeline', directive: 'campaign_orchestrator.md', script: null, purpose: 'Campaign execution orchestration' },
+  { name: 'Foundation Package Builder', category: 'Pipeline', directive: 'foundation_package_builder.md', script: 'foundation_package_builder.py', purpose: 'Branded operational docs for new business' },
+  { name: 'Foundations Builder', category: 'Pipeline', directive: null, script: 'foundations_builder.py', purpose: 'Portfolio-wide foundational documents' },
+
+  // Swipe File & Feedback
+  { name: 'Swipe File Agent', category: 'Research', directive: 'swipe_file_agent.md', script: null, purpose: 'Competitive swipe file builder' },
+  { name: 'Monthly Feedback Agent', category: 'Research', directive: 'monthly_feedback_agent.md', script: null, purpose: 'Monthly client feedback collection' },
+
+  // Pitch Deck & Digital Twin
+  { name: 'Pitch Deck Agent', category: 'Strategy', directive: 'pitch_deck_agent.md', script: null, purpose: 'Investor-ready pitch decks (HTML → PNG → PDF)' },
+  { name: 'Digital Twin Builder', category: 'Strategy', directive: 'digital_twin_builder.md', script: null, purpose: 'Digital twin for businesses' },
+
+  // Foundational Demand Agents (fd_*)
+  { name: 'FD Analytics Agent', category: 'Foundational Demand', directive: 'fd_analytics_agent.md', script: null, purpose: 'Foundational demand analytics' },
+  { name: 'FD Content Agent', category: 'Foundational Demand', directive: 'fd_content_agent.md', script: null, purpose: 'Foundational demand content' },
+  { name: 'FD Conversation Agent', category: 'Foundational Demand', directive: 'fd_conversation_agent.md', script: null, purpose: 'Foundational demand conversations' },
+  { name: 'FD Distribution Agent', category: 'Foundational Demand', directive: 'fd_distribution_agent.md', script: null, purpose: 'Foundational demand distribution' },
+  { name: 'FD Embedded Attention', category: 'Foundational Demand', directive: 'fd_embedded_attention_agent.md', script: null, purpose: 'Foundational demand attention capture' },
+  { name: 'FD Media Agent', category: 'Foundational Demand', directive: 'fd_media_agent.md', script: null, purpose: 'Foundational demand media' },
+  { name: 'FD Offer Agent', category: 'Foundational Demand', directive: 'fd_offer_agent.md', script: null, purpose: 'Foundational demand offers' },
+  { name: 'FD Optimization Agent', category: 'Foundational Demand', directive: 'fd_optimization_agent.md', script: null, purpose: 'Foundational demand optimization' },
+  { name: 'FD Outbound Agent', category: 'Foundational Demand', directive: 'fd_outbound_agent.md', script: null, purpose: 'Foundational demand outbound' },
+  { name: 'FD Payment Agent', category: 'Foundational Demand', directive: 'fd_payment_agent.md', script: null, purpose: 'Foundational demand payments' },
+  { name: 'FD Signal Agent', category: 'Foundational Demand', directive: 'fd_signal_agent.md', script: null, purpose: 'Foundational demand signal detection' },
+];
+
+// ── File reading via GitHub raw (since these are in a repo on Hetzner) ──
+// For local review, we'll read from the NunyaBunyaAgents GitHub repo
+const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/benalekconner/NunyaBunyaAgents/main';
+
+// Cache for loaded file contents
+const fileCache = {};
+
+async function loadFileContent(type, filename) {
+  if (!filename) return null;
+  const key = `${type}/${filename}`;
+  if (fileCache[key]) return fileCache[key];
+
+  const dir = type === 'directive' ? 'Directives' : 'Execution';
+  try {
+    const res = await fetch(`${GITHUB_RAW_BASE}/${dir}/${filename}`);
+    if (!res.ok) throw new Error(`${res.status}`);
+    const text = await res.text();
+    fileCache[key] = text;
+    return text;
+  } catch {
+    // Fallback: try Hetzner API endpoint if you set one up
+    return `[Could not load ${dir}/${filename} — file may need to be fetched from Hetzner directly]`;
+  }
+}
+
+// ── Render Functions ──
+
+function getCategories() {
+  const cats = [...new Set(AGENTS.map(a => a.category))];
+  return cats.sort();
+}
+
+function getStatus(agent) {
+  if (agent.directive && agent.script) return 'paired';
+  if (agent.directive && !agent.script) return 'directive-only';
+  return 'script-only';
+}
+
+function renderStats() {
+  const total = AGENTS.length;
+  const paired = AGENTS.filter(a => a.directive && a.script).length;
+  const directiveOnly = AGENTS.filter(a => a.directive && !a.script).length;
+  const scriptOnly = AGENTS.filter(a => !a.directive && a.script).length;
+  const categories = getCategories().length;
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-pill"><span>${total}</span> agents total</div>
+    <div class="stat-pill"><span style="color:#00D4AA">${paired}</span> fully paired</div>
+    <div class="stat-pill"><span style="color:#f59e0b">${directiveOnly}</span> directive only</div>
+    <div class="stat-pill"><span style="color:#3b82f6">${scriptOnly}</span> script only</div>
+    <div class="stat-pill"><span>${categories}</span> categories</div>
+  `;
+}
+
+function renderFilters() {
+  const cats = getCategories();
+  document.getElementById('categoryFilters').innerHTML =
+    `<button class="filter-pill active" data-cat="all">All</button>` +
+    cats.map(c => `<button class="filter-pill" data-cat="${c}">${c}</button>`).join('');
+
+  document.querySelectorAll('.filter-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTable();
+    });
+  });
+}
+
+function getActiveCategory() {
+  const active = document.querySelector('.filter-pill.active');
+  return active ? active.dataset.cat : 'all';
+}
+
+function getFilteredAgents() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const cat = getActiveCategory();
+
+  return AGENTS.filter(a => {
+    const matchCat = cat === 'all' || a.category === cat;
+    const matchSearch = !search ||
+      a.name.toLowerCase().includes(search) ||
+      a.category.toLowerCase().includes(search) ||
+      a.purpose.toLowerCase().includes(search) ||
+      (a.directive || '').toLowerCase().includes(search) ||
+      (a.script || '').toLowerCase().includes(search);
+    return matchCat && matchSearch;
+  });
+}
+
+function renderTable() {
+  const filtered = getFilteredAgents();
+  const tbody = document.getElementById('agentBody');
+
+  document.getElementById('resultsCount').textContent = `${filtered.length} of ${AGENTS.length} agents`;
+
+  tbody.innerHTML = filtered.map((agent, i) => {
+    const status = getStatus(agent);
+    const id = `agent-${i}`;
+    return `
+      <tr id="${id}" onclick="toggleDetail('${id}', ${AGENTS.indexOf(agent)})">
+        <td><span class="status-dot ${status}" title="${status.replace('-', ' ')}"></span></td>
+        <td><span class="agent-name">${agent.name}</span></td>
+        <td><span class="agent-category">${agent.category}</span></td>
+        <td>${agent.directive ? `<span class="file-link">${agent.directive}</span>` : '<span class="file-missing">none</span>'}</td>
+        <td>${agent.script ? `<span class="file-link">${agent.script}</span>` : '<span class="file-missing">none</span>'}</td>
+        <td style="font-size:12px;color:var(--text-secondary)">${agent.purpose}</td>
+      </tr>
+      <tr class="agent-detail" id="${id}-detail">
+        <td colspan="6">
+          <div class="detail-panel">
+            <div class="detail-tabs">
+              ${agent.directive ? `<div class="detail-tab active" onclick="event.stopPropagation(); switchTab('${id}', 'directive', ${AGENTS.indexOf(agent)})">Directive</div>` : ''}
+              ${agent.script ? `<div class="detail-tab ${!agent.directive ? 'active' : ''}" onclick="event.stopPropagation(); switchTab('${id}', 'script', ${AGENTS.indexOf(agent)})">Script</div>` : ''}
+            </div>
+            <div class="detail-content" id="${id}-content">
+              <span class="loading-text">Click to load...</span>
+            </div>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+async function toggleDetail(id, agentIdx) {
+  const detail = document.getElementById(`${id}-detail`);
+  const row = document.getElementById(id);
+
+  if (detail.classList.contains('open')) {
+    detail.classList.remove('open');
+    row.classList.remove('expanded');
+    return;
+  }
+
+  // Close all others
+  document.querySelectorAll('.agent-detail.open').forEach(d => {
+    d.classList.remove('open');
+    d.previousElementSibling.classList.remove('expanded');
+  });
+
+  detail.classList.add('open');
+  row.classList.add('expanded');
+
+  const agent = AGENTS[agentIdx];
+  const type = agent.directive ? 'directive' : 'script';
+  const filename = agent.directive || agent.script;
+
+  const contentEl = document.getElementById(`${id}-content`);
+  contentEl.innerHTML = '<span class="loading-text">Loading...</span>';
+
+  const content = await loadFileContent(type, filename);
+  contentEl.innerHTML = `<pre>${escapeHtml(content || 'No content available')}</pre>`;
+}
+
+async function switchTab(id, type, agentIdx) {
+  const agent = AGENTS[agentIdx];
+  const filename = type === 'directive' ? agent.directive : agent.script;
+
+  // Update active tab
+  const panel = document.getElementById(`${id}-detail`).querySelector('.detail-panel');
+  panel.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+
+  const contentEl = document.getElementById(`${id}-content`);
+  contentEl.innerHTML = '<span class="loading-text">Loading...</span>';
+
+  const content = await loadFileContent(type, filename);
+  contentEl.innerHTML = `<pre>${escapeHtml(content || 'No content available')}</pre>`;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ── Init ──
+async function init() {
+  const ok = await NB_ADMIN.checkAuth();
+  if (!ok) return;
+  NB_ADMIN.renderSidebar('agent-registry');
+
+  renderStats();
+  renderFilters();
+  renderTable();
+
+  document.getElementById('loading').style.display = 'none';
+
+  // Live search
+  document.getElementById('searchInput').addEventListener('input', renderTable);
+}
+
+init();
+</script>
+</body>
+</html>

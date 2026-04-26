@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power Portraits — Brand Style Guide | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link active"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#power-portraits">Power Portraits</a> &rsaquo;
+          Power Portraits — Brand Style Guide
+        </div>
+        <h1 class="doc-title">Power Portraits — Brand Style Guide</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#128247; Power Portraits</span>
+          <span class="doc-path">02-Power Portraits / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="power-portraits-brand-style-guide">Power Portraits — Brand Style Guide</h1>
+<p><strong>Version:</strong> 2.0</p>
+<p><strong>Date:</strong> April 9, 2026</p>
+<p><strong>Status:</strong> Active</p>
+<hr>
+<h2 id="1-brand-essence">1. Brand Essence</h2>
+<p>Power Portraits exists at the intersection of portraiture and identity — where a single frame becomes the definitive image of who you are becoming. We don&#x27;t take headshots. We architect the visual language of ambition.</p>
+<p>Our clients are people in motion: actors between roles, musicians between records, solopreneurs between the life they have and the one they&#x27;re building. They come to us because they understand that perception is not vanity — it is strategy.</p>
+<h3 id="mission">Mission</h3>
+<p>To give creative professionals in South East Queensland portraits that carry the weight of their ambition — images so precise, so deliberate, that they become inseparable from the person they depict.</p>
+<h3 id="brand-promise">Brand Promise</h3>
+<p>Every portrait we deliver is a declaration, not a photograph.</p>
+<hr>
+<h2 id="2-brand-voice">2. Brand Voice</h2>
+<h3 id="personality">Personality</h3>
+<p>Power Portraits speaks like someone who has read deeply, observed carefully, and chosen every word on purpose. The voice is <strong>literary, unhurried, and quietly commanding</strong> — a beat poet who traded the coffeehouse for a darkroom and never looked back.</p>
+<h3 id="voice-attributes">Voice Attributes</h3>
+<div class="table-wrap"><table><thead><tr><th>Attribute</th><th>What it means</th><th>What it doesn&#x27;t mean</th></tr></thead><tbody><tr><td><strong>Elegant</strong></td><td>Crafted sentences, deliberate word choice, rhythmic prose</td><td>Flowery, overwrought, purple</td></tr><tr><td><strong>Confident</strong></td><td>Speaks with authority, never hedges, never over-explains</td><td>Arrogant, dismissive, salesy</td></tr><tr><td><strong>Warm</strong></td><td>Inviting without being casual, respectful of the person behind the lens</td><td>Folksy, overly familiar, exclamation marks</td></tr><tr><td><strong>Precise</strong></td><td>Every word earns its place — nothing decorative, nothing wasted</td><td>Clinical, cold, stripped bare</td></tr><tr><td><strong>Evocative</strong></td><td>Creates atmosphere, suggests something larger than the frame</td><td>Vague, abstract, pretentious</td></tr></tbody></table></div>
+<h3 id="tone-examples">Tone Examples</h3>
+<p><strong>Yes:</strong></p>
+<blockquote>&quot;There is a version of you that exists in the minds of strangers — formed from a thumbnail, a profile image, a half-second glance. We make certain that version tells the truth.&quot;</blockquote>
+<blockquote>&quot;A portrait session with us is not a transaction. It is a conversation between light and intention, conducted in the span of an afternoon.&quot;</blockquote>
+<blockquote>&quot;You have spent years refining your craft. Your portrait should reflect the same discipline.&quot;</blockquote>
+<p><strong>Never:</strong></p>
+<blockquote>&quot;No fluff, just great headshots!&quot; <em>(cheap, dismissive)</em><br>&quot;We keep it real — no BS, just results.&quot; <em>(juvenile, generic)</em><br>&quot;Ready to level up your brand? Let&#x27;s goooo!&quot; <em>(cringe, try-hard)</em><br>&quot;Book now before spots fill up!!!&quot; <em>(desperate, manipulative)</em></blockquote>
+<h3 id="writing-rules">Writing Rules</h3>
+<ol>
+<li>Never use more than one exclamation mark per page. Prefer periods.</li>
+<li>Contractions are fine — &quot;we don&#x27;t&quot; reads more naturally than &quot;we do not.&quot;</li>
+<li>Avoid marketing cliches: &quot;game-changer,&quot; &quot;level up,&quot; &quot;crush it,&quot; &quot;no-brainer,&quot; &quot;real talk.&quot;</li>
+<li>Use em dashes and semicolons freely — they create the rhythm of considered thought.</li>
+<li>First person plural (&quot;we&quot;) for the studio. Second person (&quot;you&quot;) for the client. Never third person (&quot;Power Portraits offers...&quot;).</li>
+<li>Paragraphs should breathe. Short paragraphs. White space is punctuation.</li>
+<li>When in doubt, read the sentence aloud. If it sounds like an ad, rewrite it.</li>
+</ol>
+<hr>
+<h2 id="3-visual-identity">3. Visual Identity</h2>
+<h3 id="colour-palette">Colour Palette</h3>
+<div class="table-wrap"><table><thead><tr><th>Role</th><th>Name</th><th>Hex</th><th>Usage</th></tr></thead><tbody><tr><td><strong>Primary</strong></td><td>Ink</td><td><code>#0F0F0F</code></td><td>Backgrounds, headers, primary text on light</td></tr><tr><td><strong>Secondary</strong></td><td>Parchment</td><td><code>#F5F0E8</code></td><td>Light backgrounds, card surfaces, contrast areas</td></tr><tr><td><strong>Accent</strong></td><td>Antique Brass</td><td><code>#B08D57</code></td><td>CTAs, highlights, rule lines, signature details</td></tr><tr><td><strong>Neutral</strong></td><td>Graphite</td><td><code>#4A4A4A</code></td><td>Body text, secondary information</td></tr><tr><td><strong>Neutral Light</strong></td><td>Ash</td><td><code>#9A9A9A</code></td><td>Captions, metadata, subtle UI elements</td></tr><tr><td><strong>White</strong></td><td>Bone</td><td><code>#FAFAF7</code></td><td>Page backgrounds, breathing space</td></tr></tbody></table></div>
+<p><strong>Colour Philosophy:</strong> The palette is drawn from the darkroom — deep blacks, warm paper tones, and the amber glow of a safelight. It should feel like holding a fine print in your hands: warm, tactile, considered. Gold is conspicuously absent. Antique Brass is earthier, quieter, more interesting.</p>
+<h3 id="typography">Typography</h3>
+<div class="table-wrap"><table><thead><tr><th>Role</th><th>Font</th><th>Weight</th><th>Usage</th></tr></thead><tbody><tr><td><strong>Display / Headlines</strong></td><td><strong>Cormorant Garamond</strong></td><td>500 (Medium), 600 (SemiBold)</td><td>Page titles, section headers, hero text</td></tr><tr><td><strong>Body</strong></td><td><strong>Inter</strong></td><td>400 (Regular), 500 (Medium)</td><td>Paragraphs, descriptions, UI text</td></tr><tr><td><strong>Accent / Monospace</strong></td><td><strong>JetBrains Mono</strong></td><td>400</td><td>Pricing, technical details, captions</td></tr></tbody></table></div>
+<p><strong>Typography Philosophy:</strong> Cormorant Garamond is a high-contrast serif with the DNA of Claude Garamond&#x27;s originals — literary, sharp, unapologetically classical. It signals that this is not a volume operation. Inter grounds it in modernity: clean, highly legible, designed for screens. The tension between the two is deliberate — heritage meets precision.</p>
+<h3 id="type-scale">Type Scale</h3>
+<div class="table-wrap"><table><thead><tr><th>Element</th><th>Font</th><th>Size</th><th>Weight</th><th>Letter Spacing</th></tr></thead><tbody><tr><td>Hero Headline</td><td>Cormorant Garamond</td><td>48–64px</td><td>600</td><td>-0.02em</td></tr><tr><td>Section Title</td><td>Cormorant Garamond</td><td>32–40px</td><td>500</td><td>-0.01em</td></tr><tr><td>Subsection</td><td>Inter</td><td>20–24px</td><td>500</td><td>0</td></tr><tr><td>Body</td><td>Inter</td><td>16–18px</td><td>400</td><td>0.01em</td></tr><tr><td>Caption / Meta</td><td>Inter</td><td>13–14px</td><td>400</td><td>0.03em</td></tr><tr><td>Price / Data</td><td>JetBrains Mono</td><td>16–20px</td><td>400</td><td>0.02em</td></tr></tbody></table></div>
+<hr>
+<h2 id="4-photography-direction">4. Photography Direction</h2>
+<h3 id="style">Style</h3>
+<p>Our own visual identity should reflect our craft. All marketing and brand imagery follows these principles:</p>
+<ul>
+<li><strong>Monochromatic colour blocking</strong> — inspired by Sela Shiloni&#x27;s editorial approach. Subjects against controlled, single-colour environments. The background serves the subject, never competes.</li>
+<li><strong>Directional, sculpted light</strong> — hard light welcome. We are not afraid of shadow. Rembrandt, split, and butterfly lighting patterns dominate.</li>
+<li><strong>Minimal retouching</strong> — skin texture is preserved. We correct light and colour; we do not manufacture faces.</li>
+<li><strong>Negative space</strong> — compositions breathe. The subject does not need to fill the frame to command it.</li>
+<li><strong>Eye contact or deliberate aversion</strong> — every gaze is intentional.</li>
+</ul>
+<h3 id="what-we-donx27t-show">What We Don&#x27;t Show</h3>
+<ul>
+<li>Overly processed, airbrushed skin</li>
+<li>Ring light flatness</li>
+<li>Busy, distracting backgrounds</li>
+<li>Forced smiles or stiff posing</li>
+<li>Stock photography aesthetic</li>
+</ul>
+<hr>
+<h2 id="5-logo-amp-wordmark">5. Logo &amp; Wordmark</h2>
+<h3 id="primary-wordmark">Primary Wordmark</h3>
+<p><strong>POWER PORTRAITS</strong> set in Cormorant Garamond SemiBold (600), all caps, with <code>0.15em</code> letter spacing.</p>
+<p>Below the wordmark, a thin horizontal rule (1px, Antique Brass) followed by:</p>
+<p><strong>PHOTOGRAPHY</strong> set in Inter Medium (500), all caps, <code>0.25em</code> letter spacing, 60% the size of the wordmark.</p>
+<h3 id="lockup">Lockup</h3>
+<pre><code>P O W E R   P O R T R A I T S
+————————————————————————————————
+        P H O T O G R A P H Y</code></pre>
+<h3 id="usage-rules">Usage Rules</h3>
+<ul>
+<li>Minimum clear space: the height of the &quot;P&quot; on all sides</li>
+<li>On dark backgrounds: wordmark in Parchment (#F5F0E8), rule in Antique Brass</li>
+<li>On light backgrounds: wordmark in Ink (#0F0F0F), rule in Antique Brass</li>
+<li>Never place the wordmark over busy imagery</li>
+<li>Never rotate, stretch, or add effects to the wordmark</li>
+<li>The wordmark is always horizontal — never stacked vertically</li>
+</ul>
+<hr>
+<h2 id="6-ui-amp-web-design-principles">6. UI &amp; Web Design Principles</h2>
+<h3 id="layout">Layout</h3>
+<ul>
+<li><strong>Grid:</strong> 12-column, max-width 1200px, generous gutters (24–32px)</li>
+<li><strong>Whitespace is non-negotiable.</strong> Sections breathe. Content does not crowd.</li>
+<li><strong>Photography-forward:</strong> Images are large, high-resolution, and given prominence. Text supports; it does not compete.</li>
+<li><strong>Scroll-driven narrative:</strong> Pages tell a story from top to bottom. Each section is a chapter.</li>
+</ul>
+<h3 id="buttons-amp-ctas">Buttons &amp; CTAs</h3>
+<ul>
+<li>Primary CTA: Antique Brass background, Ink text, Cormorant Garamond Medium, uppercase, <code>0.1em</code> tracking</li>
+<li>Secondary CTA: Transparent with 1px Antique Brass border, Antique Brass text</li>
+<li>Hover: subtle brightness shift (+-5%), no dramatic colour changes</li>
+<li>No rounded corners — use sharp rectangles. Softness is not our language.</li>
+</ul>
+<h3 id="cards-amp-containers">Cards &amp; Containers</h3>
+<ul>
+<li>Background: Bone or Parchment</li>
+<li>Border: none, or 1px Ash on hover</li>
+<li>Shadow: minimal — <code>0 2px 8px rgba(15,15,15,0.06)</code></li>
+<li>Padding: generous (32–48px)</li>
+</ul>
+<h3 id="navigation">Navigation</h3>
+<ul>
+<li>Fixed top nav, Ink background, Parchment text</li>
+<li>Wordmark left-aligned, navigation links right-aligned</li>
+<li>Links in Inter Medium, uppercase, small (13px), wide tracking</li>
+<li>Active state: Antique Brass underline (2px)</li>
+</ul>
+<h3 id="responsive">Responsive</h3>
+<ul>
+<li>Mobile: single column, stacked layout</li>
+<li>Tablet: 2-column grid</li>
+<li>Desktop: full 12-column grid</li>
+<li>Breakpoints: 768px (tablet), 1024px (desktop)</li>
+</ul>
+<hr>
+<h2 id="7-brand-applications">7. Brand Applications</h2>
+<h3 id="business-documents">Business Documents</h3>
+<p>All documents (proposals, invoices, agreements) follow a consistent format:</p>
+<ul>
+<li><strong>Header:</strong> Ink background, full-width, wordmark in Parchment, Antique Brass rule below</li>
+<li><strong>Body:</strong> Bone background, Graphite text in Inter</li>
+<li><strong>Headings:</strong> Cormorant Garamond, Ink</li>
+<li><strong>Accent elements:</strong> Antique Brass (rules, highlights, pull quotes)</li>
+<li><strong>Footer:</strong> Minimal — studio name, ABN, contact details in Ash</li>
+</ul>
+<h3 id="email">Email</h3>
+<ul>
+<li>Plain text preferred for personal correspondence</li>
+<li>HTML templates use the same header treatment as documents</li>
+<li>Signature: wordmark + one-line contact + thin Antique Brass rule</li>
+</ul>
+<h3 id="social-media">Social Media</h3>
+<ul>
+<li>Maintain the dark/warm palette across all platforms</li>
+<li>Typography overlays use Cormorant Garamond on Ink backgrounds</li>
+<li>Portrait posts: full-bleed, no borders, no watermarks</li>
+<li>Quote/text posts: Parchment background, Ink text, Antique Brass accents</li>
+<li>Never use filters that compromise colour accuracy</li>
+</ul>
+<hr>
+<h2 id="8-target-audience">8. Target Audience</h2>
+<h3 id="primary-creative-professionals">Primary: Creative Professionals</h3>
+<p>Working actors, musicians, solo entrepreneurs, freelance creatives, and independent artists in South East Queensland who need portraits that match the seriousness of their ambition.</p>
+<p><strong>They are:</strong></p>
+<ul>
+<li>Building careers, not hobbies</li>
+<li>Visually literate — they know the difference between a good photo and the right photo</li>
+<li>Active on platforms where image matters (casting sites, Spotify, LinkedIn, Instagram, personal sites)</li>
+<li>Willing to invest in quality because they understand ROI on perception</li>
+</ul>
+<p><strong>They are not:</strong></p>
+<ul>
+<li>Price-shopping for the cheapest headshot</li>
+<li>Looking for family portraits or event coverage</li>
+<li>Interested in gimmicks, props, or novelty</li>
+</ul>
+<h3 id="secondary-corporate-teams">Secondary: Corporate Teams</h3>
+<p>Small-to-medium businesses in Brisbane/Gold Coast who want cohesive, elevated team photography — not the fluorescent-lit, grey-backdrop corporate standard.</p>
+<hr>
+<h2 id="9-competitive-positioning">9. Competitive Positioning</h2>
+<p>Power Portraits sits above the mid-market headshot photographers and below the fashion/editorial studios that don&#x27;t serve individuals. We are:</p>
+<ul>
+<li><strong>More intentional</strong> than a generalist photographer who also does headshots</li>
+<li><strong>More accessible</strong> than a commercial studio that only works with agencies</li>
+<li><strong>More refined</strong> than the &quot;natural light, outdoor shoot&quot; operators</li>
+<li><strong>More personal</strong> than a high-volume studio that processes clients like a production line</li>
+</ul>
+<p>Our edge is specificity: we serve creative professionals, we understand their world, and every decision we make — from lighting to delivery — reflects that understanding.</p>
+<hr>
+<p><em>This document is the single source of truth for all Power Portraits brand decisions. Every piece of content, every template, every client-facing material must align with these standards. When in doubt, return here.</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">02-Power Portraits/01-strategy/Documents/BRAND STYLE GUIDE.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIVE-YEAR PLAN (2026–2030) | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          FIVE-YEAR PLAN (2026–2030)
+        </div>
+        <h1 class="doc-title">FIVE-YEAR PLAN (2026–2030)</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="five-year-plan-20262030">FIVE-YEAR PLAN (2026–2030)</h1>
+<p><strong>Created:</strong> 2026-03-27</p>
+<p><strong>Author:</strong> Ben Alek Conner</p>
+<p><strong>Vision:</strong> Build an empire across marketing, film, photography, hospitality, and media — with creative work at the centre of everything.</p>
+<hr>
+<h2 id="the-empire-at-a-glance">The Empire at a Glance</h2>
+<div class="table-wrap"><table><thead><tr><th>Business / Venture</th><th>Type</th><th>2030 Target</th></tr></thead><tbody><tr><td><strong>Nunya Bunya</strong></td><td>AI Marketing Agency</td><td>$10M/year revenue, award-winning</td></tr><tr><td><strong>Ben Alek Conner</strong></td><td>Personal Brand / YouTube</td><td>100K+ subscribers</td></tr><tr><td><strong>Conner Productions</strong> (name TBD)</td><td>Production Company / Director</td><td>2 features, 1 doco, game shows, podcast, ORCA show, repped director</td></tr><tr><td><strong>Power Portraits</strong></td><td>Prestigious Portrait/Headshot Studio</td><td>Paid to shoot politicians, artists, bands, influential people</td></tr><tr><td><strong>ORCA Film Awards</strong></td><td>Awards Body / Film Publication / YouTube Show</td><td>1,000 voters, press credentials, path to physical ceremony</td></tr><tr><td><strong>The Bar</strong> (new)</td><td>Cocktail Bar / Detective Agency</td><td>Open and operating</td></tr><tr><td><strong>Conner Law Group</strong></td><td>Marketing Client</td><td>Scaled or transitioned</td></tr><tr><td><strong>Bella Rhyder</strong></td><td>Sister&#x27;s Clothing Brand</td><td>Self-sustaining</td></tr><tr><td><del>The Conner Store</del></td><td><del>E-commerce</del></td><td><strong>Killed</strong> — dropshipping dream stays on backburner</td></tr><tr><td><strong>AdMap</strong></td><td>Media Platform</td><td>Revisit when resources allow</td></tr></tbody></table></div>
+<h3 id="creative-output-targets">Creative Output Targets</h3>
+<ul>
+<li>2 feature films (written, directed + produced)</li>
+<li>1 feature documentary (directed + produced)</li>
+<li>2 photobooks (personal photography, separate from Power Portraits)</li>
+<li>1 YouTube channel at 100K+ subscribers</li>
+<li>1 podcast (ongoing, under Conner Productions)</li>
+<li>YouTube game shows, documentary series, and other productions (under Conner Productions)</li>
+<li>ORCA Film Awards YouTube show (annual, live-streamed)</li>
+<li>Repped commercial director (directing branded content for agencies/brands)</li>
+</ul>
+<hr>
+<h2 id="year-1-2026-foundations">YEAR 1 — 2026: FOUNDATIONS</h2>
+<p><strong>Theme:</strong> <em>Get the machine running. Ship imperfect things. Build the portfolio.</em></p>
+<h3 id="nunya-bunya">Nunya Bunya</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Acquire 3–5 paying clients — Q2/Q3</li>
+<li><span class="cb cb-empty">&#9744;</span> Hit $10K/month recurring revenue — Q4</li>
+<li><span class="cb cb-empty">&#9744;</span> Build case studies from every client engagement</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit first marketing award entry (local/regional)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hire first contractor (social media manager or ads specialist)</li>
+<li><span class="cb cb-empty">&#9744;</span> All marketing infrastructure live: website, CRM, automations, reporting</li>
+</ul>
+<h3 id="ben-alek-conner-personal-brand-youtube-directing-consulting">Ben Alek Conner (Personal Brand / YouTube / Directing + Consulting)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Launch YouTube channel — Q1</li>
+<li><span class="cb cb-empty">&#9744;</span> Publish 2 long-form videos/month</li>
+<li><span class="cb cb-empty">&#9744;</span> Publish 3–4 shorts/reels per week across platforms</li>
+<li><span class="cb cb-empty">&#9744;</span> Reach 1,000 subscribers — Q4</li>
+<li><span class="cb cb-empty">&#9744;</span> Build consistent LinkedIn + Twitter presence</li>
+<li><span class="cb cb-empty">&#9744;</span> Document the journey (agency life, film, photography, business)</li>
+<li><span class="cb cb-empty">&#9744;</span> Personal brand is the vehicle for directing work and consulting gigs outside your businesses</li>
+</ul>
+<h3 id="orca-film-awards">ORCA Film Awards</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Complete first voting cycle and announce winners — Q1</li>
+<li><span class="cb cb-empty">&#9744;</span> Grow voting membership to 50 members — Q4</li>
+<li><span class="cb cb-empty">&#9744;</span> Film and publish first ORCA YouTube episode (winner announcements / film discussion)</li>
+<li><span class="cb cb-empty">&#9744;</span> Establish quarterly or seasonal awards cadence</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin recruiting critics and film writers as voters</li>
+<li><span class="cb cb-empty">&#9744;</span> Launch film news/review section on website — publish 2+ articles/week</li>
+<li><span class="cb cb-empty">&#9744;</span> Target &quot;oscar snubs&quot;, &quot;best indie films&quot;, &quot;underrated films&quot; keyword clusters</li>
+<li><span class="cb cb-empty">&#9744;</span> Build credibility as a film publication (the reviews + articles drive traffic and legitimacy)</li>
+</ul>
+<h3 id="power-portraits-prestigious-portraitheadshot-studio">Power Portraits (Prestigious Portrait/Headshot Studio)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Complete first 10 portrait sessions — by Q2</li>
+<li><span class="cb cb-empty">&#9744;</span> Launch portfolio website with booking system — Q2</li>
+<li><span class="cb cb-empty">&#9744;</span> Shoot 25+ portraits total by end of year</li>
+<li><span class="cb cb-empty">&#9744;</span> Start reaching out to local business leaders, politicians, community figures</li>
+<li><span class="cb cb-empty">&#9744;</span> Define signature style and lighting setup</li>
+<li><span class="cb cb-empty">&#9744;</span> Position as a premium studio -- not a budget headshot mill</li>
+</ul>
+<h3 id="conner-productions-pre-formation-directing-career">Conner Productions (Pre-Formation) + Directing Career</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Submit Screen Queensland PROOF application — April 13</li>
+<li><span class="cb cb-empty">&#9744;</span> Write feature film #1 (first draft complete by Q4)</li>
+<li><span class="cb cb-empty">&#9744;</span> Develop short film concept and shoot it — Q3 (YOU direct)</li>
+<li><span class="cb cb-empty">&#9744;</span> Join ACS as Associate Member</li>
+<li><span class="cb cb-empty">&#9744;</span> Register on Screen Queensland crew database</li>
+<li><span class="cb cb-empty">&#9744;</span> Research podcast format and name (launch in Year 2)</li>
+<li><span class="cb cb-empty">&#9744;</span> Build director&#x27;s showreel: short film + branded content pieces for Nunya clients</li>
+<li><span class="cb cb-empty">&#9744;</span> Direct 3–5 branded content pieces / commercials for Nunya Bunya clients (this is your reel)</li>
+<li><span class="cb cb-empty">&#9744;</span> Study directors you admire — develop your visual language and style</li>
+<li><span class="cb cb-empty">&#9744;</span> Start building relationships with production crews in Brisbane</li>
+</ul>
+<h3 id="conner-law-group">Conner Law Group</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Maintain 3 demand letters/week pace</li>
+<li><span class="cb cb-empty">&#9744;</span> Migrate both law firm websites off Wix to WordPress</li>
+<li><span class="cb cb-empty">&#9744;</span> Basic SEO running for both sites</li>
+</ul>
+<h3 id="bella-rhyder-sisterx27s-dream">Bella Rhyder (Sister&#x27;s Dream)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Shopify store live — Q2</li>
+<li><span class="cb cb-empty">&#9744;</span> Basic social media marketing running</li>
+<li><span class="cb cb-empty">&#9744;</span> First sales</li>
+<li><span class="cb cb-empty">&#9744;</span> Goal: build the digital foundation so sister can eventually run a brick-and-mortar store</li>
+</ul>
+<h3 id="personal">Personal</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Get ADHD assessment</li>
+<li><span class="cb cb-empty">&#9744;</span> Start health journey (weight, back/neck, low T)</li>
+<li><span class="cb cb-empty">&#9744;</span> Get certifications (Google Digital Marketing, Meta Ads, etc.)</li>
+<li><span class="cb cb-empty">&#9744;</span> All-in on businesses (Nunya Bunya is the main business)</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin personal photography project (toward photobook #1)</li>
+</ul>
+<h3 id="kevlaw-ai-under-conner-law-group">KevLaw AI (Under Conner Law Group)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Continue refining demand letter generation for internal use</li>
+<li><span class="cb cb-empty">&#9744;</span> Document the system and track accuracy/quality metrics</li>
+<li><span class="cb cb-empty">&#9744;</span> Explore potential as standalone SaaS product for other PI firms</li>
+</ul>
+<hr>
+<h2 id="year-2-2027-traction">YEAR 2 — 2027: TRACTION</h2>
+<p><strong>Theme:</strong> <em>Prove the model. Start making real money. Begin the creative projects.</em></p>
+<h3 id="nunya-bunya">Nunya Bunya</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Hit $30K/month recurring revenue (8–12 clients)</li>
+<li><span class="cb cb-empty">&#9744;</span> Hire 2–3 full-time team members</li>
+<li><span class="cb cb-empty">&#9744;</span> Win first marketing award (local/state level)</li>
+<li><span class="cb cb-empty">&#9744;</span> Develop proprietary AI marketing tools/processes</li>
+<li><span class="cb cb-empty">&#9744;</span> Build reputation through speaking, content, case studies</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin targeting mid-market clients ($5K–$15K/mo retainers)</li>
+</ul>
+<h3 id="ben-alek-conner-youtube">Ben Alek Conner (YouTube)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Reach 10,000 subscribers</li>
+<li><span class="cb cb-empty">&#9744;</span> Consistent weekly upload schedule</li>
+<li><span class="cb cb-empty">&#9744;</span> First brand deal or sponsorship</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin podcast under Conner Productions banner</li>
+<li><span class="cb cb-empty">&#9744;</span> Podcast: 50 episodes published by end of year</li>
+</ul>
+<h3 id="orca-film-awards">ORCA Film Awards</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Grow voting membership to 150</li>
+<li><span class="cb cb-empty">&#9744;</span> Produce quarterly ORCA YouTube show episodes</li>
+<li><span class="cb cb-empty">&#9744;</span> Establish ORCA as a recognisable voice in film criticism (articles, reviews, essays)</li>
+<li><span class="cb cb-empty">&#9744;</span> Apply for press credentials at Australian film festivals (MIFF, SFF, BIFF)</li>
+<li><span class="cb cb-empty">&#9744;</span> Build partnerships with indie distributors and streaming platforms</li>
+<li><span class="cb cb-empty">&#9744;</span> Stream annual awards ceremony live on YouTube</li>
+<li><span class="cb cb-empty">&#9744;</span> Website generating meaningful traffic from film news/review content</li>
+</ul>
+<h3 id="power-portraits">Power Portraits</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Portfolio at 50+ portraits</li>
+<li><span class="cb cb-empty">&#9744;</span> Start approaching nationally known figures (politicians, artists, musicians)</li>
+<li><span class="cb cb-empty">&#9744;</span> Generate consistent revenue from portrait sessions</li>
+<li><span class="cb cb-empty">&#9744;</span> Exhibit work locally (gallery, pop-up, or festival)</li>
+<li><span class="cb cb-empty">&#9744;</span> Becoming known as a go-to portrait studio in Brisbane</li>
+</ul>
+<h3 id="conner-productions-formally-established-directing-career">Conner Productions (Formally Established) + Directing Career</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Register business</li>
+<li><span class="cb cb-empty">&#9744;</span> Complete feature film #1 screenplay (polished draft)</li>
+<li><span class="cb cb-empty">&#9744;</span> Direct 2–3 short films (festival-quality)</li>
+<li><span class="cb cb-empty">&#9744;</span> Direct 10+ branded content / commercial pieces (Nunya clients + external)</li>
+<li><span class="cb cb-empty">&#9744;</span> Shoot 5+ professional cinematography projects</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin development on feature documentary (research, subjects, treatment)</li>
+<li><span class="cb cb-empty">&#9744;</span> Apply for Screen Queensland funding for feature film #1</li>
+<li><span class="cb cb-empty">&#9744;</span> Attend ACS events, build industry network</li>
+<li><span class="cb cb-empty">&#9744;</span> Get on at least 1 feature film crew shooting in QLD</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit director&#x27;s reel to production companies and directors&#x27; agents</li>
+<li><span class="cb cb-empty">&#9744;</span> Research and approach directing agents / management in Australia (Shanahan, RGM, etc.)</li>
+<li><span class="cb cb-empty">&#9744;</span> Enter short films + branded work into awards (AWARD, Cannes Lions, AACTA shorts)</li>
+</ul>
+<h3 id="the-bar-research-phase">The Bar (Research Phase)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Research liquor licensing in QLD</li>
+<li><span class="cb cb-empty">&#9744;</span> Visit 20+ cocktail bars for inspiration (Melbourne, Sydney, Brisbane, international)</li>
+<li><span class="cb cb-empty">&#9744;</span> Develop the concept: cocktail bar meets detective agency — what does that look like?</li>
+<li><span class="cb cb-empty">&#9744;</span> Research locations in Brisbane</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin business plan draft</li>
+<li><span class="cb cb-empty">&#9744;</span> Connect with hospitality industry mentors</li>
+</ul>
+<hr>
+<h2 id="year-3-2028-scale">YEAR 3 — 2028: SCALE</h2>
+<p><strong>Theme:</strong> <em>Nunya Bunya becomes a serious agency. First major creative works completed.</em></p>
+<h3 id="nunya-bunya">Nunya Bunya</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Hit $100K/month revenue ($1.2M/year)</li>
+<li><span class="cb cb-empty">&#9744;</span> Team of 8–12 people</li>
+<li><span class="cb cb-empty">&#9744;</span> Win national marketing award</li>
+<li><span class="cb cb-empty">&#9744;</span> Establish thought leadership (keynotes, media appearances)</li>
+<li><span class="cb cb-empty">&#9744;</span> Open office space (or formalise remote-first culture)</li>
+<li><span class="cb cb-empty">&#9744;</span> Develop agency specialisation / niche dominance</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin international client acquisition</li>
+</ul>
+<h3 id="ben-alek-conner-youtube">Ben Alek Conner (YouTube)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Reach 50,000 subscribers</li>
+<li><span class="cb cb-empty">&#9744;</span> Multiple revenue streams from channel (ads, sponsors, merch)</li>
+<li><span class="cb cb-empty">&#9744;</span> Podcast well-established with notable guests</li>
+<li><span class="cb cb-empty">&#9744;</span> Personal brand driving business leads across all ventures</li>
+</ul>
+<h3 id="orca-film-awards">ORCA Film Awards</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> 400+ voting members</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA YouTube show is a regular series (monthly or bi-weekly)</li>
+<li><span class="cb cb-empty">&#9744;</span> Media coverage of ORCA winners</li>
+<li><span class="cb cb-empty">&#9744;</span> Press passes to major international festivals (Cannes, Venice, TIFF, Sundance)</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA website is a go-to film news/review resource with real traffic</li>
+<li><span class="cb cb-empty">&#9744;</span> Revenue from sponsorships, memberships, and ad revenue</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin planning for eventual physical awards ceremony</li>
+</ul>
+<h3 id="power-portraits">Power Portraits</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Portfolio at 75+ portraits including nationally recognised figures</li>
+<li><span class="cb cb-empty">&#9744;</span> Exhibition in a major gallery</li>
+<li><span class="cb cb-empty">&#9744;</span> Power Portraits becoming a known name in Australian photography</li>
+<li><span class="cb cb-empty">&#9744;</span> Shooting interstate clients (Sydney, Melbourne)</li>
+</ul>
+<h3 id="conner-productions-directing-career">Conner Productions + Directing Career</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Feature film #1 in production or post-production (you directing)</li>
+<li><span class="cb cb-empty">&#9744;</span> Feature documentary in production (you directing)</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin writing feature film #2</li>
+<li><span class="cb cb-empty">&#9744;</span> ACS accreditation application submitted</li>
+<li><span class="cb cb-empty">&#9744;</span> Build relationship with sales agents / distributors</li>
+<li><span class="cb cb-empty">&#9744;</span> Short films in festival circuit</li>
+<li><span class="cb cb-empty">&#9744;</span> Sign with a directing agent / management company</li>
+<li><span class="cb cb-empty">&#9744;</span> Direct external branded content (not just Nunya clients — other agencies hiring you)</li>
+<li><span class="cb cb-empty">&#9744;</span> Directing reel is undeniable: short films + branded content + documentary work</li>
+</ul>
+<h3 id="the-bar-development">The Bar (Development)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Finalise business plan</li>
+<li><span class="cb cb-empty">&#9744;</span> Secure funding / investors</li>
+<li><span class="cb cb-empty">&#9744;</span> Lock in location</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin fitout design</li>
+<li><span class="cb cb-empty">&#9744;</span> Hire head bartender / bar manager</li>
+<li><span class="cb cb-empty">&#9744;</span> Develop the &quot;detective agency&quot; experience concept (mystery nights? themed cocktails? actual PI side-hustle?)</li>
+</ul>
+<hr>
+<h2 id="year-4-2029-compound">YEAR 4 — 2029: COMPOUND</h2>
+<p><strong>Theme:</strong> <em>Everything is feeding everything else. The flywheel is spinning.</em></p>
+<h3 id="nunya-bunya">Nunya Bunya</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Hit $4M–$5M/year revenue</li>
+<li><span class="cb cb-empty">&#9744;</span> Team of 20–30</li>
+<li><span class="cb cb-empty">&#9744;</span> Win international marketing award</li>
+<li><span class="cb cb-empty">&#9744;</span> Nunya Bunya is a recognised brand in Australian marketing</li>
+<li><span class="cb cb-empty">&#9744;</span> Developing proprietary SaaS or productised services</li>
+<li><span class="cb cb-empty">&#9744;</span> Strategic acquisitions or partnerships</li>
+</ul>
+<h3 id="ben-alek-conner-youtube">Ben Alek Conner (YouTube)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Reach 100,000 subscribers</li>
+<li><span class="cb cb-empty">&#9744;</span> YouTube Silver Play Button</li>
+<li><span class="cb cb-empty">&#9744;</span> Podcast with major guests, generating its own audience</li>
+<li><span class="cb cb-empty">&#9744;</span> Personal brand is a genuine asset across all businesses</li>
+</ul>
+<h3 id="orca-film-awards">ORCA Film Awards</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> 700+ voting members</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA is cited in film industry press as a legitimate alternative voice</li>
+<li><span class="cb cb-empty">&#9744;</span> Attending major festivals with press credentials (Cannes, Venice, TIFF, Sundance)</li>
+<li><span class="cb cb-empty">&#9744;</span> Annual ceremony is a produced, streamed event with growing viewership</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA as a media brand: merch, content licensing, YouTube revenue</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin scoping physical awards ceremony (venue, format, sponsorship model)</li>
+</ul>
+<h3 id="power-portraits">Power Portraits</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Portfolio at 90+ portraits</li>
+<li><span class="cb cb-empty">&#9744;</span> International subjects in the portfolio</li>
+<li><span class="cb cb-empty">&#9744;</span> Power Portraits is a premium, sought-after experience</li>
+<li><span class="cb cb-empty">&#9744;</span> Regularly booked by high-profile clients</li>
+</ul>
+<h3 id="conner-productions-directing-career">Conner Productions + Directing Career</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Feature film #1 released (festival circuit, distribution) — directed by you</li>
+<li><span class="cb cb-empty">&#9744;</span> Feature documentary released — directed by you</li>
+<li><span class="cb cb-empty">&#9744;</span> Feature film #2 in production</li>
+<li><span class="cb cb-empty">&#9744;</span> Company has a slate of projects in development</li>
+<li><span class="cb cb-empty">&#9744;</span> Revenue from distribution, licensing, commissions</li>
+<li><span class="cb cb-empty">&#9744;</span> Repped director — agents sending you briefs for branded content</li>
+<li><span class="cb cb-empty">&#9744;</span> Directing work for brands outside Nunya Bunya (agencies, production houses)</li>
+<li><span class="cb cb-empty">&#9744;</span> Known in Australian commercial/branded content space</li>
+</ul>
+<h3 id="the-bar-launch">The Bar (Launch)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Grand opening</li>
+<li><span class="cb cb-empty">&#9744;</span> The detective agency concept is live and generating buzz</li>
+<li><span class="cb cb-empty">&#9744;</span> First 6 months of operations — refine, learn, stabilise</li>
+<li><span class="cb cb-empty">&#9744;</span> Social media and PR campaign around launch</li>
+<li><span class="cb cb-empty">&#9744;</span> Document the opening on YouTube</li>
+</ul>
+<hr>
+<h2 id="year-5-2030-empire">YEAR 5 — 2030: EMPIRE</h2>
+<p><strong>Theme:</strong> <em>Reap what you&#x27;ve sown. All businesses mature. The creative body of work exists.</em></p>
+<h3 id="nunya-bunya">Nunya Bunya</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Hit $10M/year revenue</li>
+<li><span class="cb cb-empty">&#9744;</span> 40–60+ team members</li>
+<li><span class="cb cb-empty">&#9744;</span> Multiple award wins (Effies, Webbys, Cannes Lions longlist)</li>
+<li><span class="cb cb-empty">&#9744;</span> Recognised as one of Australia&#x27;s top AI-first marketing agencies</li>
+<li><span class="cb cb-empty">&#9744;</span> Potential for acquisition offers or PE investment (your choice)</li>
+<li><span class="cb cb-empty">&#9744;</span> Nunya Bunya funds and de-risks the creative ventures</li>
+</ul>
+<h3 id="ben-alek-conner-youtube-personal-brand">Ben Alek Conner (YouTube / Personal Brand)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> 100K+ subscribers achieved</li>
+<li><span class="cb cb-empty">&#9744;</span> Channel is a documentary of the entire journey — agency, films, bar, photography</li>
+<li><span class="cb cb-empty">&#9744;</span> Podcast is self-sustaining with dedicated audience</li>
+<li><span class="cb cb-empty">&#9744;</span> Personal brand opens doors for all other ventures</li>
+</ul>
+<h3 id="orca-film-awards">ORCA Film Awards</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> 1,000+ voting members</li>
+<li><span class="cb cb-empty">&#9744;</span> Annual ORCA ceremony is a flagship YouTube event (stepping stone to physical ceremony)</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA is respected as a legitimate alternative to the Oscars for underseen cinema</li>
+<li><span class="cb cb-empty">&#9744;</span> Revenue-generating through memberships, sponsorships, ad revenue, content</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA website is an established film publication with press credentials at major festivals</li>
+<li><span class="cb cb-empty">&#9744;</span> Long-term trajectory: physical awards ceremony to rival the Oscars</li>
+</ul>
+<h3 id="power-portraits">Power Portraits</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> 100+ portraits of powerful, well-known people — portfolio is world-class</li>
+<li><span class="cb cb-empty">&#9744;</span> Solo exhibition or touring exhibition</li>
+<li><span class="cb cb-empty">&#9744;</span> Power Portraits is a prestigious, sought-after studio brand</li>
+<li><span class="cb cb-empty">&#9744;</span> Regularly commissioned by high-profile clients nationally and internationally</li>
+</ul>
+<h3 id="conner-productions-directing-career">Conner Productions + Directing Career</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> 2 feature films completed and released (both directed by you)</li>
+<li><span class="cb cb-empty">&#9744;</span> 1 feature documentary completed and released (directed by you)</li>
+<li><span class="cb cb-empty">&#9744;</span> Active development slate</li>
+<li><span class="cb cb-empty">&#9744;</span> ACS accredited cinematographer</li>
+<li><span class="cb cb-empty">&#9744;</span> Production company generating revenue independently</li>
+<li><span class="cb cb-empty">&#9744;</span> Repped director with consistent branded content work</li>
+<li><span class="cb cb-empty">&#9744;</span> Reputation in Australian film industry as both a filmmaker and commercial director</li>
+<li><span class="cb cb-empty">&#9744;</span> Directing income is a real revenue stream ($100K+/year from directing alone)</li>
+</ul>
+<h3 id="the-bar">The Bar</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Profitable and operating smoothly</li>
+<li><span class="cb cb-empty">&#9744;</span> The detective agency concept is a Brisbane institution / destination</li>
+<li><span class="cb cb-empty">&#9744;</span> Potential for second location or franchise model</li>
+<li><span class="cb cb-empty">&#9744;</span> Generating content for YouTube and personal brand</li>
+</ul>
+<hr>
+<h2 id="revenue-trajectory">Revenue Trajectory</h2>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th>Nunya Bunya</th><th>Other Revenue</th><th>Total (est.)</th></tr></thead><tbody><tr><td>2026</td><td>$80K–$120K</td><td>$20K (law, portraits, freelance)</td><td>~$100K–$140K</td></tr><tr><td>2027</td><td>$360K</td><td>$50K</td><td>~$410K</td></tr><tr><td>2028</td><td>$1.2M</td><td>$100K</td><td>~$1.3M</td></tr><tr><td>2029</td><td>$4M–$5M</td><td>$300K (film, bar, portraits, YouTube)</td><td>~$4.3M–$5.3M</td></tr><tr><td>2030</td><td>$10M</td><td>$500K+</td><td>~$10.5M+</td></tr></tbody></table></div>
+<p><em>Nunya Bunya is the engine. It funds everything else. Protect it.</em></p>
+<hr>
+<h2 id="key-milestones-timeline">Key Milestones Timeline</h2>
+<pre><code>2026 Q1  ██ Nunya Bunya first paying client
+2026 Q2  ██ YouTube channel launched, ORCA winners announced
+2026 Q3  ██ Short film shot, Power Portraits at 25+
+2026 Q4  ██ Feature film #1 first draft, Nunya at $10K/mo
+
+2027 Q1  ██ Podcast launches, Conner Productions registered
+2027 Q2  ██ Nunya Bunya first award entry win
+2027 Q3  ██ Feature documentary in development
+2027 Q4  ██ YouTube at 10K subs, Nunya at $30K/mo
+
+2028 Q1  ██ Feature film #1 screenplay polished, funding applied
+2028 Q2  ██ Photobook #1 published, Nunya at $100K/mo
+2028 Q3  ██ Feature film #1 enters production
+2028 Q4  ██ YouTube at 50K subs, Bar location secured
+
+2029 Q1  ██ Feature film #1 in post, Feature film #2 writing
+2029 Q2  ██ Documentary released, ORCA at 700 voters
+2029 Q3  ██ Bar grand opening
+2029 Q4  ██ YouTube at 100K, Nunya at $4M+/year
+
+2030 Q1  ██ Feature film #2 in production
+2030 Q2  ██ Photobook #2 published, Power Portraits at 100
+2030 Q3  ██ Nunya Bunya at $10M run rate
+2030 Q4  ██ ORCA at 1,000 voters, ACS accredited</code></pre>
+<hr>
+<h2 id="strategic-principles">Strategic Principles</h2>
+<ol>
+<li><strong>Nunya Bunya funds everything.</strong> Every other venture gets de-risked by agency revenue. Never starve the agency to feed a passion project.</li>
+</ol>
+<ol>
+<li><strong>Content is the connective tissue.</strong> YouTube, podcast, social — everything you do becomes content. The bar opening, the film set, the portrait sessions, the agency wins. Document everything.</li>
+</ol>
+<ol>
+<li><strong>Each business feeds the others.</strong> Nunya Bunya markets all the businesses. Power Portraits shoots headshots for Nunya clients. The YouTube channel promotes ORCA. The bar hosts ORCA screenings. Conner Productions creates Nunya Bunya case study videos. Nunya Bunya clients give you directing reps for your reel. Build the flywheel.</li>
+</ol>
+<ol>
+<li><strong>Nunya Bunya is your directing launchpad.</strong> Every branded video you produce for a Nunya client is a reel piece. You&#x27;re not waiting for permission to direct — you&#x27;re already doing it. The agency gives you budgets, clients, and creative briefs that most aspiring directors would kill for. Use it.</li>
+</ol>
+<ol>
+<li><strong>People before scale.</strong> You can&#x27;t do this alone. Year 1 is about proving you can deliver. Year 2+ is about hiring people who are better than you at specific things.</li>
+</ol>
+<ol>
+<li><strong>Protect your health.</strong> None of this happens if you burn out. ADHD management, fitness, and mental health aren&#x27;t side quests — they&#x27;re prerequisites.</li>
+</ol>
+<hr>
+<h2 id="how-to-use-this-plan">How to Use This Plan</h2>
+<ul>
+<li><strong>Quarterly:</strong> Review the current year section. Are you on track? What needs to shift?</li>
+<li><strong>Monthly:</strong> Update GOALS.md with specific monthly targets pulled from this plan.</li>
+<li><strong>Weekly:</strong> Your ACTIONS files should trace back to items in this plan.</li>
+<li><strong>When overwhelmed:</strong> Come back to the Strategic Principles. Nunya Bunya funds everything. Content connects everything. You don&#x27;t have to do it all today.</li>
+</ul>
+<hr>
+<p><em>&quot;The best time to plant a tree was 20 years ago. The second best time is now.&quot;</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/FIVE-YEAR-PLAN.md</div>
+    </main>
+  </div>
+</body>
+</html>

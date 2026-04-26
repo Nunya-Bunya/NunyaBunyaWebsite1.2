@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOP-LG-006 — Facebook Group Client Acquisition | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          SOP-LG-006 — Facebook Group Client Acquisition
+        </div>
+        <h1 class="doc-title">SOP-LG-006 — Facebook Group Client Acquisition</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / SOPs / Lead Generation</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="sop-lg-006-facebook-group-client-acquisition">SOP-LG-006 — Facebook Group Client Acquisition</h1>
+<p><strong>Category:</strong> Lead Generation</p>
+<p><strong>Owner:</strong> Ben Conner</p>
+<p><strong>Created:</strong> 2026-03-23</p>
+<p><strong>Status:</strong> Active — Testing Phase</p>
+<hr>
+<h2 id="purpose">Purpose</h2>
+<p>Acquire marketing clients organically by providing free, genuine marketing advice in Facebook Groups where small business owners gather. No paid ads, no cold outreach — just value-first positioning that attracts inbound leads.</p>
+<hr>
+<h2 id="the-strategy">The Strategy</h2>
+<h3 id="phase-1-establish-presence-week-1-2">Phase 1 — Establish Presence (Week 1-2)</h3>
+<p><strong>Goal:</strong> Be seen as a helpful expert, not a salesperson.</p>
+<ol>
+<li>Join 5-10 Facebook Groups where your target clients hang out</li>
+<li>Post pure value content — no links, no downloads, no CTAs to your website</li>
+<li>Answer other people&#x27;s questions in the comments</li>
+<li>Post 1x/day in 2-3 different groups (rotate)</li>
+<li>Engage on other posts (comment, react) so your name becomes familiar</li>
+</ol>
+<p><strong>Rules:</strong></p>
+<ul>
+<li>NO links in posts during this phase</li>
+<li>NO pitching, even softly</li>
+<li>End posts with &quot;Happy to answer any questions&quot; — that&#x27;s it</li>
+<li>Read group rules before posting (some ban marketing agency owners)</li>
+<li>Don&#x27;t copy-paste identical posts across groups — tweak the opening line</li>
+</ul>
+<h3 id="phase-2-introduce-lead-magnet-week-3-4">Phase 2 — Introduce Lead Magnet (Week 3-4)</h3>
+<p><strong>Goal:</strong> Start collecting emails from interested business owners.</p>
+<ol>
+<li>Create a lead magnet PDF (see below)</li>
+<li>Post valuable content as before, but end with:</li>
+</ol>
+<blockquote>&quot;I put together a free [checklist/guide/template] on this — drop a comment if you want it and I&#x27;ll DM it to you&quot;</blockquote>
+<ol>
+<li>When people comment, DM them: friendly message + link to download (hosted on your site with email capture)</li>
+<li>Their email goes into Mautic → tagged as &quot;fb-group-lead&quot;</li>
+<li>Nurture via email sequence</li>
+</ol>
+<p><strong>Why comments, not links:</strong></p>
+<ul>
+<li>Group admins don&#x27;t flag comment-based engagement</li>
+<li>It creates visible social proof (20 people commenting &quot;yes please!&quot;)</li>
+<li>You build a DM relationship which converts better than cold traffic</li>
+</ul>
+<h3 id="phase-3-convert-week-5">Phase 3 — Convert (Week 5+)</h3>
+<p><strong>Goal:</strong> Turn engaged followers into discovery calls.</p>
+<ol>
+<li>People who engaged with your content will start DMing you with questions</li>
+<li>Answer genuinely, then: &quot;Want me to take a proper look at your setup? Happy to do a free 15-min audit&quot;</li>
+<li>On the call: identify 2-3 quick wins, then pitch your package</li>
+<li>Send proposal (use 90-day roadmap template)</li>
+</ol>
+<hr>
+<h2 id="target-groups-tested">Target Groups (Tested)</h2>
+<h3 id="brisbane-qld">Brisbane / QLD</h3>
+<div class="table-wrap"><table><thead><tr><th>Group</th><th>URL</th><th>Members</th><th>Notes</th></tr></thead><tbody><tr><td>Brisbane Small Business</td><td>facebook.com/groups/brisbanesmallbusiness</td><td>—</td><td>Primary target</td></tr><tr><td>Genuine Small Business Advertising Brisbane</td><td>facebook.com/groups/GenuineSmallBusinessAdvertisingBrisbane</td><td>—</td><td>Ad/marketing focused</td></tr><tr><td>Gold Coast and Brisbane Small Business Directory</td><td>Search on FB</td><td>~2,300</td><td>Broader SEQ</td></tr></tbody></table></div>
+<h3 id="australia-wide">Australia-wide</h3>
+<div class="table-wrap"><table><thead><tr><th>Group</th><th>URL</th><th>Members</th><th>Notes</th></tr></thead><tbody><tr><td>Australian Small Business Network</td><td>facebook.com/groups/smallbiz.au</td><td>—</td><td>Biggest AU group</td></tr><tr><td>Australian Small Business Owners</td><td>Search on FB</td><td>—</td><td></td></tr><tr><td>Aussie Online Entrepreneurs</td><td>Search on FB</td><td>—</td><td></td></tr></tbody></table></div>
+<h3 id="general-high-volume">General (High Volume)</h3>
+<div class="table-wrap"><table><thead><tr><th>Group</th><th>URL</th><th>Members</th><th>Notes</th></tr></thead><tbody><tr><td>Small Business Marketing Strategies</td><td>Search on FB</td><td>100K+</td><td></td></tr><tr><td>Digital Marketing Questions</td><td>Search on FB</td><td>—</td><td>Good for expert positioning</td></tr></tbody></table></div>
+<p><strong>Add more groups as you find them. Update this table with what works.</strong></p>
+<hr>
+<h2 id="post-templates">Post Templates</h2>
+<h3 id="the-advice-post-phase-1">The Advice Post (Phase 1)</h3>
+<pre><code>[State a problem your audience has]
+
+[Give the actual solution — don&#x27;t hold back, be specific]
+
+[Optional: briefly mention you do this professionally — ONE sentence max]
+
+Happy to answer any questions.</code></pre>
+<h3 id="the-lead-magnet-post-phase-2">The Lead Magnet Post (Phase 2)</h3>
+<pre><code>[Give 3-5 tips on a topic]
+
+I put together a free [PDF/checklist/guide] that goes deeper on this — covers [what it covers].
+
+Drop a &quot;YES&quot; in the comments and I&#x27;ll send it to you.</code></pre>
+<h3 id="the-case-study-post-phase-3">The Case Study Post (Phase 3)</h3>
+<pre><code>Just helped a [industry] business [achieve result] in [timeframe].
+
+Here&#x27;s what we did:
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+Result: [specific metric — leads, revenue, traffic]
+
+If anyone&#x27;s dealing with something similar, happy to chat about what might work for you.</code></pre>
+<hr>
+<h2 id="lead-magnet-ideas">Lead Magnet Ideas</h2>
+<div class="table-wrap"><table><thead><tr><th>Lead Magnet</th><th>Target Audience</th><th>Status</th></tr></thead><tbody><tr><td>&quot;The $0 Marketing Checklist — 20 Things to Set Up Before Spending on Ads&quot;</td><td>All small businesses</td><td>Not built yet</td></tr><tr><td>&quot;The Local Business Google Domination Guide&quot;</td><td>Local/service businesses</td><td>Not built yet</td></tr><tr><td>&quot;90-Day Marketing Plan Template&quot;</td><td>Businesses ready to invest</td><td>Template exists (repurpose roadmap)</td></tr><tr><td>&quot;5 Facebook Ad Mistakes Costing You Money&quot;</td><td>Businesses running ads badly</td><td>Not built yet</td></tr></tbody></table></div>
+<p><strong>Priority: Build the $0 Marketing Checklist first — broadest appeal.</strong></p>
+<hr>
+<h2 id="content-bank">Content Bank</h2>
+<p>Pre-written posts ready to use are in:</p>
+<p><code>01-Nunya Bunya/Sales Assets/free-advice-posts.md</code></p>
+<p>7 posts covering: landing pages, Google My Business, social media strategy, $0 tech stack, $500 marketing plan, email lists, Google reviews.</p>
+<hr>
+<h2 id="tracking-amp-results">Tracking &amp; Results</h2>
+<div class="table-wrap"><table><thead><tr><th>Date</th><th>Group</th><th>Post Topic</th><th>Comments</th><th>DMs</th><th>Leads</th><th>Notes</th></tr></thead><tbody><tr><td>2026-03-23</td><td>LinkedIn</td><td>Landing page advice</td><td></td><td></td><td></td><td>First post</td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<p><strong>Update this table every time you post. After 30 days, review what&#x27;s working and double down.</strong></p>
+<hr>
+<h2 id="what-wex27ve-learned-update-this">What We&#x27;ve Learned (Update This)</h2>
+<p><em>Add notes here as you discover what works and what doesn&#x27;t:</em></p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<hr>
+<h2 id="kpis">KPIs</h2>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Week 1-2 Target</th><th>Month 1 Target</th><th>Month 3 Target</th></tr></thead><tbody><tr><td>Groups joined</td><td>8-10</td><td>10+</td><td>15+</td></tr><tr><td>Posts per week</td><td>5</td><td>7</td><td>7</td></tr><tr><td>Comments on your posts</td><td>5-10</td><td>20+</td><td>50+</td></tr><tr><td>DMs received</td><td>0</td><td>5-10</td><td>20+</td></tr><tr><td>Discovery calls booked</td><td>0</td><td>2-3</td><td>5+</td></tr><tr><td>Clients signed</td><td>0</td><td>1</td><td>3</td></tr></tbody></table></div>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/SOPs/Lead Generation/SOP-LG-006 — Facebook Group Client Acquisition.md</div>
+    </main>
+  </div>
+</body>
+</html>

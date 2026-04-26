@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nunya Bunya -- Agency OS | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Nunya Bunya -- Agency OS
+        </div>
+        <h1 class="doc-title">Nunya Bunya -- Agency OS</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Docs</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="nunya-bunya-agency-os">Nunya Bunya -- Agency OS</h1>
+<p><strong>Purpose:</strong> A condensed internal operating document for Nunya Bunya.</p>
+<p>This is the fast, practical version of the agency pulled from the current source-of-truth, business plan, offer docs, and action docs.</p>
+<p><strong>Status:</strong> Working consolidation draft created on 2026-04-13.</p>
+<hr>
+<h2 id="1-what-nunya-bunya-is">1. What Nunya Bunya Is</h2>
+<p>Nunya Bunya is an AI-powered digital marketing agency serving Brisbane and Southeast Queensland small businesses.</p>
+<p>The real differentiator is not &quot;AI.&quot;</p>
+<p>It is:</p>
+<ul>
+<li>full-stack delivery</li>
+<li>self-hosted infrastructure</li>
+<li>lower structural operating cost</li>
+<li>human-reviewed output</li>
+<li>documented systems instead of agency mystery</li>
+</ul>
+<p>Core idea:</p>
+<blockquote>We do not just run marketing.<br>We build a machine.</blockquote>
+<hr>
+<h2 id="2-current-reality">2. Current Reality</h2>
+<ul>
+<li>Main business: Nunya Bunya</li>
+<li>Stage: pre-revenue from agency clients</li>
+<li>Paying external clients: 0</li>
+<li>Internal clients exist and act as proving grounds</li>
+<li>Core infrastructure appears largely built</li>
+<li>The main bottleneck is no longer tooling</li>
+<li>The main bottleneck is first paying clients, proof, packaging, and controlled execution</li>
+</ul>
+<p>This matters because the agency does not currently need more abstract planning.</p>
+<p>It needs:</p>
+<ul>
+<li>one clean operating model</li>
+<li>one clear offer architecture</li>
+<li>one proof-of-results story</li>
+<li>one repeatable client delivery flow</li>
+</ul>
+<hr>
+<h2 id="3-positioning">3. Positioning</h2>
+<h3 id="audience">Audience</h3>
+<p>Small-to-medium businesses in Brisbane and Southeast Queensland, especially:</p>
+<ul>
+<li>trades</li>
+<li>health and wellness</li>
+<li>hospitality</li>
+<li>professional services</li>
+<li>other local service businesses</li>
+</ul>
+<h3 id="positioning-statement">Positioning Statement</h3>
+<p>Nunya Bunya is a Brisbane AI-powered agency that builds the actual marketing system for small businesses: website, landing pages, ads, email, reporting, automation, and content, with human review before anything goes live.</p>
+<h3 id="why-it-wins">Why It Wins</h3>
+<ul>
+<li>lower tech overhead than traditional agencies</li>
+<li>broader system ownership than piecemeal freelancers</li>
+<li>more transparency than locked-in agencies</li>
+<li>more operational leverage than manual shops</li>
+</ul>
+<hr>
+<h2 id="4-core-operating-principles">4. Core Operating Principles</h2>
+<p>These appear to be the right principles to keep enforcing:</p>
+<ul>
+<li>If a human will see it, Ben sees it first.</li>
+<li>The workbench is the product.</li>
+<li>The approval queue is not overhead. It is the quality filter.</li>
+<li>AI drafts. Humans make it premium.</li>
+<li>Client ownership and portability are selling points.</li>
+<li>Tool cost discipline is part of the business model.</li>
+</ul>
+<hr>
+<h2 id="5-productized-offers">5. Productized Offers</h2>
+<h3 id="current-offer-families">Current Offer Families</h3>
+<h4 id="bedrock">Bedrock</h4>
+<p>One-time build offers that create the marketing foundation.</p>
+<ul>
+<li><code>Bedrock Lite</code></li>
+<li><code>Bedrock</code></li>
+<li><code>Bedrock Pro</code></li>
+</ul>
+<p>These are currently the clearest entry point because they:</p>
+<ul>
+<li>solve an obvious setup problem</li>
+<li>are easier to sell than abstract retainers</li>
+<li>create proof assets fast</li>
+<li>can convert into monthly retainers</li>
+</ul>
+<h4 id="retainers">Retainers</h4>
+<ul>
+<li><code>NB Onyx</code></li>
+<li><code>NB Tanzanite</code></li>
+<li><code>NB Black Opal</code></li>
+</ul>
+<p>These appear strategically right, but the lower and middle tiers are not yet defined tightly enough in the docs.</p>
+<p>That means Bedrock is likely the better near-term sales anchor until retainer scope is sharper.</p>
+<hr>
+<h2 id="6-immediate-business-priorities">6. Immediate Business Priorities</h2>
+<p>The real order of operations should be:</p>
+<ol>
+<li>Land the first paying client</li>
+<li>Use the first client to prove the system and produce a case study</li>
+<li>Tighten the Bedrock offer and fulfillment workflow</li>
+<li>Standardize review and approval</li>
+<li>Sharpen retainer definitions</li>
+<li>Scale only after the workflow is stable</li>
+</ol>
+<p>Right now, the business risk is not underbuilding.</p>
+<p>It is overbuilding without revenue proof.</p>
+<hr>
+<h2 id="7-delivery-model">7. Delivery Model</h2>
+<p>Nunya Bunya should operate like this:</p>
+<ul>
+<li>Strategy and review stay centralized</li>
+<li>Production is systemized</li>
+<li>Contractors can support execution later</li>
+<li>No client-facing output ships unreviewed</li>
+<li>Internal systems should reduce setup and reporting friction first</li>
+</ul>
+<p>This means the most important internal systems are:</p>
+<ul>
+<li>onboarding orchestration</li>
+<li>approval queue</li>
+<li>client dashboard/reporting</li>
+<li>package fulfillment templates</li>
+</ul>
+<hr>
+<h2 id="8-best-near-term-sales-logic">8. Best Near-Term Sales Logic</h2>
+<p>The best path suggested by the current docs is:</p>
+<ol>
+<li>Sell or trade one Bedrock project</li>
+<li>Overdocument the before and after</li>
+<li>Turn that into a case study</li>
+<li>Use that proof to sell more Bedrock projects</li>
+<li>Convert strong-fit clients into retainers</li>
+</ol>
+<p>This is cleaner than trying to force high-ticket retainers before proof exists.</p>
+<hr>
+<h2 id="9-biggest-gaps">9. Biggest Gaps</h2>
+<p>These are the main gaps I see from the current docs:</p>
+<ul>
+<li>offer definitions are still uneven</li>
+<li>core truth is spread across too many files</li>
+<li>there is not yet one obvious client folder standard</li>
+<li>there is not yet one obvious agency dashboard or approval workbench</li>
+<li>tool sprawl may be outrunning operating discipline</li>
+</ul>
+<p>None of that is fatal.</p>
+<p>It just means the next growth phase should be consolidation, not more fragmentation.</p>
+<hr>
+<h2 id="10-recommended-canonical-doc-set">10. Recommended Canonical Doc Set</h2>
+<p>Nunya Bunya should eventually have a small internal master set:</p>
+<ol>
+<li><code>Agency OS</code></li>
+<li><code>Source of Truth</code></li>
+<li><code>Master Actions</code></li>
+<li><code>Offer Architecture</code></li>
+<li><code>SOP Master Index</code></li>
+<li><code>Client System Template</code></li>
+<li><code>Tooling Inventory</code></li>
+</ol>
+<p>Everything else should either support one of those or become archive material.</p>
+<p>Current offer architecture now lives in <a href="./OFFER-ARCHITECTURE.md">OFFER-ARCHITECTURE.md</a>.</p>
+<hr>
+<h2 id="11-what-to-build-next-internally">11. What To Build Next Internally</h2>
+<p>If effort is limited, the highest-leverage internal moves are:</p>
+<ol>
+<li>Consolidate strategy and offer docs</li>
+<li>Standardize client structure</li>
+<li>Audit <code>Tools</code> into active vs incubating vs archive</li>
+<li>Build an approval/review workbench</li>
+<li>Productize Bedrock fulfillment into a repeatable system</li>
+</ol>
+<hr>
+<h2 id="12-working-conclusion">12. Working Conclusion</h2>
+<p>Nunya Bunya already has enough depth to become a serious agency system.</p>
+<p>The next win is not more ideas.</p>
+<p>It is compression:</p>
+<ul>
+<li>fewer canonical docs</li>
+<li>clearer structure</li>
+<li>sharper offers</li>
+<li>standardized client handling</li>
+<li>better review flow</li>
+</ul>
+<p>That is how this folder turns from &quot;a lot of good work&quot; into &quot;an actual machine.&quot;</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Docs/AGENCY-OS.md</div>
+    </main>
+  </div>
+</body>
+</html>

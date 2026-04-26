@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bedrock Pipeline Improvement Plan | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Bedrock Pipeline Improvement Plan
+        </div>
+        <h1 class="doc-title">Bedrock Pipeline Improvement Plan</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Docs</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="bedrock-pipeline-improvement-plan">Bedrock Pipeline Improvement Plan</h1>
+<p><strong>Created:</strong> 2026-04-14</p>
+<p><strong>Purpose:</strong> Make Bedrock reliable enough to run end-to-end for a brand-new small business before selling it broadly.</p>
+<hr>
+<h2 id="1-current-reality">1. Current Reality</h2>
+<p>Bedrock is viable as a founder-led done-for-you package.</p>
+<p>It is not yet reliable as a clean one-command production pipeline.</p>
+<p>The strongest parts are:</p>
+<ul>
+<li>website generation</li>
+<li>landing page generation</li>
+<li>ad copy generation</li>
+<li>lead magnet HTML/Markdown generation</li>
+<li>5-email sequence generation</li>
+<li>Cal.com provisioning, with review</li>
+<li>Shlink tracking links, when configured</li>
+</ul>
+<p>The weakest parts are:</p>
+<ul>
+<li>lead form handling</li>
+<li>Mautic list/campaign provisioning</li>
+<li>Twenty CRM setup</li>
+<li>Matomo site and Metabase dashboard setup</li>
+<li>polished handoff guide</li>
+<li>approval gates</li>
+<li>dry-run/testing mode</li>
+<li>external-service preflight checks</li>
+</ul>
+<p>The improvement goal is not &quot;remove Ben from the loop.&quot;</p>
+<p>The goal is &quot;make Ben&#x27;s loop obvious, fast, and hard to miss.&quot;</p>
+<hr>
+<h2 id="2-test-business">2. Test Business</h2>
+<p>Use a fake micro-business that is close enough to real client work but has no live client risk.</p>
+<p>Recommended service test fixture:</p>
+<p><strong>River City Mobile Dog Wash</strong></p>
+<p><strong>Type:</strong> local service business</p>
+<p><strong>Location:</strong> Brisbane inner north</p>
+<p><strong>Core offer:</strong> mobile dog wash and grooming for busy dog owners</p>
+<p><strong>Primary Bedrock landing-page service:</strong> first-time mobile dog wash</p>
+<p><strong>Why this works as a test:</strong></p>
+<ul>
+<li>simple local service</li>
+<li>clear booking flow</li>
+<li>easy lead magnet topic</li>
+<li>no legal/medical/compliance complexity</li>
+<li>similar enough to Pawesome without using Pawesome</li>
+<li>services can be translated into booking event types</li>
+</ul>
+<p>Recommended ecommerce test fixture:</p>
+<p><strong>Plant Riot Tees</strong></p>
+<p><strong>Type:</strong> ecommerce apparel brand</p>
+<p><strong>Location:</strong> Australia-first, online store</p>
+<p><strong>Core offer:</strong> organic cotton vegan graphic t-shirt launch drop</p>
+<p><strong>Primary Bedrock landing-page offer:</strong> 15% first-drop discount / early access</p>
+<p><strong>Why this works as a test:</strong></p>
+<ul>
+<li>product catalog, variants, cart, checkout, and post-purchase needs expose a different class of Bedrock gaps</li>
+<li>reusable for Bella Rhyder and future product brands</li>
+<li>simple enough to build quickly without complex inventory rules</li>
+<li>edgy brand gives the website builder a higher creative bar than a generic local service site</li>
+<li>can run in waitlist-only, Stripe Payment Links, or Shopify mode</li>
+</ul>
+<hr>
+<h2 id="3-bedrock-deliverable-audit">3. Bedrock Deliverable Audit</h2>
+<div class="table-wrap"><table><thead><tr><th>Deliverable</th><th>Current automation</th><th>Main gap</th><th>Fix priority</th></tr></thead><tbody><tr><td>Website, 5-8 pages</td><td>Mostly automated via <code>website_builder.py</code></td><td>Needs deterministic page contract and QA report</td><td>High</td></tr><tr><td>Landing page</td><td>Automated via <code>step<em>landing</em>page</code></td><td>Form action points to generic <code>/api/leads</code> and is not proven end-to-end</td><td>Critical</td></tr><tr><td>Lead magnet PDF</td><td>HTML/Markdown automated</td><td>Actual PDF export is not guaranteed</td><td>High</td></tr><tr><td>Email list setup</td><td>Integration client exists</td><td>Orchestrator does not create Mautic segment/list</td><td>Critical</td></tr><tr><td>5-email sequence</td><td>Email files automated</td><td>Not imported/wired into Mautic campaign</td><td>Critical</td></tr><tr><td>Booking system</td><td>Cal.com direct DB provisioning exists</td><td>Needs safe escaping, idempotency, and test mode</td><td>High</td></tr><tr><td>Slack/email notifications</td><td>Slack channel + Cal.com webhook exist</td><td>n8n receiver and per-client routing need verification</td><td>High</td></tr><tr><td>Basic CRM setup</td><td>Twenty client exists</td><td>Orchestrator currently skips CRM</td><td>Critical</td></tr><tr><td>Analytics/tracking</td><td>Meta Pixel + Shlink links partially exist</td><td>Matomo site, goals, and Metabase dashboard not created</td><td>High</td></tr><tr><td>Ad copy/creative direction</td><td>Automated draft</td><td>Needs client-specific review status and output manifest</td><td>Medium</td></tr><tr><td>Handoff guide</td><td>JSON status only</td><td>Needs human-readable handoff pack</td><td>High</td></tr><tr><td>Ecommerce product catalog</td><td>Not first-class</td><td>Needs product schema, variants, inventory mode, checkout URL, and collection logic</td><td>Critical</td></tr><tr><td>Ecommerce cart/checkout</td><td>Not automated</td><td>Needs explicit mode: waitlist-only, Stripe Payment Links, Shopify, or custom</td><td>Critical</td></tr><tr><td>Ecommerce lifecycle emails</td><td>Basic ecommerce template exists</td><td>Needs subscriber, abandoned cart, post-purchase, review request, and win-back branches</td><td>High</td></tr></tbody></table></div>
+<hr>
+<h2 id="4-required-pipeline-architecture">4. Required Pipeline Architecture</h2>
+<h3 id="a-single-run-folder">A. Single Run Folder</h3>
+<p>Every Bedrock run should create:</p>
+<pre><code class="lang-text">01-Nunya Bunya/Clients/[client-id]/
+├── 00-admin/
+│   ├── BEDROCK-RUN.md
+│   ├── HANDOFF-GUIDE.md
+│   ├── REVIEW-CHECKLIST.md
+│   └── CLIENT-INPUT-NEEDED.md
+├── 01-strategy/
+├── 02-brand/
+├── 03-site/
+├── 04-campaigns/
+├── 05-content/
+├── 06-reporting/
+└── BEDROCK-STATUS.json</code></pre>
+<p>The current orchestrator writes many outputs near the website folder.</p>
+<p>That is workable, but the final structure needs to be predictable enough that a human can inspect it quickly.</p>
+<h3 id="b-artifact-manifest">B. Artifact Manifest</h3>
+<p>Every run should produce <code>BEDROCK-STATUS.json</code> with one entry per deliverable:</p>
+<ul>
+<li>status: <code>success</code>, <code>needs_review</code>, <code>skipped</code>, <code>failed</code></li>
+<li>output path</li>
+<li>public URL, if applicable</li>
+<li>missing input, if any</li>
+<li>external service touched</li>
+<li>manual action required</li>
+<li>reviewer notes</li>
+</ul>
+<p>This should become the source for the handoff guide and review checklist.</p>
+<h3 id="c-preflight-checks">C. Preflight Checks</h3>
+<p>Before generating anything, run a preflight that checks:</p>
+<ul>
+<li>AI provider keys available</li>
+<li>Vercel CLI available and logged in</li>
+<li>SSH to Hetzner available, if Cal.com provisioning is enabled</li>
+<li>Cal.com database reachable, if provisioning is enabled</li>
+<li>Slack token present, if notifications are enabled</li>
+<li>Mautic URL and credentials present</li>
+<li>Twenty CRM URL and API key present</li>
+<li>Matomo URL and token present</li>
+<li>Shlink URL and API key present</li>
+<li>required Python packages installed</li>
+<li>output folder does not conflict with an active client unless <code>--force</code> is passed</li>
+</ul>
+<p>If preflight fails, the orchestrator should tell us what will be skipped before spending tokens.</p>
+<h3 id="d-run-modes">D. Run Modes</h3>
+<p>Add explicit modes:</p>
+<ul>
+<li><code>--dry-run</code>: validate config and show planned actions, no files or external services</li>
+<li><code>--local-only</code>: generate files only, no Vercel/Cal.com/Mautic/CRM/Slack/Matomo</li>
+<li><code>--sandbox</code>: generate files and use fake/sandbox external records where possible</li>
+<li><code>--production</code>: generate files and touch live external services</li>
+</ul>
+<p>The fake business test should run first in <code>--local-only</code>, then <code>--sandbox</code>, then <code>--production</code> only if we deliberately want to test live integrations.</p>
+<hr>
+<h2 id="5-improvements-by-pipeline-stage">5. Improvements By Pipeline Stage</h2>
+<h3 id="stage-0-client-intake-normalization">Stage 0: Client Intake Normalization</h3>
+<p>Create a canonical Bedrock input schema:</p>
+<pre><code class="lang-json">{
+  &quot;client_name&quot;: &quot;River City Mobile Dog Wash&quot;,
+  &quot;client_id&quot;: &quot;river-city-mobile-dog-wash&quot;,
+  &quot;industry&quot;: &quot;mobile dog grooming&quot;,
+  &quot;location&quot;: &quot;Brisbane inner north&quot;,
+  &quot;website_url&quot;: &quot;&quot;,
+  &quot;primary_service&quot;: &quot;first-time mobile dog wash&quot;,
+  &quot;services&quot;: [
+    {
+      &quot;name&quot;: &quot;First-Time Mobile Dog Wash&quot;,
+      &quot;duration_minutes&quot;: 60,
+      &quot;price_aud&quot;: 89,
+      &quot;description&quot;: &quot;Mobile hydrobath, shampoo, dry, brush, ears, and nails.&quot;
+    }
+  ],
+  &quot;contact&quot;: {
+    &quot;owner_name&quot;: &quot;Sam Taylor&quot;,
+    &quot;email&quot;: &quot;hello@example.com&quot;,
+    &quot;phone&quot;: &quot;0400 000 000&quot;,
+    &quot;service_area&quot;: &quot;Brisbane inner north&quot;
+  },
+  &quot;offer&quot;: {
+    &quot;name&quot;: &quot;First wash for $89&quot;,
+    &quot;cta&quot;: &quot;Book the first wash&quot;
+  }
+}</code></pre>
+<p>Required changes:</p>
+<ul>
+<li>normalize <code>service</code>, <code>primary_service</code>, and services list into one shape</li>
+<li>generate missing <code>client_id</code> safely</li>
+<li>sanitize all client-provided strings before filesystem, SQL, HTML, or shell use</li>
+<li>write normalized input to <code>00-admin/BEDROCK-INPUT.json</code></li>
+</ul>
+<h3 id="stage-1-website-builder">Stage 1: Website Builder</h3>
+<p>Required changes:</p>
+<ul>
+<li>enforce a page contract: <code>index.html</code>, <code>services.html</code>, <code>about.html</code>, <code>contact.html</code>, <code>book.html</code>, <code>thankyou.html</code></li>
+<li>add optional extra pages only after the required pages pass</li>
+<li>replace generic <code>contact.html</code> CTAs with actual booking or lead links when available</li>
+<li>produce <code>WEBSITE-QA.md</code> with missing content, broken internal links, image count, forms found, and tracking snippets found</li>
+<li>make output path match the standard client folder structure</li>
+</ul>
+<p>Acceptance check:</p>
+<ul>
+<li>all required pages exist</li>
+<li>no <code>href=&quot;#&quot;</code> links</li>
+<li>no <code>[MISSING]</code> placeholders on public pages without being reported</li>
+<li>all internal links point to existing files</li>
+<li>mobile viewport is usable</li>
+</ul>
+<h3 id="stage-1b-ecommerce-website-builder">Stage 1B: Ecommerce Website Builder</h3>
+<p>Required changes:</p>
+<ul>
+<li>add <code>business_model: ecommerce</code> as a first-class branch</li>
+<li>generate product catalog data separately from the rendered site</li>
+<li>support collection pages, product cards, product detail content, cart state, discount capture, and checkout CTA</li>
+<li>support checkout modes: <code>waitlist<em>only</code>, <code>stripe</em>payment<em>links</code>, <code>shopify</code>, <code>external</em>checkout</code></li>
+<li>generate ecommerce-specific policy placeholders: shipping, returns, privacy, terms</li>
+<li>generate product image briefs and placeholder mockups when no real product images exist</li>
+<li>produce <code>ECOMMERCE-QA.md</code> with product count, missing variants, missing checkout URLs, missing policies, and event tracking status</li>
+</ul>
+<p>Acceptance check:</p>
+<ul>
+<li>every product has ID, title, price, description, image, variants, and checkout behavior</li>
+<li>cart or product checkout path is present</li>
+<li>signup path is present</li>
+<li>policy gaps are listed in <code>CLIENT-INPUT-NEEDED.md</code></li>
+<li>no live store can launch with placeholder checkout links unreported</li>
+</ul>
+<h3 id="stage-2-landing-page-and-forms">Stage 2: Landing Page And Forms</h3>
+<p>Required changes:</p>
+<ul>
+<li>stop using an unverified generic <code>/api/leads</code> action</li>
+<li>create a Vercel/serverless form handler or static form backend per client</li>
+<li>submit lead to Mautic, Twenty CRM, and Slack</li>
+<li>write leads locally/Supabase as a fallback</li>
+<li>add hidden fields: client<em>id, offer</em>slug, source, campaign</li>
+<li>create <code>thankyou.html</code> with booking CTA and lead magnet delivery CTA</li>
+</ul>
+<p>Acceptance check:</p>
+<ul>
+<li>test form submission creates a lead record</li>
+<li>Slack receives a lead alert</li>
+<li>Mautic receives the contact or the run clearly says Mautic was skipped</li>
+<li>CRM receives the person/deal or the run clearly says CRM was skipped</li>
+</ul>
+<h3 id="stage-3-lead-magnet">Stage 3: Lead Magnet</h3>
+<p>Required changes:</p>
+<ul>
+<li>add automated HTML to PDF export</li>
+<li>save both <code>guide.html</code> and <code>guide.pdf</code></li>
+<li>add a lead magnet download link to the thank-you page</li>
+<li>include disclaimer blocks for regulated industries</li>
+<li>add quality check for title, section count, CTA, and client name</li>
+</ul>
+<p>Acceptance check:</p>
+<ul>
+<li><code>guide.pdf</code> exists</li>
+<li>PDF opens</li>
+<li>guide has at least 6 substantive sections</li>
+<li>guide includes client name and CTA</li>
+</ul>
+<h3 id="stage-4-email-sequence-and-mautic">Stage 4: Email Sequence And Mautic</h3>
+<p>Required changes:</p>
+<ul>
+<li>generate email files as now</li>
+<li>create Mautic segment per client</li>
+<li>create Mautic form or connect existing form endpoint</li>
+<li>create Mautic email drafts</li>
+<li>create or document a campaign sequence</li>
+<li>remove hardcoded Zinia-specific directions from email prompts</li>
+<li>write <code>EMAIL-SETUP.md</code> with IDs, status, and manual UI actions</li>
+</ul>
+<p>Acceptance check:</p>
+<ul>
+<li>segment ID saved</li>
+<li>all 5 emails created as drafts</li>
+<li>test contact can be added to segment</li>
+<li>no fake address, no Hakataya/Ramen/Zinia leftover text</li>
+</ul>
+<h3 id="stage-5-booking-system">Stage 5: Booking System</h3>
+<p>Required changes:</p>
+<ul>
+<li>replace raw SQL string interpolation with parameterized or safely escaped SQL helpers</li>
+<li>make Cal.com provisioning idempotent</li>
+<li>detect existing user, schedule, event types, and webhooks</li>
+<li>support <code>--local-only</code> by generating <code>BOOKING-SETUP.md</code> without touching Cal.com</li>
+<li>generate a booking QA report listing services, durations, prices, and booking URL</li>
+</ul>
+<p>Acceptance check:</p>
+<ul>
+<li>booking URL resolves</li>
+<li>expected event types exist</li>
+<li>no duplicate schedules/event types on rerun</li>
+<li>webhook points to the correct n8n endpoint</li>
+</ul>
+<h3 id="stage-6-slack-and-notifications">Stage 6: Slack And Notifications</h3>
+<p>Required changes:</p>
+<ul>
+<li>create or find the client Slack channel idempotently</li>
+<li>post a Bedrock run summary into the channel</li>
+<li>verify n8n booking webhook receiver is live</li>
+<li>route Cal.com booking events to the client channel</li>
+<li>add a test notification command</li>
+</ul>
+<p>Acceptance check:</p>
+<ul>
+<li>Slack channel exists or is skipped with a clear reason</li>
+<li>test lead/booking notification posts to the right channel</li>
+</ul>
+<h3 id="stage-7-crm">Stage 7: CRM</h3>
+<p>Required changes:</p>
+<ul>
+<li>implement <code>step<em>crm</em>entry</code></li>
+<li>create company</li>
+<li>create primary contact</li>
+<li>create opportunity/deal for Bedrock</li>
+<li>write CRM IDs to <code>BEDROCK-STATUS.json</code></li>
+</ul>
+<p>Acceptance check:</p>
+<ul>
+<li>Twenty CRM has company/contact/opportunity or a clear skipped status</li>
+</ul>
+<h3 id="stage-8-analytics-and-tracking">Stage 8: Analytics And Tracking</h3>
+<p>Required changes:</p>
+<ul>
+<li>create Matomo site and save site ID</li>
+<li>inject Matomo tracking snippet into website and landing page</li>
+<li>create goals for form submit, booking click, thank-you visit</li>
+<li>create Shlink links for site, landing page, booking, lead magnet</li>
+<li>create or clone a basic Metabase dashboard template</li>
+</ul>
+<p>Acceptance check:</p>
+<ul>
+<li>Matomo site ID saved</li>
+<li>tracking snippet present on generated pages</li>
+<li>Shlink links resolve</li>
+<li>Metabase dashboard created or skipped with clear reason</li>
+</ul>
+<h3 id="stage-9-ads-and-launch-assets">Stage 9: Ads And Launch Assets</h3>
+<p>Required changes:</p>
+<ul>
+<li>keep current ad generation</li>
+<li>add campaign brief file with offer, audience, landing page URL, tracking links</li>
+<li>add &quot;do not publish until reviewed&quot; status</li>
+<li>produce a lightweight launch checklist</li>
+</ul>
+<p>Acceptance check:</p>
+<ul>
+<li>Meta and Google variations exist</li>
+<li>tracking URLs are included</li>
+<li>launch checklist exists</li>
+</ul>
+<h3 id="stage-10-handoff-and-review">Stage 10: Handoff And Review</h3>
+<p>Required changes:</p>
+<ul>
+<li>generate <code>REVIEW-CHECKLIST.md</code></li>
+<li>generate <code>HANDOFF-GUIDE.md</code></li>
+<li>generate <code>CLIENT-INPUT-NEEDED.md</code></li>
+<li>collect every public URL and admin URL in one place</li>
+<li>separate &quot;ready for client&quot; from &quot;needs Ben review&quot;</li>
+</ul>
+<p>Acceptance check:</p>
+<ul>
+<li>Ben can open one folder and know exactly what is done, skipped, failed, and ready</li>
+<li>client handoff does not expose internal secrets</li>
+</ul>
+<hr>
+<h2 id="6-recommended-build-order">6. Recommended Build Order</h2>
+<h3 id="pass-1-make-it-testable">Pass 1: Make It Testable</h3>
+<ol>
+<li>Add canonical input schema and fake test fixture.</li>
+<li>Add <code>--dry-run</code> and <code>--local-only</code>.</li>
+<li>Add preflight checks.</li>
+<li>Add artifact manifest helpers.</li>
+<li>Add final review/handoff file generation.</li>
+</ol>
+<p>Why first:</p>
+<p>Without this, every test run is noisy and hard to trust.</p>
+<h3 id="pass-2-fix-the-critical-lead-path">Pass 2: Fix The Critical Lead Path</h3>
+<ol>
+<li>Replace <code>/api/leads</code> with a working lead endpoint or form backend.</li>
+<li>Push lead to Supabase/local log as fallback.</li>
+<li>Push lead to Slack.</li>
+<li>Push lead to Mautic if configured.</li>
+<li>Push lead to Twenty CRM if configured.</li>
+</ol>
+<p>Why second:</p>
+<p>This is the most commercially important path.</p>
+<h3 id="pass-3-wire-marketing-stack-integrations">Pass 3: Wire Marketing Stack Integrations</h3>
+<ol>
+<li>Mautic segment creation.</li>
+<li>Mautic email draft creation.</li>
+<li>Twenty CRM company/contact/deal.</li>
+<li>Matomo site creation and snippet injection.</li>
+<li>Shlink links for all public URLs.</li>
+<li>Metabase dashboard placeholder or clone.</li>
+</ol>
+<p>Why third:</p>
+<p>These are the things that make Bedrock feel like a real operating system, not just generated assets.</p>
+<h3 id="pass-4-harden-booking">Pass 4: Harden Booking</h3>
+<ol>
+<li>Cal.com idempotency.</li>
+<li>Safer SQL handling.</li>
+<li>Booking event QA.</li>
+<li>n8n webhook verification.</li>
+<li>Slack booking notification test.</li>
+</ol>
+<p>Why fourth:</p>
+<p>Booking is valuable, but less dangerous than broken lead capture because it is easier to see manually.</p>
+<h3 id="pass-5-polish-generated-assets">Pass 5: Polish Generated Assets</h3>
+<ol>
+<li>PDF export.</li>
+<li>better landing page templates.</li>
+<li>stronger lead magnet templates by industry.</li>
+<li>better ad/creative brief.</li>
+<li>screenshot QA for generated website/landing pages.</li>
+</ol>
+<p>Why fifth:</p>
+<p>Quality matters, but structure comes before shine.</p>
+<hr>
+<h2 id="7-fake-business-end-to-end-test-plan">7. Fake Business End-To-End Test Plan</h2>
+<h3 id="test-1-local-only-generation">Test 1: Local-Only Generation</h3>
+<p>Run the fake business through the pipeline without touching external services.</p>
+<p>Expected:</p>
+<ul>
+<li>website generated</li>
+<li>landing page generated</li>
+<li>lead magnet HTML/Markdown/PDF generated</li>
+<li>email sequence generated</li>
+<li>ad campaign generated</li>
+<li>handoff and review docs generated</li>
+<li>external integration statuses are <code>skipped<em>local</em>only</code></li>
+</ul>
+<h3 id="test-2-sandbox-integration">Test 2: Sandbox Integration</h3>
+<p>Run the fake business with safe external services enabled.</p>
+<p>Expected:</p>
+<ul>
+<li>test lead submits successfully</li>
+<li>Slack receives test notification</li>
+<li>Mautic receives test contact</li>
+<li>CRM receives test company/contact/deal</li>
+<li>Shlink links created</li>
+<li>Matomo snippet present</li>
+</ul>
+<h3 id="test-3-rerun-idempotency">Test 3: Rerun Idempotency</h3>
+<p>Run the same fake business again.</p>
+<p>Expected:</p>
+<ul>
+<li>no duplicate Cal.com users/event types</li>
+<li>no duplicate Slack channels</li>
+<li>existing folders are reused or versioned intentionally</li>
+<li>status file reports existing resources</li>
+</ul>
+<h3 id="test-4-human-review">Test 4: Human Review</h3>
+<p>Open <code>REVIEW-CHECKLIST.md</code> and inspect every client-facing item.</p>
+<p>Expected:</p>
+<ul>
+<li>no unsupported claims</li>
+<li>no placeholder content</li>
+<li>no wrong industry details</li>
+<li>no broken links</li>
+<li>no generated copy that sounds fake or legally risky</li>
+</ul>
+<hr>
+<h2 id="8-ship-criteria-before-advertising-hard">8. Ship Criteria Before Advertising Hard</h2>
+<p>Bedrock is ready to advertise aggressively when:</p>
+<ul>
+<li>a fake business can run end-to-end twice without uncontrolled duplication</li>
+<li>one test lead flows from landing page to Slack and CRM</li>
+<li>Mautic list and email drafts are created or clearly marked manual</li>
+<li>every deliverable appears in the final handoff guide</li>
+<li>the review checklist catches missing data and placeholders</li>
+<li>the package can be completed in one workday with Ben reviewing, not manually assembling</li>
+</ul>
+<p>Until then, advertise softly as founder-led implementation slots.</p>
+<hr>
+<h2 id="9-non-negotiable-principle">9. Non-Negotiable Principle</h2>
+<p>Do not optimize for &quot;fully automated.&quot;</p>
+<p>Optimize for:</p>
+<ul>
+<li>complete</li>
+<li>reviewable</li>
+<li>rerunnable</li>
+<li>safe</li>
+<li>useful to a real business owner</li>
+</ul>
+<p>Automation is the engine.</p>
+<p>The product is the finished marketing foundation.</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Docs/BEDROCK-PIPELINE-IMPROVEMENT-PLAN.md</div>
+    </main>
+  </div>
+</body>
+</html>

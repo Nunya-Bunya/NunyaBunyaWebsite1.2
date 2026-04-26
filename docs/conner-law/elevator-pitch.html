@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ELEVATOR PITCHES | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link active"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#conner-law">Conner Law</a> &rsaquo;
+          ELEVATOR PITCHES
+        </div>
+        <h1 class="doc-title">ELEVATOR PITCHES</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(74,144,217,0.12);color:#4A90D9">&#9878; Conner Law</span>
+          <span class="doc-path">05-Conner Law / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="elevator-pitches">ELEVATOR PITCHES</h1>
+<h3 id="conner-law-group-all-entities">Conner Law Group — All Entities</h3>
+<p><strong>Version 2.0 | March 2026</strong></p>
+<blockquote>These pitches are living documents. Test them in real conversations, refine what lands, and update here. The best pitch is the one that sounds natural when spoken — practise until it does. Every version below is intended to be used immediately, without modification.</blockquote>
+<hr>
+<h2 id="part-one-conner-law-group-umbrella-brand">PART ONE: CONNER LAW GROUP (UMBRELLA BRAND)</h2>
+<h3 id="10-second-version">10-Second Version</h3>
+<p>&quot;Conner Law Group is a Brisbane legal services group — we run three specialist law firms covering personal injury, business law, and medical-legal support, plus KevLaw AI, our legal technology product for other law firms.&quot;</p>
+<h3 id="30-second-version">30-Second Version</h3>
+<p>&quot;Conner Law Group is a Brisbane-based legal services group built differently from the typical law firm. We have three specialist legal practices — Conner Injury Law for personal injury claims, Merkel &amp; Conner for commercial and business law, and MBCS for medical-legal consulting. And we&#x27;ve built KevLaw AI — an AI-powered document automation platform that we use internally and now license to other law firms nationally. We&#x27;re not trying to be the biggest firm in Queensland. We&#x27;re building the most integrated, most efficient, and most client-focused legal group in the country.&quot;</p>
+<h3 id="60-second-version">60-Second Version</h3>
+<p>&quot;Conner Law Group is a Brisbane-based legal services umbrella comprising four distinct businesses. On the legal services side, Conner Injury Law handles plaintiff-side personal injury work — motor vehicle accidents, workplace injuries, public liability claims — all on a no-win, no-fee basis. Merkel &amp; Conner is our commercial and business law practice, serving Queensland SMEs and founders with contracts, corporate structuring, employment law, and commercial disputes. And MBCS is our medical-legal consulting and support service — we coordinate expert reports, independent medical examinations, and file preparation for law firms that need that capability but don&#x27;t have it in-house.</p>
+<p>What makes the group genuinely unique is KevLaw AI. We built a proprietary legal technology platform — document automation, client intake, compliance tracking, precedent management — originally for our own use. It&#x27;s cut our internal document drafting time by over seventy percent. And now we&#x27;re licensing it to other law firms nationally on a SaaS subscription model.</p>
+<p>So we&#x27;re running a profitable law practice while simultaneously building a scalable technology business. Multi-million dollar revenue target, Brisbane-based, and growing fast.&quot;</p>
+<hr>
+<h2 id="part-two-conner-injury-law-personal-injury">PART TWO: CONNER INJURY LAW (Personal Injury)</h2>
+<h3 id="10-second-version">10-Second Version</h3>
+<p>&quot;Conner Injury Law is a Brisbane personal injury firm. Car accidents, workplace injuries, public liability claims — no win, no fee, no jargon.&quot;</p>
+<h3 id="30-second-version">30-Second Version</h3>
+<p>&quot;Conner Injury Law is a Brisbane personal injury law firm built for people who&#x27;ve never hired a lawyer before. We handle motor vehicle accident claims, WorkCover injuries, and public liability claims — slip and falls, injuries in public places — all on a no-win, no-fee basis. We communicate in plain English, we keep our clients informed at every step, and we don&#x27;t disappear once the file is opened. Most of our clients come to us not knowing what their claim is worth. They leave with real money in their pocket.&quot;</p>
+<h3 id="60-second-version">60-Second Version</h3>
+<p>&quot;Conner Injury Law is a personal injury law firm based in Brisbane, and our whole purpose is making quality legal representation accessible to everyday Queenslanders. Not just people who are comfortable with lawyers — everyone.</p>
+<p>We handle motor vehicle accident claims under Queensland&#x27;s CTP scheme, workplace injury and WorkCover claims, and public liability matters — injuries in shopping centres, car parks, restaurants, and public spaces. All of our personal injury work is handled on a no-win, no-fee basis, which means there is genuinely no financial risk to calling us and having a conversation about what happened to you.</p>
+<p>What separates us from the big national firms is attention. Our clients get a direct line to the solicitor on their matter, regular updates they can actually understand, and a team that is genuinely invested in their outcome — not just moving files through a system.</p>
+<p>If you&#x27;ve been injured in Queensland in the past three years, you likely have a claim worth pursuing. The only thing it costs you to find out is a phone call.&quot;</p>
+<hr>
+<h2 id="part-three-merkel-amp-conner-business-law">PART THREE: MERKEL &amp; CONNER (Business Law)</h2>
+<h3 id="10-second-version">10-Second Version</h3>
+<p>&quot;Merkel &amp; Conner is a Brisbane commercial law firm for Queensland SMEs — practical legal advice, without the large-firm price tag.&quot;</p>
+<h3 id="30-second-version">30-Second Version</h3>
+<p>&quot;Merkel &amp; Conner is the commercial and business law arm of Conner Law Group. We work with Brisbane SMEs, startups, and growing businesses on commercial contracts, corporate structuring, shareholder agreements, employment law, commercial leases, and business disputes. Our point of difference is that we give practical, commercially-minded advice — not technically correct answers that don&#x27;t actually help you move forward. We also offer monthly retainer arrangements so business owners have a lawyer they can call without watching the clock.&quot;</p>
+<h3 id="60-second-version">60-Second Version</h3>
+<p>&quot;Merkel &amp; Conner is a commercial law firm in Brisbane, and we exist because there is a gap in the market between the large corporate firms — who are genuinely too expensive for most SMEs — and the generalist sole practitioners who don&#x27;t have the depth of expertise that growing businesses actually need.</p>
+<p>We work with businesses from startup stage through to established SMEs with 50, 100, 200 employees. Our work covers commercial contracts and negotiations, business setup and corporate structuring, shareholder agreements, commercial leases, employment law matters, and when things go wrong — disputes, debt recovery, and commercial litigation.</p>
+<p>We offer a monthly retainer model — typically fifteen hundred to three and a half thousand a month — that gives our clients budget certainty and means they actually pick up the phone and call us before they sign something, rather than after. That changes the legal relationship completely.</p>
+<p>If you run a business in Queensland and you don&#x27;t have a trusted legal partner, that&#x27;s a risk you&#x27;re probably not thinking about until something goes wrong. We&#x27;d like to change that.&quot;</p>
+<hr>
+<h2 id="part-four-mbcs-medical-legal-consulting-amp-support">PART FOUR: MBCS (Medical-Legal Consulting &amp; Support)</h2>
+<h3 id="10-second-version">10-Second Version</h3>
+<p>&quot;MBCS is a medical-legal consulting and support service for Queensland law firms — we coordinate expert reports, IMEs, and file preparation so your solicitors can focus on practising law.&quot;</p>
+<h3 id="30-second-version">30-Second Version</h3>
+<p>&quot;MBCS is the medical-legal support arm of Conner Law Group. We provide end-to-end coordination of independent medical examinations, medico-legal reports, expert witness briefs, and file preparation for personal injury law firms across Queensland. Most small to mid-size personal injury firms don&#x27;t have the internal capacity to manage this efficiently — they either outsource it badly or waste fee-earner time on it. MBCS solves that. We take the entire medical-legal support function off your team&#x27;s plate.&quot;</p>
+<h3 id="60-second-version">60-Second Version</h3>
+<p>&quot;MBCS is a specialist medical-legal consulting and support service, and we work exclusively with law firms — not with claimants directly.</p>
+<p>If you run a personal injury practice in Queensland, you know how much time goes into coordinating medical reports, chasing independent medical examiners, building medical chronologies, and preparing files for hearings and mediations. It is high-volume, detailed, time-sensitive work — and when it falls on fee-earners, it&#x27;s killing your utilisation rate.</p>
+<p>MBCS takes that entire function and manages it for your firm. We coordinate IMEs across our panel of specialist medical practitioners, prepare court-ready medical chronologies, brief expert witnesses, and prepare file bundles for conferences, mediations, and hearings. All of it. On transparent per-file pricing, with volume discounts for firms with consistent throughput.</p>
+<p>We&#x27;re already embedded in the Conner Law Group practice, so we know exactly what standard your file needs to reach. If you&#x27;re a practice principal looking to reduce administrative overhead and improve file quality, we would love to talk.&quot;</p>
+<hr>
+<h2 id="part-five-kevlaw-ai-legal-technology-saas">PART FIVE: KEVLAW AI (Legal Technology SaaS)</h2>
+<h3 id="10-second-version">10-Second Version</h3>
+<p>&quot;KevLaw AI is a document automation platform for law firms — retainers, demand letters, client correspondence, first draft in under sixty seconds.&quot;</p>
+<h3 id="30-second-version">30-Second Version</h3>
+<p>&quot;KevLaw AI is an AI-powered legal document automation tool built by lawyers, for law firms. You input the key details of a matter and it produces a professional, jurisdiction-compliant first draft — retainer agreements, letters of demand, settlement correspondence, client update letters — in under a minute. We built it for our own personal injury practice at Conner Law Group and it cut our document drafting time by over seventy percent. We&#x27;re now making it available to other firms on a monthly subscription starting at ninety-nine dollars. If your team spends more than a few hours a week on standard document drafting, it pays for itself in the first week.&quot;</p>
+<h3 id="60-second-version">60-Second Version</h3>
+<p>&quot;KevLaw AI is a legal document automation platform — and the pitch is simple. A huge percentage of what a solicitor or paralegal does each week involves drafting documents that follow predictable formats. Retainer agreements. Letters of demand. Settlement offers. Client update letters. Notices of claim. These aren&#x27;t complex — they&#x27;re high-volume, detail-critical, and time-consuming. Every firm I&#x27;ve spoken to agrees this is one of the biggest drains on fee-earner capacity.</p>
+<p>KevLaw AI solves that. You enter the key variables — client name, matter type, incident details, claim value, key facts — and the platform generates a professional first draft in under sixty seconds. Your solicitor reviews, edits if needed, and sends. What used to be a forty-five minute task becomes five minutes.</p>
+<p>We built it originally for Conner Law Group&#x27;s Queensland personal injury practice. After running it internally for several months, the efficiency gain is significant enough that we knew we had to build it for the broader market.</p>
+<p>We&#x27;re currently in a select beta with Queensland law firms, with pricing starting at ninety-nine dollars a month for sole practitioners. If you&#x27;re a practice principal and this sounds like a problem worth solving, I&#x27;d like to get you into the beta.&quot;</p>
+<hr>
+<h2 id="usage-notes-amp-delivery-principles">USAGE NOTES &amp; DELIVERY PRINCIPLES</h2>
+<h3 id="when-to-use-each-version">When to Use Each Version</h3>
+<ul>
+<li><strong>10-second:</strong> At events when someone asks &quot;what do you do?&quot; — opens the conversation, prompts a follow-up question</li>
+<li><strong>30-second:</strong> Networking events, formal introductions, podcast intros, referral partner meetings</li>
+<li><strong>60-second:</strong> Investor conversations, conference presentations, formal pitches, business development meetings with high-value targets</li>
+</ul>
+<h3 id="delivery-principles">Delivery Principles</h3>
+<ul>
+<li>Speak conversationally — do not read word for word from any of these scripts</li>
+<li>Pause after a strong line; let it land before continuing</li>
+<li>End with an invitation, not a sales push — open a door, do not close a deal</li>
+<li>Adapt language to your audience: use &quot;motor vehicle accident&quot; with lawyers; &quot;car accident&quot; with everyday clients; &quot;personal injury practice&quot; with referrers; &quot;document automation&quot; with tech-aware audiences</li>
+<li>Make eye contact; slow down on specifics (numbers, names, stats)</li>
+</ul>
+<h3 id="opening-dialogue-prompts-after-the-pitch">Opening Dialogue Prompts (After the Pitch)</h3>
+<ul>
+<li>&quot;Do you work with a lot of small businesses that might not have strong legal support in place?&quot;</li>
+<li>&quot;Do you know many people who&#x27;ve been through a personal injury claim?&quot;</li>
+<li>&quot;How much time does your team currently spend on document drafting?&quot;</li>
+<li>&quot;Have you had any experience with personal injury work yourself?&quot;</li>
+</ul>
+<h3 id="words-to-avoid">Words to Avoid</h3>
+<ul>
+<li>&quot;Lawyer&quot; (use &quot;solicitor&quot; in professional contexts)</li>
+<li>&quot;Lawsuit&quot; (use &quot;claim&quot; or &quot;proceedings&quot;)</li>
+<li>&quot;Win big&quot; or &quot;massive payout&quot; (use &quot;maximum entitlement&quot; or &quot;full compensation&quot;)</li>
+<li>&quot;Cutting-edge&quot; / &quot;revolutionary&quot; / &quot;game-changing&quot; — show, don&#x27;t tell</li>
+</ul>
+<hr>
+<p><em>Conner Law Group | Brisbane, Queensland, Australia</em></p>
+<p><em>Last reviewed: March 2026 | Owner: Ben Alek Conner</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">05-Conner Law/01-strategy/Documents/ELEVATOR PITCH.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POWER PORTRAITS — CLIENT ONBOARDING FLOW | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link active"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#power-portraits">Power Portraits</a> &rsaquo;
+          POWER PORTRAITS — CLIENT ONBOARDING FLOW
+        </div>
+        <h1 class="doc-title">POWER PORTRAITS — CLIENT ONBOARDING FLOW</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#128247; Power Portraits</span>
+          <span class="doc-path">02-Power Portraits / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="power-portraits-client-onboarding-flow">POWER PORTRAITS — CLIENT ONBOARDING FLOW</h1>
+<p><strong>Internal Operations Document</strong></p>
+<p><em>Step-by-step playbook: first inquiry to 6-month re-engagement</em></p>
+<hr>
+<h2 id="how-to-use-this-document">How to Use This Document</h2>
+<p>This is the complete onboarding playbook for every Power Portraits client. Eight stages, every one mapped out. If you are reading this as Ben&#x27;s assistant: follow these stages exactly. Every client goes through this flow, no exceptions. The stages are sequential — don&#x27;t skip ahead, and don&#x27;t let a client fall through a gap between stages.</p>
+<p>Tools referenced throughout: <strong>Gmail</strong>, <strong>Twenty CRM</strong>, <strong>Cal.com</strong>, <strong>Xero</strong>, <strong>Mautic</strong>, <strong>Pixieset</strong>, <strong>Google Drive</strong>.</p>
+<p>Templates referenced: <strong>BOOKING CONFIRMATION TEMPLATE.md</strong>, <strong>GALLERY DELIVERY TEMPLATE.md</strong>, <strong>SESSION PREP GUIDE.md</strong>, <strong>CLIENT INTAKE FORM.md</strong>.</p>
+<hr>
+<h2 id="stage-1-inquiry">Stage 1: Inquiry</h2>
+<p><strong>What happens:</strong> A potential client reaches out. We respond quickly, warmly, and with enough information to move them toward a booking or a consultation call.</p>
+<p><strong>Channels:</strong></p>
+<ul>
+<li>Website contact form (powerportraits.com.au)</li>
+<li>Instagram DM</li>
+<li>LinkedIn message</li>
+<li>Phone call</li>
+<li>Email</li>
+</ul>
+<p><strong>Who does what:</strong></p>
+<ul>
+<li><strong>Ben (or assistant):</strong> Responds to every inquiry. No inquiry goes unanswered.</li>
+</ul>
+<p><strong>Timing:</strong></p>
+<ul>
+<li>Response within <strong>4 business hours</strong>. Same day wherever possible. If an inquiry comes in after hours, respond first thing the next business day.</li>
+</ul>
+<p><strong>Actions:</strong></p>
+<ol>
+<li>Read the inquiry. Understand what they are looking for (headshots, team photos, personal branding, etc.).</li>
+<li>Respond using the <strong>Inquiry Response</strong> email template (see Email Templates folder). Personalise the opening — reference their name, their profession if mentioned, or where they found us.</li>
+<li>Include a brief overview of relevant packages (don&#x27;t dump all four on them if they clearly need one).</li>
+<li>Suggest a 15-minute consultation call if they seem undecided, or send the booking link directly if they already know what they want.</li>
+<li>Log the lead in <strong>Twenty CRM</strong>:</li>
+</ol>
+<ul>
+<li>Name, email, phone (if provided)</li>
+<li>Source (Instagram, website, LinkedIn, phone, referral)</li>
+<li>Package interest (if known)</li>
+<li>Status: <strong>&quot;Lead&quot;</strong></li>
+</ul>
+<p><strong>Tools:</strong> Gmail, Twenty CRM</p>
+<p><strong>Template:</strong> Email Templates -&gt; Inquiry Response</p>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>Warm tone, not salesy. We are confident in what we offer — no need to oversell.</li>
+<li>If the inquiry is vague (&quot;How much for photos?&quot;), ask a question back: &quot;I&#x27;d love to help — could you tell me a bit about what you&#x27;re looking for and where you&#x27;ll be using the images?&quot;</li>
+<li>If the inquiry comes via Instagram DM, keep it conversational but still professional. Move to email for booking logistics.</li>
+</ul>
+<hr>
+<h2 id="stage-2-consultation-call-optional">Stage 2: Consultation Call (Optional)</h2>
+<p><strong>What happens:</strong> A short phone or video call to understand the client&#x27;s goals, recommend the right package, and build rapport before they commit.</p>
+<p><strong>Who does what:</strong></p>
+<ul>
+<li><strong>Ben:</strong> Runs the call. This is not delegated — the client is buying Ben&#x27;s eye and direction, so Ben needs to be the voice they hear.</li>
+</ul>
+<p><strong>Timing:</strong></p>
+<ul>
+<li>15 minutes. No longer unless the client has complex needs (e.g., large corporate booking).</li>
+<li>Schedule via <strong>Cal.com</strong> — send the booking link in the inquiry response or follow-up email.</li>
+</ul>
+<p><strong>When to recommend a consultation call:</strong></p>
+<ul>
+<li>Portrait package ($450) and Editorial package ($800): Always recommend.</li>
+<li>Session package ($250): Optional — only if the client seems unsure or nervous.</li>
+<li>Corporate package ($2,500+): Always. These require scoping.</li>
+</ul>
+<p><strong>Talking points / discovery questions:</strong></p>
+<ol>
+<li>&quot;What do you do? Tell me about your work.&quot; (Understand their professional context.)</li>
+<li>&quot;Where will these images live?&quot; (LinkedIn, website, speaker profile, press kit, social media.)</li>
+<li>&quot;Is there an occasion driving this?&quot; (New role, rebrand, book launch, just overdue.)</li>
+<li>&quot;How do you want to be perceived?&quot; (Approachable, authoritative, creative, warm, serious.)</li>
+<li>&quot;Have you had professional photos before? Anything you loved or hated about the experience?&quot;</li>
+<li>&quot;Do you have any references or examples of portraits you admire?&quot; (Helps calibrate style.)</li>
+</ol>
+<p><strong>Actions after the call:</strong></p>
+<ol>
+<li>Send a short email (within 30 minutes) summarising the recommended package and why it suits them.</li>
+<li>Include the <strong>Cal.com booking link</strong> for the session itself.</li>
+<li>Include the <strong>Xero invoice link</strong> or let them know the invoice is coming shortly.</li>
+<li>Update <strong>Twenty CRM</strong> status to <strong>&quot;Consultation Complete&quot;</strong>.</li>
+</ol>
+<p><strong>Tools:</strong> Cal.com (scheduling), Phone or Zoom (call), Gmail (follow-up), Twenty CRM</p>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>If the client doesn&#x27;t want a call and just wants to book, skip this stage entirely. Not every client needs hand-holding.</li>
+<li>Keep notes from the call in the CRM contact record — they will inform the shot list later.</li>
+</ul>
+<hr>
+<h2 id="stage-3-booking">Stage 3: Booking</h2>
+<p><strong>What happens:</strong> The client selects their package, pays the deposit, and the session is locked in.</p>
+<p><strong>Who does what:</strong></p>
+<ul>
+<li><strong>Ben (or assistant):</strong> Sends invoice, confirms booking, updates CRM, adds to calendar.</li>
+</ul>
+<p><strong>Timing:</strong></p>
+<ul>
+<li>Invoice sent within 30 minutes of the client confirming their package.</li>
+<li>Session is not confirmed until the <strong>50% deposit</strong> is received. Make this clear.</li>
+</ul>
+<p><strong>Actions:</strong></p>
+<ol>
+<li>Generate invoice in <strong>Xero</strong>:</li>
+</ol>
+<ul>
+<li>Line items: Package name, package price (inc. GST), 50% deposit due now, balance due on gallery delivery.</li>
+<li>Payment terms: Due on receipt. Payment via bank transfer or card (Xero handles this).</li>
+</ul>
+<ol>
+<li>Send invoice to client with payment link.</li>
+<li>On receipt of deposit:</li>
+</ol>
+<ul>
+<li>Send <strong>Booking Confirmation Email</strong> (see BOOKING CONFIRMATION TEMPLATE.md). This includes:</li>
+<li>Session date, time, and meeting point</li>
+<li>Package summary</li>
+<li>What to expect next (intake form, prep guide)</li>
+<li>Cancellation/rescheduling policy</li>
+<li>Add session to <strong>Google Calendar</strong> with:</li>
+<li>Client name, package, location(s), and any notes from consultation</li>
+<li>20-minute buffer before session start (Ben&#x27;s setup time)</li>
+<li>Schedule the <strong>pre-session automated emails</strong> in Mautic (intake form at 7 days, prep guide at 48 hours)</li>
+</ul>
+<ol>
+<li>Update <strong>Twenty CRM</strong>:</li>
+</ol>
+<ul>
+<li>Status: <strong>&quot;Booked&quot;</strong></li>
+<li>Add session date, package, and deposit payment date</li>
+</ul>
+<p><strong>Tools:</strong> Xero (invoicing), Cal.com (session scheduling), Google Calendar, Mautic (email automation), Twenty CRM</p>
+<p><strong>Template:</strong> BOOKING CONFIRMATION TEMPLATE.md</p>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>If the deposit is not received within 5 business days, send a gentle nudge: &quot;Just checking in — did you have any questions about the booking?&quot;</li>
+<li>If no response after 10 business days, follow up once more, then mark as <strong>&quot;Stalled&quot;</strong> in CRM. Don&#x27;t chase beyond that.</li>
+</ul>
+<hr>
+<h2 id="stage-4-pre-session-preparation-7-days-before">Stage 4: Pre-Session Preparation (7 Days Before)</h2>
+<p><strong>What happens:</strong> We gather everything we need to tailor the session to this specific client, and we make sure the client arrives prepared and confident.</p>
+<p><strong>Who does what:</strong></p>
+<ul>
+<li><strong>Mautic (automated):</strong> Sends the intake form email 7 days before the session.</li>
+<li><strong>Ben:</strong> Reviews intake form responses, prepares shot list and location plan.</li>
+<li><strong>Mautic (automated):</strong> Sends the Session Prep Guide 48 hours before.</li>
+</ul>
+<p><strong>Timing:</strong></p>
+<ul>
+<li><strong>7 days before session:</strong> Client Intake Form email sent automatically via Mautic.</li>
+<li><strong>3-5 days before session:</strong> Ben reviews completed intake form and prepares.</li>
+<li><strong>48 hours before session:</strong> Session Prep Guide email sent automatically via Mautic.</li>
+</ul>
+<h3 id="7-days-before-client-intake-form">7 Days Before: Client Intake Form</h3>
+<p>The intake form (see CLIENT INTAKE FORM.md) is a questionnaire covering:</p>
+<ul>
+<li>Professional context (role, industry, audience)</li>
+<li>Image usage (LinkedIn, website, speaking, social, press)</li>
+<li>Brand words (3 words describing how they want to be perceived)</li>
+<li>Style preferences (indoor/outdoor, urban/natural, formal/relaxed)</li>
+<li>Wardrobe plans (how many outfits, colours, formality)</li>
+<li>Nerves or concerns about being photographed</li>
+<li>Any specific shots or angles requested</li>
+</ul>
+<p><strong>Action:</strong> Mautic sends the intake form link. If the client hasn&#x27;t completed it by 4 days before the session, send a manual reminder.</p>
+<h3 id="3-5-days-before-benx27s-preparation">3-5 Days Before: Ben&#x27;s Preparation</h3>
+<p>Once the intake form is in, Ben prepares:</p>
+<ol>
+<li><strong>Location options:</strong> Based on the client&#x27;s vibe and preferences. Scout if it&#x27;s a new location. Confirm access/logistics.</li>
+<li><strong>Lighting plan:</strong> Natural light vs. portable flash/reflector based on location, time of day, and desired mood.</li>
+<li><strong>Shot list / mood direction:</strong> Not a rigid list, but a guide:</li>
+</ol>
+<ul>
+<li>Key looks to capture (e.g., &quot;confident wide shot against concrete&quot;, &quot;warm close-up with natural light&quot;)</li>
+<li>Posing notes based on their body type and comfort level</li>
+<li>Expression direction (serious/authoritative vs. warm/approachable)</li>
+</ul>
+<p>Save prep notes in <strong>Google Drive</strong> under the client&#x27;s folder: <code>Power Portraits / Clients / [LASTNAME, FIRSTNAME] / Session Prep</code>.</p>
+<h3 id="48-hours-before-session-prep-guide">48 Hours Before: Session Prep Guide</h3>
+<p>Mautic sends the Session Prep Guide (see SESSION PREP GUIDE.md), which covers:</p>
+<ul>
+<li>What to wear and what to avoid</li>
+<li>Skincare and grooming tips (day-of)</li>
+<li>What to expect during the session</li>
+<li>Meeting point and logistics</li>
+<li>What to bring (outfits, accessories, water)</li>
+<li>Arrival time (5-10 minutes early)</li>
+</ul>
+<p><strong>Tools:</strong> Mautic (automated emails), Google Drive (shot planning), Twenty CRM</p>
+<p><strong>Templates:</strong> CLIENT INTAKE FORM.md, SESSION PREP GUIDE.md</p>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>If a client doesn&#x27;t fill out the intake form at all, don&#x27;t cancel. Call them the day before and run through the key questions verbally. Capture the answers yourself.</li>
+<li>For Corporate bookings, the intake form is sent to the primary contact, not every individual being photographed.</li>
+</ul>
+<hr>
+<h2 id="stage-5-session-day">Stage 5: Session Day</h2>
+<p><strong>What happens:</strong> The shoot. This is where the work lands. Everything before this stage exists to make this stage effortless.</p>
+<p><strong>Who does what:</strong></p>
+<ul>
+<li><strong>Ben:</strong> Runs the entire session. Arrival, setup, direction, shooting, wrap.</li>
+</ul>
+<p><strong>Timing:</strong></p>
+<ul>
+<li>Ben arrives <strong>20 minutes early</strong>.</li>
+<li>Session length depends on package:</li>
+<li>Session ($250): 1 hour</li>
+<li>Portrait ($450): 2 hours</li>
+<li>Editorial ($800): 3 hours</li>
+<li>Corporate ($2,500+): As scoped</li>
+</ul>
+<h3 id="before-the-client-arrives-20-minutes">Before the Client Arrives (20 Minutes)</h3>
+<ol>
+<li>Arrive at location. Scout the light — where is it falling, where will it be in 30/60/90 minutes?</li>
+<li>Set up any equipment (portable lighting, reflectors, backdrop if studio).</li>
+<li>Take test shots. Dial in exposure, white balance, and composition for the hero spots.</li>
+<li>Review the client&#x27;s intake form answers and prep notes one final time.</li>
+<li>Water/coffee ready if studio session.</li>
+</ol>
+<h3 id="client-arrival">Client Arrival</h3>
+<ol>
+<li><strong>Welcome:</strong> Warm, genuine greeting. First impressions set the tone for the whole session. If they are nervous, this is where you diffuse it.</li>
+<li><strong>Walkthrough:</strong> Brief overview of the plan — locations, rough timing, when outfit changes will happen. No surprises.</li>
+<li><strong>Check in:</strong> &quot;How are you feeling about being in front of the camera today?&quot; Address nerves directly. Normalise it: &quot;Everyone feels this way. That&#x27;s exactly why I&#x27;m here to direct you.&quot;</li>
+<li><strong>Editorial package only — Power Coaching (30 minutes):</strong></li>
+</ol>
+<ul>
+<li>Posture check and correction</li>
+<li>Breathing exercise (box breathing: 4 in, 4 hold, 4 out, 4 hold)</li>
+<li>Confidence anchoring: Have them recall a moment where they felt powerful and capable. That&#x27;s the energy we are photographing.</li>
+<li>Mirror work if studio: Show them their posture before and after adjustments</li>
+</ul>
+<h3 id="during-the-session">During the Session</h3>
+<ul>
+<li><strong>Continuous direction.</strong> Never leave the client standing there wondering what to do. Every moment is directed: &quot;Turn your shoulders toward me,&quot; &quot;Drop your chin slightly,&quot; &quot;Think about [thing from coaching],&quot; &quot;That&#x27;s it — hold that.&quot;</li>
+<li><strong>Positive reinforcement.</strong> Regularly: &quot;That&#x27;s working really well,&quot; &quot;Your energy just shifted — that&#x27;s exactly what we want,&quot; &quot;This light on you is incredible.&quot;</li>
+<li><strong>Review frames together.</strong> At natural milestones (outfit change, location move), show 2-3 strong frames on the camera back. Builds confidence and buy-in.</li>
+<li><strong>Wardrobe transitions.</strong> Signal clearly: &quot;That outfit has given us everything — let&#x27;s move to your next look.&quot; Allow time and privacy for changes.</li>
+<li><strong>Energy management.</strong> Monitor fatigue. If the client is flagging, take a breather. The final outfit/location should still have fresh energy.</li>
+</ul>
+<h3 id="session-close">Session Close</h3>
+<ol>
+<li>&quot;We&#x27;ve captured some really strong work today — I&#x27;m excited to show you what we&#x27;ve created.&quot;</li>
+<li>Confirm delivery timeline (see Stage 6 for specifics per package).</li>
+<li>Remind about balance payment: &quot;You&#x27;ll receive the final invoice with your gallery link.&quot;</li>
+<li>Thank them genuinely. &quot;I appreciate you trusting me with this.&quot;</li>
+</ol>
+<p><strong>Tools:</strong> Camera, lighting, reflectors, portable backdrop (if applicable)</p>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>Never show bad frames on the camera back. Only show frames where they look great.</li>
+<li>If conditions change mid-session (weather, light), adapt without making the client feel like something went wrong. Just redirect: &quot;The light just shifted — let&#x27;s use that.&quot;</li>
+<li>Take behind-the-scenes phone shots/video (with permission) for social media content.</li>
+</ul>
+<hr>
+<h2 id="stage-6-editing-and-delivery">Stage 6: Editing and Delivery</h2>
+<p><strong>What happens:</strong> Cull, edit, retouch, export, deliver. The client receives their gallery and the balance invoice.</p>
+<p><strong>Who does what:</strong></p>
+<ul>
+<li><strong>Ben:</strong> All editing, culling, retouching, and gallery setup.</li>
+<li><strong>Ben (or assistant):</strong> Sends delivery email and balance invoice.</li>
+</ul>
+<p><strong>Timing by package:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Package</th><th>Delivery Target</th></tr></thead><tbody><tr><td>Session ($250)</td><td>5-7 business days</td></tr><tr><td>Portrait ($450)</td><td>5-7 business days</td></tr><tr><td>Editorial ($800)</td><td>3-5 business days</td></tr><tr><td>Corporate ($2,500+)</td><td>48-72 hours (same-day preview option if booked)</td></tr></tbody></table></div>
+<h3 id="editing-workflow">Editing Workflow</h3>
+<p><strong>Day 1-2: Cull</strong></p>
+<ul>
+<li>Import all files to Lightroom.</li>
+<li>First pass: reject obvious misses (eyes closed, motion blur, bad expression).</li>
+<li>Second pass: flag selects. Aim for 2-3x the final delivery count as candidates.</li>
+<li>Third pass: narrow to final delivery count.</li>
+</ul>
+<p><strong>Day 2-4: Lightroom Base Edit</strong></p>
+<ul>
+<li>Apply Power Portraits signature colour grade (consistent across all images).</li>
+<li>Individual adjustments: exposure, white balance, contrast, crop.</li>
+<li>Crop to primary aspect ratio based on client&#x27;s stated usage.</li>
+</ul>
+<p><strong>Day 3-6: Photoshop Retouching</strong></p>
+<ul>
+<li>Blemish removal (temporary imperfections only).</li>
+<li>Skin texture preserved — natural look, not plastic. Frequency separation where needed.</li>
+<li>Flyaway hair cleanup.</li>
+<li>Under-eye softening (not removal).</li>
+<li>Background cleanup if distracting elements.</li>
+<li>Teeth whitening only if noticeably off.</li>
+</ul>
+<p><strong>Export:</strong></p>
+<ul>
+<li><strong>High-resolution:</strong> JPEG, 300 DPI, sRGB colour space. Full crop.</li>
+<li><strong>Web-optimised:</strong> JPEG, 72 DPI, sRGB. Long edge 2000px.</li>
+<li><strong>Aspect ratios:</strong> 1:1 (social profile), 4:5 (Instagram portrait), 2:3 (standard portrait), 16:9 (LinkedIn banner / website hero).</li>
+<li>Not every image needs every ratio. Use judgement — headshots get 1:1 and 4:5. Environmental portraits get 2:3 and 16:9.</li>
+</ul>
+<p><strong>File naming convention:</strong></p>
+<p><code>LASTNAME<em>FIRSTNAME</em>YYYYMMDD_001.jpg</code></p>
+<p>Example: <code>SMITH<em>SARAH</em>20260415_001.jpg</code></p>
+<h3 id="gallery-delivery">Gallery Delivery</h3>
+<ol>
+<li>Upload final images to <strong>Pixieset</strong> gallery.</li>
+</ol>
+<ul>
+<li>Gallery name: <code>[First Name] [Last Name] — Power Portraits [Month Year]</code></li>
+<li>Password-protected (unique password per client).</li>
+<li>Download enabled for high-res and web versions.</li>
+<li>Gallery expiry: <strong>90 days</strong> from upload. Communicated clearly in delivery email.</li>
+</ul>
+<ol>
+<li>Send <strong>Gallery Delivery Email</strong> (see GALLERY DELIVERY TEMPLATE.md):</li>
+</ol>
+<ul>
+<li>Gallery link and password</li>
+<li>Download instructions</li>
+<li>Explanation of file types and sizes included</li>
+<li>Reminder of 90-day expiry</li>
+<li>Soft review request embedded</li>
+</ul>
+<ol>
+<li>Send <strong>balance invoice</strong> via Xero (remaining 50%).</li>
+</ol>
+<ul>
+<li>If balance is outstanding, gallery password is provided but a note reminds them payment is due. Do not withhold the gallery — this was communicated at booking.</li>
+</ul>
+<ol>
+<li>Update <strong>Twenty CRM</strong> status to <strong>&quot;Delivered&quot;</strong>.</li>
+</ol>
+<p><strong>Tools:</strong> Lightroom, Photoshop, Pixieset, Xero, Gmail, Twenty CRM</p>
+<p><strong>Template:</strong> GALLERY DELIVERY TEMPLATE.md</p>
+<hr>
+<h2 id="stage-7-follow-up-7-days-after-delivery">Stage 7: Follow-Up (7 Days After Delivery)</h2>
+<p><strong>What happens:</strong> Check in with the client. Ask for feedback. Request a review. Mention the referral programme.</p>
+<p><strong>Who does what:</strong></p>
+<ul>
+<li><strong>Ben (or assistant):</strong> Sends follow-up email.</li>
+</ul>
+<p><strong>Timing:</strong></p>
+<ul>
+<li><strong>7 days after gallery delivery.</strong> Not before — give them time to explore the images.</li>
+</ul>
+<p><strong>Actions:</strong></p>
+<ol>
+<li>Send follow-up email using the <strong>Follow-Up / Review Request</strong> template:</li>
+</ol>
+<ul>
+<li>&quot;How are you going with your new images?&quot;</li>
+<li>&quot;Have you had a chance to update your profiles?&quot;</li>
+<li>Ask for a <strong>Google review</strong> (include direct link). Keep it genuine: &quot;A review means the world to a small business like mine.&quot;</li>
+<li>Mention the <strong>referral programme</strong>: &quot;If you know someone who could use a professional image update, I&#x27;d love the introduction. Referred clients receive 10% off their first session.&quot;</li>
+</ul>
+<ol>
+<li>If they respond positively, reply personally. If they share where they are using the images (LinkedIn post, new website), engage with it — comment, like, share to Stories.</li>
+<li>If they respond with concerns or issues, address them immediately and professionally. Offer a reshoot or additional edits if warranted.</li>
+<li>Update <strong>Twenty CRM</strong> status to <strong>&quot;Complete&quot;</strong>.</li>
+</ol>
+<p><strong>Tools:</strong> Gmail, Twenty CRM</p>
+<p><strong>Template:</strong> Email Templates -&gt; Follow-Up / Review Request</p>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>Do not send more than one review request. If they don&#x27;t leave one after this email, let it go. Do not chase.</li>
+<li>If they do leave a review:</li>
+<li>Respond on Google within 48 hours with a personalised reply.</li>
+<li>Screenshot and post as an Instagram Story.</li>
+<li>Add to the testimonials section of the website.</li>
+</ul>
+<hr>
+<h2 id="stage-8-re-engagement-6-months-later">Stage 8: Re-Engagement (6 Months Later)</h2>
+<p><strong>What happens:</strong> Automated email reaches out to past clients to invite them back.</p>
+<p><strong>Who does what:</strong></p>
+<ul>
+<li><strong>Mautic (automated):</strong> Sends re-engagement email 6 months after gallery delivery.</li>
+<li><strong>Ben:</strong> Responds personally if the client replies.</li>
+</ul>
+<p><strong>Timing:</strong></p>
+<ul>
+<li><strong>6 months after gallery delivery.</strong> Set this up in Mautic at the time of delivery (or as part of the automated sequence triggered by CRM status change to &quot;Delivered&quot;).</li>
+</ul>
+<p><strong>Actions:</strong></p>
+<ol>
+<li>Mautic sends the re-engagement email:</li>
+</ol>
+<ul>
+<li>Subject line: &quot;It&#x27;s been six months — has your world changed since we last shot together?&quot;</li>
+<li>Warm, low-pressure tone. Not pushy.</li>
+<li>Acknowledge that a lot changes in six months — new role, new business direction, new chapter.</li>
+<li>Offer <strong>10% loyalty discount</strong> on their next session.</li>
+<li>Include the booking link (Cal.com).</li>
+</ul>
+<ol>
+<li>If they reply or book:</li>
+</ol>
+<ul>
+<li>Update CRM status to <strong>&quot;Returning Client&quot;</strong>.</li>
+<li>Apply the 10% discount in Xero.</li>
+<li>Re-enter the flow at Stage 3 (Booking).</li>
+</ul>
+<ol>
+<li>If no response:</li>
+</ol>
+<ul>
+<li>No further follow-up. They stay in the CRM as &quot;Complete&quot;.</li>
+<li>They may receive future re-engagement emails at 12 months (if a second sequence is set up), but do not bombard past clients.</li>
+</ul>
+<p><strong>Tools:</strong> Mautic (automated email sequence), Twenty CRM, Cal.com</p>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>The 6-month mark is chosen because professional images have a natural shelf life — roles change, appearances change, brands evolve.</li>
+<li>This is the most cost-effective marketing Power Portraits has. Returning clients don&#x27;t need selling. They already trust us.</li>
+</ul>
+<hr>
+<h2 id="summary-timeline">Summary Timeline</h2>
+<div class="table-wrap"><table><thead><tr><th>When</th><th>What Happens</th><th>Tool</th></tr></thead><tbody><tr><td>Day 0</td><td>Inquiry received</td><td>Gmail / Twenty CRM</td></tr><tr><td>Day 0 (within 4 hrs)</td><td>Response sent</td><td>Gmail</td></tr><tr><td>Day 1-3</td><td>Consultation call (optional)</td><td>Cal.com / Phone / Zoom</td></tr><tr><td>Day 2-5</td><td>Booking confirmed, 50% deposit paid</td><td>Xero, Cal.com, Twenty CRM</td></tr><tr><td>7 days before session</td><td>Client Intake Form sent (automated)</td><td>Mautic</td></tr><tr><td>3-5 days before session</td><td>Ben reviews intake form, prepares shot list</td><td>Google Drive</td></tr><tr><td>48 hours before session</td><td>Session Prep Guide sent (automated)</td><td>Mautic</td></tr><tr><td>Session day</td><td>Shoot</td><td>On location</td></tr><tr><td>+1-7 days after session</td><td>Editing, retouching, gallery preparation</td><td>Lightroom, Photoshop, Pixieset</td></tr><tr><td>+3-7 days after session</td><td>Gallery delivered, balance invoiced</td><td>Pixieset, Xero, Gmail</td></tr><tr><td>+14 days after session</td><td>Follow-up email, review request, referral mention</td><td>Gmail / Mautic</td></tr><tr><td>+6 months after session</td><td>Re-engagement email with loyalty discount</td><td>Mautic</td></tr></tbody></table></div>
+<hr>
+<h2 id="crm-status-progression">CRM Status Progression</h2>
+<p>Track every client through these statuses in Twenty CRM:</p>
+<ol>
+<li><strong>Lead</strong> — Inquiry received, not yet booked</li>
+<li><strong>Consultation Complete</strong> — Had a call, awaiting booking decision</li>
+<li><strong>Booked</strong> — Deposit paid, session scheduled</li>
+<li><strong>Delivered</strong> — Gallery sent, balance invoiced</li>
+<li><strong>Complete</strong> — Follow-up done, review requested</li>
+<li><strong>Returning Client</strong> — Re-engaged and booking again</li>
+<li><strong>Stalled</strong> — Went cold during inquiry or booking stage</li>
+</ol>
+<hr>
+<h2 id="checklist-donx27t-miss-these">Checklist: Don&#x27;t Miss These</h2>
+<p>For every single client, confirm:</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Lead logged in Twenty CRM with source</li>
+<li><span class="cb cb-empty">&#9744;</span> Response sent within 4 business hours</li>
+<li><span class="cb cb-empty">&#9744;</span> Invoice sent within 30 minutes of package confirmation</li>
+<li><span class="cb cb-empty">&#9744;</span> Booking confirmation email sent on deposit receipt</li>
+<li><span class="cb cb-empty">&#9744;</span> Mautic automation triggered (intake form + prep guide)</li>
+<li><span class="cb cb-empty">&#9744;</span> Intake form reviewed and shot list prepared before session</li>
+<li><span class="cb cb-empty">&#9744;</span> Gallery uploaded to Pixieset with correct naming and 90-day expiry</li>
+<li><span class="cb cb-empty">&#9744;</span> Balance invoice sent with gallery delivery</li>
+<li><span class="cb cb-empty">&#9744;</span> Follow-up email sent 7 days after delivery</li>
+<li><span class="cb cb-empty">&#9744;</span> Google review requested (once only)</li>
+<li><span class="cb cb-empty">&#9744;</span> CRM status updated at every stage transition</li>
+<li><span class="cb cb-empty">&#9744;</span> Re-engagement email scheduled for 6 months</li>
+</ul>
+<hr>
+<p><em>Power Portraits — Client Onboarding Flow v2.0</em></p>
+<p><em>April 2026 | Internal Operations Document</em></p>
+<p><em>Owner: Ben Alek Conner</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">02-Power Portraits/01-strategy/Documents/CLIENT ONBOARDING.md</div>
+    </main>
+  </div>
+</body>
+</html>

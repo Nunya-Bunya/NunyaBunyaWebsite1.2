@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben Alek Conner -- May 2026 Content Plan | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link active"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-alek-conner">Ben Alek Conner</a> &rsaquo;
+          Ben Alek Conner -- May 2026 Content Plan
+        </div>
+        <h1 class="doc-title">Ben Alek Conner -- May 2026 Content Plan</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#127908; Ben Alek Conner</span>
+          <span class="doc-path">06-Ben Alek Conner / 05-content</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="ben-alek-conner-may-2026-content-plan">Ben Alek Conner -- May 2026 Content Plan</h1>
+<p><strong>Platforms:</strong> Twitter (primary), LinkedIn (professional), Instagram (visual)</p>
+<p><strong>Cadence:</strong> 3x per week (Mon / Wed / Fri)</p>
+<p><strong>Voice:</strong> First person, personal, honest, slightly self-deprecating. No corporate tone. No motivational poster energy.</p>
+<p><strong>Rules:</strong> No fabricated stats. No fake testimonials. No numeric guarantees. No emojis.</p>
+<hr>
+<h2 id="week-1-may-4-8">Week 1: May 4-8</h2>
+<h3 id="post-1-monday-may-4">Post 1 -- Monday, May 4</h3>
+<p><strong>Type:</strong> Building in public</p>
+<p><strong>Platforms:</strong> Twitter, LinkedIn</p>
+<p><strong>Twitter:</strong></p>
+<p>I&#x27;ve been running my marketing agency for over a year and my entire tech stack costs $16/month. Self-hosted Mautic, Matomo, n8n, Twenty CRM, Cal.com, Shlink. One Hetzner server. That&#x27;s it. The setup took a painful weekend. The savings have been worth every hour of debugging.</p>
+<p><strong>LinkedIn:</strong></p>
+<p>When I started Nunya Bunya, I couldn&#x27;t afford HubSpot, Mailchimp, Calendly, and the rest. So I built the whole stack on open-source tools, self-hosted on a single server for about $16/month AUD.</p>
+<p>Mautic for email. Matomo for analytics. n8n for automation. Twenty for CRM. Cal.com for booking. Shlink for link tracking.</p>
+<p>Did it break multiple times during setup? Yes. Did I spend a weekend debugging a single misplaced bracket in an automation workflow? Also yes.</p>
+<p>But it works now. And it runs email campaigns, website analytics, lead management, and appointment booking for multiple businesses -- for the cost of two coffees a month.</p>
+<p>Not everyone should do this. But if you&#x27;re bootstrapping and willing to learn, the open-source path is real.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h3 id="post-2-wednesday-may-6">Post 2 -- Wednesday, May 6</h3>
+<p><strong>Type:</strong> Photography / behind-the-scenes</p>
+<p><strong>Platforms:</strong> Twitter, Instagram</p>
+<p><strong>Twitter:</strong></p>
+<p>Shot street portraits in the Valley last Saturday. The light at 4pm between the old warehouses is unreasonable. Brisbane doesn&#x27;t get enough credit as a city for photography. [attach 1-2 best shots]</p>
+<p><strong>Instagram:</strong></p>
+<p>[Post 1-2 street portraits as carousel]</p>
+<p>Caption: Fortitude Valley, Saturday afternoon. The light does all the work -- you just have to show up at the right time and be ready when a stranger says yes. Brisbane&#x27;s inner city has more character per square metre than most people realise.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h3 id="post-3-friday-may-8">Post 3 -- Friday, May 8</h3>
+<p><strong>Type:</strong> Business lesson</p>
+<p><strong>Platforms:</strong> Twitter, LinkedIn</p>
+<p><strong>Twitter:</strong></p>
+<p>Biggest lesson from running multiple businesses simultaneously: you don&#x27;t balance them. You prioritise ruthlessly and accept that at least one of them is being neglected at any given time. The skill is knowing which one can survive a week of inattention.</p>
+<p><strong>LinkedIn:</strong></p>
+<p>The question I get asked most often is &quot;how do you run multiple businesses at once?&quot;</p>
+<p>The honest answer: badly, most of the time, in at least one of them.</p>
+<p>You don&#x27;t balance multiple businesses. You triage. Every week I decide which business gets my full attention and which ones run on the systems I&#x27;ve already built. Some weeks the agency needs me. Some weeks Pawesome gets the energy. Some weeks the photography studio is the priority.</p>
+<p>The trick is building each business so it can survive a week without you. Automations, templates, SOPs, scheduled content. Not because I&#x27;m lazy -- because I&#x27;m one person and there are only so many hours.</p>
+<p>It&#x27;s not glamorous. But it works.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h2 id="week-2-may-11-15">Week 2: May 11-15</h2>
+<h3 id="post-4-monday-may-11">Post 4 -- Monday, May 11</h3>
+<p><strong>Type:</strong> Building in public</p>
+<p><strong>Platforms:</strong> Twitter, LinkedIn</p>
+<p><strong>Twitter:</strong></p>
+<p>Monthly update -- April numbers across my businesses:</p>
+<p>What went well: email automations running smoothly across all brands, Pawesome getting consistent word-of-mouth bookings, landed on a YouTube episode structure I actually like.</p>
+<p>What didn&#x27;t: still zero YouTube videos published. The perfectionism is real and I need to just ship the first one.</p>
+<p><strong>LinkedIn:</strong></p>
+<p>Honest monthly update. April across my businesses.</p>
+<p>Things that worked:</p>
+<ul>
+<li>Marketing automations running consistently with minimal intervention</li>
+<li>Pawesome Dog Walkers growing through word of mouth alone</li>
+<li>Finally nailed the creative direction for my YouTube channel</li>
+<li>The self-hosted tech stack has been stable for weeks (a genuine achievement)</li>
+</ul>
+<p>Things that didn&#x27;t:</p>
+<ul>
+<li>Still haven&#x27;t published a single YouTube video. The script is written. The outline is solid. I keep finding reasons not to film it.</li>
+<li>Time management with ADHD continues to be a daily negotiation</li>
+<li>LinkedIn has been neglected. This post is me trying to fix that.</li>
+</ul>
+<p>Accountability is the point of sharing this. If I tell you I&#x27;m going to film Episode 1 this month, I have to actually do it.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h3 id="post-5-wednesday-may-13">Post 5 -- Wednesday, May 13</h3>
+<p><strong>Type:</strong> Brisbane local</p>
+<p><strong>Platforms:</strong> Twitter, Instagram</p>
+<p><strong>Twitter:</strong></p>
+<p>If you run a small business in Brisbane and you&#x27;re paying $500+/month for marketing tools, come talk to me. Seriously. There are open-source alternatives that do the same thing and they&#x27;re either free or close to it. This city has too many good small businesses getting gouged on software.</p>
+<p><strong>Instagram:</strong></p>
+<p>[Photo of Brisbane skyline or a local business strip -- New Farm, James St, etc.]</p>
+<p>Caption: Brisbane small businesses are some of the most interesting in the country. Walk down any street in New Farm or West End and you&#x27;ll find people pouring everything into something they believe in. Most of them are getting terrible advice about marketing. I&#x27;m trying to change that, one business at a time.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h3 id="post-6-friday-may-15">Post 6 -- Friday, May 15</h3>
+<p><strong>Type:</strong> Business lesson</p>
+<p><strong>Platforms:</strong> Twitter, LinkedIn</p>
+<p><strong>Twitter:</strong></p>
+<p>Unpopular opinion: most small businesses don&#x27;t need a social media manager. They need a system that lets them post consistently without hiring someone. A content calendar, a batch shooting day, a scheduling tool. Three things. That&#x27;s it.</p>
+<p><strong>LinkedIn:</strong></p>
+<p>I run a marketing agency and I&#x27;m going to say something that sounds like it&#x27;s against my own interests:</p>
+<p>Most small businesses don&#x27;t need to hire a social media manager.</p>
+<p>What they need is a system. A content calendar with a month of ideas. One afternoon of batch shooting. A free scheduling tool. That&#x27;s three things, and it takes one weekend to set up.</p>
+<p>The problem isn&#x27;t that business owners can&#x27;t create content. It&#x27;s that nobody taught them a system for doing it efficiently. So they either post randomly when they remember, or they pay someone $2,000/month to post mediocre content on their behalf.</p>
+<p>There&#x27;s a better way. Build the system first. Hire the person later, when you actually know what good looks like.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h2 id="week-3-may-18-22">Week 3: May 18-22</h2>
+<h3 id="post-7-monday-may-18">Post 7 -- Monday, May 18</h3>
+<p><strong>Type:</strong> Building in public</p>
+<p><strong>Platforms:</strong> Twitter, LinkedIn</p>
+<p><strong>Twitter:</strong></p>
+<p>Started building the email welcome sequence for my personal brand today. Every other business I run already has one. My own brand was the last one without it. The cobbler&#x27;s children have no shoes, etc.</p>
+<p><strong>LinkedIn:</strong></p>
+<p>Something I&#x27;ve noticed about running a marketing agency: I&#x27;m much better at building marketing systems for other people than I am at doing it for myself.</p>
+<p>Every client gets a welcome email sequence within the first week. My own personal brand? Took me over a year to write one.</p>
+<p>There&#x27;s a version of this that&#x27;s relatable and a version that&#x27;s embarrassing. I&#x27;m choosing to believe it&#x27;s both.</p>
+<p>The sequence is live now. If you want to see what it looks like from the subscriber side, the link is in my bio.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h3 id="post-8-wednesday-may-20">Post 8 -- Wednesday, May 20</h3>
+<p><strong>Type:</strong> Photography / film</p>
+<p><strong>Platforms:</strong> Twitter, Instagram</p>
+<p><strong>Twitter:</strong></p>
+<p>Rewatching Park Chan-wook&#x27;s &quot;No Other Choice&quot; for the third time. My YouTube pilot episode is structured around this film -- a master craftsman gets cut loose and rebuilds on his own terms. The parallel to starting an agency from scratch felt too obvious to ignore.</p>
+<p><strong>Instagram:</strong></p>
+<p>[Behind-the-scenes photo from filming prep, or a film still reference with commentary]</p>
+<p>Caption: Episode 1 of my YouTube channel pairs a film review with a real chapter from building my businesses. The first film is Park Chan-wook&#x27;s &quot;No Other Choice.&quot; Every good film is about something underneath the surface. This one is about what happens when the system discards you and you have to prove your worth on your own terms. That&#x27;s a feeling I know well.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h3 id="post-9-friday-may-22">Post 9 -- Friday, May 22</h3>
+<p><strong>Type:</strong> Business lesson</p>
+<p><strong>Platforms:</strong> Twitter, LinkedIn</p>
+<p><strong>Twitter:</strong></p>
+<p>Three things I&#x27;d tell myself on day one of starting an agency:</p>
+<ol>
+<li>Your first client will come from someone you already know. Stop cold emailing strangers and start telling friends what you do.</li>
+<li>Build the systems before you need them. You won&#x27;t have time later.</li>
+<li>The website doesn&#x27;t need to be perfect. It needs to exist.</li>
+</ol>
+<p><strong>LinkedIn:</strong></p>
+<p>If I could go back to the day I registered Nunya Bunya, here&#x27;s what I&#x27;d tell myself:</p>
+<p>Your first client will come from your existing network. Not from a cold email, not from an ad, not from a viral post. From someone who already trusts you. Tell everyone you know what you&#x27;re building. That&#x27;s your marketing strategy for month one.</p>
+<p>Build your systems before you have clients. Email templates, onboarding docs, a CRM, a booking page. You will not have time to build these once work starts coming in. Do it now while you have the luxury of an empty calendar.</p>
+<p>Ship the website. It doesn&#x27;t need to be perfect. It needs to exist. A mediocre website that&#x27;s live beats a beautiful website that&#x27;s still in development. You can improve it every week for the rest of your life.</p>
+<p>None of this is revolutionary. But I didn&#x27;t do any of it, and it cost me time I didn&#x27;t have.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h2 id="week-4-may-25-29">Week 4: May 25-29</h2>
+<h3 id="post-10-monday-may-25">Post 10 -- Monday, May 25</h3>
+<p><strong>Type:</strong> YouTube teaser</p>
+<p><strong>Platforms:</strong> Twitter, LinkedIn, Instagram</p>
+<p><strong>Twitter:</strong></p>
+<p>Episode 1 of my YouTube channel is in production. It&#x27;s a 15-minute docuseries episode that pairs a film review with the real story of starting my agency. Talking heads, montage sequences, sound design. Not a vlog. Not a tutorial. A produced piece. Coming soon.</p>
+<p><strong>LinkedIn:</strong></p>
+<p>I&#x27;ve been quietly working on something for months. A YouTube channel, but not the kind you&#x27;re picturing.</p>
+<p>Each episode pairs a film review with a real chapter from my journey building businesses. The film provides the lens. My life provides the story. Think essay film meets founder diary.</p>
+<p>Episode 1: &quot;No Other Choice&quot; -- named after the Park Chan-wook film about a craftsman who gets discarded by the system and rebuilds on his own terms.</p>
+<p>The episode covers the first phase of building my agency. Registering the business. Building the website. Setting up every marketing system. Printing flyers. Knocking on doors. All cut to music in a fast-paced montage designed to feel like capability, not content.</p>
+<p>I&#x27;ll share the link when it drops. If you want to be first to know, the subscribe link is below.</p>
+<p><strong>Instagram:</strong></p>
+<p>[Behind-the-scenes still from filming or editing]</p>
+<p>Caption: Episode 1 is in production. A 15-minute docuseries episode pairing a Park Chan-wook film review with the real story of building my agency from nothing. Talking heads, montage sequences, real sound design. The goal is to make something that feels like a film, not a YouTube video. More soon.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h3 id="post-11-wednesday-may-27">Post 11 -- Wednesday, May 27</h3>
+<p><strong>Type:</strong> Photography / behind-the-scenes</p>
+<p><strong>Platforms:</strong> Twitter, Instagram</p>
+<p><strong>Twitter:</strong></p>
+<p>Shot a portrait session in the studio yesterday. The difference between a good headshot and a great one is usually about three minutes of conversation before you pick up the camera. People look their best when they forget they&#x27;re being photographed.</p>
+<p><strong>Instagram:</strong></p>
+<p>[1-2 portraits from a recent session, with client permission]</p>
+<p>Caption: Power Portraits session from this week. The technical side of portraiture is important -- lighting, lens choice, composition. But the thing that actually makes a portrait work is the conversation. When someone relaxes enough to stop performing for the camera, that&#x27;s when the real photo happens. Most of my best shots come from the moment right after the person says something funny and forgets I&#x27;m holding a camera.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h3 id="post-12-friday-may-29">Post 12 -- Friday, May 29</h3>
+<p><strong>Type:</strong> Building in public</p>
+<p><strong>Platforms:</strong> Twitter, LinkedIn</p>
+<p><strong>Twitter:</strong></p>
+<p>End of May check-in. Three businesses running. YouTube Episode 1 in production. Email list growing slowly but steadily. Dog walking on Tuesdays and Thursdays. Still alive. Still building.</p>
+<p>The hardest part isn&#x27;t any single thing. It&#x27;s the context-switching. ADHD means every transition between tasks costs twice as much mental energy as it should. But the systems help. Batch days help. And walking dogs is genuinely therapeutic.</p>
+<p><strong>LinkedIn:</strong></p>
+<p>Monthly wrap -- May 2026.</p>
+<p>What shipped:</p>
+<ul>
+<li>Welcome email sequence live for benalekconner.com</li>
+<li>YouTube Episode 1 in active production</li>
+<li>Content running consistently across all brands</li>
+<li>Pawesome bookings steady through referrals</li>
+</ul>
+<p>What I learned:</p>
+<ul>
+<li>Building in public is uncomfortable in a way that gets easier but never becomes easy</li>
+<li>The gap between &quot;I should post this&quot; and actually posting it is where most personal brands die</li>
+<li>Systems compound. The automation I built three months ago is still saving me hours every week.</li>
+</ul>
+<p>What&#x27;s next:</p>
+<ul>
+<li>Film Episode 1</li>
+<li>Keep the content cadence going through June</li>
+<li>Start planning the next round of Nunya Bunya case studies</li>
+</ul>
+<p>If you&#x27;re building something too, I&#x27;d like to hear about it. Drop a comment or send a message.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h2 id="week-5-bonus-june-2-4">Week 5 (Bonus): June 2-4</h2>
+<h3 id="post-13-monday-june-2">Post 13 -- Monday, June 2</h3>
+<p><strong>Type:</strong> Business lesson</p>
+<p><strong>Platforms:</strong> Twitter, LinkedIn</p>
+<p><strong>Twitter:</strong></p>
+<p>If you&#x27;re a solopreneur spending more than $50/month on marketing tools, something has gone wrong. Email marketing, analytics, CRM, booking, link tracking, and automation can all be done for under $20/month with open-source tools. The catch is you need one painful weekend to set it up. Worth it.</p>
+<p><strong>LinkedIn:</strong></p>
+<p>I keep meeting small business owners who are spending $300-800/month on marketing software before they&#x27;ve made their first sale.</p>
+<p>HubSpot. Mailchimp. Calendly. Zapier. Bitly. Google Analytics premium add-ons.</p>
+<p>All of these have open-source equivalents that are free or nearly free to self-host. I run the equivalent of that entire stack for under $20/month on a single server.</p>
+<p>The trade-off is real: you need technical comfort and a weekend to set it up. But if you&#x27;re bootstrapping, that&#x27;s a trade-off worth making.</p>
+<p>I wrote up the full stack in a one-pager. Link in bio if you want it.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h3 id="post-14-wednesday-june-4">Post 14 -- Wednesday, June 4</h3>
+<p><strong>Type:</strong> Brisbane local / photography</p>
+<p><strong>Platforms:</strong> Twitter, Instagram</p>
+<p><strong>Twitter:</strong></p>
+<p>Brisbane in winter is underrated for photography. The light gets softer, the golden hour stretches longer, and fewer people are out which means the streets have more character. If you&#x27;re a photographer in SEQ, the next three months are your best shooting season.</p>
+<p><strong>Instagram:</strong></p>
+<p>[Winter light street photography shots from Brisbane]</p>
+<p>Caption: Brisbane winter light. The rest of the country thinks of Queensland as perpetual sunshine, but the reality is more interesting than that. Winter here means softer light, longer golden hours, and streets that feel quieter and more honest. My favourite three months to shoot.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h3 id="post-15-friday-june-6">Post 15 -- Friday, June 6</h3>
+<p><strong>Type:</strong> YouTube teaser / building in public</p>
+<p><strong>Platforms:</strong> Twitter, LinkedIn, Instagram</p>
+<p><strong>Twitter:</strong></p>
+<p>Episode 1 update. Filming is done. Now comes the edit. This is where it either becomes something I&#x27;m proud of or something I&#x27;m embarrassed by. The footage is strong. The structure works. Now I need to resist the urge to sit on it for three months &quot;perfecting&quot; it. Ship it, Ben.</p>
+<p><strong>LinkedIn:</strong></p>
+<p>Filming for YouTube Episode 1 is complete.</p>
+<p>The episode is structured in three acts -- each one opens with a film parallel from Park Chan-wook&#x27;s &quot;No Other Choice&quot; and cuts to the real story of building my agency.</p>
+<p>Now comes the hard part: the edit. I have a tendency to hold onto creative work longer than I should. The difference between &quot;refining&quot; and &quot;hiding&quot; is thinner than most creators admit.</p>
+<p>My commitment: this episode ships in June. Publicly stating that here so I can&#x27;t back out of it.</p>
+<p>If you want to be notified when it drops, subscribe on YouTube or reply to this post and I&#x27;ll send you the link directly.</p>
+<p><strong>Instagram:</strong></p>
+<p>[Screenshot from the editing timeline or a still frame from the episode]</p>
+<p>Caption: Episode 1 is filmed. Now the edit begins. Three acts. A film review woven into the real story of starting a business from scratch. The goal is to make something that feels like a film, not a YouTube video. Shipping in June. Holding myself to that publicly.</p>
+<p><strong>Status:</strong> <span class="cb cb-empty">&#9744;</span> Drafted <span class="cb cb-empty">&#9744;</span> Scheduled <span class="cb cb-empty">&#9744;</span> Published</p>
+<hr>
+<h2 id="content-mix-summary">Content Mix Summary</h2>
+<div class="table-wrap"><table><thead><tr><th>Category</th><th>Count</th><th>Percentage</th></tr></thead><tbody><tr><td>Building in public</td><td>5</td><td>33%</td></tr><tr><td>Business lessons</td><td>4</td><td>27%</td></tr><tr><td>Photography / film / BTS</td><td>4</td><td>27%</td></tr><tr><td>Brisbane local</td><td>2</td><td>13%</td></tr><tr><td>YouTube teasers</td><td>3</td><td>20%</td></tr></tbody></table></div>
+<p><em>Some posts overlap categories (e.g., YouTube teaser + building in public). Percentages reflect primary category.</em></p>
+<h2 id="platform-distribution">Platform Distribution</h2>
+<div class="table-wrap"><table><thead><tr><th>Platform</th><th>Posts</th><th>Notes</th></tr></thead><tbody><tr><td>Twitter</td><td>15</td><td>Every post goes here. Primary platform. Short, punchy.</td></tr><tr><td>LinkedIn</td><td>11</td><td>Professional angle. Longer format. Skip pure photography posts.</td></tr><tr><td>Instagram</td><td>8</td><td>Visual posts only. Photography, BTS, Brisbane. Carousel or single image.</td></tr></tbody></table></div>
+<h2 id="production-notes">Production Notes</h2>
+<ul>
+<li>Batch write all 15 posts in one sitting. Scheduling takes 30 minutes after that.</li>
+<li>Photography posts require actual new photos. Shoot 1-2 sessions in late April to have May content ready.</li>
+<li>YouTube teaser posts (10, 15) should only go live once filming is confirmed. Adjust dates if Episode 1 timeline shifts.</li>
+<li>All LinkedIn posts should be plain text. No links in the body (kills reach). Put links in the first comment.</li>
+<li>Twitter posts should be standalone thoughts. No threads unless the idea genuinely requires it.</li>
+<li>Instagram captions can be longer but the photo has to carry the post. If the photo isn&#x27;t strong, don&#x27;t post it.</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">06-Ben Alek Conner/05-content/bac-content-plan-may-2026.md</div>
+    </main>
+  </div>
+</body>
+</html>

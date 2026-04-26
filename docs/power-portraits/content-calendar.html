@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power Portraits -- 4-Week Content Calendar | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link active"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#power-portraits">Power Portraits</a> &rsaquo;
+          Power Portraits -- 4-Week Content Calendar
+        </div>
+        <h1 class="doc-title">Power Portraits -- 4-Week Content Calendar</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#128247; Power Portraits</span>
+          <span class="doc-path">02-Power Portraits / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="power-portraits-4-week-content-calendar">Power Portraits -- 4-Week Content Calendar</h1>
+<p><strong>Brand voice:</strong> Literary, unhurried, quietly commanding. Australian English.</p>
+<p><strong>Platforms:</strong> Instagram (4-5/wk + daily Stories + 2 Reels/wk) | LinkedIn (3/wk) | Google Business Profile (1/wk) | TikTok (2-3/wk)</p>
+<p><strong>Content Pillars:</strong></p>
+<ol>
+<li><strong>The Work</strong> -- Portfolio images, full-bleed portraits</li>
+<li><strong>Behind the Lens</strong> -- Process, setup, lighting, editing BTS</li>
+<li><strong>The Creative</strong> -- Client spotlights, tagging their work</li>
+<li><strong>Perspective</strong> -- Thought pieces on image, perception, personal branding</li>
+<li><strong>Invitation</strong> -- Session availability, seasonal offers, referral reminders</li>
+</ol>
+<hr>
+<h2 id="monthly-themes-rotating">Monthly Themes (Rotating)</h2>
+<p>Use one theme per month. These shape the visual aesthetic and caption tone for the entire month without changing the pillar structure.</p>
+<ol>
+<li><strong>Faces of Brisbane Creatives</strong> -- Spotlight local actors, musicians, designers, founders. Every portrait tells a Brisbane story. Heavy on Pillar 3.</li>
+<li><strong>The Light Series</strong> -- Entire month explores directional light as subject matter. Dramatic shadows, rim light, window light. Heavy on Pillars 1 and 2.</li>
+<li><strong>Transformation Month</strong> -- Before/after energy. Not cheesy makeover content -- the shift in how someone carries themselves once they see a portrait that actually looks like them. Heavy on Pillars 3 and 4.</li>
+<li><strong>Behind the Curtain</strong> -- Pull the process apart. Show the studio, the gear, the decisions, the edits. Demystify the craft. Heavy on Pillar 2.</li>
+</ol>
+<hr>
+<h2 id="week-1">Week 1</h2>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Pillar</th><th>Type</th><th>Caption Concept</th><th>Visual</th></tr></thead><tbody><tr><td>Mon</td><td>Instagram</td><td>The Work</td><td>Single image</td><td>Open the week with a full-bleed portrait. No explanation needed -- let the image do the talking. One line of copy, maybe two.</td><td>Monochromatic background (Parchment or Ink), single subject, strong directional light from camera left, generous negative space.</td></tr><tr><td>Mon</td><td>LinkedIn</td><td>Perspective</td><td>Text post with image</td><td>Why the best headshot you&#x27;ll ever take is the one where you stop performing. A short piece on the difference between posing and presence.</td><td>Same portrait as Instagram, cropped tighter for LinkedIn&#x27;s feed ratio.</td></tr><tr><td>Tue</td><td>Instagram</td><td>Behind the Lens</td><td>Reel (30-60s)</td><td>Walk through a single lighting setup -- one light, one modifier, one subject. Explain the decision, not just the result.</td><td>Screen recording or BTS phone footage. Show the light placement, the test shot, the final frame. Ink-toned text overlays in Cormorant Garamond.</td></tr><tr><td>Tue</td><td>TikTok</td><td>Behind the Lens</td><td>Short video (30-60s)</td><td>Same lighting walkthrough as Instagram Reel, re-edited for TikTok pacing. Slightly faster cuts, trending audio optional but not required.</td><td>Same footage as Reel, reformatted vertical with bolder text overlays.</td></tr><tr><td>Wed</td><td>Instagram</td><td>The Creative</td><td>Carousel (3-5 slides)</td><td>Client spotlight. Feature a creative professional -- their portrait, their work, their story. Tag them. Write about what they do, not what you did.</td><td>Slide 1: their portrait (Antique Brass or Ink background). Slides 2-4: their work (pulled from their socials with permission). Slide 5: booking CTA on Parchment background.</td></tr><tr><td>Wed</td><td>LinkedIn</td><td>The Creative</td><td>Article/post</td><td>Longer version of the client spotlight. Frame it as a profile of their craft. Position Power Portraits as the place where Brisbane&#x27;s creative community gets seen.</td><td>Client portrait, landscape crop, paired with a pull quote from the session.</td></tr><tr><td>Thu</td><td>Instagram</td><td>Perspective</td><td>Single image + long caption</td><td>A thought piece on why people resist being photographed, and what that resistance actually reveals about how they see themselves.</td><td>Quiet, contemplative portrait. Subject looking away from camera. Muted tones, heavy negative space on one side.</td></tr><tr><td>Thu</td><td>TikTok</td><td>Perspective</td><td>Talking head or voiceover (45-90s)</td><td>Same topic as the Instagram thought piece -- why people resist the camera. Speak directly, no script reading. Conversational but measured.</td><td>Shot in the studio against Ink background. Single overhead light. Minimal.</td></tr><tr><td>Fri</td><td>Instagram</td><td>Invitation</td><td>Single image or graphic</td><td>Session availability for the coming weeks. Frame it as an invitation, not a sales pitch. &quot;There are a few sessions open this month. If you&#x27;ve been thinking about it, this is the nudge.&quot;</td><td>Clean graphic on Parchment background. Cormorant Garamond headline, Inter body. Or a recent portrait with availability details as text overlay.</td></tr><tr><td>Fri</td><td>Google Business Profile</td><td>Invitation</td><td>Update post</td><td>Same availability message, shortened for GBP. Include a direct booking link.</td><td>Recent portrait or studio shot.</td></tr><tr><td>Sat</td><td>Instagram</td><td>The Work</td><td>Reel (15-30s)</td><td>Portfolio reel -- 4-6 portraits set to ambient music. No narration, no text overlays except a subtle end card. Let the work breathe.</td><td>Slow transitions between portraits. All monochromatic colour blocking. Consistent lighting direction throughout.</td></tr><tr><td>Sat</td><td>TikTok</td><td>The Work</td><td>Short video (15-30s)</td><td>Same portfolio reel, re-edited for TikTok. Can use a different audio track if trending sounds suit the mood.</td><td>Same footage, slightly faster pacing.</td></tr><tr><td>Sun</td><td>Instagram</td><td>Behind the Lens</td><td>Single image</td><td>A detail shot from the studio -- a lens, a backdrop, hands adjusting a light stand. Caption about the ritual of preparation.</td><td>Close-up, shallow depth of field. Warm tones (Antique Brass cast).</td></tr></tbody></table></div>
+<hr>
+<h2 id="week-2">Week 2</h2>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Pillar</th><th>Type</th><th>Caption Concept</th><th>Visual</th></tr></thead><tbody><tr><td>Mon</td><td>Instagram</td><td>The Work</td><td>Single image</td><td>A portrait that stopped you mid-edit. Write about the moment you knew it was the one -- the expression, the angle, the light landing just right.</td><td>Full-frame portrait, direct eye contact, strong shadow play. Ink background.</td></tr><tr><td>Mon</td><td>LinkedIn</td><td>Perspective</td><td>Text post</td><td>The cost of a bad headshot. Not in dollars -- in missed connections, lost credibility, the feeling of sending a photo into the world that doesn&#x27;t match who you are.</td><td>No image, or a deliberately poor vs. strong headshot comparison (with permission).</td></tr><tr><td>Tue</td><td>Instagram</td><td>The Creative</td><td>Single image</td><td>Feature a musician or band you&#x27;ve photographed. Write about their sound, their presence in the studio, what their portrait says about their artistry.</td><td>Artist portrait, full-bleed, performance energy. Directional light catching movement or texture (instrument, jacket, hair).</td></tr><tr><td>Tue</td><td>LinkedIn</td><td>The Creative</td><td>Post with image</td><td>Same musician spotlight, reframed for LinkedIn -- how creatives use professional imagery to book gigs, get press, build a following.</td><td>Same portrait, tighter crop.</td></tr><tr><td>Tue</td><td>TikTok</td><td>Behind the Lens</td><td>Short video (30-45s)</td><td>Quick edit timelapse -- raw file to finished portrait in 30 seconds. Show the colour grading, the crop decision, the final export.</td><td>Screen recording of Lightroom/Capture One. Ink-toned UI. Ambient audio.</td></tr><tr><td>Wed</td><td>Instagram</td><td>Behind the Lens</td><td>Carousel (3-5 slides)</td><td>The anatomy of a portrait session. Slide-by-slide: arrival and conversation, wardrobe, first frames, direction, the final selects.</td><td>Slide 1: text on Parchment (&quot;What happens in a session&quot;). Slides 2-4: BTS phone shots from a real session. Slide 5: final delivered portrait.</td></tr><tr><td>Thu</td><td>Instagram</td><td>Perspective</td><td>Single image + long caption</td><td>On the difference between a selfie and a portrait. What&#x27;s actually happening when someone else holds the camera -- the trust, the surrender of control, the unexpected version of yourself that emerges.</td><td>Subject in a moment of unguarded expression. Not posed. Shot between frames. Soft, directional window light.</td></tr><tr><td>Thu</td><td>TikTok</td><td>Perspective</td><td>Talking head (60s)</td><td>Same selfie-vs-portrait concept. Keep it personal -- talk about what you notice when clients see themselves for the first time.</td><td>Studio setting, Ink background, single light. Direct to camera.</td></tr><tr><td>Fri</td><td>Instagram</td><td>Invitation</td><td>Story series (3-5 frames)</td><td>This week&#x27;s booking reminder, framed as a conversation. &quot;If you&#x27;ve been sitting on this for months, here&#x27;s what I&#x27;ll say: the version of you that books is the version that&#x27;s ready.&quot;</td><td>Text on Parchment backgrounds, one portrait interspersed. Use poll sticker: &quot;Have you been thinking about it?&quot;</td></tr><tr><td>Fri</td><td>Google Business Profile</td><td>The Work</td><td>Photo post</td><td>Upload a recent portrait with a short description of the session type (e.g., &quot;Actor headshots -- natural light studio session&quot;).</td><td>Clean, well-lit portrait. GBP-friendly crop.</td></tr><tr><td>Sat</td><td>Instagram</td><td>The Work</td><td>Single image</td><td>Weekend portfolio drop. A portrait with no caption except the subject&#x27;s first name and what they do. Let the image carry the weight.</td><td>Full-bleed, maximum negative space. Antique Brass tones or full monochrome.</td></tr><tr><td>Sun</td><td>Instagram</td><td>Behind the Lens</td><td>Reel (30-60s)</td><td>Packing a kit bag for an on-location shoot. Show every item, explain nothing. ASMR energy.</td><td>Overhead angle, hands placing gear into a bag. Natural light. No music or very subtle ambient.</td></tr><tr><td>Sun</td><td>TikTok</td><td>Behind the Lens</td><td>Short video (30-60s)</td><td>Same kit bag video, re-edited for TikTok.</td><td>Same footage, potentially with a trending audio bed.</td></tr></tbody></table></div>
+<hr>
+<h2 id="week-3">Week 3</h2>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Pillar</th><th>Type</th><th>Caption Concept</th><th>Visual</th></tr></thead><tbody><tr><td>Mon</td><td>Instagram</td><td>The Work</td><td>Carousel (3-5 slides)</td><td>A mini series from one session -- 3-5 frames of the same subject showing range. Caption about how a single session produces multiple identities.</td><td>Consistent lighting across all frames. Subtle wardrobe or expression shifts. Same background colour throughout.</td></tr><tr><td>Mon</td><td>LinkedIn</td><td>Perspective</td><td>Text post with image</td><td>Why founders should invest in portraiture before they invest in a logo. Your face is your first brand asset.</td><td>Founder portrait, clean and authoritative. Dark background, sharp focus.</td></tr><tr><td>Tue</td><td>Instagram</td><td>The Creative</td><td>Single image</td><td>Spotlight a solopreneur or small business owner. Write about their business, their ambition, what they&#x27;re building. Tag them and their business.</td><td>Environmental portrait if possible (in their workspace) or studio portrait with props from their trade.</td></tr><tr><td>Tue</td><td>TikTok</td><td>The Work</td><td>Short video (15-30s)</td><td>Quick portrait reveal -- show the back of the camera, turn it around, reveal the portrait. Simple and satisfying.</td><td>Studio setting, natural reaction moment. Clean edit.</td></tr><tr><td>Wed</td><td>Instagram</td><td>Behind the Lens</td><td>Single image + caption</td><td>The importance of the first five minutes. You don&#x27;t start shooting when the camera comes out -- you start when the conversation does.</td><td>BTS shot of a pre-session conversation. Two people, coffee, studio in soft focus behind them.</td></tr><tr><td>Wed</td><td>LinkedIn</td><td>The Creative</td><td>Post with image</td><td>Expanded version of Tuesday&#x27;s solopreneur spotlight, framed as a case study on how professional imagery changed their client perception.</td><td>Same portrait as Tuesday&#x27;s Instagram post, reformatted.</td></tr><tr><td>Thu</td><td>Instagram</td><td>Perspective</td><td>Reel (45-60s)</td><td>A visual essay on faces. Montage of portraits with a voiceover about what a face reveals when it&#x27;s given permission to be still.</td><td>Slow-motion or slow-cut portrait montage. Desaturated tones. Piano or ambient score. Text overlays in Cormorant Garamond.</td></tr><tr><td>Thu</td><td>TikTok</td><td>Perspective</td><td>Short video (45-60s)</td><td>Same visual essay, re-edited for TikTok rhythm.</td><td>Same footage, slightly tighter cuts.</td></tr><tr><td>Fri</td><td>Instagram</td><td>Invitation</td><td>Single image or graphic</td><td>Referral reminder. &quot;If someone you know has been putting this off, send them this post. That&#x27;s it. That&#x27;s the whole ask.&quot;</td><td>Clean graphic: Cormorant Garamond text on Parchment. Or a portrait with referral message as text overlay.</td></tr><tr><td>Fri</td><td>Google Business Profile</td><td>Invitation</td><td>Offer post</td><td>Seasonal or referral offer. Keep it simple -- &quot;Refer a friend, receive a print.&quot; Or session availability for the coming month.</td><td>Studio portrait or detail shot. Warm, inviting.</td></tr><tr><td>Sat</td><td>Instagram</td><td>The Work</td><td>Single image</td><td>End-of-week portfolio piece. A portrait that captures something you can&#x27;t quite name. Write about that feeling in the caption -- the moment between expressions.</td><td>Intimate crop, eye-level, shallow depth. Subject mid-thought. Parchment or muted backdrop.</td></tr><tr><td>Sun</td><td>Instagram</td><td>Behind the Lens</td><td>Story series</td><td>Studio tour -- walk through the space, show the lights, the backdrops, the music setup. Keep it casual, shot on phone.</td><td>Handheld, natural light where possible. Warm, lived-in feeling.</td></tr></tbody></table></div>
+<hr>
+<h2 id="week-4">Week 4</h2>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Pillar</th><th>Type</th><th>Caption Concept</th><th>Visual</th></tr></thead><tbody><tr><td>Mon</td><td>Instagram</td><td>The Work</td><td>Single image</td><td>Open the final week with your strongest recent portrait. Caption about the relationship between photographer and subject -- what trust looks like in a frame.</td><td>Full-bleed, dramatic lighting. High contrast. Subject fully present.</td></tr><tr><td>Mon</td><td>LinkedIn</td><td>Perspective</td><td>Long-form post</td><td>A short essay on the portrait as a professional tool. Not vanity -- utility. How the right image opens doors that a CV cannot.</td><td>Pair with a corporate/professional portrait. Clean, authoritative.</td></tr><tr><td>Mon</td><td>TikTok</td><td>Behind the Lens</td><td>Short video (30s)</td><td>Quick comparison: phone portrait vs. studio portrait of the same person. No judgement in the narration -- just show the difference.</td><td>Split screen or side-by-side. Same subject, same expression, different light and lens.</td></tr><tr><td>Tue</td><td>Instagram</td><td>The Creative</td><td>Carousel (3-5 slides)</td><td>Feature an actor. Show their headshot range -- commercial, dramatic, character. Write about the craft of acting through stillness, through a photograph.</td><td>Slide 1: hero headshot. Slides 2-4: different looks/moods. Slide 5: booking CTA. All consistent lighting, varied expression and wardrobe.</td></tr><tr><td>Tue</td><td>LinkedIn</td><td>The Creative</td><td>Post with image</td><td>Same actor spotlight, reframed for LinkedIn -- how actors use headshots to get cast, and what casting directors actually look for.</td><td>Hero headshot from the carousel.</td></tr><tr><td>Wed</td><td>Instagram</td><td>Behind the Lens</td><td>Reel (30-60s)</td><td>The decision tree of a portrait. Start with an empty studio, make one choice at a time: backdrop colour, light position, modifier, subject placement. Show how each decision changes the final image.</td><td>Timelapse or step-by-step build. Each frame shows a single change. Clean, educational, no rushing.</td></tr><tr><td>Wed</td><td>TikTok</td><td>Behind the Lens</td><td>Short video (30-60s)</td><td>Same decision tree content, re-edited for TikTok.</td><td>Same footage, punchier pacing. Text labels on each decision point.</td></tr><tr><td>Thu</td><td>Instagram</td><td>Perspective</td><td>Single image + long caption</td><td>On imposter syndrome and the camera. Why the people most reluctant to be photographed are often the ones who need it most. The portrait as evidence that you belong.</td><td>Subject looking directly at camera with quiet confidence. Minimal styling. Strong, simple light. Ink background.</td></tr><tr><td>Thu</td><td>TikTok</td><td>Perspective</td><td>Talking head (60s)</td><td>Same imposter syndrome topic. Personal angle -- share a moment where a client&#x27;s reaction to their portrait changed how you think about the work.</td><td>Studio, direct to camera, single light. Genuine, not performed.</td></tr><tr><td>Fri</td><td>Instagram</td><td>Invitation</td><td>Single image or Story</td><td>Month-end push. &quot;Next month&#x27;s sessions are open. If this is the month you do it, here&#x27;s how to start.&quot; Direct, warm, no urgency tricks.</td><td>Parchment graphic with booking details, or a portrait with clean text overlay.</td></tr><tr><td>Fri</td><td>Google Business Profile</td><td>The Work</td><td>Photo post</td><td>Upload best portrait of the month. Short, strong description.</td><td>Portfolio-quality portrait. Clean crop for GBP.</td></tr><tr><td>Sat</td><td>Instagram</td><td>The Work</td><td>Reel (15-30s)</td><td>Month in review -- a montage of every portrait posted this month. Set to music. End card: &quot;Your Image. Your Power.&quot;</td><td>Smooth transitions, consistent colour grade across all images. Antique Brass end card with Cormorant Garamond typography.</td></tr><tr><td>Sat</td><td>TikTok</td><td>The Work</td><td>Short video (15-30s)</td><td>Same month-in-review reel for TikTok.</td><td>Same footage, TikTok-native audio.</td></tr><tr><td>Sun</td><td>Instagram</td><td>Behind the Lens</td><td>Single image</td><td>Close the month quietly. A studio detail -- light falling on an empty backdrop, a chair waiting for someone. Caption about beginning again.</td><td>Atmospheric, empty studio. Single light source. Moody, contemplative.</td></tr></tbody></table></div>
+<hr>
+<h2 id="daily-stories-plan-instagram">Daily Stories Plan (Instagram)</h2>
+<p>Post 1-3 Stories per day. These are low-effort, high-presence content. Shot on phone unless otherwise noted.</p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Story Content</th></tr></thead><tbody><tr><td>Mon</td><td>Morning studio setup -- &quot;Opening up for the week.&quot; Show the lights coming on, coffee in hand.</td></tr><tr><td>Tue</td><td>BTS from a session or edit -- a single behind-the-scenes frame or screen grab from editing.</td></tr><tr><td>Wed</td><td>Client portrait reveal -- share the final image with a &quot;delivered today&quot; caption. Tag the client.</td></tr><tr><td>Thu</td><td>A thought or observation about photography, image, or creative work. Text on Parchment background.</td></tr><tr><td>Fri</td><td>Availability check-in -- &quot;A few sessions open next week&quot; with a booking link sticker.</td></tr><tr><td>Sat</td><td>Portfolio reshare -- repost a grid image to Stories with a short reflection on the shoot.</td></tr><tr><td>Sun</td><td>Personal or behind-the-curtain -- something from outside the studio. A walk, a book, a film. Show the person behind the lens.</td></tr></tbody></table></div>
+<p><strong>Stories formatting:</strong></p>
+<ul>
+<li>Use Parchment (#F5F0E8) background for text-only Stories</li>
+<li>Use Ink (#0F0F0F) background for portrait reshares</li>
+<li>Cormorant Garamond for headlines, Inter for body (use closest available in Instagram&#x27;s editor)</li>
+<li>Keep text minimal. One sentence. Two at most.</li>
+</ul>
+<hr>
+<h2 id="weekly-batching-guide">Weekly Batching Guide</h2>
+<p>All content creation happens in two focused blocks. Do not scatter it across the week.</p>
+<h3 id="sunday-afternoon-plan-write-90-minutes">Sunday Afternoon -- Plan + Write (90 minutes)</h3>
+<ol>
+<li><strong>Review the week ahead</strong> (10 min) -- Open this calendar, identify which posts need new images vs. existing portfolio shots.</li>
+<li><strong>Write all captions</strong> (50 min) -- Draft Monday through Saturday captions in a single document. LinkedIn posts first (they&#x27;re longest), then Instagram, then TikTok scripts.</li>
+<li><strong>Pull visuals</strong> (20 min) -- Select portfolio images for The Work and The Creative posts. Flag any gaps that need a BTS shoot or graphic.</li>
+<li><strong>Schedule everything possible</strong> (10 min) -- Load completed posts into Mixpost or scheduling tool. Leave Reels and TikToks as drafts until filmed.</li>
+</ol>
+<h3 id="monday-morning-shoot-edit-2-hours-or-fold-into-client-session-days">Monday Morning -- Shoot + Edit (2 hours, or fold into client session days)</h3>
+<ol>
+<li><strong>Shoot BTS and Reels</strong> (45 min) -- Film all video content for the week in one block. Lighting setups, studio walkthroughs, talking heads, kit bag videos. Batch them back to back.</li>
+<li><strong>Edit video</strong> (45 min) -- Cut all Reels and TikTok clips. Export in both Instagram and TikTok formats.</li>
+<li><strong>Create graphics</strong> (15 min) -- Any Parchment/Ink text graphics for Invitation posts or Stories.</li>
+<li><strong>Final schedule</strong> (15 min) -- Upload remaining content to scheduler. Set publish times.</li>
+</ol>
+<h3 id="daily-5-minutes">Daily (5 minutes)</h3>
+<ul>
+<li>Post 1-2 Stories from your phone. These are spontaneous -- don&#x27;t overthink them.</li>
+<li>Reply to comments and DMs within 4 hours during business hours.</li>
+<li>Check tags and reshare any client posts that mention Power Portraits.</li>
+</ul>
+<h3 id="monthly-first-sunday-of-the-month-30-minutes">Monthly (First Sunday of the month, 30 minutes)</h3>
+<ul>
+<li>Choose the month&#x27;s theme from the rotating list above.</li>
+<li>Review last month&#x27;s analytics: which posts got saves, which got shares, which fell flat.</li>
+<li>Adjust the coming month&#x27;s calendar based on what worked. Move more energy toward high-performing pillars.</li>
+<li>Identify 2-3 clients to feature in The Creative pillar and reach out for permission.</li>
+</ul>
+<hr>
+<h2 id="post-frequency-summary">Post Frequency Summary</h2>
+<div class="table-wrap"><table><thead><tr><th>Platform</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th><th>Weekly Total</th></tr></thead><tbody><tr><td>Instagram Feed</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>5-7 posts</td></tr><tr><td>Instagram Reels</td><td>--</td><td>1</td><td>--</td><td>1*</td><td>--</td><td>1</td><td>--</td><td>2-3 Reels</td></tr><tr><td>Instagram Stories</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>7 Stories</td></tr><tr><td>LinkedIn</td><td>1</td><td>1*</td><td>1*</td><td>--</td><td>--</td><td>--</td><td>--</td><td>3 posts</td></tr><tr><td>TikTok</td><td>1*</td><td>1</td><td>1*</td><td>1</td><td>--</td><td>1*</td><td>--</td><td>2-3 videos</td></tr><tr><td>Google Business</td><td>--</td><td>--</td><td>--</td><td>--</td><td>1</td><td>--</td><td>--</td><td>1 post</td></tr></tbody></table></div>
+<p><em>Asterisked entries vary by week -- check the weekly tables above for exact scheduling.</em></p>
+<hr>
+<h2 id="notes">Notes</h2>
+<ul>
+<li><strong>No hashtag strategy included here.</strong> Maintain a separate hashtag bank and rotate sets. Avoid more than 15 per Instagram post.</li>
+<li><strong>Tagging is mandatory</strong> for all Creative pillar posts. Always tag the client, their business, and their industry hashtags.</li>
+<li><strong>Repurposing:</strong> Every Instagram Reel becomes a TikTok. Every LinkedIn post seeds an Instagram caption (shorter). Every client spotlight becomes a Google Business update the following week.</li>
+<li><strong>Photography for content:</strong> Dedicate 10 minutes at the end of every paid session to shoot 3-5 BTS frames on your phone. This is your content pipeline. No BTS footage means no Behind the Lens posts.</li>
+<li><strong>Review cadence:</strong> Revisit this calendar monthly. It is a template, not a mandate. If a pillar stops performing, replace it. If a platform stops converting, scale it back.</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">02-Power Portraits/01-strategy/Documents/CONTENT CALENDAR.md</div>
+    </main>
+  </div>
+</body>
+</html>

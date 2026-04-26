@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben Alek Conner — Personal Brand Business Plan | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link active"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-alek-conner">Ben Alek Conner</a> &rsaquo;
+          Ben Alek Conner — Personal Brand Business Plan
+        </div>
+        <h1 class="doc-title">Ben Alek Conner — Personal Brand Business Plan</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#127908; Ben Alek Conner</span>
+          <span class="doc-path">06-Ben Alek Conner / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="ben-alek-conner-personal-brand-business-plan">Ben Alek Conner — Personal Brand Business Plan</h1>
+<h3 id="media-content-amp-education-business">Media, Content &amp; Education Business</h3>
+<p><strong>Version 1.0 | March 2026</strong></p>
+<hr>
+<h2 id="executive-summary">EXECUTIVE SUMMARY</h2>
+<p>Ben Alek Conner is building a media and content business around a single, compelling thesis: that one person can build multiple profitable businesses, pursue creative ambitions in film, and document the entire journey in real time.</p>
+<p>Based in Brisbane, Australia, Ben operates at the intersection of entrepreneurship, filmmaking, health transformation, and high-performance productivity. His personal brand is not a side project — it is a business in its own right, designed to generate meaningful revenue through YouTube, a podcast, digital courses, brand partnerships, speaking, and the eventual commercial release of his feature film.</p>
+<p>This business plan outlines the strategy, financial targets, content infrastructure, and team structure required to grow the Ben Alek Conner brand from its current early stage into a $500K+ annual revenue media business within three years.</p>
+<p><strong>Core positioning:</strong> &quot;Building multiple profitable businesses while creating films and sharing the journey.&quot;</p>
+<p><strong>Primary platform:</strong> YouTube (long-form video as the content engine)</p>
+<p><strong>Revenue model:</strong> Diversified — ads, sponsorships, courses, speaking, film, brand deals</p>
+<p><strong>Year 1 revenue target:</strong> $40,000–$60,000 AUD</p>
+<p><strong>Year 3 revenue target:</strong> $450,000–$600,000 AUD</p>
+<hr>
+<h2 id="1-business-overview">1. BUSINESS OVERVIEW</h2>
+<h3 id="11-the-opportunity">1.1 The Opportunity</h3>
+<p>Australian creators are underrepresented in the business/entrepreneurship content space globally. There is a clear market gap for an authentic, multi-dimensional Australian entrepreneur who builds in public — not just talking about business theory, but actively running agencies, law firms, and film productions while sharing the real numbers, real failures, and real wins.</p>
+<p>Ben&#x27;s competitive advantage is not just his story — it is the fact that his story is still being written, and audiences can follow along in real time.</p>
+<h3 id="12-brand-pillars">1.2 Brand Pillars</h3>
+<div class="table-wrap"><table><thead><tr><th>Pillar</th><th>Content Focus</th><th>Audience Appeal</th></tr></thead><tbody><tr><td>Entrepreneurship &amp; Business</td><td>Building businesses, revenue milestones, strategy</td><td>Aspiring entrepreneurs, SMB owners</td></tr><tr><td>Filmmaking &amp; Creative</td><td>Behind-the-scenes, film production, storytelling</td><td>Creatives, filmmakers, artists</td></tr><tr><td>Health, Fitness &amp; Transformation</td><td>Weight loss journey, marathon training, smoke-free</td><td>People on their own health journeys</td></tr><tr><td>Productivity &amp; Systems</td><td>ADHD management, time-blocking, tools &amp; workflows</td><td>High achievers, neurodiverse professionals</td></tr></tbody></table></div>
+<h3 id="13-unique-selling-proposition">1.3 Unique Selling Proposition</h3>
+<p>Ben does not create content from behind a whiteboard. He creates it from the field — from actual client calls, actual agency operations, actual film sets, actual race training. This documentary-style authenticity is rare and highly engaging. Audiences follow Ben because he makes them feel less alone in the complexity of pursuing multiple ambitious goals simultaneously.</p>
+<hr>
+<h2 id="2-content-strategy-by-platform">2. CONTENT STRATEGY BY PLATFORM</h2>
+<h3 id="21-youtube-primary-platform">2.1 YouTube (Primary Platform)</h3>
+<p><strong>Format:</strong> Long-form videos (10–20 minutes), vlog-style documentary content, business breakdowns</p>
+<p><strong>Upload frequency:</strong> 2x per week (one business/entrepreneurship video, one lifestyle/transformation/filmmaking video)</p>
+<p><strong>Content types:</strong></p>
+<ul>
+<li>&quot;Build with me&quot; series: documenting Nunya Bunya&#x27;s growth to $35K MRR</li>
+<li>&quot;Making the film&quot; series: behind-the-scenes of the feature film production</li>
+<li>Business breakdowns: deep dives into digital marketing, agency operations, client acquisition</li>
+<li>Monthly income reports: transparent revenue updates across all businesses</li>
+<li>Transformation updates: weight loss, marathon training, smoke-free milestones</li>
+<li>Productivity systems: ADHD management tools, daily routines, content workflows</li>
+</ul>
+<p><strong>SEO strategy:</strong> Target keywords with strong Australian search intent plus global business/entrepreneurship terms. Focus on titles like &quot;How I built a $35K/month agency in Brisbane,&quot; &quot;Running a business with ADHD,&quot; &quot;Making a feature film while running 3 companies.&quot;</p>
+<p><strong>Year 1 subscriber targets:</strong> 5,000–10,000</p>
+<p><strong>Year 2 subscriber targets:</strong> 25,000–50,000</p>
+<p><strong>Monetization threshold:</strong> 1,000 subscribers + 4,000 watch hours (target Month 6–8)</p>
+<h3 id="22-instagram">2.2 Instagram</h3>
+<p><strong>Format:</strong> Reels (60–90 seconds), carousel posts, Stories</p>
+<p><strong>Frequency:</strong> 5x per week (3 Reels, 2 carousels)</p>
+<p><strong>Content:</strong> Cut-downs from YouTube, quote graphics, behind-the-scenes stills, business milestones</p>
+<p><strong>Goal:</strong> Drive YouTube subscribers and email list sign-ups</p>
+<h3 id="23-linkedin">2.3 LinkedIn</h3>
+<p><strong>Format:</strong> Long-form text posts, short-form video, articles</p>
+<p><strong>Frequency:</strong> 3x per week</p>
+<p><strong>Content:</strong> Business insights, entrepreneurship lessons, agency growth updates</p>
+<p><strong>Goal:</strong> Attract speaking opportunities, brand partnerships, high-value consulting clients</p>
+<h3 id="24-tiktok-secondary-year-2">2.4 TikTok (Secondary — Year 2)</h3>
+<p><strong>Format:</strong> Short-form video (30–60 seconds)</p>
+<p><strong>Content:</strong> Business tips, transformation clips, film behind-the-scenes</p>
+<p><strong>Launch:</strong> Month 7 onwards, using repurposed YouTube content</p>
+<h3 id="25-email-newsletter">2.5 Email Newsletter</h3>
+<p><strong>Platform:</strong> ConvertKit (or Beehiiv)</p>
+<p><strong>Frequency:</strong> Weekly</p>
+<p><strong>Content:</strong> &quot;The Build&quot; — one lesson from the week across business, fitness, creativity, or systems</p>
+<p><strong>Goal:</strong> Build owned audience independent of algorithm</p>
+<p><strong>Year 1 target:</strong> 2,000 subscribers</p>
+<p><strong>Year 2 target:</strong> 8,000 subscribers</p>
+<h3 id="26-podcast-launching-early-2027">2.6 Podcast (Launching Early 2027)</h3>
+<p>See separate Podcast Launch Plan document for full strategy. The podcast will extend reach and create additional content for repurposing across all platforms.</p>
+<hr>
+<h2 id="3-revenue-streams">3. REVENUE STREAMS</h2>
+<h3 id="31-youtube-adsense">3.1 YouTube AdSense</h3>
+<p>Revenue generated from YouTube&#x27;s Partner Program once monetization threshold is reached.</p>
+<p><strong>CPM assumptions (Australian creator):</strong> $8–$18 AUD CPM (business content attracts premium CPMs)</p>
+<p><strong>Month 8 estimate (10K subscribers):</strong> $500–$1,500/month</p>
+<p><strong>Month 18 estimate (30K subscribers):</strong> $2,500–$5,000/month</p>
+<p><strong>Month 30 estimate (60K subscribers):</strong> $6,000–$12,000/month</p>
+<h3 id="32-brand-sponsorships-amp-deals">3.2 Brand Sponsorships &amp; Deals</h3>
+<p>Brand deals will be the primary revenue driver in Years 1–2, before course revenue scales.</p>
+<p><strong>Target categories:</strong> Business software (accounting, CRM, project management), fitness/health products, productivity tools, Australian SMB services</p>
+<p><strong>Pricing model:</strong></p>
+<ul>
+<li>Dedicated YouTube integration (60-second mid-roll): $1,500–$4,000 AUD per video (scales with audience)</li>
+<li>Instagram Reel: $500–$2,000 AUD</li>
+<li>Newsletter mention: $300–$800 AUD</li>
+<li>Podcast sponsorship (from 2027): $500–$2,000 AUD per episode</li>
+</ul>
+<p><strong>Year 1 target:</strong> 6–10 brand deals ($15,000–$30,000 AUD)</p>
+<p><strong>Year 2 target:</strong> 20–30 brand deals ($60,000–$120,000 AUD)</p>
+<p><strong>Year 3 target:</strong> 3–5 long-term partners ($150,000–$250,000 AUD)</p>
+<h3 id="33-digital-courses-amp-products">3.3 Digital Courses &amp; Products</h3>
+<p><strong>Course 1 (Launch Month 10–12): &quot;Agency Zero to $35K MRR&quot;</strong></p>
+<p>A complete blueprint for building a digital marketing agency in Australia — from first client to full operational capacity. Priced at $497–$997 AUD.</p>
+<p><strong>Course 2 (Launch Year 2): &quot;ADHD Entrepreneur&#x27;s Productivity System&quot;</strong></p>
+<p>Systems, tools, and routines for neurodiverse entrepreneurs who want to run multiple businesses without burning out. Priced at $297–$497 AUD.</p>
+<p><strong>Course 3 (Launch Year 2–3): &quot;How to Make Your First Feature Film on a Small Budget&quot;</strong></p>
+<p>Practical filmmaking for aspiring creators who don&#x27;t have a studio behind them. Priced at $397–$797 AUD.</p>
+<p><strong>Digital downloads/templates:</strong> Content calendars, SOPs, business plan templates — $29–$97 each</p>
+<p><strong>Year 1 course revenue target:</strong> $20,000–$40,000 AUD (first course launch)</p>
+<p><strong>Year 2 course revenue target:</strong> $80,000–$150,000 AUD</p>
+<p><strong>Year 3 course revenue target:</strong> $200,000–$350,000 AUD</p>
+<h3 id="34-coaching-amp-consulting">3.4 Coaching &amp; Consulting</h3>
+<p><strong>1:1 coaching:</strong> 6 spots per quarter at $2,500–$5,000 AUD per month (3-month minimum)</p>
+<p><strong>Group coaching program:</strong> &quot;Build in Public&quot; cohort — 12 students per cohort at $2,000–$3,000 AUD per cohort (quarterly)</p>
+<p><strong>Year 1 coaching revenue target:</strong> $30,000–$50,000 AUD</p>
+<p><strong>Year 2 coaching revenue target:</strong> $60,000–$100,000 AUD</p>
+<h3 id="35-speaking">3.5 Speaking</h3>
+<p><strong>Topics:</strong> Entrepreneurship in your 20s/30s, building businesses with ADHD, digital marketing for SMBs, building a personal brand, the intersection of creativity and business</p>
+<p><strong>Target events:</strong> Business conferences, marketing conferences, university entrepreneurship programs, chamber of commerce events</p>
+<p><strong>Fee structure:</strong></p>
+<ul>
+<li>Year 1: $1,000–$3,000 AUD per engagement</li>
+<li>Year 2: $3,000–$7,500 AUD per engagement</li>
+<li>Year 3: $7,500–$15,000 AUD per engagement</li>
+</ul>
+<p><strong>Year 1 speaking target:</strong> 4–6 engagements ($8,000–$15,000 AUD)</p>
+<p><strong>Year 2 speaking target:</strong> 8–12 engagements ($30,000–$60,000 AUD)</p>
+<h3 id="36-feature-film">3.6 Feature Film</h3>
+<p>Revenue from Ben&#x27;s feature film currently in production. Expected release in Year 2–3.</p>
+<p><strong>Revenue channels:</strong> Film festival circuit, streaming platform licensing, direct digital distribution, VOD sales</p>
+<p><strong>Conservative projection:</strong> $20,000–$80,000 AUD (highly variable; upside scenario significantly higher)</p>
+<h3 id="37-nunya-bunya-cross-promotion">3.7 Nunya Bunya Cross-Promotion</h3>
+<p>As the business content grows, Nunya Bunya benefits from direct audience conversion — clients who discover the agency through the personal brand. This channel represents additional value that flows to the agency but is not counted as personal brand revenue.</p>
+<hr>
+<h2 id="4-year-13-revenue-projections">4. YEAR 1–3 REVENUE PROJECTIONS</h2>
+<h3 id="year-1-2026-foundation-year">Year 1 (2026) — Foundation Year</h3>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Low</th><th>High</th></tr></thead><tbody><tr><td>YouTube AdSense</td><td>$3,000</td><td>$8,000</td></tr><tr><td>Brand Sponsorships</td><td>$15,000</td><td>$30,000</td></tr><tr><td>Course Sales</td><td>$20,000</td><td>$40,000</td></tr><tr><td>Coaching/Consulting</td><td>$30,000</td><td>$50,000</td></tr><tr><td>Speaking</td><td>$8,000</td><td>$15,000</td></tr><tr><td>Newsletter/Products</td><td>$2,000</td><td>$5,000</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>$78,000</strong></td><td><strong>$148,000</strong></td></tr></tbody></table></div>
+<h3 id="year-2-2027-growth-year">Year 2 (2027) — Growth Year</h3>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Low</th><th>High</th></tr></thead><tbody><tr><td>YouTube AdSense</td><td>$18,000</td><td>$40,000</td></tr><tr><td>Brand Sponsorships</td><td>$60,000</td><td>$120,000</td></tr><tr><td>Course Sales</td><td>$80,000</td><td>$150,000</td></tr><tr><td>Coaching/Consulting</td><td>$60,000</td><td>$100,000</td></tr><tr><td>Speaking</td><td>$30,000</td><td>$60,000</td></tr><tr><td>Podcast Sponsorships</td><td>$15,000</td><td>$30,000</td></tr><tr><td>Film Revenue</td><td>$10,000</td><td>$50,000</td></tr><tr><td>Newsletter/Products</td><td>$10,000</td><td>$20,000</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>$283,000</strong></td><td><strong>$570,000</strong></td></tr></tbody></table></div>
+<h3 id="year-3-2028-scale-year">Year 3 (2028) — Scale Year</h3>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Low</th><th>High</th></tr></thead><tbody><tr><td>YouTube AdSense</td><td>$40,000</td><td>$100,000</td></tr><tr><td>Brand Sponsorships</td><td>$150,000</td><td>$250,000</td></tr><tr><td>Course Sales</td><td>$200,000</td><td>$350,000</td></tr><tr><td>Coaching/Consulting</td><td>$80,000</td><td>$120,000</td></tr><tr><td>Speaking</td><td>$60,000</td><td>$120,000</td></tr><tr><td>Podcast Sponsorships</td><td>$40,000</td><td>$80,000</td></tr><tr><td>Film/Creative Revenue</td><td>$20,000</td><td>$80,000</td></tr><tr><td>Newsletter/Products</td><td>$20,000</td><td>$40,000</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>$610,000</strong></td><td><strong>$1,140,000</strong></td></tr></tbody></table></div>
+<hr>
+<h2 id="5-audience-growth-targets">5. AUDIENCE GROWTH TARGETS</h2>
+<h3 id="youtube">YouTube</h3>
+<div class="table-wrap"><table><thead><tr><th>Milestone</th><th>Target Date</th><th>Subscribers</th><th>Monthly Views</th></tr></thead><tbody><tr><td>Launch</td><td>Month 1</td><td>0</td><td>—</td></tr><tr><td>Monetization eligible</td><td>Month 6–8</td><td>1,000</td><td>15,000</td></tr><tr><td>Brand deal ready</td><td>Month 8–10</td><td>5,000</td><td>50,000</td></tr><tr><td>Year 1 close</td><td>Month 12</td><td>10,000</td><td>100,000</td></tr><tr><td>Year 2 mid</td><td>Month 18</td><td>25,000</td><td>250,000</td></tr><tr><td>Year 2 close</td><td>Month 24</td><td>50,000</td><td>500,000</td></tr><tr><td>Year 3 close</td><td>Month 36</td><td>100,000</td><td>1,000,000</td></tr></tbody></table></div>
+<h3 id="instagram">Instagram</h3>
+<div class="table-wrap"><table><thead><tr><th>Milestone</th><th>Target Date</th><th>Followers</th></tr></thead><tbody><tr><td>Month 6</td><td>2,000</td><td></td></tr><tr><td>Month 12</td><td>8,000</td><td></td></tr><tr><td>Month 24</td><td>30,000</td><td></td></tr><tr><td>Month 36</td><td>75,000</td><td></td></tr></tbody></table></div>
+<h3 id="email-list">Email List</h3>
+<div class="table-wrap"><table><thead><tr><th>Milestone</th><th>Target Date</th><th>Subscribers</th></tr></thead><tbody><tr><td>Month 6</td><td>500</td><td></td></tr><tr><td>Month 12</td><td>2,000</td><td></td></tr><tr><td>Month 24</td><td>8,000</td><td></td></tr><tr><td>Month 36</td><td>20,000</td><td></td></tr></tbody></table></div>
+<hr>
+<h2 id="6-team-amp-contractor-needs">6. TEAM &amp; CONTRACTOR NEEDS</h2>
+<h3 id="61-immediate-hires-month-13">6.1 Immediate Hires (Month 1–3)</h3>
+<p><strong>Video Editor (Part-time, contractor)</strong></p>
+<ul>
+<li>Role: Edit raw YouTube footage into final videos, create Reels cut-downs</li>
+<li>Rate: $35–$55/hour AUD or $500–$800/video</li>
+<li>Hours: 15–20 hours/week</li>
+<li>Skills required: Premiere Pro, After Effects, colour grading, captions</li>
+</ul>
+<p><strong>Thumbnail Designer (Freelance)</strong></p>
+<ul>
+<li>Role: Design YouTube thumbnails (2 per week) and social media graphics</li>
+<li>Rate: $50–$100 per thumbnail</li>
+<li>Hours: 4–6 hours/week</li>
+</ul>
+<h3 id="62-month-36-hires">6.2 Month 3–6 Hires</h3>
+<p><strong>Social Media Manager / Content Repurposer (Part-time)</strong></p>
+<ul>
+<li>Role: Take YouTube content, repurpose into Instagram Reels, LinkedIn posts, TikTok, schedule all posts</li>
+<li>Rate: $25–$40/hour AUD</li>
+<li>Hours: 10–15 hours/week</li>
+</ul>
+<p><strong>Podcast Producer (from Month 10–12, in preparation for 2027 launch)</strong></p>
+<ul>
+<li>Role: Audio editing, show notes, distribution</li>
+<li>Rate: $200–$400 per episode</li>
+<li>Hours: Contract per episode</li>
+</ul>
+<h3 id="63-year-2-additions">6.3 Year 2 Additions</h3>
+<p><strong>Operations/EA (Part-time)</strong></p>
+<ul>
+<li>Role: Inbox management, sponsorship outreach coordination, scheduling, course admin</li>
+<li>Rate: $30–$45/hour AUD</li>
+<li>Hours: 20 hours/week</li>
+</ul>
+<p><strong>Copywriter</strong></p>
+<ul>
+<li>Role: Email newsletter writing, course copy, website copy</li>
+<li>Rate: $60–$100/hour or project-based</li>
+<li>Hours: 8–12 hours/week</li>
+</ul>
+<h3 id="64-technology-amp-tools-stack">6.4 Technology &amp; Tools Stack</h3>
+<div class="table-wrap"><table><thead><tr><th>Category</th><th>Tool</th><th>Monthly Cost (AUD)</th></tr></thead><tbody><tr><td>Video hosting</td><td>YouTube</td><td>Free</td></tr><tr><td>Email marketing</td><td>ConvertKit</td><td>$60–$150</td></tr><tr><td>Course platform</td><td>Kajabi or Teachable</td><td>$150–$200</td></tr><tr><td>Design</td><td>Adobe Creative Cloud</td><td>$80</td></tr><tr><td>Project management</td><td>Notion</td><td>$25</td></tr><tr><td>Social scheduling</td><td>Later or Buffer</td><td>$30–$60</td></tr><tr><td>Analytics</td><td>TubeBuddy / VidIQ</td><td>$25–$50</td></tr><tr><td>Podcast hosting</td><td>Buzzsprout or Riverside</td><td>$25–$50</td></tr><tr><td>Website</td><td>Squarespace or WordPress</td><td>$30–$50</td></tr><tr><td><strong>Total monthly tools</strong></td><td></td><td><strong>$425–$665</strong></td></tr></tbody></table></div>
+<hr>
+<h2 id="7-equipment-amp-production-budget">7. EQUIPMENT &amp; PRODUCTION BUDGET</h2>
+<h3 id="71-phase-1-launch-setup-one-time-month-1">7.1 Phase 1 — Launch Setup (One-time, Month 1)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Cost (AUD)</th></tr></thead><tbody><tr><td>Camera: Sony A7IV or Canon R6 Mark II</td><td>$3,500–$4,500</td></tr><tr><td>Lens: 24–70mm f/2.8</td><td>$2,000–$3,000</td></tr><tr><td>Microphone: Rode NT1 + Rode Wireless GO II</td><td>$600–$800</td></tr><tr><td>Lighting: Aputure Amaran 200D + soft box</td><td>$600–$900</td></tr><tr><td>Tripod + fluid head</td><td>$300–$500</td></tr><tr><td>Studio backdrop / set dressing</td><td>$200–$500</td></tr><tr><td>External hard drives (2TB x2)</td><td>$200–$300</td></tr><tr><td>Editing computer (if needed)</td><td>$2,000–$3,500</td></tr><tr><td><strong>Phase 1 Total</strong></td><td><strong>$9,400–$14,000</strong></td></tr></tbody></table></div>
+<h3 id="72-phase-2-upgrade-month-12">7.2 Phase 2 — Upgrade (Month 12+)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Cost (AUD)</th></tr></thead><tbody><tr><td>Second camera body</td><td>$2,500–$4,000</td></tr><tr><td>Gimbal: DJI RS3 Pro</td><td>$500–$700</td></tr><tr><td>Drone: DJI Mini 4 Pro</td><td>$1,200–$1,500</td></tr><tr><td>Acoustic treatment for studio</td><td>$500–$1,000</td></tr><tr><td>Teleprompter</td><td>$200–$400</td></tr><tr><td><strong>Phase 2 Total</strong></td><td><strong>$4,900–$7,600</strong></td></tr></tbody></table></div>
+<hr>
+<h2 id="8-marketing-amp-growth-budget">8. MARKETING &amp; GROWTH BUDGET</h2>
+<div class="table-wrap"><table><thead><tr><th>Activity</th><th>Monthly Budget (AUD)</th><th>Notes</th></tr></thead><tbody><tr><td>YouTube Ads (promote own videos)</td><td>$500–$1,000</td><td>Targeted subscriber growth</td></tr><tr><td>Instagram/Meta Ads</td><td>$300–$600</td><td>Promote Reels and lead magnets</td></tr><tr><td>LinkedIn Ads</td><td>$200–$400</td><td>Speaking + course promotion</td></tr><tr><td>PR &amp; Media outreach</td><td>$0–$200</td><td>DIY initially</td></tr><tr><td>Affiliate commissions</td><td>Variable</td><td>20–30% of course sales</td></tr><tr><td><strong>Total monthly marketing</strong></td><td><strong>$1,000–$2,200</strong></td><td></td></tr></tbody></table></div>
+<hr>
+<h2 id="9-key-milestones">9. KEY MILESTONES</h2>
+<h3 id="2026-milestones">2026 Milestones</h3>
+<div class="table-wrap"><table><thead><tr><th>Quarter</th><th>Milestone</th></tr></thead><tbody><tr><td>Q1 2026</td><td>Launch YouTube channel. Publish first 12 videos. Set up email list. Film first 30 days vlog.</td></tr><tr><td>Q2 2026</td><td>Hit 1,000 YouTube subscribers. Apply for YPP monetization. Secure first brand deal. Launch newsletter &quot;The Build.&quot;</td></tr><tr><td>Q3 2026</td><td>Hit 5,000 YouTube subscribers. Close first $5K course pre-launch. Publish 60+ videos. Begin podcast pre-production.</td></tr><tr><td>Q4 2026</td><td>Launch first course &quot;Agency Zero to $35K MRR.&quot; Hit 10,000 YouTube subscribers. Feature film enters post-production. Generate $10K+ in course revenue in launch month.</td></tr></tbody></table></div>
+<h3 id="2027-milestones">2027 Milestones</h3>
+<div class="table-wrap"><table><thead><tr><th>Quarter</th><th>Milestone</th></tr></thead><tbody><tr><td>Q1 2027</td><td>Launch podcast. Hit 20,000 YouTube subscribers. Secure first $5K+ brand deal.</td></tr><tr><td>Q2 2027</td><td>Hit 30,000 YouTube subscribers. Launch second course. Close 5-figure speaking month.</td></tr><tr><td>Q3 2027</td><td>Feature film released. Hit 40,000 YouTube subscribers. Launch group coaching cohort.</td></tr><tr><td>Q4 2027</td><td>Hit 50,000 YouTube subscribers. Gross $500K+ in personal brand revenue for the year. Begin planning Year 3 premium offerings.</td></tr></tbody></table></div>
+<hr>
+<h2 id="10-risk-analysis">10. RISK ANALYSIS</h2>
+<div class="table-wrap"><table><thead><tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr></thead><tbody><tr><td>Algorithm changes reducing YouTube reach</td><td>Medium</td><td>High</td><td>Diversify to email list and podcast; own your audience</td></tr><tr><td>Burnout from running multiple businesses simultaneously</td><td>Medium</td><td>High</td><td>Strict content batching; hire support before needed; ADHD management systems</td></tr><tr><td>Brand deals dry up during economic downturn</td><td>Low–Medium</td><td>Medium</td><td>Diversify revenue; prioritise course and coaching income</td></tr><tr><td>Course launch underperforms</td><td>Medium</td><td>Medium</td><td>Build email list first; validate with pre-launch; offer money-back guarantee</td></tr><tr><td>Feature film fails to generate commercial revenue</td><td>Medium</td><td>Low</td><td>Film serves brand even if not commercial; leverage for PR and speaking</td></tr><tr><td>Audience growth slower than projected</td><td>Medium</td><td>Medium</td><td>Accelerate with collaboration strategy; invest in paid promotion</td></tr></tbody></table></div>
+<hr>
+<h2 id="11-content-production-workflow">11. CONTENT PRODUCTION WORKFLOW</h2>
+<h3 id="weekly-rhythm">Weekly Rhythm</h3>
+<p><strong>Monday:</strong> Batch B-roll and behind-the-scenes filming across business operations</p>
+<p><strong>Tuesday:</strong> Primary YouTube video filming (talking head, interview, or breakdown format)</p>
+<p><strong>Wednesday:</strong> Review edit from previous week&#x27;s video; approve thumbnail; write newsletter</p>
+<p><strong>Thursday:</strong> Film second YouTube video or podcast content; social media engagement</p>
+<p><strong>Friday:</strong> Review final edits; approve content for next week; content planning session</p>
+<p><strong>Weekend:</strong> Rest + capture spontaneous B-roll from real life (training, social, travel)</p>
+<h3 id="monthly-rhythm">Monthly Rhythm</h3>
+<p><strong>Week 1:</strong> Monthly income report video + strategy content</p>
+<p><strong>Week 2:</strong> Lifestyle/transformation content + behind-the-scenes film update</p>
+<p><strong>Week 3:</strong> Deep-dive business breakdown or tutorial</p>
+<p><strong>Week 4:</strong> Podcast guest interview (from 2027) + personal vlog</p>
+<hr>
+<p><em>This plan is a living document. Review and update quarterly.</em></p>
+<p><em>Last updated: March 2026</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">06-Ben Alek Conner/01-strategy/Documents/BUSINESS PLAN.md</div>
+    </main>
+  </div>
+</body>
+</html>

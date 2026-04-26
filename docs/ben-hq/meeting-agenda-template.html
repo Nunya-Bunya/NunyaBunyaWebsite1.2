@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEETING AGENDA TEMPLATE | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link active"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-hq">Ben HQ</a> &rsaquo;
+          MEETING AGENDA TEMPLATE
+        </div>
+        <h1 class="doc-title">MEETING AGENDA TEMPLATE</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#9670; Ben HQ</span>
+          <span class="doc-path">00-Ben HQ / Templates</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="meeting-agenda-template">MEETING AGENDA TEMPLATE</h1>
+<h3 id="ben-alek-conner-portfolio-all-businesses">Ben Alek Conner Portfolio — All Businesses</h3>
+<blockquote><strong>How to use:</strong> Select the meeting type below that matches your meeting. Delete all other sections. Fill in all bracketed fields before distributing. Send to all attendees minimum 24 hours before the meeting.</blockquote>
+<hr>
+<h2 id="meeting-type-index">MEETING TYPE INDEX</h2>
+<ul>
+<li><a href="#type-1-one-on-one-11">TYPE 1: One-on-One (1:1)</a></li>
+<li><a href="#type-2-team-standup">TYPE 2: Team Standup (Daily/Weekly)</a></li>
+<li><a href="#type-3-client-kickoff-meeting">TYPE 3: Client Kickoff Meeting</a></li>
+<li><a href="#type-4-strategy-session">TYPE 4: Strategy Session</a></li>
+<li><a href="#type-5-quarterly-business-review">TYPE 5: Quarterly Business Review</a></li>
+</ul>
+<hr>
+<h2 id="type-1-one-on-one-11">TYPE 1: ONE-ON-ONE (1:1)</h2>
+<p><strong>Meeting:</strong> 1:1 — [Name] + Ben</p>
+<p><strong>Date:</strong> [DD Month YYYY]</p>
+<p><strong>Time:</strong> [HH:MM AM/PM] AEST</p>
+<p><strong>Duration:</strong> 30 minutes</p>
+<p><strong>Format:</strong> [Zoom / In-Person / Phone]</p>
+<p><strong>Zoom Link:</strong> [Insert if applicable]</p>
+<hr>
+<h3 id="pre-meeting">PRE-MEETING</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Both parties complete their sections below at least 2 hours before the meeting</li>
+<li><span class="cb cb-empty">&#9744;</span> Review notes from previous 1:1</li>
+</ul>
+<hr>
+<h3 id="agenda">AGENDA</h3>
+<div class="table-wrap"><table><thead><tr><th>Time</th><th>Item</th><th>Led By</th></tr></thead><tbody><tr><td>0:00–0:03</td><td>Check-in (how are you, quick wins)</td><td>Both</td></tr><tr><td>0:03–0:12</td><td>Updates from [Name]: wins, blockers, priorities</td><td>[Name]</td></tr><tr><td>0:12–0:20</td><td>Updates from Ben: feedback, direction, priorities</td><td>Ben</td></tr><tr><td>0:20–0:27</td><td>Open discussion / problem-solving</td><td>Both</td></tr><tr><td>0:27–0:30</td><td>Action items + commitments</td><td>Both</td></tr></tbody></table></div>
+<hr>
+<h3 id="namex27s-update-complete-before-meeting">[NAME]&#x27;S UPDATE (complete before meeting)</h3>
+<p><strong>Wins since last 1:1:</strong></p>
+<p>-</p>
+<p>-</p>
+<p><strong>Current priorities / what I&#x27;m working on:</strong></p>
+<p>-</p>
+<p>-</p>
+<p><strong>Blockers / what I need help with:</strong></p>
+<p>-</p>
+<p>-</p>
+<p><strong>Anything else I want to discuss:</strong></p>
+<p>-</p>
+<hr>
+<h3 id="benx27s-update-complete-before-meeting">BEN&#x27;S UPDATE (complete before meeting)</h3>
+<p><strong>Feedback for [Name]:</strong></p>
+<p>-</p>
+<p><strong>Direction / priorities I want to discuss:</strong></p>
+<p>-</p>
+<p><strong>Decisions I need [Name]&#x27;s input on:</strong></p>
+<p>-</p>
+<hr>
+<h3 id="action-items-complete-during-meeting">ACTION ITEMS (complete during meeting)</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Action</th><th>Owner</th><th>Due Date</th></tr></thead><tbody><tr><td>1</td><td></td><td></td><td></td></tr><tr><td>2</td><td></td><td></td><td></td></tr><tr><td>3</td><td></td><td></td><td></td></tr></tbody></table></div>
+<hr>
+<h3 id="notes">NOTES</h3>
+<p>[Space for any notes captured during the meeting]</p>
+<hr>
+<p><em>Next 1:1: [Date + Time]</em></p>
+<hr>
+<hr>
+<h2 id="type-2-team-standup">TYPE 2: TEAM STANDUP</h2>
+<p><strong>Meeting:</strong> [Business Name] Team Standup</p>
+<p><strong>Date:</strong> [DD Month YYYY]</p>
+<p><strong>Time:</strong> [HH:MM AM/PM] AEST</p>
+<p><strong>Duration:</strong> 15 minutes (hard stop)</p>
+<p><strong>Format:</strong> [Zoom / In-Person / Async via Slack/Lark]</p>
+<p><strong>Zoom Link:</strong> [Insert if applicable]</p>
+<hr>
+<h3 id="standup-rules">STANDUP RULES</h3>
+<ul>
+<li>Each person speaks for maximum 2 minutes</li>
+<li>This is a status update, NOT a problem-solving session</li>
+<li>Issues raised → scheduled as separate meeting/async thread</li>
+<li>Camera on (Zoom standups)</li>
+</ul>
+<hr>
+<h3 id="format-each-person-covers-all-3-points">FORMAT (each person covers all 3 points)</h3>
+<p><strong>1. Yesterday / Since last standup:</strong> What did I complete?</p>
+<p><strong>2. Today:</strong> What am I working on today?</p>
+<p><strong>3. Blockers:</strong> Is anything stopping my progress?</p>
+<hr>
+<h3 id="attendance">ATTENDANCE</h3>
+<div class="table-wrap"><table><thead><tr><th>Name</th><th>Role</th><th>Present</th></tr></thead><tbody><tr><td>Ben Alek Conner</td><td>Founder</td><td></td></tr><tr><td>[Name]</td><td>[Role]</td><td></td></tr><tr><td>[Name]</td><td>[Role]</td><td></td></tr><tr><td>[Name]</td><td>[Role]</td><td></td></tr></tbody></table></div>
+<hr>
+<h3 id="standup-notes">STANDUP NOTES</h3>
+<p><strong>[Name 1]:</strong></p>
+<ul>
+<li>Yesterday:</li>
+<li>Today:</li>
+<li>Blockers:</li>
+</ul>
+<p><strong>[Name 2]:</strong></p>
+<ul>
+<li>Yesterday:</li>
+<li>Today:</li>
+<li>Blockers:</li>
+</ul>
+<p><strong>[Name 3]:</strong></p>
+<ul>
+<li>Yesterday:</li>
+<li>Today:</li>
+<li>Blockers:</li>
+</ul>
+<hr>
+<h3 id="follow-up-items-raised-in-standup-action-outside-this-meeting">FOLLOW-UP ITEMS (raised in standup — action outside this meeting)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Owner</th><th>Action Required</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div>
+<hr>
+<p><em>Next standup: [Tomorrow / Date + Time]</em></p>
+<hr>
+<hr>
+<h2 id="type-3-client-kickoff-meeting">TYPE 3: CLIENT KICKOFF MEETING</h2>
+<p><strong>Meeting:</strong> [Client Name] — Project Kickoff</p>
+<p><strong>Business:</strong> [Nunya Bunya / Conner Law Group / Power Portraits / etc.]</p>
+<p><strong>Date:</strong> [DD Month YYYY]</p>
+<p><strong>Time:</strong> [HH:MM AM/PM] AEST</p>
+<p><strong>Duration:</strong> 60 minutes</p>
+<p><strong>Format:</strong> [Zoom / In-Person preferred]</p>
+<p><strong>Location / Zoom Link:</strong> [Insert]</p>
+<p><strong>Attendees:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Name</th><th>Organisation</th><th>Role</th></tr></thead><tbody><tr><td>Ben Alek Conner</td><td>[Business Name]</td><td>Lead</td></tr><tr><td>[Team Member]</td><td>[Business Name]</td><td>[Role]</td></tr><tr><td>[Client Name]</td><td>[Client Company]</td><td>[Title]</td></tr><tr><td>[Client Name]</td><td>[Client Company]</td><td>[Title]</td></tr></tbody></table></div>
+<hr>
+<h3 id="pre-meeting-prep">PRE-MEETING PREP</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Contract and deposit confirmed on file</li>
+<li><span class="cb cb-empty">&#9744;</span> Client folder created in MASTER WORKSPACE</li>
+<li><span class="cb cb-empty">&#9744;</span> Intake form / questionnaire sent and received (if applicable)</li>
+<li><span class="cb cb-empty">&#9744;</span> Agenda sent to client minimum 24 hours prior</li>
+<li><span class="cb cb-empty">&#9744;</span> Team briefed on client background</li>
+</ul>
+<hr>
+<h3 id="agenda">AGENDA</h3>
+<div class="table-wrap"><table><thead><tr><th>Time</th><th>Item</th><th>Led By</th></tr></thead><tbody><tr><td>0:00–0:05</td><td>Welcome, introductions, housekeeping</td><td>Ben</td></tr><tr><td>0:05–0:15</td><td>Client background — who you are, your business, goals</td><td>Client</td></tr><tr><td>0:15–0:25</td><td>Project overview — scope, what we&#x27;re delivering</td><td>Ben</td></tr><tr><td>0:25–0:35</td><td>Process walkthrough — how we work, milestones, approvals</td><td>[Team]</td></tr><tr><td>0:35–0:45</td><td>Communication &amp; expectations — contacts, response times, feedback</td><td>Both</td></tr><tr><td>0:45–0:55</td><td>Questions &amp; open discussion</td><td>Both</td></tr><tr><td>0:55–1:00</td><td>Next steps, action items, close</td><td>Ben</td></tr></tbody></table></div>
+<hr>
+<h3 id="section-1-client-background">SECTION 1: CLIENT BACKGROUND</h3>
+<p><em>Notes from client:</em></p>
+<p>Business overview:</p>
+<p>Key goals for this project:</p>
+<p>Definition of success:</p>
+<p>Current challenges / pain points:</p>
+<hr>
+<h3 id="section-2-project-overview-review-with-client">SECTION 2: PROJECT OVERVIEW (review with client)</h3>
+<p><strong>Scope of work:</strong> [Reference contract scope]</p>
+<p><strong>Key deliverables:</strong></p>
+<p>1.</p>
+<p>2.</p>
+<p>3.</p>
+<p><strong>Timeline:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Milestone</th><th>Target Date</th></tr></thead><tbody><tr><td>Kickoff (today)</td><td>[Date]</td></tr><tr><td>[Milestone 1]</td><td>[Date]</td></tr><tr><td>[Milestone 2]</td><td>[Date]</td></tr><tr><td>Final delivery</td><td>[Date]</td></tr></tbody></table></div>
+<hr>
+<h3 id="section-3-process-amp-communication">SECTION 3: PROCESS &amp; COMMUNICATION</h3>
+<p><strong>Our process:</strong></p>
+<ol>
+<li>[Step 1]</li>
+<li>[Step 2]</li>
+<li>[Step 3]</li>
+</ol>
+<p><strong>Approval process:</strong> [How will the client review and approve deliverables?]</p>
+<p><strong>Primary contacts:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Name</th><th>Role</th><th>Email</th><th>Phone</th></tr></thead><tbody><tr><td>[Our contact]</td><td></td><td></td><td></td></tr><tr><td>[Client contact]</td><td></td><td></td><td></td></tr></tbody></table></div>
+<p><strong>Communication preferences:</strong></p>
+<ul>
+<li>Primary channel: [Email / Slack / Phone]</li>
+<li>Meeting cadence during project: [Weekly check-in / Fortnightly / As needed]</li>
+<li>Feedback turnaround expected from client: [X business days]</li>
+</ul>
+<hr>
+<h3 id="section-4-client-questions-amp-discussion">SECTION 4: CLIENT QUESTIONS &amp; DISCUSSION</h3>
+<p><em>Notes:</em></p>
+<hr>
+<h3 id="action-items">ACTION ITEMS</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Action</th><th>Owner</th><th>Due Date</th></tr></thead><tbody><tr><td>1</td><td>Send project timeline document</td><td>[Ben/Team]</td><td>[Date]</td></tr><tr><td>2</td><td>Client to provide [assets/access/info]</td><td>Client</td><td>[Date]</td></tr><tr><td>3</td><td>Schedule next check-in call</td><td>Both</td><td>[Date]</td></tr><tr><td>4</td><td></td><td></td><td></td></tr><tr><td>5</td><td></td><td></td><td></td></tr></tbody></table></div>
+<hr>
+<h3 id="post-meeting-within-30-minutes-of-close">POST-MEETING (within 30 minutes of close)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Send meeting summary email to client (include action items)</li>
+<li><span class="cb cb-empty">&#9744;</span> Update project management tool</li>
+<li><span class="cb cb-empty">&#9744;</span> File these notes in client folder: [MASTER WORKSPACE/Business/Clients/ClientName/]</li>
+<li><span class="cb cb-empty">&#9744;</span> Calendar invite for next check-in sent</li>
+</ul>
+<hr>
+<hr>
+<h2 id="type-4-strategy-session">TYPE 4: STRATEGY SESSION</h2>
+<p><strong>Meeting:</strong> Strategy Session — [Topic / Business]</p>
+<p><strong>Date:</strong> [DD Month YYYY]</p>
+<p><strong>Time:</strong> [HH:MM AM/PM] AEST</p>
+<p><strong>Duration:</strong> [90 / 120 / 180] minutes</p>
+<p><strong>Format:</strong> [In-Person preferred / Zoom]</p>
+<p><strong>Location:</strong> [Address / Zoom Link]</p>
+<p><strong>Attendees:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Name</th><th>Role</th></tr></thead><tbody><tr><td>Ben Alek Conner</td><td>Founder</td></tr><tr><td>[Name]</td><td>[Role]</td></tr><tr><td>[Name]</td><td>[Role]</td></tr></tbody></table></div>
+<p><strong>Pre-read / Preparation:</strong> [List any documents attendees should review before the meeting]</p>
+<hr>
+<h3 id="session-objective">SESSION OBJECTIVE</h3>
+<p>By the end of this session, we will have:</p>
+<ol>
+<li>[Clear decision / outcome 1]</li>
+<li>[Clear decision / outcome 2]</li>
+<li>[Clear decision / outcome 3]</li>
+</ol>
+<hr>
+<h3 id="agenda">AGENDA</h3>
+<div class="table-wrap"><table><thead><tr><th>Time</th><th>Item</th><th>Led By</th><th>Format</th></tr></thead><tbody><tr><td>0:00–0:10</td><td>Context setting — why we&#x27;re here, what we need to decide</td><td>Ben</td><td>Presentation</td></tr><tr><td>0:10–0:30</td><td>Current state review — data, metrics, what&#x27;s working/not working</td><td>All</td><td>Discussion</td></tr><tr><td>0:30–0:60</td><td>Problem / opportunity exploration — root causes, ideas, options</td><td>All</td><td>Brainstorm</td></tr><tr><td>1:00–1:20</td><td>Evaluate options — pros, cons, resource requirements</td><td>All</td><td>Analysis</td></tr><tr><td>1:20–1:35</td><td>Decision-making — what are we committing to?</td><td>Ben (final call)</td><td>Decision</td></tr><tr><td>1:35–1:45</td><td>Action planning — who does what by when</td><td>All</td><td>Planning</td></tr><tr><td>1:45–1:50</td><td>Recap + close</td><td>Ben</td><td>Summary</td></tr></tbody></table></div>
+<p><em>[Adjust time blocks based on total session duration]</em></p>
+<hr>
+<h3 id="section-1-current-state">SECTION 1: CURRENT STATE</h3>
+<p><strong>What&#x27;s working:</strong></p>
+<p>-</p>
+<p>-</p>
+<p><strong>What&#x27;s not working:</strong></p>
+<p>-</p>
+<p>-</p>
+<p><strong>Relevant data / metrics:</strong></p>
+<p>-</p>
+<p>-</p>
+<hr>
+<h3 id="section-2-the-problem-opportunity">SECTION 2: THE PROBLEM / OPPORTUNITY</h3>
+<p><strong>Problem statement (fill in before session):</strong></p>
+<blockquote>In one sentence: We need to [solve / build / decide] <strong><em></strong><strong></em></strong> because <strong><em></strong><strong></em></strong>.</blockquote>
+<p><strong>Key questions to answer in this session:</strong></p>
+<p>1.</p>
+<p>2.</p>
+<p>3.</p>
+<hr>
+<h3 id="section-3-options-explored">SECTION 3: OPTIONS EXPLORED</h3>
+<div class="table-wrap"><table><thead><tr><th>Option</th><th>Pros</th><th>Cons</th><th>Resource Required</th><th>Feasibility (1–10)</th></tr></thead><tbody><tr><td>Option A</td><td></td><td></td><td></td><td></td></tr><tr><td>Option B</td><td></td><td></td><td></td><td></td></tr><tr><td>Option C</td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<hr>
+<h3 id="section-4-decisions-made">SECTION 4: DECISIONS MADE</h3>
+<div class="table-wrap"><table><thead><tr><th>Decision</th><th>Decision</th><th>Rationale</th></tr></thead><tbody><tr><td>1</td><td></td><td></td></tr><tr><td>2</td><td></td><td></td></tr><tr><td>3</td><td></td><td></td></tr></tbody></table></div>
+<hr>
+<h3 id="section-5-action-plan">SECTION 5: ACTION PLAN</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Action</th><th>Owner</th><th>Due Date</th><th>Priority</th></tr></thead><tbody><tr><td>1</td><td></td><td></td><td></td><td>High</td></tr><tr><td>2</td><td></td><td></td><td></td><td>High</td></tr><tr><td>3</td><td></td><td></td><td></td><td>Medium</td></tr><tr><td>4</td><td></td><td></td><td></td><td>Medium</td></tr><tr><td>5</td><td></td><td></td><td></td><td>Low</td></tr></tbody></table></div>
+<hr>
+<h3 id="notes">NOTES</h3>
+<p>[Open notes space]</p>
+<hr>
+<h3 id="post-session-within-24-hours">POST-SESSION (within 24 hours)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Type up and distribute session summary to all attendees</li>
+<li><span class="cb cb-empty">&#9744;</span> Add action items to project management tool</li>
+<li><span class="cb cb-empty">&#9744;</span> Calendar invites for any follow-up meetings</li>
+<li><span class="cb cb-empty">&#9744;</span> File session notes: [MASTER WORKSPACE/00-Ben HQ/Strategy/]</li>
+</ul>
+<hr>
+<hr>
+<h2 id="type-5-quarterly-business-review">TYPE 5: QUARTERLY BUSINESS REVIEW</h2>
+<p><strong>Meeting:</strong> Quarterly Business Review — [Q1/Q2/Q3/Q4] [YEAR]</p>
+<p><strong>Date:</strong> [DD Month YYYY]</p>
+<p><strong>Time:</strong> [HH:MM AM/PM] AEST</p>
+<p><strong>Duration:</strong> 2.5–3 hours</p>
+<p><strong>Format:</strong> In-Person (strongly preferred)</p>
+<p><strong>Location:</strong> [Address]</p>
+<p><strong>Attendees:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Name</th><th>Role</th></tr></thead><tbody><tr><td>Ben Alek Conner</td><td>Founder / CEO</td></tr><tr><td>[Name]</td><td>[Role]</td></tr><tr><td>[Name]</td><td>[Role]</td></tr></tbody></table></div>
+<p><strong>Pre-meeting materials to prepare (sent 48 hours prior):</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> P&amp;L summaries for all businesses (prior quarter)</li>
+<li><span class="cb cb-empty">&#9744;</span> KPI dashboard (current vs target)</li>
+<li><span class="cb cb-empty">&#9744;</span> Content calendar review</li>
+<li><span class="cb cb-empty">&#9744;</span> Pipeline report (all businesses)</li>
+<li><span class="cb cb-empty">&#9744;</span> Prior quarter action items — status update</li>
+</ul>
+<hr>
+<h3 id="agenda">AGENDA</h3>
+<div class="table-wrap"><table><thead><tr><th>Time</th><th>Item</th><th>Led By</th></tr></thead><tbody><tr><td>0:00–0:10</td><td>Welcome, housekeeping, session objective</td><td>Ben</td></tr><tr><td>0:10–0:40</td><td>Financial review — revenue, costs, profit per business</td><td>Ben</td></tr><tr><td>0:40–1:10</td><td>Business-by-business performance review</td><td>All</td></tr><tr><td>1:10–1:20</td><td>Break</td><td>—</td></tr><tr><td>1:20–1:50</td><td>People, team, and operational review</td><td>Ben</td></tr><tr><td>1:50–2:20</td><td>Strategy for next quarter — priorities, goals, initiatives</td><td>All</td></tr><tr><td>2:20–2:40</td><td>Risks, opportunities, open issues</td><td>All</td></tr><tr><td>2:40–2:55</td><td>Action plan and accountabilities</td><td>Ben</td></tr><tr><td>2:55–3:00</td><td>Close + next QBR date set</td><td>Ben</td></tr></tbody></table></div>
+<hr>
+<h3 id="section-1-financial-review">SECTION 1: FINANCIAL REVIEW</h3>
+<div class="table-wrap"><table><thead><tr><th>Business</th><th>Q Target</th><th>Q Actual</th><th>Variance</th><th>Variance %</th></tr></thead><tbody><tr><td>Nunya Bunya</td><td>$105,000</td><td></td><td></td><td></td></tr><tr><td>Merkel &amp; Conner</td><td>$90,000</td><td></td><td></td><td></td></tr><tr><td>Conner Injury Law</td><td>$60,000</td><td></td><td></td><td></td></tr><tr><td>MBCS</td><td>$45,000</td><td></td><td></td><td></td></tr><tr><td>KevLaw AI</td><td>$15,000</td><td></td><td></td><td></td></tr><tr><td>Power Portraits</td><td>$37,500</td><td></td><td></td><td></td></tr><tr><td>CONTENT STUDIO</td><td>$30,000</td><td></td><td></td><td></td></tr><tr><td>ORCA Film Awards</td><td>[Seasonal]</td><td></td><td></td><td></td></tr><tr><td>Ben Alek Brand</td><td>$15,000</td><td></td><td></td><td></td></tr><tr><td><strong>TOTAL</strong></td><td><strong>$397,500+</strong></td><td></td><td></td><td></td></tr></tbody></table></div>
+<p><strong>Key financial observations:</strong></p>
+<p><strong>Cash position:</strong></p>
+<hr>
+<h3 id="section-2-business-by-business-performance">SECTION 2: BUSINESS-BY-BUSINESS PERFORMANCE</h3>
+<p><em>For each business, capture:</em></p>
+<p><strong>[Business Name]</strong></p>
+<ul>
+<li>Top wins this quarter:</li>
+<li>Key challenges:</li>
+<li>KPIs vs. target:</li>
+<li>What needs to change next quarter:</li>
+</ul>
+<p><em>(Repeat for each business)</em></p>
+<hr>
+<h3 id="section-3-people-amp-operations-review">SECTION 3: PEOPLE &amp; OPERATIONS REVIEW</h3>
+<p><strong>Team performance highlights:</strong></p>
+<p><strong>Hiring needs for next quarter:</strong></p>
+<p><strong>Systems / processes that need improvement:</strong></p>
+<p><strong>Tools / tech: what&#x27;s working, what should change:</strong></p>
+<hr>
+<h3 id="section-4-next-quarter-priorities">SECTION 4: NEXT QUARTER PRIORITIES</h3>
+<div class="table-wrap"><table><thead><tr><th>Business</th><th>Top Priority</th><th>Target</th><th>Owner</th></tr></thead><tbody><tr><td>Nunya Bunya</td><td></td><td></td><td></td></tr><tr><td>Conner Law Group</td><td></td><td></td><td></td></tr><tr><td>KevLaw AI</td><td></td><td></td><td></td></tr><tr><td>Power Portraits</td><td></td><td></td><td></td></tr><tr><td>CONTENT STUDIO</td><td></td><td></td><td></td></tr><tr><td>Personal Brand</td><td></td><td></td><td></td></tr></tbody></table></div>
+<p><strong>Cross-portfolio initiatives:</strong></p>
+<p>1.</p>
+<p>2.</p>
+<hr>
+<h3 id="section-5-risks-amp-opportunities">SECTION 5: RISKS &amp; OPPORTUNITIES</h3>
+<p><strong>Key risks to address:</strong></p>
+<p>1.</p>
+<p>2.</p>
+<p><strong>Key opportunities to pursue:</strong></p>
+<p>1.</p>
+<p>2.</p>
+<hr>
+<h3 id="section-6-action-plan">SECTION 6: ACTION PLAN</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Action</th><th>Owner</th><th>Due Date</th><th>Priority</th></tr></thead><tbody><tr><td>1</td><td></td><td></td><td></td><td></td></tr><tr><td>2</td><td></td><td></td><td></td><td></td></tr><tr><td>3</td><td></td><td></td><td></td><td></td></tr><tr><td>4</td><td></td><td></td><td></td><td></td></tr><tr><td>5</td><td></td><td></td><td></td><td></td></tr><tr><td>6</td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<hr>
+<p><strong>Next QBR:</strong> [Date — approximately 13 weeks from today]</p>
+<hr>
+<h3 id="post-qbr-within-48-hours">POST-QBR (within 48 hours)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Distribute QBR summary to all attendees</li>
+<li><span class="cb cb-empty">&#9744;</span> Update MASTER BUDGET TRACKER with Q actuals</li>
+<li><span class="cb cb-empty">&#9744;</span> Update 90-day content calendars for all businesses</li>
+<li><span class="cb cb-empty">&#9744;</span> Add all action items to project management tool</li>
+<li><span class="cb cb-empty">&#9744;</span> File QBR notes: [MASTER WORKSPACE/00-Ben HQ/Quarterly Reviews/YYYY-QX-Review.md]</li>
+<li><span class="cb cb-empty">&#9744;</span> Calendar invite for next QBR sent</li>
+</ul>
+<hr>
+<p><em>Template maintained by Ben Alek Conner. For updates or variations, refer to MASTER SOPs.</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">00-Ben HQ/Templates/MEETING AGENDA TEMPLATE.md</div>
+    </main>
+  </div>
+</body>
+</html>

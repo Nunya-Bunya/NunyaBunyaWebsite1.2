@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORCA Film Awards - 30-Day Content Calendar | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link active"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#orca">ORCA Film Awards</a> &rsaquo;
+          ORCA Film Awards - 30-Day Content Calendar
+        </div>
+        <h1 class="doc-title">ORCA Film Awards - 30-Day Content Calendar</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#127916; ORCA Film Awards</span>
+          <span class="doc-path">04-ORCA Film Awards / 05-content</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="orca-film-awards-30-day-content-calendar">ORCA Film Awards - 30-Day Content Calendar</h1>
+<h2 id="may-9-june-7-2026">May 9 - June 7, 2026</h2>
+<h2 id="platforms-twitter-primary-instagram-secondary-letterboxd-community">Platforms: Twitter (primary), Instagram (secondary), Letterboxd (community)</h2>
+<h2 id="focus-member-recruitment-establishing-orca-as-a-film-criticism-voice">Focus: Member Recruitment + Establishing ORCA as a Film Criticism Voice</h2>
+<h2 id="mix-70-film-content-20-recruitment-10-orca-news">Mix: 70% film content, 20% recruitment, 10% ORCA news</h2>
+<h2 id="cadence-4xweek">Cadence: 4x/week</h2>
+<hr>
+<p><strong>DAY 1 - May 9 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - The Films the Oscars Forgot</p>
+<p><strong>COPY:</strong> THE SEED OF THE SACRED FIG was Iran&#x27;s Oscar submission and one of the most courageous films of the decade. Mohammad Rasoulof literally fled his country after making it. The Academy nominated it, then moved on. We didn&#x27;t. This is the kind of film ORCA exists for. #ORCAFilmAwards #FilmTwitter #OscarsOverlooked</p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Film Content - The Films the Oscars Forgot</p>
+<p><strong>COPY:</strong> THE SEED OF THE SACRED FIG. Iran&#x27;s Oscar submission. Director Mohammad Rasoulof smuggled himself out of the country after making this film. The Academy nominated it for Best International Feature and Best Picture, then let it disappear from the conversation. A judge questioning protestors. His daughters radicalizing. His wife caught between loyalty and truth. This is cinema that costs everything to make and deserves more than a nomination. It deserves to be remembered. #ORCAFilmAwards #TheSeedOfTheSacredFig #IranianCinema #OscarsOverlooked #IndieFilm #FilmCriticism</p>
+<p><strong>VISUAL:</strong> Still from the film - family dinner scene with tension visible</p>
+<p><strong>PLATFORM:</strong> Letterboxd</p>
+<p><strong>TYPE:</strong> List Update</p>
+<p><strong>COPY:</strong> Added THE SEED OF THE SACRED FIG to our &quot;Films the Oscars Forgot&quot; list. Follow the list for weekly additions throughout May.</p>
+<hr>
+<p><strong>DAY 2 - May 11 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - The Films the Oscars Forgot</p>
+<p><strong>COPY:</strong> ALL WE IMAGINE AS LIGHT won the Grand Prix at Cannes. First Indian film in competition in 30 years. Oscar night? Nowhere to be found. Payal Kapadia made a masterpiece about two nurses in Mumbai and the Academy couldn&#x27;t be bothered. #ORCAFilmAwards #FilmTwitter #OscarsOverlooked</p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Film Content - The Films the Oscars Forgot</p>
+<p><strong>COPY:</strong> ALL WE IMAGINE AS LIGHT. Payal Kapadia&#x27;s Cannes Grand Prix winner. The first Indian film in competition at Cannes in three decades. Two nurses in Mumbai navigating loneliness, desire, and the crushing weight of a city that never sleeps. Shot like a dream sequence that refuses to end. Kapadia directs with the patience of someone who trusts her audience completely. The Academy didn&#x27;t even nominate it. Cannes gave it the second-highest prize. That gap between festival recognition and Oscar attention is exactly why ORCA exists. #ORCAFilmAwards #AllWeImagineAsLight #IndianCinema #Cannes #PayalKapadia #IndieFilm</p>
+<p><strong>VISUAL:</strong> Luminous night shot of Mumbai from the film</p>
+<p><strong>PLATFORM:</strong> Letterboxd</p>
+<p><strong>TYPE:</strong> List Update</p>
+<p><strong>COPY:</strong> ALL WE IMAGINE AS LIGHT added to &quot;Films the Oscars Forgot.&quot; Cannes Grand Prix. Zero Oscar nominations. The math isn&#x27;t mathing.</p>
+<hr>
+<p><strong>DAY 3 - May 13 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - The Films the Oscars Forgot</p>
+<p><strong>COPY:</strong> CAUGHT BY THE TIDES by Jia Zhangke spans 20 years of Chinese transformation through one woman searching for a man who left. Shot partly with footage from decades ago. Cannes competition. Oscar attention? Zero. This is generational filmmaking. #ORCAFilmAwards #OscarsOverlooked</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> Which Cannes 2024 film got the worst Oscar snub? Wrong answers don&#x27;t exist because they were ALL snubbed. #ORCAFilmAwards #FilmTwitter</p>
+<hr>
+<p><strong>DAY 4 - May 14 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Recruitment - Join the Voting Body</p>
+<p><strong>COPY:</strong> ORCA is recruiting voting members. No credentials required. No fees. Just a genuine love of cinema beyond the multiplex. If you&#x27;ve ever argued that an underseen film deserved more attention, you&#x27;re already qualified. DM us or visit orcafilmawards.com #ORCAFilmAwards #FilmCritics #JoinORCA</p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Recruitment - Join the Voting Body</p>
+<p><strong>COPY:</strong> BECOME AN ORCA VOTING MEMBER. Here&#x27;s what that means: you watch films most people skip. You write about why they matter. You vote on the films that deserve recognition when the industry looks the other way. No membership fees. No gatekeeping. No credentials required. Just a real commitment to cinema that exists outside the mainstream. We&#x27;re building a voting body of passionate film lovers who believe the best movies of any year are rarely the ones with the biggest budgets. If that sounds like you, we want to hear from you. Link in bio. #ORCAFilmAwards #JoinORCA #FilmCriticism #VotingBody #IndieFilm #FilmCommunity</p>
+<p><strong>VISUAL:</strong> Clean graphic with ORCA logo and &quot;Become a Voting Member&quot; text, dark cinema aesthetic</p>
+<hr>
+<p><strong>DAY 5 - May 16 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - The Films the Oscars Forgot</p>
+<p><strong>COPY:</strong> GRAND TOUR by Miguel Gomes won Best Director at Cannes. A Portuguese filmmaker made a film about colonialism using 16mm, archive footage, and pure audacity. Oscar voters didn&#x27;t even know it existed. Their loss. #ORCAFilmAwards #OscarsOverlooked #Cannes</p>
+<p><strong>PLATFORM:</strong> Letterboxd</p>
+<p><strong>TYPE:</strong> Review</p>
+<p><strong>COPY:</strong> GRAND TOUR is the kind of film that reminds you cinema is an art form with infinite possibilities. Miguel Gomes doesn&#x27;t just tell a story about a man fleeing his fiancee across Asia in 1918 - he rebuilds the entire language of historical filmmaking. 16mm, archival footage, present-day landscapes standing in for a century ago. Cannes gave him Best Director. The Oscars gave him nothing. Added to our Films the Oscars Forgot list.</p>
+<hr>
+<p><strong>DAY 6 - May 18 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Recruitment - Join the Voting Body</p>
+<p><strong>COPY:</strong> What does an ORCA voting member actually do? 1) Watch films from our curated selects list. 2) Write short reviews or longer essays. 3) Vote on annual nominations and winners. That&#x27;s it. No politics. No industry schmoozing. Just cinema. orcafilmawards.com #ORCAFilmAwards #JoinORCA</p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Recruitment - Join the Voting Body</p>
+<p><strong>COPY:</strong> WHAT ORCA VOTING MEMBERS ACTUALLY DO: Watch films from our curated selects list throughout the year. Write reviews, essays, or criticism about the films that move you. Vote on annual nominations and winners alongside fellow members. Engage with a community of people who care about cinema beyond box office numbers. That&#x27;s the whole deal. No annual fees. No industry connections needed. No minimum follower count. We care about one thing: do you love film and can you articulate why? The 2027 awards cycle is coming. Get in now and help shape what ORCA becomes. Link in bio. #ORCAFilmAwards #JoinORCA #FilmCriticism #VotingBody #MemberRecruitment #CinemaLovers</p>
+<p><strong>VISUAL:</strong> Infographic-style breakdown of member responsibilities, ORCA branding</p>
+<hr>
+<p><strong>DAY 7 - May 20 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - The Films the Oscars Forgot</p>
+<p><strong>COPY:</strong> BIRD by Andrea Arnold. Barry Keoghan in a council estate coming-of-age that feels like it was shot inside a living, breathing body. Cannes competition. One of the rawest films of the year. Oscar conversation? Silence. Arnold deserves better. #ORCAFilmAwards #OscarsOverlooked</p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Film Content - The Films the Oscars Forgot</p>
+<p><strong>COPY:</strong> BIRD. Andrea Arnold returns to the world she knows better than any filmmaker alive - working-class Britain, feral childhood, the poetry hiding inside poverty. Barry Keoghan gives his most vulnerable performance as a father barely holding it together. His daughter roams the estate finding magic in the mundane. Arnold shoots handheld, intimate, almost uncomfortably close. Cannes selected it for competition. The Oscars pretended it didn&#x27;t exist. Andrea Arnold has been making some of the most important British films for two decades and the Academy still hasn&#x27;t figured that out. #ORCAFilmAwards #Bird #AndreaArnold #BarryKeoghan #BritishCinema #Cannes #OscarsOverlooked</p>
+<p><strong>VISUAL:</strong> Gritty, beautiful still from the film - natural light, handheld energy</p>
+<p><strong>PLATFORM:</strong> Letterboxd</p>
+<p><strong>TYPE:</strong> List Update</p>
+<p><strong>COPY:</strong> BIRD by Andrea Arnold added to &quot;Films the Oscars Forgot.&quot; Barry Keoghan&#x27;s most human performance in a film that breathes like a living thing.</p>
+<hr>
+<p><strong>DAY 8 - May 21 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Recruitment - Join the Voting Body</p>
+<p><strong>COPY:</strong> Film Twitter is great for hot takes. ORCA is where hot takes become actual votes that recognize actual filmmakers. Turn your opinions into something that matters. Free membership, real impact. orcafilmawards.com #ORCAFilmAwards #JoinORCA</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> Honest question for Film Twitter: if YOU could give one 2025 film an award it didn&#x27;t get, what would it be? Film + award in replies. #ORCAFilmAwards #FilmTwitter</p>
+<hr>
+<p><strong>DAY 9 - May 23 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - Film Criticism Matters</p>
+<p><strong>COPY:</strong> Film criticism isn&#x27;t dying. It&#x27;s being drowned out by algorithm-optimized content that treats every movie like a product review. ORCA exists because films deserve better than a thumbs up or thumbs down. #ORCAFilmAwards #FilmCriticism</p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Film Content - Film Criticism Matters</p>
+<p><strong>COPY:</strong> FILM CRITICISM ISN&#x27;T DEAD. IT&#x27;S BEING BURIED ALIVE. Every year, fewer newspapers employ full-time film critics. Review aggregator scores replace actual analysis. Studios want quotes for posters, not honest engagement with their work. Meanwhile, the films that need criticism most - the small ones, the foreign ones, the ones without marketing budgets - disappear without a single serious essay written about them. Independent film criticism isn&#x27;t a luxury. It&#x27;s the only thing standing between great cinema and total obscurity. That&#x27;s why we write. That&#x27;s why ORCA exists. #ORCAFilmAwards #FilmCriticism #IndependentCriticism #CinemaMatters #IndieFilm #FilmWriting</p>
+<p><strong>VISUAL:</strong> Typography-focused post with the quote &quot;Great films don&#x27;t need marketing. They need critics.&quot; on dark background</p>
+<hr>
+<p><strong>DAY 10 - May 25 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - Film Criticism Matters</p>
+<p><strong>COPY:</strong> Pauline Kael didn&#x27;t write reviews. She wrote arguments. Roger Ebert didn&#x27;t rate films. He championed them. Film criticism at its best is advocacy for art. That&#x27;s the tradition ORCA is building on. #ORCAFilmAwards #FilmCriticism</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - Film Criticism Matters</p>
+<p><strong>COPY:</strong> When a critic writes 2,000 words about a film nobody&#x27;s heard of, that&#x27;s not pretension. That&#x27;s preservation. Someone has to document the films the industry forgets. #ORCAFilmAwards #FilmCriticism</p>
+<hr>
+<p><strong>DAY 11 - May 27 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - Film Criticism Matters</p>
+<p><strong>COPY:</strong> The problem with Rotten Tomatoes isn&#x27;t the scores. It&#x27;s that people think a percentage can replace a perspective. Film criticism is supposed to make you think, not tell you what to watch. #ORCAFilmAwards #FilmCriticism #FilmTwitter</p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Film Content - Film Criticism Matters</p>
+<p><strong>COPY:</strong> A SCORE IS NOT A REVIEW. 87% on Rotten Tomatoes tells you nothing about why a film matters. It doesn&#x27;t tell you how the cinematography makes you feel claustrophobic on purpose. It doesn&#x27;t explain why the director chose silence over a score in the final scene. It doesn&#x27;t argue that this performance redefines what we expect from an actor. Numbers flatten art into consumer recommendations. Film criticism expands art into conversation. ORCA members don&#x27;t rate films. They write about them. They argue for them. They make the case that a film you&#x27;ve never heard of might change the way you see the world. That&#x27;s the difference. #ORCAFilmAwards #FilmCriticism #RottenTomatoes #CinemaIsArt #IndieFilm #FilmWriting</p>
+<p><strong>VISUAL:</strong> Split graphic - left side shows a generic &quot;87% Fresh&quot; score, right side shows a paragraph of real criticism</p>
+<p><strong>PLATFORM:</strong> Letterboxd</p>
+<p><strong>TYPE:</strong> Essay</p>
+<p><strong>COPY:</strong> New essay on orcafilmawards.com: &quot;Why We Write About Films Nobody Watches.&quot; Link in bio. The case for criticism as an act of preservation, not pretension.</p>
+<hr>
+<p><strong>DAY 12 - May 28 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Recruitment</p>
+<p><strong>COPY:</strong> Every ORCA article published gets a real byline on a real website. Your name, your words, your criticism reaching an audience that actually cares about cinema. No ghost-writing. No content farms. Just film writing that matters. orcafilmawards.com #ORCAFilmAwards #FilmWriters #JoinORCA</p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Recruitment</p>
+<p><strong>COPY:</strong> WRITE FOR ORCA. Your name. Your byline. Your criticism. Every article published on orcafilmawards.com carries the writer&#x27;s real name and bio. This isn&#x27;t content creation. It&#x27;s film criticism with your name on it, reaching an audience of people who genuinely care about cinema. We&#x27;re looking for writers who want to build a body of work, not churn out takes for engagement. Whether you&#x27;ve published before or this would be your first byline, what matters is your perspective and your commitment to writing about films that deserve attention. The 2027 cycle is approaching. Our coverage is expanding. We need voices. Link in bio to apply. #ORCAFilmAwards #FilmWriters #JoinORCA #FilmCriticism #WritingOpportunity #Byline</p>
+<p><strong>VISUAL:</strong> Screenshot of an ORCA article with the byline highlighted, clean editorial design</p>
+<hr>
+<p><strong>DAY 13 - May 30 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> ORCA News - What&#x27;s Coming</p>
+<p><strong>COPY:</strong> Cannes 2026 kicks off next week. We&#x27;ll be watching from afar and writing about every film that matters. The 2027 ORCA selects list starts here. #ORCAFilmAwards #Cannes2026 #FilmFestival</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content</p>
+<p><strong>COPY:</strong> Cannes 2026 predictions: which Competition title are you most anticipating? Early reports suggest some absolute heavyweights in the lineup. #ORCAFilmAwards #Cannes2026 #FilmTwitter</p>
+<hr>
+<p><strong>DAY 14 - June 1 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> ORCA News - What&#x27;s Coming</p>
+<p><strong>COPY:</strong> The 2027 ORCA awards cycle officially begins with Cannes 2026. From now through December, we&#x27;re tracking every underseen, underloved, and underappreciated film. The selects list grows. The voting body grows. The mission stays the same. #ORCAFilmAwards #2027Cycle</p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> ORCA News - What&#x27;s Coming</p>
+<p><strong>COPY:</strong> THE 2027 ORCA AWARDS CYCLE BEGINS. Starting today, we&#x27;re tracking every film that deserves recognition but won&#x27;t get it from the traditional awards bodies. Cannes 2026 is our first major scouting ground. Venice. Toronto. Locarno. Sundance. And the films that skip festivals entirely and land quietly on streaming with zero fanfare. By December, our selects list will be comprehensive. By February, our voting body will have their say. The 2026 winners have been announced. The 2027 hunt starts now. Follow the journey. Better yet, join us and help decide. Link in bio. #ORCAFilmAwards #2027Cycle #Cannes2026 #AwardsSeason #IndieFilm #FilmAwards #VotingBody</p>
+<p><strong>VISUAL:</strong> Clean announcement graphic - &quot;2027 ORCA Cycle Begins&quot; with festival logos (Cannes, Venice, Toronto, Sundance) in a timeline</p>
+<p><strong>PLATFORM:</strong> Letterboxd</p>
+<p><strong>TYPE:</strong> List</p>
+<p><strong>COPY:</strong> New list created: &quot;ORCA 2027 Selects - Tracking.&quot; Films added throughout the year as we identify contenders. Follow for real-time updates.</p>
+<hr>
+<p><strong>DAY 15 - June 2 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - What&#x27;s Coming</p>
+<p><strong>COPY:</strong> Films to watch for the 2027 ORCA cycle: whatever Cannes unveils this month, the new Mati Diop, anything from Southeast Asian cinema that doesn&#x27;t get US distribution. The margins are where the masterpieces live. #ORCAFilmAwards #2027Cycle #FilmTwitter</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> What 2026 release are you already convinced is being overlooked? Drop titles - we&#x27;re building the early 2027 selects watchlist. #ORCAFilmAwards #FilmTwitter</p>
+<hr>
+<p><strong>DAY 16 - June 4 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - Cannes Coverage</p>
+<p><strong>COPY:</strong> Cannes 2026 Day 1 reactions rolling in. Tracking everything for the ORCA 2027 selects list. First impressions thread coming tonight. #ORCAFilmAwards #Cannes2026</p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Film Content - Cannes Coverage</p>
+<p><strong>COPY:</strong> CANNES 2026 HAS BEGUN. The world&#x27;s most important film festival is underway and ORCA is tracking every title for the 2027 awards cycle. Over the next 12 days, we&#x27;ll be covering the Competition, Un Certain Regard, Directors&#x27; Fortnight, and Critics&#x27; Week selections. The films that premiere at Cannes in May often become the most important films of the year by December. But many of them never reach wide audiences. They play a festival, get five-star reviews, then vanish into limited release obscurity. That&#x27;s where ORCA comes in. We don&#x27;t let them vanish. Follow along for daily coverage. #ORCAFilmAwards #Cannes2026 #CannesFilmFestival #FilmFestival #IndieFilm #2027Cycle</p>
+<p><strong>VISUAL:</strong> Cannes Palais des Festivals image with ORCA branding overlay</p>
+<hr>
+<p><strong>DAY 17 - June 5 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Recruitment</p>
+<p><strong>COPY:</strong> Cannes is happening and you&#x27;re watching from home wishing you could write about these films? You can. ORCA members write about festival films from wherever they are. No press pass required. Just passion and a keyboard. orcafilmawards.com #ORCAFilmAwards #Cannes2026 #JoinORCA</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - Cannes Coverage</p>
+<p><strong>COPY:</strong> Cannes Day 2: keeping our eyes on the Competition titles getting mixed early reviews. Those are often the ones that age best. The crowd-pleasers get the standing ovations, the challenging films get the retrospective essays five years later. #ORCAFilmAwards #Cannes2026</p>
+<hr>
+<p><strong>DAY 18 - June 6 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Film Content - Cannes Coverage</p>
+<p><strong>COPY:</strong> Cannes midpoint check-in: which Competition title is the early Palme d&#x27;Or frontrunner? The real question: which Un Certain Regard or Directors&#x27; Fortnight film is the actual best of the festival? The sidebar sections are always where the discoveries live. #ORCAFilmAwards #Cannes2026</p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Film Content - Cannes Coverage</p>
+<p><strong>COPY:</strong> CANNES 2026 MIDPOINT. The Competition gets all the attention. The Palme d&#x27;Or frontrunner dominates every headline. But the real discoveries at Cannes have always lived in the sidebars. Un Certain Regard. Directors&#x27; Fortnight. Critics&#x27; Week. These sections premiere the debut films from countries with no film industry infrastructure. The second features from directors who will define the next decade. The experimental work that Competition is too conservative to select. ORCA tracks all of it. Not just the marquee titles. Every section. Every film that shows us something new. Midpoint standouts coming to our site this week. #ORCAFilmAwards #Cannes2026 #UnCertainRegard #DirectorsFortnight #CriticsWeek #FilmFestival #IndieFilm</p>
+<p><strong>VISUAL:</strong> Grid of sidebar section logos with &quot;Where the real discoveries happen&quot; text</p>
+<p><strong>PLATFORM:</strong> Letterboxd</p>
+<p><strong>TYPE:</strong> List Update</p>
+<p><strong>COPY:</strong> Cannes 2026 midpoint: first additions to the ORCA 2027 Selects tracking list. Check back daily as the festival continues.</p>
+<hr>
+<p><strong>DAY 19 - June 7 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> ORCA News</p>
+<p><strong>COPY:</strong> Month one of the 2027 cycle complete. Selects list growing. Voting body growing. Cannes delivering as always. The mission continues: champion the films the industry overlooks. See you in June. #ORCAFilmAwards #2027Cycle</p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Recruitment</p>
+<p><strong>COPY:</strong> Final May reminder: ORCA membership is free, the commitment is real, and the 2027 cycle just started. If you love film and want your voice to count, now is the time. orcafilmawards.com #ORCAFilmAwards #JoinORCA</p>
+<hr>
+<h2 id="content-summary">Content Summary</h2>
+<h3 id="week-1-quotthe-films-the-oscars-forgotquot-may-9-15">Week 1: &quot;The Films the Oscars Forgot&quot; (May 9-15)</h3>
+<ul>
+<li>THE SEED OF THE SACRED FIG (Day 1)</li>
+<li>ALL WE IMAGINE AS LIGHT (Day 2)</li>
+<li>CAUGHT BY THE TIDES (Day 3)</li>
+<li>First recruitment push (Day 4)</li>
+</ul>
+<h3 id="week-2-quotjoin-the-voting-bodyquot-may-16-22">Week 2: &quot;Join the Voting Body&quot; (May 16-22)</h3>
+<ul>
+<li>GRAND TOUR (Day 5)</li>
+<li>Member recruitment - what members do (Day 6)</li>
+<li>BIRD by Andrea Arnold (Day 7)</li>
+<li>Recruitment + engagement (Day 8)</li>
+</ul>
+<h3 id="week-3-quotfilm-criticism-mattersquot-may-23-29">Week 3: &quot;Film Criticism Matters&quot; (May 23-29)</h3>
+<ul>
+<li>Why criticism matters (Day 9)</li>
+<li>Kael/Ebert tradition (Day 10)</li>
+<li>Rotten Tomatoes vs real criticism (Day 11)</li>
+<li>Write for ORCA recruitment (Day 12)</li>
+</ul>
+<h3 id="week-4-quotwhatx27s-comingquot-may-30-june-7">Week 4: &quot;What&#x27;s Coming&quot; (May 30-June 7)</h3>
+<ul>
+<li>Cannes 2026 preview (Day 13)</li>
+<li>2027 cycle announcement (Day 14)</li>
+<li>Films to watch (Day 15)</li>
+<li>Cannes live coverage begins (Day 16-18)</li>
+<li>Month wrap-up (Day 19)</li>
+</ul>
+<h3 id="platform-breakdown">Platform Breakdown</h3>
+<ul>
+<li><strong>Twitter:</strong> 26 posts (primary voice, hot takes, threads, engagement)</li>
+<li><strong>Instagram:</strong> 10 posts (longer-form, visual, recruitment graphics)</li>
+<li><strong>Letterboxd:</strong> 6 posts (lists, reviews, community engagement)</li>
+</ul>
+<h3 id="content-mix">Content Mix</h3>
+<ul>
+<li>Film content: ~70% (Oscar snubs, Cannes coverage, film essays)</li>
+<li>Recruitment: ~20% (voting body, writer recruitment, membership CTAs)</li>
+<li>ORCA news: ~10% (2027 cycle launch, behind the scenes)</li>
+</ul>
+<h3 id="cadence">Cadence</h3>
+<ul>
+<li>4 posts per week across platforms (19 posting days in 30-day window)</li>
+<li>Heavier posting during Cannes week</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">04-ORCA Film Awards/05-content/orca-30-day-content-may-2026.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing Guide - Bella Rhyder | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link active"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#bella-rhyder">Bella Rhyder</a> &rsaquo;
+          Pricing Guide - Bella Rhyder
+        </div>
+        <h1 class="doc-title">Pricing Guide - Bella Rhyder</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#10024; Bella Rhyder</span>
+          <span class="doc-path">07-Bella Rhyder / 01-strategy / FOUNDATIONAL</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="pricing-guide-bella-rhyder">Pricing Guide - Bella Rhyder</h1>
+<h2 id="e-commerce-clothing-brand">E-Commerce Clothing Brand</h2>
+<p><em>Last Updated: March 2026 | Next Review: June 2026</em></p>
+<hr>
+<h2 id="our-pricing-philosophy">💰 OUR PRICING PHILOSOPHY</h2>
+<p>Bella Rhyder believes in <strong>transparent, value-based pricing</strong> that reflects our commitment to quality, sustainability, and authentic Queensland lifestyle. We position ourselves as a premium brand that offers exceptional value through durable, versatile products that last beyond a single season.</p>
+<p><strong>Our Promise:</strong> No hidden fees, no surprise charges, no nickel-and-diming. What you see is what you pay.</p>
+<hr>
+<h2 id="product-categories-amp-pricing">📦 PRODUCT CATEGORIES &amp; PRICING</h2>
+<h3 id="1-activewear-collection">1. Activewear Collection</h3>
+<p><strong>Positioning:</strong> Premium performance activewear for the active Queensland woman</p>
+<p><strong>Target Price Range:</strong> $49 - $199 AUD</p>
+<p><strong>Key Value Props:</strong> Four-way stretch, moisture-wicking, squat-proof, versatile styling</p>
+<div class="table-wrap"><table><thead><tr><th>Product</th><th>Base Price</th><th>Premium Price</th><th>Description</th></tr></thead><tbody><tr><td><strong>High-Waist Leggings</strong></td><td>$89</td><td>$129</td><td>Full length, 7/8, biker styles</td></tr><tr><td><strong>Sports Bra</strong></td><td>$65</td><td>$90</td><td>High-support, various cup sizes</td></tr><tr><td><strong>Training Shorts/Skorts</strong></td><td>$55</td><td>$79</td><td>Performance fabric, secure fit</td></tr><tr><td><strong>Crop Tops</strong></td><td>$49</td><td>$79</td><td>Moisture-wicking, versatile styling</td></tr><tr><td><strong>Seamless Co-ord Sets</strong></td><td>$139</td><td>$199</td><td>Matching top and bottom sets</td></tr><tr><td><strong>Performance Tank</strong></td><td>$50</td><td>$70</td><td>Lightweight, breathable fabric</td></tr></tbody></table></div>
+<h3 id="2-swimwear-collection">2. Swimwear Collection</h3>
+<p><strong>Positioning:</strong> Resort-ready swimwear with Queensland coastal aesthetic</p>
+<p><strong>Target Price Range:</strong> $55 - $150 AUD</p>
+<p><strong>Key Value Props:</strong> UV-protective fabrics, quick-dry, flattering fits</p>
+<div class="table-wrap"><table><thead><tr><th>Product</th><th>Base Price</th><th>Premium Price</th><th>Description</th></tr></thead><tbody><tr><td><strong>One-Piece Swimsuit</strong></td><td>$110</td><td>$150</td><td>Classic and cut-out styles</td></tr><tr><td><strong>Bikini Top</strong></td><td>$65</td><td>$90</td><td>Triangle, underwire, bandeau</td></tr><tr><td><strong>Bikini Bottom</strong></td><td>$55</td><td>$75</td><td>High-waist, classic cuts</td></tr><tr><td><strong>Bikini Set</strong></td><td>$110</td><td>$145</td><td>Coordinated top and bottom</td></tr><tr><td><strong>Cover-up/Kaftan</strong></td><td>$69</td><td>$99</td><td>Lightweight, versatile styling</td></tr></tbody></table></div>
+<h3 id="3-bags-amp-accessories-collection">3. Bags &amp; Accessories Collection</h3>
+<p><strong>Positioning:</strong> Functional lifestyle bags for the active woman&#x27;s daily transitions</p>
+<p><strong>Target Price Range:</strong> $35 - $185 AUD</p>
+<p><strong>Key Value Props:</strong> Durable materials, versatile use, Queensland-inspired designs</p>
+<div class="table-wrap"><table><thead><tr><th>Product</th><th>Base Price</th><th>Premium Price</th><th>Description</th></tr></thead><tbody><tr><td><strong>Gym Duffel Bag</strong></td><td>$120</td><td>$160</td><td>Medium and large sizes</td></tr><tr><td><strong>Beach Tote</strong></td><td>$75</td><td>$110</td><td>Canvas with waterproof lining</td></tr><tr><td><strong>Backpack</strong></td><td>$140</td><td>$185</td><td>Everyday carry, laptop compatible</td></tr><tr><td><strong>Mini Crossbody</strong></td><td>$45</td><td>$65</td><td>Post-gym and casual use</td></tr><tr><td><strong>Yoga Mat Accessories</strong></td><td>$35</td><td>$55</td><td>Straps and carry bags</td></tr></tbody></table></div>
+<h3 id="4-hats-amp-headwear-collection">4. Hats &amp; Headwear Collection</h3>
+<p><strong>Positioning:</strong> Sun-protective headwear for Queensland&#x27;s outdoor lifestyle</p>
+<p><strong>Target Price Range:</strong> $35 - $65 AUD</p>
+<p><strong>Key Value Props:</strong> UPF protection, packable, style versatility</p>
+<div class="table-wrap"><table><thead><tr><th>Product</th><th>Base Price</th><th>Premium Price</th><th>Description</th></tr></thead><tbody><tr><td><strong>Baseball Cap</strong></td><td>$35</td><td>$45</td><td>Adjustable, moisture-wicking</td></tr><tr><td><strong>Bucket Hat</strong></td><td>$40</td><td>$55</td><td>Packable, wide brim</td></tr><tr><td><strong>Beanie</strong></td><td>$30</td><td>$45</td><td>Merino wool blend</td></tr><tr><td><strong>Sun Visor</strong></td><td>$25</td><td>$35</td><td>Foldable, lightweight</td></tr></tbody></table></div>
+<hr>
+<h2 id="pricing-strategy">🎯 PRICING STRATEGY</h2>
+<h3 id="value-based-positioning">Value-Based Positioning</h3>
+<ul>
+<li><strong>Premium Quality:</strong> Positioned above fast fashion ($30-70 AUD) but below luxury brands ($200+ AUD)</li>
+<li><strong>Target Price Range:</strong> $50-150 AUD for most products</li>
+<li><strong>Perceived Value:</strong> 2-3x the quality of budget competitors</li>
+<li><strong>Brand Equity:</strong> Australian-made quality with Queensland authenticity</li>
+</ul>
+<h3 id="pricing-framework">Pricing Framework</h3>
+<ul>
+<li><strong>Cost Plus Model:</strong> Base price = (COGS × 2.5) + 20% margin</li>
+<li><strong>Psychological Pricing:</strong> $89 instead of $90, $99 instead of $100</li>
+<li><strong>Tiered Pricing:</strong> Base, Premium, and Limited Edition variants</li>
+<li><strong>Bundle Pricing:</strong> 10-15% discount for co-ord sets and bundles</li>
+</ul>
+<hr>
+<h2 id="e-commerce-pricing-amp-fees">💳 E-COMMERCE PRICING &amp; FEES</h2>
+<h3 id="base-pricing-website">Base Pricing (Website)</h3>
+<ul>
+<li><strong>All prices include GST</strong></li>
+<li><strong>Free standard shipping</strong> on orders over $100 AUD</li>
+<li><strong>Standard shipping:</strong> $9.95 AUD (under $100)</li>
+<li><strong>Express shipping:</strong> $14.95 AUD</li>
+<li><strong>International shipping:</strong> Calculated at checkout</li>
+</ul>
+<h3 id="payment-methods">Payment Methods</h3>
+<ul>
+<li><strong>Credit/Debit Cards:</strong> Visa, Mastercard, American Express (2.9% + 30¢ fee)</li>
+<li><strong>PayPal:</strong> 2.9% + 30¢ fee</li>
+<li><strong>Afterpay:</strong> 4% fee (interest-free payments)</li>
+<li><strong>Apple Pay/Google Pay:</strong> Same as card fees</li>
+</ul>
+<h3 id="currency-amp-international">Currency &amp; International</h3>
+<ul>
+<li><strong>Primary Currency:</strong> Australian Dollars (AUD)</li>
+<li><strong>International Conversion:</strong> Automatic currency conversion at checkout</li>
+<li><strong>No currency surcharges</strong></li>
+</ul>
+<hr>
+<h2 id="promotional-pricing">🏷️ PROMOTIONAL PRICING</h2>
+<h3 id="seasonal-sales">Seasonal Sales</h3>
+<ul>
+<li><strong>End of Season:</strong> 30% off previous season items</li>
+<li><strong>Clearance:</strong> 50% off 2+ seasons old inventory</li>
+<li><strong>Flash Sales:</strong> 20-25% off selected items (24-48 hour periods)</li>
+</ul>
+<h3 id="customer-loyalty">Customer Loyalty</h3>
+<ul>
+<li><strong>Welcome Discount:</strong> 15% off first order (email signup)</li>
+<li><strong>Birthday Discount:</strong> 20% off birthday month</li>
+<li><strong>VIP Program:</strong> 10% off for repeat customers (3+ orders)</li>
+<li><strong>Referral Program:</strong> $20 credit for successful referrals</li>
+</ul>
+<h3 id="bulk-amp-wholesale">Bulk &amp; Wholesale</h3>
+<ul>
+<li><strong>Small Boutiques:</strong> 40% off retail (minimum order $500)</li>
+<li><strong>Department Stores:</strong> 50% off retail (minimum order $2,000)</li>
+<li><strong>International Distributors:</strong> 45% off retail (minimum order $1,000)</li>
+</ul>
+<hr>
+<h2 id="financial-projections">📊 FINANCIAL PROJECTIONS</h2>
+<h3 id="average-order-value-aov">Average Order Value (AOV)</h3>
+<ul>
+<li><strong>Current Target:</strong> $145 AUD</li>
+<li><strong>Year 1 Goal:</strong> $135 AUD</li>
+<li><strong>Year 3 Goal:</strong> $155 AUD</li>
+</ul>
+<h3 id="gross-margin-targets">Gross Margin Targets</h3>
+<ul>
+<li><strong>Overall Target:</strong> 60% gross margin</li>
+<li><strong>Activewear:</strong> 65% margin</li>
+<li><strong>Swimwear:</strong> 58% margin</li>
+<li><strong>Accessories:</strong> 70% margin</li>
+</ul>
+<h3 id="pricing-elasticity">Pricing Elasticity</h3>
+<ul>
+<li><strong>Price Sensitivity:</strong> Moderate (15% price increase = 8% volume decrease)</li>
+<li><strong>Brand Loyalty:</strong> High (premium customers less price-sensitive)</li>
+<li><strong>Competitive Response:</strong> Monitor competitor pricing weekly</li>
+</ul>
+<hr>
+<h2 id="contracts-amp-terms">🤝 CONTRACTS &amp; TERMS</h2>
+<h3 id="customer-terms">Customer Terms</h3>
+<ul>
+<li><strong>Returns:</strong> 30-day return window, free return shipping</li>
+<li><strong>Exchanges:</strong> Free exchanges within 60 days</li>
+<li><strong>Warranty:</strong> 12-month warranty on manufacturing defects</li>
+<li><strong>Size Guide:</strong> Detailed sizing information with model measurements</li>
+</ul>
+<h3 id="business-terms">Business Terms</h3>
+<ul>
+<li><strong>Payment Terms:</strong> Net 30 for approved wholesale accounts</li>
+<li><strong>Minimum Orders:</strong> $500 for boutique partnerships</li>
+<li><strong>Exclusivity:</strong> 6-month exclusive territories available</li>
+<li><strong>Marketing Support:</strong> Co-marketing allowances for partners</li>
+</ul>
+<hr>
+<h2 id="dynamic-pricing-strategy">📈 DYNAMIC PRICING STRATEGY</h2>
+<h3 id="seasonal-adjustments">Seasonal Adjustments</h3>
+<ul>
+<li><strong>Summer (Dec-Feb):</strong> 5-10% premium on swimwear</li>
+<li><strong>Winter (Jun-Aug):</strong> 5-10% premium on thermal activewear</li>
+<li><strong>Sales Seasons:</strong> Strategic discounting to manage inventory</li>
+</ul>
+<h3 id="inventory-based-pricing">Inventory-Based Pricing</h3>
+<ul>
+<li><strong>Overstock:</strong> Automatic 15% discount on excess inventory</li>
+<li><strong>Low Stock:</strong> 5% premium on limited edition items</li>
+<li><strong>New Arrivals:</strong> Standard pricing with introductory offers</li>
+</ul>
+<h3 id="market-based-adjustments">Market-Based Adjustments</h3>
+<ul>
+<li><strong>Competitor Monitoring:</strong> Weekly review of competitor pricing</li>
+<li><strong>Economic Indicators:</strong> Adjust for inflation and currency changes</li>
+<li><strong>Demand Signals:</strong> Surge pricing for high-demand items</li>
+</ul>
+<hr>
+<h2 id="special-offers-amp-packages">🎁 SPECIAL OFFERS &amp; PACKAGES</h2>
+<h3 id="launch-collection-june-2026">Launch Collection (June 2026)</h3>
+<ul>
+<li><strong>Early Bird:</strong> 20% off pre-launch orders</li>
+<li><strong>Founder&#x27;s Circle:</strong> 25% off first 100 customers</li>
+<li><strong>Bundle Deals:</strong> Buy 2, get 15% off second item</li>
+</ul>
+<h3 id="holiday-promotions">Holiday Promotions</h3>
+<ul>
+<li><strong>Christmas Sale:</strong> 25% off sitewide (December)</li>
+<li><strong>Boxing Day:</strong> Additional 10% off sale items</li>
+<li><strong>New Year Reset:</strong> Free shipping + 15% off activewear</li>
+</ul>
+<h3 id="loyalty-rewards">Loyalty Rewards</h3>
+<ul>
+<li><strong>Points System:</strong> 1 point per $1 spent</li>
+<li><strong>Redemption:</strong> 100 points = $10 credit</li>
+<li><strong>VIP Tiers:</strong> Bronze (500 pts), Silver (1,000 pts), Gold (2,000 pts)</li>
+</ul>
+<hr>
+<h2 id="pricing-performance-metrics">📊 PRICING PERFORMANCE METRICS</h2>
+<h3 id="key-kpis-to-monitor">Key KPIs to Monitor</h3>
+<ul>
+<li><strong>Conversion Rate:</strong> Target 3.2% (visitors to customers)</li>
+<li><strong>Average Order Value:</strong> Target $145 AUD</li>
+<li><strong>Customer Acquisition Cost:</strong> Target $45 AUD</li>
+<li><strong>Return Rate:</strong> Target &lt;25%</li>
+<li><strong>Gross Margin:</strong> Target 60%</li>
+</ul>
+<h3 id="monthly-reporting">Monthly Reporting</h3>
+<ul>
+<li><strong>Price Elasticity Analysis:</strong> Monthly review</li>
+<li><strong>Competitor Price Tracking:</strong> Weekly updates</li>
+<li><strong>Margin Analysis:</strong> By product category</li>
+<li><strong>Discount Impact Assessment:</strong> Quarterly review</li>
+</ul>
+<hr>
+<h2 id="future-pricing-evolution">🚀 FUTURE PRICING EVOLUTION</h2>
+<h3 id="year-2-2027-wholesale-expansion">Year 2 (2027): Wholesale Expansion</h3>
+<ul>
+<li><strong>Boutique Partnerships:</strong> Introduce wholesale pricing tiers</li>
+<li><strong>Volume Discounts:</strong> Quantity-based pricing for retailers</li>
+<li><strong>Co-Marketing Funds:</strong> Allocate budget for joint promotions</li>
+</ul>
+<h3 id="year-3-2028-retail-launch">Year 3 (2028): Retail Launch</h3>
+<ul>
+<li><strong>Store Pricing:</strong> Align with e-commerce pricing</li>
+<li><strong>Omnichannel Strategy:</strong> Consistent pricing across channels</li>
+<li><strong>Personal Shopping:</strong> Premium in-store experience pricing</li>
+</ul>
+<h3 id="long-term-2029-brand-premium">Long-term (2029+): Brand Premium</h3>
+<ul>
+<li><strong>Limited Editions:</strong> Premium pricing for exclusive drops</li>
+<li><strong>Personalization:</strong> Custom options with price premiums</li>
+<li><strong>Subscription Model:</strong> Monthly styling boxes ($89/month)</li>
+</ul>
+<hr>
+<h2 id="frequently-asked-pricing-questions">❓ FREQUENTLY ASKED PRICING QUESTIONS</h2>
+<p><strong>Q: Why are your prices higher than fast fashion brands?</strong></p>
+<p>A: We use premium, sustainable fabrics and ethical manufacturing. Our pieces are designed to last 2-3 years vs. 6 months for fast fashion.</p>
+<p><strong>Q: Do you offer student or senior discounts?</strong></p>
+<p>A: Yes! 10% off for students (valid ID required) and seniors 65+.</p>
+<p><strong>Q: What&#x27;s your price match policy?</strong></p>
+<p>A: We match prices from authorized Australian retailers. Contact customer service with proof of lower price.</p>
+<p><strong>Q: Can I negotiate prices for bulk orders?</strong></p>
+<p>A: Yes, for orders over $500. Contact wholesale@bellaryder.com for custom quotes.</p>
+<hr>
+<p><em>Pricing is reviewed quarterly and may be adjusted based on market conditions, material costs, and customer feedback. All prices in AUD and inclusive of GST.</em>&lt;/content&gt;</p>
+<p>&lt;parameter name=&quot;filePath&quot;&gt;/Users/benalekconner/Desktop/MASTER WORKSPACE/06-Bella Rhyder/PRICING GUIDE.md</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">07-Bella Rhyder/01-strategy/FOUNDATIONAL/PRICING GUIDE.md</div>
+    </main>
+  </div>
+</body>
+</html>

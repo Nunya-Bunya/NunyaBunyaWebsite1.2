@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bella Rhyder - Email Marketing Templates | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link active"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#bella-rhyder">Bella Rhyder</a> &rsaquo;
+          Bella Rhyder - Email Marketing Templates
+        </div>
+        <h1 class="doc-title">Bella Rhyder - Email Marketing Templates</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#10024; Bella Rhyder</span>
+          <span class="doc-path">07-Bella Rhyder</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="bella-rhyder-email-marketing-templates">Bella Rhyder - Email Marketing Templates</h1>
+<h2 id="welcome-email-series">Welcome Email Series</h2>
+<h3 id="email-1-welcome-to-bella-rhyder-day-1">Email 1: Welcome to Bella Rhyder (Day 1)</h3>
+<p><strong>Subject:</strong> Welcome to Bella Rhyder - Your Journey to Elegance Begins</p>
+<p>Dear [First Name],</p>
+<p>Welcome to Bella Rhyder, where luxury meets personalization.</p>
+<p>Thank you for joining our community of discerning individuals who understand that true elegance comes from within. We&#x27;re delighted to have you with us on this journey of self-discovery and refinement.</p>
+<p><strong>Your Exclusive Welcome Gift:</strong></p>
+<p>As a special thank you, enjoy complimentary shipping on your first order over $200. Use code: WELCOME2026</p>
+<p><strong>What&#x27;s Next:</strong></p>
+<ul>
+<li>Complete your style profile for personalized recommendations</li>
+<li>Explore our curated collection of luxury essentials</li>
+<li>Schedule a complimentary style consultation</li>
+</ul>
+<p><strong>Why Bella Rhyder?</strong></p>
+<ul>
+<li>Personalized luxury experiences tailored to you</li>
+<li>Expert stylists with decades of fashion expertise</li>
+<li>Sustainable, high-quality products from renowned artisans</li>
+<li>Discreet, white-glove service from consultation to delivery</li>
+</ul>
+<p>Ready to begin? <a href="https://bellaryder.com/consultation">Book Your Consultation</a></p>
+<p>With elegance,</p>
+<p>The Bella Rhyder Team</p>
+<hr>
+<h3 id="email-2-style-profile-invitation-day-3">Email 2: Style Profile Invitation (Day 3)</h3>
+<p><strong>Subject:</strong> Discover Your Signature Style - Complete Your Profile</p>
+<p>Dear [First Name],</p>
+<p>Your elegance is unique, and so should be your style.</p>
+<p>At Bella Rhyder, we believe that luxury is deeply personal. That&#x27;s why we&#x27;ve created a comprehensive style profile that helps us understand your preferences, lifestyle, and aspirations.</p>
+<p><strong>Complete Your Profile Today:</strong></p>
+<ul>
+<li>Answer a few questions about your style preferences</li>
+<li>Receive personalized product recommendations</li>
+<li>Get access to exclusive collections and early previews</li>
+</ul>
+<p><strong>What You&#x27;ll Discover:</strong></p>
+<ul>
+<li>Your color palette and body shape analysis</li>
+<li>Personalized wardrobe recommendations</li>
+<li>Access to our network of expert stylists</li>
+</ul>
+<p><a href="https://bellaryder.com/profile">Complete My Style Profile</a></p>
+<p><strong>Member Perks Unlocked:</strong></p>
+<ul>
+<li>Priority access to new arrivals</li>
+<li>Exclusive invitations to private events</li>
+<li>Complimentary styling consultations</li>
+</ul>
+<p>Your elegance awaits,</p>
+<p>Bella Rhyder</p>
+<hr>
+<h2 id="promotional-email-templates">Promotional Email Templates</h2>
+<h3 id="seasonal-collection-launch">Seasonal Collection Launch</h3>
+<p><strong>Subject:</strong> Spring 2026: Embrace Renewal - New Collection Now Available</p>
+<p>Dear [First Name],</p>
+<p>As winter fades, a new season of elegance emerges.</p>
+<p>Introducing our Spring 2026 collection: &quot;Renewal&quot; – a celebration of fresh beginnings, delicate florals, and timeless silhouettes that capture the essence of spring&#x27;s gentle beauty.</p>
+<p><strong>Featured Pieces:</strong></p>
+<ul>
+<li><strong>Ethereal Silk Blouse</strong> - $450</li>
+</ul>
+<p><em>Hand-dyed silk with delicate embroidery</em></p>
+<ul>
+<li><strong>Tailored Linen Suit</strong> - $1,200</li>
+</ul>
+<p><em>Sustainable linen, expertly tailored</em></p>
+<ul>
+<li><strong>Crystal Drop Earrings</strong> - $280</li>
+</ul>
+<p><em>Handcrafted with Swarovski crystals</em></p>
+<p><strong>Limited-Time Offer:</strong></p>
+<p>Save 15% on your first Spring collection purchase with code: SPRING15</p>
+<p><strong>Personal Styling Available:</strong></p>
+<p>Schedule a virtual consultation to see these pieces styled for your unique elegance.</p>
+<p><a href="https://bellaryder.com/spring2026">Shop the Collection</a></p>
+<p><a href="https://bellaryder.com/consultation">Book Consultation</a></p>
+<p>Elegance in every season,</p>
+<p>Bella Rhyder</p>
+<hr>
+<h3 id="re-engagement-email">Re-engagement Email</h3>
+<p><strong>Subject:</strong> We&#x27;ve Missed You - Your Elegance Awaits</p>
+<p>Dear [First Name],</p>
+<p>It&#x27;s been a while since we last connected, and we&#x27;ve been thinking of you.</p>
+<p>At Bella Rhyder, we understand that life gets busy, but your journey to elegance shouldn&#x27;t be put on hold. We&#x27;ve curated some pieces that we believe would complement your style perfectly.</p>
+<p><strong>Recently Added to Your Wishlist:</strong></p>
+<p>[Dynamic product recommendations based on past behavior]</p>
+<p><strong>Special Re-engagement Offer:</strong></p>
+<ul>
+<li>20% off your next purchase</li>
+<li>Complimentary style consultation</li>
+<li>Free shipping on orders over $150</li>
+</ul>
+<p><strong>Why Come Back to Bella Rhyder:</strong></p>
+<ul>
+<li>✓ Personalized recommendations based on your style profile</li>
+<li>✓ Expert styling advice from our luxury consultants</li>
+<li>✓ Sustainable, high-quality products</li>
+<li>✓ Discreet, white-glove service</li>
+</ul>
+<p><a href="https://bellaryder.com/shop">Shop Now</a></p>
+<p><a href="https://bellaryder.com/profile">Update Style Profile</a></p>
+<p>We look forward to welcoming you back,</p>
+<p>Bella Rhyder</p>
+<hr>
+<h2 id="abandoned-cart-email">Abandoned Cart Email</h2>
+<p><strong>Subject:</strong> Your Elegance is Waiting - Complete Your Order</p>
+<p>Dear [First Name],</p>
+<p>We noticed you were interested in some beautiful pieces but didn&#x27;t complete your purchase.</p>
+<p>Your cart is reserved for 24 hours – don&#x27;t let these exquisite items slip away.</p>
+<p><strong>Items in Your Cart:</strong></p>
+<p>[Dynamic cart contents]</p>
+<p><strong>Complete Your Order Now:</strong></p>
+<ul>
+<li>Secure checkout in under 2 minutes</li>
+<li>Free shipping on orders over $200</li>
+<li>30-day return policy</li>
+<li>Expert styling support available</li>
+</ul>
+<p><a href="https://bellaryder.com/checkout">Complete Purchase</a></p>
+<p><strong>Need Help?</strong></p>
+<p>Our luxury consultants are available for styling advice or any questions about your selections.</p>
+<p><a href="https://bellaryder.com/contact">Contact a Stylist</a></p>
+<p>With elegance,</p>
+<p>Bella Rhyder</p>
+<hr>
+<h2 id="post-purchase-email">Post-Purchase Email</h2>
+<p><strong>Subject:</strong> Thank You for Choosing Bella Rhyder</p>
+<p>Dear [First Name],</p>
+<p>Thank you for trusting Bella Rhyder with your elegance.</p>
+<p>We&#x27;re delighted that you&#x27;ve chosen to enhance your lifestyle with our curated selection. Your order is being prepared with the utmost care and attention to detail.</p>
+<p><strong>Order Details:</strong></p>
+<p>Order #[Order Number]</p>
+<p>Estimated Delivery: [Date Range]</p>
+<p><strong>What&#x27;s Next:</strong></p>
+<ul>
+<li>Track your order in real-time</li>
+<li>Access your digital style guide</li>
+<li>Schedule follow-up styling consultation</li>
+<li>Join our VIP community for exclusive access</li>
+</ul>
+<p><strong>Care Instructions:</strong></p>
+<p>Each piece comes with detailed care instructions to ensure it remains beautiful for years to come.</p>
+<p><strong>Share Your Experience:</strong></p>
+<p>Love your new pieces? Share your photos with #BellaRhyder for a chance to be featured.</p>
+<p>If you have any questions, our team is here to help.</p>
+<p>With gratitude,</p>
+<p>Bella Rhyder</p>
+<hr>
+<p><em>Email templates customized for Bella Rhyder brand voice and customer experience. All links and personalization tags should be implemented in your email marketing platform.</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">07-Bella Rhyder/EMAIL MARKETING TEMPLATES.md</div>
+    </main>
+  </div>
+</body>
+</html>

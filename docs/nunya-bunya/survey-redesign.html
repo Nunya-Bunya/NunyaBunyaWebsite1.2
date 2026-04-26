@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BFK Survey Redesign — Complete Question-to-Deliverable Matrix | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          BFK Survey Redesign — Complete Question-to-Deliverable Matrix
+        </div>
+        <h1 class="doc-title">BFK Survey Redesign — Complete Question-to-Deliverable Matrix</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Docs</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="bfk-survey-redesign-complete-question-to-deliverable-matrix">BFK Survey Redesign — Complete Question-to-Deliverable Matrix</h1>
+<h2 id="every-deliverable-nb-will-ever-generate">Every Deliverable NB Will Ever Generate</h2>
+<h3 id="tier-1-brand-bible-included-in-999">Tier 1: Brand Bible (included in $999)</h3>
+<ol>
+<li>Business Plan</li>
+<li>Ideal Customer Profile</li>
+<li>Brand Positioning Statement</li>
+<li>Competitive Analysis</li>
+<li>Value Proposition Canvas</li>
+<li>Offer Stack &amp; Pricing</li>
+<li>Pitch Deck (10 slides)</li>
+<li>Sales Playbook</li>
+<li>Service Delivery Framework</li>
+<li>CRM Pipeline Definition</li>
+<li>Messaging Framework</li>
+<li>Brand Voice &amp; Tone Guide</li>
+<li>Visual Style Guide</li>
+<li>Content Strategy</li>
+<li>SOP: Client Onboarding</li>
+<li>SOP: Service Delivery</li>
+<li>SOP: Client Reporting</li>
+<li>Contracts &amp; Agreements</li>
+<li>Financial Model &amp; Forecast</li>
+<li>Pricing &amp; Unit Economics</li>
+<li>Conversion Funnel Map</li>
+<li>Lead Generation Strategy</li>
+</ol>
+<h3 id="tier-2-content-package-upsell-retainer-deliverable">Tier 2: Content Package (upsell / retainer deliverable)</h3>
+<ol>
+<li>30-Day Social Media Calendar</li>
+<li>30 Social Post Captions (platform-specific)</li>
+<li>30 Social Post Graphics (designed, branded)</li>
+<li>Hashtag Strategy Document</li>
+<li>Social Bio &amp; Profile Optimization</li>
+<li>10 Reel/Short-Form Video Scripts</li>
+<li>4 Blog Post Outlines (SEO-optimized)</li>
+<li>4 Email Newsletter Templates</li>
+</ol>
+<h3 id="tier-3-sales-amp-marketing-automation-retainer-deliverable">Tier 3: Sales &amp; Marketing Automation (retainer deliverable)</h3>
+<ol>
+<li>5-Email Welcome Sequence</li>
+<li>5-Email Nurture Sequence</li>
+<li>5-Email Sales Sequence</li>
+<li>Re-engagement Sequence</li>
+<li>Abandoned Lead Follow-Up Sequence</li>
+<li>Facebook/Instagram Ad Copy (5 variations)</li>
+<li>Google Ads Copy &amp; Keywords</li>
+<li>Ad Audience Targeting Brief</li>
+<li>Retargeting Ad Sequence</li>
+<li>3 Landing Pages (copy + wireframe)</li>
+</ol>
+<h3 id="tier-4-website-amp-seo-retainer-deliverable">Tier 4: Website &amp; SEO (retainer deliverable)</h3>
+<ol>
+<li>Homepage Copy</li>
+<li>About Page Copy</li>
+<li>Services/Products Page Copy</li>
+<li>FAQ Page Content</li>
+<li>SEO Keyword Strategy (clusters + pillar pages)</li>
+<li>Google Business Profile Optimization</li>
+<li>8 Blog Articles (full SEO content)</li>
+</ol>
+<h3 id="tier-5-sales-enablement-retainer-deliverable">Tier 5: Sales Enablement (retainer deliverable)</h3>
+<ol>
+<li>Proposal Template</li>
+<li>Cold Outreach Email Templates (5)</li>
+<li>Cold DM Scripts (5)</li>
+<li>Follow-Up Cadence (7-touch)</li>
+<li>Case Study Template</li>
+<li>Testimonial Request Template + Automation</li>
+<li>Referral Program Structure</li>
+<li>Partnership Outreach Templates</li>
+</ol>
+<h3 id="tier-6-client-operations-retainer-deliverable">Tier 6: Client Operations (retainer deliverable)</h3>
+<ol>
+<li>Client Onboarding Email Sequence</li>
+<li>Client Offboarding / Next-Steps Email</li>
+<li>Review Request Sequence</li>
+<li>Quarterly Business Review Template</li>
+<li>Client Reporting Dashboard Template</li>
+</ol>
+<h3 id="tier-7-content-amp-pr-future">Tier 7: Content &amp; PR (future)</h3>
+<ol>
+<li>Press Kit / Media Page</li>
+<li>Podcast Episode Topics (12)</li>
+<li>YouTube Video Scripts (4)</li>
+<li>Lead Magnet (designed PDF)</li>
+<li>Webinar/Workshop Outline</li>
+</ol>
+<hr>
+<h2 id="the-two-tracks">The Two Tracks</h2>
+<h3 id="track-a-quotix27m-starting-freshquot">TRACK A: &quot;I&#x27;m Starting Fresh&quot;</h3>
+<p>For people at the idea/planning stage or pre-revenue. They don&#x27;t have customers yet, might not have a name yet, haven&#x27;t validated anything. Questions are more aspirational and planning-oriented.</p>
+<h3 id="track-b-quotix27m-already-in-businessquot">TRACK B: &quot;I&#x27;m Already in Business&quot;</h3>
+<p>For people already operating — they have (or had) customers, have revenue (or had revenue), have tried marketing. Questions pull real data, real metrics, real stories.</p>
+<h3 id="shared-questions">SHARED QUESTIONS</h3>
+<p>Both tracks share the majority of questions. The difference is:</p>
+<ul>
+<li>Track A skips: current metrics, existing customer stories, testimonials, what&#x27;s worked/failed</li>
+<li>Track B skips: some planning/aspirational questions that don&#x27;t apply</li>
+<li>Track B adds: metrics, results, social proof, current marketing audit</li>
+</ul>
+<hr>
+<h2 id="design-rules">Design Rules</h2>
+<ol>
+<li><strong>Never more than 3 textareas in a row.</strong> After every 2-3 textareas, insert a radio, checkbox, picker, or visual element.</li>
+<li><strong>Micro-celebration after every section.</strong> Brief animated card showing what deliverables just got unlocked by their answers.</li>
+<li><strong>Auto-save + &quot;Continue Later&quot; link.</strong> Saves to Supabase on every step change. Email link to resume. Essential for 90+ questions.</li>
+<li><strong>Emotional arc: easy → personal → creative → analytical → visionary.</strong> The survey should feel like a journey from &quot;who are you&quot; to &quot;where are you going.&quot;</li>
+<li><strong>Section names should inspire, not bore.</strong> No &quot;Operations&quot; or &quot;Sales &amp; Money.&quot;</li>
+</ol>
+<hr>
+<h2 id="complete-question-set-restructured-for-flow">Complete Question Set — Restructured for Flow</h2>
+<p><em>Emotional arc: easy warmup → personal story → creative/fun → analytical → visionary close</em></p>
+<hr>
+<h3 id="section-1-quotthe-basicsquot-both-tracks-7-questions">SECTION 1: &quot;THE BASICS&quot; (Both Tracks — 7 questions)</h3>
+<p><em>Quick-fire. All short fields and radio buttons. Gets them moving fast. No textareas.</em></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q1</td><td>What is your business name? (or what are you leaning toward?)</td><td>Text</td><td>ALL deliverables</td></tr><tr><td>q2</td><td>What does your business do in one sentence?</td><td>Text</td><td>Business Plan, Brand Positioning, Pitch Deck, Homepage Copy, About Page, Social Bios, Ad Copy, Elevator Pitch, Press Kit</td></tr><tr><td>q3</td><td>What type of business is this?</td><td>Radio (Service / Product / SaaS / E-commerce / Content / Other)</td><td>Business Plan, Offer Stack, Financial Model, Content Strategy, Ad Targeting, SEO Strategy</td></tr><tr><td>q4</td><td>What industry or niche are you in?</td><td>Text</td><td>Competitive Analysis, SEO Keywords, Ad Targeting, Content Strategy, Blog Topics, Google Business Profile, Press Kit</td></tr><tr><td>q5</td><td>Where are you located, and where do you serve customers?</td><td>Text + Radio (Local / State / National / Online-only)</td><td>Google Business Profile, SEO Strategy, Ad Targeting (geo), Landing Pages, Homepage Copy</td></tr><tr><td>q6</td><td>Are you a solo operator or do you have a team?</td><td>Radio (Just me / Me + 1-2 / Small team 3-10 / Growing)</td><td>Business Plan, Financial Model, SOPs, Service Delivery</td></tr><tr><td>q7</td><td>What&#x27;s your website URL? (Leave blank if you don&#x27;t have one yet)</td><td>URL</td><td>Visual Style Guide (color extraction), SEO audit, Google Business Profile</td></tr></tbody></table></div>
+<blockquote><strong>MICRO-CELEBRATION:</strong> <em>&quot;Perfect — we now have enough to start building your Business Plan and SEO Strategy. Let&#x27;s get to know YOU.&quot;</em></blockquote>
+<hr>
+<h3 id="section-2-quotyour-storyquot-both-tracks-12-questions">SECTION 2: &quot;YOUR STORY&quot; (Both Tracks — 12 questions)</h3>
+<p><em>The content goldmine. Starts light and factual, builds trust, THEN goes deep. Heavy emotional questions come after 5+ warmup questions.</em></p>
+<p><strong>2A: HOW YOU GOT HERE</strong> <em>(light, factual)</em></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q8</td><td>Why did you start this business? The real reason, not the polished version.</td><td>Textarea</td><td>About Page, Brand Positioning, Social Posts (origin story series), Email Sequences, Pitch Deck, Press Kit, Video Scripts</td></tr><tr><td>q9</td><td>What&#x27;s your background? What were you doing before this, and what makes YOU the right person to build it?</td><td>Textarea</td><td>About Page, Pitch Deck, Press Kit, Trust-building Ad Copy, Sales Playbook (credibility), LinkedIn Profile, Proposal Template</td></tr><tr><td>q10</td><td>What&#x27;s the defining moment that made you believe in this business?</td><td>Textarea</td><td>Social Posts (storytelling), About Page, Email Welcome Sequence, Video Scripts, Podcast Topics, Blog Posts</td></tr></tbody></table></div>
+<p><strong>2B: WHO YOU ARE</strong> <em>(personality, interests — breather before depth)</em></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q11</td><td>Outside of work, what are you into? Hobbies, interests, obsessions, guilty pleasures.</td><td>Textarea</td><td>Social Posts (personal/relatable content), About Page, Brand Voice calibration, Content pillars (lifestyle), Reel Scripts</td></tr><tr><td>q12</td><td>If a close friend had to describe you AND your business to a stranger at a dinner party, what would they say?</td><td>Textarea</td><td>Brand Voice calibration, Messaging Framework, Social Bio, Tagline options, Elevator Pitch, About Page, Email tone</td></tr><tr><td>q13</td><td>Do you want to be the face of this brand, or stay behind the scenes?</td><td>Radio (I&#x27;m the face / Mix of both / Behind the scenes)</td><td>Content Strategy, Ad Creative format, Social Posts, Video Scripts, About Page</td></tr><tr><td>q14</td><td>How personal are you willing to get on social media?</td><td>Radio (Very open / Somewhat / Professional only)</td><td>Content Strategy (personal brand depth), Social Posts (topic boundaries), Email tone, Video Scripts</td></tr></tbody></table></div>
+<p><strong>2C: GOING DEEPER</strong> <em>(now they trust the survey — earn the vulnerable answers)</em></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q15</td><td>What&#x27;s the one thing about your industry that fires you up — the frustration, the take, the opinion that most people in your space won&#x27;t say out loud?</td><td>Textarea</td><td>Social Posts (hot takes + rant content = highest engagement), Blog Posts, Podcast Topics, Brand Voice (conviction), Ad Copy (pattern interrupt), Reel Scripts, YouTube Scripts</td></tr><tr><td>q16</td><td>What&#x27;s the hardest thing you&#x27;ve been through — in business or in life — that shaped who you are today? <em>(Only share what you&#x27;re comfortable with. This helps us tell your story authentically.)</em></td><td>Textarea</td><td>Social Posts (vulnerability = engagement), About Page, Email Sequences, Video Scripts, Podcast Topics, Reel Scripts</td></tr><tr><td>q17</td><td>Was there a moment you almost quit? What kept you going? <em>(Skip if this doesn&#x27;t apply to you.)</em></td><td>Textarea (optional)</td><td>Social Posts (resilience content), Email Sequences, Blog Posts, About Page, Video Scripts</td></tr><tr><td>q18</td><td>Describe your perfect Tuesday once this business is &quot;working.&quot; What does the day look like, start to finish?</td><td>Textarea</td><td>Business Plan (lifestyle design), Brand Positioning, Content Strategy, Social Posts (vision content), Brand Voice (reveals what they optimize for — freedom, wealth, impact, creativity)</td></tr></tbody></table></div>
+<blockquote><strong>MICRO-CELEBRATION:</strong> <em>&quot;This is incredible. From what you&#x27;ve shared, we can already write your About Page, 10+ social posts, and your brand origin story. Now let&#x27;s make it look as good as it sounds.&quot;</em></blockquote>
+<hr>
+<h3 id="section-3-quotyour-brandquot-both-tracks-13-questions">SECTION 3: &quot;YOUR BRAND&quot; (Both Tracks — 13 questions)</h3>
+<p><em>Creative and fun. Visual pickers, checkboxes, short text. This is the reward section — comes right after the deep personal work. Highest enjoyment moment in the survey.</em></p>
+<p><strong>3A: VOICE &amp; PERSONALITY</strong></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q19</td><td>If your brand were a person at a party, how would they talk? <em>(Pick all that apply.)</em></td><td>Checkbox (Professional / Friendly / Bold / Warm / Witty / Calm / Energetic / Other)</td><td>Brand Voice, ALL copy, Messaging Framework</td></tr><tr><td>q20</td><td>What are 3 words you want people to associate with your brand?</td><td>Text</td><td>Brand Voice, Visual Style Guide, Content Strategy, Social Bio, Tagline, ALL copy</td></tr><tr><td>q21</td><td>What brands (any industry) do you admire, and why?</td><td>Textarea</td><td>Visual Style Guide, Brand Voice, Content Strategy, Website design direction</td></tr><tr><td>q22</td><td>What tone or style do you absolutely NOT want?</td><td>Text</td><td>Brand Voice (guardrails), ALL copy, Visual Style Guide</td></tr><tr><td>q23</td><td>Do you have a tagline or phrase you keep coming back to?</td><td>Text (optional)</td><td>Messaging Framework, Social Bio, Homepage, Ad Copy, Email Subject Lines</td></tr></tbody></table></div>
+<p><strong>3B: VISUAL IDENTITY</strong> <em>(the fun part)</em></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q24</td><td>Do you have existing brand assets? (Logo, colors, fonts — list what exists)</td><td>Textarea</td><td>Visual Style Guide, Social Templates, Website, Ad Creative, All designed deliverables</td></tr><tr><td>q25</td><td>Choose the color palette that best fits your brand.</td><td>Visual Palette Picker (9 options + Custom)</td><td>Visual Style Guide, Logo, Social Templates, Website, Landing Pages, Ad Creative, Email Templates, ALL designed deliverables</td></tr><tr><td>q26</td><td>Already have brand colors? Pick up to 3 here. <em>(Skip if you chose a palette above.)</em></td><td>3x Color Picker (hex)</td><td>Overrides palette. Visual Style Guide, Logo, Social Templates, Website, Landing Pages, Ad Creative, Email Templates</td></tr><tr><td>q27</td><td>Choose the font pairing that feels right for your brand.</td><td>Visual Font Picker (8 options)</td><td>Visual Style Guide, Logo, Social Templates, Website, Landing Pages, Ad Creative, Email Templates, Proposal Template, ALL designed deliverables</td></tr><tr><td>q28</td><td>What kind of photography or imagery fits your brand? <em>(e.g., clean and minimal, raw and gritty, warm and lifestyle, dark and moody)</em></td><td>Textarea</td><td>Visual Style Guide, Social Post Graphics, Ad Creative, Website imagery, Landing Pages</td></tr></tbody></table></div>
+<p><strong>3C: LOGO</strong></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q29</td><td>Logo preferences — text only, icon, or combination? Any imagery or symbols you&#x27;re drawn to?</td><td>Textarea</td><td>Logo Design, Visual Style Guide, Social Templates, Business Cards</td></tr><tr><td>q30</td><td>Common logos or visual styles in your industry you&#x27;re sick of seeing?</td><td>Textarea</td><td>Logo Design, Visual Style Guide (what to avoid)</td></tr><tr><td>q31</td><td>Do you already have a logo?</td><td>Radio (No — create one for me / Yes — use as-is / Yes — use as starting point for redesign) + File upload</td><td>Logo Design, Visual Style Guide, All branded deliverables</td></tr></tbody></table></div>
+<blockquote><strong>MICRO-CELEBRATION:</strong> <em>&quot;Your brand is taking shape. We can now build your Visual Style Guide, design your logo concepts, and create all your social templates. Let&#x27;s figure out who you&#x27;re selling to.&quot;</em></blockquote>
+<hr>
+<h3 id="section-4-quotyour-peoplequot-both-tracks-10-questions-3-existing-only">SECTION 4: &quot;YOUR PEOPLE&quot; (Both Tracks — 10 questions, 3 existing-only)</h3>
+<p><em>Customer deep-dive. Mixes textareas with a quick text field and a radio to break up the wall.</em></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q32</td><td>Who is your ideal customer? Describe them like a real person — age, job, income, lifestyle, personality.</td><td>Textarea</td><td>ICP, Ad Targeting, Content Strategy, Sales Playbook, Landing Pages, Email Sequences, Blog Topics, Social Posts</td></tr><tr><td>q33</td><td>What is the #1 problem your business solves for them?</td><td>Textarea</td><td>Value Proposition, Homepage Copy, Ad Copy, Landing Pages, Sales Playbook, Pitch Deck, Lead Magnet, SEO Keywords</td></tr><tr><td>q34</td><td>What happens if they DON&#x27;T solve this problem? What does life look like if they do nothing?</td><td>Textarea</td><td>Ad Copy (pain agitation), Email Sequences, Landing Pages, Sales Playbook (urgency), Social Posts, Video Scripts</td></tr><tr><td>q35</td><td>Now flip it — what does their life look like AFTER you&#x27;ve helped them? The transformation.</td><td>Textarea</td><td>Ad Copy (dream state), Landing Pages, Case Study Template, Social Posts, Homepage Copy, Sales Playbook</td></tr><tr><td>q36</td><td>What have they already tried before finding you? <em>(DIY, cheaper options, competitors, nothing)</em></td><td>Text</td><td>Ad Copy (objection handling), Sales Playbook, Landing Pages, Competitive Analysis, Cold Outreach</td></tr><tr><td>q37</td><td>What words or phrases would they type into Google when searching for your solution? <em>(List 3-5.)</em></td><td>Textarea</td><td>SEO Keywords, Google Ads, Blog Topics, FAQ Page, Landing Pages, Social Posts</td></tr><tr><td>q38</td><td>Where do your ideal customers hang out — online and offline?</td><td>Textarea</td><td>Content Strategy (platform selection), Ad Targeting, Partnership Outreach, Lead Gen Strategy</td></tr><tr><td>q39</td><td>What objections do they have before buying? <em>(Price, trust, timing, &quot;I can do it myself,&quot; etc.)</em></td><td>Textarea</td><td>Sales Playbook, FAQ Page, Ad Copy, Landing Pages, Email Sequences, Cold Outreach, Proposal Template</td></tr><tr><td>q40</td><td><strong>[EXISTING ONLY]</strong> Describe your best customer ever — what made them great, how did they find you, what did they buy?</td><td>Textarea</td><td>ICP (validate), Case Study Template, Testimonial Framework, Sales Playbook, Ad Targeting (lookalike)</td></tr><tr><td>q41</td><td><strong>[EXISTING ONLY]</strong> What&#x27;s the best thing a customer has ever said about you or your business? Give us the exact quote if you can.</td><td>Textarea</td><td>Social Posts (testimonial posts), Landing Pages, Ad Copy, Homepage Copy, Case Studies, Email Sequences, Proposal Template</td></tr><tr><td>q42</td><td><strong>[EXISTING ONLY]</strong> What specific results have you achieved for customers? <em>(Numbers, timeframes, before/after outcomes.)</em></td><td>Textarea</td><td>Case Studies, Ad Copy, Landing Pages, Sales Playbook, Pitch Deck, Homepage Copy, Social Posts</td></tr></tbody></table></div>
+<blockquote><strong>MICRO-CELEBRATION:</strong> <em>&quot;Now we know who you&#x27;re talking to. We can build your Ideal Customer Profile, write your ad copy, and create landing pages that speak their language. Let&#x27;s look at what you&#x27;re selling them.&quot;</em></blockquote>
+<hr>
+<h3 id="section-5-quotwhat-you-sellquot-both-tracks-8-questions">SECTION 5: &quot;WHAT YOU SELL&quot; (Both Tracks — 8 questions)</h3>
+<p><em>Product/service deep dive. Alternates between textarea and short text to keep energy up.</em></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q43</td><td>List every product or service you offer (or plan to). For each: name, brief description, price, who it&#x27;s for.</td><td>Textarea (tall)</td><td>Offer Stack, Website (services page), Pricing &amp; Unit Economics, Financial Model, Pitch Deck, Proposal Template, Ad Copy</td></tr><tr><td>q44</td><td>Which one is your &quot;flagship&quot; — the offer you&#x27;d promote if you could only promote one?</td><td>Text</td><td>Homepage Copy, Ad Copy, Landing Pages, Sales Playbook, Content Strategy, Email Sequences</td></tr><tr><td>q45</td><td>What does a customer actually receive when they buy? Walk us through the experience step by step.</td><td>Textarea</td><td>Service Delivery Framework, SOP: Delivery, Onboarding Emails, Proposal Template, Landing Pages, FAQ Page</td></tr><tr><td>q46</td><td>How long from purchase to completion?</td><td>Text</td><td>Service Delivery, Onboarding Emails, FAQ Page, Proposal Template, Ad Copy (speed as selling point)</td></tr><tr><td>q47</td><td>Do you offer (or want to offer) different tiers or packages?</td><td>Textarea</td><td>Offer Stack, Pricing Page, Landing Pages, Sales Playbook, Email Upsell Sequences</td></tr><tr><td>q48</td><td>What makes your offer different from hiring someone cheaper or doing it themselves?</td><td>Textarea</td><td>Value Proposition, Ad Copy, Landing Pages, Sales Playbook, Cold Outreach, Competitive Analysis</td></tr><tr><td>q49</td><td>Do you have any guarantees, warranties, or risk-reversals? <em>(Money-back, free revisions, performance guarantees, etc.)</em></td><td>Text</td><td>Landing Pages, Ad Copy, Sales Playbook, Proposal Template, Homepage Copy, FAQ Page</td></tr><tr><td>q50</td><td>How many customers can you realistically serve per month right now?</td><td>Text</td><td>Financial Model, Business Plan, Pricing &amp; Unit Economics, CRM Pipeline</td></tr></tbody></table></div>
+<hr>
+<h3 id="section-6-quotyour-rivalsquot-both-tracks-5-questions">SECTION 6: &quot;YOUR RIVALS&quot; (Both Tracks — 5 questions)</h3>
+<p><em>Short and focused. No fat. Gets the competitive intel we need without feeling like homework.</em></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q51</td><td>Name 3-5 competitors or alternatives your customers might consider instead of you. <em>(Direct competitors, DIY solutions, or &quot;do nothing&quot; all count.)</em></td><td>Textarea</td><td>Competitive Analysis, Brand Positioning, Ad Targeting (competitor audiences), SEO Strategy, Sales Playbook</td></tr><tr><td>q52</td><td>What do your competitors do well? <em>(Be honest — we need to know.)</em></td><td>Textarea</td><td>Competitive Analysis, Brand Positioning, Content Strategy</td></tr><tr><td>q53</td><td>What do they do poorly or ignore completely? <em>(This is where your opportunity lives.)</em></td><td>Textarea</td><td>Competitive Analysis, Brand Positioning (own the gap), Ad Copy, Landing Pages, Content Strategy</td></tr><tr><td>q54</td><td>How is your approach fundamentally different from theirs? <em>(Not just &quot;better quality&quot; — what&#x27;s structurally different?)</em></td><td>Textarea</td><td>Brand Positioning, Value Proposition, Ad Copy, Homepage Copy, Sales Playbook, Pitch Deck</td></tr><tr><td>q55</td><td>Why would someone choose you over the cheapest or most popular competitor?</td><td>Textarea</td><td>Sales Playbook, Proposal Template, Ad Copy, Landing Pages, Cold Outreach, Pricing justification</td></tr></tbody></table></div>
+<blockquote><strong>MICRO-CELEBRATION:</strong> <em>&quot;We now have your competitive positioning mapped. Your Brand Bible will include a full Competitive Analysis and the exact messaging that makes you stand out. Almost there — a few more sections.&quot;</em></blockquote>
+<hr>
+<h3 id="section-7-quotcontent-amp-marketingquot-both-tracks-10-questions-5-existing-only">SECTION 7: &quot;CONTENT &amp; MARKETING&quot; (Both Tracks — 10 questions, 5 existing-only)</h3>
+<p><em>Mixes textareas with quick radio/checkbox questions for variety. The existing-only questions cluster together as a rapid sub-section.</em></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q56</td><td>What topics could you talk about for hours? <em>(Related to your industry or expertise.)</em></td><td>Textarea</td><td>Blog Posts, Social Posts, Podcast Topics, Video Scripts, Reel Scripts, Email Newsletter, Content Pillars</td></tr><tr><td>q57</td><td>What questions do people ask you most about what you do?</td><td>Textarea</td><td>FAQ Page, Blog Posts (SEO), Social Posts, Email Content, Video Scripts, Lead Magnet</td></tr><tr><td>q58</td><td>What myths or misconceptions in your industry drive you crazy?</td><td>Textarea</td><td>Social Posts (myth-busting series), Blog Posts, Reel Scripts, Ad Copy (pattern interrupt), Podcast Topics</td></tr><tr><td>q59</td><td>Are you comfortable being on camera?</td><td>Radio (Yes, let&#x27;s go / Willing to try / Not yet)</td><td>Content Strategy (video vs static), Reel Scripts, YouTube Scripts, Ad Creative format</td></tr><tr><td>q60</td><td>Which marketing channels interest you most? <em>(Pick all that apply.)</em></td><td>Checkbox (Instagram / Facebook / TikTok / LinkedIn / YouTube / Google / Email / Blog / Podcast)</td><td>Content Strategy, Ad Strategy, Platform-specific content, Budget allocation</td></tr><tr><td>q61</td><td><strong>[EXISTING ONLY]</strong> How do customers currently find you?</td><td>Textarea</td><td>Lead Gen Strategy, Conversion Funnel, Ad Strategy, Content Strategy, SEO</td></tr><tr><td>q62</td><td><strong>[EXISTING ONLY]</strong> What marketing have you tried that WORKED?</td><td>Textarea</td><td>Content Strategy (double down), Ad Strategy, Lead Gen, Budget allocation</td></tr><tr><td>q63</td><td><strong>[EXISTING ONLY]</strong> What marketing have you tried that DIDN&#x27;T work?</td><td>Textarea</td><td>Content Strategy (avoid), Ad Strategy, Budget allocation</td></tr><tr><td>q64</td><td><strong>[EXISTING ONLY]</strong> How big is your email list?</td><td>Radio (Don&#x27;t have one / Under 100 / 100-500 / 500-2,000 / 2,000+)</td><td>Email Strategy, Lead Gen, Content Strategy, Ad Targeting (custom audiences)</td></tr><tr><td>q65</td><td><strong>[EXISTING ONLY]</strong> Are there seasonal peaks or slow periods in your business?</td><td>Textarea</td><td>Content Calendar (seasonal campaigns), Ad Scheduling, Email Sequences, Social Posts</td></tr></tbody></table></div>
+<hr>
+<h3 id="section-8-quotquick-fire-roundquot-both-tracks-11-questions-5-existing-only">SECTION 8: &quot;QUICK-FIRE ROUND&quot; (Both Tracks — 11 questions, 5 existing-only)</h3>
+<p><em>All radio buttons, checkboxes, and short text. NO textareas. This is a breather — knock these out fast. Handles all the admin/data questions in one focused burst.</em></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q66</td><td><strong>[EXISTING ONLY]</strong> What&#x27;s your current monthly revenue?</td><td>Radio ($0 / Under $1K / $1K-$5K / $5K-$20K / $20K+)</td><td>Financial Model, Business Plan, Pricing Strategy, Ad Budget recommendations</td></tr><tr><td>q67</td><td>What monthly revenue would make this business &quot;working&quot; for you?</td><td>Text</td><td>Financial Model, Business Plan, Pricing &amp; Unit Economics, Lead Gen Strategy</td></tr><tr><td>q68</td><td>What&#x27;s your average sale value (or what do you want it to be)?</td><td>Text</td><td>Financial Model, Pricing &amp; Unit Economics, Ad Budget (CPA targets), Sales Playbook</td></tr><tr><td>q69</td><td><strong>[EXISTING ONLY]</strong> How long is your typical sales cycle? <em>(First contact to payment)</em></td><td>Text</td><td>Sales Playbook, CRM Pipeline, Follow-Up Cadence, Email Sequences, Retargeting timeline</td></tr><tr><td>q70</td><td>What monthly budget are you prepared to invest in marketing?</td><td>Radio ($0 / Under $100 / $100-$500 / $500-$2K / $2K+)</td><td>Ad Strategy, Content Strategy, Lead Gen Strategy, Tool recommendations</td></tr><tr><td>q71</td><td>Which of these do you currently have in place?</td><td>Checkbox (Email list / CRM / Booking system / Contracts / Invoicing / Website with CTA / None)</td><td>Business Plan (gaps), Conversion Funnel, Tool recommendations, SOP priority</td></tr><tr><td>q72</td><td>Do you have professional photos of yourself?</td><td>Radio (Yes, high-quality / Yes, phone quality / No)</td><td>Social Content, About Page, Press Kit, Ad Creative</td></tr><tr><td>q73</td><td>Do you have photos or videos of your work, products, or space?</td><td>Radio (Yes, professional / Yes, basic / No)</td><td>Social Content (30 posts), Ad Creative, Case Studies, Website, Landing Pages</td></tr><tr><td>q74</td><td>What are your social media handles?</td><td>Structured fields (Instagram / Facebook / LinkedIn / TikTok / Other)</td><td>Social Bio Optimization, Content Strategy, Ad Targeting, Hashtag Strategy</td></tr><tr><td>q75</td><td><strong>[EXISTING ONLY]</strong> Do you have business insurance?</td><td>Text</td><td>Business Plan, Contracts, Trust signals for website</td></tr><tr><td>q76</td><td><strong>[EXISTING ONLY]</strong> Any certifications, licenses, or industry memberships?</td><td>Text</td><td>About Page, Trust signals, Ad Copy (credibility), Press Kit, Proposal Template</td></tr></tbody></table></div>
+<blockquote><strong>MICRO-CELEBRATION:</strong> <em>&quot;Quick-fire done. We now have everything we need for your Financial Model, Sales Playbook, and CRM Pipeline. Two more sections — let&#x27;s finish strong.&quot;</em></blockquote>
+<hr>
+<h3 id="section-9-quotyour-day-to-dayquot-both-tracks-6-questions">SECTION 9: &quot;YOUR DAY-TO-DAY&quot; (Both Tracks — 6 questions)</h3>
+<p><em>Operations and delivery. Mix of textareas and a short text field.</em></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q77</td><td>What does a typical work week look like for you right now?</td><td>Textarea</td><td>Business Plan, Content Strategy (time available), SOP prioritization</td></tr><tr><td>q78</td><td>What tools or software do you use to run your business? <em>(Anything — Google Docs, Canva, Xero, a notebook, whatever.)</em></td><td>Textarea</td><td>SOP documents, CRM Pipeline, Automation recommendations, Integration strategy</td></tr><tr><td>q79</td><td>What&#x27;s the one task you wish you could hand off or automate tomorrow?</td><td>Text</td><td>SOP priority, Automation recommendations, Upsell opportunity (NB retainer)</td></tr><tr><td>q80</td><td>Walk us through how you deliver your product or service, from the moment someone pays to the moment they&#x27;re done.</td><td>Textarea</td><td>SOP: Delivery, SOP: Onboarding, Service Delivery Framework, Onboarding Emails, Client Experience</td></tr><tr><td>q81</td><td>How do you want customers to FEEL when they work with you?</td><td>Textarea</td><td>Brand Voice, Onboarding Emails, Service Delivery, Review Request messaging, ALL copy tone</td></tr><tr><td>q82</td><td>Walk us through how a stranger becomes a paying customer today (or how you imagine it working).</td><td>Textarea</td><td>Conversion Funnel, CRM Pipeline, Sales Playbook, Email Sequences, Landing Pages, Ad Strategy</td></tr></tbody></table></div>
+<hr>
+<h3 id="section-10-quotwhatx27s-nextquot-both-tracks-8-questions-2-existing-only">SECTION 10: &quot;WHAT&#x27;S NEXT&quot; (Both Tracks — 8 questions, 2 existing-only)</h3>
+<p><em>Close with vision, growth, and the big picture. The last question they answer should leave them inspired — NOT &quot;anything else?&quot;</em></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Type</th><th>Feeds Into</th></tr></thead><tbody><tr><td>q83</td><td>What&#x27;s the first thing a new customer should experience to get hooked? <em>(A free consult, a sample, a discount, a download — the thing that gets them in the door.)</em></td><td>Textarea</td><td>Lead Magnet, Landing Pages, Ad Copy, Email Sequences, Social Posts, Conversion Funnel</td></tr><tr><td>q84</td><td>Do you have referral partners or people who send you business? <em>(If not yet, who would be your dream referral partners?)</em></td><td>Textarea</td><td>Referral Program, Partnership Outreach, Lead Gen Strategy, Business Plan, Content Strategy (co-marketing)</td></tr><tr><td>q85</td><td>Are you interested in offering recurring packages, memberships, or subscription pricing?</td><td>Textarea</td><td>Offer Stack, Pricing &amp; Unit Economics, Financial Model, Email Upsell Sequences, Landing Pages</td></tr><tr><td>q86</td><td><strong>[EXISTING ONLY]</strong> What&#x27;s the #1 reason deals fall through?</td><td>Textarea</td><td>Sales Playbook (objection handling), Follow-Up Sequence, Retargeting Copy, Email Nurture</td></tr><tr><td>q87</td><td><strong>[EXISTING ONLY]</strong> What&#x27;s your biggest bottleneck right now — the thing slowing everything down?</td><td>Textarea</td><td>Business Plan, SOP priority, Automation recommendations, Upsell framing (NB retainer)</td></tr><tr><td>q88</td><td>Is there anything else we should know about your business, your customers, or your goals?</td><td>Textarea</td><td>Everything — catch-all for context</td></tr><tr><td>q89</td><td>What would you tell yourself on day one if you could go back?</td><td>Textarea</td><td>Social Posts (advice content), Blog Posts, Email Sequences, Podcast Topics, About Page</td></tr><tr><td>q90</td><td>What&#x27;s your 90-day goal? The one thing that would make the next 3 months a win.</td><td>Textarea</td><td>Business Plan (action plan), Content Strategy (aligned), Ad Strategy (aligned), Lead Gen priority</td></tr></tbody></table></div>
+<blockquote><strong>FINAL CELEBRATION:</strong> <em>&quot;You did it. From everything you&#x27;ve shared, we&#x27;re going to build your complete Brand Bible — <span class="cb cb-done">&#9745;</span> custom documents, designed for [business name], delivered to your inbox. This is going to be incredible.&quot;</em></blockquote>
+<hr>
+<h2 id="question-count-summary">Question Count Summary</h2>
+<div class="table-wrap"><table><thead><tr><th></th><th>Shared</th><th>Existing Only</th><th>Total</th></tr></thead><tbody><tr><td>1. The Basics</td><td>7</td><td>0</td><td>7</td></tr><tr><td>2. Your Story</td><td>11</td><td>0</td><td>11</td></tr><tr><td>3. Your Brand</td><td>13</td><td>0</td><td>13</td></tr><tr><td>4. Your People</td><td>7</td><td>3</td><td>10</td></tr><tr><td>5. What You Sell</td><td>8</td><td>0</td><td>8</td></tr><tr><td>6. Your Rivals</td><td>5</td><td>0</td><td>5</td></tr><tr><td>7. Content &amp; Marketing</td><td>5</td><td>5</td><td>10</td></tr><tr><td>8. Quick-Fire Round</td><td>6</td><td>5</td><td>11</td></tr><tr><td>9. Your Day-to-Day</td><td>6</td><td>0</td><td>6</td></tr><tr><td>10. What&#x27;s Next</td><td>6</td><td>2</td><td>8</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>74</strong></td><td><strong>15</strong></td><td><strong>89</strong></td></tr></tbody></table></div>
+<p><strong>Starting Fresh track: 74 questions</strong> (across 10 sections)</p>
+<p><strong>Already in Business track: 89 questions</strong> (across 10 sections)</p>
+<p><em>Down from 98 → 89 by merging redundant questions. Net loss of 9 questions with ZERO loss of deliverable coverage.</em></p>
+<hr>
+<h2 id="color-palette-picker-options-q25">Color Palette Picker — Options (q25)</h2>
+<p>Each option is a visual card showing the palette applied to a mini brand mockup (logo bar + text + button).</p>
+<div class="table-wrap"><table><thead><tr><th>Palette Name</th><th>Primary</th><th>Secondary</th><th>Accent</th><th>Background</th><th>Text</th><th>Vibe</th></tr></thead><tbody><tr><td><strong>Bold &amp; Electric</strong></td><td>#0D0D0D</td><td>#1A1A1A</td><td>#00E5CC</td><td>#FFFFFF</td><td>#1A1A1A</td><td>Modern, tech-forward, high-energy</td></tr><tr><td><strong>Warm &amp; Earthy</strong></td><td>#8B4513</td><td>#D2691E</td><td>#DAA520</td><td>#FFF8F0</td><td>#2C1810</td><td>Organic, handmade, trustworthy</td></tr><tr><td><strong>Clean &amp; Minimal</strong></td><td>#000000</td><td>#555555</td><td>#0066FF</td><td>#FFFFFF</td><td>#1A1A1A</td><td>Professional, sleek, no-nonsense</td></tr><tr><td><strong>Luxe &amp; Dark</strong></td><td>#1A1A2E</td><td>#16213E</td><td>#E94560</td><td>#0F0F0F</td><td>#E0E0E0</td><td>Premium, exclusive, sophisticated</td></tr><tr><td><strong>Fresh &amp; Playful</strong></td><td>#FF6B6B</td><td>#4ECDC4</td><td>#FFE66D</td><td>#FFFFFF</td><td>#2C3E50</td><td>Fun, youthful, approachable</td></tr><tr><td><strong>Sage &amp; Calm</strong></td><td>#2D5016</td><td>#87A96B</td><td>#C4A35A</td><td>#F5F1EB</td><td>#2C2C2C</td><td>Wellness, nature, grounded</td></tr><tr><td><strong>Ocean &amp; Trust</strong></td><td>#003366</td><td>#336699</td><td>#FF9500</td><td>#F8FBFF</td><td>#1A1A1A</td><td>Corporate, reliable, authoritative</td></tr><tr><td><strong>Sunset &amp; Creative</strong></td><td>#FF4500</td><td>#FF6347</td><td>#FFD700</td><td>#1A1A1A</td><td>#FAFAFA</td><td>Creative, bold, entertainment</td></tr><tr><td><strong>Custom</strong></td><td>(picker)</td><td>(picker)</td><td>(picker)</td><td>(picker)</td><td>(picker)</td><td>I know exactly what I want</td></tr></tbody></table></div>
+<p><em>CSS grid of visual cards. Clicking one highlights + stores palette. &quot;Custom&quot; reveals 5 color pickers.</em></p>
+<hr>
+<h2 id="font-pairing-picker-options-q27">Font Pairing Picker — Options (q27)</h2>
+<p>Each card renders a sample heading (&quot;Your Business Name&quot;) + body paragraph in the actual fonts.</p>
+<div class="table-wrap"><table><thead><tr><th>Pairing Name</th><th>Heading Font</th><th>Body Font</th><th>Vibe</th></tr></thead><tbody><tr><td><strong>Authority</strong></td><td>Barlow Condensed (900, uppercase)</td><td>Plus Jakarta Sans</td><td>Bold, commanding, modern agency</td></tr><tr><td><strong>Editorial</strong></td><td>Playfair Display</td><td>Source Sans 3</td><td>Elegant, literary, sophisticated</td></tr><tr><td><strong>Startup</strong></td><td>Inter</td><td>Inter</td><td>Clean, neutral, tech/SaaS</td></tr><tr><td><strong>Boutique</strong></td><td>Cormorant Garamond</td><td>Lato</td><td>Luxury, refined, premium service</td></tr><tr><td><strong>Friendly</strong></td><td>Nunito</td><td>Nunito Sans</td><td>Warm, approachable, community</td></tr><tr><td><strong>Industrial</strong></td><td>Oswald</td><td>Roboto</td><td>Strong, direct, trades/construction</td></tr><tr><td><strong>Creative</strong></td><td>Space Grotesk</td><td>DM Sans</td><td>Quirky, design-forward, studio</td></tr><tr><td><strong>Classic</strong></td><td>Merriweather</td><td>Open Sans</td><td>Traditional, trustworthy, law/finance</td></tr></tbody></table></div>
+<p><em>All Google Fonts. Each card renders live. Clicking highlights + stores the pair.</em></p>
+<hr>
+<h2 id="visual-split-design">Visual Split Design</h2>
+<p>On page load, before any survey appears:</p>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│                                                         │
+│              NUNYA BUNYA BRAND BIBLE                    │
+│                                                         │
+│         Let&#x27;s build something incredible.               │
+│         First — where are you at?                       │
+│                                                         │
+│   ┌──────────────────┐   ┌──────────────────┐          │
+│   │                  │   │                  │          │
+│   │   I&#x27;M STARTING   │   │   I&#x27;M ALREADY    │          │
+│   │   FRESH          │   │   IN BUSINESS    │          │
+│   │                  │   │                  │          │
+│   │  I have an idea  │   │  I have (or had) │          │
+│   │  or I&#x27;m in the   │   │  customers and   │          │
+│   │  planning stage  │   │  I&#x27;m operating   │          │
+│   │                  │   │                  │          │
+│   └──────────────────┘   └──────────────────┘          │
+│                                                         │
+└─────────────────────────────────────────────────────────┘</code></pre>
+<hr>
+<h2 id="key-changes-from-previous-version">Key Changes from Previous Version</h2>
+<ol>
+<li><strong>Reordered for emotional arc:</strong> Easy warmup → personal story → creative fun → analytical → visionary close</li>
+<li><strong>Merged 3 redundant pairs:</strong> q19+q20 → q15 (one fire-up question), q21+q22 → q12 (one friend-describes question), q24+q25 → q18 (one dream-day question)</li>
+<li><strong>Moved visual pickers to Section 3</strong> (from Section 6) — reward after the deep personal section</li>
+<li><strong>Created Quick-Fire Round</strong> (Section 8) — all admin/data questions in one fast burst, no textareas</li>
+<li><strong>Moved photos/social handles</strong> from Section 1 to Quick-Fire Round — keeps Section 1 pure business basics</li>
+<li><strong>Heavy emotional questions (q16, q17) come AFTER</strong> 7 warmup questions — trust is earned first</li>
+<li><strong>q17 (almost quit) is now optional</strong> — explicit &quot;skip if this doesn&#x27;t apply&quot;</li>
+<li><strong>&quot;Anything else&quot; is second-to-last</strong> — survey ENDS on &quot;90-day goal&quot; for an inspired close</li>
+<li><strong>Section names inspire:</strong> &quot;Your People&quot; not &quot;Your Customers&quot;, &quot;Your Rivals&quot; not &quot;Competition&quot;, &quot;Quick-Fire Round&quot; not &quot;Sales &amp; Money&quot;</li>
+<li><strong>Micro-celebrations</strong> after every section showing which deliverables just got unlocked</li>
+<li><strong>Textarea fatigue rule enforced:</strong> Never more than 3 textareas in a row (Quick-Fire Round has zero)</li>
+<li><strong>Down from 98 → 89 questions</strong> with zero loss of deliverable coverage</li>
+<li><strong>Social handles structured</strong> as individual platform fields instead of one messy text box</li>
+</ol>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Docs/SURVEY-REDESIGN.md</div>
+    </main>
+  </div>
+</body>
+</html>

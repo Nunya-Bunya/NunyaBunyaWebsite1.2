@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>April 2026 — Daily Playbook | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          April 2026 — Daily Playbook
+        </div>
+        <h1 class="doc-title">April 2026 — Daily Playbook</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS / 2026 / 04-April</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="april-2026-daily-playbook">April 2026 — Daily Playbook</h1>
+<p><strong>Last updated:</strong> 2026-04-08</p>
+<p><strong>Hard deadline:</strong> April 13 — Screen Queensland PROOF application</p>
+<p>This is your wake-up-and-execute plan. Every day has specific tasks. Don&#x27;t think about what to do — just follow the list.</p>
+<hr>
+<h2 id="weekly-structure">Weekly Structure</h2>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Theme</th><th>Focus</th></tr></thead><tbody><tr><td><strong>Monday</strong></td><td>Revenue Day</td><td>Client outreach, proposals, follow-ups</td></tr><tr><td><strong>Tuesday</strong></td><td>Content Day</td><td>Film/write/edit content for all brands</td></tr><tr><td><strong>Wednesday</strong></td><td>Operations Day</td><td>Demand letters, client deliverables, approvals</td></tr><tr><td><strong>Thursday</strong></td><td>Content Day</td><td>Film/write/edit content for all brands</td></tr><tr><td><strong>Friday</strong></td><td>Build Day</td><td>Technical work (NBHQ, websites, automations)</td></tr><tr><td><strong>Saturday</strong></td><td>Creative Day</td><td>Personal projects (film, photography, ORCA)</td></tr><tr><td><strong>Sunday</strong></td><td>Rest + Plan</td><td>Review week, plan next week, light admin</td></tr></tbody></table></div>
+<hr>
+<h2 id="daily-routine-every-day">Daily Routine (Every Day)</h2>
+<p><strong>Morning (9am-10am) — Non-negotiable:</strong></p>
+<ol>
+<li>Open NBHQ → Dashboard (<code>nunyabunya.com/nb-admin-dashboard</code>)</li>
+<li>Check Activity Log for overnight events</li>
+<li>Check Slack #alerts for hot leads</li>
+<li>Check Approval Queue — approve or reject anything pending</li>
+<li>Open this file and do today&#x27;s tasks</li>
+</ol>
+<p><strong>Evening (5 min before bed):</strong></p>
+<ol>
+<li>Mark today&#x27;s tasks as done in this file</li>
+<li>Glance at tomorrow&#x27;s tasks so your brain preps overnight</li>
+</ol>
+<hr>
+<h2 id="week-1-april-2-6">Week 1: April 2-6</h2>
+<h3 id="thursday-apr-3-content-day">Thursday Apr 3 — Content Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Write LinkedIn post about open-source marketing stack (NB)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write 2 Instagram captions for NB (use AI agents, then edit)</li>
+<li><span class="cb cb-empty">&#9744;</span> Post in 2 Brisbane business Facebook groups with free audit offer</li>
+<li><span class="cb cb-empty">&#9744;</span> Review and approve any AI-generated content in NBHQ Approval Queue</li>
+</ul>
+<p><strong>Out in the World:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Film 1 short-form video: &quot;I replaced $800/month in SaaS with $16/month&quot; (BAC YouTube Short)</li>
+</ul>
+<h3 id="friday-apr-4-build-day">Friday Apr 4 — Build Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Review brand docs in NBHQ → go through NB style guide, make edits</li>
+<li><span class="cb cb-empty">&#9744;</span> Review PP style guide and BAC style guide</li>
+<li><span class="cb cb-empty">&#9744;</span> Review all 3 business plans — flag anything inaccurate</li>
+<li><span class="cb cb-empty">&#9744;</span> Start redesigning landing pages based on approved style guides</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Google My Business for Nunya Bunya</li>
+</ul>
+<h3 id="saturday-apr-5-creative-day">Saturday Apr 5 — Creative Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-done">&#9745;</span> ORCA: Send the voting email (DONE)</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: Draft winner announcement template</li>
+<li><span class="cb cb-empty">&#9744;</span> BAC: Start Screen Queensland PROOF application (due April 13!)</li>
+<li><span class="cb cb-empty">&#9744;</span> BAC: Write short film concept (1 page)</li>
+</ul>
+<p><strong>Out in the World:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Street photography session (1 hour minimum)</li>
+</ul>
+<h3 id="sunday-apr-6-rest-plan">Sunday Apr 6 — Rest + Plan</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Review this week — what got done, what didn&#x27;t</li>
+<li><span class="cb cb-empty">&#9744;</span> Check NBHQ Analytics — any traffic trends?</li>
+<li><span class="cb cb-empty">&#9744;</span> Plan Monday&#x27;s outreach targets (find 5 Brisbane businesses to contact)</li>
+<li><span class="cb cb-empty">&#9744;</span> Light admin: check bills, check email</li>
+</ul>
+<hr>
+<h2 id="week-2-april-7-13-proof-deadline-week">Week 2: April 7-13 (PROOF DEADLINE WEEK)</h2>
+<h3 id="monday-apr-7-revenue-day">Monday Apr 7 — Revenue Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Send 5 cold outreach messages to Brisbane businesses (LinkedIn DMs)</li>
+<li><span class="cb cb-empty">&#9744;</span> Follow up on any free audit requests from landing pages</li>
+<li><span class="cb cb-empty">&#9744;</span> Check Mautic for hot leads (score &gt; 50)</li>
+<li><span class="cb cb-empty">&#9744;</span> Post NB landing page link in 2 Facebook groups</li>
+<li><span class="cb cb-empty">&#9744;</span> Reach out to 2 people in your network who might know someone who needs marketing</li>
+</ul>
+<h3 id="tuesday-apr-8-content-day">Tuesday Apr 8 — Content Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Write 3 social posts for NB (scheduled via Mixpost)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create 1 carousel post for LinkedIn (NB)</li>
+</ul>
+<p><strong>Out in the World:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Film YouTube long-form video #1: &quot;How I Built My Agency&#x27;s Entire Backend for $16/month&quot; (BAC)</li>
+<li><span class="cb cb-empty">&#9744;</span> Take 3 portrait photos for PP portfolio (self-portraits or friends)</li>
+</ul>
+<h3 id="wednesday-apr-9-operations-day">Wednesday Apr 9 — Operations Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Complete 3 demand letters for CLG</li>
+<li><span class="cb cb-empty">&#9744;</span> Run NB content pipeline for all clients (NBHQ → Pipelines)</li>
+<li><span class="cb cb-empty">&#9744;</span> Review and approve generated content</li>
+<li><span class="cb cb-empty">&#9744;</span> Check all landing page stats in NBHQ → Landing Pages</li>
+<li><span class="cb cb-empty">&#9744;</span> Update client notes for all active clients</li>
+</ul>
+<h3 id="thursday-apr-10-content-day">Thursday Apr 10 — Content Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Edit and publish YouTube video #1</li>
+<li><span class="cb cb-empty">&#9744;</span> Write 2 Twitter threads (BAC) — one about filmmaking + AI, one about marketing</li>
+<li><span class="cb cb-empty">&#9744;</span> Create PP social content: 3 posts showing sample portraits</li>
+<li><span class="cb cb-empty">&#9744;</span> Write and schedule NB email newsletter for the week</li>
+</ul>
+<h3 id="friday-apr-11-build-day">Friday Apr 11 — Build Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Redesign 2 landing pages based on approved style guides</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Google My Business for Power Portraits</li>
+<li><span class="cb cb-empty">&#9744;</span> Connect social accounts to Mixpost (Facebook, Instagram, LinkedIn, Twitter)</li>
+<li><span class="cb cb-empty">&#9744;</span> Test the full funnel: click short link → landing page → form → drip email</li>
+</ul>
+<h3 id="saturday-apr-12-creative-day-proof-due-tomorrow">Saturday Apr 12 — Creative Day (PROOF DUE TOMORROW)</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> FINALIZE Screen Queensland PROOF application</li>
+<li><span class="cb cb-empty">&#9744;</span> Write feature film logline + 1-page treatment</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: Check voting status, plan announcement</li>
+</ul>
+<p><strong>Out in the World:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Shoot 1 short film concept video (even on phone — just get something shot)</li>
+</ul>
+<h3 id="sunday-apr-13-proof-deadline">Sunday Apr 13 — PROOF DEADLINE</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> SUBMIT Screen Queensland PROOF application before midnight</li>
+<li><span class="cb cb-empty">&#9744;</span> Review week 2</li>
+<li><span class="cb cb-empty">&#9744;</span> Plan week 3 outreach targets</li>
+</ul>
+<hr>
+<h2 id="week-3-april-14-20">Week 3: April 14-20</h2>
+<h3 id="monday-apr-14-revenue-day">Monday Apr 14 — Revenue Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Send 5 more cold outreach messages</li>
+<li><span class="cb cb-empty">&#9744;</span> Follow up on ALL week 1 + week 2 outreach (anyone who didn&#x27;t reply)</li>
+<li><span class="cb cb-empty">&#9744;</span> Post free strategy session link in 3 Facebook groups</li>
+<li><span class="cb cb-empty">&#9744;</span> Check if any form submissions came through over the weekend</li>
+<li><span class="cb cb-empty">&#9744;</span> Write and send 1 personalised proposal to hottest lead</li>
+</ul>
+<h3 id="tuesday-apr-15-content-day">Tuesday Apr 15 — Content Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Write 5 social posts across all brands</li>
+<li><span class="cb cb-empty">&#9744;</span> Create 1 blog post for NB website (SEO-focused: &quot;best marketing agency Brisbane&quot;)</li>
+<li><span class="cb cb-empty">&#9744;</span> PP: Create &quot;Before &amp; After&quot; content showing LinkedIn profiles with/without pro headshots</li>
+</ul>
+<p><strong>Out in the World:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Film YouTube long-form video #2</li>
+</ul>
+<h3 id="wednesday-apr-16-operations-day">Wednesday Apr 16 — Operations Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Complete 3 demand letters for CLG</li>
+<li><span class="cb cb-empty">&#9744;</span> Run weekly report pipeline for all clients</li>
+<li><span class="cb cb-empty">&#9744;</span> Review Metabase dashboards — any trends?</li>
+<li><span class="cb cb-empty">&#9744;</span> Check if drip campaigns are actually sending (NBHQ → Email Campaigns)</li>
+</ul>
+<p><strong>Out in the World:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> First Portrait Day planning: pick a date, find a location</li>
+</ul>
+<h3 id="thursday-apr-17-content-day">Thursday Apr 17 — Content Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Edit and publish YouTube video #2</li>
+<li><span class="cb cb-empty">&#9744;</span> Write 1 case study from free client work (NB)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create NB testimonial request: email to CLG contacts asking for a quote</li>
+<li><span class="cb cb-empty">&#9744;</span> Schedule week&#x27;s social posts in Mixpost</li>
+</ul>
+<h3 id="friday-apr-18-build-day">Friday Apr 18 — Build Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Redesign remaining landing pages</li>
+<li><span class="cb cb-empty">&#9744;</span> Build NB blog page (if not already live)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up automated weekly email report that sends to your inbox every Monday</li>
+<li><span class="cb cb-empty">&#9744;</span> Review NBHQ — anything broken or missing?</li>
+</ul>
+<h3 id="saturday-apr-19-creative-day">Saturday Apr 19 — Creative Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-done">&#9745;</span> ORCA: 2026 awards cycle complete (voting, email, winners — all done)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write YouTube scripts: 1 long-form + 4 shorts (batch write, then film all in one day)</li>
+</ul>
+<p><strong>Out in the World:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Feature film writing session (2 hours minimum)</li>
+<li><span class="cb cb-empty">&#9744;</span> Street photography session</li>
+</ul>
+<h3 id="sunday-apr-20-rest-plan">Sunday Apr 20 — Rest + Plan</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Mid-month review: how many leads? How many outreach messages sent? Any revenue?</li>
+<li><span class="cb cb-empty">&#9744;</span> Adjust plan for weeks 3-4 if needed</li>
+<li><span class="cb cb-empty">&#9744;</span> Plan week 4 outreach targets</li>
+</ul>
+<hr>
+<h2 id="week-4-april-21-27">Week 4: April 21-27</h2>
+<h3 id="monday-apr-21-revenue-day">Monday Apr 21 — Revenue Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Send 5 more cold outreach messages</li>
+<li><span class="cb cb-empty">&#9744;</span> Follow up on ALL previous outreach</li>
+<li><span class="cb cb-empty">&#9744;</span> If you have a hot lead: schedule strategy call (Cal.com)</li>
+<li><span class="cb cb-empty">&#9744;</span> If you have a proposal out: follow up</li>
+<li><span class="cb cb-empty">&#9744;</span> Post in 2 new Facebook groups you haven&#x27;t tried yet</li>
+</ul>
+<h3 id="tuesday-apr-22-content-day">Tuesday Apr 22 — Content Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Write 5 social posts</li>
+<li><span class="cb cb-empty">&#9744;</span> Create 1 lead magnet or free resource (checklist, guide, etc.)</li>
+<li><span class="cb cb-empty">&#9744;</span> Start planning May content calendar</li>
+</ul>
+<p><strong>Out in the World:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Film YouTube content (shorts or long-form)</li>
+</ul>
+<h3 id="wednesday-apr-23-operations-day">Wednesday Apr 23 — Operations Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Complete 3 demand letters</li>
+<li><span class="cb cb-empty">&#9744;</span> Run all client pipelines</li>
+<li><span class="cb cb-empty">&#9744;</span> Review and approve content</li>
+</ul>
+<p><strong>Out in the World:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> PP: Confirm Portrait Day date and start promoting</li>
+</ul>
+<h3 id="thursday-apr-24-content-day">Thursday Apr 24 — Content Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Edit and publish content</li>
+<li><span class="cb cb-empty">&#9744;</span> Write NB blog post #2</li>
+<li><span class="cb cb-empty">&#9744;</span> Create PP &quot;Behind the Scenes&quot; content</li>
+<li><span class="cb cb-empty">&#9744;</span> Schedule all social posts for remainder of week</li>
+</ul>
+<h3 id="friday-apr-25-anzac-day-public-holiday">Friday Apr 25 — ANZAC Day (Public Holiday)</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Plan May strategy</li>
+</ul>
+<p><strong>Out in the World:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Rest / light creative work only</li>
+</ul>
+<h3 id="saturday-apr-26-creative-day">Saturday Apr 26 — Creative Day</h3>
+<p><strong>Out in the World:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Feature film writing session</li>
+<li><span class="cb cb-empty">&#9744;</span> Photography</li>
+<li><span class="cb cb-empty">&#9744;</span> Film all YouTube content (1 long-form + 4 shorts) if scripts are written</li>
+</ul>
+<h3 id="sunday-apr-27-rest-plan">Sunday Apr 27 — Rest + Plan</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Monthly review: leads, revenue, content published, lessons learned</li>
+<li><span class="cb cb-empty">&#9744;</span> Create May Daily Playbook</li>
+<li><span class="cb cb-empty">&#9744;</span> Celebrate wins (even small ones)</li>
+</ul>
+<hr>
+<h2 id="week-5-april-28-30">Week 5: April 28-30</h2>
+<h3 id="monday-apr-28-revenue-day">Monday Apr 28 — Revenue Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Final outreach push for the month</li>
+<li><span class="cb cb-empty">&#9744;</span> Follow up on everything outstanding</li>
+<li><span class="cb cb-empty">&#9744;</span> If no paying client yet: what&#x27;s the blocker? Adjust approach.</li>
+</ul>
+<h3 id="tuesday-apr-29-content-day">Tuesday Apr 29 — Content Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Batch create content for first week of May</li>
+</ul>
+<p><strong>Out in the World:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Film 1 more YouTube video</li>
+</ul>
+<h3 id="wednesday-apr-30-operations-day">Wednesday Apr 30 — Operations Day</h3>
+<p><strong>At the Computer:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Complete demand letters</li>
+<li><span class="cb cb-empty">&#9744;</span> End-of-month reports for all clients</li>
+<li><span class="cb cb-empty">&#9744;</span> Update GOALS.md with April results</li>
+<li><span class="cb cb-empty">&#9744;</span> Transfer any incomplete tasks to May playbook</li>
+</ul>
+<hr>
+<h2 id="monthly-targets-scoreboard">Monthly Targets (Scoreboard)</h2>
+<p>Track these numbers. Update weekly.</p>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Target</th><th>Week 1 (Apr 2-6)</th><th>Week 2 (Apr 7-13)</th><th>Week 3</th><th>Week 4</th><th>Total</th></tr></thead><tbody><tr><td>Cold outreach messages sent</td><td>20</td><td>0</td><td>—</td><td></td><td></td><td>0</td></tr><tr><td>Strategy calls booked</td><td>3</td><td>0</td><td>—</td><td></td><td></td><td>0</td></tr><tr><td>Proposals sent</td><td>2</td><td>0</td><td>—</td><td></td><td></td><td>0</td></tr><tr><td>Paying clients acquired</td><td>1+</td><td>0</td><td>—</td><td></td><td></td><td>0</td></tr><tr><td>YouTube videos published</td><td>2</td><td>0</td><td>—</td><td></td><td></td><td>0</td></tr><tr><td>Social posts published</td><td>20</td><td>0</td><td>—</td><td></td><td></td><td>0</td></tr><tr><td>Blog posts published</td><td>2</td><td>0</td><td>—</td><td></td><td></td><td>0</td></tr><tr><td>Demand letters completed</td><td>12</td><td>?</td><td>—</td><td></td><td></td><td>?</td></tr><tr><td>Portrait shoots completed</td><td>1</td><td>0</td><td>—</td><td></td><td></td><td>0</td></tr><tr><td>Facebook groups posted in</td><td>8</td><td>0</td><td>—</td><td></td><td></td><td>0</td></tr><tr><td>Landing page leads captured</td><td>5</td><td>0</td><td>—</td><td></td><td></td><td>0</td></tr><tr><td>ORCA voting email sent</td><td>1</td><td>✓</td><td>—</td><td></td><td></td><td>1</td></tr></tbody></table></div>
+<blockquote><strong>Week 1 reality check:</strong> Most targets missed. Infrastructure work (agents, NBHQ, stack) took priority over outreach and content. Week 2 is PROOF deadline week — focus shifts to execution. Ben: fill in demand letter count and update any cells that are wrong.</blockquote>
+<hr>
+<h2 id="key-links-open-these-every-morning">Key Links (Open These Every Morning)</h2>
+<ul>
+<li>NBHQ Dashboard: <code>nunyabunya.com/nb-admin-dashboard</code></li>
+<li>Approval Queue: <code>nunyabunya.com/nb-admin-approval</code></li>
+<li>Activity Log: <code>nunyabunya.com/nb-admin-activity</code></li>
+<li>Landing Pages: <code>nunyabunya.com/nb-admin-landing-pages</code></li>
+<li>Slack #alerts: <code>nunyabunya-workspace.slack.com/archives/C0AN3KML1DG</code></li>
+<li>This file: <code>MASTER PLANS/2026/04-April/DAILY-PLAYBOOK.md</code></li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/2026/04-April/DAILY-PLAYBOOK.md</div>
+    </main>
+  </div>
+</body>
+</html>

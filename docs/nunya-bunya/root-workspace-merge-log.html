@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Root Workspace Merge Log | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Root Workspace Merge Log
+        </div>
+        <h1 class="doc-title">Root Workspace Merge Log</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Clients</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="root-workspace-merge-log">Root Workspace Merge Log</h1>
+<p><strong>Date:</strong> 2026-04-13</p>
+<p><strong>Purpose:</strong> Record the second consolidation pass that moved client/account material from the root of <code>MASTER WORKSPACE</code> into <code>03-Nunya Bunya/Clients</code>.</p>
+<hr>
+<h2 id="what-changed">What Changed</h2>
+<p>The following root workspace folders were reviewed and merged into the Nunya Bunya client system:</p>
+<div class="table-wrap"><table><thead><tr><th>Original Root Folder</th><th>New Location</th><th>Notes</th></tr></thead><tbody><tr><td><code>01-Conner Law Group</code></td><td><code>Clients/conner-law-group</code>, <code>Clients/conner-injury-law</code>, <code>Clients/kevlaw-ai</code></td><td>Split by account/product. Legal case files were kept together under <code>conner-law-group/99-archive/legal-operations</code>.</td></tr><tr><td><code>02-Ben Alek Conner</code></td><td><code>Clients/ben-alek-conner</code></td><td>Brand, site, content, strategy, and archive materials mapped into the standard client folders.</td></tr><tr><td><code>04-ORCA Film Awards</code></td><td><code>Clients/orca-film-awards</code></td><td>Brand, site, award history, ballots, lead magnets, PR, email, and content materials migrated.</td></tr><tr><td><code>05-Power Portraits</code></td><td><code>Clients/power-portraits</code></td><td>Brand assets, website projects, lead magnets, ads, content, source docs, and review materials migrated.</td></tr><tr><td><code>06-Bella Rhyder</code></td><td><code>Clients/Bella Rhyder</code></td><td>Foundational, brand, site, content/launch, marketing, operations, and review materials migrated.</td></tr><tr><td><code>07-The Conner Store</code></td><td><code>Clients/the-conner-store</code></td><td>Product/business docs migrated into <code>01-strategy</code>.</td></tr><tr><td><code>08-CONTENT STUDIO</code></td><td><code>Clients/content-studio</code></td><td>Service/product docs migrated into <code>01-strategy</code>.</td></tr><tr><td><code>09-AdMap</code></td><td><code>Clients/admap</code></td><td>Strategy docs moved into <code>01-strategy</code>; app/data/tooling moved into <code>03-site</code>.</td></tr><tr><td><code>northstar-faq</code></td><td><code>Clients/_Archive/northstar-faq/03-site</code></td><td>Archived/static site material moved into the client archive.</td></tr></tbody></table></div>
+<p>Loose VBIE scratch files from the workspace root were also moved into <code>03-Nunya Bunya/Tools/vbie</code>:</p>
+<ul>
+<li><code>client.ts</code> -&gt; <code>Tools/vbie/lib/supabase/client.ts</code></li>
+<li><code>server.ts</code> -&gt; <code>Tools/vbie/lib/supabase/server.ts</code></li>
+<li><code>page.tsx</code> -&gt; <code>Tools/vbie/app/page.tsx</code></li>
+<li><code>route.ts</code> -&gt; <code>Tools/vbie/app/api/generate-image/route.ts</code></li>
+<li><code>promptEngine.ts</code> -&gt; <code>Tools/vbie/lib/promptEngine.ts</code></li>
+</ul>
+<hr>
+<h2 id="mapping-rules-used">Mapping Rules Used</h2>
+<ul>
+<li>Brand bibles, logos, photos, and style guides moved to <code>02-brand</code>.</li>
+<li>Website and app projects moved to <code>03-site</code>.</li>
+<li>Ads, lead magnets, ballots, and launch/sales campaign material moved to <code>04-campaigns</code>.</li>
+<li>Email sequences, content calendars, social media, PR, recruitment, and post banks moved to <code>05-content</code>.</li>
+<li>Award history, case studies, and reporting/case-study evidence moved to <code>06-reporting</code>.</li>
+<li>Old reviews, backups, duplicate projects, legal operations, and uncertain leftovers moved to <code>99-archive</code>.</li>
+</ul>
+<hr>
+<h2 id="important-notes">Important Notes</h2>
+<ul>
+<li>Root folders <code>01</code> through <code>09</code> may still exist as empty shells or <code>.DS_Store</code> holders. They were not deleted.</li>
+<li><code>00-Ben HQ</code>, <code>MASTER OPERATIONS</code>, <code>MASTER PLANS</code>, and <code>ARCHIVE</code> were not folded into clients because they appear to be workspace/system-level areas, not client accounts.</li>
+<li>Root screenshots and loose files were not moved in this pass.</li>
+<li>Root screenshots, workspace files, <code>.env</code>, <code>master-posting-data.json</code>, and <code>master-posting-station.html</code> were not moved in this pass.</li>
+<li><code>.env</code> files were moved only when they were inside a migrated site/project folder; their values were not opened or copied into any document.</li>
+<li>The Conner Law material contains legal/client case files. Those were not split apart into Nunya Bunya client accounts; they were kept as a single archived legal-operations bundle.</li>
+</ul>
+<hr>
+<h2 id="reviewed-but-left-outside-clients">Reviewed But Left Outside Clients</h2>
+<p>These root folders were reviewed at a shallow level and left outside the Nunya Bunya client section:</p>
+<div class="table-wrap"><table><thead><tr><th>Folder</th><th>Reason Left In Place</th></tr></thead><tbody><tr><td><code>00-Ben HQ</code></td><td>Personal/operating HQ with apps, backups, finance, templates, installers, workspace agents, and large tool folders. Better treated as a separate HQ/system area.</td></tr><tr><td><code>MASTER OPERATIONS</code></td><td>Workspace-level operating docs and portfolio/review assets. Better handled as master ops, not a client account.</td></tr><tr><td><code>MASTER PLANS</code></td><td>Cross-business planning and strategy docs. Better linked from Nunya Bunya strategy later instead of being absorbed into a client folder.</td></tr><tr><td><code>ARCHIVE</code></td><td>Large archive layer. Needs a dedicated archive cleanup pass before anything moves.</td></tr></tbody></table></div>
+<hr>
+<h2 id="follow-up-cleanup">Follow-Up Cleanup</h2>
+<ul>
+<li>Decide whether to delete or archive empty root folders after confirming no external references depend on them.</li>
+<li>Review <code>Clients/conner-law-group/99-archive/legal-operations</code> separately if legal case materials need their own secure structure.</li>
+<li>Consider renaming <code>Clients/Bella Rhyder</code> to <code>Clients/bella-rhyder</code> later, after checking references.</li>
+<li>Consider whether <code>admap</code>, <code>content-studio</code>, <code>kevlaw-ai</code>, and <code>the-conner-store</code> should remain under <code>Clients</code> or move to <code>Products</code>/<code>Tools</code> once the agency operating model is clearer.</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Clients/ROOT-WORKSPACE-MERGE-LOG.md</div>
+    </main>
+  </div>
+</body>
+</html>

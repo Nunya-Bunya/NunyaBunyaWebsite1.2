@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Foundation Kit — Intake Survey | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Business Foundation Kit — Intake Survey
+        </div>
+        <h1 class="doc-title">Business Foundation Kit — Intake Survey</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Products</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="business-foundation-kit-intake-survey">Business Foundation Kit — Intake Survey</h1>
+<blockquote><strong>Instructions to the client:</strong> Answer every question as honestly and specifically as you can. There are no wrong answers. If you don&#x27;t know something yet, say &quot;not sure&quot; — that&#x27;s useful information too. Your answers directly fuel the 20 core documents we&#x27;ll build for your business.<br><br><strong>Estimated time:</strong> 30–45 minutes</blockquote>
+<hr>
+<h2 id="section-1-you-amp-your-business-questions-18">SECTION 1: YOU &amp; YOUR BUSINESS (Questions 1–8)</h2>
+<p><strong>1. What is your business name?</strong></p>
+<p>(If you haven&#x27;t decided yet, what are you leaning toward?)</p>
+<p><strong>2. What does your business do in one sentence?</strong></p>
+<p>(Example: &quot;I help small restaurants get more customers through social media management.&quot;)</p>
+<p><strong>3. Is your business already operating, or are you in the planning/startup phase?</strong></p>
+<ul>
+<li>Already operating and making money</li>
+<li>Operating but no revenue yet</li>
+<li>Still in the planning stage</li>
+<li>Just an idea right now</li>
+</ul>
+<p><strong>4. What type of business is this?</strong></p>
+<ul>
+<li>Service-based (you do work for clients)</li>
+<li>Product-based (you sell physical or digital products)</li>
+<li>SaaS / Software</li>
+<li>E-commerce</li>
+<li>Content / Media</li>
+<li>Other: ___</li>
+</ul>
+<p><strong>5. Are you a solo operator, or do you have (or plan to have) a team?</strong></p>
+<ul>
+<li>Just me</li>
+<li>Me + 1–2 people</li>
+<li>Small team (3–10)</li>
+<li>Planning to grow a team eventually</li>
+</ul>
+<p><strong>6. Why did you start (or want to start) this business?</strong></p>
+<p>(What&#x27;s the real reason — not the polished version. What problem did you experience or see that made you say &quot;I should build this&quot;?)</p>
+<p><strong>7. Where do you want this business to be in 3 years?</strong></p>
+<p>(Revenue, lifestyle, team size, reputation — whatever matters most to you.)</p>
+<p><strong>8. What&#x27;s your single biggest fear or obstacle right now?</strong></p>
+<hr>
+<h2 id="section-2-your-customers-questions-917">SECTION 2: YOUR CUSTOMERS (Questions 9–17)</h2>
+<p><strong>9. Who is your ideal customer? Describe them like a real person.</strong></p>
+<p>(Age range, job title or role, income level, location, lifestyle — be as specific as possible.)</p>
+<p><strong>10. What is the #1 problem or pain point your ideal customer has that your business solves?</strong></p>
+<p><strong>11. What happens if they DON&#x27;T solve this problem? What does their life/business look like if they do nothing?</strong></p>
+<p><strong>12. Have you already worked with any customers or clients? If yes, describe your best one.</strong></p>
+<p>(What made them great? What did they buy? How did they find you?)</p>
+<p><strong>13. Where do your ideal customers hang out — online and offline?</strong></p>
+<p>(Social platforms, forums, events, publications, communities, etc.)</p>
+<p><strong>14. When your ideal customer is searching for a solution like yours, what would they type into Google?</strong></p>
+<p>(List 3–5 phrases.)</p>
+<p><strong>15. What objections or hesitations do potential customers have before buying from you?</strong></p>
+<p>(Price too high? Don&#x27;t trust it? Don&#x27;t understand it? Already tried something similar?)</p>
+<p><strong>16. Is your customer the person who pays, or do they need to convince someone else (a boss, partner, spouse)?</strong></p>
+<p><strong>17. How much is solving this problem worth to your customer?</strong></p>
+<p>(In dollars, time saved, stress reduced — help us understand the value from their perspective.)</p>
+<hr>
+<h2 id="section-3-what-you-sell-questions-1825">SECTION 3: WHAT YOU SELL (Questions 18–25)</h2>
+<p><strong>18. List every product or service you offer (or plan to offer). For each one, include:</strong></p>
+<ul>
+<li>Name</li>
+<li>Brief description</li>
+<li>Price (or planned price)</li>
+<li>Who it&#x27;s for</li>
+</ul>
+<p><strong>19. Which single offering is your &quot;flagship&quot; — the one you&#x27;d want most customers to buy?</strong></p>
+<p><strong>20. What does a customer actually receive or experience when they buy from you?</strong></p>
+<p>(Deliverables, timeline, meetings, results — walk us through it step by step.)</p>
+<p><strong>21. How long does it take to deliver your product/service from purchase to completion?</strong></p>
+<p><strong>22. Do you offer different tiers or packages (e.g., Basic / Pro / Premium)?</strong></p>
+<p>If yes, describe them. If no, would you consider it?</p>
+<p><strong>23. What makes your offer different from just hiring someone cheaper on Fiverr or doing it themselves?</strong></p>
+<p><strong>24. Do you have any guarantees, warranties, or risk-reversals?</strong></p>
+<p>(Money-back guarantee, free revisions, performance guarantees, etc.)</p>
+<p><strong>25. What&#x27;s your capacity? How many customers/clients can you realistically serve per month right now?</strong></p>
+<hr>
+<h2 id="section-4-your-competition-questions-2630">SECTION 4: YOUR COMPETITION (Questions 26–30)</h2>
+<p><strong>26. Name 3–5 competitors or alternatives your customers might consider instead of you.</strong></p>
+<p>(Direct competitors, DIY solutions, or &quot;do nothing&quot; all count.)</p>
+<p><strong>27. What do your competitors do well?</strong></p>
+<p><strong>28. What do your competitors do poorly or ignore?</strong></p>
+<p><strong>29. How is your approach fundamentally different from theirs?</strong></p>
+<p>(Not just &quot;better quality&quot; — what&#x27;s structurally different about how you operate, deliver, or think?)</p>
+<p><strong>30. What would make a customer choose you over the most popular competitor, even if you&#x27;re more expensive?</strong></p>
+<hr>
+<h2 id="section-5-brand-amp-personality-questions-3137">SECTION 5: BRAND &amp; PERSONALITY (Questions 31–37)</h2>
+<p><strong>31. If your business were a person at a party, how would they talk?</strong></p>
+<p>Pick all that apply:</p>
+<ul>
+<li>Professional and polished</li>
+<li>Friendly and casual</li>
+<li>Bold and provocative</li>
+<li>Warm and empathetic</li>
+<li>Witty and sharp</li>
+<li>Calm and authoritative</li>
+<li>Energetic and hype</li>
+<li>Other: ___</li>
+</ul>
+<p><strong>32. What are 3 words you want people to associate with your brand?</strong></p>
+<p><strong>33. What brands (in any industry) do you admire and why?</strong></p>
+<p>(Example: &quot;Apple — because everything feels simple and premium.&quot;)</p>
+<p><strong>34. Is there a tone or style you absolutely do NOT want?</strong></p>
+<p>(Example: &quot;Don&#x27;t sound corporate.&quot; or &quot;Nothing cutesy.&quot;)</p>
+<p><strong>35. Do you have existing brand assets?</strong></p>
+<ul>
+<li>Logo</li>
+<li>Brand colors</li>
+<li>Fonts</li>
+<li>Social media profiles</li>
+</ul>
+<p>(List what exists and share links/files if possible.)</p>
+<p><strong>35b. What&#x27;s your website URL? (if you have one)</strong></p>
+<p>(We&#x27;ll look at your site to match your existing brand. Leave blank if you don&#x27;t have one yet.)</p>
+<p><strong>36. What&#x27;s your brand&#x27;s origin story in 2–3 sentences?</strong></p>
+<p>(How did this business come to exist? What&#x27;s the human story behind it?)</p>
+<p><strong>37. Do you have a tagline or slogan? If not, is there a phrase you keep coming back to when describing what you do?</strong></p>
+<hr>
+<h2 id="section-6-sales-amp-money-questions-3844">SECTION 6: SALES &amp; MONEY (Questions 38–44)</h2>
+<p><strong>38. How do customers currently find you?</strong></p>
+<p>(Word of mouth, social media, Google, referrals, cold outreach, ads, etc.)</p>
+<p><strong>39. What&#x27;s your current monthly revenue?</strong></p>
+<ul>
+<li>$0 (pre-revenue)</li>
+<li>Under $1,000/mo</li>
+<li>$1,000–$5,000/mo</li>
+<li>$5,000–$20,000/mo</li>
+<li>$20,000+/mo</li>
+</ul>
+<p><strong>40. What monthly revenue would make this business &quot;working&quot; for you?</strong></p>
+<p>(The number where you&#x27;d feel like it&#x27;s real and sustainable.)</p>
+<p><strong>41. Walk us through how a stranger becomes a paying customer today (or how you imagine it working).</strong></p>
+<p>(Example: &quot;They see my Instagram post → click link in bio → book a free call → I send a proposal → they pay.&quot;)</p>
+<p><strong>42. What&#x27;s your average sale value (or what do you want it to be)?</strong></p>
+<p><strong>43. Do you currently have any of these in place?</strong></p>
+<ul>
+<li>Email list</li>
+<li>CRM or contact database</li>
+<li>Booking/scheduling system</li>
+<li>Contracts or service agreements</li>
+<li>Invoicing system</li>
+<li>Website with clear call-to-action</li>
+</ul>
+<p><strong>44. What&#x27;s your monthly budget for marketing and tools?</strong></p>
+<ul>
+<li>$0 (bootstrapping)</li>
+<li>Under $100/mo</li>
+<li>$100–$500/mo</li>
+<li>$500–$2,000/mo</li>
+<li>$2,000+/mo</li>
+</ul>
+<hr>
+<h2 id="section-7-operations-amp-delivery-questions-4550">SECTION 7: OPERATIONS &amp; DELIVERY (Questions 45–50)</h2>
+<p><strong>45. What does a typical work week look like for you right now?</strong></p>
+<p>(Hours spent on the business, what tasks eat most of your time.)</p>
+<p><strong>46. What tools or software do you currently use to run your business?</strong></p>
+<p>(Anything — Google Docs, Canva, QuickBooks, Notion, a notebook, whatever.)</p>
+<p><strong>47. What&#x27;s the one task in your business you wish you could hand off or automate tomorrow?</strong></p>
+<p><strong>48. When you deliver your product/service, what are the key steps from start to finish?</strong></p>
+<p>(Example: &quot;1. Client fills out brief → 2. I draft designs → 3. Client reviews → 4. Revisions → 5. Final delivery.&quot;)</p>
+<p><strong>49. What does amazing client/customer experience look like to you?</strong></p>
+<p>(How do you want people to FEEL when they work with you or buy from you?)</p>
+<p><strong>50. Is there anything else we should know about your business, your customers, or your goals that we didn&#x27;t ask?</strong></p>
+<hr>
+<h2 id="how-your-answers-become-your-documents">HOW YOUR ANSWERS BECOME YOUR DOCUMENTS</h2>
+<p>Your responses directly feed into these 20 foundational business documents:</p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Document</th><th>Built From Questions</th></tr></thead><tbody><tr><td>1</td><td>Ideal Customer Profile (ICP)</td><td>9, 10, 11, 13, 14, 16, 17</td></tr><tr><td>2</td><td>Value Proposition Canvas</td><td>10, 11, 17, 23, 30</td></tr><tr><td>3</td><td>Offer Stack &amp; Pricing Doc</td><td>18, 19, 22, 23, 24, 42</td></tr><tr><td>4</td><td>Brand Positioning Statement</td><td>2, 29, 30, 32, 36</td></tr><tr><td>5</td><td>Pitch Deck (10 slides)</td><td>2, 6, 10, 17, 19, 23, 29, 40</td></tr><tr><td>6</td><td>Sales Playbook</td><td>15, 16, 38, 41, 42</td></tr><tr><td>7</td><td>Service Delivery Framework</td><td>20, 21, 25, 48</td></tr><tr><td>8</td><td>CRM Pipeline Definition</td><td>41, 43</td></tr><tr><td>9</td><td>Messaging Framework</td><td>10, 14, 15, 23, 30, 37</td></tr><tr><td>10</td><td>Brand Voice &amp; Tone Guide</td><td>31, 32, 33, 34, 36</td></tr><tr><td>11</td><td>Visual Style Guide</td><td>32, 33, 35</td></tr><tr><td>12</td><td>Content Strategy</td><td>13, 14, 31, 38</td></tr><tr><td>13</td><td>Core SOPs (Onboarding, Delivery, Reporting)</td><td>20, 21, 48, 49</td></tr><tr><td>14</td><td>Contracts &amp; Agreements (MSA + Scope Template)</td><td>18, 20, 21, 24</td></tr><tr><td>15</td><td>Financial Model &amp; Forecast</td><td>25, 39, 40, 42, 44</td></tr><tr><td>16</td><td>Pricing &amp; Unit Economics</td><td>18, 22, 42, 44, 25</td></tr><tr><td>17</td><td>Competitive Analysis</td><td>26, 27, 28, 29, 30</td></tr><tr><td>18</td><td>Conversion Funnel Map</td><td>13, 38, 41</td></tr><tr><td>19</td><td>Lead Generation Strategy</td><td>13, 14, 38, 44</td></tr><tr><td>20</td><td>Business Plan (Lean One-Pager)</td><td>2, 6, 7, 9, 10, 18, 29, 39, 40</td></tr></tbody></table></div>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Products/business-foundation-survey.md</div>
+    </main>
+  </div>
+</body>
+</html>

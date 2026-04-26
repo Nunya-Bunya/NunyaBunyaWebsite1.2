@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ad Copy — All Businesses | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          Ad Copy — All Businesses
+        </div>
+        <h1 class="doc-title">Ad Copy — All Businesses</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="ad-copy-all-businesses">Ad Copy — All Businesses</h1>
+<p><strong>Created:</strong> 2026-03-26</p>
+<p>Each business has 3 ad variations for Google Ads and 3 for Meta (Facebook/Instagram) Ads.</p>
+<hr>
+<h2 id="1-nunya-bunya-free-marketing-audit-offer">1. Nunya Bunya — Free Marketing Audit Offer</h2>
+<h3 id="google-ads-search">Google Ads (Search)</h3>
+<p><strong>Ad 1 — Direct offer</strong></p>
+<ul>
+<li>Headline 1: Free Marketing Audit | Brisbane</li>
+<li>Headline 2: Find Out What&#x27;s Holding You Back</li>
+<li>Headline 3: AI-Powered Digital Marketing</li>
+<li>Description 1: Get a free, no-obligation marketing audit for your business. We&#x27;ll show you exactly where you&#x27;re losing customers and how to fix it.</li>
+<li>Description 2: Brisbane&#x27;s AI-powered marketing agency. SEO, ads, content, social — all under one roof. Book your free audit today.</li>
+<li>Display URL: nunyabunya.com/free-audit</li>
+</ul>
+<p><strong>Ad 2 — Pain point</strong></p>
+<ul>
+<li>Headline 1: Wasting Money on Marketing?</li>
+<li>Headline 2: Free Audit Shows Where</li>
+<li>Headline 3: Nunya Bunya | Brisbane</li>
+<li>Description 1: Most small businesses waste 40% of their marketing budget. Our free audit pinpoints exactly what&#x27;s working and what&#x27;s not. No obligation.</li>
+<li>Description 2: Stop guessing. Start growing. Get a data-driven marketing audit from Brisbane&#x27;s AI-powered agency. Free for a limited time.</li>
+<li>Display URL: nunyabunya.com/free-audit</li>
+</ul>
+<p><strong>Ad 3 — Social proof</strong></p>
+<ul>
+<li>Headline 1: Brisbane Marketing Agency</li>
+<li>Headline 2: Results-Driven Strategies</li>
+<li>Headline 3: Book a Free Audit Today</li>
+<li>Description 1: We help small businesses grow with AI-powered marketing. SEO, Google Ads, social media, and content — all handled for you.</li>
+<li>Description 2: Join businesses across Brisbane getting real results. Book your free marketing audit and see the difference data makes.</li>
+<li>Display URL: nunyabunya.com/free-audit</li>
+</ul>
+<h3 id="meta-ads-facebookinstagram">Meta Ads (Facebook/Instagram)</h3>
+<p><strong>Ad 1 — Carousel / Single Image</strong></p>
+<ul>
+<li>Primary text: Still trying to figure out your marketing? You don&#x27;t have to do it alone. We&#x27;ll audit your entire marketing setup for free — website, socials, ads, SEO — and tell you exactly what to fix. No cost. No obligation. Just clarity. Book your free audit below.</li>
+<li>Headline: Free Marketing Audit</li>
+<li>Description: See what&#x27;s working and what&#x27;s costing you customers.</li>
+<li>CTA: Book Now</li>
+<li>Link: nunyabunya.com/free-audit</li>
+</ul>
+<p><strong>Ad 2 — Video / Reel</strong></p>
+<ul>
+<li>Primary text: We built a marketing system that costs $0/month in tools. Want to see it? We&#x27;re giving away our complete &quot;$0 Marketing Stack&quot; guide — every free tool you need to market your business like an agency. Download it free, no strings attached.</li>
+<li>Headline: The $0 Marketing Stack</li>
+<li>Description: Free tools. Real results. Download the guide.</li>
+<li>CTA: Download</li>
+<li>Link: nunyabunya.com/free-guide</li>
+</ul>
+<p><strong>Ad 3 — Retargeting</strong></p>
+<ul>
+<li>Primary text: Hey, you checked us out but didn&#x27;t book. No worries — here&#x27;s what you&#x27;re missing: a complete audit of your marketing showing you exactly where customers are slipping away. It&#x27;s free. It takes 15 minutes. And it could change your business.</li>
+<li>Headline: Your Free Audit Is Waiting</li>
+<li>Description: 15 minutes. Zero cost. Real insights.</li>
+<li>CTA: Book Now</li>
+<li>Link: nunyabunya.com/free-audit</li>
+</ul>
+<hr>
+<h2 id="2-power-portraits-studio-portrait-day-offer">2. Power Portraits — Studio Portrait Day Offer</h2>
+<h3 id="google-ads-search">Google Ads (Search)</h3>
+<p><strong>Ad 1 — Price-led</strong></p>
+<ul>
+<li>Headline 1: Professional Headshots $200</li>
+<li>Headline 2: Normally $650 | Limited Spots</li>
+<li>Headline 3: Power Portraits Brisbane</li>
+<li>Description 1: Studio Portrait Day is here. Professional headshots for just $200 (normally $650). Includes styling guidance and retouched digital files.</li>
+<li>Description 2: Upgrade your LinkedIn, website, and brand with a professional portrait. Limited spots available. Book your session today.</li>
+<li>Display URL: powerportraitsphotography.com/book</li>
+</ul>
+<p><strong>Ad 2 — Professional angle</strong></p>
+<ul>
+<li>Headline 1: Corporate Headshots Brisbane</li>
+<li>Headline 2: Look the Part. Get Hired.</li>
+<li>Headline 3: From $200 | Book Now</li>
+<li>Description 1: First impressions matter. Get professional corporate headshots that make you look confident, approachable, and hireable. Studio sessions in Brisbane.</li>
+<li>Description 2: Used by executives, entrepreneurs, and professionals across Brisbane. Premium quality at an unbeatable price. Limited time offer.</li>
+<li>Display URL: powerportraitsphotography.com/book</li>
+</ul>
+<p><strong>Ad 3 — LinkedIn angle</strong></p>
+<ul>
+<li>Headline 1: Your LinkedIn Photo Is Costing You</li>
+<li>Headline 2: Professional Headshots | $200</li>
+<li>Headline 3: Power Portraits Brisbane</li>
+<li>Description 1: Profiles with professional photos get 14x more views. Stop losing opportunities with a selfie. Professional headshots from $200 in Brisbane.</li>
+<li>Description 2: Studio sessions include posing guidance, professional lighting, and retouched digital files. Limited spots for Studio Portrait Day.</li>
+<li>Display URL: powerportraitsphotography.com/book</li>
+</ul>
+<h3 id="meta-ads-facebookinstagram">Meta Ads (Facebook/Instagram)</h3>
+<p><strong>Ad 1 — Before/After concept</strong></p>
+<ul>
+<li>Primary text: Your profile photo is the first thing people see. Make it count. Studio Portrait Day is here — professional headshots for just $200 (normally $650). Includes posing guidance, professional lighting, and retouched digital files. Limited spots. Don&#x27;t miss out.</li>
+<li>Headline: Studio Portrait Day — $200</li>
+<li>Description: Professional headshots. Normally $650. Limited spots.</li>
+<li>CTA: Book Now</li>
+<li>Link: powerportraitsphotography.com/waitlist</li>
+</ul>
+<p><strong>Ad 2 — Lead magnet</strong></p>
+<ul>
+<li>Primary text: Nervous about getting your photo taken? You&#x27;re not alone. We created a free Posing Guide that shows you exactly how to look natural, confident, and professional in front of the camera. Download it free — even if you&#x27;re not ready to book yet.</li>
+<li>Headline: Free Posing Guide</li>
+<li>Description: Look confident in every photo. Download free.</li>
+<li>CTA: Download</li>
+<li>Link: powerportraitsphotography.com/lead-magnet</li>
+</ul>
+<p><strong>Ad 3 — Retargeting</strong></p>
+<ul>
+<li>Primary text: Still thinking about it? Studio Portrait Day spots are filling up. $200 for a session that normally costs $650. Professional headshots that&#x27;ll make your LinkedIn, website, and business cards look incredible. Don&#x27;t wait — we only have a few spots left.</li>
+<li>Headline: Spots Are Filling Up</li>
+<li>Description: Studio Portrait Day. $200. Book before it&#x27;s gone.</li>
+<li>CTA: Book Now</li>
+<li>Link: powerportraitsphotography.com/waitlist</li>
+</ul>
+<hr>
+<h2 id="3-ben-alek-conner-free-strategy-session">3. Ben Alek Conner — Free Strategy Session</h2>
+<h3 id="google-ads-search">Google Ads (Search)</h3>
+<p><strong>Ad 1</strong></p>
+<ul>
+<li>Headline 1: Free Marketing Strategy Call</li>
+<li>Headline 2: 30 Minutes. Real Advice.</li>
+<li>Headline 3: Ben Alek Conner | Brisbane</li>
+<li>Description 1: Get a free 30-minute marketing strategy session. No pitch. No pressure. Just practical advice tailored to your business.</li>
+<li>Description 2: Photographer, content creator, and marketing strategist helping Brisbane businesses grow. Book your free call today.</li>
+<li>Display URL: benalekconner.com/book</li>
+</ul>
+<p><strong>Ad 2</strong></p>
+<ul>
+<li>Headline 1: Content Creator Brisbane</li>
+<li>Headline 2: Photography &amp; Marketing</li>
+<li>Headline 3: Book a Free Strategy Call</li>
+<li>Description 1: Need content that actually converts? Photographer and marketing strategist helping businesses tell their story and grow their audience.</li>
+<li>Description 2: From professional photography to full content strategy. See how the right content can transform your business. Free consultation.</li>
+<li>Display URL: benalekconner.com/book</li>
+</ul>
+<h3 id="meta-ads-facebookinstagram">Meta Ads (Facebook/Instagram)</h3>
+<p><strong>Ad 1 — Lead magnet</strong></p>
+<ul>
+<li>Primary text: I built my entire marketing stack for $0/month. No paid tools. No subscriptions. Just free software that actually works. I put together a guide showing you exactly what I use and how. Download it free.</li>
+<li>Headline: Free Content Calendar Template</li>
+<li>Description: Plan a month of content in 30 minutes.</li>
+<li>CTA: Download</li>
+<li>Link: benalekconner.com/free-guide</li>
+</ul>
+<p><strong>Ad 2 — Personal brand</strong></p>
+<ul>
+<li>Primary text: I help small businesses create content that doesn&#x27;t suck. No stock photos. No generic templates. Real content that looks and feels like your brand. Want to see how? Book a free 30-minute strategy call.</li>
+<li>Headline: Free Strategy Call</li>
+<li>Description: 30 minutes of real marketing advice. No pitch.</li>
+<li>CTA: Book Now</li>
+<li>Link: benalekconner.com/book</li>
+</ul>
+<hr>
+<h2 id="4-orca-film-awards-call-for-submissions">4. ORCA Film Awards — Call for Submissions</h2>
+<h3 id="google-ads-search">Google Ads (Search)</h3>
+<p><strong>Ad 1</strong></p>
+<ul>
+<li>Headline 1: ORCA Film Awards 2026</li>
+<li>Headline 2: Submit Your Film Today</li>
+<li>Headline 3: 20 Categories | All Genres</li>
+<li>Description 1: The 3rd Annual ORCA Film Awards is now accepting submissions. Short films, features, documentaries, animation, and more. Enter today.</li>
+<li>Description 2: Celebrating independent cinema. Submit your film for a chance to win in 20 categories. Early bird pricing available.</li>
+<li>Display URL: orcafilmawards.com/submit</li>
+</ul>
+<p><strong>Ad 2</strong></p>
+<ul>
+<li>Headline 1: Short Film Competition 2026</li>
+<li>Headline 2: ORCA Film Awards</li>
+<li>Headline 3: Submit Before the Deadline</li>
+<li>Description 1: Got a short film? Enter the ORCA Film Awards. Open to all genres and filmmakers worldwide. Early bird submissions save 30%.</li>
+<li>Description 2: Independent filmmakers — this is your moment. Submit to the ORCA Film Awards and join a global community of creators.</li>
+<li>Display URL: orcafilmawards.com/submit</li>
+</ul>
+<h3 id="meta-ads-facebookinstagram">Meta Ads (Facebook/Instagram)</h3>
+<p><strong>Ad 1 — Call for submissions</strong></p>
+<ul>
+<li>Primary text: Filmmakers — the ORCA Film Awards 2026 is officially open for submissions. Whether you made a 2-minute short or a 90-minute feature, we want to see it. 20 categories. All genres. Global submissions welcome. Early bird pricing ends soon.</li>
+<li>Headline: Submit Your Film</li>
+<li>Description: ORCA Film Awards 2026. Now accepting entries.</li>
+<li>CTA: Learn More</li>
+<li>Link: orcafilmawards.com/submit</li>
+</ul>
+<p><strong>Ad 2 — Lead magnet</strong></p>
+<ul>
+<li>Primary text: Planning to submit to film festivals this year? Don&#x27;t make the mistakes that get 80% of films rejected. We put together a Film Festival Submission Checklist covering everything you need before you hit &quot;submit.&quot; Free download.</li>
+<li>Headline: Free Submission Checklist</li>
+<li>Description: Everything you need before you submit your film.</li>
+<li>CTA: Download</li>
+<li>Link: orcafilmawards.com/checklist</li>
+</ul>
+<hr>
+<h2 id="5-merkel-amp-conner-free-case-evaluation">5. Merkel &amp; Conner — Free Case Evaluation</h2>
+<h3 id="google-ads-search">Google Ads (Search)</h3>
+<p><strong>Ad 1</strong></p>
+<ul>
+<li>Headline 1: Injured? Free Case Review</li>
+<li>Headline 2: Merkel &amp; Conner Attorneys</li>
+<li>Headline 3: No Fee Unless We Win</li>
+<li>Description 1: Hurt in an accident? Get a free, confidential case evaluation from experienced personal injury attorneys. No fee unless we recover for you.</li>
+<li>Description 2: Car accidents, slip and falls, workplace injuries. We fight for the compensation you deserve. Call today for a free consultation.</li>
+<li>Display URL: merkelandconner.com/free-review</li>
+</ul>
+<p><strong>Ad 2</strong></p>
+<ul>
+<li>Headline 1: Car Accident Lawyer</li>
+<li>Headline 2: Free Consultation Today</li>
+<li>Headline 3: Merkel &amp; Conner Law</li>
+<li>Description 1: Been in a car accident? Don&#x27;t talk to insurance until you talk to us. Free case evaluation. No upfront costs. We only get paid when you do.</li>
+<li>Description 2: Experienced personal injury attorneys fighting for maximum compensation. Thousands of cases won. Call for your free case review today.</li>
+<li>Display URL: merkelandconner.com/free-review</li>
+</ul>
+<h3 id="meta-ads-facebookinstagram">Meta Ads (Facebook/Instagram)</h3>
+<p><strong>Ad 1 — Lead magnet</strong></p>
+<ul>
+<li>Primary text: If you&#x27;ve been in a car accident, the next 48 hours are critical. What you do (and don&#x27;t do) can make or break your case. We put together a free checklist: &quot;What To Do After a Car Accident.&quot; Download it now — even if you don&#x27;t need a lawyer today, you&#x27;ll be glad you have it.</li>
+<li>Headline: Free Car Accident Checklist</li>
+<li>Description: Step-by-step guide for after an accident.</li>
+<li>CTA: Download</li>
+<li>Link: merkelandconner.com/checklist</li>
+</ul>
+<p><strong>Ad 2 — Direct</strong></p>
+<ul>
+<li>Primary text: Injured and not sure what to do next? We get it. The legal system is confusing, and insurance companies are NOT on your side. We offer free, no-obligation case evaluations. If we take your case, you pay nothing unless we win. That&#x27;s our promise.</li>
+<li>Headline: Free Case Evaluation</li>
+<li>Description: No fee unless we win. Call today.</li>
+<li>CTA: Learn More</li>
+<li>Link: merkelandconner.com/free-review</li>
+</ul>
+<hr>
+<h2 id="6-conner-injury-law-free-case-evaluation">6. Conner Injury Law — Free Case Evaluation</h2>
+<p><em>(Same structure as Merkel &amp; Conner, re-branded)</em></p>
+<h3 id="google-ads-search">Google Ads (Search)</h3>
+<p><strong>Ad 1</strong></p>
+<ul>
+<li>Headline 1: Injured? Get Help Now</li>
+<li>Headline 2: Conner Injury Law</li>
+<li>Headline 3: Free Case Evaluation</li>
+<li>Description 1: Personal injury attorney fighting for your rights. Free case evaluation. No fee unless we win your case. Call today.</li>
+<li>Description 2: Car accidents, workplace injuries, medical malpractice. Experienced representation when you need it most. Free consultation available.</li>
+<li>Display URL: connerinjurylaw.com/free-review</li>
+</ul>
+<h3 id="meta-ads-facebookinstagram">Meta Ads (Facebook/Instagram)</h3>
+<p><strong>Ad 1</strong></p>
+<ul>
+<li>Primary text: Nobody plans to get hurt. But if you have been, you deserve someone in your corner. Conner Injury Law offers free case evaluations — no cost, no pressure, no obligation. Just honest advice about your options.</li>
+<li>Headline: Free Case Evaluation</li>
+<li>Description: Injured? We&#x27;ll fight for you. No fee unless we win.</li>
+<li>CTA: Learn More</li>
+<li>Link: connerinjurylaw.com/free-review</li>
+</ul>
+<hr>
+<h2 id="7-mbcs-free-case-evaluation">7. MBCS — Free Case Evaluation</h2>
+<h3 id="google-ads-search">Google Ads (Search)</h3>
+<p><strong>Ad 1</strong></p>
+<ul>
+<li>Headline 1: Need a Lawyer? Free Consult</li>
+<li>Headline 2: MBCS Legal</li>
+<li>Headline 3: Experienced Attorneys</li>
+<li>Description 1: Get experienced legal representation. Free initial consultation. We&#x27;ll review your case and explain your options. No obligation.</li>
+<li>Description 2: Trusted legal counsel for individuals and businesses. Contact us today for a free case review.</li>
+<li>Display URL: mbcslaw.com/free-review</li>
+</ul>
+<h3 id="meta-ads-facebookinstagram">Meta Ads (Facebook/Instagram)</h3>
+<p><strong>Ad 1</strong></p>
+<ul>
+<li>Primary text: Legal issues don&#x27;t wait, and neither should you. MBCS offers free initial consultations to help you understand your options. No cost to talk. No pressure. Just clear, honest legal advice.</li>
+<li>Headline: Free Legal Consultation</li>
+<li>Description: Talk to an experienced attorney. No obligation.</li>
+<li>CTA: Learn More</li>
+<li>Link: mbcslaw.com/contact</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/ad-copy-all-businesses.md</div>
+    </main>
+  </div>
+</body>
+</html>

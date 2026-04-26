@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GENERAL SERVICES AGREEMENT | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link active"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-hq">Ben HQ</a> &rsaquo;
+          GENERAL SERVICES AGREEMENT
+        </div>
+        <h1 class="doc-title">GENERAL SERVICES AGREEMENT</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#9670; Ben HQ</span>
+          <span class="doc-path">00-Ben HQ / Templates</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="general-services-agreement">GENERAL SERVICES AGREEMENT</h1>
+<h3 id="template-australian-law-queensland-jurisdiction">Template — Australian Law | Queensland Jurisdiction</h3>
+<blockquote><strong>LEGAL DISCLAIMER:</strong> This template has been prepared as a general starting point for services agreements governed by the laws of Queensland, Australia. It has not been reviewed by a qualified legal practitioner and should not be relied upon as a substitute for legal advice. Before execution, this document should be reviewed by a solicitor admitted to practice in Queensland, particularly for high-value or complex engagements. Ben Alek Conner / [Entity Name] accepts no liability for any loss arising from use of this template without independent legal review.</blockquote>
+<hr>
+<p><strong>SERVICES AGREEMENT</strong></p>
+<p>This Services Agreement (<strong>&quot;Agreement&quot;</strong>) is entered into as of <strong>[DATE]</strong> (<strong>&quot;Effective Date&quot;</strong>) between:</p>
+<p><strong>Service Provider:</strong></p>
+<p>Full legal name / trading name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>__</p>
+<p>ACN/ABN: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>___</p>
+<p>Address: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong></p>
+<p>Email: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>__</p>
+<p>Phone: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>__</p>
+<p>(&quot;<strong>Service Provider</strong>&quot;)</p>
+<p>and</p>
+<p><strong>Client:</strong></p>
+<p>Full legal name / trading name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>__</p>
+<p>ACN/ABN (if applicable): <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_</strong></p>
+<p>Address: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong></p>
+<p>Email: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>__</p>
+<p>Phone: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>__</p>
+<p>(&quot;<strong>Client</strong>&quot;)</p>
+<hr>
+<h2 id="clauses">CLAUSES</h2>
+<h3 id="1-services-and-scope-of-work">1. SERVICES AND SCOPE OF WORK</h3>
+<p><strong>1.1 Services.</strong> The Service Provider agrees to provide the following services to the Client (&quot;<strong>Services</strong>&quot;):</p>
+<p>[Describe services in detail. Be specific. Example:]</p>
+<pre><code>The Service Provider shall provide the following:
+1. [Service / Deliverable 1] — [description, specifications, format]
+2. [Service / Deliverable 2] — [description, specifications, format]
+3. [Service / Deliverable 3] — [description, specifications, format]
+
+Timeline:
+- Commencement Date: [DATE]
+- Estimated Completion / Delivery Date: [DATE]
+- Key Milestones: [List any milestone dates]</code></pre>
+<p><strong>1.2 Changes to Scope.</strong> Any changes to the scope of Services must be agreed in writing by both Parties before additional work commences. Changes to scope may result in adjusted fees and timelines, which shall be documented in a written variation order signed by both Parties.</p>
+<p><strong>1.3 Client Responsibilities.</strong> The Client shall provide the Service Provider with timely access to all information, materials, approvals, and personnel reasonably required for the Service Provider to perform the Services. Delays caused by the Client may result in adjusted timelines at the Service Provider&#x27;s discretion.</p>
+<p><strong>1.4 Standard of Service.</strong> The Service Provider shall perform the Services with reasonable care and skill, consistent with professional standards applicable to the relevant industry.</p>
+<hr>
+<h3 id="2-fees-and-payment-terms">2. FEES AND PAYMENT TERMS</h3>
+<p><strong>2.1 Fees.</strong> The Client agrees to pay the Service Provider the following fees for the Services (exclusive of GST):</p>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Fee (ex-GST)</th></tr></thead><tbody><tr><td>[Service / Package]</td><td>$<strong><em></strong><strong></em></strong>__</td></tr><tr><td>[Additional item if applicable]</td><td>$<strong><em></strong><strong></em></strong>__</td></tr><tr><td><strong>Total</strong></td><td>$<strong><em></strong><strong></em></strong>__</td></tr></tbody></table></div>
+<p><strong>2.2 Payment Schedule — Standard (50% / 50%):</strong></p>
+<p>(a) <strong>Deposit:</strong> 50% of the total fee is due and payable upon execution of this Agreement. Work will not commence until the deposit is received.</p>
+<p>(b) <strong>Balance:</strong> The remaining 50% of the total fee is due and payable upon completion of the Services / delivery of final deliverables.</p>
+<p><em>[Alternative payment schedule — delete if not applicable:]</em></p>
+<p><strong>2.2 (Alternative) Milestone Payment Schedule:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Milestone</th><th>Amount Due (ex-GST)</th><th>Due Date</th></tr></thead><tbody><tr><td>Execution / deposit</td><td>$<strong><em></strong><strong></em></strong>__</td><td>On signing</td></tr><tr><td>[Milestone 1 completion]</td><td>$<strong><em></strong><strong></em></strong>__</td><td>[Date]</td></tr><tr><td>[Final delivery]</td><td>$<strong><em></strong><strong></em></strong>__</td><td>[Date]</td></tr></tbody></table></div>
+<p><strong>2.3 Invoicing.</strong> The Service Provider will issue a tax invoice for each payment instalment. Each invoice will include the Service Provider&#x27;s ABN and will clearly state the GST amount.</p>
+<p><strong>2.4 Payment Terms.</strong> All invoices are payable within <strong>[7 / 14 / 30]</strong> days of the invoice date. Payment may be made by:</p>
+<ul>
+<li>Bank transfer (EFT) — details provided on invoice</li>
+<li>[Other payment methods accepted]</li>
+</ul>
+<p><strong>2.5 Late Payment.</strong> If the Client fails to pay any amount by the due date, the Service Provider may:</p>
+<p>(a) charge interest on the overdue amount at the rate of <strong>10% per annum</strong>, calculated daily from the due date until payment in full;</p>
+<p>(b) suspend performance of the Services until all outstanding amounts are paid; and/or</p>
+<p>(c) terminate this Agreement pursuant to clause 8.</p>
+<p><strong>2.6 Disputed Invoices.</strong> If the Client disputes any part of an invoice in good faith, the Client shall notify the Service Provider in writing within 7 days of receipt of the invoice, specifying the grounds for dispute. Undisputed amounts remain payable by the due date.</p>
+<p><strong>2.7 Expenses.</strong> Unless otherwise agreed in writing, the Service Provider will bear its own business expenses in performing the Services. Pre-approved out-of-pocket expenses will be reimbursed at cost against receipts within 14 days.</p>
+<hr>
+<h3 id="3-goods-and-services-tax-gst">3. GOODS AND SERVICES TAX (GST)</h3>
+<p><strong>3.1</strong> Unless otherwise stated, all fees and amounts in this Agreement are exclusive of GST.</p>
+<p><strong>3.2</strong> Where GST is payable on any supply under this Agreement, the recipient of the supply shall pay, in addition to any consideration payable, an amount equal to the GST payable on that supply. GST is currently charged at the rate of 10%.</p>
+<p><strong>3.3</strong> The Service Provider will issue valid tax invoices as required by the A New Tax System (Goods and Services Tax) Act 1999 (Cth).</p>
+<hr>
+<h3 id="4-intellectual-property">4. INTELLECTUAL PROPERTY</h3>
+<p><strong>4.1 Service Provider Background IP.</strong> The Service Provider retains all intellectual property rights in any pre-existing materials, tools, methodologies, frameworks, and know-how developed prior to or independently of this Agreement (&quot;<strong>Background IP</strong>&quot;). The Service Provider grants the Client a non-exclusive, non-transferable licence to use Background IP solely to the extent necessary to enjoy the benefit of the deliverables.</p>
+<p><strong>4.2 Deliverables — IP Assignment.</strong> [Select one option — delete the other:]</p>
+<p><strong>Option A (Full Assignment — Client owns deliverables):</strong></p>
+<p>Upon receipt of payment of all fees, the Service Provider assigns to the Client all intellectual property rights in the deliverables created specifically for the Client under this Agreement (&quot;<strong>Deliverables</strong>&quot;), including copyright. The assignment takes effect upon full payment.</p>
+<p><strong>Option B (Licence Only — Service Provider retains ownership):</strong></p>
+<p>The Service Provider grants the Client a perpetual, non-exclusive, royalty-free licence to use the Deliverables for the Client&#x27;s internal business purposes. The Service Provider retains ownership of all intellectual property in the Deliverables.</p>
+<p><strong>4.3 Client Materials.</strong> The Client retains all intellectual property rights in materials, content, and data provided to the Service Provider. The Client grants the Service Provider a non-exclusive licence to use Client materials solely to perform the Services.</p>
+<p><strong>4.4 Portfolio Use.</strong> [Delete if not applicable] The Service Provider may display the Deliverables in its portfolio, website, and promotional materials, subject to any confidentiality obligations in this Agreement.</p>
+<p><strong>4.5 Moral Rights.</strong> To the extent permitted by law, each Party consents to any act or omission that would otherwise constitute an infringement of that Party&#x27;s moral rights in connection with the performance of this Agreement.</p>
+<hr>
+<h3 id="5-confidentiality">5. CONFIDENTIALITY</h3>
+<p><strong>5.1</strong> Each Party agrees to keep confidential all non-public information of the other Party disclosed in connection with this Agreement, and not to disclose or use such information except for the purposes of this Agreement.</p>
+<p><strong>5.2</strong> This obligation does not apply to information that is publicly available (through no fault of the receiving Party), independently developed, or required to be disclosed by law.</p>
+<p><strong>5.3</strong> This confidentiality obligation survives termination or expiry of this Agreement for a period of <strong>three (3) years</strong>.</p>
+<p><em>[For a more detailed confidentiality regime, use the UNIVERSAL NDA TEMPLATE in conjunction with this Agreement.]</em></p>
+<hr>
+<h3 id="6-warranties-and-representations">6. WARRANTIES AND REPRESENTATIONS</h3>
+<p><strong>6.1 Service Provider Warranties.</strong> The Service Provider warrants that:</p>
+<p>(a) it has the right and authority to enter into this Agreement and perform the Services;</p>
+<p>(b) the Services will be performed with reasonable care and skill;</p>
+<p>(c) the Deliverables will not, to the best of the Service Provider&#x27;s knowledge, infringe any third-party intellectual property rights;</p>
+<p>(d) it holds all licences, registrations, and qualifications required to perform the Services.</p>
+<p><strong>6.2 Client Warranties.</strong> The Client warrants that:</p>
+<p>(a) it has the right and authority to enter into this Agreement;</p>
+<p>(b) all materials and information provided to the Service Provider are accurate and do not infringe any third-party rights;</p>
+<p>(c) it will use the Services and Deliverables in accordance with all applicable laws.</p>
+<p><strong>6.3 Consumer Guarantees.</strong> Nothing in this Agreement excludes or limits any guarantee, right, or remedy available under the Australian Consumer Law (Schedule 2 to the Competition and Consumer Act 2010 (Cth)) that cannot be excluded by agreement.</p>
+<hr>
+<h3 id="7-limitation-of-liability">7. LIMITATION OF LIABILITY</h3>
+<p><strong>7.1</strong> Subject to clause 7.3, the Service Provider&#x27;s total aggregate liability to the Client under or in connection with this Agreement (whether in contract, tort, statute, or otherwise) is limited to the total fees paid by the Client to the Service Provider under this Agreement in the six (6) months preceding the event giving rise to the claim.</p>
+<p><strong>7.2</strong> Subject to clause 7.3, neither Party shall be liable to the other for any:</p>
+<p>(a) loss of profit or revenue;</p>
+<p>(b) loss of business or contracts;</p>
+<p>(c) loss of anticipated savings;</p>
+<p>(d) loss of data;</p>
+<p>(e) indirect, special, or consequential loss or damage;</p>
+<p>whether or not such loss was foreseeable or either Party had been advised of its possibility.</p>
+<p><strong>7.3</strong> The limitations in clauses 7.1 and 7.2 do not apply to:</p>
+<p>(a) liability arising from fraud, willful misconduct, or gross negligence;</p>
+<p>(b) death or personal injury caused by negligence;</p>
+<p>(c) liability that cannot be limited or excluded under applicable law, including under the Australian Consumer Law.</p>
+<hr>
+<h3 id="8-termination">8. TERMINATION</h3>
+<p><strong>8.1 Termination for Convenience.</strong> Either Party may terminate this Agreement without cause by giving the other Party <strong>thirty (30) days&#x27;</strong> written notice.</p>
+<p><strong>8.2 Termination for Cause.</strong> Either Party may terminate this Agreement immediately by written notice if the other Party:</p>
+<p>(a) commits a material breach of this Agreement and fails to remedy the breach within fourteen (14) days of receiving written notice specifying the breach;</p>
+<p>(b) becomes insolvent, enters into administration, receivership, or liquidation; or</p>
+<p>(c) commits fraud or engages in conduct that, in the terminating Party&#x27;s reasonable opinion, brings that Party or the terminating Party into disrepute.</p>
+<p><strong>8.3 Effect of Termination.</strong></p>
+<p>(a) Upon termination, the Client shall pay the Service Provider for all Services performed and expenses incurred up to the date of termination.</p>
+<p>(b) If termination is by the Client for convenience, the Client shall pay the Service Provider a cancellation fee equivalent to <strong>[20% / specify]</strong> of the remaining contract value, unless otherwise agreed in writing.</p>
+<p>(c) Each Party shall promptly return or destroy the other Party&#x27;s confidential information.</p>
+<p>(d) Clauses relating to intellectual property, confidentiality, limitation of liability, and dispute resolution survive termination.</p>
+<hr>
+<h3 id="9-dispute-resolution">9. DISPUTE RESOLUTION</h3>
+<p><strong>9.1 Notice of Dispute.</strong> If a dispute arises out of or in connection with this Agreement, the Party raising the dispute must give written notice to the other Party specifying the nature of the dispute.</p>
+<p><strong>9.2 Negotiation.</strong> The Parties shall use commercially reasonable efforts to resolve the dispute through good faith negotiation within <strong>twenty-one (21) days</strong> of the dispute notice.</p>
+<p><strong>9.3 Mediation.</strong> If the dispute is not resolved through negotiation, either Party may refer the dispute to mediation administered by a mediator agreed upon by the Parties or, failing agreement, appointed by the Resolution Institute (or equivalent body). The costs of mediation are shared equally unless otherwise agreed.</p>
+<p><strong>9.4 Litigation.</strong> If the dispute is not resolved by mediation within <strong>thirty (30) days</strong> of the mediator&#x27;s appointment (or such longer period as agreed), either Party may commence court proceedings.</p>
+<p><strong>9.5 Urgent Relief.</strong> Nothing in this clause prevents either Party from seeking urgent injunctive or equitable relief from a court of competent jurisdiction.</p>
+<hr>
+<h3 id="10-general-provisions">10. GENERAL PROVISIONS</h3>
+<p><strong>10.1 Governing Law.</strong> This Agreement is governed by and construed in accordance with the laws of Queensland, Australia. The Parties irrevocably submit to the exclusive jurisdiction of the courts of Queensland.</p>
+<p><strong>10.2 Entire Agreement.</strong> This Agreement (including any attached scope of work, schedule, or variation) constitutes the entire agreement between the Parties with respect to its subject matter and supersedes all prior representations, negotiations, and agreements.</p>
+<p><strong>10.3 Amendment.</strong> This Agreement may only be amended by a written document signed by authorised representatives of both Parties.</p>
+<p><strong>10.4 Assignment.</strong> Neither Party may assign or transfer its rights or obligations under this Agreement without the prior written consent of the other Party (not to be unreasonably withheld), except that the Service Provider may subcontract specific tasks to qualified subcontractors, provided the Service Provider remains responsible for the performance of such subcontractors.</p>
+<p><strong>10.5 Waiver.</strong> Failure to exercise or delay in exercising a right or remedy does not constitute a waiver of that right or remedy.</p>
+<p><strong>10.6 Severability.</strong> If any provision of this Agreement is held invalid, illegal, or unenforceable, the remaining provisions continue in full force.</p>
+<p><strong>10.7 Force Majeure.</strong> Neither Party shall be liable for delays or failures in performance caused by events beyond its reasonable control (including but not limited to natural disasters, acts of government, or widespread infrastructure failure), provided the affected Party notifies the other in writing as soon as practicable.</p>
+<p><strong>10.8 Notices.</strong> Notices under this Agreement shall be in writing and delivered by email (with confirmation of receipt) or registered post to the addresses specified in this Agreement.</p>
+<p><strong>10.9 Electronic Execution.</strong> This Agreement may be executed by electronic signature, which shall be deemed valid and effective.</p>
+<p><strong>10.10 Independent Contractors.</strong> The Parties are independent contractors. Nothing in this Agreement creates an employment, partnership, joint venture, or agency relationship.</p>
+<hr>
+<h2 id="execution">EXECUTION</h2>
+<p><strong>EXECUTED</strong> as an agreement.</p>
+<hr>
+<p><strong>SIGNED</strong> by or on behalf of <strong>[SERVICE PROVIDER NAME]</strong></p>
+<p>Signature: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>_</p>
+<p>Full Name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>_</p>
+<p>Title / Role: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em></p>
+<p>Date: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>__</p>
+<p>ABN: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<hr>
+<p><strong>SIGNED</strong> by or on behalf of <strong>[CLIENT NAME]</strong></p>
+<p>Signature: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>_</p>
+<p>Full Name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>_</p>
+<p>Title / Role: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em></p>
+<p>Date: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>__</p>
+<p>ABN (if applicable): <strong><em></strong><strong></em></strong><strong><em></strong></em>___</p>
+<hr>
+<h2 id="schedule-1-scope-of-work">SCHEDULE 1 — SCOPE OF WORK</h2>
+<p><em>(Attach detailed scope of work, deliverables list, and timeline here. This Schedule forms part of the Agreement.)</em></p>
+<p>Project Name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>__</p>
+<p>Detailed Description of Services:</p>
+<ol>
+<li><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>___</li>
+<li><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>___</li>
+<li><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>___</li>
+</ol>
+<p>Key Deliverables:</p>
+<div class="table-wrap"><table><thead><tr><th>Deliverable</th><th>Description</th><th>Format</th><th>Due Date</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<p>Revision Rounds Included: <strong><em></strong></em>_ rounds of revisions per deliverable.</p>
+<hr>
+<h2 id="schedule-2-fees-and-payment-schedule">SCHEDULE 2 — FEES AND PAYMENT SCHEDULE</h2>
+<p><em>(Complete and attach payment schedule here.)</em></p>
+<p>Total Project Fee (ex-GST): $<strong><em></strong><strong></em></strong><strong>_</strong></p>
+<p>GST (10%): $<strong><em></strong><strong></em></strong><strong>_</strong></p>
+<p>Total Fee (inc-GST): $<strong><em></strong><strong></em></strong><strong>_</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Payment</th><th>Amount (inc-GST)</th><th>Due Date / Trigger</th></tr></thead><tbody><tr><td>Deposit (50%)</td><td>$<strong><em></strong><strong></em></strong>__</td><td>On signing</td></tr><tr><td>Final payment (50%)</td><td>$<strong><em></strong><strong></em></strong>__</td><td>On delivery/completion</td></tr></tbody></table></div>
+<hr>
+<h2 id="completion-guide">COMPLETION GUIDE</h2>
+<p><strong>Before using this template:</strong></p>
+<ol>
+<li>Insert all party details (legal name, ABN, address, contact)</li>
+<li>Complete the Scope of Work (Schedule 1) with specific detail</li>
+<li>Confirm payment structure and insert fees in Schedule 2</li>
+<li>Select IP clause Option A or Option B (delete the other)</li>
+<li>Choose payment terms (7, 14, or 30 days)</li>
+<li>Specify cancellation fee % in clause 8.3(b)</li>
+<li>Have a Queensland solicitor review for high-value or complex engagements</li>
+<li>Execute via DocuSign or in wet ink with a witness</li>
+<li>File executed copy: <code>YYYY-MM-DD<em>[BusinessCode]</em>ServicesAgreement<em>[ClientName]</em>Signed.pdf</code></li>
+<li>Log in MASTER BUDGET TRACKER under Accounts Receivable</li>
+</ol>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">00-Ben HQ/Templates/UNIVERSAL CONTRACT TEMPLATE.md</div>
+    </main>
+  </div>
+</body>
+</html>

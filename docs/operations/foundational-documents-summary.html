@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FOUNDATIONAL DOCUMENTS SUMMARY | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link active"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#operations">Operations</a> &rsaquo;
+          FOUNDATIONAL DOCUMENTS SUMMARY
+        </div>
+        <h1 class="doc-title">FOUNDATIONAL DOCUMENTS SUMMARY</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(153,153,153,0.12);color:#999999">&#9881; Operations</span>
+          <span class="doc-path">MASTER OPERATIONS / _MASTER PLAN &amp; DOCS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="foundational-documents-summary">FOUNDATIONAL DOCUMENTS SUMMARY</h1>
+<p><strong>Created March 6, 2026</strong></p>
+<hr>
+<h2 id="what-was-created">WHAT WAS CREATED</h2>
+<h3 id="nunya-bunya-digital-marketing-agency-35k-mrr-goal">✅ NUNYA BUNYA (Digital Marketing Agency - $35K MRR Goal)</h3>
+<ol>
+<li><strong>BRAND GUIDELINES.md</strong> - Brand voice, colors, positioning, website copy</li>
+<li><strong>SERVICE PACKAGES.md</strong> - 4 tiers ($1.5K-$6.5K), add-ons, pricing philosophy</li>
+<li><strong>BUSINESS PLAN.md</strong> - 3-year financial projections, growth milestones, team structure</li>
+<li><strong>CLIENT ONBOARDING.md</strong> - Discovery call template, proposal process, kickoff meeting, client systems</li>
+</ol>
+<p><strong>Status:</strong> Foundation complete — ready to implement pricing, hire team, onboard clients with clear systems</p>
+<hr>
+<h3 id="conner-law-group-3-firms-kevlaw-ai-multi-service-law">✅ CONNER LAW GROUP (3 Firms + Kevlaw AI - Multi-service Law)</h3>
+<ol>
+<li><strong>BRAND GUIDELINES.md</strong> - Umbrella branding, positioning for each firm (Merkel &amp; Conner, Conner Injury Law, MBCS), Kevlaw AI positioning</li>
+<li><strong>SERVICE PACKAGES.md</strong> - Pricing for all 3 firms (contingency for personal injury, hourly/flat for business law), retainers, Kevlaw AI SaaS pricing</li>
+</ol>
+<p><strong>Status:</strong> Foundation complete — ready to differentiate the 3 firms, implement pricing, launch Kevlaw AI marketing</p>
+<hr>
+<h3 id="power-portraits-premium-headshot-photography-150k-annual-goal">✅ POWER PORTRAITS (Premium Headshot Photography - $150K Annual Goal)</h3>
+<ol>
+<li><strong>BUSINESS FOUNDATION.md</strong> - Service packages ($250-$5K), booking process, quality standards, marketing channels, Year 2 growth strategy</li>
+</ol>
+<p><strong>Status:</strong> Foundation complete — ready to raise prices, hire second shooter, add corporate packages, scale to 300+ sessions</p>
+<hr>
+<h3 id="ben-alek-conner-personal-brand-multi-passionate-entrepreneur">✅ BEN ALEK CONNER (Personal Brand - Multi-passionate Entrepreneur)</h3>
+<ol>
+<li><strong>PERSONAL BRAND FOUNDATION.md</strong> - Positioning as multi-passionate builder, 4 content pillars, platform strategy (YouTube, Instagram, LinkedIn, podcast), website structure, content calendar</li>
+</ol>
+<p><strong>Status:</strong> Foundation complete — ready to launch content, build YouTube audience, launch podcast in early 2027</p>
+<hr>
+<h2 id="documents-by-category">DOCUMENTS BY CATEGORY</h2>
+<h3 id="brand-amp-positioning-docs-4">BRAND &amp; POSITIONING DOCS (4)</h3>
+<ul>
+<li>Nunya Bunya Brand Guidelines</li>
+<li>Conner Law Group Brand Guidelines</li>
+<li>Power Portraits Business Foundation (includes brand)</li>
+<li>Ben Alek Conner Personal Brand Foundation</li>
+</ul>
+<h3 id="service-packages-amp-pricing-3">SERVICE PACKAGES &amp; PRICING (3)</h3>
+<ul>
+<li>Nunya Bunya Service Packages (4 tiers + add-ons)</li>
+<li>Conner Law Group Service Packages (3 firms + Kevlaw AI)</li>
+<li>Power Portraits Service Packages (4 tiers)</li>
+</ul>
+<h3 id="business-strategy-2">BUSINESS STRATEGY (2)</h3>
+<ul>
+<li>Nunya Bunya Business Plan</li>
+<li>Power Portraits Business Foundation (includes strategy)</li>
+</ul>
+<h3 id="client-systems-1">CLIENT SYSTEMS (1)</h3>
+<ul>
+<li>Nunya Bunya Client Onboarding (discovery call, proposal, contract, delivery, expectations)</li>
+</ul>
+<hr>
+<h2 id="what-each-business-now-has">WHAT EACH BUSINESS NOW HAS</h2>
+<div class="table-wrap"><table><thead><tr><th>Business</th><th>Brand Guidelines</th><th>Service Packages</th><th>Business Plan</th><th>Client Systems</th><th>Website Structure</th></tr></thead><tbody><tr><td>Nunya Bunya</td><td>✅ Complete</td><td>✅ Complete</td><td>✅ Complete</td><td>✅ Complete</td><td>Outlined</td></tr><tr><td>Conner Law</td><td>✅ Complete</td><td>✅ Complete</td><td>Needs work</td><td>Outlined</td><td>Outlined</td></tr><tr><td>Power Portraits</td><td>✅ Complete</td><td>✅ Complete</td><td>✅ Complete</td><td>Needs work</td><td>Outlined</td></tr><tr><td>Ben Alek Conner</td><td>✅ Complete</td><td>N/A</td><td>N/A</td><td>N/A</td><td>✅ Outlined</td></tr><tr><td>Remaining (4)</td><td>Not yet</td><td>Not yet</td><td>Not yet</td><td>Not yet</td><td>Not yet</td></tr></tbody></table></div>
+<hr>
+<h2 id="next-steps-to-consider">NEXT STEPS TO CONSIDER</h2>
+<h3 id="immediate-this-month-march-2026">IMMEDIATE (THIS MONTH - MARCH 2026)</h3>
+<ol>
+<li><strong>Review &amp; Customize</strong> - Read each doc, update with your specific details/preferences</li>
+<li><strong>Implement Pricing</strong> - Update websites with new pricing from these docs</li>
+<li><strong>Create Client Contracts</strong> - Use service packages to build legal agreements</li>
+<li><strong>Set up Systems</strong> - Implement onboarding process (especially Nunya Bunya)</li>
+<li><strong>Brief Teams</strong> - Share brand guidelines + voice/tone with all team members</li>
+</ol>
+<h3 id="short-term-april-may-2026">SHORT-TERM (APRIL-MAY 2026)</h3>
+<ol>
+<li><strong>Hire Nunya Bunya Team</strong> - Post job descriptions based on plan (video editor, designer, copywriter)</li>
+<li><strong>Launch Pricing Increases</strong> - Implement updated pricing for Power Portraits</li>
+<li><strong>Create Marketing Materials</strong> - Design brand-aligned templates, social media graphics</li>
+<li><strong>Build Websites</strong> - Create/update websites using these brand guidelines + positioning</li>
+<li><strong>Start Content Creation</strong> - Ben Alek Conner: launch YouTube + Instagram content pillar</li>
+</ol>
+<h3 id="mid-term-june-august-2026">MID-TERM (JUNE-AUGUST 2026)</h3>
+<ol>
+<li><strong>Nunya Bunya</strong> - Hit $20K MRR, hire contractor team</li>
+<li><strong>Conner Law Group</strong> - Solidify positioning, launch Kevlaw AI beta</li>
+<li><strong>Power Portraits</strong> - Hit 300+ sessions, introduce corporate packages</li>
+<li><strong>Ben Alek Conner</strong> - 50+ YouTube videos, build audience, start planning podcast</li>
+<li><strong>Document remaining businesses</strong> - Create docs for Nunya Bunya, ORCA, others</li>
+</ol>
+<hr>
+<h2 id="which-businesses-still-need-docs">WHICH BUSINESSES STILL NEED DOCS</h2>
+<p><strong>Still to complete:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Bella Rhyder (personal brand/project)</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA Film Awards (events, content)</li>
+<li><span class="cb cb-empty">&#9744;</span> The Conner Store (e-commerce product)</li>
+<li><span class="cb cb-empty">&#9744;</span> CONTENT STUDIO (creative services hub)</li>
+<li><span class="cb cb-empty">&#9744;</span> Nunya Bunya (if anything additional needed)</li>
+</ul>
+<p><strong>Would you like me to create foundational docs for these 5 remaining businesses, or focus on implementing the current docs first?</strong></p>
+<hr>
+<h2 id="how-to-use-these-documents">HOW TO USE THESE DOCUMENTS</h2>
+<h3 id="for-website-building">FOR WEBSITE BUILDING</h3>
+<ul>
+<li>Use brand guidelines for design system</li>
+<li>Use service packages for pricing/features page</li>
+<li>Use positioning statement for homepage copy</li>
+<li>Use website structure (if provided) for site map</li>
+</ul>
+<h3 id="for-client-communication">FOR CLIENT COMMUNICATION</h3>
+<ul>
+<li>Use brand voice/tone for all communications</li>
+<li>Use service packages for proposals</li>
+<li>Use client onboarding for process documentation</li>
+<li>Use pricing for all client-facing materials</li>
+</ul>
+<h3 id="for-team-management">FOR TEAM MANAGEMENT</h3>
+<ul>
+<li>Share brand guidelines with entire team</li>
+<li>Use service packages for sales/onboarding</li>
+<li>Use business plan for quarterly reviews</li>
+<li>Use onboarding for consistent client experience</li>
+</ul>
+<h3 id="for-your-clarity">FOR YOUR CLARITY</h3>
+<ul>
+<li>Review business plan monthly against Year 2 goals</li>
+<li>Use metrics section to track progress</li>
+<li>Update pricing annually</li>
+<li>Refine positioning based on market feedback</li>
+</ul>
+<hr>
+<h2 id="file-locations">FILE LOCATIONS</h2>
+<p>All documents saved to:</p>
+<pre><code>/Users/benalekconner/Desktop/MASTER WORKSPACE/
+├── 03-Nunya Bunya/
+│   ├── BRAND GUIDELINES.md
+│   ├── SERVICE PACKAGES.md
+│   ├── BUSINESS PLAN.md
+│   └── CLIENT ONBOARDING.md
+├── 01-Conner Law Group/
+│   ├── BRAND GUIDELINES.md
+│   └── SERVICE PACKAGES.md
+├── 05-Power Portraits/
+│   └── BUSINESS FOUNDATION.md
+└── 02-Ben Alek Conner/
+    └── PERSONAL BRAND FOUNDATION.md</code></pre>
+<hr>
+<h2 id="quick-wins-implement-these-first">QUICK WINS (Implement These FIRST)</h2>
+<p><strong>This Week:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Update Nunya Bunya website with new service packages + pricing</li>
+<li><span class="cb cb-empty">&#9744;</span> Share Nunya Bunya brand guidelines with team</li>
+<li><span class="cb cb-empty">&#9744;</span> Update Power Portraits pricing (add $50-100 to standard rates)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create Ben Alek Conner YouTube channel (if not done)</li>
+</ul>
+<p><strong>Next 2 Weeks:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Send Conner Law Group brand guidelines to all attorneys</li>
+<li><span class="cb cb-empty">&#9744;</span> Post 5 YouTube videos (batch create Content pillar content for Ben Alek Conner)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create Nunya Bunya service package comparison graphic</li>
+<li><span class="cb cb-empty">&#9744;</span> Implement Power Portraits corporate package marketing</li>
+</ul>
+<p><strong>By End of Month:</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Updated websites for all 4 main businesses</li>
+<li><span class="cb cb-empty">&#9744;</span> Team trained on brand voice/messaging</li>
+<li><span class="cb cb-empty">&#9744;</span> Pricing in place and all sales have clarity</li>
+<li><span class="cb cb-empty">&#9744;</span> Client onboarding system live (especially Nunya Bunya)</li>
+</ul>
+<hr>
+<h2 id="key-metrics-to-track-from-these-docs">KEY METRICS TO TRACK (FROM THESE DOCS)</h2>
+<h3 id="nunya-bunya">NUNYA BUNYA</h3>
+<ul>
+<li>MRR: Target $35K by Nov 2027</li>
+<li>Clients: Target 20-28 by Nov 2027</li>
+<li>Team size: Target 8-10 people</li>
+<li>Churn rate: Target &lt;5% per month</li>
+</ul>
+<h3 id="conner-law-group">CONNER LAW GROUP</h3>
+<ul>
+<li>Revenue by firm and practice area</li>
+<li>Kevlaw AI: Launch date, early adopters, MRR</li>
+<li>Client satisfaction and referral rates</li>
+</ul>
+<h3 id="power-portraits">POWER PORTRAITS</h3>
+<ul>
+<li>Sessions per month: Target 25-30 (300+ annually)</li>
+<li>Revenue: Target $150K annually</li>
+<li>Average session price</li>
+<li>Client satisfaction NPS: Target 50+</li>
+</ul>
+<h3 id="ben-alek-conner">BEN ALEK CONNER</h3>
+<ul>
+<li>YouTube subscribers: Target 25-50K by end of Year 2</li>
+<li>YouTube watch time: Monitor growth</li>
+<li>Instagram followers: Target 5-10K</li>
+<li>YouTube videos published: 1 per week (52 by end of year)</li>
+</ul>
+<hr>
+<h2 id="common-pitfalls-to-avoid">COMMON PITFALLS TO AVOID</h2>
+<p>❌ <strong>Not updating websites</strong> - Documents are worthless if they don&#x27;t reflect your actual marketing</p>
+<p>❌ <strong>Inconsistent messaging</strong> - Team says different things than brand guidelines state</p>
+<p>❌ <strong>Ignoring pricing tiers</strong> - Offer everything at discount instead of tiered pricing</p>
+<p>❌ <strong>No client onboarding system</strong> - Each client gets different experience</p>
+<p>❌ <strong>Not tracking metrics</strong> - Can&#x27;t tell if you&#x27;re on pace for goals</p>
+<p>❌ <strong>Outdated docs</strong> - Review and update annually (at minimum quarterly)</p>
+<hr>
+<h2 id="next-conversation">NEXT CONVERSATION</h2>
+<p><strong>Suggest we focus on:</strong></p>
+<ol>
+<li><strong>Immediate implementation</strong> - Which of these do you want to launch first?</li>
+<li><strong>Website building</strong> - Create actual websites based on these foundations?</li>
+<li><strong>Remaining businesses</strong> - Create docs for the other 5 businesses?</li>
+<li><strong>Systems setup</strong> - Implement Nunya Bunya client onboarding system?</li>
+<li><strong>Content strategy</strong> - Build out Ben Alek Conner content calendar and batch create videos?</li>
+</ol>
+<p><strong>What&#x27;s your priority?</strong></p>
+<hr>
+<h2 id="summary">SUMMARY</h2>
+<p>You now have comprehensive, actionable foundational documents for your 4 main businesses covering:</p>
+<ul>
+<li>Brand identity and voice</li>
+<li>Service offerings and pricing</li>
+<li>Business strategy and goals</li>
+<li>Client systems and processes</li>
+<li>Website structure</li>
+<li>Growth roadmap</li>
+</ul>
+<p><strong>Total:</strong> 9 documents created, 10K+ words of strategic foundation</p>
+<p>This is the blueprint. Now we execute.</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER OPERATIONS/_MASTER PLAN &amp; DOCS/FOUNDATIONAL DOCUMENTS SUMMARY.md</div>
+    </main>
+  </div>
+</body>
+</html>

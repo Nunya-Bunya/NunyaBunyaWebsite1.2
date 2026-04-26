@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MASTER BUDGET TRACKER | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link active"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-hq">Ben HQ</a> &rsaquo;
+          MASTER BUDGET TRACKER
+        </div>
+        <h1 class="doc-title">MASTER BUDGET TRACKER</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#9670; Ben HQ</span>
+          <span class="doc-path">00-Ben HQ</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="master-budget-tracker">MASTER BUDGET TRACKER</h1>
+<h3 id="ben-alek-conner-portfolio-of-businesses">Ben Alek Conner — Portfolio of Businesses</h3>
+<p><strong>Financial Year:</strong> July 2026 – June 2027 | <strong>Currency:</strong> AUD | <strong>Owner:</strong> Ben Alek Conner</p>
+<p><strong>Last Updated:</strong> March 2026</p>
+<hr>
+<h2 id="table-of-contents">TABLE OF CONTENTS</h2>
+<ol>
+<li>Portfolio Revenue Snapshot</li>
+<li>Monthly Revenue Targets by Business</li>
+<li>Fixed Costs by Business</li>
+<li>Variable Cost Categories</li>
+<li>P&amp;L Template Structure</li>
+<li>Cash Flow Tracking Method</li>
+<li>KPI Dashboard</li>
+<li>Quarterly Review Checklist</li>
+</ol>
+<hr>
+<h2 id="1-portfolio-revenue-snapshot">1. PORTFOLIO REVENUE SNAPSHOT</h2>
+<h3 id="annual-targets-summary-fy-202627">Annual Targets Summary (FY 2026–27)</h3>
+<div class="table-wrap"><table><thead><tr><th>Business</th><th>Annual Target</th><th>Monthly Target</th><th>Revenue Model</th></tr></thead><tbody><tr><td>Nunya Bunya</td><td>$420,000</td><td>$35,000</td><td>Retainers</td></tr><tr><td>Merkel &amp; Conner</td><td>$360,000</td><td>$30,000</td><td>Contingency</td></tr><tr><td>Conner Injury Law</td><td>$240,000</td><td>$20,000</td><td>Contingency</td></tr><tr><td>MBCS</td><td>$180,000</td><td>$15,000</td><td>Hourly + Retainer</td></tr><tr><td>KevLaw AI</td><td>$60,000</td><td>$5,000</td><td>SaaS subscription</td></tr><tr><td>Power Portraits</td><td>$150,000</td><td>$12,500</td><td>Per-session</td></tr><tr><td>CONTENT STUDIO</td><td>$120,000</td><td>$10,000</td><td>Project-based</td></tr><tr><td>ORCA Film Awards</td><td>$36,000</td><td>$3,000 (avg)</td><td>Entries + sponsorship</td></tr><tr><td>Ben Alek Conner Brand</td><td>$60,000</td><td>$5,000</td><td>Sponsorship, products</td></tr><tr><td><strong>TOTAL PORTFOLIO</strong></td><td><strong>$1,626,000</strong></td><td><strong>$135,500</strong></td><td></td></tr></tbody></table></div>
+<p><em>Law firm revenue based on matter settlements and fee collections, not billings. ORCA revenue is seasonal.</em></p>
+<hr>
+<h2 id="2-monthly-revenue-targets-by-business">2. MONTHLY REVENUE TARGETS BY BUSINESS</h2>
+<h3 id="21-nunya-bunya-target-35000-mrr">2.1 Nunya Bunya — Target: $35,000 MRR</h3>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Monthly Target</th><th>Notes</th></tr></thead><tbody><tr><td>Retainer clients (avg $3,500/client)</td><td>$31,500</td><td>Target: 9 clients</td></tr><tr><td>Project work (one-off)</td><td>$2,500</td><td>Ad hoc campaigns</td></tr><tr><td>Upsells / ad spend management</td><td>$1,000</td><td>5–10% of managed spend</td></tr><tr><td><strong>Total</strong></td><td><strong>$35,000</strong></td><td></td></tr></tbody></table></div>
+<p><strong>Pipeline target:</strong> 3 active proposals at all times</p>
+<p><strong>Churn target:</strong> &lt;1 client per quarter</p>
+<h3 id="22-conner-law-group-combined-target-65000month">2.2 Conner Law Group — Combined Target: $65,000/month</h3>
+<h4 id="merkel-amp-conner-personal-injury-target-30000month">Merkel &amp; Conner (Personal Injury — Target: $30,000/month)</h4>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Monthly Target</th><th>Notes</th></tr></thead><tbody><tr><td>Settlement collections (contingency)</td><td>$25,000</td><td>~3–4 settlements/month avg</td></tr><tr><td>Uplift fees / disbursement recovery</td><td>$3,000</td><td></td></tr><tr><td>Referral fee income</td><td>$2,000</td><td></td></tr><tr><td><strong>Total</strong></td><td><strong>$30,000</strong></td><td></td></tr></tbody></table></div>
+<h4 id="conner-injury-law-personal-injury-target-20000month">Conner Injury Law (Personal Injury — Target: $20,000/month)</h4>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Monthly Target</th><th>Notes</th></tr></thead><tbody><tr><td>Settlement collections</td><td>$17,000</td><td>~2–3 settlements/month</td></tr><tr><td>Disbursement recovery</td><td>$2,000</td><td></td></tr><tr><td>Referral income</td><td>$1,000</td><td></td></tr><tr><td><strong>Total</strong></td><td><strong>$20,000</strong></td><td></td></tr></tbody></table></div>
+<h4 id="mbcs-business-law-target-15000month">MBCS Business Law (Target: $15,000/month)</h4>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Monthly Target</th><th>Notes</th></tr></thead><tbody><tr><td>Monthly retainer clients</td><td>$8,000</td><td>4–5 business retainers</td></tr><tr><td>Hourly billing (disputes, contracts)</td><td>$5,000</td><td>Target 25 billable hours/month</td></tr><tr><td>Document drafting (fixed fee)</td><td>$2,000</td><td>Contracts, structures</td></tr><tr><td><strong>Total</strong></td><td><strong>$15,000</strong></td><td></td></tr></tbody></table></div>
+<h3 id="23-kevlaw-ai-target-5000-mrr">2.3 KevLaw AI — Target: $5,000 MRR</h3>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Monthly Target</th><th>Notes</th></tr></thead><tbody><tr><td>Starter subscriptions ($99/mo)</td><td>$1,000</td><td>~10 subscribers</td></tr><tr><td>Professional subscriptions ($299/mo)</td><td>$2,990</td><td>~10 subscribers</td></tr><tr><td>Enterprise subscriptions ($499/mo)</td><td>$998</td><td>~2 subscribers</td></tr><tr><td>Setup / onboarding fees</td><td>$500</td><td></td></tr><tr><td><strong>Total</strong></td><td><strong>$5,488</strong></td><td>Approx.</td></tr></tbody></table></div>
+<p><em>KevLaw AI is pre-revenue / early revenue phase. Targets ramp throughout FY27.</em></p>
+<h3 id="24-power-portraits-target-12500month">2.4 Power Portraits — Target: $12,500/month</h3>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Monthly Target</th><th>Notes</th></tr></thead><tbody><tr><td>Individual headshot sessions ($650)</td><td>$6,500</td><td>10 sessions/month</td></tr><tr><td>Corporate packages ($2,500–$5,000)</td><td>$4,500</td><td>1–2 corporate shoots</td></tr><tr><td>Retouching add-ons</td><td>$1,000</td><td></td></tr><tr><td>Print / digital licence fees</td><td>$500</td><td></td></tr><tr><td><strong>Total</strong></td><td><strong>$12,500</strong></td><td></td></tr></tbody></table></div>
+<h3 id="25-content-studio-target-10000month">2.5 CONTENT STUDIO — Target: $10,000/month</h3>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Monthly Target</th><th>Notes</th></tr></thead><tbody><tr><td>Brand video production</td><td>$5,000</td><td>1–2 projects</td></tr><tr><td>Social media content packages</td><td>$3,000</td><td>2–3 clients</td></tr><tr><td>Event videography</td><td>$2,000</td><td>1–2 events</td></tr><tr><td><strong>Total</strong></td><td><strong>$10,000</strong></td><td></td></tr></tbody></table></div>
+<h3 id="26-orca-film-awards-target-36000year-seasonal">2.6 ORCA Film Awards — Target: $36,000/year (seasonal)</h3>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Annual Target</th><th>Notes</th></tr></thead><tbody><tr><td>Film entry fees</td><td>$18,000</td><td></td></tr><tr><td>Sponsorships</td><td>$12,000</td><td></td></tr><tr><td>Event ticket sales</td><td>$4,000</td><td></td></tr><tr><td>Merchandise</td><td>$2,000</td><td></td></tr><tr><td><strong>Total</strong></td><td><strong>$36,000</strong></td><td></td></tr></tbody></table></div>
+<p><em>Majority of revenue received in award season (Q3–Q4). Budget accordingly.</em></p>
+<h3 id="27-ben-alek-conner-personal-brand-target-5000month">2.7 Ben Alek Conner Personal Brand — Target: $5,000/month</h3>
+<div class="table-wrap"><table><thead><tr><th>Revenue Stream</th><th>Monthly Target</th><th>Notes</th></tr></thead><tbody><tr><td>Speaking fees</td><td>$2,000</td><td>1–2 events/month</td></tr><tr><td>Sponsorship / brand deals</td><td>$1,500</td><td></td></tr><tr><td>Digital products / The Conner Store</td><td>$1,000</td><td></td></tr><tr><td>Affiliate income</td><td>$500</td><td></td></tr><tr><td><strong>Total</strong></td><td><strong>$5,000</strong></td><td></td></tr></tbody></table></div>
+<hr>
+<h2 id="3-fixed-costs-by-business">3. FIXED COSTS BY BUSINESS</h2>
+<h3 id="31-nunya-bunya-fixed-monthly-costs">3.1 Nunya Bunya — Fixed Monthly Costs</h3>
+<div class="table-wrap"><table><thead><tr><th>Expense</th><th>Monthly Cost</th><th>Annual Cost</th></tr></thead><tbody><tr><td>Office / co-working space</td><td>$800</td><td>$9,600</td></tr><tr><td>Team (VA / contractor base)</td><td>$4,500</td><td>$54,000</td></tr><tr><td>Software subscriptions (HubSpot, Buffer, Adobe, etc.)</td><td>$600</td><td>$7,200</td></tr><tr><td>Accounting / bookkeeping</td><td>$300</td><td>$3,600</td></tr><tr><td>Phone / internet</td><td>$150</td><td>$1,800</td></tr><tr><td>Insurance (PI, PL)</td><td>$250</td><td>$3,000</td></tr><tr><td><strong>Total Fixed</strong></td><td><strong>$6,600</strong></td><td><strong>$79,200</strong></td></tr></tbody></table></div>
+<p><strong>Gross Margin Target:</strong> 81% ($28,400/month net of fixed costs)</p>
+<h3 id="32-conner-law-group-fixed-monthly-costs">3.2 Conner Law Group — Fixed Monthly Costs</h3>
+<div class="table-wrap"><table><thead><tr><th>Expense</th><th>Monthly Cost</th><th>Annual Cost</th></tr></thead><tbody><tr><td>Office lease (Brisbane CBD)</td><td>$4,500</td><td>$54,000</td></tr><tr><td>Solicitor salaries / contractor fees</td><td>$18,000</td><td>$216,000</td></tr><tr><td>Paralegal / admin staff</td><td>$6,500</td><td>$78,000</td></tr><tr><td>Legal practice management software (LEAP)</td><td>$500</td><td>$6,000</td></tr><tr><td>Professional indemnity insurance</td><td>$1,200</td><td>$14,400</td></tr><tr><td>Law Society membership fees</td><td>$200</td><td>$2,400</td></tr><tr><td>Accounting / trust account management</td><td>$800</td><td>$9,600</td></tr><tr><td>Phone / communications</td><td>$400</td><td>$4,800</td></tr><tr><td><strong>Total Fixed (all firms)</strong></td><td><strong>$32,100</strong></td><td><strong>$385,200</strong></td></tr></tbody></table></div>
+<h3 id="33-kevlaw-ai-fixed-monthly-costs">3.3 KevLaw AI — Fixed Monthly Costs</h3>
+<div class="table-wrap"><table><thead><tr><th>Expense</th><th>Monthly Cost</th><th>Annual Cost</th></tr></thead><tbody><tr><td>Cloud hosting / infrastructure (AWS/GCP)</td><td>$400</td><td>$4,800</td></tr><tr><td>Developer (part-time contractor)</td><td>$3,000</td><td>$36,000</td></tr><tr><td>AI API costs (OpenAI / Anthropic)</td><td>$300</td><td>$3,600</td></tr><tr><td>Software tools (GitHub, Linear, etc.)</td><td>$100</td><td>$1,200</td></tr><tr><td>Legal compliance review</td><td>$200</td><td>$2,400</td></tr><tr><td><strong>Total Fixed</strong></td><td><strong>$4,000</strong></td><td><strong>$48,000</strong></td></tr></tbody></table></div>
+<h3 id="34-power-portraits-fixed-monthly-costs">3.4 Power Portraits — Fixed Monthly Costs</h3>
+<div class="table-wrap"><table><thead><tr><th>Expense</th><th>Monthly Cost</th><th>Annual Cost</th></tr></thead><tbody><tr><td>Studio rental / location hire avg</td><td>$800</td><td>$9,600</td></tr><tr><td>Equipment insurance + maintenance</td><td>$200</td><td>$2,400</td></tr><tr><td>Software (Lightroom, gallery delivery)</td><td>$80</td><td>$960</td></tr><tr><td>Marketing / advertising</td><td>$500</td><td>$6,000</td></tr><tr><td>Accounting</td><td>$150</td><td>$1,800</td></tr><tr><td><strong>Total Fixed</strong></td><td><strong>$1,730</strong></td><td><strong>$20,760</strong></td></tr></tbody></table></div>
+<h3 id="35-content-studio-fixed-monthly-costs">3.5 CONTENT STUDIO — Fixed Monthly Costs</h3>
+<div class="table-wrap"><table><thead><tr><th>Expense</th><th>Monthly Cost</th><th>Annual Cost</th></tr></thead><tbody><tr><td>Equipment hire / maintenance</td><td>$500</td><td>$6,000</td></tr><tr><td>Crew (regular contractors base)</td><td>$2,500</td><td>$30,000</td></tr><tr><td>Software (Premiere Pro, DaVinci, etc.)</td><td>$120</td><td>$1,440</td></tr><tr><td>Storage / hard drives</td><td>$100</td><td>$1,200</td></tr><tr><td>Insurance</td><td>$200</td><td>$2,400</td></tr><tr><td><strong>Total Fixed</strong></td><td><strong>$3,420</strong></td><td><strong>$41,040</strong></td></tr></tbody></table></div>
+<h3 id="36-orca-film-awards-fixed-annual-costs">3.6 ORCA Film Awards — Fixed Annual Costs</h3>
+<div class="table-wrap"><table><thead><tr><th>Expense</th><th>Annual Cost</th></tr></thead><tbody><tr><td>Platform / website</td><td>$3,000</td></tr><tr><td>Event venue deposit</td><td>$8,000</td></tr><tr><td>Marketing / promotion</td><td>$5,000</td></tr><tr><td>Admin / coordination</td><td>$4,000</td></tr><tr><td>Trophies / awards production</td><td>$3,000</td></tr><tr><td>Insurance</td><td>$1,500</td></tr><tr><td><strong>Total Fixed</strong></td><td><strong>$24,500</strong></td></tr></tbody></table></div>
+<h3 id="37-ben-alek-conner-personal-brand-fixed-monthly-costs">3.7 Ben Alek Conner Personal Brand — Fixed Monthly Costs</h3>
+<div class="table-wrap"><table><thead><tr><th>Expense</th><th>Monthly Cost</th><th>Annual Cost</th></tr></thead><tbody><tr><td>Website hosting / maintenance</td><td>$100</td><td>$1,200</td></tr><tr><td>Content tools / subscriptions</td><td>$150</td><td>$1,800</td></tr><tr><td>Social media management</td><td>$300</td><td>$3,600</td></tr><tr><td><strong>Total Fixed</strong></td><td><strong>$550</strong></td><td><strong>$6,600</strong></td></tr></tbody></table></div>
+<hr>
+<h3 id="portfolio-fixed-cost-summary">Portfolio Fixed Cost Summary</h3>
+<div class="table-wrap"><table><thead><tr><th>Business</th><th>Monthly Fixed</th><th>Annual Fixed</th></tr></thead><tbody><tr><td>Nunya Bunya</td><td>$6,600</td><td>$79,200</td></tr><tr><td>Conner Law Group</td><td>$32,100</td><td>$385,200</td></tr><tr><td>KevLaw AI</td><td>$4,000</td><td>$48,000</td></tr><tr><td>Power Portraits</td><td>$1,730</td><td>$20,760</td></tr><tr><td>CONTENT STUDIO</td><td>$3,420</td><td>$41,040</td></tr><tr><td>ORCA Film Awards</td><td>$2,042 (avg)</td><td>$24,500</td></tr><tr><td>Ben Alek Conner Brand</td><td>$550</td><td>$6,600</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>$50,442</strong></td><td><strong>$605,300</strong></td></tr></tbody></table></div>
+<hr>
+<h2 id="4-variable-cost-categories">4. VARIABLE COST CATEGORIES</h2>
+<h3 id="41-universal-variable-costs-all-businesses">4.1 Universal Variable Costs (All Businesses)</h3>
+<ul>
+<li><strong>Advertising &amp; Paid Media:</strong> Google Ads, Meta Ads, LinkedIn Ads — percentage of revenue</li>
+<li><strong>Contractor / Freelancer Costs:</strong> project-based, varies by workload</li>
+<li><strong>Travel &amp; Client Entertainment:</strong> site visits, client dinners, networking events</li>
+<li><strong>Professional Development:</strong> courses, conferences, memberships</li>
+<li><strong>Postage &amp; Printing:</strong> materials, legal documents, marketing collateral</li>
+</ul>
+<h3 id="42-business-specific-variable-costs">4.2 Business-Specific Variable Costs</h3>
+<p><strong>Nunya Bunya:</strong></p>
+<ul>
+<li>Outsourced creative (copywriting, design) per campaign</li>
+<li>Software licences purchased for specific client campaigns</li>
+<li>Client-specific tool subscriptions (managed on behalf of clients — passed through)</li>
+</ul>
+<p><strong>Conner Law Group:</strong></p>
+<ul>
+<li>Disbursements: court filing fees, expert witness fees, medical reports, barristers</li>
+<li>Process server fees</li>
+<li>Transcript fees</li>
+</ul>
+<p><strong>Power Portraits:</strong></p>
+<ul>
+<li>Props and styling per shoot</li>
+<li>Location permit fees</li>
+<li>Print fulfilment (per order)</li>
+</ul>
+<p><strong>CONTENT STUDIO:</strong></p>
+<ul>
+<li>Specialised equipment hire per project</li>
+<li>Location permits and fees</li>
+<li>Talent / extra fees</li>
+<li>Music licensing</li>
+</ul>
+<p><strong>KevLaw AI:</strong></p>
+<ul>
+<li>Variable API costs (scales with usage)</li>
+<li>Marketing spend (per campaign)</li>
+</ul>
+<hr>
+<h2 id="5-pampl-template-structure">5. P&amp;L TEMPLATE STRUCTURE</h2>
+<p><em>Use this template for each business, monthly.</em></p>
+<pre><code>PROFIT &amp; LOSS STATEMENT
+Business: ___________________
+Month: ______________________
+
+REVENUE
+  Recurring Revenue:           $________
+  Project / One-off Revenue:   $________
+  Other Income:                $________
+  GROSS REVENUE:               $________
+  Less: GST Collected:         $________
+  NET REVENUE (ex-GST):        $________
+
+COST OF GOODS / SERVICES
+  Direct labour (contractors): $________
+  Disbursements / COGS:        $________
+  Direct materials:            $________
+  TOTAL COGS:                  $________
+
+GROSS PROFIT:                  $________
+GROSS MARGIN %:                _______%
+
+OPERATING EXPENSES
+  Fixed Costs (per schedule):  $________
+  Variable Costs:              $________
+  Marketing &amp; Advertising:     $________
+  Professional Services:       $________
+  Travel &amp; Entertainment:      $________
+  Insurance:                   $________
+  Depreciation:                $________
+  TOTAL OPEX:                  $________
+
+EBITDA:                        $________
+EBITDA MARGIN %:               _______%
+
+  Tax Provision (30% corp):    $________
+
+NET PROFIT:                    $________
+NET MARGIN %:                  _______%</code></pre>
+<hr>
+<h2 id="6-cash-flow-tracking-method">6. CASH FLOW TRACKING METHOD</h2>
+<h3 id="61-weekly-cash-position-friday-check">6.1 Weekly Cash Position (Friday Check)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Amount</th></tr></thead><tbody><tr><td>Opening bank balance (Monday)</td><td>$<strong><em></strong></em>__</td></tr><tr><td>+ Receipts this week (all businesses)</td><td>$<strong><em></strong></em>__</td></tr><tr><td>- Payments this week (expenses, wages, suppliers)</td><td>$<strong><em></strong></em>__</td></tr><tr><td>Closing bank balance (Friday)</td><td>$<strong><em></strong></em>__</td></tr><tr><td>Accounts receivable (unpaid invoices)</td><td>$<strong><em></strong></em>__</td></tr><tr><td>Accounts payable (unpaid bills)</td><td>$<strong><em></strong></em>__</td></tr><tr><td><strong>Net cash position</strong></td><td>$<strong><em></strong></em>__</td></tr><tr><td>Minimum reserve required</td><td>$<strong><em></strong></em>__</td></tr><tr><td><strong>Surplus / (Shortfall)</strong></td><td>$<strong><em></strong></em>__</td></tr></tbody></table></div>
+<h3 id="62-accounts-receivable-aging">6.2 Accounts Receivable Aging</h3>
+<div class="table-wrap"><table><thead><tr><th>Invoice Age</th><th>Amount</th><th>% of Total</th><th>Action</th></tr></thead><tbody><tr><td>0–14 days</td><td>$<strong><em></strong></em></td><td>____%</td><td>Monitor</td></tr><tr><td>15–30 days</td><td>$<strong><em></strong></em></td><td>____%</td><td>Friendly reminder</td></tr><tr><td>31–60 days</td><td>$<strong><em></strong></em></td><td>____%</td><td>Phone call</td></tr><tr><td>61–90 days</td><td>$<strong><em></strong></em></td><td>____%</td><td>Formal demand</td></tr><tr><td>90+ days</td><td>$<strong><em></strong></em></td><td>____%</td><td>Refer to debt recovery</td></tr></tbody></table></div>
+<h3 id="63-13-week-cash-flow-forecast">6.3 13-Week Cash Flow Forecast</h3>
+<div class="table-wrap"><table><thead><tr><th>Week</th><th>Projected Inflows</th><th>Projected Outflows</th><th>Net</th><th>Cumulative Balance</th></tr></thead><tbody><tr><td>W1</td><td>$<strong><em></strong></em></td><td>$<strong><em></strong></em></td><td>$<strong><em></strong></em></td><td>$<strong><em></strong></em></td></tr><tr><td>W2</td><td>$<strong><em></strong></em></td><td>$<strong><em></strong></em></td><td>$<strong><em></strong></em></td><td>$<strong><em></strong></em></td></tr><tr><td>W3</td><td>$<strong><em></strong></em></td><td>$<strong><em></strong></em></td><td>$<strong><em></strong></em></td><td>$<strong><em></strong></em></td></tr><tr><td>W4</td><td>$<strong><em></strong></em></td><td>$<strong><em></strong></em></td><td>$<strong><em></strong></em></td><td>$<strong><em></strong></em></td></tr><tr><td>W5–13</td><td>(continue)</td><td></td><td></td><td></td></tr></tbody></table></div>
+<p><em>Update this forecast every Friday. Flag any week where cumulative balance drops below 3-month reserve.</em></p>
+<h3 id="64-cash-reserve-targets-by-business">6.4 Cash Reserve Targets by Business</h3>
+<div class="table-wrap"><table><thead><tr><th>Business</th><th>3-Month Fixed Costs</th><th>Minimum Reserve</th></tr></thead><tbody><tr><td>Nunya Bunya</td><td>$19,800</td><td>$20,000</td></tr><tr><td>Conner Law Group</td><td>$96,300</td><td>$100,000</td></tr><tr><td>KevLaw AI</td><td>$12,000</td><td>$15,000</td></tr><tr><td>Power Portraits</td><td>$5,190</td><td>$6,000</td></tr><tr><td>CONTENT STUDIO</td><td>$10,260</td><td>$12,000</td></tr><tr><td>ORCA Film Awards</td><td>$6,125 (event fund)</td><td>$8,000</td></tr><tr><td>Ben Alek Conner Brand</td><td>$1,650</td><td>$2,000</td></tr></tbody></table></div>
+<hr>
+<h2 id="7-kpi-dashboard">7. KPI DASHBOARD</h2>
+<h3 id="71-portfolio-level-kpis-reviewed-weekly">7.1 Portfolio-Level KPIs (Reviewed Weekly)</h3>
+<div class="table-wrap"><table><thead><tr><th>KPI</th><th>Current</th><th>Target</th><th>Status</th></tr></thead><tbody><tr><td>Total portfolio revenue (month)</td><td>$<strong><em></strong></em></td><td>$135,500</td><td></td></tr><tr><td>Total portfolio net profit (month)</td><td>$<strong><em></strong></em></td><td>$85,000</td><td></td></tr><tr><td>Accounts receivable aging &gt;30 days</td><td>$<strong><em></strong></em></td><td>&lt;$15,000</td><td></td></tr><tr><td>New leads across portfolio (month)</td><td><strong><em></strong></em></td><td>20+</td><td></td></tr><tr><td>Proposals sent (month)</td><td><strong><em></strong></em></td><td>10+</td><td></td></tr><tr><td>Proposals converted (month)</td><td><strong><em></strong></em></td><td>5+</td><td></td></tr></tbody></table></div>
+<h3 id="72-business-specific-kpis">7.2 Business-Specific KPIs</h3>
+<h4 id="nunya-bunya">Nunya Bunya</h4>
+<div class="table-wrap"><table><thead><tr><th>KPI</th><th>Current</th><th>Target</th></tr></thead><tbody><tr><td>MRR</td><td>$<strong><em></strong></em></td><td>$35,000</td></tr><tr><td>Active retainer clients</td><td><strong><em></strong></em></td><td>9</td></tr><tr><td>Client churn (quarter)</td><td><strong><em></strong></em></td><td>0–1</td></tr><tr><td>New clients (month)</td><td><strong><em></strong></em></td><td>1–2</td></tr><tr><td>Average retainer value</td><td>$<strong><em></strong></em></td><td>$3,500</td></tr></tbody></table></div>
+<h4 id="conner-law-group">Conner Law Group</h4>
+<div class="table-wrap"><table><thead><tr><th>KPI</th><th>Current</th><th>Target</th></tr></thead><tbody><tr><td>New matters opened (month)</td><td><strong><em></strong></em></td><td>15+</td></tr><tr><td>Matters settled (month)</td><td><strong><em></strong></em></td><td>6–8</td></tr><tr><td>Average settlement value</td><td>$<strong><em></strong></em></td><td>$45,000</td></tr><tr><td>WIP (work in progress value)</td><td>$<strong><em></strong></em></td><td>$500,000+</td></tr><tr><td>Outstanding disbursements</td><td>$<strong><em></strong></em></td><td>&lt;$50,000</td></tr></tbody></table></div>
+<h4 id="kevlaw-ai">KevLaw AI</h4>
+<div class="table-wrap"><table><thead><tr><th>KPI</th><th>Current</th><th>Target</th></tr></thead><tbody><tr><td>Total subscribers</td><td><strong><em></strong></em></td><td>25 (Q4 2026)</td></tr><tr><td>MRR</td><td>$<strong><em></strong></em></td><td>$5,000</td></tr><tr><td>Monthly churn rate</td><td>____%</td><td>&lt;5%</td></tr><tr><td>New trials started (month)</td><td><strong><em></strong></em></td><td>10+</td></tr><tr><td>Trial-to-paid conversion</td><td>____%</td><td>&gt;25%</td></tr></tbody></table></div>
+<h4 id="power-portraits">Power Portraits</h4>
+<div class="table-wrap"><table><thead><tr><th>KPI</th><th>Current</th><th>Target</th></tr></thead><tbody><tr><td>Sessions booked (month)</td><td><strong><em></strong></em></td><td>10–12</td></tr><tr><td>Revenue per session (avg)</td><td>$<strong><em></strong></em></td><td>$1,050</td></tr><tr><td>Corporate bookings (month)</td><td><strong><em></strong></em></td><td>1–2</td></tr><tr><td>Rebook rate</td><td>____%</td><td>&gt;30%</td></tr></tbody></table></div>
+<h4 id="content-studio">CONTENT STUDIO</h4>
+<div class="table-wrap"><table><thead><tr><th>KPI</th><th>Current</th><th>Target</th></tr></thead><tbody><tr><td>Active projects</td><td><strong><em></strong></em></td><td>3–5</td></tr><tr><td>Revenue per project (avg)</td><td>$<strong><em></strong></em></td><td>$3,500</td></tr><tr><td>Client satisfaction score</td><td>____/10</td><td>&gt;8.5</td></tr></tbody></table></div>
+<h3 id="73-financial-health-indicators">7.3 Financial Health Indicators</h3>
+<div class="table-wrap"><table><thead><tr><th>Indicator</th><th>Current</th><th>Benchmark</th><th>Status</th></tr></thead><tbody><tr><td>Portfolio gross margin</td><td>____%</td><td>&gt;60%</td><td></td></tr><tr><td>Portfolio net margin</td><td>____%</td><td>&gt;40%</td><td></td></tr><tr><td>Debt-to-equity ratio</td><td><strong><em></strong></em></td><td>&lt;0.5</td><td></td></tr><tr><td>Current ratio (current assets/liabilities)</td><td><strong><em></strong></em></td><td>&gt;2.0</td><td></td></tr><tr><td>Days Sales Outstanding (DSO)</td><td><strong><em></strong></em> days</td><td>&lt;21 days</td><td></td></tr></tbody></table></div>
+<hr>
+<h2 id="8-quarterly-review-checklist">8. QUARTERLY REVIEW CHECKLIST</h2>
+<h3 id="financial-review">Financial Review</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Compile P&amp;L for each business (full quarter)</li>
+<li><span class="cb cb-empty">&#9744;</span> Compare actuals to targets — note variances &gt;10%</li>
+<li><span class="cb cb-empty">&#9744;</span> Review accounts receivable: chase any outstanding &gt;60 days</li>
+<li><span class="cb cb-empty">&#9744;</span> Review accounts payable: confirm all obligations current</li>
+<li><span class="cb cb-empty">&#9744;</span> Update 13-week cash flow forecast</li>
+<li><span class="cb cb-empty">&#9744;</span> Review business bank accounts: confirm reserve levels</li>
+<li><span class="cb cb-empty">&#9744;</span> Review BAS obligations — confirm quarterly lodgement on track</li>
+<li><span class="cb cb-empty">&#9744;</span> Tax provision review: sufficient set aside?</li>
+<li><span class="cb cb-empty">&#9744;</span> Review fixed cost contracts: any coming up for renewal? Renegotiate if possible</li>
+</ul>
+<h3 id="revenue-review">Revenue Review</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Which businesses exceeded target? Understand why — replicate</li>
+<li><span class="cb cb-empty">&#9744;</span> Which businesses missed target? Root cause analysis</li>
+<li><span class="cb cb-empty">&#9744;</span> Pipeline review: deals in progress by business</li>
+<li><span class="cb cb-empty">&#9744;</span> Pricing review: should any rates be increased?</li>
+<li><span class="cb cb-empty">&#9744;</span> Client retention: any clients at risk? What&#x27;s the plan?</li>
+<li><span class="cb cb-empty">&#9744;</span> New revenue stream opportunities identified?</li>
+</ul>
+<h3 id="cost-review">Cost Review</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Identify any cost increases vs. prior quarter</li>
+<li><span class="cb cb-empty">&#9744;</span> Any subscriptions or contracts unused / underused? Cancel</li>
+<li><span class="cb cb-empty">&#9744;</span> Team efficiency: are labour costs proportionate to output?</li>
+<li><span class="cb cb-empty">&#9744;</span> Marketing spend ROI: what&#x27;s performing, what&#x27;s not?</li>
+</ul>
+<h3 id="strategy">Strategy</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Set next-quarter revenue targets by business</li>
+<li><span class="cb cb-empty">&#9744;</span> Update 90-day content calendars</li>
+<li><span class="cb cb-empty">&#9744;</span> Review and update portfolio goals for the year</li>
+<li><span class="cb cb-empty">&#9744;</span> Identify top 3 priorities per business for next quarter</li>
+<li><span class="cb cb-empty">&#9744;</span> Note any risks or opportunities for portfolio</li>
+</ul>
+<h3 id="compliance">Compliance</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> All business registrations current (ASIC, ABN, etc.)</li>
+<li><span class="cb cb-empty">&#9744;</span> Insurance policies reviewed — adequate cover?</li>
+<li><span class="cb cb-empty">&#9744;</span> Contracts with key clients / suppliers: any up for renewal?</li>
+<li><span class="cb cb-empty">&#9744;</span> Staff / contractor agreements current?</li>
+<li><span class="cb cb-empty">&#9744;</span> Privacy and data compliance reviewed?</li>
+</ul>
+<hr>
+<p><em>This tracker is updated weekly (cash position) and monthly (full P&amp;L). Owner: Ben Alek Conner.</em></p>
+<p><em>For accounting software integration, connect Xero reports to this framework.</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">00-Ben HQ/MASTER BUDGET TRACKER.md</div>
+    </main>
+  </div>
+</body>
+</html>

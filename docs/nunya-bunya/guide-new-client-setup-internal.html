@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Client Setup Guide | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          New Client Setup Guide
+        </div>
+        <h1 class="doc-title">New Client Setup Guide</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Docs</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="new-client-setup-guide">New Client Setup Guide</h1>
+<h2 id="internal-sop-nunya-bunya">Internal SOP -- Nunya Bunya</h2>
+<p><strong>Purpose:</strong> Step-by-step process for onboarding a new client into the Nunya Bunya marketing stack. Follow this exactly for every new client.</p>
+<p><strong>Time to complete:</strong> 1-2 hours per client.</p>
+<hr>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before starting, you need:</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Signed client contract</li>
+<li><span class="cb cb-empty">&#9744;</span> Client&#x27;s business name, website URL, and logo</li>
+<li><span class="cb cb-empty">&#9744;</span> Client&#x27;s brand colours (hex codes)</li>
+<li><span class="cb cb-empty">&#9744;</span> Access to client&#x27;s domain DNS (or their registrar login)</li>
+<li><span class="cb cb-empty">&#9744;</span> Client&#x27;s social media account access (or login credentials)</li>
+<li><span class="cb cb-empty">&#9744;</span> Understanding of their target audience and service offerings</li>
+<li><span class="cb cb-empty">&#9744;</span> Agreement on which package/services they&#x27;re getting</li>
+</ul>
+<hr>
+<h2 id="phase-1-stack-configuration-30-minutes">Phase 1: Stack Configuration (30 minutes)</h2>
+<h3 id="11-create-slack-channel">1.1 Create Slack Channel</h3>
+<ol>
+<li>Go to the NunyaBunya Slack workspace</li>
+<li>Create a new channel: <code>#client-name</code> (lowercase, hyphens)</li>
+<li>Set the channel topic: &quot;Client Name -- [package name] -- marketing + reporting&quot;</li>
+<li>Pin a message with key client info: website, contact person, package, start date</li>
+</ol>
+<h3 id="12-add-client-to-client-configsjson">1.2 Add Client to client_configs.json</h3>
+<p>File: <code>/00-Ben HQ/NunyaBunyaAgents/client_configs.json</code></p>
+<p>Add a new entry:</p>
+<pre><code class="lang-json">{
+  &quot;client_id&quot;: &quot;client-name&quot;,
+  &quot;client_name&quot;: &quot;Client Display Name&quot;,
+  &quot;business_type&quot;: &quot;agency|law_firm|photography|car_dealership|ecommerce_fashion|default&quot;,
+  &quot;client_url&quot;: &quot;clientwebsite.com&quot;,
+  &quot;contact_email&quot;: &quot;owner@clientwebsite.com&quot;,
+  &quot;brand&quot;: {
+    &quot;primary_color&quot;: &quot;#HEXCODE&quot;,
+    &quot;secondary_color&quot;: &quot;#HEXCODE&quot;,
+    &quot;accent_color&quot;: &quot;#HEXCODE&quot;,
+    &quot;logo_url&quot;: &quot;https://clientwebsite.com/logo.png&quot;,
+    &quot;font&quot;: &quot;Inter&quot;
+  },
+  &quot;social&quot;: {
+    &quot;facebook&quot;: &quot;&quot;,
+    &quot;instagram&quot;: &quot;&quot;,
+    &quot;linkedin&quot;: &quot;&quot;,
+    &quot;twitter&quot;: &quot;&quot;,
+    &quot;tiktok&quot;: &quot;&quot;,
+    &quot;youtube&quot;: &quot;&quot;
+  },
+  &quot;marketing_stack&quot;: {
+    &quot;mautic_segment_id&quot;: null,
+    &quot;mautic_campaign_id&quot;: null,
+    &quot;matomo_site_id&quot;: null,
+    &quot;shlink_domain&quot;: &quot;go.nunyabunya.com&quot;,
+    &quot;twenty_company_id&quot;: null,
+    &quot;slack_channel_id&quot;: &quot;CHANNEL_ID_FROM_STEP_1&quot;
+  },
+  &quot;cta_link&quot;: &quot;https://clientwebsite.com/contact&quot;,
+  &quot;cta_text&quot;: &quot;Book a Free Consultation&quot;
+}</code></pre>
+<h3 id="13-create-mautic-segment">1.3 Create Mautic Segment</h3>
+<p><strong>Option A: Via API (preferred)</strong></p>
+<pre><code class="lang-bash">TOKEN=$(curl -s -X POST &#x27;https://mautic.nunyabunya.com/oauth/v2/token&#x27; \
+  -d &#x27;grant_type=client_credentials&#x27; \
+  -d &#x27;client_id=YOUR_OAUTH_CLIENT_ID&#x27; \
+  -d &#x27;client_secret=YOUR_OAUTH_CLIENT_SECRET&#x27; | python3 -c &quot;import sys,json;print(json.load(sys.stdin)[&#x27;access_token&#x27;])&quot;)
+
+curl -s -X POST &#x27;https://mautic.nunyabunya.com/api/segments/new&#x27; \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;name&quot;: &quot;Client Name - All Contacts&quot;,
+    &quot;alias&quot;: &quot;client-name-contacts&quot;,
+    &quot;isPublished&quot;: true,
+    &quot;isGlobal&quot;: true
+  }&#x27;</code></pre>
+<p><strong>Option B: Via Mautic UI</strong></p>
+<ol>
+<li>Go to https://mautic.nunyabunya.com</li>
+<li>Segments &gt; New</li>
+<li>Name: &quot;Client Name - All Contacts&quot;</li>
+<li>Save</li>
+</ol>
+<p>Note the segment ID and update <code>client_configs.json</code>.</p>
+<h3 id="14-create-mautic-email-sequence">1.4 Create Mautic Email Sequence</h3>
+<p>Look up the client&#x27;s <code>business<em>type</code> in <code>drip</em>sequences.json</code> to find their email templates. Then create each email via API:</p>
+<pre><code class="lang-bash">curl -s -X POST &#x27;https://mautic.nunyabunya.com/api/emails/new&#x27; \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;name&quot;: &quot;Client Name - Email 1: Welcome&quot;,
+    &quot;subject&quot;: &quot;Subject line here&quot;,
+    &quot;customHtml&quot;: &quot;&lt;html&gt;Email body here&lt;/html&gt;&quot;,
+    &quot;emailType&quot;: &quot;template&quot;,
+    &quot;isPublished&quot;: true,
+    &quot;fromName&quot;: &quot;Client Name&quot;
+  }&#x27;</code></pre>
+<p>Repeat for each email in the drip sequence. Note all email IDs.</p>
+<h3 id="15-create-mautic-campaign">1.5 Create Mautic Campaign</h3>
+<p>Create the campaign using the Mautic 5 API format:</p>
+<pre><code class="lang-bash">curl -s -X POST &#x27;https://mautic.nunyabunya.com/api/campaigns/new&#x27; \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;name&quot;: &quot;Client Name - Welcome Sequence&quot;,
+    &quot;isPublished&quot;: false,
+    &quot;lists&quot;: [SEGMENT_ID],
+    &quot;canvasSettings&quot;: {
+      &quot;nodes&quot;: [
+        {&quot;id&quot;: &quot;lists&quot;, &quot;positionX&quot;: 200, &quot;positionY&quot;: 50},
+        {&quot;id&quot;: &quot;new_1&quot;, &quot;positionX&quot;: 200, &quot;positionY&quot;: 200},
+        {&quot;id&quot;: &quot;new_2&quot;, &quot;positionX&quot;: 200, &quot;positionY&quot;: 350},
+        {&quot;id&quot;: &quot;new_3&quot;, &quot;positionX&quot;: 200, &quot;positionY&quot;: 500}
+      ],
+      &quot;connections&quot;: [
+        {&quot;sourceId&quot;: &quot;lists&quot;, &quot;targetId&quot;: &quot;new_1&quot;, &quot;anchors&quot;: {&quot;source&quot;: &quot;leadsource&quot;, &quot;target&quot;: &quot;top&quot;}},
+        {&quot;sourceId&quot;: &quot;new_1&quot;, &quot;targetId&quot;: &quot;new_2&quot;, &quot;anchors&quot;: {&quot;source&quot;: &quot;bottom&quot;, &quot;target&quot;: &quot;top&quot;}},
+        {&quot;sourceId&quot;: &quot;new_2&quot;, &quot;targetId&quot;: &quot;new_3&quot;, &quot;anchors&quot;: {&quot;source&quot;: &quot;bottom&quot;, &quot;target&quot;: &quot;top&quot;}}
+      ]
+    },
+    &quot;events&quot;: [
+      {
+        &quot;id&quot;: &quot;new_1&quot;,
+        &quot;name&quot;: &quot;Send Email 1&quot;,
+        &quot;type&quot;: &quot;email.send&quot;,
+        &quot;eventType&quot;: &quot;action&quot;,
+        &quot;order&quot;: 1,
+        &quot;properties&quot;: {&quot;email&quot;: EMAIL_1_ID, &quot;email_type&quot;: &quot;transactional&quot;},
+        &quot;triggerMode&quot;: &quot;immediate&quot;,
+        &quot;triggerInterval&quot;: 0,
+        &quot;triggerIntervalUnit&quot;: &quot;i&quot;,
+        &quot;decisionPath&quot;: &quot;yes&quot;,
+        &quot;tempId&quot;: &quot;new_1&quot;,
+        &quot;anchorEventType&quot;: &quot;source&quot;
+      },
+      {
+        &quot;id&quot;: &quot;new_2&quot;,
+        &quot;name&quot;: &quot;Send Email 2&quot;,
+        &quot;type&quot;: &quot;email.send&quot;,
+        &quot;eventType&quot;: &quot;action&quot;,
+        &quot;order&quot;: 2,
+        &quot;properties&quot;: {&quot;email&quot;: EMAIL_2_ID, &quot;email_type&quot;: &quot;transactional&quot;},
+        &quot;triggerMode&quot;: &quot;interval&quot;,
+        &quot;triggerInterval&quot;: 2,
+        &quot;triggerIntervalUnit&quot;: &quot;d&quot;,
+        &quot;decisionPath&quot;: &quot;yes&quot;,
+        &quot;tempId&quot;: &quot;new_2&quot;,
+        &quot;anchorEventType&quot;: &quot;action&quot;
+      },
+      {
+        &quot;id&quot;: &quot;new_3&quot;,
+        &quot;name&quot;: &quot;Send Email 3&quot;,
+        &quot;type&quot;: &quot;email.send&quot;,
+        &quot;eventType&quot;: &quot;action&quot;,
+        &quot;order&quot;: 3,
+        &quot;properties&quot;: {&quot;email&quot;: EMAIL_3_ID, &quot;email_type&quot;: &quot;transactional&quot;},
+        &quot;triggerMode&quot;: &quot;interval&quot;,
+        &quot;triggerInterval&quot;: 3,
+        &quot;triggerIntervalUnit&quot;: &quot;d&quot;,
+        &quot;decisionPath&quot;: &quot;yes&quot;,
+        &quot;tempId&quot;: &quot;new_3&quot;,
+        &quot;anchorEventType&quot;: &quot;action&quot;
+      }
+    ]
+  }&#x27;</code></pre>
+<p>Add more events for more emails. Adjust <code>triggerInterval</code> for the delay in days between each email.</p>
+<p>Note the campaign ID and update <code>client_configs.json</code>.</p>
+<h3 id="16-add-client-to-matomo">1.6 Add Client to Matomo</h3>
+<ol>
+<li>Go to https://analytics.nunyabunya.com</li>
+<li>Settings &gt; Websites &gt; Add a new website</li>
+<li>Enter client&#x27;s website URL</li>
+<li>Note the Site ID</li>
+<li>Update <code>client<em>configs.json</code> with <code>matomo</em>site_id</code></li>
+</ol>
+<h3 id="17-add-client-to-twenty-crm">1.7 Add Client to Twenty CRM</h3>
+<ol>
+<li>Go to https://crm.nunyabunya.com</li>
+<li>Create a new Company for the client</li>
+<li>Add the contact person as a Person linked to the Company</li>
+<li>Note the company ID and update <code>client_configs.json</code></li>
+</ol>
+<hr>
+<h2 id="phase-2-landing-page-setup-30-minutes">Phase 2: Landing Page Setup (30 minutes)</h2>
+<h3 id="21-create-landing-page">2.1 Create Landing Page</h3>
+<p>Use the landing page template at <code>/01-Nunya Bunya/Site/nunyabunya-site/landing.html</code> as a base.</p>
+<p>For each client, create:</p>
+<ol>
+<li><strong>Offer landing page</strong> -- the main offer (free audit, discount, etc.)</li>
+<li><strong>Lead magnet page</strong> -- downloadable resource in exchange for email</li>
+</ol>
+<p>Each landing page needs:</p>
+<ul>
+<li>Client&#x27;s branding (colours, logo, fonts)</li>
+<li>Clear headline and value proposition</li>
+<li>Form with fields: Name, Email, Phone (optional), and any qualifying questions</li>
+<li>Meta Pixel tracking code (use the Nunya Bunya pixel: 251483972902519)</li>
+<li>Matomo tracking code (use the client&#x27;s Site ID)</li>
+<li>Form submission handler that:</li>
+<li>Creates contact in Mautic with client tag</li>
+<li>Sends Slack notification to client channel</li>
+<li>Redirects to thank-you page</li>
+</ul>
+<h3 id="22-form-submission-handler">2.2 Form Submission Handler</h3>
+<p>Create an API route (e.g., <code>/api/lead.js</code> for Vercel) that does three things on form submit:</p>
+<pre><code class="lang-javascript">// 1. Create contact in Mautic
+const mauticResponse = await fetch(&#x27;https://mautic.nunyabunya.com/api/contacts/new&#x27;, {
+  method: &#x27;POST&#x27;,
+  headers: {
+    &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
+    &#x27;Authorization&#x27;: &#x27;Basic &#x27; + Buffer.from(&#x27;user:pass&#x27;).toString(&#x27;base64&#x27;)
+  },
+  body: JSON.stringify({
+    firstname: data.name,
+    email: data.email,
+    phone: data.phone,
+    tags: [&#x27;client-name&#x27;, &#x27;landing-page&#x27;]
+  })
+});
+
+// 2. Send Slack notification
+await fetch(&#x27;https://slack.com/api/chat.postMessage&#x27;, {
+  method: &#x27;POST&#x27;,
+  headers: {
+    &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
+    &#x27;Authorization&#x27;: &#x27;Bearer &#x27; + process.env.SLACK_BOT_TOKEN
+  },
+  body: JSON.stringify({
+    channel: &#x27;CLIENT_SLACK_CHANNEL_ID&#x27;,
+    text: `New lead from Client Name!\nName: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}`
+  })
+});
+
+// 3. Return success (redirect to thank-you page on client side)
+return Response.json({ success: true });</code></pre>
+<h3 id="23-thank-you-page">2.3 Thank-You Page</h3>
+<p>Create a thank-you page that:</p>
+<ul>
+<li>Confirms their submission</li>
+<li>Sets expectations (&quot;We&#x27;ll be in touch within 24 hours&quot;)</li>
+<li>Fires the Meta Pixel Lead event: <code>fbq(&#x27;track&#x27;, &#x27;Lead&#x27;);</code></li>
+<li>Optionally offers a next step (book a call, download resource)</li>
+</ul>
+<h3 id="24-deploy">2.4 Deploy</h3>
+<pre><code class="lang-bash">cd /path/to/client-site
+npx vercel --prod</code></pre>
+<h3 id="25-test-end-to-end">2.5 Test End-to-End</h3>
+<p>Submit a test form and verify:</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Contact appears in Mautic with correct tags</li>
+<li><span class="cb cb-empty">&#9744;</span> Contact is added to the client&#x27;s segment</li>
+<li><span class="cb cb-empty">&#9744;</span> Slack notification arrives in the client&#x27;s channel</li>
+<li><span class="cb cb-empty">&#9744;</span> Thank-you page loads</li>
+<li><span class="cb cb-empty">&#9744;</span> First drip email sends (check Mautic campaign log)</li>
+<li><span class="cb cb-empty">&#9744;</span> Matomo records the page view</li>
+<li><span class="cb cb-empty">&#9744;</span> Meta Pixel fires (check Facebook Events Manager &gt; Test Events)</li>
+</ul>
+<hr>
+<h2 id="phase-3-tracking-amp-pixel-setup-15-minutes">Phase 3: Tracking &amp; Pixel Setup (15 minutes)</h2>
+<h3 id="31-meta-pixel">3.1 Meta Pixel</h3>
+<p>Add to every page in the client&#x27;s site <code>&lt;head&gt;</code>:</p>
+<pre><code class="lang-html">&lt;script&gt;
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version=&#x27;2.0&#x27;;
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,&#x27;script&#x27;,
+&#x27;https://connect.facebook.net/en_US/fbevents.js&#x27;);
+fbq(&#x27;init&#x27;, &#x27;251483972902519&#x27;);
+fbq(&#x27;track&#x27;, &#x27;PageView&#x27;);
+&lt;/script&gt;</code></pre>
+<p>On conversion pages add: <code>fbq(&#x27;track&#x27;, &#x27;Lead&#x27;);</code></p>
+<p>On purchase pages add: <code>fbq(&#x27;track&#x27;, &#x27;Purchase&#x27;);</code></p>
+<h3 id="32-matomo-tracking">3.2 Matomo Tracking</h3>
+<p>Add to every page before <code>&lt;/body&gt;</code>:</p>
+<pre><code class="lang-html">&lt;script&gt;
+  var _paq = window._paq = window._paq || [];
+  _paq.push([&quot;trackPageView&quot;]);
+  _paq.push([&quot;enableLinkTracking&quot;]);
+  (function() {
+    var u=&quot;https://analytics.nunyabunya.com/&quot;;
+    _paq.push([&quot;setTrackerUrl&quot;, u+&quot;matomo.php&quot;]);
+    _paq.push([&quot;setSiteId&quot;, &quot;CLIENT_SITE_ID&quot;]);
+    var d=document, g=d.createElement(&quot;script&quot;), s=d.getElementsByTagName(&quot;script&quot;)[0];
+    g.async=true; g.src=u+&quot;matomo.js&quot;; s.parentNode.insertBefore(g,s);
+  })();
+&lt;/script&gt;</code></pre>
+<h3 id="33-shlink-tracking-links">3.3 Shlink Tracking Links</h3>
+<p>Create short links for all marketing URLs:</p>
+<pre><code class="lang-bash">curl -s -X POST &#x27;https://go.nunyabunya.com/rest/v3/short-urls&#x27; \
+  -H &quot;X-Api-Key: YOUR_SHLINK_API_KEY&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;longUrl&quot;: &quot;https://clientwebsite.com/landing&quot;,
+    &quot;customSlug&quot;: &quot;client-audit&quot;,
+    &quot;tags&quot;: [&quot;client-name&quot;, &quot;landing-page&quot;]
+  }&#x27;</code></pre>
+<p>Use <code>go.nunyabunya.com/client-audit</code> in all ads and social posts.</p>
+<hr>
+<h2 id="phase-4-ad-setup-30-minutes">Phase 4: Ad Setup (30 minutes)</h2>
+<h3 id="41-create-ad-copy">4.1 Create Ad Copy</h3>
+<p>Use the ad copy templates in <code>MASTER PLANS/ad-copy-all-businesses.md</code> as a starting point. Adapt for the client&#x27;s industry, offer, and voice.</p>
+<p>Each client needs minimum:</p>
+<ul>
+<li>2 Facebook/Instagram ad variations</li>
+<li>2 Google Ads variations (if applicable)</li>
+</ul>
+<h3 id="42-create-retargeting-audiences">4.2 Create Retargeting Audiences</h3>
+<p>In Facebook Ads Manager:</p>
+<ol>
+<li>Create Custom Audience &gt; Website &gt; All visitors (last 30 days)</li>
+<li>Create Custom Audience &gt; Website &gt; Thank-you page visitors (these are converters -- exclude from prospecting)</li>
+<li>Create Lookalike Audience from converters (for prospecting)</li>
+</ol>
+<h3 id="43-create-campaigns">4.3 Create Campaigns</h3>
+<ul>
+<li><strong>Campaign 1: Prospecting</strong> -- target cold audience with lead magnet offer</li>
+<li><strong>Campaign 2: Retargeting</strong> -- target website visitors who didn&#x27;t convert</li>
+</ul>
+<hr>
+<h2 id="phase-5-client-handoff-15-minutes">Phase 5: Client Handoff (15 minutes)</h2>
+<h3 id="51-send-client-welcome-email">5.1 Send Client Welcome Email</h3>
+<p>Use the template in <code>welcome<em>client</em>emails</code> agent or write manually:</p>
+<ul>
+<li>Confirm the services and timeline</li>
+<li>Share login credentials for any tools they need access to</li>
+<li>Set expectations for first deliverables</li>
+<li>Share the Slack channel (if client-facing)</li>
+<li>Schedule the first check-in call</li>
+</ul>
+<h3 id="52-create-metabase-dashboard">5.2 Create Metabase Dashboard</h3>
+<p>For each client, create a dashboard in Metabase showing:</p>
+<ul>
+<li>New leads this week/month</li>
+<li>Email open rates</li>
+<li>Campaign performance</li>
+<li>Website traffic (if Matomo connected)</li>
+</ul>
+<p>Share the dashboard link with the client for transparency.</p>
+<h3 id="53-update-internal-tracking">5.3 Update Internal Tracking</h3>
+<ul>
+<li>Update <code>client_configs.json</code> with all IDs</li>
+<li>Update the Nunya Bunya Client Roster in <code>GOALS.md</code></li>
+<li>Add client to the content calendar (DAILY-CONTENT-SYSTEM.md)</li>
+<li>Create a project plan in <code>MASTER PLANS/2026/[month]/client-name.md</code></li>
+</ul>
+<hr>
+<h2 id="quick-reference-client-setup-checklist">Quick Reference: Client Setup Checklist</h2>
+<pre><code>[ ] Contract signed
+[ ] Slack channel created
+[ ] client_configs.json updated
+[ ] Mautic segment created (note ID)
+[ ] Mautic emails created (note IDs)
+[ ] Mautic campaign created and published (note ID)
+[ ] Matomo site added (note Site ID)
+[ ] Twenty CRM company created (note ID)
+[ ] Landing page built with form
+[ ] Form handler wired to Mautic + Slack
+[ ] Thank-you page with Lead pixel event
+[ ] Meta Pixel on all pages
+[ ] Matomo tracking on all pages
+[ ] Shlink tracking links created
+[ ] End-to-end test passed
+[ ] Ad copy written
+[ ] Retargeting audiences created
+[ ] Ad campaigns created
+[ ] Client welcome email sent
+[ ] Metabase dashboard created
+[ ] All IDs updated in client_configs.json</code></pre>
+<hr>
+<h2 id="automation-opportunity">Automation Opportunity</h2>
+<p>This entire process should eventually be automated. The goal is an agent where you input:</p>
+<ul>
+<li>Client name</li>
+<li>Business type</li>
+<li>Brand colours</li>
+<li>Offer details</li>
+</ul>
+<p>And it automatically:</p>
+<ul>
+<li>Creates the Mautic segment, emails, and campaign</li>
+<li>Generates the landing page HTML</li>
+<li>Sets up the form handler</li>
+<li>Creates Shlink tracking links</li>
+<li>Creates the Slack channel</li>
+<li>Generates ad copy</li>
+<li>Outputs everything ready to deploy</li>
+</ul>
+<p>See: <code>NunyaBunyaAgents/funnel<em>strategy</em>agent</code> for the foundation of this.</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Docs/GUIDE - New Client Setup (Internal).md</div>
+    </main>
+  </div>
+</body>
+</html>

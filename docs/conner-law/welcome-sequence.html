@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conner Injury Law — Welcome Email Sequence | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link active"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#conner-law">Conner Law</a> &rsaquo;
+          Conner Injury Law — Welcome Email Sequence
+        </div>
+        <h1 class="doc-title">Conner Injury Law — Welcome Email Sequence</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(74,144,217,0.12);color:#4A90D9">&#9878; Conner Law</span>
+          <span class="doc-path">05-Conner Law / 05-content / Email Sequences</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="conner-injury-law-welcome-email-sequence">Conner Injury Law — Welcome Email Sequence</h1>
+<p><strong>Trigger:</strong> Download of &quot;What to Do After a Car Accident in Washington State&quot; checklist</p>
+<p><strong>Sender:</strong> Conner Injury Law &lt;Kevin@KevinConnerLaw.com&gt;</p>
+<p><strong>From Name:</strong> Kevin Conner | Conner Injury Law</p>
+<p><strong>Tone:</strong> Professional, empathetic, trustworthy. Never salesy. Never pushy.</p>
+<p><strong>Unsubscribe:</strong> Every email includes unsubscribe link</p>
+<hr>
+<h2 id="email-1-welcome-immediate">Email 1: Welcome (Immediate)</h2>
+<p><strong>Subject:</strong> Your Car Accident Checklist Is Inside</p>
+<p><strong>Preview text:</strong> Plus a quick note from attorney Kevin Conner</p>
+<hr>
+<p>Hi {{ contact.firstname | default(&quot;there&quot;) }},</p>
+<p>Thanks for downloading our free checklist — <em>What to Do After a Car Accident in Washington State</em>.</p>
+<p>If you&#x27;re reading this because you or someone you care about was recently in an accident, I want you to know something: you don&#x27;t have to figure this out alone.</p>
+<p>I&#x27;m Kevin Conner, a personal injury attorney here in Washington State. I started Conner Injury Law because I watched insurance companies routinely lowball people who were hurt through no fault of their own. People who deserved better.</p>
+<p>That checklist covers the most important steps to protect yourself after an accident. If you haven&#x27;t already, read through it and check off each item. The steps you take in the first 72 hours can make a significant difference in your case.</p>
+<p><strong>If you have questions about your situation, I&#x27;m happy to talk.</strong> We offer free, no-obligation case assessments — no pressure, no commitment. Just answers.</p>
+<p>Call us at <strong>(360) 488-2927</strong> or visit <a href="https://connerinjurylaw.com/book.html">connerinjurylaw.com/book</a> to schedule a time.</p>
+<p>Take care of yourself first. We&#x27;re here when you need us.</p>
+<p>— Kevin Conner</p>
+<p>Conner Injury Law</p>
+<p>(360) 488-2927</p>
+<p>Se habla Espanol: (360) 371-6484</p>
+<hr>
+<h2 id="email-2-day-3-understanding-your-rights-after-an-accident">Email 2: Day 3 — Understanding Your Rights After an Accident</h2>
+<p><strong>Subject:</strong> What you&#x27;re entitled to after a car accident in WA</p>
+<p><strong>Preview text:</strong> Your rights under Washington law — explained in plain English</p>
+<hr>
+<p>Hi {{ contact.firstname | default(&quot;there&quot;) }},</p>
+<p>A few days ago, you downloaded our car accident checklist. I hope it&#x27;s been helpful.</p>
+<p>Today I want to cover something most people don&#x27;t fully understand until it&#x27;s too late: <strong>your rights after a car accident in Washington State.</strong></p>
+<p>Here&#x27;s what the law says:</p>
+<p><strong>You can seek compensation for more than just your car.</strong></p>
+<p>If another driver caused your accident, you may be entitled to recover:</p>
+<ul>
+<li>Medical bills — past, current, and future treatment</li>
+<li>Lost wages — including time off work for doctor visits</li>
+<li>Pain and suffering — the impact on your daily life</li>
+<li>Future care costs — rehabilitation, ongoing therapy, or long-term treatment</li>
+</ul>
+<p><strong>You have three years to file a claim.</strong></p>
+<p>Washington&#x27;s statute of limitations gives you three years from the date of the accident. That sounds like plenty of time, but evidence disappears, memories fade, and witnesses move away. Starting early gives you the strongest position.</p>
+<p><strong>Even if you were partially at fault, you may still have a claim.</strong></p>
+<p>Washington uses a &quot;pure comparative fault&quot; system. If you were 20% at fault, you can still recover 80% of your damages. Insurance companies will try to shift blame onto you to reduce what they owe. Don&#x27;t let them.</p>
+<p><strong>You don&#x27;t have to accept the first offer.</strong></p>
+<p>Insurance adjusters often make a quick, low offer hoping you&#x27;ll take it before you understand the full cost of your injuries. You are never obligated to accept. You have the right to negotiate — or to have an attorney negotiate for you.</p>
+<p>If any of this applies to your situation and you&#x27;d like to talk through it, our free case assessment is exactly for that. No cost, no obligation.</p>
+<p><strong>(360) 488-2927</strong> | <a href="https://connerinjurylaw.com/book.html">Schedule a call</a></p>
+<p>— Kevin Conner</p>
+<p>Conner Injury Law</p>
+<p><em>This email contains general information and does not constitute legal advice. Every case is different.</em></p>
+<hr>
+<h2 id="email-3-day-7-5-mistakes-people-make-after-a-car-accident">Email 3: Day 7 — 5 Mistakes People Make After a Car Accident</h2>
+<p><strong>Subject:</strong> 5 mistakes that cost accident victims thousands</p>
+<p><strong>Preview text:</strong> Avoid these common errors that insurance companies count on</p>
+<hr>
+<p>Hi {{ contact.firstname | default(&quot;there&quot;) }},</p>
+<p>After handling hundreds of car accident cases across Washington State, I&#x27;ve seen the same mistakes come up again and again. These are the errors that insurance companies count on — because every one of them makes it easier to deny or reduce your claim.</p>
+<p><strong>Mistake 1: Not seeing a doctor right away.</strong></p>
+<p>You might feel fine after the accident. But soft tissue injuries, concussions, and whiplash often don&#x27;t show symptoms for 24 to 72 hours. If there&#x27;s a gap between your accident and your first medical visit, the insurance company will argue your injuries aren&#x27;t from the crash.</p>
+<p><strong>Mistake 2: Giving a recorded statement to the other driver&#x27;s insurer.</strong></p>
+<p>Their adjuster sounds friendly. They say it&#x27;s &quot;routine.&quot; But recorded statements are designed to get you to say something that undermines your claim. You are not legally required to give one. Politely decline.</p>
+<p><strong>Mistake 3: Posting about the accident on social media.</strong></p>
+<p>Insurance investigators check Facebook, Instagram, and TikTok. A photo of you at a birthday party, or a post saying &quot;I&#x27;m doing better!&quot; can be used to argue your injuries aren&#x27;t serious — even if you&#x27;re in constant pain.</p>
+<p><strong>Mistake 4: Accepting the first settlement offer.</strong></p>
+<p>The first offer is almost always a fraction of what your case is worth. Insurance companies make quick offers because they know most people need money and won&#x27;t push back. Once you sign, you give up all future claims — even if your injuries get worse.</p>
+<p><strong>Mistake 5: Waiting too long to talk to an attorney.</strong></p>
+<p>Evidence degrades. Witnesses forget details. Medical records become harder to connect to the accident. The earlier you get legal guidance, the stronger your case.</p>
+<p>None of these mistakes are your fault — insurance companies design the process to be confusing. That&#x27;s why we offer free case assessments. No commitment, no pressure. Just clarity about where you stand.</p>
+<p><strong>(360) 488-2927</strong> | <a href="https://connerinjurylaw.com/book.html">Schedule a free assessment</a></p>
+<p>— Kevin Conner</p>
+<p>Conner Injury Law</p>
+<p><em>This email contains general information and does not constitute legal advice.</em></p>
+<hr>
+<h2 id="email-4-day-14-what-does-a-personal-injury-lawyer-actually-do">Email 4: Day 14 — What Does a Personal Injury Lawyer Actually Do?</h2>
+<p><strong>Subject:</strong> What a personal injury lawyer actually does (and what it costs)</p>
+<p><strong>Preview text:</strong> The process explained — from first call to settlement</p>
+<hr>
+<p>Hi {{ contact.firstname | default(&quot;there&quot;) }},</p>
+<p>A lot of people hesitate to call a personal injury attorney because they don&#x27;t know what to expect. Will it cost a fortune? Will it drag on for years? Will it feel like a commitment they&#x27;re not ready for?</p>
+<p>I want to answer those questions honestly.</p>
+<p><strong>What happens when you call us?</strong></p>
+<p>The first step is a free case assessment. We listen to what happened, review the facts, and give you our honest opinion about whether you have a case and what it may be worth. This usually takes about 20 to 30 minutes. There is zero obligation.</p>
+<p><strong>If we take your case, here&#x27;s what we handle:</strong></p>
+<ul>
+<li><strong>Investigating the accident</strong> — gathering police reports, witness statements, medical records, and any available footage or evidence</li>
+<li><strong>Communicating with insurance companies</strong> — you never have to deal with adjusters again</li>
+<li><strong>Working with medical experts</strong> — to document the full extent of your injuries and their long-term impact</li>
+<li><strong>Calculating true damages</strong> — not just current bills, but lost wages, future treatment, pain and suffering, and quality of life</li>
+<li><strong>Negotiating a fair settlement</strong> — and if the insurance company won&#x27;t be fair, preparing your case for trial</li>
+</ul>
+<p><strong>What does it cost?</strong></p>
+<p>Conner Injury Law works on a contingency fee basis. That means:</p>
+<ul>
+<li><strong>No upfront fees.</strong> Ever.</li>
+<li><strong>No hourly billing.</strong></li>
+<li><strong>We only get paid if we win your case.</strong> Our fee comes as a percentage of the settlement or verdict. If we don&#x27;t win, you owe us nothing.</li>
+</ul>
+<p>This is called &quot;no win, no fee,&quot; and it&#x27;s how we&#x27;ve always operated. It means hiring an attorney carries zero financial risk to you.</p>
+<p><strong>How long does it take?</strong></p>
+<p>Every case is different. Some settle in a few months. Complex cases with ongoing medical treatment can take longer. What I can tell you is that cases with legal representation consistently result in higher settlements than cases handled without an attorney.</p>
+<p>If you&#x27;ve been in an accident and you&#x27;re not sure whether you need a lawyer, the simplest next step is a free conversation. No pressure. No sales pitch. Just answers.</p>
+<p><strong>(360) 488-2927</strong> | <a href="https://connerinjurylaw.com/book.html">Book your free assessment</a></p>
+<p>— Kevin Conner</p>
+<p>Conner Injury Law</p>
+<p><em>This email contains general information and does not constitute legal advice.</em></p>
+<hr>
+<h2 id="email-5-day-21-your-free-consultation-is-here-whenever-you-need-it">Email 5: Day 21 — Your Free Consultation Is Here Whenever You Need It</h2>
+<p><strong>Subject:</strong> We&#x27;re here when you&#x27;re ready</p>
+<p><strong>Preview text:</strong> A free, no-obligation conversation about your case</p>
+<hr>
+<p>Hi {{ contact.firstname | default(&quot;there&quot;) }},</p>
+<p>Over the past few weeks, I&#x27;ve shared some information about what to do after a car accident, your rights under Washington law, common mistakes to avoid, and how the personal injury process works.</p>
+<p>I hope it&#x27;s been useful — whether you&#x27;re dealing with an active situation or just want to be prepared.</p>
+<p><strong>If you&#x27;re currently dealing with an injury from an accident, here&#x27;s what I&#x27;d like to offer:</strong></p>
+<p>A free, no-obligation case review with me or my team. We&#x27;ll listen to what happened, give you our honest assessment, and help you understand your options.</p>
+<p>There is no cost. There is no commitment. And if we take your case, you pay nothing unless we win.</p>
+<p>This isn&#x27;t a hard sell. Some people call us and decide they don&#x27;t need an attorney — and that&#x27;s perfectly fine. We&#x27;d rather you make an informed decision than a rushed one.</p>
+<p><strong>Here&#x27;s how to reach us:</strong></p>
+<ul>
+<li><strong>Call:</strong> (360) 488-2927</li>
+<li><strong>Espanol:</strong> (360) 371-6484</li>
+<li><strong>Online:</strong> <a href="https://connerinjurylaw.com/book.html">connerinjurylaw.com/book</a></li>
+<li><strong>Email:</strong> Kevin@KevinConnerLaw.com</li>
+<li><strong>Office:</strong> 1202 S 2nd St, Mount Vernon, WA 98273</li>
+</ul>
+<p>Insurance companies have armies of lawyers working to minimize what they pay you. If you&#x27;re going up against them, it helps to have someone in your corner who knows every trick in their playbook.</p>
+<p>We&#x27;re here when you&#x27;re ready.</p>
+<p>— Kevin Conner</p>
+<p>Conner Injury Law</p>
+<p><em>This email contains general information and does not constitute legal advice. Past results do not guarantee future outcomes.</em></p>
+<hr>
+<h2 id="sequence-notes">Sequence Notes</h2>
+<div class="table-wrap"><table><thead><tr><th>Email</th><th>Send Time</th><th>Subject Line</th><th>Goal</th></tr></thead><tbody><tr><td>1</td><td>Immediate</td><td>Your Car Accident Checklist Is Inside</td><td>Deliver value, introduce Kevin</td></tr><tr><td>2</td><td>Day 3</td><td>What you&#x27;re entitled to after a car accident in WA</td><td>Educate on rights</td></tr><tr><td>3</td><td>Day 7</td><td>5 mistakes that cost accident victims thousands</td><td>Build trust with actionable advice</td></tr><tr><td>4</td><td>Day 14</td><td>What a personal injury lawyer actually does (and what it costs)</td><td>Demystify the process, remove fear</td></tr><tr><td>5</td><td>Day 21</td><td>We&#x27;re here when you&#x27;re ready</td><td>Soft close, free consultation offer</td></tr></tbody></table></div>
+<h3 id="mautic-setup-notes">Mautic Setup Notes</h3>
+<ul>
+<li><strong>Segment:</strong> Car Accident Checklist Downloads</li>
+<li><strong>Campaign trigger:</strong> Form submission on checklist landing page</li>
+<li><strong>Contact field:</strong> <code>lead_magnet = car-accident-checklist</code></li>
+<li><strong>Exit conditions:</strong> Contact books a consultation OR unsubscribes</li>
+<li><strong>Tags:</strong> <code>lead-magnet-car-checklist</code>, <code>email-sequence-welcome</code></li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">05-Conner Law/05-content/Email Sequences/welcome-sequence.md</div>
+    </main>
+  </div>
+</body>
+</html>

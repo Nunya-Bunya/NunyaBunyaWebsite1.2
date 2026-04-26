@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOCIAL MEDIA POST BANK | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          SOCIAL MEDIA POST BANK
+        </div>
+        <h1 class="doc-title">SOCIAL MEDIA POST BANK</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="social-media-post-bank">SOCIAL MEDIA POST BANK</h1>
+<p>All posts are copy-paste ready. Each post promotes a live blog post that has not yet been shared on social media.</p>
+<p>Last updated: 2026-04-19</p>
+<hr>
+<h2 id="quick-wins-post-these-first">QUICK WINS -- Post These First</h2>
+<p>These 5 posts have the highest potential for engagement and traffic. Post them before anything else.</p>
+<p><strong>1. NB -- Open-Source Marketing Stack (Twitter)</strong></p>
+<p>I replaced HubSpot, Mailchimp, Google Analytics, and Calendly with open-source tools. Total cost: $16/month. Here&#x27;s the full stack and how to set it up.</p>
+<p>nunyabunya.com/blog/open-source-marketing-stack</p>
+<p><strong>2. NB -- AI Brisbane Trivia Machine (Twitter)</strong></p>
+<p>I built an AI that researches Brisbane trivia, fact-checks itself, generates videos, and posts them to Twitter 5 times a day. Zero human input. Here&#x27;s how.</p>
+<p>nunyabunya.com/blog/ai-brisbane-trivia-machine</p>
+<p><strong>3. NB -- 7 Marketing Mistakes (LinkedIn)</strong></p>
+<p>Most small businesses make the same 7 marketing mistakes -- and they are all fixable. If you are spending money on marketing but not seeing results, one of these is probably the reason. I wrote them up with the specific fixes for each one.</p>
+<p>nunyabunya.com/blog/small-business-marketing-mistakes</p>
+<p>#SmallBusiness #MarketingStrategy #Brisbane #DigitalMarketing</p>
+<p><strong>4. ORCA -- Park Chan-wook Article (Twitter)</strong></p>
+<p>Park Chan-wook swept the ORCAs with 4 wins. The Oscars gave him zero nominations. Now he&#x27;s presiding over the Cannes jury. We wrote about the irony.</p>
+<p>orcafilmawards.com/articles/park-chan-wook-from-orca-to-cannes</p>
+<p><strong>5. Conner Law -- Car Accident Guide (Facebook)</strong></p>
+<p>If you or someone you know has been in a car accident, this step-by-step guide covers what to do right away to protect your health, your rights, and your claim. Save it -- you never know when you might need it.</p>
+<p>connerinjurylaw.com/blog/car-accident-guide</p>
+<hr>
+<h2 id="nunya-bunya-posts-as-ben-personal-voice">NUNYA BUNYA (Posts as Ben -- personal voice)</h2>
+<hr>
+<h3 id="1-how-to-get-your-first-client-in-brisbane-when-nobody-knows-you-exist">1. How to Get Your First Client in Brisbane (When Nobody Knows You Exist)</h3>
+<p><strong>URL:</strong> nunyabunya.com/blog/first-client-brisbane</p>
+<p><strong>Twitter:</strong></p>
+<p>Starting a business in Brisbane and have zero clients? I wrote the playbook I wish I had -- Facebook groups, door knocking, local partnerships, and the unglamorous stuff that actually works.</p>
+<p>nunyabunya.com/blog/first-client-brisbane</p>
+<p><strong>LinkedIn:</strong></p>
+<p>Getting your first client is the hardest part of starting a business. You have no reviews, no portfolio, no referrals. I wrote a guide specifically for Brisbane with practical strategies that work when nobody knows you exist yet -- from local Facebook groups to door knocking to partnership deals. If you are just getting started, this is for you.</p>
+<p>nunyabunya.com/blog/first-client-brisbane</p>
+<p>#Brisbane #SmallBusiness #StartupLife #MarketingTips #BrisbaneSmallBusiness</p>
+<p><strong>Facebook:</strong></p>
+<p>I wrote the guide I wish I had when I started -- how to actually land your first client in Brisbane when nobody knows who you are. Facebook groups, door knocking, partnerships, and the stuff that works before you have a reputation. Sharing because I know how rough that early stage is.</p>
+<p>nunyabunya.com/blog/first-client-brisbane</p>
+<hr>
+<h3 id="2-do-i-really-need-a-website-in-2026">2. Do I Really Need a Website in 2026?</h3>
+<p><strong>URL:</strong> nunyabunya.com/blog/do-i-need-a-website</p>
+<p><strong>Twitter:</strong></p>
+<p>&quot;I just use Instagram, I don&#x27;t need a website.&quot; I hear this constantly. Here&#x27;s why that thinking costs small businesses money in 2026 -- and what your site actually needs to include.</p>
+<p>nunyabunya.com/blog/do-i-need-a-website</p>
+<p><strong>LinkedIn:</strong></p>
+<p>The most common question I get from small business owners: &quot;Do I really need a website if I already have social media?&quot; The short answer is yes. The longer answer involves what happens when algorithms change, when customers search before they buy, and when you do not own your platform. I broke it all down.</p>
+<p>nunyabunya.com/blog/do-i-need-a-website</p>
+<p>#WebDesign #SmallBusiness #DigitalMarketing #Brisbane #OnlinePresence</p>
+<p><strong>Facebook:</strong></p>
+<p>If you have ever thought &quot;I have social media, I don&#x27;t need a website&quot; -- this one is worth a read. I wrote about why that thinking is risky in 2026 and what a small business website actually needs to include to be worth having.</p>
+<p>nunyabunya.com/blog/do-i-need-a-website</p>
+<hr>
+<h3 id="3-seo-for-small-business-a-beginnerx27s-guide">3. SEO for Small Business: A Beginner&#x27;s Guide</h3>
+<p><strong>URL:</strong> nunyabunya.com/blog/seo-basics-small-business</p>
+<p><strong>Twitter:</strong></p>
+<p>SEO is simpler than the industry wants you to think. I wrote a beginner&#x27;s guide for small business owners -- what actually matters, what you can skip, and where to start today.</p>
+<p>nunyabunya.com/blog/seo-basics-small-business</p>
+<p><strong>LinkedIn:</strong></p>
+<p>SEO can feel overwhelming, especially when every article you read introduces more jargon. I wrote a straightforward beginner&#x27;s guide for small business owners covering the things that actually move the needle -- and the things you can safely ignore. If you have been putting off SEO because it feels too complicated, start here.</p>
+<p>nunyabunya.com/blog/seo-basics-small-business</p>
+<p>#SEO #SmallBusiness #LocalSEO #DigitalMarketing #Brisbane</p>
+<p><strong>Facebook:</strong></p>
+<p>I put together an SEO guide specifically for small business owners who have been putting it off. It covers what actually matters, what you can skip, and how to get started without hiring anyone. If &quot;SEO&quot; has always felt like too much, this is the starting point.</p>
+<p>nunyabunya.com/blog/seo-basics-small-business</p>
+<hr>
+<h3 id="4-7-marketing-mistakes-killing-your-small-business">4. 7 Marketing Mistakes Killing Your Small Business</h3>
+<p><strong>URL:</strong> nunyabunya.com/blog/small-business-marketing-mistakes</p>
+<p><strong>Twitter:</strong></p>
+<p>7 marketing mistakes I see small businesses make constantly -- and every single one is fixable. If you are spending money on marketing and not seeing results, check this list.</p>
+<p>nunyabunya.com/blog/small-business-marketing-mistakes</p>
+<p><strong>LinkedIn:</strong></p>
+<p>Most small businesses make the same 7 marketing mistakes -- and they are all fixable. If you are spending money on marketing but not seeing results, one of these is probably the reason. I wrote them up with the specific fixes for each one.</p>
+<p>nunyabunya.com/blog/small-business-marketing-mistakes</p>
+<p>#SmallBusiness #MarketingStrategy #Brisbane #DigitalMarketing</p>
+<p><strong>Facebook:</strong></p>
+<p>I keep seeing the same marketing mistakes from small businesses. Wrote up the 7 most common ones with the exact fix for each. If your marketing feels like it is not working, have a look -- the answer might be in here.</p>
+<p>nunyabunya.com/blog/small-business-marketing-mistakes</p>
+<hr>
+<h3 id="5-the-2026-digital-marketing-trend-report">5. The 2026 Digital Marketing Trend Report</h3>
+<p><strong>URL:</strong> nunyabunya.com/blog/2026-trend-report</p>
+<p><strong>Twitter:</strong></p>
+<p>7 digital marketing trends every Brisbane business should know about in 2026 -- backed by data from BEDA, Google, Meltwater. Each one comes with practical steps you can take today.</p>
+<p>nunyabunya.com/blog/2026-trend-report</p>
+<p><strong>LinkedIn:</strong></p>
+<p>I put together a 2026 trend report covering the 7 digital marketing shifts that matter most for Brisbane businesses right now. AI search, local SEO changes, social media shifts -- each trend includes practical steps, not just predictions. Backed by data from BEDA, Google, and Meltwater.</p>
+<p>nunyabunya.com/blog/2026-trend-report</p>
+<p>#DigitalMarketing #MarketingTrends #2026 #Brisbane #SmallBusiness #AIMarketing</p>
+<p><strong>Facebook:</strong></p>
+<p>Put together a trend report covering the 7 biggest digital marketing changes for 2026. Each one comes with something you can actually do about it today. If you run a business in Brisbane, this is worth a few minutes.</p>
+<p>nunyabunya.com/blog/2026-trend-report</p>
+<hr>
+<h3 id="6-the-open-source-marketing-stack-run-your-marketing-for-16month">6. The Open-Source Marketing Stack: Run Your Marketing for $16/Month</h3>
+<p><strong>URL:</strong> nunyabunya.com/blog/open-source-marketing-stack</p>
+<p><strong>Twitter:</strong></p>
+<p>I replaced HubSpot, Mailchimp, Google Analytics, and Calendly with open-source tools. Total cost: $16/month. Here&#x27;s the full stack and how to set it up.</p>
+<p>nunyabunya.com/blog/open-source-marketing-stack</p>
+<p><strong>LinkedIn:</strong></p>
+<p>HubSpot charges $800/month. Mailchimp starts at $20 and climbs fast. Google Analytics sells your data. Calendly charges per user. I replaced all of them with open-source alternatives -- Mautic, Matomo, Twenty CRM, Cal.com -- running on a single server for $16/month total. Wrote a full breakdown of what each tool does and how to get started.</p>
+<p>nunyabunya.com/blog/open-source-marketing-stack</p>
+<p>#OpenSource #MarketingTools #SmallBusiness #MarTech #SelfHosted #DigitalMarketing</p>
+<p><strong>Facebook:</strong></p>
+<p>I run my entire marketing stack -- email, CRM, analytics, booking -- for $16/month using open-source tools. No HubSpot, no Mailchimp, no paid subscriptions. Wrote up the full breakdown of what I use and how it all fits together.</p>
+<p>nunyabunya.com/blog/open-source-marketing-stack</p>
+<hr>
+<h3 id="7-what-does-a-marketing-agency-actually-do-and-when-do-you-need-one">7. What Does a Marketing Agency Actually Do? (And When Do You Need One)</h3>
+<p><strong>URL:</strong> nunyabunya.com/blog/what-does-marketing-agency-do</p>
+<p><strong>Twitter:</strong></p>
+<p>What does a marketing agency actually do? When should you hire one vs do it yourself? I wrote an honest breakdown -- including the parts where I tell you not to hire one yet.</p>
+<p>nunyabunya.com/blog/what-does-marketing-agency-do</p>
+<p><strong>LinkedIn:</strong></p>
+<p>A lot of small business owners wonder whether they need a marketing agency. The honest answer is: it depends. I wrote a breakdown of what agencies actually provide, what you can realistically do yourself, and how to know when the timing is right. Written by someone who runs one -- so I have every incentive to say &quot;hire us&quot; and chose not to.</p>
+<p>nunyabunya.com/blog/what-does-marketing-agency-do</p>
+<p>#MarketingAgency #SmallBusiness #Brisbane #DigitalMarketing #HonestMarketing</p>
+<p><strong>Facebook:</strong></p>
+<p>Wrote an honest guide about what marketing agencies actually do and when you should hire one. Spoiler: I run an agency, and a good chunk of this article is about when you should NOT hire one. If you have been thinking about it, this will help you decide.</p>
+<p>nunyabunya.com/blog/what-does-marketing-agency-do</p>
+<hr>
+<h3 id="8-i-built-an-ai-that-posts-brisbane-trivia-5-times-a-day">8. I Built an AI That Posts Brisbane Trivia 5 Times a Day</h3>
+<p><strong>URL:</strong> nunyabunya.com/blog/ai-brisbane-trivia-machine</p>
+<p><strong>Twitter:</strong></p>
+<p>I built an AI that researches Brisbane trivia, fact-checks itself, generates videos, and posts them to Twitter 5 times a day. Zero human input. Here&#x27;s how.</p>
+<p>nunyabunya.com/blog/ai-brisbane-trivia-machine</p>
+<p><strong>LinkedIn:</strong></p>
+<p>I built a fully automated content machine that posts Brisbane trivia videos 5 times a day. It uses Claude for research and fact-checking, ElevenLabs for voiceover, and Imagen 4 for visuals. The entire pipeline runs without human input. I wrote a full technical breakdown of how it works and what I learned building it.</p>
+<p>nunyabunya.com/blog/ai-brisbane-trivia-machine</p>
+<p>#AIAutomation #ContentCreation #BuildInPublic #Brisbane #MarketingAutomation #ClaudeAI</p>
+<p><strong>Facebook:</strong></p>
+<p>Built a machine that automatically creates Brisbane trivia videos -- researches the facts, checks them, generates the video, and posts it to Twitter. Five times a day, no human needed. Wrote up how the whole thing works if you are curious about what AI content automation actually looks like in practice.</p>
+<p>nunyabunya.com/blog/ai-brisbane-trivia-machine</p>
+<hr>
+<h2 id="power-portraits-posts-as-the-brand-never-as-ben">POWER PORTRAITS (Posts as the brand -- never as Ben)</h2>
+<hr>
+<h3 id="1-what-to-wear-for-your-professional-headshot">1. What to Wear for Your Professional Headshot</h3>
+<p><strong>URL:</strong> powerportraitsphotography.com/blog/what-to-wear-headshot</p>
+<p><strong>Twitter:</strong></p>
+<p>Not sure what to wear for your headshot? This guide covers colours, fabrics, and styles that photograph well -- plus what to avoid so you look confident and polished on camera.</p>
+<p>powerportraitsphotography.com/blog/what-to-wear-headshot</p>
+<p><strong>LinkedIn:</strong></p>
+<p>One of the most common questions before a headshot session: &quot;What should I wear?&quot; The right outfit makes a real difference in how polished and confident you look on camera. We put together a practical guide covering colours, fabrics, layering, and industry-appropriate styling to help you prepare.</p>
+<p>powerportraitsphotography.com/blog/what-to-wear-headshot</p>
+<p>#ProfessionalHeadshots #Brisbane #PersonalBranding #CorporatePhotography #HeadshotTips</p>
+<p><strong>Facebook:</strong></p>
+<p>Heading into a headshot session and not sure what to wear? We put together a practical outfit guide covering what photographs well, what to avoid, and how to dress for your industry. Worth a read before your next session.</p>
+<p>powerportraitsphotography.com/blog/what-to-wear-headshot</p>
+<hr>
+<h3 id="2-corporate-headshots-vs-portrait-photography-whatx27s-the-difference">2. Corporate Headshots vs Portrait Photography: What&#x27;s the Difference?</h3>
+<p><strong>URL:</strong> powerportraitsphotography.com/blog/corporate-headshots-vs-portraits</p>
+<p><strong>Twitter:</strong></p>
+<p>Corporate headshots and portrait photography serve different purposes. One is for your LinkedIn, the other tells a deeper story. Here&#x27;s how to choose the right session for your goals.</p>
+<p>powerportraitsphotography.com/blog/corporate-headshots-vs-portraits</p>
+<p><strong>LinkedIn:</strong></p>
+<p>Corporate headshots and portrait photography are not the same thing -- and choosing the wrong one can mean photos that do not serve your purpose. Corporate headshots are standardised, clean, and built for professional platforms. Portraits are more personal and expressive. We wrote a guide explaining when you need each and what to expect from both.</p>
+<p>powerportraitsphotography.com/blog/corporate-headshots-vs-portraits</p>
+<p>#CorporateHeadshots #PortraitPhotography #Brisbane #ProfessionalPhotography #PersonalBranding</p>
+<p><strong>Facebook:</strong></p>
+<p>Corporate headshots and portrait photography are two different things -- and knowing which one you need saves you time and money. We broke down the differences, when you need each, and what to expect from both types of sessions.</p>
+<p>powerportraitsphotography.com/blog/corporate-headshots-vs-portraits</p>
+<hr>
+<h3 id="3-why-every-brisbane-business-owner-needs-updated-headshots">3. Why Every Brisbane Business Owner Needs Updated Headshots</h3>
+<p><strong>URL:</strong> powerportraitsphotography.com/blog/brisbane-business-headshots</p>
+<p><strong>Twitter:</strong></p>
+<p>Your headshot is your first impression online. If yours is outdated, blurry, or a cropped group photo -- it is costing you trust before you even speak. Here&#x27;s why Brisbane business owners are updating theirs.</p>
+<p>powerportraitsphotography.com/blog/brisbane-business-headshots</p>
+<p><strong>LinkedIn:</strong></p>
+<p>Your headshot is often the first thing people see before they decide to work with you. On LinkedIn, on your website, in proposals. If it is outdated, unprofessional, or missing entirely, it undermines trust before a conversation even begins. We wrote about why Brisbane business owners are investing in updated professional photography and what it means for their brand.</p>
+<p>powerportraitsphotography.com/blog/brisbane-business-headshots</p>
+<p>#Brisbane #BusinessHeadshots #ProfessionalPhotography #LinkedIn #PersonalBranding #SEQ</p>
+<p><strong>Facebook:</strong></p>
+<p>When was the last time you updated your headshot? If the answer is &quot;I can&#x27;t remember,&quot; it might be time. Your photo is the first impression people get online -- on LinkedIn, your website, everywhere. We wrote about why it matters and what a good headshot actually does for your business.</p>
+<p>powerportraitsphotography.com/blog/brisbane-business-headshots</p>
+<hr>
+<h2 id="conner-injury-law-posts-as-the-firm">CONNER INJURY LAW (Posts as the firm)</h2>
+<hr>
+<h3 id="1-understanding-traumatic-brain-injuries-what-you-need-to-know">1. Understanding Traumatic Brain Injuries: What You Need to Know</h3>
+<p><strong>URL:</strong> connerinjurylaw.com/blog/traumatic-brain-injury-guide</p>
+<p><strong>Twitter:</strong></p>
+<p>Traumatic brain injuries are one of the most serious and underdiagnosed injuries after an accident. This guide covers symptoms, long-term effects, and how to protect your legal rights.</p>
+<p>connerinjurylaw.com/blog/traumatic-brain-injury-guide</p>
+<p><strong>LinkedIn:</strong></p>
+<p>Traumatic brain injuries (TBI) are among the most serious outcomes of accidents -- and among the most frequently underdiagnosed. Symptoms can take days or weeks to appear, and without proper documentation, it can be difficult to pursue fair compensation. We put together a comprehensive guide covering symptoms to watch for, long-term effects, and the steps to protect your legal rights.</p>
+<p>connerinjurylaw.com/blog/traumatic-brain-injury-guide</p>
+<p>#PersonalInjury #TBI #BrainInjury #LegalRights #PersonalInjuryLaw</p>
+<p><strong>Facebook:</strong></p>
+<p>Traumatic brain injuries are often missed in the days after an accident. Symptoms can appear late, and without the right documentation, it becomes harder to get fair compensation. We wrote a guide covering what to watch for, what the long-term effects can look like, and how to protect yourself legally.</p>
+<p>connerinjurylaw.com/blog/traumatic-brain-injury-guide</p>
+<hr>
+<h3 id="2-no-win-no-fee-what-it-really-means-for-your-personal-injury-case">2. No Win No Fee: What It Really Means for Your Personal Injury Case</h3>
+<p><strong>URL:</strong> connerinjurylaw.com/blog/no-win-no-fee-explained</p>
+<p><strong>Twitter:</strong></p>
+<p>&quot;No win no fee&quot; sounds simple, but there is more to it than the name suggests. We explained how it works, what is covered, and what happens if your case does not succeed.</p>
+<p>connerinjurylaw.com/blog/no-win-no-fee-explained</p>
+<p><strong>LinkedIn:</strong></p>
+<p>The &quot;no win no fee&quot; model is one of the most commonly misunderstood concepts in personal injury law. Many people assume it means zero risk, but the details matter. We wrote a clear explanation of how contingency fee arrangements work, what costs are included, and what happens if your case does not result in a recovery.</p>
+<p>connerinjurylaw.com/blog/no-win-no-fee-explained</p>
+<p>#PersonalInjury #NoWinNoFee #LegalAdvice #PersonalInjuryLaw #ContingencyFee</p>
+<p><strong>Facebook:</strong></p>
+<p>A lot of people have heard of &quot;no win no fee&quot; but are not sure what it really means. We wrote an honest breakdown -- how it works, what is covered, what is not, and what happens if you do not win. If you have been thinking about filing a claim but are worried about costs, this is a good place to start.</p>
+<p>connerinjurylaw.com/blog/no-win-no-fee-explained</p>
+<hr>
+<h3 id="3-what-to-do-after-a-car-accident-a-complete-guide">3. What to Do After a Car Accident -- A Complete Guide</h3>
+<p><strong>URL:</strong> connerinjurylaw.com/blog/car-accident-guide</p>
+<p><strong>Twitter:</strong></p>
+<p>Just been in a car accident? Here&#x27;s a step-by-step guide covering what to do at the scene, what to document, and how to protect your claim from day one.</p>
+<p>connerinjurylaw.com/blog/car-accident-guide</p>
+<p><strong>LinkedIn:</strong></p>
+<p>The moments after a car accident are stressful and confusing. Most people do not know what steps to take to protect their health and their legal rights. We put together a complete guide covering what to do at the scene, what to document, when to see a doctor, and how to avoid common mistakes that can hurt your personal injury claim.</p>
+<p>connerinjurylaw.com/blog/car-accident-guide</p>
+<p>#CarAccident #PersonalInjury #LegalGuide #PersonalInjuryLaw #WashingtonState</p>
+<p><strong>Facebook:</strong></p>
+<p>If you or someone you know has been in a car accident, this step-by-step guide covers what to do right away to protect your health, your rights, and your claim. Save it -- you never know when you might need it.</p>
+<p>connerinjurylaw.com/blog/car-accident-guide</p>
+<hr>
+<h2 id="orca-film-awards-articles-twitter-letterboxd-style">ORCA FILM AWARDS (Articles -- Twitter + Letterboxd style)</h2>
+<p>The ORCA site is a single-page app. Article URLs follow the pattern: orcafilmawards.com/articles/[article-id]</p>
+<hr>
+<h3 id="1-why-the-oscars-keep-getting-it-wrong">1. Why the Oscars Keep Getting It Wrong</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/why-oscars-get-it-wrong</p>
+<p><strong>Twitter:</strong></p>
+<p>In 96 years of the Oscars, only 12 non-English-language films have been nominated for Best Picture. Twelve. We wrote about the Academy&#x27;s systematic blind spots -- and why an alternative voice matters.</p>
+<p>orcafilmawards.com/articles/why-oscars-get-it-wrong</p>
+<p><strong>Letterboxd-style (for film community posting):</strong></p>
+<p>The Academy ignored Kurosawa, Bergman, Tarkovsky, Wong Kar-wai, and Park Chan-wook for Best Picture. Parasite broke through after 92 years. Our new essay examines the structural reasons the Oscars keep missing the best films of the year -- foreign language, genre, animation, indie -- and what the ORCAs are doing about it.</p>
+<p>orcafilmawards.com/articles/why-oscars-get-it-wrong</p>
+<hr>
+<h3 id="2-10-films-from-2025-you-probably-missed">2. 10 Films from 2025 You Probably Missed</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/10-films-2025-you-missed</p>
+<p><strong>Twitter:</strong></p>
+<p>A Cannes Grand Prix winner. A film made in secret by a director who fled his country. A documentary about stolen treasures. 10 extraordinary films from 2025 that the mainstream completely ignored.</p>
+<p>orcafilmawards.com/articles/10-films-2025-you-missed</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>All We Imagine as Light. Grand Tour. Caught by the Tides. Dahomey. The Seed of the Sacred Fig. These are some of the most significant films of 2025 -- Golden Bear winners, Grand Prix winners, the work of some of the century&#x27;s most important filmmakers. The Academy either ignored them entirely or acknowledged them with the bare minimum. Our list of 10 you need to see.</p>
+<p>orcafilmawards.com/articles/10-films-2025-you-missed</p>
+<hr>
+<h3 id="3-what-makes-a-film-quotoscar-worthyquot-the-problem-with-prestige-cinema">3. What Makes a Film &quot;Oscar-Worthy&quot;? The Problem with Prestige Cinema</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/prestige-cinema-problem</p>
+<p><strong>Twitter:</strong></p>
+<p>Number of horror films that have won Best Picture in 96 years: one. Number of sci-fi films: zero. Number of animated films: zero. We wrote about the prestige cinema trap and why the Oscar definition of &quot;important&quot; is too narrow.</p>
+<p>orcafilmawards.com/articles/prestige-cinema-problem</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>There is a type of film that wins Oscars. Period piece. Biopic. Physical transformation. Historical injustice safely resolved. It is the prestige film, and it is killing the awards conversation. Our essay examines the &quot;Oscar bait&quot; playbook, the genre ceiling, the animation prejudice, and how the Academy&#x27;s idea of an &quot;important&quot; film systematically excludes the most interesting work being done in cinema.</p>
+<p>orcafilmawards.com/articles/prestige-cinema-problem</p>
+<hr>
+<h3 id="4-from-orca-to-the-croisette-park-chan-wook-will-decide-the-palme-dx27or">4. From ORCA to the Croisette: Park Chan-wook Will Decide the Palme d&#x27;Or</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/park-chan-wook-from-orca-to-cannes</p>
+<p><strong>Twitter:</strong></p>
+<p>Park Chan-wook swept the ORCAs with 4 wins. The Oscars gave him zero nominations. Now he&#x27;s presiding over the Cannes jury. We wrote about the irony.</p>
+<p>orcafilmawards.com/articles/park-chan-wook-from-orca-to-cannes</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>Six weeks ago, No Other Choice won Best Picture, Best Director, Best Screenplay, and Best Editing at the ORCAs. The most dominant showing in our history. Now the filmmaker behind it -- Park Chan-wook -- will preside over the Palme d&#x27;Or jury at Cannes. The first South Korean jury president in 79 years. Three prizes from four Competition entries. The filmmaker the Oscars ignored is now the one deciding who wins cinema&#x27;s most prestigious prize.</p>
+<p>orcafilmawards.com/articles/park-chan-wook-from-orca-to-cannes</p>
+<hr>
+<h3 id="5-lea-seydoux-is-everywhere-two-competition-films-at-cannes-2026">5. Lea Seydoux Is Everywhere: Two Competition Films at Cannes 2026</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/lea-seydoux-two-competition-films</p>
+<p><strong>Twitter:</strong></p>
+<p>Lea Seydoux stars in two Cannes Competition films this year. Catherine Deneuve also appears in two. Five actresses across ten films. This lineup has a centre of gravity.</p>
+<p>orcafilmawards.com/articles/lea-seydoux-two-competition-films</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>Lea Seydoux in Gentle Monster. Lea Seydoux in The Unknown. Catherine Deneuve in both Gentle Monster and Parallel Tales. Lea Drucker, Melanie Thierry, and Virginie Efira each in two films. Five actresses, ten Competition entries. This year&#x27;s Cannes lineup is built on the magnetic pull of a small number of performers whose presence signals quality. Our essay on the double billing and what it means.</p>
+<p>orcafilmawards.com/articles/lea-seydoux-two-competition-films</p>
+<hr>
+<h3 id="6-spainx27s-historic-year-three-films-in-cannes-competition">6. Spain&#x27;s Historic Year: Three Films in Cannes Competition</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/spain-three-films-cannes-2026</p>
+<p><strong>Twitter:</strong></p>
+<p>Spain has three films in Cannes Competition for the first time since 1955. Almodovar, Sorogoyen, and Los Javis. Three generations of filmmaking on one stage.</p>
+<p>orcafilmawards.com/articles/spain-three-films-cannes-2026</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>Pedro Almodovar&#x27;s Bitter Christmas. Rodrigo Sorogoyen&#x27;s The Beloved with Javier Bardem. Los Javis&#x27; queer epic The Black Ball with Penelope Cruz and Glenn Close. Three Spanish films in Competition -- a master, a rising star, and a debut duo. It has not happened since 1955. For a cinema that has been reduced to &quot;Almodovar and everyone else,&quot; this is a watershed moment.</p>
+<p>orcafilmawards.com/articles/spain-three-films-cannes-2026</p>
+<hr>
+<h3 id="7-na-hong-jin-returns-why-hope-might-be-the-most-anticipated-film-at-cannes-2026">7. Na Hong-jin Returns: Why Hope Might Be the Most Anticipated Film at Cannes 2026</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/na-hong-jin-hope-cannes-2026</p>
+<p><strong>Twitter:</strong></p>
+<p>Na Hong-jin has made 3 feature films. Every one has been extraordinary. After 10 years of silence, he&#x27;s back with Hope -- Michael Fassbender, HoYeon, and a genre-shifting sci-fi thriller. We wrote about why ORCA is watching.</p>
+<p>orcafilmawards.com/articles/na-hong-jin-hope-cannes-2026</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>The Chaser reinvented the serial killer procedural. The Yellow Sea was one of the decade&#x27;s most relentless thrillers. The Wailing fused folk horror and spiritual warfare into something that defied categorisation. Then Na Hong-jin went quiet for 10 years. Hope is his return -- Hwang Jung-min, Michael Fassbender, HoYeon, a genre-shifting sci-fi thriller set near the DMZ. The Wailing earned zero Oscar nominations. He is exactly the kind of filmmaker we exist to champion.</p>
+<p>orcafilmawards.com/articles/na-hong-jin-hope-cannes-2026</p>
+<hr>
+<h3 id="8-five-directors-making-their-competition-debut-at-cannes-2026">8. Five Directors Making Their Competition Debut at Cannes 2026</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/five-competition-debuts-cannes-2026</p>
+<p><strong>Twitter:</strong></p>
+<p>Five filmmakers are jumping from Cannes sidebars into the main Competition this year. Mysius, Kreutzer, Bourgeois-Tacquet, Marre, Grisebach. The directors Cannes has been watching for years.</p>
+<p>orcafilmawards.com/articles/five-competition-debuts-cannes-2026</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>Lea Mysius went from Critics&#x27; Week to Competition. Marie Kreutzer went from Un Certain Regard to working with Seydoux and Deneuve. Valeska Grisebach has made four films in 25 years and never compromised. Five Competition debuts. Five trajectories Cannes has carefully nurtured from the margins to the centre.</p>
+<p>orcafilmawards.com/articles/five-competition-debuts-cannes-2026</p>
+<hr>
+<h3 id="9-the-films-that-could-define-the-next-orca-awards">9. The Films That Could Define the Next ORCA Awards</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/films-that-could-define-next-orcas</p>
+<p><strong>Twitter:</strong></p>
+<p>Which Cannes 2026 films will ORCA voters be talking about next year? Na Hong-jin, Mungiu, Hamaguchi, Zvyagintsev, Harari. Five filmmakers the Academy will almost certainly overlook. Five films that could define our next ceremony.</p>
+<p>orcafilmawards.com/articles/films-that-could-define-next-orcas</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>If The Wailing had existed when the ORCAs launched, it would have swept. Mungiu has never been nominated for an Oscar. Zvyagintsev has been silent for 9 years. Hamaguchi&#x27;s new film is 3 hours and 16 minutes, in French, set in a nursing home. These are the Cannes 2026 films our voters will be arguing about next March.</p>
+<p>orcafilmawards.com/articles/films-that-could-define-next-orcas</p>
+<hr>
+<h3 id="10-write-for-orca-at-cannes-2026">10. Write for ORCA at Cannes 2026</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/write-for-orca-cannes-2026</p>
+<p><strong>Twitter:</strong></p>
+<p>We&#x27;re looking for film lovers who want to write about Cannes 2026. No journalism degree required. No credentials needed. If you care about cinema, we want to hear from you. Deadline: May 1.</p>
+<p>orcafilmawards.com/articles/write-for-orca-cannes-2026</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>ORCA is covering Cannes 2026 and we want new voices. If you are at the festival, we want your on-the-ground perspective. If you are covering it remotely, we want your analysis. No experience required -- just a genuine love of cinema. Pitches due May 1.</p>
+<p>orcafilmawards.com/articles/write-for-orca-cannes-2026</p>
+<hr>
+<h3 id="11-cinema-without-borders-the-cannes-2026-lineup">11. Cinema Without Borders: The Cannes 2026 Lineup</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/cannes-2026-lineup-cinema-without-borders</p>
+<p><strong>Twitter:</strong></p>
+<p>2,491 submissions from 141 countries. Nepal&#x27;s first feature at Cannes. A refugee telling his own story. Costa Rica&#x27;s quiet powerhouse. The Cannes 2026 lineup is a map of where film actually lives.</p>
+<p>orcafilmawards.com/articles/cannes-2026-lineup-cinema-without-borders</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>Abinash Bikram Shah is Nepal&#x27;s first feature filmmaker at Cannes. Rafiki Fariala grew up as a refugee and is now debuting in Un Certain Regard. Valentina Maurel is reshaping Latin American cinema from Costa Rica. This year&#x27;s Cannes selection -- 141 countries, 2,491 submissions -- proves the most vital filmmaking has no passport. Our deep dive into the names you should learn now.</p>
+<p>orcafilmawards.com/articles/cannes-2026-lineup-cinema-without-borders</p>
+<hr>
+<h3 id="12-the-2026-orca-winners-who-won-who-surprised-and-who-was-snubbed">12. The 2026 ORCA Winners: Who Won, Who Surprised, and Who Was Snubbed</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/2026-winners-analysis</p>
+<p><strong>Twitter:</strong></p>
+<p>No Other Choice: 4 wins. The Testament of Ann Lee: 4 wins. Josh O&#x27;Connor won Best Actor with the lowest nomination support. Wicked went home empty. Full breakdown of the 2026 ORCA results.</p>
+<p>orcafilmawards.com/articles/2026-winners-analysis</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>Park Chan-wook&#x27;s No Other Choice swept Picture, Director, Screenplay, and Editing. Amanda Seyfried&#x27;s Best Actress win was the most decisive of the night. Josh O&#x27;Connor entered with the weakest nomination support and took Best Actor anyway. Wicked led nominations in two categories and left with nothing. The full analysis of every race, every upset, and what it all means.</p>
+<p>orcafilmawards.com/articles/2026-winners-analysis</p>
+<hr>
+<h3 id="13-orca-announces-expansion-into-film-criticism">13. ORCA Announces Expansion into Film Criticism</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/orca-expansion-film-criticism</p>
+<p><strong>Twitter:</strong></p>
+<p>ORCA is expanding beyond awards into year-round film criticism. News, reviews, features, festival coverage. We are building something new -- and looking for writers who want to be part of it.</p>
+<p>orcafilmawards.com/articles/orca-expansion-film-criticism</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>The ORCA Film Awards started as a way to celebrate the films the Academy overlooked. Now we are building a year-round criticism platform. Four sections: News, Reviews, Features, Festivals. We are also opening our doors to new contributors. If you care about cinema beyond the Oscars, we want to hear from you.</p>
+<p>orcafilmawards.com/articles/orca-expansion-film-criticism</p>
+<hr>
+<h3 id="14-the-films-the-oscars-missed-this-year">14. The Films the Oscars Missed This Year</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/films-the-oscars-missed</p>
+<p><strong>Twitter:</strong></p>
+<p>The Oscars missed No Other Choice, Mickey 17, 28 Years Later, and The Testament of Ann Lee this year. These are not obscure films. They are some of the best work in cinema right now.</p>
+<p>orcafilmawards.com/articles/films-the-oscars-missed</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>A Park Chan-wook masterclass. A Bong Joon-ho return. A Danny Boyle genre revival. A sweeping epic that earned 8 ORCA nominations. The Academy found room for none of them. Our look at the most remarkable films of 2025 that the Oscars overlooked entirely.</p>
+<p>orcafilmawards.com/articles/films-the-oscars-missed</p>
+<hr>
+<h3 id="15-why-non-oscar-films-matter">15. Why Non-Oscar Films Matter</h3>
+<p><strong>URL:</strong> orcafilmawards.com/articles/why-non-oscar-films-matter</p>
+<p><strong>Twitter:</strong></p>
+<p>The Oscars were never designed to be comprehensive. They were founded by studio executives in 1927. A single institution cannot be the sole arbiter of cinematic value. Here&#x27;s why non-Oscar films matter.</p>
+<p>orcafilmawards.com/articles/why-non-oscar-films-matter</p>
+<p><strong>Letterboxd-style:</strong></p>
+<p>When a film gets an Oscar nomination, its theatrical run extends, its streaming numbers climb, and its creators gain funding for future work. Films that are passed over lose all of that. Horror, sci-fi, comedy, animation, international cinema -- the majority of what people actually watch and love -- systematically excluded. Our essay on why the ORCAs exist and why great cinema is an ecosystem, not a hierarchy.</p>
+<p>orcafilmawards.com/articles/why-non-oscar-films-matter</p>
+<hr>
+<h2 id="posting-notes">POSTING NOTES</h2>
+<ul>
+<li><strong>NB:</strong> Post from Ben&#x27;s personal accounts. First person. Conversational.</li>
+<li><strong>PP:</strong> Post from Power Portraits brand accounts. Third person (&quot;we&quot;). Professional and polished.</li>
+<li><strong>Conner Law:</strong> Post from the firm&#x27;s accounts. Third person (&quot;we&quot;). Authoritative but approachable.</li>
+<li><strong>ORCA:</strong> Post from ORCA Film Awards accounts. Editorial voice. Confident and knowledgeable.</li>
+<li>Always include the URL at the end of the post, not embedded in the middle.</li>
+<li>Twitter posts are all under 280 characters including the URL (URLs count as 23 characters on Twitter/X).</li>
+<li>Letterboxd-style posts are designed for film community platforms (Letterboxd, film Twitter, Reddit film subs).</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/SOCIAL-POST-BANK.md</div>
+    </main>
+  </div>
+</body>
+</html>

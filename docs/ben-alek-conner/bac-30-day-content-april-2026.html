@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben Alek Conner — 30-Day Social Media Content Calendar | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link active"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-alek-conner">Ben Alek Conner</a> &rsaquo;
+          Ben Alek Conner — 30-Day Social Media Content Calendar
+        </div>
+        <h1 class="doc-title">Ben Alek Conner — 30-Day Social Media Content Calendar</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#127908; Ben Alek Conner</span>
+          <span class="doc-path">06-Ben Alek Conner / 05-content</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="ben-alek-conner-30-day-social-media-content-calendar">Ben Alek Conner — 30-Day Social Media Content Calendar</h1>
+<h2 id="april-9-may-8-2026">April 9 - May 8, 2026</h2>
+<h3 id="generated-by-claude-ai-for-bac-personal-brand">Generated by Claude AI for BAC Personal Brand</h3>
+<hr>
+<hr>
+<p><strong>DAY 1 - April 9 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Starting something new today. Launching my YouTube channel this month with zero subscribers and documenting the whole journey. First video drops next week: &quot;How I Built My Agency&#x27;s Entire Backend for $16/month&quot;</p>
+<p>No BS, just real numbers and systems that actually work.</p>
+<p><strong>VISUAL:</strong> Screenshot of empty YouTube analytics dashboard</p>
+<p><strong>CTA:</strong> What&#x27;s one system that saves you the most time?</p>
+<hr>
+<p><strong>DAY 1 - April 9 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Real talk: I&#x27;m launching my YouTube channel this month with ZERO subscribers.</p>
+<p>Why? Because I&#x27;m tired of talking about building in public without actually doing it publicly enough.</p>
+<p>First video drops next week: &quot;How I Built My Agency&#x27;s Entire Backend for $16/month&quot;</p>
+<p>I&#x27;ll share every metric, every struggle, every small win. No fake guru energy, just an Australian entrepreneur figuring it out as I go.</p>
+<p>Current stats:</p>
+<p>• Agency revenue: $3K/month</p>
+<p>• YouTube subscribers: 0</p>
+<p>• Coffee consumed today: Too much</p>
+<p>Let&#x27;s see where this goes.</p>
+<p>#buildinpublic #entrepreneur #youtube #brisbane #startuplife #systemsthinking #productivity</p>
+<p><strong>VISUAL:</strong> Behind-the-scenes shot of video recording setup in Brisbane apartment</p>
+<p><strong>CTA:</strong> Drop a 🔥 if you want to follow this journey</p>
+<hr>
+<p><strong>DAY 2 - April 10 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Productivity</p>
+<p><strong>COPY:</strong> ADHD brain hack that changed my business:</p>
+<p>I batch all my &quot;boring&quot; tasks into 25-minute sprints with 5-minute breaks.</p>
+<p>Demand letters, invoicing, admin work - all the stuff that makes my brain want to run away.</p>
+<p>Result: What used to take me 3 hours now takes 90 minutes.</p>
+<p><strong>VISUAL:</strong> Timer screenshot showing 25:00</p>
+<p><strong>CTA:</strong> What&#x27;s your best ADHD productivity hack?</p>
+<hr>
+<p><strong>DAY 2 - April 10 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Three months ago, I was running my agency on spreadsheets and prayer.</p>
+<p>Today, I&#x27;ve got a full backend system that runs 90% of my operations for $16/month.</p>
+<p>Here&#x27;s the breakdown:</p>
+<p>• Airtable for project management</p>
+<p>• Zapier for automation</p>
+<p>• Stripe for payments</p>
+<p>• Gmail for... well, email</p>
+<p>Total monthly cost: $16</p>
+<p>Time saved per week: 8 hours</p>
+<p>Mistakes reduced: 85%</p>
+<p>The best part? It scales without adding complexity.</p>
+<p>Building in public means sharing the real numbers, not just the highlights. My agency only does $3K/month right now, but the systems are bulletproof.</p>
+<p>Sometimes you&#x27;ve got to build the infrastructure before the revenue catches up.</p>
+<p>What&#x27;s one system that transformed your business efficiency?</p>
+<p>#buildinpublic #entrepreneur #systems #automation #smallbusiness #brisbane</p>
+<p><strong>VISUAL:</strong> Screenshot of system architecture diagram</p>
+<p><strong>CTA:</strong> Share your best efficiency system in comments</p>
+<hr>
+<p><strong>DAY 3 - April 11 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Health</p>
+<p><strong>COPY:</strong> 6 months ago: 125kg, smoking a pack a day, couldn&#x27;t walk up stairs without wheezing.</p>
+<p>Today: 98kg, smoke-free for 3 months, ran 5km this morning.</p>
+<p>The secret wasn&#x27;t motivation. It was systems.</p>
+<p>Same approach I use for business: small, consistent actions compound.</p>
+<p><strong>VISUAL:</strong> Before/after progress photo</p>
+<p><strong>CTA:</strong> What&#x27;s one health habit you&#x27;re building?</p>
+<hr>
+<p><strong>DAY 3 - April 11 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Health</p>
+<p><strong>COPY:</strong> 6 months ago I was 125kg and couldn&#x27;t walk up a flight of stairs without being winded.</p>
+<p>This morning I ran 5km.</p>
+<p>The transformation wasn&#x27;t about motivation or some dramatic lifestyle overhaul. It was about treating my health like I treat my business: with systems.</p>
+<p>Here&#x27;s what actually worked:</p>
+<p>• Meal prep on Sundays (same as batching content)</p>
+<p>• 10,000 steps daily (non-negotiable, like checking email)</p>
+<p>• Gym 3x per week (scheduled like client meetings)</p>
+<p>• Sleep 7+ hours (tracked like KPIs)</p>
+<p>Current stats:</p>
+<p>Weight: 98kg (-27kg)</p>
+<p>Smoke-free: 3 months</p>
+<p>Energy levels: Actually have them now</p>
+<p>The ADHD brain that makes business challenging also makes health transformation possible - we just hyperfocus on the right systems.</p>
+<p>Still got 15kg to go, but the momentum is real.</p>
+<p>#healthjourney #weightloss #adhd #systems #brisbane #transformation #entrepreneur</p>
+<p><strong>VISUAL:</strong> Side-by-side progress photo with current weight on scale</p>
+<p><strong>CTA:</strong> What&#x27;s one health system that actually works for you?</p>
+<hr>
+<p><strong>DAY 4 - April 12 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Filmmaking</p>
+<p><strong>COPY:</strong> Tomorrow I submit my PROOF application to Screen Queensland.</p>
+<p>18 months of development. 47 drafts of the script. $2.8M budget request.</p>
+<p>Either this gets funded or I&#x27;m back to making micro-budget films with mates.</p>
+<p>Both paths are valid. Only one pays the bills.</p>
+<p><strong>VISUAL:</strong> Stack of printed script pages</p>
+<p><strong>CTA:</strong> Ever bet everything on one opportunity?</p>
+<hr>
+<p><strong>DAY 5 - April 13 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Filmmaking</p>
+<p><strong>COPY:</strong> Just hit submit on my PROOF application to Screen Queensland.</p>
+<p>$2.8M funding request for my feature film.</p>
+<p>Now I wait 3 months to find out if 18 months of work pays off.</p>
+<p>The entrepreneur in me loves building something from nothing. The filmmaker in me just wants to tell stories.</p>
+<p>Sometimes they align perfectly.</p>
+<p><strong>VISUAL:</strong> Screenshot of submitted application confirmation</p>
+<p><strong>CTA:</strong> Fingers crossed. What&#x27;s the biggest thing you&#x27;ve ever applied for?</p>
+<hr>
+<p><strong>DAY 5 - April 13 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Filmmaking</p>
+<p><strong>COPY:</strong> Just submitted my PROOF application to Screen Queensland.</p>
+<p>18 months of development.</p>
+<p>47 script drafts.</p>
+<p>$2.8M funding request.</p>
+<p>3 months to wait for an answer.</p>
+<p>This is the reality of Australian filmmaking - you write for years, apply for funding, and hold your breath.</p>
+<p>The feature film is called &quot;The Weight of Silence&quot; - a psychological thriller about family secrets in rural Queensland. Very different from the agency work that pays the bills, but this is where my heart is.</p>
+<p>Win or lose, I&#x27;m proud of the work. The script is tight, the budget is realistic, and the story matters.</p>
+<p>Now comes the hardest part: waiting.</p>
+<p>But here&#x27;s the thing about being multi-passionate - if this doesn&#x27;t work out, I&#x27;ve still got the agency, YouTube channel, and about 10 other projects brewing.</p>
+<p>Diversification isn&#x27;t just for investment portfolios.</p>
+<p>#filmmaking #screenqueensland #proof #australianfilm #feature #entrepreneur #brisbane</p>
+<p><strong>VISUAL:</strong> Professional headshot with script pages and laptop showing submitted application</p>
+<p><strong>CTA:</strong> Ever submitted something that could change everything? How do you handle the waiting?</p>
+<hr>
+<p><strong>DAY 6 - April 14 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Week 1 of documenting everything:</p>
+<p>Agency revenue: $3,127 (up $127 from last month)</p>
+<p>YouTube subscribers: Still 0</p>
+<p>PROOF application: Submitted ✓</p>
+<p>Weight: 98.2kg</p>
+<p>Hours of sleep: 6.1 (need to fix this)</p>
+<p>Small wins. Steady progress. Very Australian approach.</p>
+<p><strong>VISUAL:</strong> Simple metrics dashboard screenshot</p>
+<p><strong>CTA:</strong> What metric do you track that others might find boring?</p>
+<hr>
+<p><strong>DAY 6 - April 14 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Weekly transparency report - Week 1 of building in public:</p>
+<p>📊 AGENCY METRICS:</p>
+<p>• Revenue: $3,127 (up $127 from March)</p>
+<p>• Active clients: 4</p>
+<p>• Pipeline value: $8,500</p>
+<p>• Hours worked: 32</p>
+<p>🎬 FILMMAKING:</p>
+<p>• PROOF application: Submitted to Screen Queensland</p>
+<p>• Wait time: 3 months for decision</p>
+<p>• Script drafts completed: 47</p>
+<p>💪 PERSONAL:</p>
+<p>• Weight: 98.2kg (down from 125kg 6 months ago)</p>
+<p>• Smoke-free days: 94</p>
+<p>• Daily steps average: 11,200</p>
+<p>The agency numbers aren&#x27;t massive, but they&#x27;re growing steadily. The filmmaking is a long game. The health transformation is the foundation that makes everything else possible.</p>
+<p>Building multiple streams isn&#x27;t about hustle culture - it&#x27;s about creating options and following what energizes you.</p>
+<p>Next week&#x27;s focus: Launch YouTube channel with first video.</p>
+<p>What does your weekly review look like?</p>
+<p>#buildinpublic #entrepreneur #transparency #multistreamrevenue #brisbane #progress</p>
+<p><strong>VISUAL:</strong> Clean infographic showing all metrics</p>
+<p><strong>CTA:</strong> Share one metric you track weekly</p>
+<hr>
+<p><strong>DAY 7 - April 15 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Productivity</p>
+<p><strong>COPY:</strong> YouTube video filmed ✓</p>
+<p>Edited ✓</p>
+<p>Thumbnail designed ✓</p>
+<p>Upload scheduled ✓</p>
+<p>Goes live tomorrow at 7am Brisbane time.</p>
+<p>The ADHD brain that makes focus hard also makes hyperfocus possible. When it clicks, it REALLY clicks.</p>
+<p>Zero to YouTube video in 48 hours.</p>
+<p><strong>VISUAL:</strong> Video editing timeline screenshot</p>
+<p><strong>CTA:</strong> What&#x27;s your record for fastest project completion?</p>
+<hr>
+<p><strong>DAY 8 - April 16 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> YouTube Promo</p>
+<p><strong>COPY:</strong> IT&#x27;S LIVE 🚀</p>
+<p>&quot;How I Built My Agency&#x27;s Entire Backend for $16/month&quot;</p>
+<p>First ever YouTube video. Zero fancy equipment. Just real systems that work.</p>
+<p>Link in bio or search &quot;Ben Alek Conner&quot; on YouTube.</p>
+<p>Let&#x27;s see if anyone actually watches this thing.</p>
+<p><strong>VISUAL:</strong> YouTube video thumbnail</p>
+<p><strong>CTA:</strong> Watch and tell me what I should cover next</p>
+<hr>
+<p><strong>DAY 8 - April 16 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> YouTube Promo</p>
+<p><strong>COPY:</strong> Well, I did it. First YouTube video is live.</p>
+<p>&quot;How I Built My Agency&#x27;s Entire Backend for $16/month&quot;</p>
+<p>No fancy setup, no perfect lighting, just me in my Brisbane apartment sharing the actual systems that run my business.</p>
+<p>Took me 48 hours from idea to upload. ADHD hyperfocus for the win.</p>
+<p>In the video, I break down:</p>
+<p>• The exact tools I use ($16 total monthly cost)</p>
+<p>• How they connect together</p>
+<p>• Real screenshots of my workflows</p>
+<p>• Why most agency owners overcomplicate everything</p>
+<p>Current subscriber count: 1 (pretty sure that&#x27;s my mum)</p>
+<p>But here&#x27;s the thing - everyone starts somewhere. Even the biggest YouTubers had a first video that probably sucked.</p>
+<p>This one might suck too, but it&#x27;s done and it&#x27;s out there.</p>
+<p>Link in bio or search &quot;Ben Alek Conner&quot; on YouTube.</p>
+<p>#youtube #entrepreneur #systems #buildinpublic #agency #brisbane #firstvideos #productivity</p>
+<p><strong>VISUAL:</strong> Screenshot of YouTube video with play button overlay</p>
+<p><strong>CTA:</strong> Go watch and let me know - what should I cover in video #2?</p>
+<hr>
+<p><strong>DAY 9 - April 17 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> 24 hours since launching my YouTube channel:</p>
+<p>Views: 73</p>
+<p>Subscribers: 8</p>
+<p>Comments: 3</p>
+<p>Watch time: 18 minutes average</p>
+<p>Not viral numbers, but 73 people chose to spend 18 minutes watching me explain spreadsheets.</p>
+<p>That&#x27;s actually pretty wild when you think about it.</p>
+<p><strong>VISUAL:</strong> YouTube analytics screenshot</p>
+<p><strong>CTA:</strong> What was your first content milestone that felt significant?</p>
+<hr>
+<p><strong>DAY 9 - April 17 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Productivity</p>
+<p><strong>COPY:</strong> The $16/month system that runs my entire agency just got its first external validation.</p>
+<p>Yesterday I published a YouTube video breaking down exactly how I built it. 73 views in 24 hours doesn&#x27;t sound like much, but here&#x27;s what it represents:</p>
+<p>73 people voluntarily spent 18 minutes watching me explain business systems.</p>
+<p>That tells me two things:</p>
+<ol>
+<li>People are hungry for practical, non-theoretical advice</li>
+<li>There&#x27;s value in showing your actual work, not just talking about success</li>
+</ol>
+<p>The comments are gold:</p>
+<p>&quot;This is exactly what I needed&quot;</p>
+<p>&quot;Finally, someone showing real numbers&quot;</p>
+<p>&quot;Why isn&#x27;t this taught in business school?&quot;</p>
+<p>The system itself:</p>
+<p>• Airtable for project management</p>
+<p>• Zapier for automation</p>
+<p>• Stripe for payments</p>
+<p>• Basic integrations that save 8 hours/week</p>
+<p>Total cost: $16/month</p>
+<p>Time to set up: 6 hours</p>
+<p>ROI: Impossible to calculate because it enabled everything else</p>
+<p>Sometimes the best business advice comes from people still figuring it out, not those who&#x27;ve already &quot;made it.&quot;</p>
+<p>What system in your business would others find surprisingly valuable?</p>
+<p>#systems #entrepreneur #youtube #productivity #smallbusiness #automation #buildinpublic</p>
+<p><strong>VISUAL:</strong> Screenshot of video analytics with positive comments highlighted</p>
+<p><strong>CTA:</strong> Share a system that transformed your workflow</p>
+<hr>
+<p><strong>DAY 10 - April 18 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> Hot take: Most &quot;productivity gurus&quot; have never run a real business.</p>
+<p>They sell courses on time management but have never had to juggle client deadlines, cash flow, and unexpected problems all at once.</p>
+<p>Real productivity is messy, imperfect, and constantly evolving.</p>
+<p>Anyone else notice this?</p>
+<p><strong>VISUAL:</strong> None needed</p>
+<p><strong>CTA:</strong> Agree or disagree? What&#x27;s your productivity hot take?</p>
+<hr>
+<p><strong>DAY 10 - April 18 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> Friday afternoon thought experiment:</p>
+<p>If you could only keep 3 apps on your phone for running your business, which would you choose?</p>
+<p>Mine would be:</p>
+<ol>
+<li>Gmail (communication is everything)</li>
+<li>Banking app (gotta pay the bills)</li>
+<li>Spotify (can&#x27;t work without music)</li>
+</ol>
+<p>Notice I didn&#x27;t say any social media apps or even project management tools. Everything else can be done on desktop when I&#x27;m properly focused.</p>
+<p>Your phone should make business easier, not more distracting.</p>
+<p>What&#x27;s your essential 3?</p>
+<p>#productivity #entrepreneur #phonehacks #focus #business #minimalism #brisbane</p>
+<p><strong>VISUAL:</strong> Phone screenshot showing only 3 apps on home screen</p>
+<p><strong>CTA:</strong> Tell me your essential 3 apps in the comments</p>
+<hr>
+<p><strong>DAY 11 - April 19 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Health</p>
+<p><strong>COPY:</strong> Saturday morning weigh-in: 97.8kg</p>
+<p>That&#x27;s 27.2kg down from where I started.</p>
+<p>The scale doesn&#x27;t always go down, but the trend is clear. Systems beat motivation every time.</p>
+<p>Today: 10,000 steps, meal prep for the week, and maybe a swim if the Brisbane weather cooperates.</p>
+<p><strong>VISUAL:</strong> Scale showing 97.8kg</p>
+<p><strong>CTA:</strong> What&#x27;s your Saturday self-care routine?</p>
+<hr>
+<p><strong>DAY 12 - April 20 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Filmmaking</p>
+<p><strong>COPY:</strong> Sunday script review session.</p>
+<p>Even though PROOF is submitted, I keep finding ways to make the dialogue sharper. Can&#x27;t help myself.</p>
+<p>This is either dedication or obsession. Probably both.</p>
+<p>The line between perfectionism and craft is thinner than I&#x27;d like to admit.</p>
+<p><strong>VISUAL:</strong> Coffee cup next to script pages with red pen edits</p>
+<p><strong>CTA:</strong> When do you know when to stop tweaking and ship?</p>
+<hr>
+<p><strong>DAY 13 - April 21 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Monday metrics:</p>
+<p>YouTube video #1: 127 views, 12 subscribers</p>
+<p>Agency MRR: Holding steady at $3K</p>
+<p>ORCA Film Awards judging: Started (15 entries to review)</p>
+<p>Weight: 97.6kg</p>
+<p>Coffee cups: 3 (it&#x27;s only 11am)</p>
+<p>Slow and steady wins... something.</p>
+<p><strong>VISUAL:</strong> Simple dashboard showing metrics</p>
+<p><strong>CTA:</strong> What does your Monday look like?</p>
+<hr>
+<p><strong>DAY 13 - April 21 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Monday reality check.</p>
+<p>YouTube channel: 12 subscribers (up from 0 last week)</p>
+<p>Agency revenue: $3K/month (consistent but not growing fast)</p>
+<p>Weight: 97.6kg (still trending down)</p>
+<p>ORCA Film Awards: Judging 15 entries this week</p>
+<p>Coffee consumption: Concerning</p>
+<p>Here&#x27;s what I&#x27;m learning about building multiple things at once:</p>
+<p>Progress feels slow because you&#x27;re dividing attention. But compound growth is happening across all areas.</p>
+<p>The YouTube channel gives me content for social media.</p>
+<p>The social media drives agency leads.</p>
+<p>The agency funds the filmmaking.</p>
+<p>The filmmaking keeps me creatively satisfied.</p>
+<p>The health journey gives me energy for all of it.</p>
+<p>It&#x27;s messy and sometimes overwhelming, but each piece supports the others.</p>
+<p>Week 2 focus: Second YouTube video + ORCA judging + maintaining momentum.</p>
+<p>#buildinpublic #entrepreneur #filmmaker #multistreamrevenue #brisbane #progress #systems</p>
+<p><strong>VISUAL:</strong> Flat lay of laptop, coffee, script pages, and phone showing YouTube analytics</p>
+<p><strong>CTA:</strong> Are you building multiple things? How do you manage the energy?</p>
+<hr>
+<p><strong>DAY 14 - April 22 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Productivity</p>
+<p><strong>COPY:</strong> ADHD productivity breakthrough:</p>
+<p>I started scheduling &quot;transition time&quot; between tasks.</p>
+<p>5 minutes to close one project, clear my head, and open the next one.</p>
+<p>Game changer. My brain needs time to switch contexts properly.</p>
+<p>Most productivity advice ignores neurodiversity.</p>
+<p><strong>VISUAL:</strong> Calendar showing 5-minute buffer blocks</p>
+<p><strong>CTA:</strong> What productivity hack works for your specific brain?</p>
+<hr>
+<p><strong>DAY 14 - April 22 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Productivity</p>
+<p><strong>COPY:</strong> Most productivity systems fail because they&#x27;re designed for neurotypical brains.</p>
+<p>As someone with ADHD running multiple businesses, here&#x27;s what actually works:</p>
+<p>❌ Time blocking in 2-hour chunks</p>
+<p>✅ 25-minute sprints with 5-minute transitions</p>
+<p>❌ &quot;Just focus on one thing&quot;</p>
+<p>✅ Rotate between projects to maintain interest</p>
+<p>❌ &quot;Eliminate all distractions&quot;</p>
+<p>✅ Control distractions (music, specific environment)</p>
+<p>❌ &quot;Work when you feel motivated&quot;</p>
+<p>✅ Work when your energy peaks (9-11am for me)</p>
+<p>❌ &quot;Multitasking is bad&quot;</p>
+<p>✅ Strategic task-switching prevents burnout</p>
+<p>The breakthrough moment: I stopped fighting my brain and started working with it.</p>
+<p>Now I run an agency, create YouTube content, judge film awards, and maintain a health transformation - all because I designed systems for how my brain actually works, not how productivity gurus think it should work.</p>
+<p>Your productivity system should fit your neurology, not the other way around.</p>
+<p>What productivity &quot;rule&quot; did you break to find what actually works?</p>
+<p>#adhd #productivity #entrepreneur #neurodiversity #systems #mentalhealth #workingdifferently</p>
+<p><strong>VISUAL:</strong> Brain illustration with different colored sections showing different types of tasks</p>
+<p><strong>CTA:</strong> Share your best neurodivergent productivity hack</p>
+<hr>
+<p><strong>DAY 15 - April 23 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> YouTube Promo</p>
+<p><strong>COPY:</strong> YouTube video #2 is live:</p>
+<p>&quot;Why I Judge Film Awards (And You Should Too)&quot;</p>
+<p>Inside look at ORCA Film Awards judging process. What makes a winning film, common mistakes, and how entering competitions can accelerate your creative career.</p>
+<p>15 films down, insights are flowing.</p>
+<p><strong>VISUAL:</strong> YouTube thumbnail for video #2</p>
+<p><strong>CTA:</strong> Watch and tell me - should I do more film industry content?</p>
+<hr>
+<p><strong>DAY 15 - April 23 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> YouTube Promo</p>
+<p><strong>COPY:</strong> Video #2 is live on YouTube: &quot;Why I Judge Film Awards (And You Should Too)&quot;</p>
+<p>This week I&#x27;m judging 15 entries for ORCA Film Awards. Thought I&#x27;d bring you behind the scenes.</p>
+<p>What I cover in the video:</p>
+<p>• How film competition judging actually works</p>
+<p>• What separates winning films from the rest</p>
+<p>• Why entering competitions matters for your career</p>
+<p>• Common mistakes I see over and over</p>
+<p>• How to choose which festivals to enter</p>
+<p>The entrepreneur side of me loves systems and processes. Turns out film judging is full of both.</p>
+<p>Plus, watching 15 short films in a week is giving me serious inspiration for my own projects.</p>
+<p>Current YouTube stats:</p>
+<p>• 2 videos published ✓</p>
+<p>• 18 subscribers</p>
+<p>• 394 total views</p>
+<p>• Comments asking for more film content</p>
+<p>Link in bio to watch, or search &quot;Ben Alek Conner&quot; on YouTube.</p>
+<p>#youtube #filmmaking #orca #filmawards #australianfilm #entrepreneur #buildinpublic #brisbane</p>
+<p><strong>VISUAL:</strong> Behind-the-scenes shot of judging setup with multiple screens showing film submissions</p>
+<p><strong>CTA:</strong> Watch and vote: More business content or film industry content?</p>
+<hr>
+<p><strong>DAY 16 - April 24 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Filmmaking</p>
+<p><strong>COPY:</strong> 48 hours of judging ORCA entries has taught me more about storytelling than film school did.</p>
+<p>When you watch 15 films back-to-back, patterns emerge fast:</p>
+<ul>
+<li>Strong opening vs weak opening is obvious</li>
+<li>Pacing issues jump out immediately</li>
+<li>Audio quality matters more than perfect visuals</li>
+</ul>
+<p>Quantity creates clarity.</p>
+<p><strong>VISUAL:</strong> Stack of judging sheets with notes</p>
+<p><strong>CTA:</strong> What&#x27;s something you learned from doing a lot of something quickly?</p>
+<hr>
+<p><strong>DAY 17 - April 25 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Friday afternoon check-in:</p>
+<p>This week I:</p>
+<p>✓ Published YouTube video #2</p>
+<p>✓ Judged 15 ORCA film entries</p>
+<p>✓ Maintained $3K agency revenue</p>
+<p>✓ Lost another 0.4kg</p>
+<p>✓ Didn&#x27;t smoke (day 97)</p>
+<p>Not everything needs to be dramatic progress. Sometimes steady is enough.</p>
+<p><strong>VISUAL:</strong> Simple week completion checklist</p>
+<p><strong>CTA:</strong> What steady progress are you proud of this week?</p>
+<hr>
+<p><strong>DAY 17 - April 25 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Health</p>
+<p><strong>COPY:</strong> Friday weigh-in: 97.4kg</p>
+<p>That&#x27;s 27.6kg down from my starting weight of 125kg.</p>
+<p>Day 97 without a cigarette.</p>
+<p>Here&#x27;s what nobody tells you about transformation: the middle part is boring as hell.</p>
+<p>The first month was exciting - quick wins, rapid changes, lots of motivation.</p>
+<p>The last stretch will probably be satisfying - hitting goals, feeling proud, maybe some celebration.</p>
+<p>But right now? Month 6 of this journey? It&#x27;s just... routine.</p>
+<p>✓ Gym 3x per week (whether I feel like it or not)</p>
+<p>✓ 10,000 steps daily (even when it&#x27;s raining in Brisbane)</p>
+<p>✓ Meal prep every Sunday (even when I&#x27;d rather order takeaway)</p>
+<p>✓ 7+ hours sleep (even when Netflix has a new series)</p>
+<p>The unsexy middle is where real change happens. Not in the motivated moments, but in the &quot;I don&#x27;t want to but I&#x27;ll do it anyway&quot; moments.</p>
+<p>Same principle applies to building businesses, creating content, or learning any skill.</p>
+<p>The middle is where most people quit. It&#x27;s also where winners are made.</p>
+<p>#healthjourney #transformation #discipline #systems #weightloss #quitsmoking #entrepreneur #brisbane #progress</p>
+<p><strong>VISUAL:</strong> Mirror selfie showing current physique progress + scale reading</p>
+<p><strong>CTA:</strong> What &quot;boring middle&quot; are you pushing through right now?</p>
+<hr>
+<p><strong>DAY 18 - April 26 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> Saturday morning controversial opinion:</p>
+<p>&quot;Follow your passion&quot; is terrible career advice.</p>
+<p>Better advice: &quot;Follow your energy.&quot;</p>
+<p>Passion fades. Energy compounds.</p>
+<p>I&#x27;m passionate about films but energized by systems. Guess which one pays the bills while funding the films?</p>
+<p>What energizes you vs what you&#x27;re &quot;passionate&quot; about?</p>
+<p><strong>VISUAL:</strong> None needed</p>
+<p><strong>CTA:</strong> Energy vs passion - what&#x27;s your take?</p>
+<hr>
+<p><strong>DAY 19 - April 27 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Sunday planning session complete.</p>
+<p>Week 3 focus:</p>
+<ul>
+<li>YouTube video #3: &quot;The ADHD Entrepreneur&#x27;s Daily Routine&quot;</li>
+<li>Finish ORCA judging (3 entries left)</li>
+<li>2 new agency leads to follow up</li>
+<li>Keep the health momentum going</li>
+</ul>
+<p>Multi-passionate doesn&#x27;t mean scattered. It means strategic.</p>
+<p><strong>VISUAL:</strong> Weekly planning sheet on desk</p>
+<p><strong>CTA:</strong> How do you plan when you&#x27;re building multiple things?</p>
+<hr>
+<p><strong>DAY 20 - April 28 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Week 3 Monday metrics:</p>
+<p>YouTube: 22 subscribers, 547 total views across 2 videos</p>
+<p>Agency: $3,150 MRR (up $150)</p>
+<p>ORCA judging: 13/15 complete</p>
+<p>Weight: 97.2kg</p>
+<p>Energy level: Actually high for a Monday</p>
+<p>Small wins compound into bigger ones.</p>
+<p><strong>VISUAL:</strong> Dashboard showing week-over-week growth</p>
+<p><strong>CTA:</strong> What metric moved the right direction for you this week?</p>
+<hr>
+<p><strong>DAY 20 - April 28 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> 3 weeks of building in public: What I&#x27;ve learned so far.</p>
+<p>📊 THE NUMBERS:</p>
+<p>YouTube: 0 → 22 subscribers</p>
+<p>Agency MRR: $3,000 → $3,150</p>
+<p>Weight: 98.2kg → 97.2kg</p>
+<p>Social engagement: Up 340%</p>
+<p>📈 THE INSIGHTS:</p>
+<p>Transparency beats perfection every time. My most popular posts have been the ones sharing struggles, not successes.</p>
+<p>People don&#x27;t want highlight reels - they want real numbers, real challenges, real systems.</p>
+<p>🔄 THE COMPOUND EFFECT:</p>
+<p>YouTube content becomes LinkedIn posts</p>
+<p>LinkedIn engagement drives agency leads</p>
+<p>Agency revenue funds film projects</p>
+<p>Documenting everything creates more content</p>
+<p>Each piece feeds the others. That&#x27;s the real power of building multiple streams - not just income diversification, but attention arbitrage.</p>
+<p>🎯 WHAT&#x27;S WORKING:</p>
+<ul>
+<li>Sharing actual numbers (revenue, subscribers, weight)</li>
+<li>Behind-the-scenes of real work (ORCA judging, system building)</li>
+<li>ADHD/neurodiversity content (hugely underserved market)</li>
+<li>Australian perspective (unpretentious, practical)</li>
+</ul>
+<p>🚧 WHAT&#x27;S NOT:</p>
+<ul>
+<li>Motivational content falls flat</li>
+<li>Generic business advice gets ignored</li>
+<li>Posting without strategy wastes time</li>
+</ul>
+<p>Next 3 weeks: Focus on YouTube growth + agency scaling + PROOF application results (June).</p>
+<p>What&#x27;s your experience with building in public? Worth the vulnerability?</p>
+<p>#buildinpublic #entrepreneur #transparency #multistreamincome #adhd #youtube #brisbane</p>
+<p><strong>VISUAL:</strong> 3-week progress infographic showing all key metrics</p>
+<p><strong>CTA:</strong> Share your biggest learning from building in public</p>
+<hr>
+<p><strong>DAY 21 - April 29 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Productivity</p>
+<p><strong>COPY:</strong> ADHD Daily Routine (filming for YouTube video #3):</p>
+<p>6am: Wake up, no phone for first hour</p>
+<p>7am: Coffee + planning the day (3 priorities max)</p>
+<p>8am: Deep work block (hardest task first)</p>
+<p>9:30am: Movement break (walk or gym)</p>
+<p>11am: Second work block</p>
+<p>1pm: Lunch + complete mental break</p>
+<p>The key: Energy management over time management.</p>
+<p><strong>VISUAL:</strong> Daily schedule written on whiteboard</p>
+<p><strong>CTA:</strong> What does your ideal daily routine look like?</p>
+<hr>
+<p><strong>DAY 22 - April 30 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> YouTube Promo</p>
+<p><strong>COPY:</strong> YouTube video #3 drops today:</p>
+<p>&quot;The ADHD Entrepreneur&#x27;s Daily Routine (That Actually Works)&quot;</p>
+<p>No morning routines that require 3 hours. No productivity porn. Just practical systems for brains that work differently.</p>
+<p>Goes live at 7am Brisbane time.</p>
+<p><strong>VISUAL:</strong> Video thumbnail showing daily routine framework</p>
+<p><strong>CTA:</strong> Set a reminder - this one&#x27;s different from typical productivity content</p>
+<hr>
+<p><strong>DAY 22 - April 30 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> YouTube Promo</p>
+<p><strong>COPY:</strong> Video #3 is live: &quot;The ADHD Entrepreneur&#x27;s Daily Routine (That Actually Works)&quot;</p>
+<p>Tired of productivity advice that assumes you have a neurotypical brain?</p>
+<p>This video is different.</p>
+<p>I break down my actual daily routine - the one that helps me run an agency, create content, stay healthy, and not lose my mind in the process.</p>
+<p>What&#x27;s in the video:</p>
+<p>• Why 5am wake-ups don&#x27;t work for ADHD brains</p>
+<p>• The 3-priority rule that prevents overwhelm</p>
+<p>• Energy management vs time management</p>
+<p>• How to build routines that flex with your brain</p>
+<p>• Real examples from my actual schedule</p>
+<p>This isn&#x27;t productivity porn or morning routine fantasy. It&#x27;s what actually works when your brain craves novelty, struggles with focus, and needs systems that adapt.</p>
+<p>Current YouTube progress:</p>
+<p>22 subscribers → Target: 50 by end of May</p>
+<p>3 videos published</p>
+<p>Focus: Practical content for entrepreneurs who think differently</p>
+<p>Link in bio or search &quot;Ben Alek Conner&quot; on YouTube.</p>
+<p>#adhd #entrepreneur #productivity #neurodivergent #dailyroutine #youtube #brisbane #systems #buildinpublic</p>
+<p><strong>VISUAL:</strong> Split-screen showing chaotic morning vs organized morning routine</p>
+<p><strong>CTA:</strong> Watch and tell me - what part of your routine do you struggle with most?</p>
+<hr>
+<p><strong>DAY 23 - May 1 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> May 1st reality check:</p>
+<p>Started April with 0 YouTube subscribers.</p>
+<p>Ending with 26.</p>
+<p>Started with $3K/month agency revenue.</p>
+<p>Ending with $3,200.</p>
+<p>Small numbers, steady growth. The Australian way: No fanfare, just consistent work.</p>
+<p>What are your May goals?</p>
+<p><strong>VISUAL:</strong> Simple before/after metrics comparison</p>
+<p><strong>CTA:</strong> What&#x27;s one thing you want to improve this month?</p>
+<hr>
+<p><strong>DAY 23 - May 1 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Health</p>
+<p><strong>COPY:</strong> 6 months ago I was 125kg and couldn&#x27;t walk up stairs without getting winded.</p>
+<p>This morning I ran 6km.</p>
+<p>The transformation wasn&#x27;t about willpower or motivation. It was about treating my health like I treat my business: with systems, metrics, and consistent execution.</p>
+<p>🔄 THE SYSTEM:</p>
+<p>• Weekly meal prep (batch cooking like content creation)</p>
+<p>• Daily 10K steps (non-negotiable like checking emails)</p>
+<p>• 3x gym sessions (scheduled like client meetings)</p>
+<p>• Sleep tracking (monitored like business KPIs)</p>
+<p>• Weekly weigh-ins (progress reviews like financial reports)</p>
+<p>📊 THE METRICS:</p>
+<p>Weight: 125kg → 97kg (-28kg)</p>
+<p>Resting heart rate: 89 → 62 BPM</p>
+<p>Sleep quality: 6/10 → 8.5/10</p>
+<p>Energy levels: Completely transformed</p>
+<p>Smoke-free: 100 days</p>
+<p>🧠 THE ADHD FACTOR:</p>
+<p>Having ADHD actually helped. Once I got obsessed with the process, hyperfocus kicked in. The same brain that makes business challenging made health transformation inevitable.</p>
+<p>💡 THE BUSINESS CONNECTION:</p>
+<p>Energy is the foundation of everything else. Better health = better decision making = better business outcomes.</p>
+<p>You can&#x27;t build multiple revenue streams if you don&#x27;t have the energy to maintain them.</p>
+<p>🎯 THE TAKEAWAY:</p>
+<p>Don&#x27;t try to transform your health AND business at the same time with pure willpower. Pick one, build systems, create momentum, then add the other.</p>
+<p>For me: Health first, then everything else became easier.</p>
+<p>What&#x27;s the foundation habit that would make everything else in your life/business better?</p>
+<p>#healthjourney #entrepreneur #adhd #transformation #systems #wellness #productivity #buildinpublic</p>
+<p><strong>VISUAL:</strong> Before/after transformation photo with metrics overlay</p>
+<p><strong>CTA:</strong> What&#x27;s your foundation habit that supports everything else?</p>
+<hr>
+<p><strong>DAY 24 - May 2 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Filmmaking</p>
+<p><strong>COPY:</strong> ORCA Film Awards judging complete. 15 entries reviewed.</p>
+<p>Patterns I noticed:</p>
+<ul>
+<li>Audio quality separates amateur from pro</li>
+<li>First 30 seconds determine engagement</li>
+<li>Simple stories told well beat complex stories told poorly</li>
+<li>Budget doesn&#x27;t determine quality, craft does</li>
+</ul>
+<p>Now to deliberate winners with the other judges.</p>
+<p><strong>VISUAL:</strong> Completed judging sheets</p>
+<p><strong>CTA:</strong> What creative project taught you the most by watching others do it?</p>
+<hr>
+<p><strong>DAY 24 - May 2 (Friday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Filmmaking</p>
+<p><strong>COPY:</strong> Just finished judging all 15 ORCA Film Awards entries.</p>
+<p>What an incredible week of Australian storytelling.</p>
+<p>Here&#x27;s what I learned watching 15 short films back-to-back:</p>
+<p>🎬 CRAFT INSIGHTS:</p>
+<p>• Audio quality matters more than perfect visuals</p>
+<p>• The first 30 seconds determine if I stay engaged</p>
+<p>• Simple stories told expertly beat complex stories told poorly</p>
+<p>• You can feel when someone truly cares about their story</p>
+<p>💡 PATTERN RECOGNITION:</p>
+<p>• Strong characters drive everything</p>
+<p>• Pacing issues become glaringly obvious in batch viewing</p>
+<p>• Technical skills can&#x27;t save weak storytelling</p>
+<p>• Budget limitations often force creative solutions</p>
+<p>🇦🇺 AUSTRALIAN STORIES:</p>
+<p>• We tell stories differently - less Hollywood, more authentic</p>
+<p>• Our landscapes and voices are genuinely unique</p>
+<p>• There&#x27;s hunger for stories that feel real, not manufactured</p>
+<p>This process has made me a better filmmaker. When you judge others&#x27; work seriously, you can&#x27;t help but apply those standards to your own.</p>
+<p>Plus it&#x27;s reminded me why I&#x27;m waiting on that PROOF application result. Australian stories matter. We just need the funding to tell them properly.</p>
+<p>Next week: Deliberations with other judges to choose winners.</p>
+<p>#orcafilmawards #australianfilm #filmmaking #judging #storytelling #brisbane #shortfilm #awards</p>
+<p><strong>VISUAL:</strong> Collection of film stills from entries (with permission) arranged as a mood board</p>
+<p><strong>CTA:</strong> What&#x27;s the last short film that really stayed with you?</p>
+<hr>
+<p><strong>DAY 25 - May 3 (Saturday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Engagement</p>
+<p><strong>COPY:</strong> Saturday morning question for multi-passionate people:</p>
+<p>How do you decide which project gets your best energy each day?</p>
+<p>Today I could work on:</p>
+<ul>
+<li>Agency client work</li>
+<li>YouTube video #4</li>
+<li>ORCA deliberations</li>
+<li>Personal fitness</li>
+</ul>
+<p>I&#x27;m leaning toward YouTube because my brain is in creative mode. Thoughts?</p>
+<p><strong>VISUAL:</strong> List of projects on notebook page</p>
+<p><strong>CTA:</strong> How do you choose what to work on when you have multiple passions?</p>
+<hr>
+<p><strong>DAY 26 - May 4 (Sunday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Sunday metric update:</p>
+<p>YouTube: 29 subscribers (3 videos published)</p>
+<p>Agency: $3,200 MRR</p>
+<p>Weight: 96.8kg (lowest yet!)</p>
+<p>PROOF application: Still waiting (52 days to go)</p>
+<p>Smoke-free: 104 days</p>
+<p>Progress across all fronts. Slow, steady, sustainable.</p>
+<p><strong>VISUAL:</strong> Weekly metrics comparison chart</p>
+<p><strong>CTA:</strong> What metric are you most proud of moving this week?</p>
+<hr>
+<p><strong>DAY 27 - May 5 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Monday motivation (but make it realistic):</p>
+<p>Week 4 goals:</p>
+<p>✓ Get YouTube to 35 subscribers</p>
+<p>✓ Close 1 new agency client</p>
+<p>✓ Complete ORCA deliberations</p>
+<p>✓ Plan video #4: &quot;Building Multiple Income Streams With ADHD&quot;</p>
+<p>✓ Stay under 97kg</p>
+<p>Notice these are all achievable, measurable goals. Big dreams, small steps.</p>
+<p><strong>VISUAL:</strong> Weekly goal list on whiteboard</p>
+<p><strong>CTA:</strong> What&#x27;s one realistic goal you&#x27;re working toward this week?</p>
+<hr>
+<p><strong>DAY 27 - May 5 (Monday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> Week 4 of building in public. Here&#x27;s where everything stands:</p>
+<p>📺 YOUTUBE JOURNEY:</p>
+<p>29 subscribers (started at 0 four weeks ago)</p>
+<p>3 videos published</p>
+<p>Next video: &quot;Building Multiple Income Streams With ADHD&quot;</p>
+<p>💼 AGENCY UPDATE:</p>
+<p>$3,200 MRR (up from $3,000 starting point)</p>
+<p>4 active clients</p>
+<p>2 warm leads in pipeline</p>
+<p>Systems running smoothly on $16/month</p>
+<p>🎬 FILMMAKING:</p>
+<p>ORCA judging complete (15 entries reviewed)</p>
+<p>This week: Final deliberations with other judges</p>
+<p>PROOF application: 52 days until decision</p>
+<p>💪 HEALTH TRANSFORMATION:</p>
+<p>96.8kg (28.2kg lost total - new low!)</p>
+<p>Day 104 smoke-free</p>
+<p>6km run this morning without dying</p>
+<p>Energy levels consistently high</p>
+<p>The compound effect is real. Each area supports the others:</p>
+<p>• YouTube content creates social media posts</p>
+<p>• Social media drives agency leads</p>
+<p>• Agency funds film projects</p>
+<p>• Health transformation provides energy for everything</p>
+<p>• Documenting it all creates more content</p>
+<p>It&#x27;s messy and sometimes overwhelming, but progress is happening across all fronts.</p>
+<p>This week&#x27;s focus: Hit 35 YouTube subscribers + close one new agency client.</p>
+<p>#buildinpublic #entrepreneur #youtube #multistreamrevenue #health #filmmaking #brisbane #adhd #progress</p>
+<p><strong>VISUAL:</strong> Four-panel split showing YouTube analytics, agency dashboard, scale reading, and film judging sheets</p>
+<p><strong>CTA:</strong> Which area would you focus on first: content, business, or health?</p>
+<hr>
+<p><strong>DAY 28 - May 6 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Productivity</p>
+<p><strong>COPY:</strong> ADHD entrepreneur hack that changed everything:</p>
+<p>I stopped trying to focus for long periods.</p>
+<p>Instead: 25 minutes of intense work, 5-minute complete break, repeat.</p>
+<p>In 5 hours I get more done than I used to in 8. My brain needs the rhythm, not the marathon.</p>
+<p>Work WITH your wiring, not against it.</p>
+<p><strong>VISUAL:</strong> Pomodoro timer showing 25:00</p>
+<p><strong>CTA:</strong> What productivity hack works specifically for your brain type?</p>
+<hr>
+<p><strong>DAY 28 - May 6 (Tuesday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Entrepreneurship</p>
+<p><strong>COPY:</strong> The multi-passionate entrepreneur&#x27;s dilemma: When everything is interesting, how do you choose what to build?</p>
+<p>After 4 weeks of building multiple things publicly, here&#x27;s what I&#x27;ve learned about managing diverse interests:</p>
+<p>🎯 ENERGY MANAGEMENT OVER TIME MANAGEMENT</p>
+<p>Don&#x27;t force yourself to work on the &quot;most important&quot; thing when your brain is excited about something else. Follow your energy, but within boundaries.</p>
+<p>My rule: 60% core business (agency), 40% everything else (YouTube, film, health content).</p>
+<p>⚡ THE COMPOUND EFFECT IS REAL</p>
+<p>Each area feeds the others:</p>
+<p>• YouTube content becomes social media posts</p>
+<p>• Social media drives agency leads</p>
+<p>• Agency revenue funds film projects</p>
+<p>• Health transformation provides energy for everything</p>
+<p>• Documenting it all creates more content</p>
+<p>📊 TRACK EVERYTHING, OPTIMIZE QUARTERLY</p>
+<p>Weekly metrics across all projects. Monthly reviews. Quarterly pivots if something isn&#x27;t working.</p>
+<p>Current scorecard:</p>
+<p>• YouTube: 0 → 29 subscribers in 4 weeks</p>
+<p>• Agency: $3,000 → $3,200 MRR</p>
+<p>• Health: 98.2kg → 96.8kg</p>
+<p>• Film: ORCA judging complete, PROOF application pending</p>
+<p>🚫 WHAT DOESN&#x27;T WORK:</p>
+<p>• Trying to build everything equally</p>
+<p>• Switching focus daily based on mood</p>
+<p>• Comparing your portfolio approach to single-focus entrepreneurs</p>
+<p>• Expecting linear progress in all areas</p>
+<p>🎯 THE AUSTRALIAN APPROACH:</p>
+<p>No hustle culture BS. No &quot;crushing it&quot; energy. Just steady, systematic progress across multiple fronts while maintaining sanity and quality of life.</p>
+<p>Are you building multiple things? What&#x27;s your biggest challenge with managing diverse interests?</p>
+<p>#multipassionate #entrepreneur #portfoliocareer #adhd #buildinpublic #energymanagement #brisbane #systemsthinking</p>
+<p><strong>VISUAL:</strong> Portfolio dashboard showing progress across all projects</p>
+<p><strong>CTA:</strong> Share your biggest challenge with managing multiple interests</p>
+<hr>
+<p><strong>DAY 29 - May 7 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> YouTube Promo</p>
+<p><strong>COPY:</strong> YouTube video #4 is live:</p>
+<p>&quot;Building Multiple Income Streams With ADHD (Without Losing Your Mind)&quot;</p>
+<p>For everyone who&#x27;s been told to &quot;just focus on one thing&quot; but your brain doesn&#x27;t work that way.</p>
+<p>This one&#x27;s personal. And practical.</p>
+<p>Link in bio.</p>
+<p><strong>VISUAL:</strong> Video #4 thumbnail</p>
+<p><strong>CTA:</strong> Watch and let me know - does this resonate with your experience?</p>
+<hr>
+<p><strong>DAY 29 - May 7 (Wednesday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> YouTube Promo</p>
+<p><strong>COPY:</strong> Video #4 is live and this one gets personal.</p>
+<p>&quot;Building Multiple Income Streams With ADHD (Without Losing Your Mind)&quot;</p>
+<p>For everyone who&#x27;s been told to &quot;just focus on one thing&quot; when your brain craves variety.</p>
+<p>What I cover:</p>
+<p>• Why single-focus advice doesn&#x27;t work for ADHD brains</p>
+<p>• The 60/40 rule for managing multiple projects</p>
+<p>• How to make different interests support each other</p>
+<p>• Energy management vs time management</p>
+<p>• Real examples from my agency + YouTube + filmmaking portfolio</p>
+<p>This isn&#x27;t about hustle culture or grinding harder. It&#x27;s about working WITH your neurodivergent brain instead of against it.</p>
+<p>The ADHD brain that makes traditional business advice difficult also makes building diverse income streams natural - if you have the right systems.</p>
+<p>Current YouTube stats:</p>
+<p>• 4 videos published</p>
+<p>• 32 subscribers (getting close to that 35 goal!)</p>
+<p>• 847 total views</p>
+<p>• Comments from other neurodivergent entrepreneurs saying &quot;finally, someone gets it&quot;</p>
+<p>Link in bio or search &quot;Ben Alek Conner&quot; on YouTube.</p>
+<p>#adhd #entrepreneur #multistreamincome #neurodivergent #youtube #buildinpublic #brisbane #systems #energymanagement</p>
+<p><strong>VISUAL:</strong> Behind-the-scenes shot of recording setup with notes about multiple projects visible</p>
+<p><strong>CTA:</strong> Watch and share: Do you build multiple things or focus on one? What works for your brain?</p>
+<hr>
+<p><strong>DAY 30 - May 8 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Twitter</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> 30 days of building in public: COMPLETE.</p>
+<p>YouTube: 0 → 34 subscribers</p>
+<p>Agency: $3K → $3,250 MRR</p>
+<p>Weight: 98.2kg → 96.5kg</p>
+<p>Social engagement: Up 400%</p>
+<p>The transparency experiment worked. People want real numbers, real struggles, real systems.</p>
+<p>What should I build in public next?</p>
+<p><strong>VISUAL:</strong> 30-day progress infographic</p>
+<p><strong>CTA:</strong> What was your favorite post from this journey?</p>
+<hr>
+<p><strong>DAY 30 - May 8 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> Instagram</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> 30 days of building in public: COMPLETE ✓</p>
+<p>Here&#x27;s what happened when I documented everything:</p>
+<p>📺 YOUTUBE:</p>
+<p>Started: 0 subscribers</p>
+<p>Ending: 34 subscribers</p>
+<p>4 videos published</p>
+<p>1,200+ total views</p>
+<p>Lesson: Consistency beats perfection</p>
+<p>💼 AGENCY:</p>
+<p>Started: $3,000 MRR</p>
+<p>Ending: $3,250 MRR</p>
+<p>5 active clients (up from 4)</p>
+<p>Systems running on $16/month</p>
+<p>Lesson: Small increases compound</p>
+<p>🎬 FILMMAKING:</p>
+<p>ORCA judging completed</p>
+<p>PROOF application submitted (results pending)</p>
+<p>Creative fulfillment: High</p>
+<p>Lesson: Art feeds the soul, systems feed the body</p>
+<p>💪 HEALTH:</p>
+<p>Started: 98.2kg</p>
+<p>Ending: 96.5kg (29.5kg total loss)</p>
+<p>Day 108 smoke-free</p>
+<p>Energy: Consistently high</p>
+<p>Lesson: Health is the foundation of everything</p>
+<p>📱 SOCIAL MEDIA:</p>
+<p>Engagement up 400%</p>
+<p>Followers across all platforms growing</p>
+<p>Content creation streamlined</p>
+<p>Lesson: Authenticity &gt; Perfection</p>
+<p>🧠 THE BIG INSIGHTS:</p>
+<ol>
+<li>People crave transparency over highlights</li>
+<li>Building multiple things works if you have systems</li>
+<li>ADHD content is massively underserved</li>
+<li>Australian perspective cuts through the noise</li>
+<li>Small, consistent progress beats dramatic spurts</li>
+</ol>
+<p>What&#x27;s next? Month 2 focus:</p>
+<p>• YouTube to 100 subscribers</p>
+<p>• Agency to $4K MRR</p>
+<p>• PROOF application results (June)</p>
+<p>• Launch email newsletter</p>
+<p>• Health: break into the 80s (kg)</p>
+<p>Thank you for following this journey. The accountability and encouragement kept me going.</p>
+<p>#buildinpublic #entrepreneur #30daychallenge #transparency #youtube #health #brisbane #adhd #systems #progress</p>
+<p><strong>VISUAL:</strong> 30-day transformation collage showing before/after metrics, screenshots, and progress photos</p>
+<p><strong>CTA:</strong> What should I build in public next? Comment with your vote: Newsletter growth, agency scaling, or film funding journey?</p>
+<hr>
+<p><strong>DAY 30 - May 8 (Thursday)</strong></p>
+<p><strong>PLATFORM:</strong> LinkedIn</p>
+<p><strong>TYPE:</strong> Build in Public</p>
+<p><strong>COPY:</strong> 30 days of radical transparency: What I learned building multiple businesses in public.</p>
+<p>THE EXPERIMENT:</p>
+<p>Share everything. Real numbers, real struggles, real systems. Document the messy middle of building YouTube + Agency + Film projects simultaneously.</p>
+<p>THE RESULTS:</p>
+<p>📊 YouTube: 0 → 34 subscribers (4 videos)</p>
+<p>💰 Agency: $3,000 → $3,250 MRR</p>
+<p>⚖️ Weight: 98.2kg → 96.5kg (-29.5kg total)</p>
+<p>📈 Social engagement: +400% across platforms</p>
+<p>🎬 ORCA judging complete, PROOF application pending</p>
+<p>THE INSIGHTS:</p>
+<p>1️⃣ PEOPLE CRAVE AUTHENTICITY</p>
+<p>My most engaged posts shared struggles, not successes. &quot;Here&#x27;s how I failed&quot; outperformed &quot;Here&#x27;s how I won&quot; every time.</p>
+<p>2️⃣ SYSTEMS BEAT MOTIVATION</p>
+<p>Building multiple things only works with rigid systems. My $16/month backend runs everything while I focus on creation and strategy.</p>
+<p>3️⃣ NEURODIVERSITY IS UNDERSERVED</p>
+<p>ADHD entrepreneur content consistently got the highest engagement. There&#x27;s massive demand for business advice that accounts for different brain types.</p>
+<p>4️⃣ AUSTRALIAN VOICE CUTS THROUGH</p>
+<p>No guru energy, no hustle culture BS. Just practical systems and dry humour. Turns out people are tired of manufactured motivation.</p>
+<p>5️⃣ COMPOUND GROWTH IS REAL</p>
+<p>Each area supports the others:</p>
+<ul>
+<li>YouTube creates LinkedIn content</li>
+<li>LinkedIn drives agency leads</li>
+<li>Agency funds film projects</li>
+<li>Health provides energy for everything</li>
+<li>Documenting it all creates more content</li>
+</ul>
+<p>THE BUSINESS IMPACT:</p>
+<ul>
+<li>3 new agency leads directly from social content</li>
+<li>Speaking opportunity at Brisbane entrepreneur meetup</li>
+<li>Collaboration requests from other creators</li>
+<li>Email list grew from 0 to 127 subscribers</li>
+</ul>
+<p>THE UNEXPECTED BENEFIT:</p>
+<p>Accountability. Knowing I had to report progress weekly kept me consistent when motivation flagged.</p>
+<p>THE NEXT 30 DAYS:</p>
+<ul>
+<li>YouTube: 34 → 100 subscribers</li>
+<li>Agency: $3,250 → $4,000 MRR</li>
+<li>Launch email newsletter</li>
+<li>PROOF funding decision (June)</li>
+<li>Health: Break into the 80s (kg)</li>
+</ul>
+<p>Would I recommend building in public? Absolutely. But only if you&#x27;re prepared to be genuinely transparent, not just sharing highlight reels.</p>
+<p>What&#x27;s one thing you wish you could build more transparently?</p>
+<p>#buildinpublic #entrepreneur #transparency #authenticity #multistreamincome #systemsthinking #adhd #brisbane #30daychallenge #resultsoverhype</p>
+<p><strong>VISUAL:</strong> Comprehensive 30-day infographic showing all metrics, key insights, and next month&#x27;s goals</p>
+<p><strong>CTA:</strong> Share one thing you wish you could build more transparently in your business</p>
+<hr>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">06-Ben Alek Conner/05-content/bac-30-day-content-april-2026.md</div>
+    </main>
+  </div>
+</body>
+</html>

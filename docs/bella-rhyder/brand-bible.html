@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BELLA RHYDER — BRAND BIBLE | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link active"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#bella-rhyder">Bella Rhyder</a> &rsaquo;
+          BELLA RHYDER — BRAND BIBLE
+        </div>
+        <h1 class="doc-title">BELLA RHYDER — BRAND BIBLE</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#10024; Bella Rhyder</span>
+          <span class="doc-path">07-Bella Rhyder / 02-brand</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="bella-rhyder-brand-bible">BELLA RHYDER — BRAND BIBLE</h1>
+<h3 id="the-narrative-brand-document">The Narrative Brand Document</h3>
+<hr>
+<h2 id="table-of-contents">TABLE OF CONTENTS</h2>
+<ol>
+<li>Brand Story</li>
+<li>Mission, Vision &amp; Values</li>
+<li>Brand Personality</li>
+<li>Target Customer Personas</li>
+<li>Voice &amp; Tone</li>
+<li>Copywriting Rules</li>
+<li>Messaging Pillars</li>
+<li>Competitor Differentiation</li>
+<li>Photography Style</li>
+<li>Social Media Aesthetic Guidelines</li>
+</ol>
+<hr>
+<h2 id="1-brand-story">1. BRAND STORY</h2>
+<h3 id="origin">Origin</h3>
+<p>Bella Rhyder was born from the Queensland coastline — from early morning runs along the esplanade, from Sunday swims before the crowds arrive, from the women who tie their shoes before the sun rises and don&#x27;t stop until long after it sets.</p>
+<p>The name carries intention. Bold. Free. Unapologetically active. It was built for the woman who doesn&#x27;t separate her life into &quot;workout time&quot; and &quot;real life&quot; — because for her, movement is woven into everything. Into the morning coffee run, the beach session, the gym class, the weekend hike, the lazy Sunday swim. She lives actively not because she has to, but because it makes her feel like herself.</p>
+<p>Brisbane is not a backdrop — it is the brand&#x27;s DNA. The warmth of the Queenslander mornings, the gold light hitting the water at Mooloolaba, the clay courts at dusk, the open-air gyms, the culture that values presence, health, and the outdoors above all else. Bella Rhyder was designed in that light, tested in that heat, and built for the women who call that lifestyle home.</p>
+<p>Every product — from a high-support sports bra to a woven bucket hat — is chosen with one question: Does this make her move more freely? If the answer is yes, it earns its place in the collection.</p>
+<p>This is not a brand about perfection. It is not about six-packs or finish times or keeping up. It is about showing up — for yourself, for your body, for the version of your life that feels most alive. Bella Rhyder exists to make that showing up feel extraordinary.</p>
+<p><strong>Move Boldly. Live Freely.</strong></p>
+<hr>
+<h2 id="2-mission-vision-amp-values">2. MISSION, VISION &amp; VALUES</h2>
+<h3 id="mission">Mission</h3>
+<p>To create premium activewear and lifestyle products that empower Australian women to move freely, feel confident, and live fully — every single day.</p>
+<h3 id="vision">Vision</h3>
+<p>To be Australia&#x27;s most loved active lifestyle brand: the brand that sits in every Queensland woman&#x27;s wardrobe, in her gym bag, on her morning run, and on her next beach holiday.</p>
+<h3 id="values">Values</h3>
+<p><strong>01. Authentic Movement</strong></p>
+<p>We celebrate real activity — not curated performance. Sweat, salt, and momentum are welcome here.</p>
+<p><strong>02. Quality Without Compromise</strong></p>
+<p>Every product is built to last, to perform, and to look exceptional. We never cut corners on fabric, fit, or finish.</p>
+<p><strong>03. Community Over Competition</strong></p>
+<p>We build for women who lift each other — literally and figuratively. Our brand is a space, not just a product.</p>
+<p><strong>04. Sustainability in Progress</strong></p>
+<p>We are committed to making responsible choices in manufacturing, packaging, and partnerships. Progress over perfection.</p>
+<p><strong>05. Queensland at Heart</strong></p>
+<p>Our roots are coastal, sun-drenched, and outdoor-oriented. That identity informs everything we create.</p>
+<hr>
+<h2 id="3-brand-personality">3. BRAND PERSONALITY</h2>
+<p>Bella Rhyder has a distinct personality that comes through in every caption, every product name, every photoshoot, and every customer interaction. Five words define who this brand is:</p>
+<h3 id="01-bold">01. BOLD</h3>
+<p>Bella Rhyder doesn&#x27;t whisper. The brand makes confident choices — in colorways, in silhouettes, in messaging. It takes up space. It encourages its community to do the same. Bold is not aggressive; it is intentional and unafraid.</p>
+<p><em>In practice: Strong CTAs, confident product naming, striking visual composition, no apologetic language.</em></p>
+<h3 id="02-vibrant">02. VIBRANT</h3>
+<p>The energy of a Queensland summer is embedded in this brand. Colors are warm and alive. Photography is bright and moving. Captions have energy. Bella Rhyder feels like walking outside on a perfect morning — immediate, sensory, alive.</p>
+<p><em>In practice: Warm color grading, active lifestyle photography, high-energy Reels, language that moves.</em></p>
+<h3 id="03-authentic">03. AUTHENTIC</h3>
+<p>We do not sell a fantasy. We sell a feeling that is attainable — because it belongs to the woman wearing the product. Our models sweat. Our lifestyle is real Queensland, not a Pinterest board. Our community posts unfiltered. We celebrate that.</p>
+<p><em>In practice: UGC prominently featured, diverse sizing shown, real environments (not studios), honest copywriting.</em></p>
+<h3 id="04-empowering">04. EMPOWERING</h3>
+<p>Every touchpoint of this brand should leave a woman feeling capable. Not insecure, not compared, not measured. Capable. Strong. Ready. This is the anti-toxic-positivity empowerment — the kind that comes from a friend who believes in you, not a coach yelling from the sideline.</p>
+<p><em>In practice: Affirming language, community-first social content, no before/after imagery, no weight loss messaging.</em></p>
+<h3 id="05-effortless">05. EFFORTLESS</h3>
+<p>Bella Rhyder women make it look easy — not because it is, but because they&#x27;ve found their rhythm. The brand reflects that ease. Clean design, considered curation, products that work so well they disappear into your life. Nothing overwrought.</p>
+<p><em>In practice: Clean visual design, minimal cluttered copy, product styling that feels natural, not staged.</em></p>
+<hr>
+<h2 id="4-target-customer-personas">4. TARGET CUSTOMER PERSONAS</h2>
+<h3 id="persona-01-the-weekend-warrior">PERSONA 01 — THE WEEKEND WARRIOR</h3>
+<p><strong>Name:</strong> Chloe, 28</p>
+<p><strong>Location:</strong> Brisbane inner suburbs (Paddington, New Farm, Bulimba)</p>
+<p><strong>Occupation:</strong> Marketing manager at a mid-size company</p>
+<p><strong>Income:</strong> $70K–$90K</p>
+<p><strong>Her Life:</strong></p>
+<p>Chloe works hard during the week and uses the weekend to reset. Saturday mornings mean a 7am Pilates class, followed by coffee with her girlfriends. Sunday might be a coastal walk with her dog or a swim at South Bank. She&#x27;s not training for anything specific — she just knows she feels better when she moves.</p>
+<p><strong>Her Wardrobe:</strong></p>
+<p>She invests in pieces she loves, not just the cheapest option. She&#x27;ll spend $80 on leggings if she wears them twice a week. She wants activewear that she can wear to the class, for brunch after, and doesn&#x27;t look like gym gear. She cares about how she looks on her Instagram Stories.</p>
+<p><strong>Her Frustrations:</strong></p>
+<p>Brands that only show one body type. Products that don&#x27;t hold up after 10 washes. Activewear that&#x27;s so logoed it feels like a billboard. Sizes that don&#x27;t account for an actual human body.</p>
+<p><strong>How She Discovers Brands:</strong></p>
+<p>Instagram, influencer recommendations from women she trusts, word of mouth from friends in her fitness classes, TikTok &quot;what I got&quot; videos.</p>
+<p><strong>What She Wants from Bella Rhyder:</strong></p>
+<p>Pieces that make her feel stylish and supported. A brand that feels like it gets her actual lifestyle — not an elite athlete&#x27;s.</p>
+<hr>
+<h3 id="persona-02-the-career-athlete">PERSONA 02 — THE CAREER ATHLETE</h3>
+<p><strong>Name:</strong> Jade, 34</p>
+<p><strong>Location:</strong> Gold Coast / Northern Brisbane suburbs</p>
+<p><strong>Occupation:</strong> Physiotherapist or personal trainer</p>
+<p><strong>Income:</strong> $85K–$110K</p>
+<p><strong>Her Life:</strong></p>
+<p>Jade is seriously active. She trains 5–6 days a week — a combination of CrossFit, open water swimming, and weekend trail runs. Fitness is professionally and personally central to her identity. She has high standards for performance fabric and functional design.</p>
+<p><strong>Her Wardrobe:</strong></p>
+<p>She&#x27;s outgrown the idea that performance and style have to be separate. She wants gear that holds up in a WOD and still looks great in the content she posts for her own fitness following. She&#x27;s willing to pay premium if the product justifies it.</p>
+<p><strong>Her Frustrations:</strong></p>
+<p>Fast fashion activewear that pills within a month. Sports bras with no actual support. Brands that prioritize aesthetics over function. Leggings that aren&#x27;t squat-proof.</p>
+<p><strong>How She Discovers Brands:</strong></p>
+<p>Other athletes and coaches she respects, fitness community hashtags, YouTube gear reviews, gym community word-of-mouth.</p>
+<p><strong>What She Wants from Bella Rhyder:</strong></p>
+<p>Premium performance that doesn&#x27;t sacrifice style. High-support bras, compression leggings, pieces that work as hard as she does.</p>
+<hr>
+<h3 id="persona-03-the-beach-lifestyle-woman">PERSONA 03 — THE BEACH LIFESTYLE WOMAN</h3>
+<p><strong>Name:</strong> Sienna, 38</p>
+<p><strong>Location:</strong> Sunshine Coast, Noosa, or coastal Brisbane suburbs</p>
+<p><strong>Occupation:</strong> Small business owner, creative freelancer, or FIFO partner</p>
+<p><strong>Income:</strong> $80K household</p>
+<p><strong>Her Life:</strong></p>
+<p>Sienna&#x27;s lifestyle is the coastline. She surfs on weekends, walks the beach most mornings, takes yoga classes when she feels like it. She&#x27;s in and out of the water constantly. The boundary between swimwear and activewear is blurred — she wants pieces that travel between both worlds beautifully.</p>
+<p><strong>Her Wardrobe:</strong></p>
+<p>She values aesthetics deeply and has a well-developed personal style. She&#x27;s not a follower — she leads. She&#x27;ll buy a piece because it photographs beautifully and because she loves it, not because an algorithm told her to. She invests in fewer, better things.</p>
+<p><strong>Her Frustrations:</strong></p>
+<p>Swimwear that isn&#x27;t functional. Activewear that looks out of place at the beach. Brands that feel urban and disconnected from coastal life.</p>
+<p><strong>How She Discovers Brands:</strong></p>
+<p>Pinterest, Instagram Explore, small brand accounts she follows organically, coastal lifestyle magazines and blogs.</p>
+<p><strong>What She Wants from Bella Rhyder:</strong></p>
+<p>Pieces that look as good on the beach as they do in the gym. Beautiful swimwear that functions. Lifestyle accessories (bags, hats) that tie a whole look together.</p>
+<hr>
+<h2 id="5-voice-amp-tone">5. VOICE &amp; TONE</h2>
+<h3 id="core-voice-attributes">Core Voice Attributes</h3>
+<p><strong>Empowering, not prescriptive.</strong> We believe in her capacity. We don&#x27;t tell her what to do or how her body should look. We celebrate what she does.</p>
+<p><strong>Energetic, not exhausting.</strong> There&#x27;s a difference between the friend who hypes you up and the friend who exhausts you with relentless positivity. We&#x27;re the former. Real. Warm. Genuinely excited.</p>
+<p><strong>Confident, not arrogant.</strong> We know our products are excellent. We don&#x27;t need to shout it. We say it clearly, with evidence, and let the quality speak.</p>
+<p><strong>Conversational, not casual.</strong> We speak like an intelligent, stylish friend — not like a corporate brand, and not like a teenager using every trending phrase.</p>
+<p><strong>Queensland-honest.</strong> We keep it real. We don&#x27;t over-promise. We don&#x27;t inflate. Queensland culture values authenticity and we reflect that.</p>
+<h3 id="tone-variations-by-context">Tone Variations by Context</h3>
+<div class="table-wrap"><table><thead><tr><th>Context</th><th>Tone</th></tr></thead><tbody><tr><td>Product descriptions</td><td>Sensory, specific, confident</td></tr><tr><td>Instagram captions</td><td>Warm, energetic, community-focused</td></tr><tr><td>Email marketing</td><td>Personal, direct, conversational</td></tr><tr><td>Customer service</td><td>Warm, human, solution-focused</td></tr><tr><td>Press / PR</td><td>Polished, story-rich, aspirational</td></tr><tr><td>Influencer brief</td><td>Collaborative, clear, enthusiastic</td></tr></tbody></table></div>
+<h3 id="language-to-use">Language to Use</h3>
+<ul>
+<li>Move, flow, feel, run, swim, stretch, build, carry, wear, breathe</li>
+<li>Bold, strong, free, alive, genuine, coastal, warm, golden</li>
+<li>Community, women, together, real, worthy, capable, effortless, confident</li>
+<li>&quot;Your next favourite&quot; / &quot;built for this&quot; / &quot;the only one you need&quot;</li>
+<li>&quot;Made for mornings like this&quot; / &quot;Built to keep up with you&quot; / &quot;The only one you&#x27;ll want to wear&quot;</li>
+</ul>
+<h3 id="language-to-avoid">Language to Avoid</h3>
+<ul>
+<li>&quot;Slay&quot; / &quot;girlboss&quot; / &quot;boss babe&quot; / &quot;queen&quot; (dated, divisive, overused)</li>
+<li>&quot;Burn calories&quot; / &quot;shed&quot; / &quot;tone&quot; (weight-loss language — not our lane)</li>
+<li>&quot;Flattering&quot; / &quot;slimming&quot; / &quot;elongating&quot; (body shape framing — not our lane)</li>
+<li>&quot;Hustle&quot; / &quot;grind&quot; (masculine productivity culture — not Bella Rhyder)</li>
+<li>&quot;Tummy&quot; (infantilising)</li>
+<li>&quot;Normal&quot; / &quot;natural bodies&quot; (implies other bodies are abnormal — just show diversity)</li>
+<li>&quot;Exclusive&quot; / &quot;members only&quot; (our community is open and inclusive)</li>
+<li>&quot;Amazing&quot; / &quot;incredible&quot; / &quot;stunning&quot; (overused superlatives — be specific instead)</li>
+<li>&quot;For all body types&quot; (condescending — just show diverse bodies, don&#x27;t announce it)</li>
+<li>Exclamation marks on every sentence (reads as desperate)</li>
+<li>ALL CAPS in running copy (aggressive)</li>
+</ul>
+<hr>
+<h2 id="6-copywriting-rules">6. COPYWRITING RULES</h2>
+<h3 id="voice-principles">Voice Principles</h3>
+<ol>
+<li>Write for one woman — speak directly, personally (&quot;you&quot;, &quot;your&quot;)</li>
+<li>Short sentences and punchy paragraphs perform better than long blocks</li>
+<li>Lead with benefit, follow with feature</li>
+<li>Never use exclamation marks more than once per piece of content</li>
+<li>Avoid rhetorical questions as openers on every post — vary the hook</li>
+<li>Spell out Australian English (e.g., colour, favourite, realise, centre)</li>
+</ol>
+<h3 id="product-description-formula">Product Description Formula</h3>
+<ol>
+<li>Sensory opener (how does it feel?)</li>
+<li>Feature-benefit statement (what does it do and why does that matter?)</li>
+<li>Fabric / construction detail (what makes it premium?)</li>
+<li>Wear occasion (where does she wear this?)</li>
+<li>Care instruction (brief, at end)</li>
+</ol>
+<hr>
+<h2 id="7-messaging-pillars">7. MESSAGING PILLARS</h2>
+<h3 id="pillar-01-performance-amp-quality">Pillar 01 — Performance &amp; Quality</h3>
+<p><em>&quot;Built to move with you.&quot;</em></p>
+<p>Every product is designed for real physical activity. Fabrics are tested. Seams are considered. Fits are refined. We talk about the engineering behind the feel.</p>
+<h3 id="pillar-02-coastal-amp-queensland-identity">Pillar 02 — Coastal &amp; Queensland Identity</h3>
+<p><em>&quot;Born where the land meets the water.&quot;</em></p>
+<p>Queensland is not just our location — it&#x27;s our identity. Sunshine, coastline, warm mornings, active living. Our brand is an extension of that lifestyle.</p>
+<h3 id="pillar-03-confidence-amp-empowerment">Pillar 03 — Confidence &amp; Empowerment</h3>
+<p><em>&quot;She doesn&#x27;t need permission.&quot;</em></p>
+<p>Our brand exists to remove friction between a woman and her best self. The product gets out of the way and lets her show up. We celebrate capability, not appearance.</p>
+<h3 id="pillar-04-community-amp-connection">Pillar 04 — Community &amp; Connection</h3>
+<p><em>&quot;The women who move together.&quot;</em></p>
+<p>Bella Rhyder is a community that extends beyond the purchase. UGC, events, challenges, and collaborative content create belonging. Our customers are part of the brand.</p>
+<h3 id="pillar-05-style-as-function">Pillar 05 — Style as Function</h3>
+<p><em>&quot;You don&#x27;t have to choose.&quot;</em></p>
+<p>Activewear doesn&#x27;t have to be ugly to be functional, or impractical to be beautiful. Bella Rhyder holds both at once — always.</p>
+<hr>
+<h2 id="8-competitor-differentiation">8. COMPETITOR DIFFERENTIATION</h2>
+<h3 id="lululemon">Lululemon</h3>
+<p><strong>Their Position:</strong> Premium global yoga/athleisure leader. Technical, aspirational, community-driven.</p>
+<p><strong>Their Gaps:</strong> Expensive and increasingly brand-fatigued. Feels corporate, American, and urban. Not coastal Australian.</p>
+<p><strong>Our Advantage:</strong> We are authentically Queensland. More accessible price point with comparable quality. Warmer, more personal community. The underdog authenticity that Lululemon has lost.</p>
+<h3 id="nimble-activewear">Nimble Activewear</h3>
+<p><strong>Their Position:</strong> Australian premium activewear, sustainability-focused, clean aesthetic.</p>
+<p><strong>Their Gaps:</strong> Conservative palette, limited lifestyle crossover, no swimwear or accessories story.</p>
+<p><strong>Our Advantage:</strong> Broader lifestyle range (swimwear, bags, hats). Warmer, more vibrant identity. More active social presence. Coastal Queensland specificity they lack.</p>
+<h3 id="pe-nation">P.E Nation</h3>
+<p><strong>Their Position:</strong> Bold, urban, fashion-forward activewear with a streetwear edge.</p>
+<p><strong>Their Gaps:</strong> Style-over-performance perception, Sydney/fashion crowd focus, expensive, less aspirational for outdoor/coastal lifestyles.</p>
+<p><strong>Our Advantage:</strong> Genuine performance credentials. Beach lifestyle authenticity. More accessible and approachable. Not trying to be streetwear.</p>
+<h3 id="our-positioning-statement">Our Positioning Statement</h3>
+<p>Bella Rhyder is the premium active lifestyle brand built specifically for Queensland women who refuse to separate their love of movement from their love of living beautifully. Where Lululemon is technical and global, Nimble is conservative, and P.E Nation is urban-fashion — we are coastal, vibrant, and genuinely, specifically Australian.</p>
+<hr>
+<h2 id="9-photography-style">9. PHOTOGRAPHY STYLE</h2>
+<h3 id="overall-aesthetic">Overall Aesthetic</h3>
+<p>Bright. Natural. Moving. Every image should feel like a memory from a perfect morning — light-filled, warm, slightly golden. Never over-staged or clinical.</p>
+<h3 id="lighting">Lighting</h3>
+<ul>
+<li><strong>Golden hour</strong> preferred — early morning or late afternoon Queensland light</li>
+<li><strong>Natural light always</strong> — no harsh studio flash for lifestyle photography</li>
+<li><strong>Warm color temperature</strong> — images run slightly warm, never cold or blue-toned</li>
+<li><strong>Dappled light</strong> accepted — filtered sun through leaves, beach shade, pool reflections</li>
+</ul>
+<h3 id="locations">Locations</h3>
+<ul>
+<li>Queensland beaches (Noosa, Mooloolaba, Gold Coast, Currumbin, Burleigh)</li>
+<li>Open-air gyms and outdoor training spaces</li>
+<li>Coastal paths and esplanades</li>
+<li>Rooftops and terraces with city/water views</li>
+<li>Pools — private, hotel, or lagoon pools</li>
+<li>Lush parks and botanical gardens (Brisbane City, South Bank)</li>
+</ul>
+<h3 id="model-direction">Model Direction</h3>
+<ul>
+<li><strong>Movement-led</strong> — mid-stride, stretching, laughing, in the water. Not posed and static.</li>
+<li><strong>Real expressions</strong> — genuine smiles, effort, focus. No vacant fashion-model blankness.</li>
+<li><strong>Diverse representation</strong> — range of skin tones, body types within the active lifestyle market</li>
+<li><strong>Ages</strong> — primary 22–38, feature broader range quarterly</li>
+<li><strong>Hair</strong> — natural, beach-tousled, real. Not hair-spray perfect.</li>
+</ul>
+<h3 id="product-photography-e-commerce">Product Photography (E-Commerce)</h3>
+<ul>
+<li><strong>Clean white or sand/stone backgrounds</strong> for primary product shots</li>
+<li><strong>Flat lay</strong> styling on linen or rattan surfaces — warm, textural</li>
+<li><strong>On-model</strong> shots preferred over ghost mannequin where possible</li>
+<li>Show fabric detail — texture, stitching, waistband construction</li>
+</ul>
+<h3 id="approved-photo-styles">Approved Photo Styles</h3>
+<ul>
+<li>Outdoor natural light photography in Queensland locations (beaches, parks, esplanades)</li>
+<li>Golden hour and soft morning light</li>
+<li>Images with warmth, movement, and genuine expression</li>
+<li>Wet hair, active sweat, beach-tousled looks — real physical activity</li>
+<li>Flat lays on natural textures (linen, sand, rattan, timber)</li>
+<li>Diverse models representing the Bella Rhyder woman (various skin tones, body types in the active lifestyle range)</li>
+<li>Lifestyle scenes: post-workout coffee, beach cool-down, partner runs, group fitness</li>
+<li>Product close-ups showing fabric texture and detail</li>
+<li>Clean product shots on white or sand-toned backgrounds</li>
+</ul>
+<h3 id="forbidden-photo-styles">Forbidden Photo Styles</h3>
+<ul>
+<li>Cold, blue-toned or grey-toned editing</li>
+<li>Heavy studio strobe lighting with harsh shadows</li>
+<li>Models in exclusively static poses — no life, no movement</li>
+<li>Extreme close-ups of isolated body parts (objectifying)</li>
+<li>Before/after body transformation imagery</li>
+<li>Weight-loss messaging in visual contexts</li>
+<li>Overcrowded or cluttered compositions</li>
+<li>Heavy retouching that removes skin texture (we keep skin real)</li>
+<li>Dark/moody fashion editorial that disconnects from the active lifestyle identity</li>
+<li>Competitors&#x27; products visible in imagery</li>
+<li>Low-resolution images (minimum 1920px wide for digital, 300dpi for print)</li>
+<li>Stock photography — always original Bella Rhyder content</li>
+<li>Overly perfect, retouched skin (no airbrushed unrealism)</li>
+<li>Luxury fashion poses that feel disconnected from movement</li>
+<li>Winter/cold tones — this is always Queensland summer energy</li>
+</ul>
+<h3 id="image-editing-consistency">Image Editing Consistency</h3>
+<p>All images published by Bella Rhyder should be edited through the same LightRoom preset or equivalent to maintain grid consistency. The master preset produces: warm tones, lifted shadows, slightly desaturated teal, enhanced orange luminance.</p>
+<h3 id="approved-preset-direction">Approved Preset Direction</h3>
+<ul>
+<li>Exposure: +0.3</li>
+<li>Highlights: -20</li>
+<li>Shadows: +15</li>
+<li>Warmth: +18</li>
+<li>Saturation: -5 (skin tones natural, not punchy)</li>
+<li>Teal/HSL: Desaturated slightly (avoid harsh teal tones in water)</li>
+<li>Orange: +8 Luminance (warm skin glow)</li>
+</ul>
+<hr>
+<h2 id="10-social-media-aesthetic-guidelines">10. SOCIAL MEDIA AESTHETIC GUIDELINES</h2>
+<h3 id="instagram-grid">Instagram Grid</h3>
+<ul>
+<li><strong>Colour temperature:</strong> Consistently warm. All images edited toward gold and amber tones.</li>
+<li><strong>Grid pattern:</strong> Loose alternating rhythm — lifestyle → product → lifestyle → campaign quote → lifestyle</li>
+<li><strong>White space:</strong> Used intentionally. Not every image needs to fill the frame.</li>
+<li><strong>Consistency:</strong> Same preset or LightRoom profile applied to all images. Grid should feel immediately recognizable as Bella Rhyder from a thumbnail view.</li>
+<li>Never post two identical background tones back-to-back</li>
+<li>No more than two text-dominant graphics in a row</li>
+<li>Product images: clean, centered, breathing room</li>
+</ul>
+<h3 id="stories">Stories</h3>
+<ul>
+<li>Primary format: 9:16 vertical (1080 x 1920px)</li>
+<li>Background: Midnight Navy (#1A1A2E) or clean white</li>
+<li>Brand bar: Top strip in Midnight Navy with logo, OR full bleed image with branded text overlay</li>
+<li>Text: DM Sans Bold for short statements; DM Sans Regular for longer text. White or gold.</li>
+<li>Text placement: Upper third or lower third (avoid the center — preserved for image subject)</li>
+<li>Branded story elements: Logo in top-left, branded frame optional</li>
+<li>Interactive: Polls, questions, sliders used 3x per week minimum</li>
+<li>Stickers: Use sparingly — polls, question boxes, and sliders only (no excessive sticker stacking)</li>
+<li>Always include swipe-up or link in bio direction when applicable</li>
+</ul>
+<h3 id="tiktok">TikTok</h3>
+<ul>
+<li>Native aspect ratio: 9:16</li>
+<li>Native, unpolished feel — handheld, movement-led, first-person POV acceptable</li>
+<li>On-trend audio with brand-relevant context</li>
+<li>Text overlays: DM Sans Bold, white with subtle dark drop shadow</li>
+<li>Transitions: Jump cuts, natural movement transitions</li>
+<li>Filter: Consistent but subtle — warm, not heavily filtered</li>
+<li>Branded end card: 1-second Bella Rhyder logo on Midnight Navy to end commercial content</li>
+<li>Avoid: heavy green screen effects, overly produced studio feel</li>
+</ul>
+<h3 id="reels">Reels</h3>
+<ul>
+<li>7–15 seconds: Product showcase</li>
+<li>15–30 seconds: Lifestyle/morning routine content</li>
+<li>30–60 seconds: Community stories, brand narrative</li>
+<li>Captions: Always include first 125 characters of caption as a hook</li>
+</ul>
+<h3 id="pinterest">Pinterest</h3>
+<ul>
+<li>Vertical: 1000 x 1500px (2:3 ratio)</li>
+<li>Text overlay on image: Brand name or tagline in Playfair Display</li>
+<li>Always include the URL in the image description</li>
+<li>Board names: Activewear Inspo | Beach Life | Bella Rhyder Looks | Workout Style | Queensland Living</li>
+</ul>
+<h3 id="caption-formula">Caption Formula</h3>
+<p><strong>Line 1:</strong> Bold hook (question, statement, or bold claim)</p>
+<p><strong>Line 2–4:</strong> Supporting copy with substance and warmth</p>
+<p><strong>Line 5:</strong> Community CTA (tag a friend, share, save)</p>
+<p><strong>Line 6:</strong> Hashtags (10–15, mix of branded, niche, and broad)</p>
+<h3 id="hashtag-strategy">Hashtag Strategy</h3>
+<p><strong>Branded:</strong> #BellaRhyder #MoveBoldlyLiveFree #BellaRhyderWoman</p>
+<p><strong>Community:</strong> #ActiveWomen #QueenslandFitness #BrisbaneActive #CoastalFitness</p>
+<p><strong>Lifestyle:</strong> #ActiveLifestyle #AussieActivewear #FitnessCommunity #BeachFitness</p>
+<p><strong>Niche:</strong> #SunshineCoastFitness #GoldCoastFitness #AussieSwimwear</p>
+<hr>
+<h2 id="11-partner-amp-collaboration-brand-rules">11. PARTNER &amp; COLLABORATION BRAND RULES</h2>
+<h3 id="co-branding-requirements">Co-Branding Requirements</h3>
+<p>When Bella Rhyder partners with another brand, event, or influencer, the following rules apply:</p>
+<ul>
+<li>Partner logo must never be larger than the Bella Rhyder logo in co-branded assets</li>
+<li>Clear space rules apply to both logos — they must not touch</li>
+<li>Co-branded background may use Midnight Navy, White, or Sand — not partner brand colors alone</li>
+<li>Partner brand colors must not compete with or overwrite the Bella Rhyder palette</li>
+<li>All co-branded assets require approval from Bella Rhyder before publication</li>
+<li>Influencer content must tag @bellaRhyder and include #BellaRhyder or #MoveBoldlyLiveFree</li>
+</ul>
+<h3 id="gifting-amp-affiliate-partners">Gifting &amp; Affiliate Partners</h3>
+<ul>
+<li>Products gifted to influencers must always be shown in approved use contexts (active lifestyle, coastal, outdoor — not in environments that contradict brand values)</li>
+<li>Influencers must disclose gifted product per ACCC guidelines (#gifted or #ad)</li>
+<li>Affiliate partners may not modify the Bella Rhyder logo or use non-approved brand assets</li>
+<li>Affiliate links must not be placed on coupon, cashback, or discount aggregator sites without approval</li>
+</ul>
+<h3 id="events-amp-pop-up-activations">Events &amp; Pop-Up Activations</h3>
+<ul>
+<li>Event signage must use approved brand fonts and colors</li>
+<li>No fluorescent or neon colors in brand signage</li>
+<li>Table / booth setup: Midnight Navy linen backdrop, gold signage, white product display surfaces</li>
+<li>QR codes and printed collateral must follow the brand standards</li>
+</ul>
+<hr>
+<p><em>This Brand Bible is a living document. Version 2.0 — April 2026.</em></p>
+<p><em>Owner: Ben Alek Conner | Bella Rhyder | Brisbane, Australia</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">07-Bella Rhyder/02-brand/BRAND BIBLE.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBCS — Welcome Email Sequence | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link active"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#conner-law">Conner Law</a> &rsaquo;
+          MBCS — Welcome Email Sequence
+        </div>
+        <h1 class="doc-title">MBCS — Welcome Email Sequence</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(74,144,217,0.12);color:#4A90D9">&#9878; Conner Law</span>
+          <span class="doc-path">05-Conner Law / 05-content / Email Sequences</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="mbcs-welcome-email-sequence">MBCS — Welcome Email Sequence</h1>
+<blockquote>3-email welcome sequence for new subscribers who opted in for the Car Accident Checklist.<br>Platform: Mautic | Delay: Email 1 = immediate, Email 2 = Day 2, Email 3 = Day 4</blockquote>
+<hr>
+<h2 id="email-1-your-car-accident-checklist-is-ready">Email 1: Your Car Accident Checklist Is Ready</h2>
+<p><strong>Subject:</strong> Your free car accident checklist is inside</p>
+<p><strong>Preview Text:</strong> Protect your rights after an accident. These steps matter — download your guide now.</p>
+<p><strong>Body:</strong></p>
+<pre><code class="lang-html">&lt;p&gt;Dear {{contact.firstname|default(&#x27;Friend&#x27;)}},&lt;/p&gt;
+
+&lt;p&gt;Thank you for requesting our &lt;strong&gt;Car Accident Checklist&lt;/strong&gt;. After an accident, it&#x27;s easy to feel overwhelmed — this guide gives you a clear, step-by-step plan so nothing falls through the cracks.&lt;/p&gt;
+
+&lt;p style=&quot;text-align: center; margin: 30px 0;&quot;&gt;
+  &lt;a href=&quot;{{lead_magnet_url}}&quot; style=&quot;background-color: #003366; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold;&quot;&gt;Download Your Free Checklist&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Welcome to &lt;strong&gt;MBCS&lt;/strong&gt;. We&#x27;re a personal injury law firm built on a simple principle: every person who has been wrongfully injured deserves experienced, compassionate legal representation — regardless of their financial situation.&lt;/p&gt;
+
+&lt;p&gt;Our team handles:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Motor vehicle accidents&lt;/li&gt;
+  &lt;li&gt;Premises liability (slip and fall)&lt;/li&gt;
+  &lt;li&gt;Workplace injuries&lt;/li&gt;
+  &lt;li&gt;Medical negligence&lt;/li&gt;
+  &lt;li&gt;Wrongful death&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We work on a contingency fee basis, meaning &lt;strong&gt;you pay nothing unless we win&lt;/strong&gt;. Our success is tied directly to yours.&lt;/p&gt;
+
+&lt;p&gt;Please review the checklist — it could make a meaningful difference in protecting your rights. And if you have any questions, our team is always available to help.&lt;/p&gt;
+
+&lt;p&gt;Sincerely,&lt;br&gt;
+&lt;strong&gt;The MBCS Team&lt;/strong&gt;&lt;/p&gt;</code></pre>
+<hr>
+<h2 id="email-2-what-a-strong-case-looks-like">Email 2: What a Strong Case Looks Like</h2>
+<p><strong>Subject:</strong> How one phone call changed everything for an accident victim</p>
+<p><strong>Preview Text:</strong> The insurance company offered her $12,000. We recovered far more. Here&#x27;s what happened.</p>
+<p><strong>Body:</strong></p>
+<pre><code class="lang-html">&lt;p&gt;Dear {{contact.firstname|default(&#x27;Friend&#x27;)}},&lt;/p&gt;
+
+&lt;p&gt;We want to share a story that illustrates why having the right legal representation matters.&lt;/p&gt;
+
+&lt;p&gt;A woman — we&#x27;ll call her Maria — was injured when another driver ran a stop sign and collided with her vehicle. She suffered a fractured wrist and soft tissue injuries to her neck and back.&lt;/p&gt;
+
+&lt;p&gt;The at-fault driver&#x27;s insurance company moved quickly. They called Maria within 48 hours and offered a settlement of $12,000 to &quot;resolve things quickly.&quot; It sounded reasonable at the time — she had bills piling up and wanted it to be over.&lt;/p&gt;
+
+&lt;p&gt;Before signing anything, Maria called MBCS for a second opinion.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Here&#x27;s what we found:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Her medical costs alone were projected to exceed $40,000 over the next year&lt;/li&gt;
+  &lt;li&gt;She was entitled to compensation for lost wages during her recovery&lt;/li&gt;
+  &lt;li&gt;The insurance company&#x27;s offer didn&#x27;t account for ongoing pain management or future treatment&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We took her case, handled all communication with the insurance company, and built a claim that reflected the true impact of her injuries. Maria received a settlement that covered her medical treatment, lost income, and pain and suffering.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The lesson:&lt;/strong&gt; Insurance companies are not on your side. Their first offer is designed to save &lt;em&gt;them&lt;/em&gt; money, not to make &lt;em&gt;you&lt;/em&gt; whole. Always consult with an attorney before accepting any offer.&lt;/p&gt;
+
+&lt;p&gt;If you&#x27;re dealing with a similar situation, we&#x27;re happy to talk — no cost, no obligation.&lt;/p&gt;
+
+&lt;p&gt;Sincerely,&lt;br&gt;
+&lt;strong&gt;The MBCS Team&lt;/strong&gt;&lt;/p&gt;</code></pre>
+<hr>
+<h2 id="email-3-wex27re-here-when-you-need-us">Email 3: We&#x27;re Here When You Need Us</h2>
+<p><strong>Subject:</strong> Need legal advice? Your first consultation is free.</p>
+<p><strong>Preview Text:</strong> No fees. No obligation. No pressure. Just honest answers about your case.</p>
+<p><strong>Body:</strong></p>
+<pre><code class="lang-html">&lt;p&gt;Dear {{contact.firstname|default(&#x27;Friend&#x27;)}},&lt;/p&gt;
+
+&lt;p&gt;Over the past few days, we&#x27;ve shared our Car Accident Checklist and a real example of how legal representation can change the outcome after an accident.&lt;/p&gt;
+
+&lt;p&gt;If you&#x27;re currently dealing with an injury — or if someone close to you is — we&#x27;d like to offer a &lt;strong&gt;free, confidential case evaluation&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here&#x27;s what that looks like:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;A real conversation&lt;/strong&gt; — We&#x27;ll take the time to understand your situation fully&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Honest answers&lt;/strong&gt; — We&#x27;ll tell you whether you have a case, what it might be worth, and what the process looks like&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;No surprises&lt;/strong&gt; — We&#x27;ll explain our contingency fee structure upfront so you know exactly what to expect&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Zero pressure&lt;/strong&gt; — If we&#x27;re not the right fit, we&#x27;ll tell you that too&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Remember: You pay nothing unless we win.&lt;/strong&gt; That&#x27;s not a tagline — it&#x27;s how we operate. We invest our time, resources, and expertise into your case because we believe in it.&lt;/p&gt;
+
+&lt;p style=&quot;text-align: center; margin: 30px 0;&quot;&gt;
+  &lt;a href=&quot;{{booking_url}}&quot; style=&quot;background-color: #003366; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold;&quot;&gt;Schedule Your Free Case Evaluation&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Personal injury claims are subject to statutes of limitations. If you&#x27;ve been injured, don&#x27;t wait to understand your rights — the sooner you act, the stronger your position.&lt;/p&gt;
+
+&lt;p&gt;We&#x27;re in your corner,&lt;br&gt;
+&lt;strong&gt;The MBCS Team&lt;/strong&gt;&lt;br&gt;
+&lt;em&gt;No fees unless we win.&lt;/em&gt;&lt;/p&gt;</code></pre>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">05-Conner Law/05-content/Email Sequences/mbcs-welcome.md</div>
+    </main>
+  </div>
+</body>
+</html>

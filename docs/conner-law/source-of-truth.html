@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conner Law Group -- Source of Truth | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link active"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#conner-law">Conner Law</a> &rsaquo;
+          Conner Law Group -- Source of Truth
+        </div>
+        <h1 class="doc-title">Conner Law Group -- Source of Truth</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(74,144,217,0.12);color:#4A90D9">&#9878; Conner Law</span>
+          <span class="doc-path">05-Conner Law / 01-strategy</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="conner-law-group-source-of-truth">Conner Law Group -- Source of Truth</h1>
+<p><strong>Last Updated:</strong> 2026-04-05</p>
+<hr>
+<h2 id="identity">Identity</h2>
+<ul>
+<li><strong>What it is:</strong> A FUTURE rebrand that will unify two existing PI law firms (both owned by Kevin Conner) under one brand, plus an estate planning firm and a legal tech SaaS product</li>
+<li><strong>Current reality:</strong> Two separate PI firms already operate — Conner Injury Law (WA) and Merkel &amp; Conner (OR). &quot;Conner Law Group&quot; is the planned umbrella rebrand. Ben is preparing all branding/marketing so it&#x27;s ready to implement when Kevin is ready</li>
+<li><strong>Mission:</strong> Get as much money from insurance companies as humanly possible for injured people. We know all their tricks and we live to make them pay</li>
+<li><strong>Vision:</strong> The most aggressive, client-first PI brand in the Pacific Northwest — one unified identity instead of two separate firms doing the same work</li>
+<li><strong>Brand ethos:</strong> We fucking hate insurance companies. They are scum. Every dollar we extract from them is a win. This is the core of our marketing, our culture, and our identity. We are on the side of the injured, always</li>
+<li><strong>Owner:</strong> Kevin Conner (both firms). Ben builds the brand/marketing/tech</li>
+<li><strong>Location:</strong> Washington State (Conner Injury Law) and Oregon (Merkel &amp; Conner)</li>
+<li><strong>Rebrand rationale:</strong> One brand with the same anti-insurance energy is better than doing twice the marketing work for two separate brands that do the same thing</li>
+<li><strong>Revenue status:</strong> Pre-revenue for new marketing/rebrand. Existing firms are operational</li>
+</ul>
+<hr>
+<h2 id="brand">Brand</h2>
+<ul>
+<li><strong>Positioning:</strong> Ruthless against insurers, compassionate with clients. We fight harder and dirtier than anyone because we genuinely hate what insurance companies do to injured people</li>
+<li><strong>Tagline candidates:</strong> &quot;Justice Through Excellence&quot; / &quot;Legal Excellence. Client Results.&quot;</li>
+<li><strong>Tone of voice:</strong> Aggressive toward insurers, warm and empathetic with clients. Direct, no-bullshit, confident. Plain English over legal jargon. Marketing channels the rage people feel when insurance companies lowball them</li>
+<li><strong>Primary colours:</strong> Law Black #1A1A1A, Justice Blue #1E4D7B, Accent Gold #B8860B, White #FFFFFF</li>
+<li><strong>Secondary colours:</strong> Confident Green #2DBB4E, Alert Red #C7254E, Light Gray #F5F5F5</li>
+<li><strong>Typography:</strong> Headlines: Georgia (serif). Body: Open Sans (sans-serif)</li>
+<li><strong>Brand assets:</strong></li>
+<li>Logos: <code>01-Conner Law Group/Branding/</code> (includes MerkelConner.png, BCMEDIALOGO.png, letterhead.png)</li>
+<li>Style guide: <code>01-Conner Law Group/Documents/BRAND STYLE GUIDE.md</code></li>
+<li>Brand guidelines: <code>01-Conner Law Group/Documents/BRAND GUIDELINES.md</code></li>
+<li>KevLaw AI logo: <code>01-Conner Law Group/1. KevLaw AI/App/Logo - Kevlaw Ai.png</code></li>
+<li>Sub-brand assets: <code>01-Conner Law Group/4. MBCS/</code> (Brand Bible, Logos, Style Guide folders)</li>
+</ul>
+<hr>
+<h2 id="sub-entities">Sub-Entities</h2>
+<h3 id="1-conner-injury-law-washington-state-personal-injury">1. Conner Injury Law (Washington State) -- Personal Injury</h3>
+<ul>
+<li><strong>Also known as:</strong> Kevin Conner Law</li>
+<li><strong>What:</strong> Plaintiff-side personal injury firm. Existing, operational firm</li>
+<li><strong>Practice areas:</strong> Motor vehicle accidents, workplace injuries, public liability, medical negligence, disability and income protection claims</li>
+<li><strong>Fee model:</strong> No win, no fee (contingency). 25% standard, 25-33% complex/high-value</li>
+<li><strong>Target market:</strong> Adults injured in Washington State. Referred by doctors, physios, orthopaedic surgeons, rehab providers</li>
+<li><strong>Revenue target:</strong> $360K (FY26) -&gt; $720K (FY27) -&gt; $1.2M (FY28)</li>
+<li><strong>Key metric:</strong> 60-100 active files, avg settlement $80K-$180K</li>
+<li><strong>Site:</strong> <code>01-Conner Law Group/Site/</code> (HTML/CSS, deployed on Vercel)</li>
+</ul>
+<h3 id="2-merkel-amp-conner-oregon-personal-injury">2. Merkel &amp; Conner (Oregon) -- Personal Injury</h3>
+<ul>
+<li><strong>What:</strong> Plaintiff-side personal injury firm. Existing, operational firm. Same owner (Kevin Conner), same work, different state</li>
+<li><strong>Practice areas:</strong> Same as Conner Injury Law — motor vehicle accidents, workplace injuries, public liability, medical negligence</li>
+<li><strong>Fee model:</strong> No win, no fee (contingency). 25% standard, 25-33% complex/high-value</li>
+<li><strong>Target market:</strong> Adults injured in Oregon</li>
+<li><strong>Revenue target:</strong> $240K (FY26) -&gt; $480K (FY27) -&gt; $780K (FY28)</li>
+<li><strong>Key metric:</strong> 30 active clients by end FY26, 80+ by FY28</li>
+</ul>
+<h3 id="3-mbcs-estate-planning-law-firm">3. MBCS -- Estate Planning Law Firm</h3>
+<ul>
+<li><strong>What:</strong> Friendly estate planning law firm. Owned by Conner Law Group but COMPLETELY different brand energy — warm, approachable, no anti-insurance teeth</li>
+<li><strong>Full name:</strong> McGinty, Conner, Belcher, Smith (per brand guidelines)</li>
+<li><strong>Marketing tone:</strong> Friendly, helpful, trust-focused. The opposite of CLG&#x27;s aggressive PI energy. Keep branding and marketing SEPARATE from the PI firms</li>
+<li><strong>Revenue target:</strong> $180K (FY26) -&gt; $360K (FY27) -&gt; $600K (FY28)</li>
+<li><strong>Key metric:</strong> 10 external firm clients by end FY26, 25+ by FY28</li>
+<li><strong>Assets:</strong> <code>01-Conner Law Group/4. MBCS/</code> (Brand Bible, Elevator Pitch, Launch Content, Roadmaps, Social Media)</li>
+</ul>
+<h3 id="4-kevlaw-ai-legal-technology-saas">4. KevLaw AI -- Legal Technology SaaS</h3>
+<ul>
+<li><strong>What:</strong> AI-powered document automation platform for law firms. Built internally, now being productised for external sale</li>
+<li><strong>Core features:</strong> Document automation (demand letters, retainers, correspondence), client intake automation, AI legal research, compliance tracker, precedent library management</li>
+<li><strong>Fee model:</strong> SaaS subscription -- Starter $99/mo (1 user), Professional $299/mo (5 users), Growth Firm $499/mo (15 users), Enterprise POA. 15% annual discount. 14-day free trial</li>
+<li><strong>Target market:</strong> Small-to-mid law firms (1-50 lawyers) nationally (US), especially PI/workers comp with high doc volume</li>
+<li><strong>Revenue target:</strong> $30K (FY26) -&gt; $240K (FY27) -&gt; $800K (FY28)</li>
+<li><strong>Key metric:</strong> 50 subscribing firms by end FY27, 200+ by FY28</li>
+<li><strong>Existing app:</strong> <code>01-Conner Law Group/1. KevLaw AI/App/demand-letter-system/</code> (Node/SQLite)</li>
+<li><strong>Dashboard:</strong> <code>01-Conner Law Group/1. KevLaw AI/kevlaw-ai-dashboard/</code> (React/TypeScript)</li>
+<li><strong>Demand drafts:</strong> <code>01-Conner Law Group/1. KevLaw AI/Demand Drafts 1/</code> and <code>Demands/</code></li>
+</ul>
+<hr>
+<h2 id="team-structure">Team / Structure</h2>
+<p><strong>Current (March 2026):</strong></p>
+<ul>
+<li>Kevin Conner -- Owner of both PI firms (Conner Injury Law + Merkel &amp; Conner) and MBCS</li>
+<li>Ben Alek Conner -- Brand, marketing, and tech (KevLaw AI). Does NOT own the law firms</li>
+<li>Developer contractor (KevLaw AI)</li>
+</ul>
+<p><strong>Target by end FY2027:</strong> 15-20 people total, adding Group Ops Manager, Marketing/Content Manager, Finance/Admin Manager, additional solicitors, MBCS coordinators, KevLaw product team (Head of Product, Lead Dev, Customer Success)</p>
+<p><strong>Target by end FY2028:</strong> 25-30 staff across all units</p>
+<p><strong>Culture:</strong> Manageable caseloads, $2K/yr professional dev per solicitor, hybrid work (2-3 days in office), quarterly reviews, competitive pay + performance bonus</p>
+<hr>
+<h2 id="operations">Operations</h2>
+<ul>
+<li><strong>Office hours:</strong> Mon-Fri standard business hours. After-hours for PI clients as needed</li>
+<li><strong>File management:</strong> All matters managed through KevLaw AI internally</li>
+<li><strong>Client comms:</strong> Designated attorney per matter. Substantive updates minimum every 30 days. Missed calls returned within 1 business day</li>
+<li><strong>Malpractice insurance:</strong> Maintained across all legal entities, reviewed annually</li>
+<li><strong>Jurisdictions:</strong> Licensed in Washington State and Oregon</li>
+<li><strong>Key folders:</strong></li>
+<li>Client files: <code>01-Conner Law Group/Clients/</code></li>
+<li>Case templates: <code>01-Conner Law Group/Case Templates and Forms/</code></li>
+<li>Email sequences: <code>01-Conner Law Group/Email Sequences/</code></li>
+<li>Lead magnets: <code>01-Conner Law Group/Lead Magnets/</code></li>
+</ul>
+<hr>
+<h2 id="financials">Financials</h2>
+<div class="table-wrap"><table><thead><tr><th></th><th>FY2026</th><th>FY2027</th><th>FY2028</th></tr></thead><tbody><tr><td><strong>Revenue</strong></td><td>$810K</td><td>$1.8M</td><td>$3.38M</td></tr><tr><td><strong>Operating Costs</strong></td><td>$564K</td><td>$808K</td><td>$1.15M</td></tr><tr><td><strong>EBITDA</strong></td><td>$246K (30%)</td><td>$992K (55%)</td><td>$2.23M (66%)</td></tr></tbody></table></div>
+<p>Biggest cost lines: solicitor salaries, KevLaw AI dev, marketing, office/premises. Margin expansion driven by high-margin KevLaw AI SaaS revenue scaling.</p>
+<hr>
+<h2 id="strategy">Strategy</h2>
+<p><strong>Current phase:</strong> Phase 1 -- Foundation (2026). Brand build, referral networks, internal KevLaw AI deployment, beta launch to WA/OR firms, MBCS client acquisition.</p>
+<p><strong>Phase 2 -- Acceleration (2027):</strong> Scale PI file volume via referrals + Google Ads. KevLaw AI public launch nationally (50 paying firms). Expand Merkel &amp; Conner practice areas. Hire ops manager. $150K+/mo revenue.</p>
+<p><strong>Phase 3 -- Market Leadership (2028):</strong> $3M+ revenue. KevLaw AI at 200+ firms nationally. Explore Series A or institutional licensing. Multi-state expansion. Team of 25-30. Established Pacific Northwest legal brand with media presence.</p>
+<p><strong>KevLaw AI product roadmap:</strong></p>
+<ol>
+<li>Q2-Q3 2026: Core document engine (internal use)</li>
+<li>Q4 2026: Invite-only beta (10-20 PNW firms)</li>
+<li>Q1-Q2 2027: Public launch, national marketing</li>
+<li>Q3-Q4 2027: Integrations (LEAP, Actionstep, Smokeball)</li>
+<li>2028+: National platform, institutional partnerships, potential funding</li>
+</ol>
+<hr>
+<h2 id="key-decisions-amp-clarifications">Key Decisions &amp; Clarifications</h2>
+<ul>
+<li><strong>&quot;Conner Law Group&quot; does NOT exist yet.</strong> It is a FUTURE rebrand to unify Conner Injury Law (WA) and Merkel &amp; Conner (OR) under one PI brand. Ben is building all brand/marketing materials in advance so everything is ready when Kevin Conner decides to pull the trigger</li>
+<li><strong>Both existing firms are PI.</strong> Conner Injury Law (WA) and Merkel &amp; Conner (OR) both do personal injury, same owner, same anti-insurance mission. The old docs describing Merkel &amp; Conner as &quot;commercial/business law&quot; are WRONG</li>
+<li><strong>MBCS = estate planning law firm.</strong> Friendly, warm, approachable. Completely separate brand energy from the PI firms. Do NOT apply CLG&#x27;s aggressive anti-insurance tone to MBCS marketing</li>
+<li><strong>Kevin Conner owns both PI firms.</strong> Ben does not own the law firms — Ben builds the brand, marketing, and tech (KevLaw AI)</li>
+<li><strong>KevLaw AI was built internally first</strong> for Kevin&#x27;s PI practice, then being productised for external sale. It is NOT a third-party tool -- it is proprietary</li>
+<li><strong>KevLaw AI is also a potential standalone SaaS business</strong> (noted in workspace memory as having potential beyond internal use)</li>
+<li><strong>Both PI firms are plaintiff-side only</strong> -- do not represent insurers or defendants. We are the enemy of every insurance company</li>
+<li><strong>No-win, no-fee model</strong> for all PI work (contingency fee agreements)</li>
+<li><strong>Pacific Northwest strategy</strong> -- deep local court relationships and practitioner networks in WA/OR before further expansion</li>
+<li><strong>Existing demand-letter-system app</strong> lives at <code>01-Conner Law Group/1. KevLaw AI/App/demand-letter-system/</code> (Node.js + SQLite)</li>
+<li><strong>Website (Conner Injury Law)</strong> is live on Vercel: <code>01-Conner Law Group/Site/</code> (static HTML/CSS)</li>
+<li><strong>Pricing note:</strong> Contingency rates are 25-33% depending on complexity. This SOT is authoritative over any conflicting docs</li>
+<li><strong>Marketing approach:</strong> SEO + Google Ads for PI. LinkedIn for B2B (Merkel &amp; Conner, MBCS, KevLaw). Facebook/Instagram for community PI awareness. Google Business Profile for all units. Formal content calendar exists: <code>Documents/CONTENT CALENDAR.md</code></li>
+</ul>
+<hr>
+<h2 id="document-index">Document Index</h2>
+<div class="table-wrap"><table><thead><tr><th>Document</th><th>Path</th><th>Purpose</th></tr></thead><tbody><tr><td>Business Plan</td><td><code>Documents/BUSINESS PLAN.md</code></td><td>Full strategic plan (authoritative)</td></tr><tr><td>Brand Style Guide</td><td><code>Documents/BRAND STYLE GUIDE.md</code></td><td>Visual identity, typography, colours</td></tr><tr><td>Brand Guidelines</td><td><code>Documents/BRAND GUIDELINES.md</code></td><td>Positioning, tone, messaging</td></tr><tr><td>Service Packages</td><td><code>Documents/SERVICE PACKAGES.md</code></td><td>Pricing and offerings (review for AU accuracy)</td></tr><tr><td>Elevator Pitches</td><td><code>Documents/ELEVATOR PITCH.md</code></td><td>10s/30s/60s pitches per entity</td></tr><tr><td>Content Calendar</td><td><code>Documents/CONTENT CALENDAR.md</code></td><td>Social media and content plan</td></tr><tr><td>Client Intake Form</td><td><code>Documents/CLIENT INTAKE FORM.md</code></td><td>Intake process and form fields</td></tr><tr><td>Retainer Agreement</td><td><code>Documents/RETAINER AGREEMENT TEMPLATE.md</code></td><td>Template retainer agreement</td></tr></tbody></table></div>
+<p><em>All paths relative to <code>/Users/benalekconner/Desktop/MASTER WORKSPACE/01-Conner Law Group/</code></em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">05-Conner Law/01-strategy/SOURCE-OF-TRUTH.md</div>
+    </main>
+  </div>
+</body>
+</html>

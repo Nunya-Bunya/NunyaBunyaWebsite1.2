@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bedrock Package — Full System Assessment | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Bedrock Package — Full System Assessment
+        </div>
+        <h1 class="doc-title">Bedrock Package — Full System Assessment</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Docs</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="bedrock-package-full-system-assessment">Bedrock Package — Full System Assessment</h1>
+<p><strong>Date:</strong> 2026-04-05</p>
+<p><strong>Context:</strong> Ben asked Claude to evaluate the entire Nunya Bunya automation stack against a hypothetical scenario: onboarding a new client (Mary, Brisbane Zinia Massage) with a full-service marketing package.</p>
+<hr>
+<h2 id="the-hypothetical-brief">The Hypothetical Brief</h2>
+<blockquote>Nunya Bunya has a new potential client. Mary runs brisbaneziniamassage.com with incredible reviews. She wants:<br>- A modern, professional website using her existing content + stock imagery<br>- A landing page promoting her cupping service<br>- An ad campaign for that landing page<br>- A lead magnet about cupping (history, healing effects) to collect emails<br>- An email list and drip sequence<br>- A booking system with Slack notifications<br>- n8n automations for confirmation emails and advance payment<br>- Possibly a trade deal (massage services in exchange for marketing)</blockquote>
+<hr>
+<h2 id="question-1-can-we-do-all-of-this-automatically">Question 1: Can we do all of this automatically?</h2>
+<p><strong>Confidence level: 75-80%</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Task</th><th>Automated?</th><th>How?</th></tr></thead><tbody><tr><td>Scrape current website for content/images</td><td>Yes</td><td>Web scraping agent + image download</td></tr><tr><td>Find stock imagery</td><td>Yes</td><td>Replicate Flux (AI-generated) + stock photo APIs</td></tr><tr><td>Build modern website</td><td><strong>Mostly</strong></td><td>HTML/Tailwind generation exists, but no single &quot;Website Builder&quot; agent pipeline yet</td></tr><tr><td>Landing page for cupping</td><td>Yes</td><td>Landing page infrastructure on Vercel, templates exist</td></tr><tr><td>Ad creation (copy + creatives)</td><td>Yes</td><td>Ad agent exists, generates variations</td></tr><tr><td>Lead magnet PDF</td><td>Yes</td><td>Content Factory agent + HTML-to-PDF</td></tr><tr><td>Email list in Mautic</td><td>Yes</td><td>Mautic provisioning scripts exist</td></tr><tr><td>5-email drip sequence</td><td>Yes</td><td>Mautic + n8n templates</td></tr><tr><td>Booking system (Cal.com)</td><td><strong>Partial</strong></td><td>Cal.com is in the stack but per-client provisioning isn&#x27;t automated</td></tr><tr><td>Slack channel + notifications</td><td>Yes</td><td>Slack integration exists, channel creation scriptable</td></tr><tr><td>n8n automations</td><td>Yes</td><td>n8n running, workflow templates exist</td></tr><tr><td>Payment collection (Stripe)</td><td><strong>Partial</strong></td><td>Needs Stripe integration in n8n — not yet wired</td></tr></tbody></table></div>
+<p><strong>The gap isn&#x27;t in the individual pieces — it&#x27;s in the orchestration.</strong> No single &quot;run the whole package&quot; command exists yet.</p>
+<hr>
+<h2 id="question-2-what-do-we-need-to-build-to-reach-95-confidence">Question 2: What do we need to build to reach 95%+ confidence?</h2>
+<h3 id="a-master-package-orchestrator">A. Master Package Orchestrator</h3>
+<p>A new pipeline that takes a client brief (name, website, service to promote) and triggers every sub-pipeline in sequence, with review gates between phases.</p>
+<h3 id="b-website-builder-agent">B. Website Builder Agent</h3>
+<p>43 agents exist for content, SEO, ads, research — but none that take scraped content + stock images and output a complete, deployable website. <strong>Biggest gap.</strong></p>
+<h3 id="c-approval-queue-system">C. Approval Queue System</h3>
+<p><strong>#1 missing piece.</strong> When 15 deliverables get generated, you need a single place to review/approve/reject. Options:</p>
+<ul>
+<li>Slack-based review (fastest to build, ~1 day)</li>
+<li>NBHQ dashboard (better long-term, ~1 week)</li>
+</ul>
+<h3 id="d-calcom-client-provisioning">D. Cal.com Client Provisioning</h3>
+<p>Script to auto-create booking pages per client with services, availability, and confirmation emails.</p>
+<h3 id="e-stripe-integration">E. Stripe Integration</h3>
+<p>n8n workflow: create payment link → attach to booking confirmation → notify Slack on payment.</p>
+<h3 id="f-stock-image-sourcing-pipeline">F. Stock Image Sourcing Pipeline</h3>
+<p>Add Unsplash/Pexels API integration alongside Replicate Flux for real stock photos.</p>
+<h3 id="g-quotcreate-packagequot-command">G. &quot;Create Package&quot; Command</h3>
+<p>Single slash command or n8n trigger: input client brief → runs everything → drops into review queue.</p>
+<p><strong>Estimated build time: 15-20 hours across 2-3 focused sessions.</strong></p>
+<hr>
+<h2 id="question-3-what-does-the-output-look-like">Question 3: What does the output look like?</h2>
+<h3 id="folder-structure">Folder Structure</h3>
+<pre><code>01-Nunya Bunya/Clients/Mary-Brisbane-Zinia-Massage/
+├── research/
+│   ├── business-overview.md
+│   ├── competitor-analysis.md
+│   ├── audience-research.md
+│   └── scraped-assets/
+├── brand/
+│   ├── brand-voice.md
+│   ├── visual-identity.md
+│   └── messaging-framework.md
+├── website/
+│   ├── site/
+│   ├── preview-link.txt
+│   └── stock-images/
+├── landing-pages/
+│   ├── cupping-special/
+│   └── preview-link.txt
+├── ads/
+│   ├── ad-copy-variations.md
+│   ├── ad-images/
+│   └── targeting-notes.md
+├── lead-magnet/
+│   ├── cupping-guide.html
+│   ├── cupping-guide.pdf
+│   └── thank-you-page/
+├── email/
+│   ├── welcome-sequence.md
+│   └── mautic-segment-id.txt
+├── automations/
+│   ├── n8n-workflows.json
+│   └── slack-channel-id.txt
+├── booking/
+│   ├── cal-com-link.txt
+│   └── services-config.md
+└── STATUS.md</code></pre>
+<h3 id="whatx27s-auto-deployed-vs-what-needs-review">What&#x27;s auto-deployed vs. what needs review?</h3>
+<p><strong>Auto-deployed (no review needed):</strong></p>
+<ul>
+<li>Mautic email list/segment creation</li>
+<li>Slack channel creation</li>
+<li>n8n workflow deployment</li>
+<li>Matomo tracking setup</li>
+<li>Shlink tracked links</li>
+<li>CRM contact creation in Twenty</li>
+</ul>
+<p><strong>Requires review before going live:</strong></p>
+<ul>
+<li>Website (client&#x27;s face to the world)</li>
+<li>Landing page (copy + design)</li>
+<li>Ad copy and creatives (rule: no auto-publishing)</li>
+<li>Lead magnet PDF (content accuracy)</li>
+<li>Email drip sequence (tone and offers)</li>
+<li>Booking page configuration (services and pricing)</li>
+</ul>
+<p><strong>Rule of thumb: If a human will see it, you see it first.</strong></p>
+<h3 id="where-to-review">Where to review?</h3>
+<p><strong>Phase 1 (now):</strong> Slack-based review. Each deliverable posts to a <code>#client-review</code> channel with preview link + approve/reject buttons. Build in a day.</p>
+<p><strong>Phase 2 (3+ clients):</strong> NBHQ dashboard with approval queue cards, preview buttons, and status tracking.</p>
+<hr>
+<h2 id="question-4-pricing-naming-and-itemization">Question 4: Pricing, naming, and itemization</h2>
+<h3 id="package-name">Package Name</h3>
+<div class="table-wrap"><table><thead><tr><th>Option</th><th>Vibe</th></tr></thead><tbody><tr><td><strong>Bedrock</strong> (recommended client-facing)</td><td>&quot;We get you off the ground&quot; — clear, professional, scales across industries</td></tr><tr><td><strong>Firepower</strong> (recommended internal codename)</td><td>Aggressive, motivating — great for internal shorthand</td></tr><tr><td>Ignition</td><td>Fits existing checklist naming</td></tr><tr><td>Full Stack Launch</td><td>Literal, clear</td></tr></tbody></table></div>
+<p><strong>Recommendation:</strong> &quot;Bedrock&quot; for clients, &quot;Firepower&quot; internally.</p>
+<h3 id="whatx27s-included-itemized">What&#x27;s Included (Itemized)</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Deliverable</th><th>Description</th></tr></thead><tbody><tr><td>1</td><td>Custom Website (5-8 pages)</td><td>Modern, mobile-first, SEO-optimized</td></tr><tr><td>2</td><td>Landing Page</td><td>Single-service promo with lead capture</td></tr><tr><td>3</td><td>Ad Campaign (copy + creatives)</td><td>3-5 variations, targeting strategy</td></tr><tr><td>4</td><td>Lead Magnet PDF (8-12 pages)</td><td>Professional guide on promoted service</td></tr><tr><td>5</td><td>Email List Setup</td><td>Mautic segment, opt-in form, thank-you page</td></tr><tr><td>6</td><td>5-Email Welcome Sequence</td><td>Automated drip campaign</td></tr><tr><td>7</td><td>Booking System</td><td>Cal.com page with services + availability</td></tr><tr><td>8</td><td>Slack Notifications</td><td>Real-time alerts for bookings, leads, payments</td></tr><tr><td>9</td><td>Automation System</td><td>n8n: booking confirm, payment link, follow-up, review request</td></tr><tr><td>10</td><td>Analytics &amp; Tracking</td><td>Matomo + Shlink + Metabase dashboard</td></tr><tr><td>11</td><td>CRM Setup</td><td>Twenty CRM pipeline entry</td></tr></tbody></table></div>
+<h3 id="cost-to-deliver">Cost to Deliver</h3>
+<ul>
+<li>Review time: 3-5 hours ($450-750 at $150/hr)</li>
+<li>Hosting: Already covered ($16/mo Hetzner)</li>
+<li>AI API costs: ~$5-15 per run</li>
+<li>Domain/DNS: Client provides or ~$15/yr</li>
+<li>Vercel: Free tier</li>
+<li><strong>Total hard cost: ~$50-100 per package</strong></li>
+</ul>
+<h3 id="what-to-charge">What to Charge</h3>
+<div class="table-wrap"><table><thead><tr><th>Market Segment</th><th>Price Range</th></tr></thead><tbody><tr><td>Budget agencies</td><td>$2,000-4,000</td></tr><tr><td>Mid-range agencies</td><td>$5,000-8,000</td></tr><tr><td>Premium agencies</td><td>$10,000-15,000+</td></tr></tbody></table></div>
+<p><strong>Recommended: $3,500-5,000 one-time</strong> (Bedrock)</p>
+<ul>
+<li>Affordable for small business owners</li>
+<li>High margin ($3,400+ profit)</li>
+<li>Delivered in days, not weeks</li>
+</ul>
+<h3 id="trade-deal-with-mary">Trade Deal with Mary</h3>
+<p>If massage = $120-150/session:</p>
+<ul>
+<li>$4,000 package = ~27-33 sessions</li>
+<li><strong>Fair trade:</strong> 2 massages/month for 12 months (24 sessions, ~$3,000 value) + $1,000 cash</li>
+<li>Then upsell to Starter monthly plan ($1,500/mo)</li>
+</ul>
+<hr>
+<h2 id="question-5-the-enhanced-quotbusiness-biblequot-version">Question 5: The Enhanced &quot;Business Bible&quot; Version</h2>
+<h3 id="bedrock-pro-everything-above-plus">Bedrock Pro — Everything above, PLUS:</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Addition</th><th>Description</th></tr></thead><tbody><tr><td>12</td><td>Brand Strategy Document</td><td>Mission, vision, values, positioning</td></tr><tr><td>13</td><td>Brand Style Guide</td><td>Colors, fonts, logo usage, photography style, tone</td></tr><tr><td>14</td><td>Messaging Framework</td><td>Taglines, elevator pitch, key messages per audience</td></tr><tr><td>15</td><td>Customer Personas (3)</td><td>Detailed ideal client profiles</td></tr><tr><td>16</td><td>Content Strategy Plan</td><td>Platform strategy, content pillars, posting cadence</td></tr><tr><td>17</td><td>90-Day Content Calendar</td><td>Week-by-week plan with topics and formats</td></tr><tr><td>18</td><td>90 Days of Content (generated)</td><td>Posts, captions, hashtags — ready to review and schedule</td></tr><tr><td>19</td><td>Content Scheduled in Mixpost</td><td>All approved content queued for auto-posting</td></tr><tr><td>20</td><td>SEO Keyword Strategy</td><td>Target keywords, clusters, pillar page plan</td></tr><tr><td>21</td><td>4x Blog Posts</td><td>SEO-optimized articles, ready to publish</td></tr><tr><td>22</td><td>Competitor Analysis Report</td><td>Top 5 competitors, strengths/weaknesses, gaps</td></tr></tbody></table></div>
+<h3 id="the-business-bible-physical-deliverable">The Business Bible — Physical Deliverable</h3>
+<p>A leatherbound, printed book containing:</p>
+<ol>
+<li>Brand Strategy &amp; Identity</li>
+<li>Brand Style Guide</li>
+<li>Customer Personas</li>
+<li>Messaging Framework</li>
+<li>Content Strategy</li>
+<li>SEO Strategy</li>
+<li>Marketing Playbook</li>
+<li>Competitor Landscape</li>
+<li>90-Day Action Plan</li>
+<li>Monthly KPI Targets</li>
+<li>Quick-Reference Cheat Sheets</li>
+</ol>
+<p><strong>Production:</strong> Print-on-demand (Lulu or Blurb), ~$40-80/copy. Sell as $500-1,000 add-on or bundle into Pro.</p>
+<p><strong>Why this matters:</strong> No other agency hands you a physical, leatherbound book. It makes invisible work (digital marketing) tangible and holdable. Lead with this in sales conversations.</p>
+<h3 id="bedrock-pro-pricing">Bedrock Pro Pricing</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Cost</th></tr></thead><tbody><tr><td>Everything in Bedrock</td><td>$50-100</td></tr><tr><td>Additional AI generation</td><td>$20-30</td></tr><tr><td>Book printing</td><td>$60-80</td></tr><tr><td>Your review time</td><td>6-10 hours</td></tr><tr><td><strong>Total cost</strong></td><td><strong>~$200-300</strong></td></tr><tr><td><strong>Recommended price</strong></td><td><strong>$7,500-10,000 one-time</strong></td></tr></tbody></table></div>
+<h3 id="timeline-with-human-in-the-loop">Timeline with Human-in-the-Loop</h3>
+<ul>
+<li>AI generation of everything: 1-2 hours</li>
+<li>Your review of all documents: 4-6 hours (spread over 2-3 days)</li>
+<li>Revisions and approval: 2-3 hours</li>
+<li><strong>Total: 2-5 business days from brief to fully deployed</strong></li>
+<li>Compare to traditional agency: 4-8 weeks</li>
+</ul>
+<h3 id="suggested-tier-structure">Suggested Tier Structure</h3>
+<div class="table-wrap"><table><thead><tr><th>Tier</th><th>Price</th><th>Includes</th></tr></thead><tbody><tr><td>Bedrock Lite</td><td>$2,000</td><td>Website + landing page + lead magnet + email list</td></tr><tr><td>Bedrock</td><td>$4,500</td><td>Everything (items 1-11)</td></tr><tr><td>Bedrock Pro</td><td>$8,000-10,000</td><td>Everything + Business Bible + 90 days content + scheduled posting</td></tr></tbody></table></div>
+<hr>
+<h2 id="question-6-honest-feedback">Question 6: Honest Feedback</h2>
+<h3 id="whatx27s-impressive">What&#x27;s impressive</h3>
+<ul>
+<li>43 agents, 8 pipelines, full self-hosted stack for $16/month</li>
+<li>Most agencies spend $500-2,000/month on SaaS alone — your cost structure is a weapon</li>
+<li>The infrastructure is genuinely built, not vaporware</li>
+</ul>
+<h3 id="whox27s-doing-something-similar">Who&#x27;s doing something similar?</h3>
+<div class="table-wrap"><table><thead><tr><th>Competitor</th><th>What They Do</th><th>What They Don&#x27;t Do</th></tr></thead><tbody><tr><td>GoHighLevel</td><td>White-label marketing platform</td><td>Not AI-automated — agency still does manual work</td></tr><tr><td>Vendasta</td><td>White-label for local businesses</td><td>Same — tools, not automation</td></tr><tr><td>Durable.ai / 10Web / Wix ADI</td><td>AI website builders</td><td>Website ONLY — no ads, email, booking, automation</td></tr><tr><td>Jasper / Copy.ai</td><td>AI content generation</td><td>Content only, no deployment</td></tr><tr><td>HubSpot Starter</td><td>CRM + email + landing pages</td><td>Expensive, not automated</td></tr></tbody></table></div>
+<p><strong>Nobody is doing the full stack</strong> — website + landing page + ads + lead magnet + email + booking + automation + content + brand strategy, all from a single brief and deployed automatically. That product doesn&#x27;t exist today.</p>
+<h3 id="what-youx27re-missing-risks">What you&#x27;re missing / risks</h3>
+<ol>
+<li><strong>Quality control is your bottleneck.</strong> More automation = more need for bulletproof review. One bad auto-generated email kills trust. The approval queue isn&#x27;t optional — it IS the product.</li>
+</ol>
+<ol>
+<li><strong>&quot;Sell the system&quot; is Phase 3, not Phase 1.</strong> Prove with 5-10 clients → document failure modes → THEN build self-serve. Don&#x27;t automate the wrong things.</li>
+</ol>
+<ol>
+<li><strong>Your competition is inertia, not other agencies.</strong> Mary&#x27;s biggest competitor for her marketing budget is &quot;doing nothing.&quot; Sales challenge = convincing SMBs that marketing matters.</li>
+</ol>
+<ol>
+<li><strong>The Business Bible is your Trojan horse.</strong> Tangible. Impressive. Makes the invisible visible. Lead with it.</li>
+</ol>
+<ol>
+<li><strong>The &quot;regular Joe&quot; self-serve vision</strong> needs:</li>
+</ol>
+<ul>
+<li>Guided review flows (&quot;Does this sound like your business? Yes/No/Edit&quot;)</li>
+<li>Guardrails (auto-reject legally problematic content)</li>
+<li>Templates 90% done — Joe only makes small tweaks</li>
+<li>Support layer for when things break</li>
+<li>This is a SaaS product. It&#x27;s a $10M+ idea if executed. But it&#x27;s a DIFFERENT business than the agency.</li>
+</ul>
+<h3 id="is-this-as-much-value-as-you-think">Is this as much value as you think?</h3>
+<p><strong>Yes.</strong> But only if you ship it. One real client with real results &gt; a perfect system with zero users.</p>
+<h3 id="the-path-forward">The Path Forward</h3>
+<ol>
+<li>Build the Bedrock orchestrator (the &quot;run everything&quot; command)</li>
+<li>Build the Slack-based approval queue</li>
+<li>Run it for your first real client (even at a discount, even as a trade)</li>
+<li>Document the before/after obsessively</li>
+<li>Use that case study to sell the next 5 at full price</li>
+<li>THEN build the self-serve product</li>
+</ol>
+<p><strong>The hard part (infrastructure) is done. The &quot;easy&quot; part (running it for a real human) is what&#x27;s left.</strong></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Docs/BEDROCK-PACKAGE-ASSESSMENT.md</div>
+    </main>
+  </div>
+</body>
+</html>

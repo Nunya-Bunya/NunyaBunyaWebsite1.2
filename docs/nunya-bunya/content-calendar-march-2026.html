@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nunya Bunya — Content Calendar | March 2026 | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Nunya Bunya — Content Calendar | March 2026
+        </div>
+        <h1 class="doc-title">Nunya Bunya — Content Calendar | March 2026</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Clients / nunya-bunya / deliverables / 2026-03-March</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="nunya-bunya-content-calendar-march-2026">Nunya Bunya — Content Calendar | March 2026</h1>
+<h2 id="starter-package-deliverables">Starter Package Deliverables</h2>
+<div class="table-wrap"><table><thead><tr><th>Deliverable</th><th>Quantity</th><th>Status</th></tr></thead><tbody><tr><td>SEO Blog Posts</td><td>4</td><td>Draft</td></tr><tr><td>Social Media Posts</td><td>12 (4 per platform)</td><td>Draft</td></tr><tr><td>Featured Image Prompts</td><td>4 + social variants</td><td>Ready</td></tr><tr><td>Weekly Reports</td><td>4</td><td>Pending (need GSC/GA4 data)</td></tr></tbody></table></div>
+<hr>
+<h2 id="week-1-march-9-15-ai-in-legal-marketing">Week 1: March 9-15 — AI in Legal Marketing</h2>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Channel</th><th>Content</th><th>Status</th></tr></thead><tbody><tr><td>Mon 10</td><td>Blog</td><td>&quot;Why Law Firms Need AI-Powered Marketing in 2026&quot;</td><td>Draft</td></tr><tr><td>Tue 11</td><td>LinkedIn</td><td>Thought leadership: AI leveling the playing field for small firms</td><td>Draft</td></tr><tr><td>Thu 13</td><td>Instagram</td><td>Hook post: &quot;Your competitor&#x27;s secret weapon isn&#x27;t a bigger budget...&quot;</td><td>Draft</td></tr><tr><td>Fri 14</td><td>Facebook</td><td>Community question: &quot;Would you trust AI to write your marketing?&quot;</td><td>Draft</td></tr></tbody></table></div>
+<hr>
+<h2 id="week-2-march-16-22-seo-for-lawyers">Week 2: March 16-22 — SEO for Lawyers</h2>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Channel</th><th>Content</th><th>Status</th></tr></thead><tbody><tr><td>Mon 17</td><td>Blog</td><td>&quot;5 SEO Mistakes Personal Injury Lawyers Make&quot;</td><td>Draft</td></tr><tr><td>Tue 18</td><td>Facebook</td><td>Educational: Common SEO myths for law firms</td><td>Draft</td></tr><tr><td>Thu 20</td><td>LinkedIn</td><td>Data-driven: Why page 2 of Google is a graveyard</td><td>Draft</td></tr><tr><td>Fri 21</td><td>Instagram</td><td>Carousel: 5 quick SEO wins for lawyers</td><td>Draft</td></tr></tbody></table></div>
+<hr>
+<h2 id="week-3-march-23-29-reputation-amp-reviews">Week 3: March 23-29 — Reputation &amp; Reviews</h2>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Channel</th><th>Content</th><th>Status</th></tr></thead><tbody><tr><td>Mon 24</td><td>Blog</td><td>&quot;How to Turn Google Reviews Into Your Best Marketing Tool&quot;</td><td>Draft</td></tr><tr><td>Tue 25</td><td>Instagram</td><td>Review response template + tips</td><td>Draft</td></tr><tr><td>Thu 27</td><td>Facebook</td><td>Discussion: &quot;What&#x27;s the first thing you do before hiring a lawyer?&quot;</td><td>Draft</td></tr><tr><td>Fri 28</td><td>LinkedIn</td><td>Case study: How reviews impact law firm revenue</td><td>Draft</td></tr></tbody></table></div>
+<hr>
+<h2 id="week-4-march-30-april-5-content-strategy">Week 4: March 30 - April 5 — Content Strategy</h2>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Channel</th><th>Content</th><th>Status</th></tr></thead><tbody><tr><td>Mon 31</td><td>Blog</td><td>&quot;The Content Marketing Playbook Every Law Firm Needs&quot;</td><td>Draft</td></tr><tr><td>Tue 1</td><td>LinkedIn</td><td>Strategic: Content types that convert for law firms</td><td>Draft</td></tr><tr><td>Thu 3</td><td>Instagram</td><td>Value post: Monthly content calendar breakdown</td><td>Draft</td></tr><tr><td>Fri 4</td><td>Facebook</td><td>Behind-the-scenes: How we create a month of content in one day</td><td>Draft</td></tr></tbody></table></div>
+<hr>
+<h2 id="publishing-workflow">Publishing Workflow</h2>
+<ol>
+<li><strong>Review drafts</strong> — All blog posts in <code>/blogs/</code>, social posts in <code>/social/</code></li>
+<li><strong>Generate images</strong> — Run prompts from <code>/image-prompts/</code> through your image gen tool</li>
+<li><strong>Approve &amp; schedule</strong> — Upload to WordPress (drafts) and Buffer (drafts)</li>
+<li><strong>Go live</strong> — Publish on the scheduled days above</li>
+</ol>
+<hr>
+<h2 id="delivery-folder-structure">Delivery Folder Structure</h2>
+<pre><code>Client Deliverables/nunya-bunya/2026-03-March/
+  CONTENT-CALENDAR-MARCH-2026.md    &lt;- This file (overview + schedule)
+  blogs/
+    week-1-ai-marketing-law-firms.html
+    week-2-seo-mistakes-personal-injury-lawyers.html
+    week-3-google-reviews-law-firms.html
+    week-4-content-marketing-law-firms.html
+  social/
+    march-2026-social-posts.md       &lt;- All 12 posts organized by week
+  image-prompts/
+    march-2026-image-prompts.md      &lt;- DALL-E/Midjourney prompts per post
+  reports/
+    (generated weekly from reporting_agent.py)</code></pre>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Clients/nunya-bunya/deliverables/2026-03-March/CONTENT-CALENDAR-MARCH-2026.md</div>
+    </main>
+  </div>
+</body>
+</html>

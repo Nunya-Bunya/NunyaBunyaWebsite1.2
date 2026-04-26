@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEN ALEK CONNER - PERSONAL BRAND FOUNDATION | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link active"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-alek-conner">Ben Alek Conner</a> &rsaquo;
+          BEN ALEK CONNER - PERSONAL BRAND FOUNDATION
+        </div>
+        <h1 class="doc-title">BEN ALEK CONNER - PERSONAL BRAND FOUNDATION</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#127908; Ben Alek Conner</span>
+          <span class="doc-path">06-Ben Alek Conner / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="ben-alek-conner-personal-brand-foundation">BEN ALEK CONNER - PERSONAL BRAND FOUNDATION</h1>
+<hr>
+<h2 id="personal-brand-positioning">PERSONAL BRAND POSITIONING</h2>
+<h3 id="who-you-are">WHO YOU ARE</h3>
+<p>Ben Alek Conner is an Australian entrepreneur, filmmaker, and business builder with a multi-faceted brand spanning creative content, legal tech, marketing services, and personal development.</p>
+<h3 id="your-unique-positioning">YOUR UNIQUE POSITIONING</h3>
+<p>&quot;Building multiple profitable businesses while creating films and sharing the journey. Multi-passionate entrepreneur turning chaos into systems, ideas into outcomes.&quot;</p>
+<h3 id="core-disciplines">CORE DISCIPLINES</h3>
+<ol>
+<li><strong>Entrepreneurship</strong> - Building and scaling businesses</li>
+<li><strong>Filmmaking</strong> - Creating feature films and content</li>
+<li><strong>Personal Growth</strong> - Health, fitness, systems, ADHD/mental health</li>
+<li><strong>Marketing</strong> - Content strategy, building audiences</li>
+</ol>
+<hr>
+<h2 id="brand-voice-amp-tone">BRAND VOICE &amp; TONE</h2>
+<h3 id="who-are-you-talking-to">WHO ARE YOU TALKING TO?</h3>
+<ul>
+<li>Aspiring entrepreneurs (want to know how to start/scale)</li>
+<li>Creative professionals (filmmakers, writers, designers)</li>
+<li>Health/fitness enthusiasts (interested in transformation)</li>
+<li>People interested in ADHD, mental health, productivity</li>
+<li>Australian business community</li>
+</ul>
+<h3 id="your-authentic-voice">YOUR AUTHENTIC VOICE</h3>
+<ul>
+<li><strong>Honest</strong> - You share struggles, not just wins</li>
+<li><strong>Systems-oriented</strong> - You break down how things work</li>
+<li><strong>Action-focused</strong> - You actually build things (not just talk)</li>
+<li><strong>Multifaceted</strong> - You&#x27;re not one-dimensional</li>
+<li><strong>Growth-minded</strong> - Always learning, improving, evolving</li>
+</ul>
+<h3 id="messaging-themes">MESSAGING THEMES</h3>
+<ul>
+<li>&quot;Building systems while building businesses&quot;</li>
+<li>&quot;From scattered to structured: My entrepreneurial journey&quot;</li>
+<li>&quot;Making films while scaling agencies&quot;</li>
+<li>&quot;ADHD, health, and high performance&quot;</li>
+<li>&quot;Year 2 goals breakdown&quot; → &quot;Year 3 goals achieved&quot;</li>
+</ul>
+<hr>
+<h2 id="core-content-pillars">CORE CONTENT PILLARS</h2>
+<h3 id="1-entrepreneurship-amp-business">1. ENTREPRENEURSHIP &amp; BUSINESS</h3>
+<ul>
+<li>How to start a business (personal experience)</li>
+<li>Scaling agencies (Nunya Bunya, Conner Law Group)</li>
+<li>Revenue milestones and metrics</li>
+<li>Team building and hiring</li>
+<li>Systems and SOPs</li>
+<li>Business strategies that work</li>
+</ul>
+<p><strong>Content Types:</strong></p>
+<ul>
+<li>Deep dives (YouTube videos)</li>
+<li>Case studies (blog posts)</li>
+<li>Behind-the-scenes (Instagram/TikTok)</li>
+<li>Real numbers and transparency</li>
+<li>Lessons learned</li>
+</ul>
+<hr>
+<h3 id="2-filmmaking-amp-creative">2. FILMMAKING &amp; CREATIVE</h3>
+<ul>
+<li>Feature film production journey</li>
+<li>Screenwriting process</li>
+<li>Behind-the-scenes content (casting, locations, editing)</li>
+<li>Festival submissions and results</li>
+<li>Film industry insights</li>
+<li>Creative problem-solving</li>
+</ul>
+<p><strong>Content Types:</strong></p>
+<ul>
+<li>Production vlogs</li>
+<li>Film breakdowns</li>
+<li>Screenwriting tutorials</li>
+<li>Industry commentary</li>
+<li>Festival documentation</li>
+</ul>
+<hr>
+<h3 id="3-health-fitness-amp-personal-transformation">3. HEALTH, FITNESS &amp; PERSONAL TRANSFORMATION</h3>
+<ul>
+<li>Weight loss journey (120kg → 85-90kg)</li>
+<li>Running/marathon training</li>
+<li>ADHD management</li>
+<li>Mental health and therapy</li>
+<li>Habit systems</li>
+<li>Addiction recovery (smoke-free journey)</li>
+</ul>
+<p><strong>Content Types:</strong></p>
+<ul>
+<li>Transformation updates</li>
+<li>Fitness tutorials</li>
+<li>Mental health discussions</li>
+<li>System breakdowns</li>
+<li>Before/after documentation</li>
+</ul>
+<hr>
+<h3 id="4-productivity-amp-systems">4. PRODUCTIVITY &amp; SYSTEMS</h3>
+<ul>
+<li>Project management</li>
+<li>Content creation systems</li>
+<li>Business automation</li>
+<li>Daily/weekly routines</li>
+<li>Time blocking</li>
+<li>Working around ADHD</li>
+</ul>
+<p><strong>Content Types:</strong></p>
+<ul>
+<li>Tool reviews</li>
+<li>System walkthroughs</li>
+<li>Day-in-the-life videos</li>
+<li>Productivity tips</li>
+<li>Honest struggles and solutions</li>
+</ul>
+<hr>
+<h2 id="platform-strategy">PLATFORM STRATEGY</h2>
+<h3 id="youtube">YOUTUBE</h3>
+<ul>
+<li><strong>Goal:</strong> 25-50K subscribers by end of Year 2</li>
+<li><strong>Content:</strong> Long-form, in-depth content (15-30 min videos)</li>
+<li><strong>Frequency:</strong> 1 video per week</li>
+<li><strong>Topics:</strong> Business, filmmaking, health, systems</li>
+<li><strong>Series:</strong> Feature film production series (BTS documentation)</li>
+<li><strong>Growth:</strong> Behind-the-scenes content, educational value, transparency</li>
+</ul>
+<h3 id="instagram">INSTAGRAM</h3>
+<ul>
+<li><strong>Goal:</strong> 5-10K followers by end of Year 2</li>
+<li><strong>Content:</strong> Short-form (Reels, Stories), behind-the-scenes</li>
+<li><strong>Frequency:</strong> 3-4 posts per week</li>
+<li><strong>Types:</strong> Behind-the-scenes, quotes/insights, personal moments</li>
+<li><strong>Use:</strong> Driving traffic to YouTube, building connection</li>
+</ul>
+<h3 id="linkedin">LINKEDIN</h3>
+<ul>
+<li><strong>Goal:</strong> 2-5K followers, thought leadership position</li>
+<li><strong>Content:</strong> Business insights, lessons learned, entrepreneurship</li>
+<li><strong>Frequency:</strong> 2-3 posts per week</li>
+<li><strong>Types:</strong> Articles, insights, professional journey</li>
+<li><strong>Use:</strong> Reaching business audience, building credibility</li>
+</ul>
+<h3 id="podcast-ben-alek-conner-podcast-launching-early-2027">PODCAST (BEN ALEK CONNER PODCAST LAUNCHING EARLY 2027)</h3>
+<ul>
+<li><strong>Goal:</strong> 12-episode Season 1 by August 2027</li>
+<li><strong>Topics:</strong> Interview guests (entrepreneurs, filmmakers, coaches)</li>
+<li><strong>Format:</strong> Conversational, 45-60 min episodes</li>
+<li><strong>Frequency:</strong> Weekly (starting Jan 2027)</li>
+<li><strong>Use:</strong> Building audience, potential monetization</li>
+</ul>
+<h3 id="blogmedium">BLOG/MEDIUM</h3>
+<ul>
+<li><strong>Goal:</strong> 2-4 long-form posts per month</li>
+<li><strong>Content:</strong> Deep dives on business, systems, filmmaking</li>
+<li><strong>Use:</strong> SEO, evergreen content, portfolio of thinking</li>
+</ul>
+<hr>
+<h2 id="personal-brand-pillars">PERSONAL BRAND PILLARS</h2>
+<h3 id="1-builder">1. BUILDER</h3>
+<ul>
+<li>You build things (businesses, apps, films)</li>
+<li>You don&#x27;t just talk or theorize</li>
+<li>Track record: Nunya Bunya ($35K MRR), Multiple law firms, etc.</li>
+</ul>
+<h3 id="2-transparent">2. TRANSPARENT</h3>
+<ul>
+<li>Share real numbers (revenue, challenges, failures)</li>
+<li>Discuss mental health and personal struggles openly</li>
+<li>Show the messy reality of entrepreneurship</li>
+</ul>
+<h3 id="3-multi-passionate">3. MULTI-PASSIONATE</h3>
+<ul>
+<li>You don&#x27;t fit in one box</li>
+<li>That&#x27;s your strength, not your weakness</li>
+<li>Combining entrepreneurship + filmmaking + health = unique positioning</li>
+</ul>
+<h3 id="4-systemizer">4. SYSTEMIZER</h3>
+<ul>
+<li>Everything can be systematized</li>
+<li>You document your processes</li>
+<li>You share what works (and what doesn&#x27;t)</li>
+</ul>
+<h3 id="5-growth-focused">5. GROWTH-FOCUSED</h3>
+<ul>
+<li>Always learning, improving, evolving</li>
+<li>Your Year 2 goals are ambitious</li>
+<li>Share your journey toward them</li>
+</ul>
+<hr>
+<h2 id="website-structure">WEBSITE STRUCTURE</h2>
+<h3 id="homepage">HOMEPAGE</h3>
+<ul>
+<li>Clear positioning statement</li>
+<li>Quick intro with video</li>
+<li>Main content pillars overview</li>
+<li>Social proof (subscriber counts, business metrics)</li>
+<li>Call to action (subscribe, latest video, contact)</li>
+</ul>
+<h3 id="about">ABOUT</h3>
+<ul>
+<li>Your story (entrepreneurial journey)</li>
+<li>Multi-faceted background (law, film, business)</li>
+<li>Current focus (Year 2 goals)</li>
+<li>Team/collaborators</li>
+<li>Contact info</li>
+</ul>
+<h3 id="businesses">BUSINESSES</h3>
+<ul>
+<li>Nunya Bunya (case study, metrics, growth)</li>
+<li>Conner Law Group (overview, unique positioning)</li>
+<li>Power Portraits (overview)</li>
+<li>Upcoming: Kevlaw AI (product)</li>
+<li>Ben HQ (life operating system concept)</li>
+</ul>
+<h3 id="filmmaking">FILMMAKING</h3>
+<ul>
+<li>Feature films (in production, planning)</li>
+<li>Screenplays (loglines, status)</li>
+<li>Festival submissions and results</li>
+<li>Behind-the-scenes content and photos</li>
+</ul>
+<h3 id="contentblog">CONTENT/BLOG</h3>
+<ul>
+<li>Written long-form content</li>
+<li>Filmmaking insights</li>
+<li>Business breakdowns</li>
+<li>Health/fitness journey</li>
+<li>Systems documentation</li>
+</ul>
+<h3 id="podcast">PODCAST</h3>
+<ul>
+<li>Episode archive</li>
+<li>Guest bios</li>
+<li>Subscribe links</li>
+<li>Latest episode embedded</li>
+</ul>
+<h3 id="contact">CONTACT</h3>
+<ul>
+<li>Email signup for newsletter</li>
+<li>Social media links</li>
+<li>Speaking inquiries</li>
+<li>Collaboration opportunities</li>
+</ul>
+<hr>
+<h2 id="content-calendar-setup">CONTENT CALENDAR SETUP</h2>
+<h3 id="monthly-planning">MONTHLY PLANNING</h3>
+<ul>
+<li>4 YouTube videos (1 per week)</li>
+<li>12-16 Instagram posts/Reels</li>
+<li>8-12 LinkedIn posts</li>
+<li>2-4 blog posts</li>
+<li>1 podcast episode (when launching)</li>
+</ul>
+<h3 id="content-themes">CONTENT THEMES</h3>
+<ul>
+<li><strong>Week 1:</strong> Entrepreneurship/business update</li>
+<li><strong>Week 2:</strong> Filmmaking/creative process</li>
+<li><strong>Week 3:</strong> Health/fitness/systems</li>
+<li><strong>Week 4:</strong> Reflection/lessons learned</li>
+</ul>
+<h3 id="batching-strategy">BATCHING STRATEGY</h3>
+<ul>
+<li>Film 4 YouTube videos in one day (batch filming)</li>
+<li>Repurpose YouTube into multiple Instagram Reels</li>
+<li>Write 2 blog posts at once, space them out</li>
+<li>Create graphics in bulk for social media</li>
+</ul>
+<hr>
+<h2 id="brand-partnerships-amp-collaborations">BRAND PARTNERSHIPS &amp; COLLABORATIONS</h2>
+<h3 id="potential-partners">POTENTIAL PARTNERS</h3>
+<ul>
+<li>Other entrepreneurs (collaborate on content)</li>
+<li>Filmmakers (production support, guest interviews)</li>
+<li>Health/fitness experts (training, nutrition advice)</li>
+<li>ADHD/mental health professionals (educational content)</li>
+<li>Film festival directors and industry</li>
+<li>YouTube creators in overlapping spaces</li>
+</ul>
+<h3 id="partnership-strategy">PARTNERSHIP STRATEGY</h3>
+<ul>
+<li>Cross-promote audiences</li>
+<li>Guest appearances on each other&#x27;s content</li>
+<li>Collaborative projects</li>
+<li>Joint ventures on business ideas</li>
+</ul>
+<hr>
+<h2 id="monetization-strategy-future">MONETIZATION STRATEGY (FUTURE)</h2>
+<h3 id="current-year-2">CURRENT (Year 2)</h3>
+<ul>
+<li>Primary: Business revenue (agencies, law firms)</li>
+<li>Secondary: YouTube ad revenue (once 1K subs + 4K watch hours)</li>
+<li>Organic growth (not actively monetizing personal brand yet)</li>
+</ul>
+<h3 id="future-year-3">FUTURE (Year 3+)</h3>
+<ul>
+<li>YouTube partner program revenue</li>
+<li>Patreon or membership tier</li>
+<li>Sponsorships/brand deals (aligned with values only)</li>
+<li>Online courses (once audience large enough)</li>
+<li>Speaking fees</li>
+<li>Film revenue (festival prizes, distribution)</li>
+<li>Potential book or podcast sponsorships</li>
+</ul>
+<h3 id="ethical-boundaries">ETHICAL BOUNDARIES</h3>
+<ul>
+<li>Only promote products/services you actually use</li>
+<li>No misleading claims about business results</li>
+<li>Transparent about any paid partnerships</li>
+<li>Keep focus on value, not manipulation</li>
+</ul>
+<hr>
+<h2 id="growth-metrics-to-track">GROWTH METRICS TO TRACK</h2>
+<p><strong>YouTube:</strong></p>
+<ul>
+<li>Subscriber count</li>
+<li>Watch time (monthly)</li>
+<li>Avg view duration</li>
+<li>Click-through rate (CTR)</li>
+<li>Subscriber growth rate</li>
+</ul>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>Followers</li>
+<li>Engagement rate</li>
+<li>Reel views</li>
+<li>Story views</li>
+<li>Traffic to link</li>
+</ul>
+<p><strong>LinkedIn:</strong></p>
+<ul>
+<li>Follower count</li>
+<li>Post impressions</li>
+<li>Engagement rate</li>
+<li>Click-through rate</li>
+</ul>
+<p><strong>Blog:</strong></p>
+<ul>
+<li>Monthly unique visitors</li>
+<li>Bounce rate</li>
+<li>Average time on page</li>
+<li>Traffic sources</li>
+</ul>
+<p><strong>Podcast (when launched):</strong></p>
+<ul>
+<li>Total downloads</li>
+<li>Avg downloads per episode</li>
+<li>Listener growth rate</li>
+</ul>
+<hr>
+<h2 id="your-brand-story-in-brief">YOUR BRAND STORY (IN BRIEF)</h2>
+<p><strong>The Elevator Pitch:</strong></p>
+<p>&quot;I&#x27;m Ben Alek Conner. I build multiple profitable businesses—agencies, law firms, digital products—while also making feature films and documenting the journey. My goal is to show other entrepreneurs that it&#x27;s possible to be multi-passionate and successful, while maintaining health and sanity. I share the real numbers, the failures, and the systems that work.&quot;</p>
+<p><strong>The Long Form (2 min):</strong></p>
+<p>&quot;Three years ago, I was burned out, overweight, and smoking. I decided to change everything. I started documenting my journey—building businesses, losing weight, creating films, managing ADHD—all while trying to build authentic systems that actually work.</p>
+<p>Today, I run multiple profitable businesses (Nunya Bunya is at $35K MRR, Conner Law Group spans three firms, Power Portraits does $150K annually). I&#x27;ve also written and am producing my first feature film.</p>
+<p>But more than the wins, I want to share the messy reality: the failures, the mental health challenges, the systems that took months to build, the pivot points that changed everything.</p>
+<p>My mission is simple: Show other entrepreneurs that you can build multiple businesses, create meaningful art, transform your health, and maintain your sanity—if you build the right systems and stay honest about the journey.&quot;</p>
+<hr>
+<h2 id="next-steps">NEXT STEPS</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create/update personal website</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up YouTube channel (if not done)</li>
+<li><span class="cb cb-empty">&#9744;</span> Plan first 12 YouTube videos</li>
+<li><span class="cb cb-empty">&#9744;</span> Create Instagram content strategy</li>
+<li><span class="cb cb-empty">&#9744;</span> Batch-create first month of content</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up analytics tracking</li>
+<li><span class="cb cb-empty">&#9744;</span> Define content calendar</li>
+<li><span class="cb cb-empty">&#9744;</span> Build email newsletter list</li>
+<li><span class="cb cb-empty">&#9744;</span> Document Year 2 goals for content series</li>
+<li><span class="cb cb-empty">&#9744;</span> Plan Feature Film production documentation</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">06-Ben Alek Conner/01-strategy/Documents/BRAND STYLE GUIDE.md</div>
+    </main>
+  </div>
+</body>
+</html>

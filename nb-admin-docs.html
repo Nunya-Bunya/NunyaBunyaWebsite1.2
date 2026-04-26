@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documents | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+  <link rel="stylesheet" href="/nb-admin-style.css">
+  <style>
+    .docs-topbar {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+    }
+    .docs-topbar h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 32px;
+      text-transform: uppercase; letter-spacing: 0.02em;
+    }
+    .docs-topbar h1 span { color: var(--teal); }
+    .docs-search {
+      background: var(--dark2); border: 1px solid var(--subtle); color: var(--white);
+      padding: 12px 20px; border-radius: 10px; font-size: 14px; font-family: var(--font-body);
+      width: 320px; font-weight: 300;
+    }
+    .docs-search:focus { outline: none; border-color: var(--teal); }
+    .docs-search::placeholder { color: #555; }
+
+    .docs-stats {
+      display: flex; gap: 16px; margin-bottom: 32px;
+    }
+    .docs-stat {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 10px;
+      padding: 16px 24px; display: flex; align-items: center; gap: 12px;
+    }
+    .docs-stat .num {
+      font-family: var(--font-heading); font-weight: 900; font-size: 28px; color: var(--teal);
+    }
+    .docs-stat .label {
+      font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    .docs-category {
+      margin-bottom: 32px;
+    }
+    .docs-category-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 0; border-bottom: 1px solid var(--subtle); margin-bottom: 12px;
+      cursor: pointer;
+    }
+    .docs-category-header:hover .cat-title { color: var(--teal); }
+    .cat-title {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      text-transform: uppercase; letter-spacing: 0.04em; transition: color 0.2s;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .cat-count {
+      font-size: 12px; background: rgba(0,229,204,0.12); color: var(--teal);
+      padding: 3px 10px; border-radius: 10px; font-weight: 500; font-family: var(--font-body);
+    }
+    .cat-chevron {
+      font-size: 18px; color: var(--muted); transition: transform 0.2s;
+    }
+    .docs-category.collapsed .cat-chevron { transform: rotate(-90deg); }
+    .docs-category.collapsed .docs-list { display: none; }
+
+    .docs-list {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 8px;
+    }
+    .doc-link {
+      display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+      background: var(--dark2); border: 1px solid transparent; border-radius: 8px;
+      text-decoration: none; color: var(--white); transition: all 0.15s;
+      font-size: 14px; font-weight: 400;
+    }
+    .doc-link:hover {
+      border-color: var(--teal); background: rgba(0,229,204,0.03);
+      transform: translateX(4px);
+    }
+    .doc-link .doc-icon { color: var(--muted); font-size: 16px; flex-shrink: 0; }
+    .doc-link .doc-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .doc-link .doc-path {
+      font-size: 11px; color: var(--muted); font-weight: 300;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;
+    }
+
+    .docs-empty {
+      text-align: center; padding: 40px; color: var(--muted); font-weight: 300;
+    }
+
+    /* Highlight matching text */
+    .highlight { background: rgba(0,229,204,0.25); border-radius: 2px; padding: 0 2px; }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar" id="sidebar"></aside>
+    <main class="admin-main">
+      <div class="docs-topbar">
+        <h1><span>Documents</span></h1>
+        <input type="text" class="docs-search" id="search" placeholder="Search documents..." autofocus>
+      </div>
+
+      <div class="docs-stats" id="stats"></div>
+      <div id="docs-container"></div>
+    </main>
+  </div>
+
+  <script src="/nb-admin-shared.js"></script>
+  <script>
+    // Category display order and styling
+    const CATEGORY_ORDER = [
+      { slug: 'master-plans', label: 'Command Center & Strategy', icon: '&#128640;', color: 'var(--teal)' },
+      { slug: 'ben-hq', label: 'Ben HQ', icon: '&#9670;', color: 'var(--yellow)' },
+      { slug: 'nunya-bunya', label: 'Nunya Bunya', icon: '&#9632;', color: 'var(--magenta)' },
+      { slug: 'power-portraits', label: 'Power Portraits', icon: '&#128247;', color: 'var(--purple)' },
+      { slug: 'pawesome', label: 'Pawesome Dog Walkers', icon: '&#128054;', color: 'var(--teal)' },
+      { slug: 'orca', label: 'ORCA Film Awards', icon: '&#127916;', color: 'var(--yellow)' },
+      { slug: 'conner-law', label: 'Conner Law', icon: '&#9878;', color: 'var(--blue)' },
+      { slug: 'ben-alek-conner', label: 'Ben Alek Conner', icon: '&#127908;', color: 'var(--magenta)' },
+      { slug: 'bella-rhyder', label: 'Bella Rhyder', icon: '&#10024;', color: 'var(--purple)' },
+      { slug: 'operations', label: 'System & Operations', icon: '&#9881;', color: 'var(--muted)' },
+      { slug: 'other', label: 'Other', icon: '&#128196;', color: 'var(--muted)' },
+    ];
+
+    // Priority docs that show first in their category
+    const PRIORITY_DOCS = [
+      'master-actions', 'index', 'daily-playbook', 'master-cron-jobs',
+      'five-year-plan', 'the-operations-manual', 'the-playbook',
+      'source-of-truth', 'orca-source-of-truth', 'agency-os',
+      'master-sops', 'master-budget-tracker', 'agent-registry',
+      'company-control', 'workspace-overview'
+    ];
+
+    let allDocs = [];
+
+    async function init() {
+      const ok = await NB_ADMIN.checkAuth();
+      if (!ok) return;
+      NB_ADMIN.renderSidebar('docs');
+
+      // Load manifest
+      try {
+        const res = await fetch('/docs/manifest.json');
+        allDocs = await res.json();
+      } catch (e) {
+        document.getElementById('docs-container').innerHTML =
+          '<div class="docs-empty">Could not load document manifest.</div>';
+        return;
+      }
+
+      renderStats();
+      renderDocs(allDocs);
+
+      // Search
+      document.getElementById('search').addEventListener('input', (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        if (!q) {
+          renderDocs(allDocs);
+          return;
+        }
+        const filtered = allDocs.filter(d =>
+          d.title.toLowerCase().includes(q) ||
+          d.source.toLowerCase().includes(q) ||
+          d.category_label.toLowerCase().includes(q)
+        );
+        renderDocs(filtered, q);
+      });
+
+      // Handle hash navigation (category jump)
+      if (window.location.hash) {
+        const cat = window.location.hash.slice(1);
+        setTimeout(() => {
+          const el = document.getElementById('cat-' + cat);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+
+    function renderStats() {
+      const cats = {};
+      allDocs.forEach(d => { cats[d.category] = (cats[d.category] || 0) + 1; });
+      const container = document.getElementById('stats');
+      container.innerHTML = `
+        <div class="docs-stat">
+          <span class="num">${allDocs.length}</span>
+          <span class="label">Total Documents</span>
+        </div>
+        <div class="docs-stat">
+          <span class="num">${Object.keys(cats).length}</span>
+          <span class="label">Categories</span>
+        </div>
+      `;
+    }
+
+    function renderDocs(docs, query) {
+      const container = document.getElementById('docs-container');
+      const grouped = {};
+      docs.forEach(d => {
+        if (!grouped[d.category]) grouped[d.category] = [];
+        grouped[d.category].push(d);
+      });
+
+      // Sort docs within each category: priority first, then alphabetical
+      Object.keys(grouped).forEach(cat => {
+        grouped[cat].sort((a, b) => {
+          const aPri = PRIORITY_DOCS.includes(a.slug) ? 0 : 1;
+          const bPri = PRIORITY_DOCS.includes(b.slug) ? 0 : 1;
+          if (aPri !== bPri) return aPri - bPri;
+          return a.title.localeCompare(b.title);
+        });
+      });
+
+      let html = '';
+      CATEGORY_ORDER.forEach(cat => {
+        const items = grouped[cat.slug];
+        if (!items || items.length === 0) return;
+
+        html += `
+          <div class="docs-category" id="cat-${cat.slug}">
+            <div class="docs-category-header" onclick="toggleCat(this)">
+              <div class="cat-title">
+                <span>${cat.icon}</span> ${cat.label}
+                <span class="cat-count">${items.length}</span>
+              </div>
+              <span class="cat-chevron">&#9660;</span>
+            </div>
+            <div class="docs-list">
+              ${items.map(d => {
+                let title = NB_ADMIN.esc(d.title);
+                if (query) {
+                  const re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+                  title = title.replace(re, '<span class="highlight">$1</span>');
+                }
+                const isPriority = PRIORITY_DOCS.includes(d.slug);
+                return `
+                  <a href="/docs/${d.category}/${d.slug}.html" class="doc-link">
+                    <span class="doc-icon">${isPriority ? '&#9733;' : '&#128196;'}</span>
+                    <span class="doc-name">${title}</span>
+                    <span class="doc-path">${NB_ADMIN.esc(d.breadcrumb)}</span>
+                  </a>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      if (!html) {
+        html = '<div class="docs-empty">No documents match your search.</div>';
+      }
+
+      container.innerHTML = html;
+    }
+
+    function toggleCat(header) {
+      const cat = header.parentElement;
+      cat.classList.toggle('collapsed');
+    }
+
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PERSONAL INJURY CLIENT INTAKE FORM | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link active"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#conner-law">Conner Law</a> &rsaquo;
+          PERSONAL INJURY CLIENT INTAKE FORM
+        </div>
+        <h1 class="doc-title">PERSONAL INJURY CLIENT INTAKE FORM</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(74,144,217,0.12);color:#4A90D9">&#9878; Conner Law</span>
+          <span class="doc-path">05-Conner Law / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="personal-injury-client-intake-form">PERSONAL INJURY CLIENT INTAKE FORM</h1>
+<h3 id="conner-injury-law-merkel-amp-conner">Conner Injury Law | Merkel &amp; Conner</h3>
+<p><strong>Part of Conner Law Group | Brisbane, Queensland, Australia</strong></p>
+<hr>
+<blockquote><strong>PRIVACY NOTICE:</strong> The information you provide in this form is collected by Conner Injury Law / Merkel &amp; Conner (as applicable), part of the Conner Law Group, for the purpose of assessing your potential personal injury claim and providing you with legal advice. Your information is handled in accordance with our Privacy Policy and the <em>Privacy Act 1988</em> (Cth) and Australian Privacy Principles. We will not share your personal information with third parties without your consent, except as required to progress your claim (e.g., medical experts, insurers, courts, barristers). You have the right to access and correct your personal information at any time by contacting us directly.</blockquote>
+<hr>
+<p><strong>Referring person / organisation (if applicable):</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p><strong>Date of intake:</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>_</p>
+<p><strong>File number (office use only):</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>_</p>
+<p><strong>Intake solicitor:</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>_</p>
+<p><strong>Firm:</strong> Conner Injury Law / Merkel &amp; Conner <em>(circle)</em></p>
+<p><strong>Initial consultation method:</strong> In-person / Telephone / Video call <em>(circle)</em></p>
+<hr>
+<h2 id="part-a-personal-information">PART A — PERSONAL INFORMATION</h2>
+<p><strong>1. Full legal name:</strong></p>
+<p>First name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong> Middle name(s): <strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong> Surname: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_</strong></p>
+<p><strong>2. Preferred name:</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_</strong></p>
+<p><strong>3. Date of birth:</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong> <strong>Age at date of incident:</strong> <strong></em></strong>____</p>
+<p><strong>4. Gender:</strong> Male / Female / Non-binary / Prefer not to say <em>(circle)</em></p>
+<p><strong>5. Residential address:</strong></p>
+<p>Street address: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Suburb: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong> State: </strong><strong><em></strong><strong></em></strong>_ Postcode: <strong><em></strong><strong></em></strong>____</p>
+<p><strong>Is your postal address the same?</strong> Yes / No <em>(circle)</em></p>
+<p>If no, postal address: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>6. Contact details:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Contact Type</th><th>Number / Address</th><th>Best Time to Contact</th></tr></thead><tbody><tr><td>Mobile</td><td></td><td></td></tr><tr><td>Home phone</td><td></td><td></td></tr><tr><td>Work phone</td><td></td><td></td></tr><tr><td>Email address</td><td></td><td></td></tr></tbody></table></div>
+<p><strong>7. Preferred contact method:</strong> Mobile / Home phone / Email <em>(circle)</em></p>
+<p><strong>8. Is it safe for us to leave a voicemail or send an SMS to your mobile?</strong> Yes / No <em>(circle)</em></p>
+<p><strong>9. Preferred language:</strong> English / Other: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_</strong></p>
+<p><em>Note: If an interpreter is required, please advise us at intake. We will arrange interpreter services at no cost to you.</em></p>
+<p><strong>10. Occupation at the time of the incident:</strong></p>
+<p>Current occupation / job title: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Employer name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Employer address: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Work phone / HR contact: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>11. Employment status at time of incident</strong> <em>(circle one)</em>:</p>
+<p>Full-time employed / Part-time employed / Casual / Self-employed / Unemployed / Retired / Student / Other: <strong><em></strong><strong></em></strong><strong>_</strong></p>
+<p><strong>12. Medicare:</strong></p>
+<p>Do you have a Medicare card? Yes / No <em>(circle)</em></p>
+<p>Medicare card number: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Reference number: </strong><strong><em></strong></em>_</p>
+<p><strong>13. Private health insurance:</strong></p>
+<p>Do you have private health insurance? Yes / No <em>(circle)</em></p>
+<p>Insurer name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Policy number: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<hr>
+<h2 id="part-b-accident-incident-details">PART B — ACCIDENT / INCIDENT DETAILS</h2>
+<p><strong>14. Type of incident</strong> <em>(circle all that apply)</em>:</p>
+<ul>
+<li>Motor vehicle accident (MVA / car accident)</li>
+<li>Motorcycle accident</li>
+<li>Workplace injury / workers&#x27; compensation</li>
+<li>Slip, trip, or fall (public liability)</li>
+<li>Fall from height</li>
+<li>Public liability — other</li>
+<li>Product liability</li>
+<li>Medical negligence / malpractice</li>
+<li>Assault (victim of crime)</li>
+<li>Other: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</li>
+</ul>
+<p><strong>15. Date of incident:</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>_</p>
+<p><strong>16. Approximate time of incident:</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong></em>_</p>
+<p><strong>17. Day of the week:</strong> Monday / Tuesday / Wednesday / Thursday / Friday / Saturday / Sunday <em>(circle)</em></p>
+<p><strong>18. Location of the incident:</strong></p>
+<p>Street address or location description: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Suburb: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ State: </strong><strong><em></strong><strong></em></strong>_ Postcode: <strong><em></strong><strong></em></strong>____</p>
+<p><strong>19. Describe what happened in your own words</strong> <em>(include as much detail as you can — the more specific, the better)</em>:</p>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<p><strong>20. What do you believe caused the incident?</strong></p>
+<hr>
+<hr>
+<hr>
+<p><strong>21. In your view, who was primarily at fault for the incident?</strong> <em>(circle)</em></p>
+<p>Myself only / Entirely another person or party / Shared fault / Not sure</p>
+<p><strong>22. Please explain the basis for your answer to question 21:</strong></p>
+<hr>
+<hr>
+<p><strong>23. Were there any witnesses present at the scene?</strong> Yes / No / Unsure <em>(circle)</em></p>
+<p>If yes:</p>
+<p>Witness 1 — Full name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Phone: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_ Address: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Witness 2 — Full name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Phone: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_ Address: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Witness 3 — Full name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___ <em>(attach additional sheet if required)</em></p>
+<p><strong>24. Was there CCTV or dashcam footage at or near the scene?</strong> Yes / No / Unsure <em>(circle)</em></p>
+<p>Location of CCTV (if known): <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>25. Were any photographs taken at the scene (of injuries, vehicles, location, damage)?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, are copies available? Yes / No <em>(circle)</em></p>
+<hr>
+<h2 id="part-c-motor-vehicle-accident-details">PART C — MOTOR VEHICLE ACCIDENT DETAILS</h2>
+<p><em>Complete this section if the incident was a motor vehicle accident. Otherwise proceed to Part D.</em></p>
+<p><strong>26. Your vehicle:</strong></p>
+<p>Registration number: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Make: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_ Model: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Year: </strong><strong>_</strong></p>
+<p>Your role: Driver / Front seat passenger / Rear seat passenger / Motorcyclist / Cyclist / Pedestrian <em>(circle)</em></p>
+<p>Were you wearing a seatbelt? Yes / No / Not applicable <em>(circle)</em></p>
+<p>Was your vehicle stationary? Yes / No <em>(circle)</em></p>
+<p><strong>27. The other vehicle (if applicable):</strong></p>
+<p>Registration number: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Make: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_ Model: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Driver&#x27;s full name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Phone: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p>Driver&#x27;s address: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Owner&#x27;s full name (if different from driver): <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Owner&#x27;s address (if different): <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>28. Were more than two vehicles involved?</strong> Yes / No <em>(circle)</em></p>
+<p><em>If yes, please attach a separate sheet with the details of all additional vehicles and drivers.</em></p>
+<p><strong>29. Was the incident reported to police?</strong> Yes / No <em>(circle)</em></p>
+<p>Police station: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ QP / Report number: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p>Attending officer name (if known): <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>30. Did you receive a traffic infringement notice in relation to this incident?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, please describe: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>31. Have you lodged a notice of claim or claim with MAIC (Motor Accident Insurance Commission) or the CTP insurer?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, claim number: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Date lodged: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p>Insurer or scheme administrator name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<hr>
+<h2 id="part-d-workplace-injury-details">PART D — WORKPLACE INJURY DETAILS</h2>
+<p><em>Complete this section if the incident was a workplace injury. Otherwise proceed to Part E.</em></p>
+<p><strong>32. Were you at your normal workplace at the time of the injury?</strong> Yes / No <em>(circle)</em></p>
+<p><strong>33. Were you performing a work-related task or travel at the time?</strong> Yes / No <em>(circle)</em></p>
+<p><strong>34. Describe what you were doing at the time of the injury:</strong></p>
+<hr>
+<hr>
+<p><strong>35. Was the injury caused by a co-worker, machinery, equipment, or a substance?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, describe: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>36. Did you report the injury to your employer or supervisor?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, when: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ To whom: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p><strong>37. Was an incident report or injury register entry completed?</strong> Yes / No / Unsure <em>(circle)</em></p>
+<p><strong>38. Have you lodged a WorkCover Queensland claim?</strong> Yes / No <em>(circle)</em></p>
+<p>WorkCover claim number: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Date lodged: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p>WorkCover case manager name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Phone: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p><strong>39. Are you currently still employed with the same employer?</strong> Yes / No / Terminated <em>(circle)</em></p>
+<p>If terminated, date of termination: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Reason given: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p><strong>40. Have you been issued a work capacity certificate (medical certificate) certifying you unfit for work?</strong> Yes / No <em>(circle)</em></p>
+<p>Certifying doctor: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Certified period: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p>Current certified capacity: No work / Reduced hours / Modified duties / Full duties <em>(circle)</em></p>
+<p><strong>41. Have you had any prior WorkCover Queensland claims?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, describe: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<hr>
+<h2 id="part-e-injuries">PART E — INJURIES</h2>
+<p><strong>42. Describe all injuries you sustained</strong> <em>(list all injuries, including those you consider minor)</em>:</p>
+<div class="table-wrap"><table><thead><tr><th>Body Part / Area Injured</th><th>Nature / Description of Injury</th><th>Severity</th></tr></thead><tbody><tr><td></td><td></td><td>Mild / Moderate / Severe</td></tr><tr><td></td><td></td><td>Mild / Moderate / Severe</td></tr><tr><td></td><td></td><td>Mild / Moderate / Severe</td></tr><tr><td></td><td></td><td>Mild / Moderate / Severe</td></tr><tr><td></td><td></td><td>Mild / Moderate / Severe</td></tr></tbody></table></div>
+<p><strong>43. Did you receive any treatment at the scene?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, describe: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>44. Did you attend a hospital emergency department or hospital?</strong> Yes / No <em>(circle)</em></p>
+<p>Hospital name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Date(s) of attendance: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Were you admitted as an inpatient? Yes / No <em>(circle)</em></p>
+<p>If yes, length of admission: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Hospital reference or UR number (if known): <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>45. Treating general practitioner (GP):</strong></p>
+<p>GP name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Practice name: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p>Address: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Phone: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p>Date first consulted after the incident: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>46. Treating specialists and allied health providers:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Provider Name</th><th>Practice / Hospital</th><th>Specialty</th><th>First Consulted</th><th>Last Consulted</th></tr></thead><tbody><tr><td></td><td></td><td>Orthopaedic surgeon</td><td></td><td></td></tr><tr><td></td><td></td><td>Neurologist</td><td></td><td></td></tr><tr><td></td><td></td><td>Physiotherapist</td><td></td><td></td></tr><tr><td></td><td></td><td>Psychologist</td><td></td><td></td></tr><tr><td></td><td></td><td>Chiropractor</td><td></td><td></td></tr><tr><td></td><td></td><td>Occupational therapist</td><td></td><td></td></tr><tr><td></td><td></td><td>Other:</td><td></td><td></td></tr></tbody></table></div>
+<p><strong>47. Are you currently still receiving medical treatment?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, describe current treatment: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<hr>
+<p><strong>48. Has any surgery been performed as a result of your injuries?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, describe procedure: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Surgeon: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Hospital: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p>Date of surgery: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>49. Is further surgery anticipated or recommended?</strong> Yes / No / Unsure <em>(circle)</em></p>
+<p>Details: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>50. Have you had any diagnostic imaging?</strong> <em>(circle all that apply)</em>:</p>
+<p>X-ray / CT scan / MRI / Ultrasound / Bone scan / Other: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Can you provide copies of imaging results and reports? Yes / No / Some <em>(circle)</em></p>
+<p><strong>51. Describe your current symptoms and ongoing complaints:</strong></p>
+<hr>
+<hr>
+<hr>
+<p><strong>52. How have your injuries affected your daily life?</strong> <em>(include impacts on work, family, domestic tasks, recreation, sport, sleep, and mental health)</em>:</p>
+<hr>
+<hr>
+<hr>
+<hr>
+<p><strong>53. Have you returned to work following the incident?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, in what capacity: Full duties / Modified duties / Different role / Part-time only <em>(circle)</em></p>
+<p>Date of return: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ If not yet returned, when expected (if known): </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p><strong>54. Do you have any pre-existing injury, illness, or condition affecting the same body parts injured in this incident?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, describe: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<hr>
+<h2 id="part-f-employment-impact-amp-financial-losses">PART F — EMPLOYMENT IMPACT &amp; FINANCIAL LOSSES</h2>
+<p><strong>55. Have you lost income as a result of your injuries?</strong> Yes / No <em>(circle)</em></p>
+<p>Period of income loss: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Approximate gross weekly income (prior to injury): $</strong><strong><em></strong></em>___</p>
+<p>Has income loss been partially offset by WorkCover payments, sick leave, or other payments? Yes / No <em>(circle)</em></p>
+<p>If yes, describe: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>56. Have you incurred out-of-pocket expenses as a result of your injuries?</strong> Yes / No <em>(circle)</em></p>
+<p>Expenses may include: medical consultation fees, prescription costs, travel to appointments, home help, aids and equipment, modifications to home or vehicle.</p>
+<p>Approximate total out-of-pocket expenses to date: $<strong><em></strong><strong></em></strong>___</p>
+<p><strong>57. Do you anticipate ongoing financial losses or additional expenses in the future?</strong> Yes / No / Unsure <em>(circle)</em></p>
+<p>Details: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>58. Has anyone else (family member, carer, support person) provided care or assistance to you as a result of your injuries?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, describe: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<hr>
+<h2 id="part-g-insurance-information">PART G — INSURANCE INFORMATION</h2>
+<p><strong>59. At-fault party&#x27;s insurer (if known):</strong></p>
+<p>Insurer name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Policy number / Claim number: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Contact name / phone: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p><strong>60. Your own insurer (if relevant — e.g., comprehensive motor vehicle insurance):</strong></p>
+<p>Insurer name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Policy type: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Policy number: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_ Contact: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>61. Have you made any insurance claim in relation to this incident?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, insurer: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Claim number: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_ Outcome (if any): <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>62. Has any insurer, employer, or third party made you a settlement offer or payment in relation to this incident?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, amount offered: $<strong><em></strong><strong></em></strong><strong><em></strong><strong> Date: </strong><strong></em></strong><strong><em></strong><strong></em></strong> Did you accept? Yes / No <em>(circle)</em></p>
+<p>If accepted, please provide details: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<hr>
+<h2 id="part-h-prior-legal-claims">PART H — PRIOR LEGAL CLAIMS</h2>
+<p><strong>63. Have you ever made a personal injury claim before (separate from this matter)?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, describe: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>64. Have you previously engaged a solicitor for this specific matter?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes:</p>
+<p>Firm name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Solicitor name: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Address: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Approximate date representation ended: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p>Reason for leaving previous firm: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>65. Are there any outstanding legal costs, liens, or charges over your claim from a previous solicitor?</strong> Yes / No / Unsure <em>(circle)</em></p>
+<p><strong>66. Have you signed any documents (including with an insurer, employer, or prior solicitor) in relation to this matter?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, describe: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<hr>
+<h2 id="part-i-limitation-period-alert">PART I — LIMITATION PERIOD ALERT</h2>
+<p><strong>67. Date of incident</strong> <em>(for cross-reference)</em>: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>68. Are you aware of any time limit applying to your claim?</strong> Yes / No / Unsure <em>(circle)</em></p>
+<p><strong>69. Have you received any correspondence from an insurer or third party referencing a time limit or deadline?</strong> Yes / No <em>(circle)</em></p>
+<p>If yes, please bring all such correspondence to your appointment immediately.</p>
+<blockquote><strong>SOLICITOR NOTE — LIMITATION PERIODS:</strong> Under the <em>Limitation of Actions Act 1974</em> (Qld), the general limitation period for personal injury claims is three (3) years from the date the cause of action arose (generally the date of injury). However, WorkCover Queensland claims and MAIC / CTP claims have different and in some cases shorter limitation periods. The <em>Workers&#x27; Compensation and Rehabilitation Act 2003</em> (Qld) imposes strict notice and claim timeframes. Confirm the applicable limitation period for each matter immediately at intake and record the expiry date prominently on the file.</blockquote>
+<hr>
+<h2 id="part-j-documents-provided-at-intake">PART J — DOCUMENTS PROVIDED AT INTAKE</h2>
+<p><em>Please tick all documents provided or available:</em></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Photographs of injuries, vehicles, scene, or damage</li>
+<li><span class="cb cb-empty">&#9744;</span> Queensland Police report or QP number</li>
+<li><span class="cb cb-empty">&#9744;</span> WorkCover Queensland correspondence or claim documents</li>
+<li><span class="cb cb-empty">&#9744;</span> MAIC / CTP claim documents</li>
+<li><span class="cb cb-empty">&#9744;</span> Medical reports, discharge summaries, or clinical notes</li>
+<li><span class="cb cb-empty">&#9744;</span> Imaging results (X-rays, MRI, CT)</li>
+<li><span class="cb cb-empty">&#9744;</span> Payslips, tax returns, or other proof of income</li>
+<li><span class="cb cb-empty">&#9744;</span> Receipts or invoices for medical or other expenses</li>
+<li><span class="cb cb-empty">&#9744;</span> Insurance correspondence (any insurer)</li>
+<li><span class="cb cb-empty">&#9744;</span> Documents received from a prior solicitor or costs agreement</li>
+<li><span class="cb cb-empty">&#9744;</span> Witness contact details or statements</li>
+<li><span class="cb cb-empty">&#9744;</span> CCTV or dashcam footage</li>
+<li><span class="cb cb-empty">&#9744;</span> Incident or injury report (workplace or other)</li>
+<li><span class="cb cb-empty">&#9744;</span> Other: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</li>
+</ul>
+<hr>
+<h2 id="part-k-authority-and-signature">PART K — AUTHORITY AND SIGNATURE</h2>
+<p><strong>70. Authority to Obtain Medical Records</strong></p>
+<p>I, <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___ [full legal name], authorise and direct all treating medical practitioners, hospitals, general practitioners, allied health providers, and other treating professionals to release to [Firm Name], Conner Law Group, and their nominated agents, copies of all medical records, clinical notes, reports, imaging, and other documents relating to my health and treatment, for the purpose of investigating and progressing my personal injury claim.</p>
+<p>This authority extends to records both before and after the date of the incident described in this form, to the extent relevant to my claim.</p>
+<p>Signature: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong> Date: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>71. Authority to Liaise with Insurer / WorkCover / MAIC</strong></p>
+<p>I authorise [Firm Name], Conner Law Group, to communicate and correspond with MAIC, WorkCover Queensland, and/or any relevant insurer or third party on my behalf in relation to my claim, and to receive and provide information as necessary to progress this matter.</p>
+<p>Signature: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong> Date: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>72. Privacy Acknowledgement</strong></p>
+<p>I acknowledge that I have been provided with the privacy notice at the top of this form. I consent to the collection, storage, use, and disclosure of my personal information as described, for the purpose of receiving legal services in relation to my personal injury matter.</p>
+<p>Signature: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong> Date: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>73. Declaration of Accuracy</strong></p>
+<p>I declare that the information I have provided in this form is true and correct to the best of my knowledge and belief. I understand that providing false or misleading information may affect the outcome of my claim and may result in my representation being terminated.</p>
+<p>Signature: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong> Date: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<hr>
+<h2 id="part-l-solicitor-assessment-notes">PART L — SOLICITOR ASSESSMENT NOTES</h2>
+<p><em>(Office use only — not to be provided to client)</em></p>
+<p><strong>Initial liability assessment:</strong> Strong / Arguable / Weak / Insufficient information at this time <em>(circle)</em></p>
+<p><strong>Initial quantum estimate:</strong> $<strong><em></strong><strong></em></strong><strong><em></strong><strong> to $</strong><strong></em></strong><strong><em></strong><strong></em></strong></p>
+<p><strong>Limitation period expiry date:</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>Days remaining to limitation expiry:</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>Applicable scheme / legislation:</strong></p>
+<p>WorkCover QLD / MAIC (CTP) / Public Liability (<em>Civil Liability Act 2003</em> (Qld)) / Medical negligence / Other: <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<p><strong>Initial recommendation:</strong> Proceed / Require further information / Refer to alternative practice / Decline <em>(circle)</em></p>
+<p><strong>Basis for recommendation:</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<hr>
+<p><strong>Responsible solicitor:</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong>_ Date: </strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>_</p>
+<p><strong>Next action required:</strong> <strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong><strong><em></strong><strong></em></strong>___</p>
+<hr>
+<p><em>File completed form in: MASTER WORKSPACE/01-Conner Law Group/Clients/[ClientSurname]/Intake/</em></p>
+<p><em>Save as: <code>YYYY-MM-DD<em>[CIL/MC]</em>ClientIntake<em>[ClientSurname]</em>[Initial].pdf</code></em></p>
+<p><em>Conner Law Group | Brisbane, Queensland, Australia | CONFIDENTIAL — Client Document</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">05-Conner Law/01-strategy/Documents/CLIENT INTAKE FORM.md</div>
+    </main>
+  </div>
+</body>
+</html>

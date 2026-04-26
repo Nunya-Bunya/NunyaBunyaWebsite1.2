@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skills, Agents &amp; Automation — Full Audit | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link active"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-hq">Ben HQ</a> &rsaquo;
+          Skills, Agents &amp; Automation — Full Audit
+        </div>
+        <h1 class="doc-title">Skills, Agents &amp; Automation — Full Audit</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#9670; Ben HQ</span>
+          <span class="doc-path">00-Ben HQ</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="skills-agents-amp-automation-full-audit">Skills, Agents &amp; Automation — Full Audit</h1>
+<p><strong>Date:</strong> 2026-04-18</p>
+<p><strong>Purpose:</strong> Complete inventory of what Ben has, what&#x27;s new, where the gaps are, and how/when/why to use each piece.</p>
+<hr>
+<h2 id="part-1-what-you-already-have-the-empire">PART 1: WHAT YOU ALREADY HAVE (The Empire)</h2>
+<h3 id="a-nunyabunya-custom-agents-68-agents-9-pipelines">A. NunyaBunya Custom Agents — 68 Agents, 9 Pipelines</h3>
+<p><strong>Location:</strong> <code>00-Ben HQ/NunyaBunyaAgents/</code></p>
+<p><strong>Status:</strong> Production-grade, designed for 100+ clients</p>
+<p>These are YOUR agents. Built by you, for your business. They run on your infrastructure (Supabase + n8n + Hetzner). Nothing downloaded competes with these for your specific use case — they ARE the business.</p>
+<div class="table-wrap"><table><thead><tr><th>Category</th><th>Agents</th><th>What They Do</th></tr></thead><tbody><tr><td><strong>Lead Gen &amp; Sales</strong> (7)</td><td>GMaps Lead Gen, SERP Scraper, Apify Scraper, Lead Qualifier, Upwork Scrape &amp; Apply, Create Proposal, Instantly Autoreply</td><td>Find leads, qualify them, write proposals, auto-reply to cold email responses</td></tr><tr><td><strong>Strategy &amp; Planning</strong> (3)</td><td>Strategy Agent (AI CMO), Content Marketing Agent, Knowledge Base</td><td>Design 90-day strategies, content plans, client memory system</td></tr><tr><td><strong>Content Production</strong> (5)</td><td>Content Generator, Content Machine, Short Form Video, Social Media Agent, Jump Cut Editor</td><td>Full campaigns from one topic, video scripts, platform-optimized posts, auto-edit video</td></tr><tr><td><strong>SEO</strong> (3)</td><td>SEO Agent, SEO Opportunity Finder, Local SEO Tool</td><td>Weekly SEO analysis, keyword opportunities, local landing pages at scale</td></tr><tr><td><strong>Ads</strong> (1)</td><td>Ads Optimization Agent</td><td>Monitor Google/Meta ads, flag underperformers, generate new copy</td></tr><tr><td><strong>Reputation</strong> (1)</td><td>Reputation Agent</td><td>Monitor reviews across platforms, auto-respond</td></tr><tr><td><strong>Reporting</strong> (2)</td><td>Reporting Agent, GBP Metrics Collector</td><td>Automated client reports, daily GBP data collection</td></tr><tr><td><strong>Client Onboarding</strong> (3)</td><td>Foundation Package Builder, First Client Package, Foundations Builder</td><td>Zero-to-signed-client, branded ops docs, portfolio-wide setup</td></tr><tr><td><strong>Foundational Research</strong> (8)</td><td>Audience, Competitor, Market, Pain Points, Journey, Brand Audit, Analytics, Business Overview</td><td>Run once per client — builds the complete strategic foundation</td></tr><tr><td><strong>Strategic Docs</strong> (9)</td><td>Brand Voice, Personas, Messaging, Positioning, Offers, Conversion, Funnel, Visual Identity, Growth Strategy</td><td>Run once per client — builds every strategic document</td></tr><tr><td><strong>Visual Assets</strong> (3)</td><td>Social Graphics, Blog Graphics, Logo Package Builder</td><td>AI-generated branded graphics, logos, mockups</td></tr><tr><td><strong>Website &amp; Case Study</strong> (1)</td><td>Website Redesign + Case Study Agent</td><td>End-to-end: audit → content → photos → build → case study</td></tr><tr><td><strong>Brand Bible</strong> (21)</td><td>12 Phase 1 + 6 Phase 2 + 3 Phase 3 agents</td><td>Multi-agent pipeline producing comprehensive Brand Bible</td></tr></tbody></table></div>
+<p><strong>9 Major Pipelines:</strong></p>
+<ol>
+<li>New Client Onboarding</li>
+<li>Weekly Content Production</li>
+<li>Weekly SEO Cycle</li>
+<li>Ads Monitoring &amp; Optimization</li>
+<li>Reputation Monitoring &amp; GBP Analytics</li>
+<li>Weekly Client Reporting</li>
+<li>Lead Generation Sprint</li>
+<li>New Business Acquisition</li>
+<li>Full Brand Setup (17 documents)</li>
+</ol>
+<hr>
+<h3 id="b-existing-skill-libraries">B. Existing Skill Libraries</h3>
+<p><strong>Location:</strong> <code>00-Ben HQ/ai-tools/marketing-skills/</code></p>
+<h4 id="ai-marketing-claude-14-skills-5-subagents">AI-Marketing-Claude (14 skills + 5 subagents)</h4>
+<p>The <code>/market audit &lt;url&gt;</code> orchestrator with 5 parallel subagents scoring content, conversion, competitive, technical, and strategy dimensions on a 0-100 scale.</p>
+<p><strong>Skills:</strong> market-audit, market-copy, market-emails, market-social, market-landing, market-funnel, market-competitors, market-ads, market-seo, market-brand, market-launch, market-proposal, market-report, market-report-pdf</p>
+<h4 id="marketingskills-36-standalone-skills">MarketingSkills (36 standalone skills)</h4>
+<p>Comprehensive collection covering SEO (6), CRO (6), Content &amp; Copy (4), Paid &amp; Measurement (4), Growth &amp; Retention (3), Sales &amp; GTM (3), Strategy (10).</p>
+<p>Includes 51 zero-dependency Node.js CLI tools and API integration guides.</p>
+<hr>
+<h3 id="c-live-infrastructure-running-on-hetzner">C. Live Infrastructure (Running on Hetzner)</h3>
+<p><strong>Location:</strong> <code>00-Ben HQ/marketing-stack/</code></p>
+<p><strong>Cost:</strong> ~$16 AUD/month replacing $1,000+/month SaaS</p>
+<div class="table-wrap"><table><thead><tr><th>Service</th><th>Domain</th><th>Replaces</th></tr></thead><tbody><tr><td>Mautic 5</td><td>mautic.nunyabunya.com.au</td><td>Mailchimp, HubSpot email</td></tr><tr><td>Twenty CRM</td><td>crm.nunyabunya.com.au</td><td>Salesforce, HubSpot CRM</td></tr><tr><td>Matomo 5</td><td>analytics.nunyabunya.com.au</td><td>Google Analytics</td></tr><tr><td>Metabase</td><td>reports.nunyabunya.com.au</td><td>Looker, Data Studio</td></tr><tr><td>Shlink</td><td>go.nunyabunya.com.au</td><td>Bitly</td></tr><tr><td>n8n</td><td>n8n.nunyabunya.com</td><td>Zapier</td></tr><tr><td>Traefik v3</td><td>—</td><td>Nginx, Cloudflare tunnels</td></tr></tbody></table></div>
+<hr>
+<h3 id="d-live-n8n-workflows-18">D. Live n8n Workflows (18+)</h3>
+<p>Tweet poster, tweet approval, tweet engagement, tweet metrics, blog-to-tweets, organic engine, Slack inbox + reply, ORCA article publish, BFK payment/survey/upgrade, upsell payment/checkout, voice memo processing, CRM updates, Phase 4 bundle.</p>
+<hr>
+<h3 id="e-live-automation-scripts-50">E. Live Automation Scripts (50+)</h3>
+<p>Daily outreach, social posting, Twitter engagement finder, weekly content machine, Metabase provisioning, BFK server, health checks, deployment, monitoring, daily dashboard to Slack.</p>
+<hr>
+<h2 id="part-2-whatx27s-new-downloaded-resources">PART 2: WHAT&#x27;S NEW (Downloaded Resources)</h2>
+<p>All downloaded to: <code>00-Ben HQ/ai-tools/open-source-arsenal/</code></p>
+<h3 id="1-ai-marketing-skills-by-eric-siu-21-skills">1. AI Marketing Skills by Eric Siu — 21 Skills</h3>
+<p><strong>Repo:</strong> <code>ai-marketing-skills/</code></p>
+<p><strong>Why it matters:</strong> These are battle-tested skills from a marketing agency founder. Different philosophy from your existing skills — focused on expert panel scoring, statistical experimentation, and recursive quality improvement.</p>
+<div class="table-wrap"><table><thead><tr><th>Skill</th><th>What It Does</th><th>New Capability?</th></tr></thead><tbody><tr><td><strong>growth-engine</strong></td><td>A/B testing framework with statistical analysis, auto-promotes winners to playbook</td><td>YES — You have no experimentation framework</td></tr><tr><td><strong>sales-pipeline</strong></td><td>Intent scoring, 5-layer suppression, dead deal resurrection, trigger prospecting</td><td>PARTIAL — Overlaps with your Lead Qualifier but adds suppression + resurrection</td></tr><tr><td><strong>content-ops</strong></td><td>7-10 expert panel scoring, recursive iteration to 90+ quality</td><td>YES — Your agents generate but don&#x27;t score/iterate</td></tr><tr><td><strong>outbound-engine</strong></td><td>Cold email infrastructure audit, ICP discovery, expert-scored copy</td><td>PARTIAL — You have Instantly integration but not the scoring layer</td></tr><tr><td><strong>seo-ops</strong></td><td>GSC-powered keyword intelligence, decay detection, competitor gaps</td><td>PARTIAL — Your SEO agents do keywords but not decay detection</td></tr><tr><td><strong>finance-ops</strong></td><td>CFO briefing from QuickBooks, burn rate, runway, scenario modeling</td><td>YES — You have zero financial analysis</td></tr><tr><td><strong>revenue-intelligence</strong></td><td>Call transcript analysis, content-to-revenue attribution</td><td>YES — You have no revenue attribution</td></tr><tr><td><strong>conversion-ops</strong></td><td>CRO audit (8 dimensions), survey-to-lead-magnet engine</td><td>PARTIAL — You have conversion strategy agent but not the survey engine</td></tr><tr><td><strong>podcast-ops</strong></td><td>Podcast-to-15-content-pieces pipeline with viral scoring</td><td>YES — Directly useful for BAC YouTube/podcast</td></tr><tr><td><strong>team-ops</strong></td><td>Performance audit (&quot;Elon Algorithm&quot;), meeting action extraction</td><td>NOT NEEDED YET — Solo operation</td></tr><tr><td><strong>sales-playbook</strong></td><td>Value-based pricing, pre-call briefings, call scoring</td><td>YES — You have proposals but not pricing strategy</td></tr><tr><td><strong>autoresearch</strong></td><td>Karpathy-style optimization loops, 50+ variants per element</td><td>YES — Powerful for landing page optimization</td></tr><tr><td><strong>deck-generator</strong></td><td>AI slide deck generation with style presets</td><td>PARTIAL — You have pitch deck agent already</td></tr><tr><td><strong>yt-competitive-analysis</strong></td><td>YouTube outlier detection, packaging pattern extraction</td><td>YES — Useful for BAC YouTube strategy</td></tr><tr><td><strong>x-longform-post</strong></td><td>Long-form X posts with 24-pattern AI slop detector</td><td>YES — Your Twitter automation doesn&#x27;t have quality gates</td></tr><tr><td><strong>clone-site</strong></td><td>Pixel-perfect Next.js website cloning</td><td>NICE TO HAVE — Edge case tool</td></tr><tr><td><strong>lead-dossier</strong></td><td>Multi-source account research, tech stack detection</td><td>PARTIAL — Your lead gen scrapes but doesn&#x27;t build dossiers</td></tr><tr><td><strong>short-form-pipeline</strong></td><td>YouTube → vertical clips with face detection + captions</td><td>YES — Your jump-cut editor is simpler</td></tr><tr><td><strong>video-caption-generator</strong></td><td>Google Drive → transcribe → social captions</td><td>PARTIAL — Overlaps with content production</td></tr><tr><td><strong>video-clip-pipeline</strong></td><td>Long-form → highlight clips with quality gate</td><td>YES — Adds scored pipeline your system lacks</td></tr><tr><td><strong>content-eval</strong></td><td>Ideation + 7-expert panel scoring + 4-week schedule</td><td>YES — Your content generation doesn&#x27;t score ideas first</td></tr></tbody></table></div>
+<h3 id="2-local-seo-skills-38-skills">2. Local SEO Skills — 38 Skills</h3>
+<p><strong>Repo:</strong> <code>localseoskills/</code></p>
+<p><strong>Why it matters:</strong> This is a complete local SEO operating system. Your SEO agents do keyword research and landing pages, but this covers GBP optimization, citation management, review strategy, geogrid analysis, AI search optimization, and 12 tool integrations you don&#x27;t have.</p>
+<p><strong>Key capabilities you&#x27;re missing:</strong></p>
+<ul>
+<li>GBP optimization, posting strategy, suspension recovery, API automation</li>
+<li>Geogrid analysis (ranking heatmaps across geographic areas)</li>
+<li>Citation building and NAP consistency auditing</li>
+<li>LocalBusiness schema implementation</li>
+<li>Service Area Business (SAB) specific optimization</li>
+<li>Multi-location management at scale</li>
+<li>AI search optimization (Google AI Overviews, ChatGPT, Perplexity)</li>
+<li>Apple Business Connect + Bing Places optimization</li>
+<li>Local link building strategies</li>
+<li>Persistent brief system (compounding work history per client)</li>
+</ul>
+<h3 id="3-awesome-n8n-workflows-curated-collection">3. Awesome n8n Workflows — Curated Collection</h3>
+<p><strong>Repo:</strong> <code>awesome-n8n-workflows/</code></p>
+<p>Reference list of community-built n8n workflows. Browse for patterns you can adapt.</p>
+<h3 id="4-n8n-automation-templates-5000-5000-templates">4. n8n Automation Templates 5000 — 5,000+ Templates</h3>
+<p><strong>Repo:</strong> <code>n8n-automation-templates-5000/</code></p>
+<p>Massive importable template library. Search by category (AI, CRM, marketing, social) and import directly into your n8n instance.</p>
+<h3 id="5-getcito-ai-search-optimization">5. GetCito — AI Search Optimization</h3>
+<p><strong>Repo:</strong> <code>getcito/</code></p>
+<p>First open-source tool for optimizing how your brands appear in AI search results (Perplexity, ChatGPT, Google AI Overview). Forward-looking SEO.</p>
+<h3 id="6-anthropic-courses-official-learning">6. Anthropic Courses — Official Learning</h3>
+<p><strong>Repo:</strong> <code>courses/</code></p>
+<p>Prompt engineering, tool use, agents, and API patterns from Anthropic. Level up your Claude API usage.</p>
+<h3 id="7-curated-lists-reference">7. Curated Lists (Reference)</h3>
+<ul>
+<li><code>awesome-marketing/</code> — General marketing tools list</li>
+<li><code>awesome-ai-seo/</code> — AI SEO tools and resources</li>
+<li><code>awesome-gtm-engineering/</code> — Go-to-market engineering</li>
+</ul>
+<h3 id="8-12-factor-agents-methodology-read-this">8. 12 Factor Agents — Methodology (READ THIS)</h3>
+<p><strong>Repo:</strong> <code>12-factor-agents/</code></p>
+<p>Principles for building production-quality AI agents. Read before scaling your NunyaBunya pipeline further.</p>
+<hr>
+<h2 id="part-3-gap-analysis">PART 3: GAP ANALYSIS</h2>
+<h3 id="critical-gaps-high-impact-you-have-nothing-covering-this">CRITICAL GAPS (High impact, you have nothing covering this)</h3>
+<div class="table-wrap"><table><thead><tr><th>Gap</th><th>Impact</th><th>Solution</th></tr></thead><tbody><tr><td><strong>No quality scoring on generated content</strong></td><td>Your agents generate content but never score it. Bad content goes straight to approval queue.</td><td>Adopt <code>content-ops</code> expert panel pattern. Add scoring layer between generation and approval.</td></tr><tr><td><strong>No experimentation framework</strong></td><td>You can&#x27;t A/B test anything systematically. No way to know what&#x27;s working vs what isn&#x27;t.</td><td>Adopt <code>growth-engine</code>. Wire it into your existing Matomo + Mautic data.</td></tr><tr><td><strong>No revenue attribution</strong></td><td>You track metrics but can&#x27;t map content → revenue. Can&#x27;t prove ROI to clients.</td><td>Adopt <code>revenue-intelligence</code> attribution mapper. Connect Matomo + Mautic + Twenty CRM.</td></tr><tr><td><strong>No financial analysis</strong></td><td>No burn rate, runway, or scenario modeling. Flying blind financially.</td><td>Adopt <code>finance-ops</code>. Even basic CFO briefings would be valuable.</td></tr><tr><td><strong>No AI search optimization</strong></td><td>Your SEO covers Google traditional only. AI Overviews now appear on 50%+ of local searches.</td><td>Adopt <code>getcito</code> + LocalSEO <code>ai-local-search</code> skill. This is where search is going.</td></tr><tr><td><strong>No GBP optimization system</strong></td><td>You collect GBP metrics but don&#x27;t optimize profiles, posts, or categories.</td><td>Adopt LocalSEO <code>gbp-optimization</code> + <code>gbp-posts</code> skills.</td></tr><tr><td><strong>No citation management</strong></td><td>NAP consistency is a top local ranking factor. You&#x27;re not auditing or building citations.</td><td>Adopt LocalSEO <code>local-citations</code> skill.</td></tr><tr><td><strong>No content idea scoring before production</strong></td><td>You generate content without evaluating whether the idea is worth producing. Waste of API calls.</td><td>Adopt <code>content-eval</code> to score ideas BEFORE feeding them to your content agents.</td></tr></tbody></table></div>
+<h3 id="moderate-gaps-you-have-partial-coverage">MODERATE GAPS (You have partial coverage)</h3>
+<div class="table-wrap"><table><thead><tr><th>Gap</th><th>Current State</th><th>Upgrade</th></tr></thead><tbody><tr><td><strong>Cold email quality</strong></td><td>Instantly integration works, but copy isn&#x27;t scored</td><td>Add <code>outbound-engine</code> scoring layer</td></tr><tr><td><strong>SEO decay detection</strong></td><td>You find new keywords but don&#x27;t detect declining pages</td><td>Add <code>seo-ops</code> decay detection</td></tr><tr><td><strong>Video production pipeline</strong></td><td>Jump-cut editor removes silences, but no clip extraction or captioning</td><td>Add <code>short-form-pipeline</code> for YouTube → Reels/TikTok</td></tr><tr><td><strong>Lead enrichment</strong></td><td>You scrape leads but don&#x27;t build full dossiers</td><td>Add <code>lead-dossier</code> for deeper account research</td></tr><tr><td><strong>Landing page optimization</strong></td><td>You have conversion strategy agent but no iterative testing</td><td>Add <code>autoresearch</code> optimization loops</td></tr><tr><td><strong>Twitter content quality</strong></td><td>Auto-posting works but no AI slop detection</td><td>Add <code>x-longform-post</code> humanizer check</td></tr><tr><td><strong>YouTube strategy</strong></td><td>No competitive analysis for BAC channel</td><td>Add <code>yt-competitive-analysis</code></td></tr><tr><td><strong>LocalBusiness schema</strong></td><td>Not implementing structured data on client sites</td><td>Add LocalSEO <code>local-schema</code> skill</td></tr><tr><td><strong>Geogrid analysis</strong></td><td>No geographic ranking heatmaps</td><td>Add LocalSEO <code>geogrid-analysis</code></td></tr><tr><td><strong>Review strategy</strong></td><td>Reputation agent monitors but doesn&#x27;t optimize review generation</td><td>Add LocalSEO <code>review-management</code> strategy</td></tr></tbody></table></div>
+<h3 id="not-gaps-youx27re-already-covered">NOT GAPS (You&#x27;re already covered)</h3>
+<p>These areas you have WELL covered — don&#x27;t waste time duplicating:</p>
+<ul>
+<li>Content generation (5 agents)</li>
+<li>Social media posting &amp; scheduling</li>
+<li>Email sequences &amp; nurture funnels</li>
+<li>Client onboarding &amp; setup</li>
+<li>Brand Bible / brand documentation</li>
+<li>Proposal generation</li>
+<li>SEO keyword research &amp; local landing pages</li>
+<li>Competitive analysis</li>
+<li>Audience/market research</li>
+<li>Visual asset production</li>
+<li>Client reporting</li>
+</ul>
+<hr>
+<h2 id="part-4-how-when-amp-why-to-use-each-resource">PART 4: HOW, WHEN &amp; WHY TO USE EACH RESOURCE</h2>
+<h3 id="tier-1-use-immediately-this-week">TIER 1 — USE IMMEDIATELY (This week)</h3>
+<h4 id="1-content-quality-scoring-content-ops-content-eval">1. Content Quality Scoring (content-ops + content-eval)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/content-ops/</code> + <code>ai-marketing-skills/content-eval/</code></p>
+<p><strong>WHY:</strong> Your agents produce content, but you have no quality gate. Right now, mediocre blog posts and social captions go straight to your approval queue, and YOU are the quality gate. That doesn&#x27;t scale.</p>
+<p><strong>WHEN:</strong> Insert between content generation and approval queue. Every piece of content gets scored before it reaches you.</p>
+<p><strong>HOW TO INTEGRATE:</strong></p>
+<ol>
+<li>After your Content Generator / Social Media Agent / Content Machine produces output</li>
+<li>Pass output through <code>content-ops</code> expert panel (7-10 simulated experts score it)</li>
+<li>If score &lt; 90, it auto-iterates (up to 3 rounds)</li>
+<li>Only content scoring 90+ reaches your approval queue</li>
+<li>Save scoring data to Supabase for pattern learning</li>
+</ol>
+<p><strong>Result:</strong> You only review good content. Bad content gets caught and improved automatically.</p>
+<hr>
+<h4 id="2-content-idea-scoring-content-eval">2. Content Idea Scoring (content-eval)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/content-eval/</code></p>
+<p><strong>WHY:</strong> You&#x27;re generating content from keywords and topics without evaluating whether those topics are worth producing. Some blog posts will get zero traffic because the idea was bad, not the execution.</p>
+<p><strong>WHEN:</strong> BEFORE your weekly content production pipeline runs. Score ideas first, then only produce the winners.</p>
+<p><strong>HOW TO INTEGRATE:</strong></p>
+<ol>
+<li>Generate 20-30 content ideas per client from your existing sources</li>
+<li>Run through <code>content-eval</code> 7-expert panel</li>
+<li>Only ideas scoring 85+ enter your Content Generator pipeline</li>
+<li>Kill list gets logged (so you don&#x27;t revisit dead ideas)</li>
+<li>Winners get a 4-week production schedule</li>
+</ol>
+<p><strong>Result:</strong> Every piece of content you produce has a reason to exist.</p>
+<hr>
+<h4 id="3-xtwitter-quality-gate-x-longform-post">3. X/Twitter Quality Gate (x-longform-post)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/x-longform-post/</code></p>
+<p><strong>WHY:</strong> Your Twitter automation posts content hourly across 4 brands. If any of those tweets read like obvious AI slop, it damages brand credibility. The 24-pattern humanizer check catches AI-sounding patterns before posting.</p>
+<p><strong>WHEN:</strong> Add as a filter in your n8n tweet poster workflow, between generation and posting.</p>
+<p><strong>HOW TO INTEGRATE:</strong></p>
+<ol>
+<li>After your blog-to-tweets or tweet generation step</li>
+<li>Run the 24-pattern AI slop detector</li>
+<li>If patterns detected → rewrite automatically</li>
+<li>Only humanized tweets pass through to posting</li>
+<li>Log detection rate to track improvement over time</li>
+</ol>
+<p><strong>Result:</strong> Your auto-posted tweets actually sound human.</p>
+<hr>
+<h3 id="tier-2-use-this-month-april-may-2026">TIER 2 — USE THIS MONTH (April-May 2026)</h3>
+<h4 id="4-growth-engine-experimentation-framework">4. Growth Engine (Experimentation Framework)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/growth-engine/</code></p>
+<p><strong>WHY:</strong> You have 18 plays in THE PLAYBOOK but no way to know which ones are actually working. The Growth Engine creates proper A/B experiments with statistical analysis, auto-promotes winners, and suggests next experiments.</p>
+<p><strong>WHEN:</strong> After your plays have been running for 2+ weeks and you have baseline data from Matomo/Mautic.</p>
+<p><strong>HOW TO INTEGRATE:</strong></p>
+<ol>
+<li>Define experiments for each active play (e.g., &quot;Does email subject line A or B get more opens?&quot;)</li>
+<li>Connect to Matomo (page views, conversions) and Mautic (open rates, click rates) for data</li>
+<li>Log data points daily via your n8n workflows</li>
+<li>Growth Engine auto-scores experiments and promotes winners to a living playbook</li>
+<li>Weekly scorecard posted to Slack #alerts</li>
+</ol>
+<p><strong>Result:</strong> Data-driven decisions instead of gut feelings. You stop doing things that don&#x27;t work.</p>
+<hr>
+<h4 id="5-ai-search-optimization-getcito-localseo-ai-local-search">5. AI Search Optimization (GetCito + LocalSEO ai-local-search)</h4>
+<p><strong>Source:</strong> <code>getcito/</code> + <code>localseoskills/ai-local-search/</code></p>
+<p><strong>WHY:</strong> Over 50% of local searches now show AI Overviews. If NB, PP, and client businesses aren&#x27;t optimized for AI search, they&#x27;re invisible to a growing share of searchers. This is where SEO is heading — get ahead now.</p>
+<p><strong>WHEN:</strong> After your traditional SEO is running (which it is). Layer this on top.</p>
+<p><strong>HOW TO INTEGRATE:</strong></p>
+<ol>
+<li>Run GetCito audit on all your live sites (NB, PP, Pawesome, ORCA)</li>
+<li>Identify how each brand appears (or doesn&#x27;t) in AI search results</li>
+<li>Use LocalSEO <code>ai-local-search</code> skill to optimize: entity clarity, content structure, web presence breadth</li>
+<li>Add AI search visibility checks to your weekly SEO cycle</li>
+<li>Track changes over time in Matomo + GetCito</li>
+</ol>
+<p><strong>Result:</strong> Your brands show up in Perplexity, ChatGPT search, and Google AI Overview — not just Google&#x27;s blue links.</p>
+<hr>
+<h4 id="6-gbp-optimization-localseo-skills">6. GBP Optimization (LocalSEO skills)</h4>
+<p><strong>Source:</strong> <code>localseoskills/gbp-optimization/</code> + <code>localseoskills/gbp-posts/</code></p>
+<p><strong>WHY:</strong> You collect GBP metrics daily with your GBP Metrics Collector, but you&#x27;re not ACTING on them. GBP optimization (categories, attributes, photos, Q&amp;A, posts) directly impacts map pack ranking.</p>
+<p><strong>WHEN:</strong> Now — for Power Portraits and Pawesome Dog Walkers (both are local businesses that live or die by local search).</p>
+<p><strong>HOW TO INTEGRATE:</strong></p>
+<ol>
+<li>Load <code>gbp-optimization</code> skill, run audit on PP and Pawesome GBP profiles</li>
+<li>Optimize categories, attributes, business descriptions, photos</li>
+<li>Set up <code>gbp-posts</code> cadence (weekly GBP posts with keywords)</li>
+<li>Wire GBP posting into your n8n weekly content workflow</li>
+<li>Track map pack position changes via your existing GBP Metrics Collector</li>
+</ol>
+<p><strong>Result:</strong> PP and Pawesome rank higher in Google Maps. More calls, more bookings.</p>
+<hr>
+<h4 id="7-citation-management-localseo">7. Citation Management (LocalSEO)</h4>
+<p><strong>Source:</strong> <code>localseoskills/local-citations/</code></p>
+<p><strong>WHY:</strong> NAP (Name, Address, Phone) consistency across directories is a top-5 local ranking factor. If PP or Pawesome have inconsistent or missing listings across Yellow Pages, True Local, Yelp, etc., it hurts rankings.</p>
+<p><strong>WHEN:</strong> After GBP optimization. Do a citation audit, then build/fix citations.</p>
+<p><strong>HOW TO INTEGRATE:</strong></p>
+<ol>
+<li>Run citation audit for PP and Pawesome</li>
+<li>Identify inconsistencies and missing listings</li>
+<li>Build Tier 1 citations first (Google, Apple, Bing, Facebook, Yelp)</li>
+<li>Then Tier 2-3 (industry-specific, local directories)</li>
+<li>Log all citations in a tracking sheet</li>
+</ol>
+<p><strong>Result:</strong> Clean, consistent presence across all directories. Better local rankings.</p>
+<hr>
+<h4 id="8-revenue-attribution-revenue-intelligence">8. Revenue Attribution (revenue-intelligence)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/revenue-intelligence/</code></p>
+<p><strong>WHY:</strong> When you land your first NB retainer client, they&#x27;ll ask &quot;what am I getting for $3,500/month?&quot; You need to show content → lead → revenue attribution. Without this, you can&#x27;t prove ROI.</p>
+<p><strong>WHEN:</strong> As soon as you have paying clients. Set up the attribution pipeline now so data is collecting from day one.</p>
+<p><strong>HOW TO INTEGRATE:</strong></p>
+<ol>
+<li>Connect Matomo (traffic source → page → conversion)</li>
+<li>Connect Mautic (email → click → action)</li>
+<li>Connect Twenty CRM (lead → deal → revenue)</li>
+<li>Map content pieces to closed deals using first-touch/multi-touch models</li>
+<li>Generate attribution reports showing &quot;this blog post generated $X in revenue&quot;</li>
+</ol>
+<p><strong>Result:</strong> You can prove ROI to clients. Retention goes up. Upsells become easy.</p>
+<hr>
+<h3 id="tier-3-use-when-relevant-situational">TIER 3 — USE WHEN RELEVANT (Situational)</h3>
+<h4 id="9-podcast-to-everything-podcast-ops">9. Podcast-to-Everything (podcast-ops)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/podcast-ops/</code></p>
+<p><strong>WHEN:</strong> When BAC YouTube channel is producing regular long-form content (2 videos/month target).</p>
+<p><strong>WHY:</strong> One 30-minute video becomes 15-20 content pieces (clips, threads, newsletters, blog posts, quote cards).</p>
+<p><strong>HOW:</strong> Feed YouTube transcript → get cross-platform content package with viral scoring.</p>
+<h4 id="10-short-form-video-pipeline-short-form-pipeline">10. Short-Form Video Pipeline (short-form-pipeline)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/short-form-pipeline/</code></p>
+<p><strong>WHEN:</strong> When you have long-form video content to repurpose (BAC YouTube, client videos).</p>
+<p><strong>WHY:</strong> Your jump-cut editor removes silences but doesn&#x27;t extract clips, add captions, or crop for vertical.</p>
+<p><strong>HOW:</strong> YouTube URL → auto-extract best clips → vertical crop with face detection → burn captions → upload to Reels/TikTok/Shorts.</p>
+<h4 id="11-youtube-competitive-analysis-yt-competitive-analysis">11. YouTube Competitive Analysis (yt-competitive-analysis)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/yt-competitive-analysis/</code></p>
+<p><strong>WHEN:</strong> Before planning BAC YouTube content strategy each month.</p>
+<p><strong>WHY:</strong> Identifies what&#x27;s working for competitors (outlier videos with 2x+ average views) and extracts their title/thumbnail patterns.</p>
+<p><strong>HOW:</strong> Feed competitor channel handles → get outlier detection + packaging patterns → apply to your thumbnails and titles.</p>
+<h4 id="12-finance-ops-finance-ops">12. Finance Ops (finance-ops)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/finance-ops/</code></p>
+<p><strong>WHEN:</strong> Monthly, or whenever you need to understand your financial position.</p>
+<p><strong>WHY:</strong> You&#x27;re running 6+ businesses with no financial analysis. Burn rate, runway, and scenario modeling prevent surprises.</p>
+<p><strong>HOW:</strong> Export QuickBooks/Xero data → get CFO briefing with anomaly detection, burn rate, 12-month projections.</p>
+<h4 id="13-sales-playbook-sales-playbook">13. Sales Playbook (sales-playbook)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/sales-playbook/</code></p>
+<p><strong>WHEN:</strong> Before any sales call for NB retainer clients.</p>
+<p><strong>WHY:</strong> Moves deals from &quot;$500/month maybe&quot; to &quot;$3,500/month yes.&quot; Value-based pricing framework with pre-call briefings.</p>
+<p><strong>HOW:</strong> Input prospect domain → get competitive data, value calculations, conversation hooks, tiered pricing proposals.</p>
+<h4 id="14-autoresearch-landing-page-optimization">14. Autoresearch (Landing Page Optimization)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/autoresearch/</code></p>
+<p><strong>WHEN:</strong> When a landing page isn&#x27;t converting and you want to optimize it without manual A/B testing.</p>
+<p><strong>WHY:</strong> Generates 50+ variants per element, scores with expert panel, evolves winners through multiple rounds.</p>
+<p><strong>HOW:</strong> Feed landing page HTML → get optimized version + full experiment log showing what changed and why.</p>
+<h4 id="15-lead-dossier-deep-account-research">15. Lead Dossier (Deep Account Research)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/lead-dossier/</code></p>
+<p><strong>WHEN:</strong> For high-value prospects where you want to personalize outreach beyond basic scraping.</p>
+<p><strong>WHY:</strong> Your lead gen scrapes names/emails/phones but doesn&#x27;t analyze tech stack, hiring signals, or news.</p>
+<p><strong>HOW:</strong> Input company domain → get structured dossier with website analysis, tech stack, hiring signals, funding news.</p>
+<h4 id="16-clone-site-website-cloning">16. Clone Site (Website Cloning)</h4>
+<p><strong>Source:</strong> <code>ai-marketing-skills/clone-site/</code></p>
+<p><strong>WHEN:</strong> When a client says &quot;I want my site to look like [competitor]&quot; or when you need to quickly prototype a design.</p>
+<p><strong>WHY:</strong> Pixel-perfect Next.js clone in minutes instead of hours of design work.</p>
+<p><strong>HOW:</strong> Input target URL → get complete Next.js project with extracted design tokens and downloaded assets.</p>
+<hr>
+<h3 id="tier-4-reference-amp-learning-ongoing">TIER 4 — REFERENCE &amp; LEARNING (Ongoing)</h3>
+<h4 id="17-12-factor-agents">17. 12 Factor Agents</h4>
+<p><strong>Source:</strong> <code>12-factor-agents/</code></p>
+<p><strong>WHEN:</strong> Before your next major agent architecture decision.</p>
+<p><strong>WHY:</strong> Principles for building production-quality agents. Your 68-agent system would benefit from reviewing these patterns.</p>
+<p><strong>HOW:</strong> Read through, identify which principles you&#x27;re already following and which you&#x27;re violating.</p>
+<h4 id="18-anthropic-courses">18. Anthropic Courses</h4>
+<p><strong>Source:</strong> <code>courses/</code></p>
+<p><strong>WHEN:</strong> When you want to improve your Claude API usage.</p>
+<p><strong>WHY:</strong> Official patterns for prompt engineering, tool use, and agent design.</p>
+<p><strong>HOW:</strong> Work through the notebooks. Apply patterns to your agent directives.</p>
+<h4 id="19-localseo-full-skill-set-38-skills">19. LocalSEO Full Skill Set (38 skills)</h4>
+<p><strong>Source:</strong> <code>localseoskills/</code></p>
+<p><strong>WHEN:</strong> Whenever you&#x27;re doing local SEO work for any client.</p>
+<p><strong>WHY:</strong> Comprehensive local SEO operating system with persistent briefs per location.</p>
+<p><strong>HOW:</strong> Use the dispatch system to load only the skills you need for the task at hand.</p>
+<h4 id="20-n8n-template-libraries">20. n8n Template Libraries</h4>
+<p><strong>Source:</strong> <code>awesome-n8n-workflows/</code> + <code>n8n-automation-templates-5000/</code></p>
+<p><strong>WHEN:</strong> When building new n8n workflows.</p>
+<p><strong>WHY:</strong> Don&#x27;t reinvent patterns. Search these for working examples first.</p>
+<p><strong>HOW:</strong> Browse by category, find relevant template, import and adapt.</p>
+<h4 id="21-curated-lists">21. Curated Lists</h4>
+<p><strong>Source:</strong> <code>awesome-marketing/</code>, <code>awesome-ai-seo/</code>, <code>awesome-gtm-engineering/</code></p>
+<p><strong>WHEN:</strong> When researching new tools or approaches.</p>
+<p><strong>WHY:</strong> Pre-curated lists save hours of Googling.</p>
+<p><strong>HOW:</strong> Browse when you need inspiration or alternatives.</p>
+<hr>
+<h2 id="part-5-tools-to-self-host-on-hetzner-future">PART 5: TOOLS TO SELF-HOST ON HETZNER (Future)</h2>
+<p>These aren&#x27;t repos to clone locally — they&#x27;re Docker services to add to your marketing stack when the time is right:</p>
+<div class="table-wrap"><table><thead><tr><th>Tool</th><th>Stars</th><th>What It Replaces</th><th>When to Deploy</th></tr></thead><tbody><tr><td><strong>Postiz</strong></td><td>28.8k</td><td>Mixpost (maybe)</td><td>When you&#x27;re ready to fight Meta&#x27;s Developer App review process</td></tr><tr><td><strong>Langfuse</strong></td><td>25k</td><td>Nothing (new capability)</td><td>When your Claude API costs need monitoring — SOON</td></tr><tr><td><strong>Formbricks</strong></td><td>12k</td><td>Typeform</td><td>When you need more survey/form power than Mautic forms</td></tr><tr><td><strong>Listmonk</strong></td><td>19.5k</td><td>Mautic (lightweight)</td><td>Only if Mautic feels too heavy for simple newsletters</td></tr><tr><td><strong>Chatwoot</strong></td><td>28.5k</td><td>Intercom</td><td>When clients need live chat support</td></tr><tr><td><strong>Documenso</strong></td><td>12.6k</td><td>DocuSign</td><td>When you&#x27;re signing enough contracts to justify setup</td></tr><tr><td><strong>Dub</strong></td><td>23.4k</td><td>Shlink (upgraded)</td><td>When you need conversion attribution beyond click tracking</td></tr><tr><td><strong>SEOnaut</strong></td><td>686</td><td>Screaming Frog</td><td>When you want automated technical SEO audits</td></tr></tbody></table></div>
+<p><strong>Priority deploy:</strong> Langfuse (you need API cost visibility NOW) and SEOnaut (free technical audits for all sites).</p>
+<hr>
+<h2 id="part-6-integration-roadmap">PART 6: INTEGRATION ROADMAP</h2>
+<h3 id="week-1-now-quality-gates">Week 1 (Now): Quality Gates</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Add content scoring layer between Content Generator → Approval Queue</li>
+<li><span class="cb cb-empty">&#9744;</span> Add Twitter humanizer check to n8n tweet poster workflow</li>
+<li><span class="cb cb-empty">&#9744;</span> Add content idea scoring before weekly content production</li>
+</ul>
+<h3 id="week-2-3-local-seo">Week 2-3: Local SEO</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Run GBP optimization audit on PP and Pawesome</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up GBP posting cadence in n8n</li>
+<li><span class="cb cb-empty">&#9744;</span> Run citation audit for PP and Pawesome</li>
+<li><span class="cb cb-empty">&#9744;</span> Build Tier 1 citations</li>
+</ul>
+<h3 id="week-4-attribution-amp-experimentation">Week 4: Attribution &amp; Experimentation</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Set up revenue attribution pipeline (Matomo → Mautic → Twenty CRM)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create first growth experiments for active Playbook plays</li>
+<li><span class="cb cb-empty">&#9744;</span> Deploy Langfuse on Hetzner for API cost monitoring</li>
+</ul>
+<h3 id="month-2-ai-search-amp-advanced">Month 2: AI Search &amp; Advanced</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Run GetCito audit on all live sites</li>
+<li><span class="cb cb-empty">&#9744;</span> Implement AI search optimization recommendations</li>
+<li><span class="cb cb-empty">&#9744;</span> Add decay detection to SEO cycle</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up financial analysis pipeline</li>
+</ul>
+<h3 id="ongoing-as-relevant">Ongoing: As Relevant</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Podcast-to-Everything when BAC YouTube is producing</li>
+<li><span class="cb cb-empty">&#9744;</span> Short-form pipeline when you have long-form video</li>
+<li><span class="cb cb-empty">&#9744;</span> Sales playbook before retainer sales calls</li>
+<li><span class="cb cb-empty">&#9744;</span> Lead dossiers for high-value prospects</li>
+</ul>
+<hr>
+<h2 id="part-7-file-locations-quick-reference">PART 7: FILE LOCATIONS QUICK REFERENCE</h2>
+<pre><code>00-Ben HQ/
+├── ai-tools/
+│   ├── marketing-skills/              ← Your existing skill libraries
+│   │   ├── ai-marketing-claude/       ← 14 skills + 5 subagents
+│   │   ├── marketingskills/           ← 36 standalone skills
+│   │   └── awesome-n8n-templates/     ← 43 n8n reference workflows
+│   └── open-source-arsenal/           ← NEW: Downloaded repos
+│       ├── ai-marketing-skills/       ← 21 Eric Siu skills (USE THESE)
+│       ├── localseoskills/            ← 38 local SEO skills (USE THESE)
+│       ├── n8n-automation-templates-5000/  ← 5000+ importable templates
+│       ├── awesome-n8n-workflows/     ← Curated n8n workflow list
+│       ├── 12-factor-agents/          ← Agent architecture principles (READ)
+│       ├── courses/                   ← Anthropic official courses (LEARN)
+│       ├── getcito/                   ← AI search optimization tool
+│       ├── awesome-marketing/         ← Reference list
+│       ├── awesome-ai-seo/            ← Reference list
+│       └── awesome-gtm-engineering/   ← Reference list
+
+00-Ben HQ/
+├── NunyaBunyaAgents/                  ← YOUR 68 custom agents
+│   ├── Directives/                    ← 120+ agent specs
+│   └── Execution/                     ← Python scripts
+├── marketing-stack/                   ← Docker stack on Hetzner
+│   └── marketing-stack/               ← Docker infrastructure
+│       └── scripts/                   ← 50+ automation scripts + n8n workflows</code></pre>
+<hr>
+<h2 id="summary-the-bottom-line">SUMMARY: The Bottom Line</h2>
+<p><strong>What you have:</strong> 68 custom agents, 50+ skills, 18+ n8n workflows, full self-hosted marketing stack, 50+ automation scripts. This is more marketing automation than most agencies with 20 employees.</p>
+<p><strong>What you&#x27;re missing:</strong> Quality gates on your output, experimentation framework, revenue attribution, AI search optimization, GBP optimization, citation management, and financial analysis.</p>
+<p><strong>The pattern:</strong> You&#x27;re excellent at GENERATING content and BUILDING infrastructure. The gap is in MEASURING quality and PROVING results. The downloaded resources fill exactly that gap.</p>
+<p><strong>One sentence:</strong> Your engine produces content at scale — now add the quality controls and measurement systems that turn output into outcomes.</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">00-Ben HQ/SKILLS-AND-AGENTS-AUDIT.md</div>
+    </main>
+  </div>
+</body>
+</html>

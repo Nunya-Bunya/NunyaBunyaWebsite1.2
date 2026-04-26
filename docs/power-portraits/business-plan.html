@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POWER PORTRAITS — BUSINESS PLAN | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link active"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#power-portraits">Power Portraits</a> &rsaquo;
+          POWER PORTRAITS — BUSINESS PLAN
+        </div>
+        <h1 class="doc-title">POWER PORTRAITS — BUSINESS PLAN</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#128247; Power Portraits</span>
+          <span class="doc-path">02-Power Portraits / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="power-portraits-business-plan">POWER PORTRAITS — BUSINESS PLAN</h1>
+<p><strong>Your Image. Your Power.</strong></p>
+<p><em>ABN 48 890 965 530 | Sole Trader | Brisbane, Queensland, Australia</em></p>
+<p><em>Prepared by Ben Alek Conner, Founder</em></p>
+<p><em>April 2026</em></p>
+<hr>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-executive-summary">Executive Summary</a></li>
+<li><a href="#2-business-overview">Business Overview</a></li>
+<li><a href="#3-market-analysis">Market Analysis</a></li>
+<li><a href="#4-services--pricing">Services &amp; Pricing</a></li>
+<li><a href="#5-marketing--growth-strategy">Marketing &amp; Growth Strategy</a></li>
+<li><a href="#6-operations">Operations</a></li>
+<li><a href="#7-financial-plan">Financial Plan</a></li>
+<li><a href="#8-growth-roadmap">Growth Roadmap</a></li>
+</ol>
+<hr>
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+<p>Power Portraits is a location-based portrait photography studio operating across Brisbane and South East Queensland, founded by Ben Alek Conner. We exist to serve creative professionals — actors, musicians, solopreneurs, and corporate teams — who understand that a portrait is not a photograph but a declaration; that the image which precedes you into every room, every inbox, every casting call, is doing work on your behalf whether you&#x27;ve considered it or not.</p>
+<p>The Brisbane portrait market is crowded at its extremes: budget operators cycling clients through factory-lit sessions on one end, and agency-facing commercial studios charging rates that exclude independent creatives on the other. Power Portraits occupies the deliberate middle — premium in execution, accessible in pricing, and personal in a way that neither extreme can replicate.</p>
+<p>We offer three individual tiers and a corporate programme, ranging from $350 to $5,000+. Our blended average sits at approximately $530 per individual session and $3,500 per corporate engagement. Year 1 revenue is projected between $90,000 and $123,000 from 150–200 sessions, scaling to $280,000–$320,000 by Year 3 as referral networks mature and corporate accounts compound.</p>
+<p>The business operates as a sole trader under ABN 48 890 965 530, with no fixed studio — an intentional choice. Brisbane&#x27;s architecture, light, and landscapes are the studio. Our infrastructure runs on self-hosted open-source tools (Twenty CRM, Cal.com, Mautic, Matomo) to minimise recurring SaaS costs and maintain full ownership of client data.</p>
+<p><strong>Break-even point:</strong> 4 sessions per month.</p>
+<hr>
+<h2 id="2-business-overview">2. Business Overview</h2>
+<h3 id="21-mission">2.1 Mission</h3>
+<p>To give creative professionals in South East Queensland portraits that carry the weight of their ambition — images so precise, so deliberate, that they become inseparable from the person they depict.</p>
+<h3 id="22-vision">2.2 Vision</h3>
+<p>To build Brisbane&#x27;s most respected portrait studio for people whose work demands that their image be as considered as their craft; and, in time, to establish Power Portraits as a name synonymous with portraiture that serves ambition rather than vanity.</p>
+<h3 id="23-values">2.3 Values</h3>
+<p><strong>Intentionality over Volume.</strong> We do not chase throughput. Every session is architected around the individual — their industry, their aspirations, the specific rooms they need their portrait to enter. We would rather photograph four people brilliantly than forty people adequately.</p>
+<p><strong>Craft as Discipline.</strong> The camera is the instrument; the portrait is the composition. We invest continuously in technique, in lighting knowledge, in the study of how human faces communicate authority, warmth, and presence. The learning never concludes.</p>
+<p><strong>Authenticity Without Apology.</strong> We capture who you are at your sharpest — not a sanitised corporate fiction, not a filtered fantasy, but the version of you that makes people pay attention. Retouching serves the subject; it never replaces them.</p>
+<p><strong>Relationship Before Revenue.</strong> Clients are collaborators. The best portrait emerges from trust — from a session where the subject feels seen, not processed. Repeat bookings and referrals are the natural consequence of this philosophy, not the goal that distorts it.</p>
+<p><strong>Sovereignty of Tools.</strong> Where possible, we self-host our business infrastructure. Client data belongs to us and our clients, not to a SaaS vendor&#x27;s retention algorithm. This is a quiet commitment, but a firm one.</p>
+<h3 id="24-legal-structure">2.4 Legal Structure</h3>
+<ul>
+<li><strong>Structure:</strong> Sole Trader</li>
+<li><strong>ABN:</strong> 48 890 965 530</li>
+<li><strong>Registered Name:</strong> Ben Alek Conner trading as Power Portraits</li>
+<li><strong>Domain:</strong> powerportraitsphotography.com</li>
+<li><strong>Location:</strong> Brisbane, QLD — location-based, no fixed studio</li>
+<li><strong>Insurance:</strong> Public liability and professional indemnity (required before first session)</li>
+</ul>
+<h3 id="25-brand-identity">2.5 Brand Identity</h3>
+<div class="table-wrap"><table><thead><tr><th>Element</th><th>Specification</th></tr></thead><tbody><tr><td><strong>Primary Colour — Ink</strong></td><td><code>#0F0F0F</code></td></tr><tr><td><strong>Secondary Colour — Parchment</strong></td><td><code>#F5F0E8</code></td></tr><tr><td><strong>Accent Colour — Antique Brass</strong></td><td><code>#B08D57</code></td></tr><tr><td><strong>Display Font</strong></td><td>Cormorant Garamond</td></tr><tr><td><strong>Body Font</strong></td><td>Inter</td></tr><tr><td><strong>Data Font</strong></td><td>JetBrains Mono</td></tr></tbody></table></div>
+<p>The visual identity is restrained and architectural — dark grounds, warm neutrals, brass accents that suggest permanence without ostentation. The typography pairs a classical serif display face with a clean sans-serif body, grounding literary elegance in modern readability.</p>
+<hr>
+<h2 id="3-market-analysis">3. Market Analysis</h2>
+<h3 id="31-the-brisbane-portrait-market">3.1 The Brisbane Portrait Market</h3>
+<p>Brisbane&#x27;s population exceeds 2.6 million, with South East Queensland approaching 3.8 million. The city&#x27;s creative and professional economy has grown substantially in recent years, driven by infrastructure investment, interstate migration, and the 2032 Olympic Games pipeline. LinkedIn adoption among Australian professionals continues to climb — and with it, the demand for professional imagery that performs in digital contexts.</p>
+<p>The portrait photography market in Brisbane can be segmented into four broad categories:</p>
+<div class="table-wrap"><table><thead><tr><th>Segment</th><th>Typical Pricing</th><th>Characteristics</th></tr></thead><tbody><tr><td><strong>Budget Operators</strong></td><td>$80–$200</td><td>Mini-sessions, natural light only, minimal retouching, high volume</td></tr><tr><td><strong>Mid-Range Generalists</strong></td><td>$200–$500</td><td>Wedding/family photographers who offer headshots as a secondary service</td></tr><tr><td><strong>Premium Specialists</strong></td><td>$400–$1,000</td><td>Dedicated portrait/headshot studios with refined technique and branding</td></tr><tr><td><strong>Commercial Studios</strong></td><td>$1,500–$5,000+</td><td>Agency-facing, serving advertising and editorial clients exclusively</td></tr></tbody></table></div>
+<p>Power Portraits operates firmly in the premium specialist tier, with corporate offerings that compete at the lower end of commercial studio pricing.</p>
+<h3 id="32-the-creative-professional-segment">3.2 The Creative Professional Segment</h3>
+<p>Our primary market — creative professionals — is underserved in Brisbane. Actors need headshots that satisfy agency standards; musicians need press imagery that communicates genre and sensibility; solopreneurs need portraits that position them as authorities in markets where trust is built visually before it is built conversationally.</p>
+<p>These clients share several characteristics:</p>
+<ul>
+<li><strong>Image-literate.</strong> They understand visual communication intuitively and can articulate what they need — or at least recognise it when they see it.</li>
+<li><strong>Budget-conscious but quality-driven.</strong> They will invest in quality work, but they need to see the value clearly. They are not corporate clients expensing a headshot; they are spending their own money.</li>
+<li><strong>Repeat customers by nature.</strong> Actors update headshots annually. Musicians release new work. Solopreneurs rebrand, launch new offerings, enter new markets. The relationship, once established, recurs.</li>
+<li><strong>Referral-rich.</strong> Creatives exist in tight professional networks. One strong portrait circulates — through Instagram, through group chats, through casting directors passing names to agents.</li>
+</ul>
+<p><strong>Key trigger events:</strong> New role or representation, album or project launch, business launch or rebrand, website overhaul, speaking engagement, award nomination, seasonal portfolio refresh.</p>
+<h3 id="33-the-corporate-segment">3.3 The Corporate Segment</h3>
+<p>Secondary market. HR managers and marketing directors at Brisbane businesses who need consistent, elevated team photography — typically for website &quot;About&quot; pages, annual reports, LinkedIn profiles, and internal communications.</p>
+<p>Corporate clients are high-value ($2,500–$5,000+ per engagement), lower-frequency, and won through relationship-building rather than advertising. The decision-maker is rarely the subject; the pitch is operational efficiency and brand consistency, not personal transformation.</p>
+<h3 id="34-competitive-landscape">3.4 Competitive Landscape</h3>
+<p><strong>More intentional than the generalists</strong> who happen to offer headshots alongside weddings, newborns, and pet photography. Our entire brand, workflow, and expertise is built around portraiture. There is no dilution.</p>
+<p><strong>More accessible than commercial studios</strong> that serve advertising agencies and require five-figure budgets. A working actor or independent musician can afford our services without compromising on quality.</p>
+<p><strong>More refined than &quot;natural light outdoor&quot; operators</strong> who conflate casualness with authenticity. We use light — natural and otherwise — with precision. The difference between a snapshot and a portrait is not the camera; it is the intention behind every decision.</p>
+<p><strong>More personal than high-volume production lines</strong> that process subjects at fifteen-minute intervals. Our shortest session is one hour. We learn names; we study faces; we direct with care. The result is not a headshot — it is a portrait that knows something about the person in it.</p>
+<hr>
+<h2 id="4-services-amp-pricing">4. Services &amp; Pricing</h2>
+<p>All prices include GST. All packages include professional retouching, an online gallery, and high-resolution digital delivery.</p>
+<h3 id="41-individual-packages">4.1 Individual Packages</h3>
+<h4 id="the-session-350">The Session — $350</h4>
+<p>The entry point — for professionals who know what they need and arrive ready.</p>
+<div class="table-wrap"><table><thead><tr><th>Detail</th><th>Specification</th></tr></thead><tbody><tr><td><strong>Duration</strong></td><td>1 hour</td></tr><tr><td><strong>Retouched Images</strong></td><td>10</td></tr><tr><td><strong>Locations</strong></td><td>2</td></tr><tr><td><strong>Includes</strong></td><td>Pre-session brief, professional retouching, online gallery, high-res digital files</td></tr><tr><td><strong>Ideal For</strong></td><td>Actors updating headshots, professionals refreshing LinkedIn, musicians needing clean press shots</td></tr></tbody></table></div>
+<h4 id="the-portrait-650">The Portrait — $650</h4>
+<p>The signature experience — a considered session with consultation, variety, and time to find the frame that defines you.</p>
+<div class="table-wrap"><table><thead><tr><th>Detail</th><th>Specification</th></tr></thead><tbody><tr><td><strong>Duration</strong></td><td>2 hours</td></tr><tr><td><strong>Retouched Images</strong></td><td>25</td></tr><tr><td><strong>Locations</strong></td><td>3</td></tr><tr><td><strong>Includes</strong></td><td>Style consultation, wardrobe guidance, pre-session brief, professional retouching, online gallery, high-res digital files</td></tr><tr><td><strong>Ideal For</strong></td><td>Solopreneurs building a personal brand, musicians needing editorial-grade press kits, professionals wanting a comprehensive image library</td></tr></tbody></table></div>
+<h4 id="the-editorial-950">The Editorial — $950</h4>
+<p>The full programme — for clients who need a portfolio of images that tells a story across platforms, contexts, and seasons.</p>
+<div class="table-wrap"><table><thead><tr><th>Detail</th><th>Specification</th></tr></thead><tbody><tr><td><strong>Duration</strong></td><td>3 hours</td></tr><tr><td><strong>Retouched Images</strong></td><td>50</td></tr><tr><td><strong>Locations</strong></td><td>Unlimited</td></tr><tr><td><strong>Includes</strong></td><td>Power Coaching (posture, expression, and presence direction), strategy call, style consultation, wardrobe guidance, professional retouching, online gallery, high-res digital files</td></tr><tr><td><strong>Ideal For</strong></td><td>Public figures, consultants building authority, creatives launching major projects, anyone who needs their portrait to work as hard as they do</td></tr></tbody></table></div>
+<h3 id="42-corporate-programme-25005000">4.2 Corporate Programme — $2,500–$5,000+</h3>
+<p>On-site team photography with consistent style, lighting, and retouching across all subjects. Pricing scales with team size and complexity.</p>
+<div class="table-wrap"><table><thead><tr><th>Detail</th><th>Specification</th></tr></thead><tbody><tr><td><strong>Per-Person Delivery</strong></td><td>3–5 retouched images</td></tr><tr><td><strong>Location</strong></td><td>Client&#x27;s office or nominated venue</td></tr><tr><td><strong>Includes</strong></td><td>Pre-shoot planning call, on-site direction, consistent style and backdrop across all subjects, professional retouching, company-branded online gallery, high-res digital files</td></tr><tr><td><strong>Turnaround</strong></td><td>Standard 7 business days; same-day delivery available on request</td></tr><tr><td><strong>Ideal For</strong></td><td>Law firms, consultancies, tech companies, any organisation whose &quot;About Us&quot; page should inspire confidence</td></tr></tbody></table></div>
+<h3 id="43-pricing-philosophy">4.3 Pricing Philosophy</h3>
+<p>The pricing is structured to reward depth of engagement. The Session serves those who need a precise, limited output. The Portrait serves those willing to invest more time and receive a meaningfully larger, more versatile collection. The Editorial exists for clients who understand that a comprehensive visual identity — across platforms, use cases, and moods — is worth building in a single, sustained session rather than piecemeal over years.</p>
+<p>Corporate pricing is quoted per engagement because no two teams are alike. The range of $2,500–$5,000+ reflects a typical team of 5–20 people; larger teams are quoted individually.</p>
+<p><strong>Blended averages for financial modelling:</strong></p>
+<ul>
+<li>Individual session average: <strong>$530</strong> (inc. GST)</li>
+<li>Corporate engagement average: <strong>$3,500</strong> (inc. GST)</li>
+</ul>
+<hr>
+<h2 id="5-marketing-amp-growth-strategy">5. Marketing &amp; Growth Strategy</h2>
+<h3 id="51-channels">5.1 Channels</h3>
+<h4 id="instagram-primary-b2c-channel">Instagram — Primary B2C Channel</h4>
+<p>Instagram is where our work lives. Portraits are inherently visual; the platform is the portfolio. Every post is a proof of concept — potential clients see themselves in the subjects we&#x27;ve already photographed.</p>
+<ul>
+<li><strong>Content:</strong> Final portraits (with client permission), behind-the-scenes process shots, before/after retouching sequences, Brisbane location showcases</li>
+<li><strong>Frequency:</strong> 4–5 posts per week; daily Stories during active shoot weeks</li>
+<li><strong>Hashtag strategy:</strong> Local (#BrisbanePhotographer, #BrisbaneHeadshots, #SEQCreatives) and niche (#ActorHeadshots, #MusicianPortraits, #PersonalBrandPhotography)</li>
+<li><strong>Growth tactic:</strong> Collaborate with local actors, musicians, and creatives for styled portfolio-building sessions; cross-tag and co-promote</li>
+</ul>
+<h4 id="linkedin-primary-b2b-channel">LinkedIn — Primary B2B Channel</h4>
+<p>LinkedIn is where corporate decision-makers and senior professionals evaluate whether we are credible enough to photograph their team or their own face. The tone shifts slightly — still literary, but grounded in professional outcomes.</p>
+<ul>
+<li><strong>Content:</strong> Thought pieces on professional image and its commercial impact, corporate case studies (anonymised where necessary), client transformations, industry commentary on visual branding</li>
+<li><strong>Frequency:</strong> 2–3 posts per week</li>
+<li><strong>Growth tactic:</strong> Connect with Brisbane HR managers, marketing directors, and business owners. Comment thoughtfully on their content before pitching. Build familiarity before requesting anything.</li>
+</ul>
+<h4 id="google-business-profile">Google Business Profile</h4>
+<p>The unromantic but essential channel. When someone searches &quot;headshot photographer Brisbane,&quot; we need to appear — and the reviews need to do the selling.</p>
+<ul>
+<li><strong>Priority actions:</strong> Claim and optimise profile, upload high-quality portfolio samples, request reviews from every satisfied client, post weekly updates</li>
+<li><strong>Target:</strong> 50+ five-star reviews by end of Year 1</li>
+</ul>
+<h4 id="referral-network">Referral Network</h4>
+<p>The most powerful channel, but the slowest to build. Referrals convert at higher rates, arrive with trust already established, and cost nothing to acquire.</p>
+<ul>
+<li><strong>Actor/musician referrals:</strong> Offer a $50 credit per successful referral. Creatives talk; make the incentive worth mentioning.</li>
+<li><strong>Corporate referrals:</strong> Offer a complimentary session (for the referring contact personally) when they introduce a corporate engagement that books.</li>
+<li><strong>Partner referrals:</strong> Build relationships with complementary service providers — hairstylists, makeup artists, personal stylists, career coaches, acting coaches, talent agents. Reciprocal referral arrangements.</li>
+</ul>
+<h3 id="52-content-pillars">5.2 Content Pillars</h3>
+<p>All marketing content orbits five themes:</p>
+<ol>
+<li><strong>The Work</strong> — Finished portraits. The product speaks. Let it.</li>
+<li><strong>The Process</strong> — Behind the scenes, lighting setups, location scouting, retouching decisions. Demonstrates craft and builds trust.</li>
+<li><strong>The Transformation</strong> — Before and after. Not in a makeover sense; in a &quot;this is who you were presenting versus who you actually are&quot; sense.</li>
+<li><strong>The Perspective</strong> — Essays and commentary on visual identity, professional image, the psychology of first impressions. Establishes intellectual authority.</li>
+<li><strong>The City</strong> — Brisbane as backdrop. Celebrating the locations, the light, the architecture. Positions Power Portraits as deeply local, not a faceless online operator.</li>
+</ol>
+<h3 id="53-launch-strategy">5.3 Launch Strategy</h3>
+<ul>
+<li><strong>Months 1–2:</strong> Portfolio-building phase. Offer 10–15 complimentary or heavily discounted sessions to targeted creatives (actors with representation, musicians with upcoming releases, solopreneurs with active audiences). These become the foundational portfolio and the first wave of testimonials.</li>
+<li><strong>Month 3:</strong> Full launch. Website live, booking system active, Google Business Profile optimised, Instagram and LinkedIn cadence established.</li>
+<li><strong>Ongoing:</strong> Reinvest 10–15% of revenue into marketing (primarily targeted Instagram ads and Google Ads for &quot;headshot photographer Brisbane&quot; and related terms).</li>
+</ul>
+<hr>
+<h2 id="6-operations">6. Operations</h2>
+<h3 id="61-client-journey">6.1 Client Journey</h3>
+<p>The client experience is designed to feel considered at every stage — from first enquiry to final delivery.</p>
+<pre><code>Enquiry → Discovery Call (15 min) → Booking &amp; Pre-Session Brief
+    → Style Consultation (Portrait/Editorial only) → Session Day
+        → Culling &amp; Selection → Retouching → Gallery Delivery
+            → Follow-Up &amp; Review Request → Referral Invitation</code></pre>
+<p><strong>Detailed stages:</strong></p>
+<ol>
+<li><strong>Enquiry.</strong> Client contacts via website form, Instagram DM, or direct email. Response within 4 business hours.</li>
+<li><strong>Discovery Call.</strong> 15-minute call (or detailed email exchange) to understand the client&#x27;s needs, industry, and how the portraits will be used. This is where we listen — not pitch.</li>
+<li><strong>Booking.</strong> Client selects a package via Cal.com. 50% deposit secures the date. Automated confirmation email via Mautic includes the pre-session brief questionnaire.</li>
+<li><strong>Pre-Session Brief.</strong> Client completes a brief covering their industry, intended use of images, wardrobe preferences, and any specific requests. For Portrait and Editorial clients, this informs the style consultation.</li>
+<li><strong>Style Consultation.</strong> (Portrait and Editorial only.) A dedicated conversation — by phone or video — about wardrobe, colour palette, mood, and location selection. This is not optional; it is what separates our work from everyone else&#x27;s.</li>
+<li><strong>Session Day.</strong> On-location. Directed with care and specificity. Power Coaching (Editorial only) addresses posture, expression, and physical presence before the camera is raised.</li>
+<li><strong>Culling &amp; Selection.</strong> Within 3 business days, a proof gallery is delivered. Client selects their final images from the curated set.</li>
+<li><strong>Retouching.</strong> Professional retouching completed within 5 business days of selection. Standards detailed below.</li>
+<li><strong>Gallery Delivery.</strong> Final images delivered via Pixieset gallery — beautifully presented, downloadable in high resolution.</li>
+<li><strong>Follow-Up.</strong> 48 hours after delivery: personal thank-you message, review request, referral invitation.</li>
+</ol>
+<h3 id="62-retouching-standards">6.2 Retouching Standards</h3>
+<p>Retouching at Power Portraits follows a philosophy of precision without fabrication. The goal is to present the subject at their genuine best — not to reconstruct their face.</p>
+<p><strong>Standard retouching includes:</strong></p>
+<ul>
+<li>Skin smoothing (frequency separation technique; preserves texture)</li>
+<li>Blemish and temporary mark removal</li>
+<li>Under-eye correction (reduce, not eliminate — humanity matters)</li>
+<li>Stray hair cleanup</li>
+<li>Colour grading to brand-consistent tones</li>
+<li>Background refinement (distracting elements softened or removed)</li>
+<li>Subtle dodge and burn for dimensional lighting</li>
+</ul>
+<p><strong>Retouching does not include:</strong></p>
+<ul>
+<li>Reshaping of facial features</li>
+<li>Significant body modification</li>
+<li>Skin texture removal (&quot;plastic&quot; look)</li>
+<li>Heavy colour manipulation that misrepresents the subject&#x27;s complexion</li>
+</ul>
+<h3 id="63-delivery-specifications">6.3 Delivery Specifications</h3>
+<div class="table-wrap"><table><thead><tr><th>Format</th><th>Resolution</th><th>Colour Space</th><th>Use Case</th></tr></thead><tbody><tr><td>High-res JPEG</td><td>300 DPI, full sensor resolution</td><td>sRGB</td><td>Print, editorial, high-quality digital</td></tr><tr><td>Web-optimised JPEG</td><td>72 DPI, 2400px long edge</td><td>sRGB</td><td>Website, social media, email signatures</td></tr><tr><td>LinkedIn-optimised</td><td>72 DPI, 800×800px crop</td><td>sRGB</td><td>Provided automatically with every session</td></tr></tbody></table></div>
+<p>All files delivered with consistent naming: <code>PowerPortraits<em>[ClientName]</em>[Number]_[Format].jpg</code></p>
+<h3 id="64-equipment">6.4 Equipment</h3>
+<p><strong>Camera System:</strong></p>
+<ul>
+<li>Primary body: Full-frame mirrorless (Sony Alpha or equivalent)</li>
+<li>Backup body: Identical or compatible system</li>
+<li>Portrait lenses: 85mm f/1.4, 70–200mm f/2.8, 35mm f/1.4</li>
+</ul>
+<p><strong>Lighting:</strong></p>
+<ul>
+<li>Portable strobe kit (2–3 heads, battery-powered for location work)</li>
+<li>Modifiers: Softboxes, beauty dish, reflectors, scrims</li>
+<li>Continuous LED panel for mixed-light environments</li>
+</ul>
+<p><strong>Support:</strong></p>
+<ul>
+<li>Tripod, light stands, backdrop stand (for corporate on-site work)</li>
+<li>Tethering cable and laptop (for corporate sessions with real-time client review)</li>
+</ul>
+<p><strong>Post-Production:</strong></p>
+<ul>
+<li>Adobe Lightroom Classic (culling, colour grading, batch processing)</li>
+<li>Adobe Photoshop (retouching, compositing where needed)</li>
+<li>Calibrated monitor (essential for colour accuracy)</li>
+</ul>
+<h3 id="65-business-tools">6.5 Business Tools</h3>
+<div class="table-wrap"><table><thead><tr><th>Function</th><th>Tool</th><th>Notes</th></tr></thead><tbody><tr><td><strong>CRM</strong></td><td>Twenty</td><td>Self-hosted on Hetzner; full client relationship tracking</td></tr><tr><td><strong>Booking</strong></td><td>Cal.com</td><td>Self-hosted; automated scheduling and reminders</td></tr><tr><td><strong>Email Marketing</strong></td><td>Mautic</td><td>Self-hosted; automated sequences for onboarding, follow-up, and nurture</td></tr><tr><td><strong>Analytics</strong></td><td>Matomo</td><td>Self-hosted; website and campaign tracking without third-party data leakage</td></tr><tr><td><strong>Link Tracking</strong></td><td>Shlink</td><td>Self-hosted; short links for campaigns and referral tracking</td></tr><tr><td><strong>Gallery Delivery</strong></td><td>Pixieset</td><td>SaaS (no viable self-hosted alternative at this scale)</td></tr><tr><td><strong>Invoicing &amp; Accounting</strong></td><td>Xero</td><td>SaaS; GST compliance, BAS preparation, expense tracking</td></tr><tr><td><strong>Editing Suite</strong></td><td>Adobe Creative Cloud</td><td>Lightroom Classic + Photoshop</td></tr><tr><td><strong>Automation</strong></td><td>n8n</td><td>Self-hosted; connects booking → CRM → email flows</td></tr></tbody></table></div>
+<hr>
+<h2 id="7-financial-plan">7. Financial Plan</h2>
+<h3 id="71-revenue-targets">7.1 Revenue Targets</h3>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th>Individual Sessions</th><th>Corporate Engagements</th><th>Revenue Range</th></tr></thead><tbody><tr><td><strong>Year 1</strong></td><td>150–200</td><td>6–10</td><td>$90,000–$123,000</td></tr><tr><td><strong>Year 2</strong></td><td>250–300</td><td>15–20</td><td>$175,000–$220,000</td></tr><tr><td><strong>Year 3</strong></td><td>300–350</td><td>20–25</td><td>$280,000–$320,000</td></tr></tbody></table></div>
+<h3 id="72-break-even-analysis">7.2 Break-Even Analysis</h3>
+<p>Monthly fixed costs are deliberately low — a consequence of the location-based model and self-hosted tool stack.</p>
+<div class="table-wrap"><table><thead><tr><th>Expense</th><th>Monthly Cost</th></tr></thead><tbody><tr><td>Insurance (public liability + professional indemnity)</td><td>$150</td></tr><tr><td>Adobe Creative Cloud</td><td>$80</td></tr><tr><td>Pixieset subscription</td><td>$30</td></tr><tr><td>Xero subscription</td><td>$50</td></tr><tr><td>Hetzner server (shared across businesses)</td><td>$20 (allocated)</td></tr><tr><td>Marketing spend (ads, content production)</td><td>$500</td></tr><tr><td>Transport &amp; parking (session travel)</td><td>$200</td></tr><tr><td>Equipment maintenance &amp; replacement fund</td><td>$200</td></tr><tr><td>Miscellaneous (props, wardrobe, small costs)</td><td>$100</td></tr><tr><td><strong>Total Fixed Costs</strong></td><td><strong>~$1,330/month</strong></td></tr></tbody></table></div>
+<p>At a blended individual session average of $530:</p>
+<blockquote><strong>Break-even = $1,330 ÷ $530 ≈ 2.5 sessions/month</strong></blockquote>
+<p>Rounded conservatively to <strong>4 sessions/month</strong> to account for variable costs (subcontractor makeup artists, location fees, seasonal fluctuations) and GST obligations.</p>
+<h3 id="73-projected-profit-amp-loss-year-1">7.3 Projected Profit &amp; Loss — Year 1</h3>
+<div class="table-wrap"><table><thead><tr><th>Quarter</th><th>Revenue</th><th>COGS &amp; Variable</th><th>Fixed Costs</th><th>Gross Profit</th><th>Tax Provision (30%)</th><th>Net Profit</th></tr></thead><tbody><tr><td><strong>Q1</strong> (Months 1–3)</td><td>$10,260</td><td>$2,050</td><td>$3,990</td><td>$4,220</td><td>$1,266</td><td>$2,954</td></tr><tr><td><strong>Q2</strong> (Months 4–6)</td><td>$25,920</td><td>$5,180</td><td>$3,990</td><td>$16,750</td><td>$5,025</td><td>$11,725</td></tr><tr><td><strong>Q3</strong> (Months 7–9)</td><td>$36,520</td><td>$7,300</td><td>$3,990</td><td>$25,230</td><td>$7,569</td><td>$17,661</td></tr><tr><td><strong>Q4</strong> (Months 10–12)</td><td>$50,570</td><td>$10,110</td><td>$3,990</td><td>$36,470</td><td>$10,941</td><td>$25,529</td></tr><tr><td><strong>Year 1 Total</strong></td><td><strong>~$123,270</strong></td><td><strong>~$24,640</strong></td><td><strong>~$15,960</strong></td><td><strong>~$82,670</strong></td><td><strong>~$24,801</strong></td><td><strong>~$57,869</strong></td></tr></tbody></table></div>
+<p><em>COGS &amp; Variable includes subcontractor fees (makeup artists), printing, gallery hosting overages, and location-specific costs. Tax provision is indicative — actual obligation depends on total taxable income across all sole trader activities. Consult a registered tax agent.</em></p>
+<h3 id="74-pricing-strategy">7.4 Pricing Strategy</h3>
+<p>The three-tier individual pricing is structured around a principle borrowed from restaurant wine lists: the middle option should feel like the natural choice.</p>
+<ul>
+<li><strong>The Session ($350)</strong> anchors the entry point high enough to signal premium quality, while remaining accessible to working actors and early-stage solopreneurs.</li>
+<li><strong>The Portrait ($650)</strong> is the sweet spot — and the package we expect the majority of individual clients to book. The inclusion of style consultation and a substantially larger image set makes the step up from The Session feel obvious.</li>
+<li><strong>The Editorial ($950)</strong> serves clients whose needs are comprehensive. Power Coaching and the strategy call position this as a consultative experience, not merely a longer shoot.</li>
+<li><strong>Corporate ($2,500–$5,000+)</strong> is quoted per engagement. The per-person cost at scale is competitive with mid-range studios, but the consistency, direction, and retouching quality are materially superior.</li>
+</ul>
+<p>No discounting. Referral credits and portfolio-building collaborations are the only exceptions. The price communicates the value; reducing it communicates doubt.</p>
+<hr>
+<h2 id="8-growth-roadmap">8. Growth Roadmap</h2>
+<h3 id="81-year-1-establish">8.1 Year 1 — Establish</h3>
+<p>The first year is about building the portfolio, the reputation, and the referral engine. Revenue matters, but momentum matters more.</p>
+<div class="table-wrap"><table><thead><tr><th>Phase</th><th>Months</th><th>Sessions/Month</th><th>Focus</th></tr></thead><tbody><tr><td><strong>Foundation</strong></td><td>1–3</td><td>8–10</td><td>Portfolio building, website launch, first testimonials, Google Business Profile, initial ad spend</td></tr><tr><td><strong>Traction</strong></td><td>4–6</td><td>12–15</td><td>Referrals beginning to convert, first corporate engagement, Instagram following building, LinkedIn content cadence established</td></tr><tr><td><strong>Acceleration</strong></td><td>7–9</td><td>18–20</td><td>Word-of-mouth compounding, second and third corporate accounts, 30+ Google reviews, seasonal mini-campaign (end of financial year headshot refresh)</td></tr><tr><td><strong>Cruising</strong></td><td>10–12</td><td>22–25</td><td>Steady inbound, waiting list emerging on peak days, Year 2 planning, potential for price increase consideration</td></tr></tbody></table></div>
+<p><strong>Year 1 milestones:</strong></p>
+<ul>
+<li>150–200 individual sessions completed</li>
+<li>6–10 corporate engagements</li>
+<li>50+ five-star Google reviews</li>
+<li>$90,000–$123,000 revenue</li>
+<li>Referral programme generating 20%+ of new bookings by Q4</li>
+</ul>
+<h3 id="82-year-2-scale">8.2 Year 2 — Scale</h3>
+<p>Year 2 introduces the first structural expansion: a second shooter and a concerted push into corporate accounts.</p>
+<p><strong>Key initiatives:</strong></p>
+<ul>
+<li><strong>Second Shooter.</strong> Hire a contract photographer for corporate sessions and overflow individual bookings. This is not delegation of the creative vision — it is capacity expansion under direct supervision. The second shooter handles corporate team sessions (where volume and consistency matter more than singular artistic direction), freeing Ben to focus on individual portrait work where the personal touch is the product.</li>
+<li><strong>5 Recurring Corporate Accounts.</strong> Target companies that need quarterly or biannual team photography — law firms, consultancies, tech companies with growing headcounts. Retainer-style arrangements at preferred rates.</li>
+<li><strong>Workshop Launch.</strong> A quarterly half-day workshop for solopreneurs: &quot;The Power Portrait Masterclass&quot; — covering posture, expression, wardrobe, and how to get better results from any photographer. $297 per attendee, 15 seats. Revenue diversification and lead generation in one.</li>
+<li><strong>Price Review.</strong> Evaluate whether Year 1 demand supports a 10–15% increase on individual packages. If the waiting list exists, the market is telling you the price is too low.</li>
+</ul>
+<p><strong>Year 2 targets:</strong></p>
+<ul>
+<li>250–300 individual sessions</li>
+<li>15–20 corporate engagements</li>
+<li>$175,000–$220,000 revenue</li>
+</ul>
+<h3 id="83-year-3-refine">8.3 Year 3 — Refine</h3>
+<p>Year 3 is about margin, not just revenue. The premium solo model — fewer sessions, higher value, deeper client relationships.</p>
+<p><strong>Key initiatives:</strong></p>
+<ul>
+<li><strong>Premium Positioning.</strong> Raise individual pricing by 15–20%. The portfolio, the reviews, and the referral network now justify it. Clients at this stage are booking Power Portraits specifically, not &quot;a headshot photographer in Brisbane.&quot;</li>
+<li><strong>Editorial Partnerships.</strong> Pursue relationships with Brisbane magazines, creative agencies, and production companies. Provide portraits for editorial features in exchange for credit and exposure. This is brand positioning, not revenue — though the corporate enquiries it generates will be.</li>
+<li><strong>Corporate Programme Expansion.</strong> 20–25 engagements annually. Consider a dedicated corporate sales process — proposal templates, case study decks, quarterly check-in calls with existing accounts.</li>
+<li><strong>Studio Consideration.</strong> Evaluate whether demand and margins justify a permanent studio space. The location-based model has served well, but a studio offers weather independence, equipment permanence, and a tangible brand home. This is a Year 3 evaluation, not a Year 3 commitment.</li>
+</ul>
+<p><strong>Year 3 targets:</strong></p>
+<ul>
+<li>300–350 individual sessions</li>
+<li>20–25 corporate engagements</li>
+<li>$280,000–$320,000 revenue</li>
+<li>Gross margin above 65%</li>
+</ul>
+<hr>
+<h2 id="appendix-assumptions-amp-disclaimers">Appendix: Assumptions &amp; Disclaimers</h2>
+<p>These projections are based on reasonable assumptions for a premium portrait studio operating in the Brisbane market as of 2026. Actual results will vary based on market conditions, execution quality, and factors beyond the operator&#x27;s control.</p>
+<p>Key assumptions:</p>
+<ul>
+<li>Package mix of approximately 30% Session, 45% Portrait, 20% Editorial, 5% Corporate (by volume)</li>
+<li>Blended individual average of $530 reflects the weighted mix above</li>
+<li>Corporate average of $3,500 per engagement (5–15 people)</li>
+<li>Referral conversion rate of 15–25% by end of Year 1</li>
+<li>No fixed studio lease costs in Year 1 or Year 2</li>
+<li>Marketing spend held at 10–15% of revenue</li>
+</ul>
+<p>All pricing is GST-inclusive. Financial projections should be reviewed quarterly against actual booking data and adjusted accordingly. Consult a registered tax agent for obligations specific to your circumstances.</p>
+<hr>
+<p><em>Power Portraits — Your Image. Your Power.</em></p>
+<p><em>powerportraitsphotography.com</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">02-Power Portraits/01-strategy/Documents/BUSINESS PLAN.md</div>
+    </main>
+  </div>
+</body>
+</html>

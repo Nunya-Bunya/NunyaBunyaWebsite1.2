@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power Portraits — Email Templates | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link active"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#power-portraits">Power Portraits</a> &rsaquo;
+          Power Portraits — Email Templates
+        </div>
+        <h1 class="doc-title">Power Portraits — Email Templates</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#128247; Power Portraits</span>
+          <span class="doc-path">02-Power Portraits / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="power-portraits-email-templates">Power Portraits — Email Templates</h1>
+<blockquote><strong>Brand voice:</strong> Literary, warm, confident, unhurried. Elegant sentences, interesting word choice. Australian English.<br><strong>Sign-off on all emails:</strong> Ben Alek Conner / Power Portraits Photography / [PHONE] | [EMAIL] / powerportraitsphotography.com</blockquote>
+<hr>
+<h2 id="1-inquiry-response">1. Inquiry Response</h2>
+<p><strong>Template name:</strong> Inquiry Response</p>
+<p><strong>Trigger:</strong> Someone reaches out via website form, email, or DM asking about portrait sessions</p>
+<h3 id="subject-line">Subject line</h3>
+<p>Re: Your enquiry with Power Portraits</p>
+<h3 id="body">Body</h3>
+<p>Hi [FIRST NAME],</p>
+<p>Thanks for reaching out — genuinely glad you did.</p>
+<p>I&#x27;d love to know a bit more about what you&#x27;re after. Are you looking for something specific — new headshots for a project, portraits for your brand, something more editorial? Tell us a bit about what you do and what you have in mind. Even the vaguest sense of direction helps us prepare something that actually fits.</p>
+<p>If you&#x27;d like, I&#x27;ve put together a short overview of our packages here: [PACKAGES URL]. But honestly, the best place to start is a quick conversation — fifteen minutes, no obligation, just a chance to figure out whether we&#x27;re the right fit.</p>
+<p>You can book a consultation call here: [BOOKING LINK]</p>
+<p>Or simply reply to this email and we&#x27;ll sort something out.</p>
+<p>Looking forward to hearing from you.</p>
+<p>Warm regards,</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[PHONE] | [EMAIL]</p>
+<p>powerportraitsphotography.com</p>
+<hr>
+<h2 id="2-proposal-package-recommendation">2. Proposal / Package Recommendation</h2>
+<p><strong>Template name:</strong> Proposal — Package Recommendation</p>
+<p><strong>Trigger:</strong> After a consultation call, or when recommending a specific package based on an enquiry</p>
+<h3 id="subject-line">Subject line</h3>
+<p>Your Power Portraits session — a recommendation</p>
+<h3 id="body">Body</h3>
+<p>Hi [FIRST NAME],</p>
+<p>It was a pleasure chatting with you [on the call / earlier this week / via email] — I&#x27;ve been thinking about what would suit your needs, and I have a recommendation.</p>
+<p>Based on what you described — [BRIEF SUMMARY OF WHAT THEY NEED, e.g. &quot;refreshed headshots for your acting portfolio with a few different looks&quot;] — I&#x27;d suggest our <strong>[PACKAGE NAME]</strong>.</p>
+<p><strong>What&#x27;s included:</strong></p>
+<ul>
+<li>[PACKAGE DETAIL 1]</li>
+<li>[PACKAGE DETAIL 2]</li>
+<li>[PACKAGE DETAIL 3]</li>
+<li>[PACKAGE DETAIL 4]</li>
+</ul>
+<p><strong>Investment:</strong> $[PRICE] (inc. GST)</p>
+<p>This gives you [BRIEF REASONING — e.g. &quot;enough variety for both your casting profiles and your personal brand, without overloading you with decisions on the day&quot;]. It&#x27;s the package I&#x27;d recommend for someone in your position.</p>
+<p>You can book directly here: [BOOKING LINK]</p>
+<p>We have openings in [TIMEFRAME] — shall we lock one in?</p>
+<p>If you&#x27;d like to talk through anything else before committing, I&#x27;m an open door. No rush.</p>
+<p>Warm regards,</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[PHONE] | [EMAIL]</p>
+<p>powerportraitsphotography.com</p>
+<hr>
+<h2 id="3-follow-up-no-response">3. Follow-Up (No Response)</h2>
+<p><strong>Template name:</strong> Gentle Follow-Up</p>
+<p><strong>Trigger:</strong> 5–7 days after sending an Inquiry Response or Proposal with no reply. Send once only — never a second follow-up.</p>
+<h3 id="subject-line">Subject line</h3>
+<p>Just circling back — [FIRST NAME]</p>
+<h3 id="body">Body</h3>
+<p>Hi [FIRST NAME],</p>
+<p>I sent through some details [last week / a few days ago] about a portrait session and wanted to make sure it found its way to you. Inboxes have a talent for swallowing things whole.</p>
+<p>If you had any questions — about the session itself, what to expect, what to wear, anything — I&#x27;m happy to chat. No formality required.</p>
+<p>And if now isn&#x27;t the right time, no pressure at all. These things have a way of finding the right moment. You&#x27;re welcome to reach out whenever that is.</p>
+<p>Hope you&#x27;re well.</p>
+<p>Warm regards,</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[PHONE] | [EMAIL]</p>
+<p>powerportraitsphotography.com</p>
+<hr>
+<h2 id="4-post-session-thank-you">4. Post-Session Thank You</h2>
+<p><strong>Template name:</strong> Post-Session Thank You</p>
+<p><strong>Trigger:</strong> Same day or the morning after a completed portrait session</p>
+<h3 id="subject-line">Subject line</h3>
+<p>Today was brilliant — thank you, [FIRST NAME]</p>
+<h3 id="body">Body</h3>
+<p>Hi [FIRST NAME],</p>
+<p>Just wanted to say thanks for today. It was a genuinely enjoyable session — [PERSONAL DETAIL FROM THE SESSION, e.g. &quot;your energy in front of the camera was infectious&quot; / &quot;that final set with the natural light was something special&quot; / &quot;I could tell the moment you relaxed into it, and the images reflected that immediately&quot;].</p>
+<p>The work begins now on our end. I&#x27;ll be going through the full set, selecting and editing the strongest images, and putting together your gallery. You can expect it in your inbox within [TIMELINE, e.g. &quot;10 business days&quot;].</p>
+<p>In the meantime, if anything comes to mind — questions, preferences, a particular shot you&#x27;re hoping made the cut — don&#x27;t hesitate to reach out.</p>
+<p>Thanks again for trusting us with this. I think you&#x27;re going to be very pleased.</p>
+<p>Warm regards,</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[PHONE] | [EMAIL]</p>
+<p>powerportraitsphotography.com</p>
+<hr>
+<h2 id="5-review-request">5. Review Request</h2>
+<p><strong>Template name:</strong> Review Request</p>
+<p><strong>Trigger:</strong> 7 days after gallery delivery</p>
+<h3 id="subject-line">Subject line</h3>
+<p>How are the portraits working for you?</p>
+<h3 id="body">Body</h3>
+<p>Hi [FIRST NAME],</p>
+<p>It&#x27;s been about a week since we delivered your gallery — I&#x27;ve been curious how the images are landing. Have you started using them yet? I&#x27;d love to hear how they&#x27;re going — whether it&#x27;s a new LinkedIn photo, an updated website, a casting profile, or just the quiet satisfaction of finally having portraits you actually like.</p>
+<p>If you&#x27;ve had a good experience with Power Portraits, I&#x27;d be grateful if you&#x27;d consider leaving us a short Google review. It doesn&#x27;t need to be long — a sentence or two about your experience genuinely makes a difference for a studio like ours.</p>
+<p>You can leave a review here: [GOOGLE REVIEW URL]</p>
+<p>One more thing — if you know someone who could use a good portrait session, we offer <strong>10% off</strong> their booking when they mention your name. A small thank you for the introduction.</p>
+<p>Thanks again, [FIRST NAME]. It was a pleasure working with you.</p>
+<p>Warm regards,</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[PHONE] | [EMAIL]</p>
+<p>powerportraitsphotography.com</p>
+<hr>
+<h2 id="6-re-engagement-6-months">6. Re-Engagement (6 Months)</h2>
+<p><strong>Template name:</strong> Six-Month Re-Engagement</p>
+<p><strong>Trigger:</strong> 6 months after the client&#x27;s session date</p>
+<h3 id="subject-line">Subject line</h3>
+<p>It&#x27;s been six months — has your world changed?</p>
+<h3 id="body">Body</h3>
+<p>Hi [FIRST NAME],</p>
+<p>Six months tends to be enough time for things to shift. A new role, a new project, a new direction — or sometimes just the quiet realisation that the version of yourself in your current photos doesn&#x27;t quite match the version sitting here reading this email.</p>
+<p>If any of that rings true, it might be time for a new session. Updated portraits aren&#x27;t vanity — they&#x27;re a record of where you are now, and a signal to the world that you&#x27;re still moving.</p>
+<p>As a returning client, I&#x27;d like to offer you <strong>10% off</strong> your next booking. No expiry, no conditions — just a standing invitation.</p>
+<p>You can book here whenever you&#x27;re ready: [BOOKING LINK]</p>
+<p>Or reply to this email and we&#x27;ll find a time that works.</p>
+<p>Either way, I hope you&#x27;re well. It was a pleasure photographing you last time, and I&#x27;d welcome the chance to do it again.</p>
+<p>Warm regards,</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[PHONE] | [EMAIL]</p>
+<p>powerportraitsphotography.com</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">02-Power Portraits/01-strategy/Documents/EMAIL TEMPLATES.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power Portraits — Email Sequences | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link active"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#power-portraits">Power Portraits</a> &rsaquo;
+          Power Portraits — Email Sequences
+        </div>
+        <h1 class="doc-title">Power Portraits — Email Sequences</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#128247; Power Portraits</span>
+          <span class="doc-path">02-Power Portraits / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="power-portraits-email-sequences">Power Portraits — Email Sequences</h1>
+<blockquote><strong>Automation platform:</strong> Mautic (self-hosted)<br><strong>Brand voice:</strong> Literary, warm, confident, unhurried. Elegant sentences, interesting word choice. Australian English.<br><strong>Sign-off on every email:</strong> Ben Alek Conner / Power Portraits Photography</blockquote>
+<hr>
+<h2 id="sequence-1-welcome-sequence-lead-magnet">Sequence 1: Welcome Sequence (Lead Magnet)</h2>
+<p><strong>Trigger:</strong> Contact downloads the <em>Posing Guide for Creatives</em> lead magnet from the Power Portraits website.</p>
+<hr>
+<h3 id="email-1-of-4-day-0-delivery">Email 1 of 4 — Day 0: Delivery</h3>
+<p><strong>Trigger:</strong> Immediate on lead magnet download</p>
+<p><strong>Subject:</strong> Your guide is here.</p>
+<hr>
+<p>Hey [FIRST NAME],</p>
+<p>Here&#x27;s the posing guide you requested — a PDF of the techniques, angles, and small adjustments that make the difference between a forgettable headshot and a portrait people remember.</p>
+<p><strong><a href="[DOWNLOAD LINK]">Download Your Posing Guide →</a></strong></p>
+<p>A quick word about us: Power Portraits is a Brisbane portrait studio that works almost exclusively with creatives — actors, musicians, solopreneurs, and anyone whose work demands they be seen clearly. We believe a great portrait isn&#x27;t a luxury. It&#x27;s a professional instrument.</p>
+<p>Enjoy the guide. If anything in it sparks a question, just reply to this email.</p>
+<p>Warmly,</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[WEBSITE URL]</p>
+<hr>
+<h3 id="email-2-of-4-day-2-the-story">Email 2 of 4 — Day 2: The Story</h3>
+<p><strong>Trigger:</strong> 2 days after Email 1</p>
+<p><strong>Subject:</strong> Why we photograph creatives.</p>
+<hr>
+<p>[FIRST NAME],</p>
+<p>I want to tell you something about why this studio exists.</p>
+<p>I didn&#x27;t set out to photograph creatives. I set out to photograph people who were doing something interesting with their lives — and creatives kept walking through the door. Actors between auditions, musicians about to release something they&#x27;d spent years on, business owners who&#x27;d finally outgrown the headshot their mate took in a car park.</p>
+<p>What they had in common wasn&#x27;t vanity. It was the opposite. They&#x27;d been so busy making things that they&#x27;d neglected the most basic piece of their own story: an image that actually looked like them. Not the version of them from three years ago, or the version their phone camera approximated in bad light, but <em>them</em> — present tense, in full command of who they are.</p>
+<p>That&#x27;s the work I fell in love with. Not making people look good (though we do). Making people look <em>recognisable</em>. Giving a creative person an image that matches the quality of what they create.</p>
+<p>I started Power Portraits because I believe the people who make culture deserve better than what most photography studios offer — rushed sessions, generic backdrops, the same retouching applied to every face. Creatives deserve considered, unhurried, genuinely skilled portraiture.</p>
+<p>That&#x27;s what we do here.</p>
+<p>Nothing to sell you today. I just wanted you to know who&#x27;s on the other end of these emails.</p>
+<p>Speak soon,</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[WEBSITE URL]</p>
+<hr>
+<h3 id="email-3-of-4-day-5-the-invitation">Email 3 of 4 — Day 5: The Invitation</h3>
+<p><strong>Trigger:</strong> 3 days after Email 2</p>
+<p><strong>Subject:</strong> When you&#x27;re ready.</p>
+<hr>
+<p>[FIRST NAME],</p>
+<p>If you&#x27;ve been thinking about booking a portrait session — even vaguely, even in that &quot;sometime this year&quot; way — here&#x27;s what it actually looks like.</p>
+<p><strong>First, we talk.</strong> Every session starts with a short consultation (phone or in-studio) where we discuss what you need, how you work, and what the portraits are for. This isn&#x27;t a formality. It shapes everything that follows — lighting, wardrobe guidance, the mood of the shoot.</p>
+<p><strong>Then, we shoot.</strong> Sessions run between 45 minutes and two hours depending on the package. The studio is in [SUBURB], Brisbane. The atmosphere is calm, the music is good, and there&#x27;s no rush.</p>
+<p><strong>Then, you choose.</strong> Within [TURNAROUND DAYS] days you&#x27;ll receive a private online gallery. You select your favourites, we retouch them with care, and you receive high-resolution files ready for any use — website, social media, press, print.</p>
+<p><strong>Packages range from $350 to $950</strong>, and each one includes consultation, the session itself, professionally retouched images, and full usage rights.</p>
+<p>[TESTIMONIAL OR SOCIAL PROOF PLACEHOLDER — e.g. &quot;<em>The best portraits I&#x27;ve ever had taken. Ben made the whole process effortless.</em>&quot; — [CLIENT NAME], [PROFESSION]]</p>
+<p>If now&#x27;s the time, here&#x27;s where to start:</p>
+<p><strong><a href="[BOOKING LINK]">Book a Session →</a></strong></p>
+<p>And if now isn&#x27;t the time — no worries at all. You&#x27;ll know when it is.</p>
+<p>Warmly,</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[WEBSITE URL]</p>
+<hr>
+<h3 id="email-4-of-4-day-10-the-perspective-piece">Email 4 of 4 — Day 10: The Perspective Piece</h3>
+<p><strong>Trigger:</strong> 5 days after Email 3</p>
+<p><strong>Subject:</strong> The portrait you haven&#x27;t taken yet.</p>
+<hr>
+<p>[FIRST NAME],</p>
+<p>There is a version of you that exists right now — this week, this month — that will never exist again.</p>
+<p>Not in a melancholy way. In the way a musician understands that the songs they write at twenty-four come from a different person than the songs they&#x27;ll write at forty. In the way an actor knows that the roles they&#x27;re right for today are shaped by a face and a presence that is, quietly and without permission, changing.</p>
+<p>Portraiture has always been about this. Not preservation — that&#x27;s what snapshots do. Portraiture is about <em>declaration</em>. It says: this is who I am, and I know it, and I&#x27;m not apologising for any of it.</p>
+<p>The great portraits in history weren&#x27;t taken because someone needed a new headshot. They were taken because someone understood that the way they looked <em>right now</em> was worth recording with intention. With skill. With the kind of attention that most photographs never receive.</p>
+<p>I think about this often in the studio. A person sits in front of me, and I&#x27;m not just thinking about light and angle. I&#x27;m thinking about the fact that they showed up. That they decided their own image was worth an hour of considered work. There&#x27;s something quietly radical about that, especially for creatives — people who spend most of their energy making things for others.</p>
+<p>The portrait you haven&#x27;t taken yet is the one that captures you as you are right now. Not the version of you that existed when your current headshot was taken. Not the future version you&#x27;re working towards. The one sitting here reading this email, in the middle of whatever you&#x27;re in the middle of.</p>
+<p>That version of you is worth photographing.</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[WEBSITE URL]</p>
+<p>P.S. If something in this landed, and you&#x27;d like to talk about a session: <strong><a href="[BOOKING LINK]">Book here →</a></strong></p>
+<hr>
+<hr>
+<h2 id="sequence-2-post-session-review-amp-referral">Sequence 2: Post-Session Review &amp; Referral</h2>
+<p><strong>Trigger:</strong> Gallery delivered to client (manual trigger or tag applied in Mautic after gallery delivery).</p>
+<hr>
+<h3 id="email-1-of-3-day-7-check-in">Email 1 of 3 — Day 7: Check-In</h3>
+<p><strong>Trigger:</strong> 7 days after gallery delivery</p>
+<p><strong>Subject:</strong> How are the images landing?</p>
+<hr>
+<p>Hey [FIRST NAME],</p>
+<p>It&#x27;s been about a week since your gallery went out. I wanted to check in — how are the portraits landing?</p>
+<p>Have you started using them? Updated your website, posted one on socials, sent one to your agent? I&#x27;m always curious to see where the images end up living.</p>
+<p>If you&#x27;ve got retouching feedback on any of the selects — a small adjustment you&#x27;d like, a crop you want to try — just reply here. [RETOUCHING ROUNDS REMAINING, e.g. &quot;You&#x27;ve still got one round of revisions included in your package, so don&#x27;t hesitate.&quot;]</p>
+<p>One more thing, and only if you&#x27;re inclined: if the experience was worth remembering, a short Google review goes a long way for a small studio like ours. No pressure at all — but if you have two minutes:</p>
+<p><strong><a href="[GOOGLE REVIEW URL]">Leave a Review →</a></strong></p>
+<p>Thanks again for trusting us with your portraits, [FIRST NAME]. It was a genuinely enjoyable session.</p>
+<p>Warmly,</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[WEBSITE URL]</p>
+<hr>
+<h3 id="email-2-of-3-day-14-the-referral">Email 2 of 3 — Day 14: The Referral</h3>
+<p><strong>Trigger:</strong> 7 days after Email 1</p>
+<p><strong>Subject:</strong> Know someone who needs this?</p>
+<hr>
+<p>[FIRST NAME],</p>
+<p>Quick one for you.</p>
+<p>You know the kind of person who would value what we do here — an actor updating their headshots before pilot season, a musician launching something new, a founder who&#x27;s outgrown their iPhone selfie. The kind of person who takes their work seriously enough to invest in how they&#x27;re seen.</p>
+<p>If someone comes to mind, we&#x27;d love to photograph them. And as a thank you, anyone you refer receives <strong>10% off</strong> their session.</p>
+<p>No forms, no codes. Just send them our way and mention your name. We&#x27;ll take it from there.</p>
+<p><strong><a href="[WEBSITE URL]">Power Portraits Website →</a></strong></p>
+<p>Thanks for spreading the word. It means more than any ad we could run.</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[WEBSITE URL]</p>
+<hr>
+<h3 id="email-3-of-3-day-30-social-proof-request">Email 3 of 3 — Day 30: Social Proof Request</h3>
+<p><strong>Trigger:</strong> 16 days after Email 2</p>
+<p><strong>Subject:</strong> A quick favour.</p>
+<hr>
+<p>[FIRST NAME],</p>
+<p>I have a small favour to ask, and I want to make it worth your while.</p>
+<p>If you&#x27;ve been happy with your portraits, would you consider sharing one on your socials and tagging us? Instagram, LinkedIn, wherever your people are — it doesn&#x27;t need to be elaborate.</p>
+<p>And here&#x27;s what I&#x27;d like to offer in return: we&#x27;ll design a <strong>branded quote card</strong> featuring your portrait and a short quote from you — something about your work, your creative philosophy, whatever feels right. Something you&#x27;d be proud to post.</p>
+<p>Completely free. We&#x27;ll send you the finished design to approve before anything goes anywhere.</p>
+<p>If you&#x27;re up for it, just reply with a line or two you&#x27;d like featured and we&#x27;ll do the rest.</p>
+<p><strong>Our handles:</strong></p>
+<ul>
+<li>Instagram: [INSTAGRAM HANDLE]</li>
+<li>LinkedIn: [LINKEDIN URL]</li>
+</ul>
+<p>Thanks for being part of what we&#x27;re building, [FIRST NAME].</p>
+<p>Ben Alek Conner</p>
+<p>Power Portraits Photography</p>
+<p>[WEBSITE URL]</p>
+<hr>
+<h2 id="implementation-notes">Implementation Notes</h2>
+<ul>
+<li><strong>Mautic segments:</strong> Create two segments — &quot;Lead Magnet Downloads&quot; and &quot;Gallery Delivered&quot; — to trigger each sequence.</li>
+<li><strong>Delay type:</strong> Use &quot;Wait X days&quot; delays between emails, not calendar-based scheduling.</li>
+<li><strong>Personalisation tokens:</strong> <code>{contactfield=firstname}</code> for [FIRST NAME] in Mautic.</li>
+<li><strong>Exit conditions:</strong> Sequence 1 — contact books a session (remove from campaign). Sequence 2 — none (all emails send regardless).</li>
+<li><strong>Placeholders to fill before launch:</strong></li>
+<li>[DOWNLOAD LINK] — Posing guide PDF URL</li>
+<li>[WEBSITE URL] — Power Portraits website</li>
+<li>[BOOKING LINK] — Cal.com booking page</li>
+<li>[SUBURB] — Studio suburb in Brisbane</li>
+<li>[TURNAROUND DAYS] — Gallery delivery timeframe</li>
+<li>[GOOGLE REVIEW URL] — Google Business review link</li>
+<li>[INSTAGRAM HANDLE] — Power Portraits Instagram</li>
+<li>[LINKEDIN URL] — Power Portraits LinkedIn page</li>
+<li>[TESTIMONIAL OR SOCIAL PROOF PLACEHOLDER] — Replace with real testimonial once available</li>
+<li>[RETOUCHING ROUNDS REMAINING] — Adjust per client&#x27;s package</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">02-Power Portraits/01-strategy/Documents/EMAIL SEQUENCES.md</div>
+    </main>
+  </div>
+</body>
+</html>

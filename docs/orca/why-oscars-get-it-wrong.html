@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why the Oscars Keep Getting It Wrong | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link active"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#orca">ORCA Film Awards</a> &rsaquo;
+          Why the Oscars Keep Getting It Wrong
+        </div>
+        <h1 class="doc-title">Why the Oscars Keep Getting It Wrong</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#127916; ORCA Film Awards</span>
+          <span class="doc-path">04-ORCA Film Awards / 05-content / articles</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="why-the-oscars-keep-getting-it-wrong">Why the Oscars Keep Getting It Wrong</h1>
+<p><em>By ORCA Editorial | April 19, 2026</em></p>
+<hr>
+<p>Every March, the Academy of Motion Picture Arts and Sciences gathers to celebrate what it considers the best films of the year. And every March, they get it wrong. Not entirely wrong — the Oscars occasionally stumble into greatness — but systematically, predictably, structurally wrong. The Academy&#x27;s blind spots are not random oversights. They are features of the system, baked into its membership, its voting procedures, and its institutional DNA. And they have been there since the beginning.</p>
+<p>The ORCA Film Awards exist because of these blind spots. Understanding them is not about bashing the Oscars for sport. It is about being honest about what the Academy actually rewards, what it ignores, and why an alternative voice in the awards conversation is not just useful but necessary.</p>
+<h2 id="the-foreign-language-ghetto">The Foreign Language Ghetto</h2>
+<p>For decades, the Academy treated non-English-language cinema as a curiosity — something to be acknowledged in a single category and otherwise ignored. The Best International Feature Film category (renamed from &quot;Best Foreign Language Film&quot; in 2019, as if the rebrand solved the underlying problem) has long functioned as a containment strategy: give one award to the entire non-English-speaking world and call it representation.</p>
+<p>The numbers are damning. In the 96-year history of the Academy Awards, only 12 non-English-language films have been nominated for Best Picture. Twelve. Out of thousands of eligible films from every filmmaking nation on earth. For context, the Cannes Film Festival&#x27;s Palme d&#x27;Or has gone to a non-French, non-English-language film dozens of times. The gap between what Cannes considers great cinema and what the Oscars consider great cinema is not a crack — it is a canyon.</p>
+<p>When Bong Joon-ho&#x27;s Parasite won Best Picture in 2020, it was treated as a revolution. The first non-English-language film to win the top prize. But the revolution narrative obscured a harder truth: it took 92 years. Ninety-two years of world cinema — Kurosawa, Bergman, Fellini, Tarkovsky, Kiarostami, Wong Kar-wai, Hou Hsiao-hsien — and the Academy could not find a single non-English-language film worthy of Best Picture until a Korean thriller became too popular to ignore.</p>
+<p>Park Chan-wook, the filmmaker whose No Other Choice swept the 2026 ORCA Film Awards with four wins, has never received an Oscar nomination for directing. Not for Oldboy. Not for The Handmaiden. Not for Decision to Leave. The Cannes Film Festival has given him three major prizes across four Competition entries. The Academy has given him nothing. That disparity tells you everything about the two institutions&#x27; priorities.</p>
+<h2 id="the-genre-problem">The Genre Problem</h2>
+<p>The Academy has a genre problem, and it is getting worse. Horror, science fiction, comedy, and action films — the genres that most people actually watch and care about — are systematically excluded from the major categories. The message is clear: entertainment is not art.</p>
+<p>Consider horror. In the entire history of the Oscars, only six horror films have been nominated for Best Picture: The Exorcist (1974), Jaws (1976), The Silence of the Lambs (1992), The Sixth Sense (2000), Black Swan (2011), and Get Out (2018). Of those, only Silence of the Lambs won. That is one Best Picture win for the horror genre in nearly a century.</p>
+<p>Meanwhile, some of the most formally innovative, thematically rich, and culturally significant films of the 21st century have been horror films. The Wailing, Hereditary, Under the Skin, It Follows, The Babadook, Raw, A Girl Walks Home Alone at Night — none of them received a single Oscar nomination. Not one. These are films that film schools teach, that critics champion, that audiences discover and rediscover for years. The Academy pretends they do not exist.</p>
+<p>Science fiction fares slightly better in the technical categories — Visual Effects, Production Design, Sound — but is just as invisible in the major races. Denis Villeneuve&#x27;s Arrival was a rare exception, earning a Best Picture nomination in 2017, but Villeneuve himself was not nominated for directing it. The Academy nominated the film but not the filmmaker. It is a pattern that repeats across genre cinema: acknowledge the craft, ignore the artistry.</p>
+<h2 id="the-animation-prejudice">The Animation Prejudice</h2>
+<p>No discussion of the Academy&#x27;s failures would be complete without addressing animation. The Best Animated Feature category, introduced in 2001, was supposed to elevate animation. Instead, it ghettoized it. By creating a separate category, the Academy effectively told voters: animation is its own thing, and it does not belong in Best Picture.</p>
+<p>The result has been catastrophic for the medium&#x27;s prestige. Spirited Away, one of the greatest films of the 21st century by any reasonable measure, won Best Animated Feature in 2003 but was never seriously considered for Best Picture. The film is a masterwork of storytelling, visual design, and emotional depth that puts most live-action Best Picture winners to shame. It was consigned to the animated ghetto because it was drawn rather than photographed.</p>
+<p>The pattern continues year after year. WALL-E, arguably the most ambitious science fiction film of its decade, was nominated for Best Animated Feature but not Best Picture. Up received a Best Picture nomination in 2010, but only after the Academy expanded the category to ten nominees — and it was widely understood to be a token gesture. Toy Story 3 received the same treatment. Since then, the Academy has largely retreated from nominating animated films for Best Picture altogether.</p>
+<p>Spider-Man: Into the Spider-Verse, a film that reinvented what animation could look like and feel like, won Best Animated Feature in 2019 but received no Best Picture nomination. The Boy and the Heron, Hayao Miyazaki&#x27;s late-career masterpiece, won Best Animated Feature in 2024 in what felt like a lifetime achievement consolation prize rather than an engagement with the film itself.</p>
+<p>The message is consistent: animation is for children, and children&#x27;s entertainment is not cinema. It is a prejudice that ignores the entire history of the medium, from Fantasia to Akira to Persepolis to Flee.</p>
+<h2 id="the-indie-blind-spot">The Indie Blind Spot</h2>
+<p>Spike Lee&#x27;s Do the Right Thing was not nominated for Best Picture in 1990. Let that settle. One of the most important American films ever made — a film that defined a generation&#x27;s understanding of race, community, and systemic violence in America — was not considered one of the five best films of 1989 by the Academy. Driving Miss Daisy won instead.</p>
+<p>This was not an isolated failure. It was a preview of a pattern that would repeat for decades. The Academy has consistently struggled with films that challenge comfortable narratives, that refuse to offer easy redemption, that depict American life in ways that make its predominantly white, predominantly male, predominantly older membership uncomfortable.</p>
+<p>Hoop Dreams, widely considered one of the greatest documentaries ever made, was not even nominated for Best Documentary in 1995 due to a voting irregularity that the Academy acknowledged and then did nothing to prevent from recurring. The Thin Red Line, Terrence Malick&#x27;s visionary war film, lost Best Picture to Shakespeare in Love. Three of the five Best Picture nominees in 1999 — Saving Private Ryan, The Thin Red Line, and Life is Beautiful — are more remembered and more discussed than the actual winner. That happens at the Oscars more often than it should.</p>
+<h2 id="the-quotoscar-moviequot-problem">The &quot;Oscar Movie&quot; Problem</h2>
+<p>The Academy does not just overlook certain films. It actively rewards a specific type of film — what the industry calls &quot;Oscar bait.&quot; These are films designed to win awards: period pieces, biopics, stories of triumph over adversity, films with Important Messages delivered through conventional storytelling. They are often well-made. They are rarely the most interesting or important films of their year.</p>
+<p>Green Book won Best Picture in 2019. It is a film about racism told from the white character&#x27;s perspective, in which a racist man learns to be slightly less racist over the course of a road trip. It beat BlacKkKlansman, Roma, and The Favourite — three films that were more formally inventive, more culturally significant, and more honest about their subject matter. Green Book won because it is the kind of film the Academy has always rewarded: comfortable, reassuring, and built on the assumption that institutional racism is a problem that can be solved by individual kindness.</p>
+<p>The King&#x27;s Speech won over The Social Network. Crash won over Brokeback Mountain. Shakespeare in Love won over Saving Private Ryan. The pattern is not subtle.</p>
+<h2 id="why-orca-exists">Why ORCA Exists</h2>
+<p>The ORCA Film Awards were not created to replace the Oscars. They were created to fill the enormous gap the Oscars leave behind. Our eligibility rule — no film that received an Oscar nomination in any category can be nominated for an ORCA — is a statement of purpose. We are not interested in relitigating the Academy&#x27;s choices. We are interested in the films they never considered in the first place.</p>
+<p>When Park Chan-wook&#x27;s No Other Choice receives zero Oscar nominations and then sweeps the ORCAs with four wins, that is not a contradiction. That is the system working exactly as designed. We exist to say: this film matters, this filmmaker matters, and the fact that 9,000 Academy voters did not notice does not change that.</p>
+<p>The Oscars will continue to get it wrong. They will continue to overlook foreign-language masterpieces, genre-defying horror films, groundbreaking animation, and challenging indie cinema. They will continue to reward safe, comfortable, prestige-formatted films that reassure their voters that the industry is producing Important Work.</p>
+<p>And we will continue to be here, watching the films they miss, writing about them, and making sure they are not forgotten. That is not a criticism of the Academy. It is a description of the job.</p>
+<p>The best films of any given year are almost never the ones holding Oscar statuettes. The sooner we accept that, the sooner we can start paying attention to what actually matters.</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">04-ORCA Film Awards/05-content/articles/why-oscars-get-it-wrong.md</div>
+    </main>
+  </div>
+</body>
+</html>

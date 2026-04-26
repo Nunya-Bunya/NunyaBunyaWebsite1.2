@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Funnel Build -- All Businesses | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          Sales Funnel Build -- All Businesses
+        </div>
+        <h1 class="doc-title">Sales Funnel Build -- All Businesses</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="sales-funnel-build-all-businesses">Sales Funnel Build -- All Businesses</h1>
+<p><strong>Created:</strong> 2026-03-28</p>
+<p><strong>Goal:</strong> 2 ads, 2 offers, 2 lead magnets, 2 landing pages, 2 email drip sequences per business. All connected to Slack notifications, all links working, clear pipeline to purchase or book a call.</p>
+<p><strong>Tech Stack:</strong></p>
+<ul>
+<li>Landing pages: HTML hosted on each business&#x27;s site</li>
+<li>Email drips: Mautic (self-hosted)</li>
+<li>Booking: Cal.com</li>
+<li>CRM: Twenty (self-hosted)</li>
+<li>Slack notifications: NunyaBunya workspace webhooks</li>
+<li>Link tracking: Shlink (self-hosted)</li>
+<li>Analytics: Matomo (self-hosted)</li>
+</ul>
+<hr>
+<h2 id="pipeline-flow-same-for-every-business">Pipeline Flow (Same for Every Business)</h2>
+<pre><code>Ad (Facebook/Google/LinkedIn)
+  --&gt; Landing Page (offer + lead magnet)
+    --&gt; Form submission triggers:
+        1. Mautic adds contact + starts drip sequence
+        2. Slack notification (#channel for that business)
+        3. Twenty CRM creates lead
+    --&gt; Email Drip (5-7 emails over 14 days)
+        --&gt; CTA: Book a call (Cal.com) or Purchase
+          --&gt; Slack notification on booking/purchase</code></pre>
+<hr>
+<h2 id="business-1-nunya-bunya-marketing-agency">BUSINESS 1: NUNYA BUNYA (Marketing Agency)</h2>
+<h3 id="offer-a-free-marketing-audit">Offer A: Free Marketing Audit</h3>
+<ul>
+<li><strong>Ad:</strong> &quot;Most Brisbane businesses are wasting money on marketing. We&#x27;ll show you where -- for free.&quot;</li>
+<li><strong>Platform:</strong> Facebook + LinkedIn</li>
+<li><strong>Landing Page:</strong> nunyabunya.com.au/free-audit</li>
+<li><strong>Lead Magnet:</strong> Free 15-minute marketing audit report (PDF delivered after form fill)</li>
+<li><strong>Form Fields:</strong> Name, Email, Business Name, Website URL, Biggest Marketing Challenge</li>
+<li><strong>Email Drip (5 emails, 14 days):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Here&#x27;s your marketing audit&quot; + PDF attachment + quick win they can do today</li>
+<li>Day 2: &quot;The #1 mistake Brisbane businesses make with their marketing&quot;</li>
+<li>Day 5: &quot;How we generated <span class="cb cb-done">&#9745;</span> leads for [client] in 30 days&quot; (case study)</li>
+<li>Day 9: &quot;3 things you can automate today to save 5 hours/week&quot;</li>
+<li>Day 14: &quot;Ready to stop guessing? Let&#x27;s talk.&quot; + Cal.com booking link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Book a free 30-min strategy call (Cal.com)</li>
+<li><strong>Slack:</strong> #nunya-bunya</li>
+</ul>
+<h3 id="offer-b-free-marketing-checklist">Offer B: Free Marketing Checklist</h3>
+<ul>
+<li><strong>Ad:</strong> &quot;20 things every small business should do before spending a dollar on ads. Free checklist.&quot;</li>
+<li><strong>Platform:</strong> Facebook Groups (organic) + Facebook Ads</li>
+<li><strong>Landing Page:</strong> nunyabunya.com.au/checklist</li>
+<li><strong>Lead Magnet:</strong> &quot;The $0 Marketing Checklist&quot; (PDF -- 20 actionable items)</li>
+<li><strong>Form Fields:</strong> Name, Email, Business Name</li>
+<li><strong>Email Drip (5 emails, 14 days):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Your checklist is here&quot; + PDF + &quot;Start with item #1 today&quot;</li>
+<li>Day 3: &quot;Did you do item #7? Here&#x27;s why it matters most&quot;</li>
+<li>Day 6: &quot;The free tools that replaced $1,000/month in SaaS for us&quot;</li>
+<li>Day 10: &quot;What happens after the checklist? Here&#x27;s the next level.&quot;</li>
+<li>Day 14: &quot;Want us to do it for you? Book a call.&quot; + Cal.com link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Book a free strategy call (Cal.com)</li>
+<li><strong>Slack:</strong> #nunya-bunya</li>
+</ul>
+<hr>
+<h2 id="business-2-power-portraits-headshot-studio">BUSINESS 2: POWER PORTRAITS (Headshot Studio)</h2>
+<h3 id="offer-a-free-headshot-guide">Offer A: Free Headshot Guide</h3>
+<ul>
+<li><strong>Ad:</strong> &quot;Your LinkedIn headshot is your first impression. Here&#x27;s how to nail it.&quot;</li>
+<li><strong>Platform:</strong> LinkedIn + Facebook</li>
+<li><strong>Landing Page:</strong> powerportraitsphotography.com.au/guide</li>
+<li><strong>Lead Magnet:</strong> &quot;What to Wear &amp; How to Prepare for Your Professional Headshot&quot; (PDF guide)</li>
+<li><strong>Form Fields:</strong> Name, Email, Company/Role</li>
+<li><strong>Email Drip (5 emails, 14 days):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Your headshot guide is here&quot; + PDF + before/after examples</li>
+<li>Day 2: &quot;AI headshots vs real headshots: why authenticity wins&quot;</li>
+<li>Day 5: &quot;How your headshot affects your LinkedIn profile views (the data)&quot;</li>
+<li>Day 9: &quot;What our clients say&quot; + testimonials + portfolio samples</li>
+<li>Day 14: &quot;Ready to upgrade your image? Book your session.&quot; + Cal.com link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Book a headshot session (Cal.com)</li>
+<li><strong>Slack:</strong> #power-portraits</li>
+</ul>
+<h3 id="offer-b-limited-launch-pricing">Offer B: Limited Launch Pricing</h3>
+<ul>
+<li><strong>Ad:</strong> &quot;Brisbane headshot sessions: $199 launch special (normally $350). Limited spots.&quot;</li>
+<li><strong>Platform:</strong> Facebook + Instagram</li>
+<li><strong>Landing Page:</strong> powerportraitsphotography.com.au/launch-special</li>
+<li><strong>Lead Magnet:</strong> No PDF -- direct booking offer with urgency (limited spots)</li>
+<li><strong>Form Fields:</strong> Name, Email, Phone, Preferred Date</li>
+<li><strong>Email Drip (3 emails, 7 days -- shorter because it&#x27;s a direct offer):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Your spot is reserved. Here&#x27;s what to expect.&quot; + preparation tips</li>
+<li>Day 3: &quot;Only <span class="cb cb-done">&#9745;</span> launch special spots left this month&quot;</li>
+<li>Day 7: &quot;Last chance: launch pricing ends [date]&quot; + booking link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Book now at launch price (Cal.com)</li>
+<li><strong>Slack:</strong> #power-portraits</li>
+</ul>
+<hr>
+<h2 id="business-3-conner-law-group">BUSINESS 3: CONNER LAW GROUP</h2>
+<h3 id="3a-merkel-amp-conner-general-pi-car-accidents">3A: Merkel &amp; Conner (General PI + Car Accidents)</h3>
+<h4 id="offer-a-free-case-assessment">Offer A: Free Case Assessment</h4>
+<ul>
+<li><strong>Ad:</strong> &quot;Injured in a car accident? Find out what your claim is worth. Free, no obligation.&quot;</li>
+<li><strong>Platform:</strong> Google Ads (search) + Facebook</li>
+<li><strong>Landing Page:</strong> merkelconner.com.au/free-assessment</li>
+<li><strong>Lead Magnet:</strong> Free case assessment (human follow-up, not a PDF)</li>
+<li><strong>Form Fields:</strong> Name, Email, Phone, Type of Injury, Brief Description, When Did It Happen</li>
+<li><strong>Email Drip (5 emails, 21 days -- longer cycle for legal):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;We&#x27;ve received your details. Here&#x27;s what happens next.&quot; + what to expect</li>
+<li>Day 3: &quot;5 mistakes that can ruin your injury claim&quot; (educational)</li>
+<li>Day 7: &quot;How long does a personal injury claim take in QLD?&quot;</li>
+<li>Day 14: &quot;What &#x27;no win no fee&#x27; actually means&quot; + why it reduces your risk</li>
+<li>Day 21: &quot;Still have questions? Call us directly.&quot; + phone number + booking link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Book a free consultation (Cal.com) or call directly</li>
+<li><strong>Slack:</strong> #conner-law-group</li>
+</ul>
+<h4 id="offer-b-car-accident-guide">Offer B: Car Accident Guide</h4>
+<ul>
+<li><strong>Ad:</strong> &quot;Just been in a car accident in QLD? Here&#x27;s exactly what to do (free guide).&quot;</li>
+<li><strong>Platform:</strong> Google Ads + Facebook</li>
+<li><strong>Landing Page:</strong> merkelconner.com.au/car-accident-guide</li>
+<li><strong>Lead Magnet:</strong> &quot;What to Do After a Car Accident in Queensland&quot; (PDF step-by-step guide)</li>
+<li><strong>Form Fields:</strong> Name, Email, Phone (optional)</li>
+<li><strong>Email Drip (5 emails, 21 days):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Your guide is here&quot; + PDF + &quot;Do step 1 immediately if you haven&#x27;t&quot;</li>
+<li>Day 3: &quot;How much compensation can you get for a car accident in QLD?&quot;</li>
+<li>Day 7: &quot;Time limits on injury claims -- don&#x27;t miss these deadlines&quot;</li>
+<li>Day 14: &quot;Our client [name] recovered $<span class="cb cb-done">&#9745;</span> after a [type] accident&quot; (case study)</li>
+<li>Day 21: &quot;Want to know if you have a claim? Free assessment.&quot; + booking link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Book free case assessment (Cal.com)</li>
+<li><strong>Slack:</strong> #conner-law-group</li>
+</ul>
+<h3 id="3b-conner-injury-law-niche-motorcycle-rideshare-catastrophic">3B: Conner Injury Law (Niche: Motorcycle, Rideshare, Catastrophic)</h3>
+<h4 id="offer-a-free-case-assessment-niche-injuries">Offer A: Free Case Assessment (Niche Injuries)</h4>
+<ul>
+<li><strong>Ad:</strong> &quot;Motorcycle accident? Rideshare injury? Specialist injury lawyers. Free case review.&quot;</li>
+<li><strong>Platform:</strong> Google Ads (search -- niche keywords)</li>
+<li><strong>Landing Page:</strong> connerinjurylaw.com.au/free-review</li>
+<li><strong>Lead Magnet:</strong> Free specialist case review</li>
+<li><strong>Form Fields:</strong> Name, Email, Phone, Injury Type (dropdown: motorcycle, rideshare, pedestrian, truck, other), Brief Description</li>
+<li><strong>Email Drip (5 emails, 21 days):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;We&#x27;ve received your case details. A specialist will review within 24 hours.&quot;</li>
+<li>Day 3: &quot;Motorcycle/rideshare claims are different. Here&#x27;s why.&quot; (tailored to injury type)</li>
+<li>Day 7: &quot;What compensation covers: medical, lost wages, pain &amp; suffering&quot;</li>
+<li>Day 14: &quot;Time limits you need to know about in QLD&quot;</li>
+<li>Day 21: &quot;Ready to move forward? Let&#x27;s talk.&quot; + booking link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Book free consultation (Cal.com)</li>
+<li><strong>Slack:</strong> #conner-law-group</li>
+</ul>
+<h4 id="offer-b-rideshare-accident-guide">Offer B: Rideshare Accident Guide</h4>
+<ul>
+<li><strong>Ad:</strong> &quot;Injured in an Uber or DiDi? Your rights are different. Free guide.&quot;</li>
+<li><strong>Platform:</strong> Google Ads + Facebook</li>
+<li><strong>Landing Page:</strong> connerinjurylaw.com.au/rideshare-guide</li>
+<li><strong>Lead Magnet:</strong> &quot;Rideshare Accident? Your Rights When Uber or DiDi Is Involved&quot; (PDF)</li>
+<li><strong>Form Fields:</strong> Name, Email</li>
+<li><strong>Email Drip (5 emails, 21 days):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Your rideshare guide is here&quot; + PDF</li>
+<li>Day 3: &quot;Why rideshare claims are more complex than regular car accidents&quot;</li>
+<li>Day 7: &quot;Who pays? The driver, the company, or their insurer?&quot;</li>
+<li>Day 14: &quot;Case study: how we helped a rideshare passenger recover $<span class="cb cb-done">&#9745;</span>&quot;</li>
+<li>Day 21: &quot;Think you have a claim? Free specialist review.&quot; + booking link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Book free case review (Cal.com)</li>
+<li><strong>Slack:</strong> #conner-law-group</li>
+</ul>
+<h3 id="3c-mbcs-non-pi-family-property-employment-wills">3C: MBCS (Non-PI: Family, Property, Employment, Wills)</h3>
+<h4 id="offer-a-free-legal-checklist">Offer A: Free Legal Checklist</h4>
+<ul>
+<li><strong>Ad:</strong> &quot;Starting a business? Buying property? Going through a separation? Free legal checklist.&quot;</li>
+<li><strong>Platform:</strong> Facebook + Google Ads</li>
+<li><strong>Landing Page:</strong> mbcs.com.au/checklist</li>
+<li><strong>Lead Magnet:</strong> &quot;The Legal Checklist Every Queenslander Needs&quot; (PDF -- covers property, wills, family, employment)</li>
+<li><strong>Form Fields:</strong> Name, Email, Area of Interest (dropdown)</li>
+<li><strong>Email Drip (5 emails, 14 days):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Your legal checklist is here&quot; + PDF</li>
+<li>Day 3: &quot;The #1 legal mistake people make when [buying property / separating / starting a business]&quot; (tailored to interest)</li>
+<li>Day 7: &quot;When DIY legal advice costs more than a lawyer&quot;</li>
+<li>Day 10: &quot;What to expect at a first legal consultation (and why it&#x27;s worth it)&quot;</li>
+<li>Day 14: &quot;Questions? Book a free 15-minute consultation.&quot; + Cal.com link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Book free 15-min consultation (Cal.com)</li>
+<li><strong>Slack:</strong> #conner-law-group</li>
+</ul>
+<h4 id="offer-b-free-initial-consultation">Offer B: Free Initial Consultation</h4>
+<ul>
+<li><strong>Ad:</strong> &quot;Need a lawyer in [city]? Free 15-minute phone consultation. No obligation.&quot;</li>
+<li><strong>Platform:</strong> Google Ads (local search)</li>
+<li><strong>Landing Page:</strong> mbcs.com.au/free-consult</li>
+<li><strong>Lead Magnet:</strong> No PDF -- direct booking with value proposition</li>
+<li><strong>Form Fields:</strong> Name, Email, Phone, Area of Law (dropdown), Brief Description</li>
+<li><strong>Email Drip (3 emails, 7 days):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Your consultation is booked. Here&#x27;s how to prepare.&quot;</li>
+<li>Day 3: &quot;3 things to bring to your legal consultation&quot;</li>
+<li>Day 7: &quot;Didn&#x27;t book yet? Spots are limited this week.&quot; + booking link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Book free consultation (Cal.com)</li>
+<li><strong>Slack:</strong> #conner-law-group</li>
+</ul>
+<hr>
+<h2 id="business-4-bella-rhyder-activewear">BUSINESS 4: BELLA RHYDER (Activewear)</h2>
+<h3 id="offer-a-early-access-waitlist">Offer A: Early Access / Waitlist</h3>
+<ul>
+<li><strong>Ad:</strong> &quot;Move Boldly. Live Freely. Premium Australian activewear launching June 2026. Join the waitlist.&quot;</li>
+<li><strong>Platform:</strong> Instagram + TikTok + Facebook</li>
+<li><strong>Landing Page:</strong> bellarhyder.com.au/waitlist</li>
+<li><strong>Lead Magnet:</strong> Early access + 15% launch discount for waitlist members</li>
+<li><strong>Form Fields:</strong> Name, Email, Size Preference (optional)</li>
+<li><strong>Email Drip (5 emails, spread across pre-launch period):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;You&#x27;re on the list. Here&#x27;s your 15% discount code for launch day.&quot;</li>
+<li>Day 7: &quot;Meet the founder&quot; + sister&#x27;s story (authentic, personal)</li>
+<li>Day 21: &quot;Sneak peek: first product photos&quot;</li>
+<li>Day 45: &quot;Launch is <span class="cb cb-done">&#9745;</span> days away. Here&#x27;s what&#x27;s coming.&quot;</li>
+<li>Launch day: &quot;We&#x27;re LIVE. Use your code before it expires.&quot; + shop link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Shop with discount code on Shopify</li>
+<li><strong>Slack:</strong> #bella-rhyder</li>
+</ul>
+<h3 id="offer-b-style-quiz">Offer B: Style Quiz</h3>
+<ul>
+<li><strong>Ad:</strong> &quot;What&#x27;s your activewear personality? Take the 60-second quiz.&quot;</li>
+<li><strong>Platform:</strong> Instagram + Facebook</li>
+<li><strong>Landing Page:</strong> bellarhyder.com.au/quiz</li>
+<li><strong>Lead Magnet:</strong> Fun quiz that recommends products based on style + activity level</li>
+<li><strong>Form Fields:</strong> Quiz answers + Email at the end for results</li>
+<li><strong>Email Drip (5 emails, 14 days):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Your style result: [type]! Here are our picks for you.&quot;</li>
+<li>Day 3: &quot;Why we designed [product] for women like you&quot;</li>
+<li>Day 7: &quot;Customer spotlight: [name] wears Bella Rhyder for [activity]&quot;</li>
+<li>Day 10: &quot;New arrivals that match your style&quot;</li>
+<li>Day 14: &quot;15% off your first order -- just for quiz takers&quot; + shop link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Shop with discount (Shopify)</li>
+<li><strong>Slack:</strong> #bella-rhyder</li>
+</ul>
+<hr>
+<h2 id="business-5-orca-film-awards">BUSINESS 5: ORCA FILM AWARDS</h2>
+<h3 id="offer-a-become-a-voter">Offer A: Become a Voter</h3>
+<ul>
+<li><strong>Ad:</strong> &quot;Love film? Join the ORCA voting body. Help us champion the films the Oscars ignore.&quot;</li>
+<li><strong>Platform:</strong> Twitter + Instagram + Film Reddit/Letterboxd</li>
+<li><strong>Landing Page:</strong> orcafilmawards.com/vote</li>
+<li><strong>Lead Magnet:</strong> Voter membership (free) + exclusive access to ORCA content</li>
+<li><strong>Form Fields:</strong> Name, Email, Favourite Film of Last Year, Why You Want to Vote</li>
+<li><strong>Email Drip (5 emails, 14 days):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Welcome to ORCA. Here&#x27;s how voting works.&quot;</li>
+<li>Day 3: &quot;This week&#x27;s ORCA reviews: films you need to see&quot;</li>
+<li>Day 7: &quot;The films the Oscars missed last year (and why ORCA exists)&quot;</li>
+<li>Day 10: &quot;Meet our other voters&quot; + community spotlight</li>
+<li>Day 14: &quot;Nominations are open. Cast your first votes.&quot; + voting portal link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Vote in current awards cycle</li>
+<li><strong>Slack:</strong> #orca-film-awards</li>
+</ul>
+<h3 id="offer-b-weekly-film-newsletter">Offer B: Weekly Film Newsletter</h3>
+<ul>
+<li><strong>Ad:</strong> &quot;The best films you&#x27;re not watching. Free weekly newsletter from ORCA Film Awards.&quot;</li>
+<li><strong>Platform:</strong> Twitter + Instagram + Letterboxd</li>
+<li><strong>Landing Page:</strong> orcafilmawards.com/newsletter</li>
+<li><strong>Lead Magnet:</strong> Weekly curated email: reviews, hidden gems, festival coverage</li>
+<li><strong>Form Fields:</strong> Name, Email</li>
+<li><strong>Email Drip (onboarding, then transitions to weekly newsletter):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Welcome. Here are our top 5 underseen films right now.&quot;</li>
+<li>Day 3: &quot;Why we started ORCA (and why independent film matters)&quot;</li>
+<li>Day 7: First regular weekly newsletter</li>
+<li>Ongoing: Weekly newsletter (reviews, recommendations, ORCA news)</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Join as a voter + share with film-loving friends</li>
+<li><strong>Slack:</strong> #orca-film-awards</li>
+</ul>
+<hr>
+<h2 id="business-6-ben-alek-conner-personal-brand">BUSINESS 6: BEN ALEK CONNER (Personal Brand)</h2>
+<h3 id="offer-a-free-resource-for-entrepreneurs">Offer A: Free Resource for Entrepreneurs</h3>
+<ul>
+<li><strong>Ad:</strong> &quot;I built a complete marketing stack for $16/month. Here&#x27;s exactly how.&quot;</li>
+<li><strong>Platform:</strong> LinkedIn + YouTube (video description)</li>
+<li><strong>Landing Page:</strong> benalekconner.com/stack</li>
+<li><strong>Lead Magnet:</strong> &quot;The $16/Month Marketing Stack Blueprint&quot; (PDF -- full tool list, setup guide, cost breakdown)</li>
+<li><strong>Form Fields:</strong> Name, Email</li>
+<li><strong>Email Drip (5 emails, 14 days):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Your blueprint is here&quot; + PDF + &quot;Start with tool #1&quot;</li>
+<li>Day 3: &quot;The 3 tools from the stack that made the biggest difference&quot;</li>
+<li>Day 7: &quot;How I use this stack to market 9 businesses at once&quot;</li>
+<li>Day 10: &quot;New YouTube video: [latest video title]&quot; + link</li>
+<li>Day 14: &quot;Want help setting this up? I consult on marketing systems.&quot; + Cal.com link</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Book a consulting call (Cal.com) or subscribe to YouTube</li>
+<li><strong>Slack:</strong> #ben-hq</li>
+</ul>
+<h3 id="offer-b-youtube-subscriber-magnet">Offer B: YouTube Subscriber Magnet</h3>
+<ul>
+<li><strong>Ad:</strong> &quot;Building 9 businesses from scratch. Documenting everything. Subscribe.&quot;</li>
+<li><strong>Platform:</strong> YouTube end screens + Instagram bio</li>
+<li><strong>Landing Page:</strong> benalekconner.com/subscribe</li>
+<li><strong>Lead Magnet:</strong> &quot;5 Lessons from My First 90 Days Building an Agency&quot; (PDF) + YouTube subscribe prompt</li>
+<li><strong>Form Fields:</strong> Name, Email</li>
+<li><strong>Email Drip (5 emails, 14 days):</strong></li>
+</ul>
+<ol>
+<li>Day 0: &quot;Your 5 lessons PDF is here&quot; + link to latest YouTube video</li>
+<li>Day 3: &quot;The biggest mistake I made in month 1 (and how I fixed it)&quot;</li>
+<li>Day 7: &quot;This week&#x27;s video + behind the scenes of what I&#x27;m building&quot;</li>
+<li>Day 10: &quot;Resources I use every day&quot; (tools, books, people I follow)</li>
+<li>Day 14: &quot;Want to work together? Here&#x27;s how.&quot; + consulting link + YouTube subscribe</li>
+</ol>
+<ul>
+<li><strong>CTA:</strong> Subscribe to YouTube + book consulting call</li>
+<li><strong>Slack:</strong> #ben-hq</li>
+</ul>
+<hr>
+<h2 id="build-order-priority">BUILD ORDER (Priority)</h2>
+<div class="table-wrap"><table><thead><tr><th>Phase</th><th>Business</th><th>Why First</th></tr></thead><tbody><tr><td>1</td><td><strong>Nunya Bunya</strong></td><td>This is the engine. Needs leads NOW.</td></tr><tr><td>2</td><td><strong>Power Portraits</strong></td><td>Revenue-generating, needs bookings.</td></tr><tr><td>3</td><td><strong>Conner Law Group (all 3)</strong></td><td>Active income from demand letters.</td></tr><tr><td>4</td><td><strong>Ben Alek Conner</strong></td><td>Supports YouTube + consulting pipeline.</td></tr><tr><td>5</td><td><strong>ORCA Film Awards</strong></td><td>Voter recruitment + newsletter growth.</td></tr><tr><td>6</td><td><strong>Bella Rhyder</strong></td><td>Pre-launch, waitlist can start now.</td></tr></tbody></table></div>
+<hr>
+<h2 id="integration-checklist-per-business">INTEGRATION CHECKLIST (Per Business)</h2>
+<p>For each business, verify:</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Landing page live and form working</li>
+<li><span class="cb cb-empty">&#9744;</span> Form submission creates contact in Mautic</li>
+<li><span class="cb cb-empty">&#9744;</span> Form submission triggers Slack notification to correct channel</li>
+<li><span class="cb cb-empty">&#9744;</span> Form submission creates lead in Twenty CRM</li>
+<li><span class="cb cb-empty">&#9744;</span> Email drip sequence active in Mautic</li>
+<li><span class="cb cb-empty">&#9744;</span> Cal.com booking link working (for service businesses)</li>
+<li><span class="cb cb-empty">&#9744;</span> Shlink tracking links set up for ads</li>
+<li><span class="cb cb-empty">&#9744;</span> Matomo tracking on landing page</li>
+<li><span class="cb cb-empty">&#9744;</span> Ad created and targeting set</li>
+<li><span class="cb cb-empty">&#9744;</span> End-to-end test: submit form --&gt; get email --&gt; get Slack ping --&gt; see in CRM</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/SALES-FUNNEL-BUILD.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>90-Day Content Plan | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          90-Day Content Plan
+        </div>
+        <h1 class="doc-title">90-Day Content Plan</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="90-day-content-plan">90-Day Content Plan</h1>
+<p><strong>Start Date:</strong> March 25, 2026</p>
+<p><strong>End Date:</strong> June 22, 2026</p>
+<p><strong>Businesses:</strong> Ben Alek Conner, Nunya Bunya, ORCA Film Awards</p>
+<hr>
+<h2 id="output-targets">Output Targets</h2>
+<div class="table-wrap"><table><thead><tr><th>Business</th><th>YouTube Long</th><th>Shorts/Reels</th><th>LinkedIn</th><th>Twitter</th><th>FB Groups</th><th>Blog</th><th>Other</th></tr></thead><tbody><tr><td>Ben Alek Conner</td><td><strong>2/month</strong></td><td>3/week</td><td>5/week</td><td>5/week</td><td>3/week (pointing to NB)</td><td>-</td><td>-</td></tr><tr><td>Nunya Bunya</td><td>-</td><td>-</td><td>3/week</td><td>3/week</td><td>5/week (value posts)</td><td>2/month</td><td>Newsletter 1/month</td></tr><tr><td>ORCA Film Awards</td><td>-</td><td>-</td><td>-</td><td>3/week</td><td>-</td><td>2/week (articles)</td><td>Instagram 3/week</td></tr></tbody></table></div>
+<p><strong>Total bi-weekly output:</strong> 1 YouTube, 6 shorts, 16 LinkedIn, 16 Twitter, 16 FB group posts, 6 Instagram, 4 articles</p>
+<hr>
+<h2 id="ben-alek-conner">BEN ALEK CONNER</h2>
+<h3 id="youtube-long-form-series-quotbuilding-everythingquot">YouTube Long-Form Series: &quot;Building Everything&quot;</h3>
+<p>Documenting building businesses, creative projects, and the journey. Raw, honest, no polish needed.</p>
+<p><strong>Cadence: 2 videos per month (bi-weekly). 6 videos in 90 days.</strong></p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Release</th><th>Video Title</th><th>Notes</th></tr></thead><tbody><tr><td>1</td><td>Week 1</td><td>Starting My Agency</td><td>Why you started Nunya Bunya, what it does, where you&#x27;re going</td></tr><tr><td>2</td><td>Week 3</td><td>I Built a $16/Month Marketing Stack (That Replaces $1,000 in Tools)</td><td>Show the open-source stack, real demo</td></tr><tr><td>3</td><td>Week 5</td><td>The ORCA Film Awards: Running a Film Awards From My Laptop</td><td>Behind the scenes of ORCA</td></tr><tr><td>4</td><td>Week 7</td><td>My First Paying Client: What I Learned</td><td>The story of landing your first client</td></tr><tr><td>5</td><td>Week 9</td><td>Building a Photography Business from Zero</td><td>Power Portraits, first shoots, finding clients</td></tr><tr><td>6</td><td>Week 11</td><td>The 90-Day Update: Where I Started vs Where I Am</td><td>Full recap, numbers, lessons</td></tr></tbody></table></div>
+<p><strong>Backlog (use these if you want to swap or add extras):</strong></p>
+<ul>
+<li>How I&#x27;m Marketing 9 Businesses at Once</li>
+<li>I Want to Be a Cinematographer (ACS Accreditation Plan)</li>
+<li>Everything I Automated This Month</li>
+<li>Writing a Feature Film While Running an Agency</li>
+<li>I Got a Job Offer and I&#x27;m Not Sure I Want It</li>
+<li>60 Days In: What&#x27;s Working, What&#x27;s Not</li>
+</ul>
+<h3 id="shortsreels-3-per-week-30-60-seconds-each">Shorts/Reels (3 per week, 30-60 seconds each)</h3>
+<p><strong>Recurring formats (rotate these):</strong></p>
+<ol>
+<li><strong>&quot;One Thing&quot; tips</strong> - &quot;One thing most small businesses get wrong about [topic]&quot;</li>
+<li><strong>Hot takes</strong> - Strong opinion, delivered fast</li>
+<li><strong>Behind the scenes</strong> - What you&#x27;re working on today, raw footage</li>
+<li><strong>Results/data</strong> - Show a stat, give your take</li>
+<li><strong>Day in the life</strong> - Quick cuts of your actual day</li>
+<li><strong>Story time</strong> - 60 second personal story with a lesson</li>
+</ol>
+<div class="table-wrap"><table><thead><tr><th>Week</th><th>Short #1</th><th>Short #2</th><th>Short #3</th></tr></thead><tbody><tr><td>1</td><td>One thing: &quot;Stop sending ad traffic to your homepage&quot;</td><td>BTS: Setting up the marketing stack</td><td>Hot take: &quot;Most agencies are overcharging you&quot;</td></tr><tr><td>2</td><td>Story: How I landed my first client</td><td>Data: &quot;83% of ad traffic is mobile but mobile converts 40% worse&quot;</td><td>Day in the life: Monday morning routine</td></tr><tr><td>3</td><td>One thing: &quot;Google My Business is free and you&#x27;re not using it&quot;</td><td>BTS: Building a landing page in real time</td><td>Hot take: &quot;Social media followers don&#x27;t matter&quot;</td></tr><tr><td>4</td><td>Story: The $3K to $1K negotiation</td><td>Data: &quot;Businesses with 20+ Google reviews dominate local search&quot;</td><td>Day in the life: Content creation day</td></tr><tr><td>5</td><td>One thing: &quot;Your email list is worth more than your follower count&quot;</td><td>BTS: ORCA Film Awards behind the scenes</td><td>Hot take: &quot;AI isn&#x27;t replacing marketers, it&#x27;s replacing bad marketers&quot;</td></tr><tr><td>6</td><td>Story: Why I moved to Australia</td><td>Data: &quot;Reducing form fields gives 120% conversion lift&quot;</td><td>Day in the life: Running 9 businesses</td></tr><tr><td>7</td><td>One thing: &quot;Test one thing at a time on your ads&quot;</td><td>BTS: Editing a portfolio reel</td><td>Hot take: &quot;You don&#x27;t need a perfect website to start&quot;</td></tr><tr><td>8</td><td>Story: What I learned from my first shoot</td><td>Data: &quot;Email converts 3-5x better than social&quot;</td><td>Day in the life: Photography day</td></tr><tr><td>9</td><td>One thing: &quot;Retarget your website visitors&quot;</td><td>BTS: Writing a feature film</td><td>Hot take: &quot;Posting every day is a waste if you don&#x27;t have a system&quot;</td></tr><tr><td>10</td><td>Story: Getting rejected and what I did next</td><td>Data: Landing page conversion rates by industry</td><td>Day in the life: Filming YouTube video</td></tr><tr><td>11</td><td>One thing: &quot;Ask for Google reviews. Just ask.&quot;</td><td>BTS: Automating client marketing</td><td>Hot take: &quot;Free work builds empires&quot;</td></tr><tr><td>12</td><td>Story: 90 days ago I had nothing</td><td>Data: My actual results after 90 days</td><td>Day in the life: Celebrating wins</td></tr></tbody></table></div>
+<h3 id="linkedin-posts-5-per-week">LinkedIn Posts (5 per week)</h3>
+<p><strong>Monday:</strong> Marketing insight or tip (cross-posts with Nunya Bunya content)</p>
+<p><strong>Tuesday:</strong> Personal story or lesson learned</p>
+<p><strong>Wednesday:</strong> Behind the scenes of what you&#x27;re building</p>
+<p><strong>Thursday:</strong> Industry opinion or hot take</p>
+<p><strong>Friday:</strong> Wins, progress updates, or weekend plans</p>
+<p><strong>Week 1:</strong></p>
+<ul>
+<li>Mon: The landing page vs homepage post (already posted)</li>
+<li>Tue: &quot;I moved to Australia with nothing. Here&#x27;s what I&#x27;ve built in [timeframe]&quot;</li>
+<li>Wed: &quot;Today I&#x27;m setting up a marketing stack for $16/month that replaces $1,000 in SaaS tools&quot;</li>
+<li>Thu: &quot;Hot take: Most marketing agencies are selling you a service they could automate&quot;</li>
+<li>Fri: &quot;This week I sent my first contract to my first paying client&quot;</li>
+</ul>
+<p><strong>Week 2:</strong></p>
+<ul>
+<li>Mon: Google My Business tip</li>
+<li>Tue: &quot;The hardest part of starting an agency isn&#x27;t the work. It&#x27;s the waiting.&quot;</li>
+<li>Wed: &quot;I built a lead capture system that notifies me on Slack within seconds of someone filling out a form&quot;</li>
+<li>Thu: &quot;Unpopular opinion: You don&#x27;t need 10,000 followers to get clients&quot;</li>
+<li>Fri: &quot;Week 2 update: here&#x27;s what moved and what didn&#x27;t&quot;</li>
+</ul>
+<p><strong>Week 3:</strong></p>
+<ul>
+<li>Mon: Email list vs followers post</li>
+<li>Tue: &quot;I got offered a $100K salary this week. Here&#x27;s why I&#x27;m conflicted.&quot;</li>
+<li>Wed: &quot;Building an automated email nurture sequence for a client. Here&#x27;s how it works.&quot;</li>
+<li>Thu: &quot;The businesses that figure out mobile-first landing pages will eat everyone&#x27;s lunch&quot;</li>
+<li>Fri: &quot;Three things I&#x27;d do differently if I started this agency again&quot;</li>
+</ul>
+<p><strong>Week 4:</strong></p>
+<ul>
+<li>Mon: Facebook ads mistake post</li>
+<li>Tue: &quot;What running 9 businesses at once actually looks like (it&#x27;s not glamorous)&quot;</li>
+<li>Wed: &quot;I just built a 90-day marketing roadmap for a car dealership. Here&#x27;s the structure.&quot;</li>
+<li>Thu: &quot;Stop paying $97/month for HubSpot. Here&#x27;s the free alternative.&quot;</li>
+<li>Fri: &quot;Month 1 recap: wins, losses, lessons&quot;</li>
+</ul>
+<p><strong>Weeks 5-12:</strong> Follow the same pattern. Rotate through these topic buckets:</p>
+<ul>
+<li>Marketing tips and tactics</li>
+<li>Personal journey and lessons</li>
+<li>Behind the scenes of builds</li>
+<li>Industry opinions</li>
+<li>Progress updates and results</li>
+</ul>
+<h3 id="twitter-5-per-week">Twitter (5 per week)</h3>
+<p>Same content as LinkedIn but shortened. Take the core idea from each LinkedIn post and compress it to 280 characters or a short thread.</p>
+<hr>
+<h2 id="nunya-bunya">NUNYA BUNYA</h2>
+<h3 id="facebook-group-posts-5-per-week-rotate-groups">Facebook Group Posts (5 per week, rotate groups)</h3>
+<p>Already have 7 posts written in <code>Sales Assets/free-advice-posts.md</code>. Here&#x27;s the extended list:</p>
+<div class="table-wrap"><table><thead><tr><th>Week</th><th>Post Topic</th></tr></thead><tbody><tr><td>1</td><td>Landing pages vs homepages (done)</td></tr><tr><td>1</td><td>Google My Business (done)</td></tr><tr><td>1</td><td>Stop posting and praying</td></tr><tr><td>2</td><td>The $0 marketing stack</td></tr><tr><td>2</td><td>What I&#x27;d do with $500/month</td></tr><tr><td>2</td><td>Email list importance</td></tr><tr><td>3</td><td>Google reviews hack</td></tr><tr><td>3</td><td>Why your Facebook ads aren&#x27;t converting</td></tr><tr><td>3</td><td>The one metric that actually matters (cost per lead)</td></tr><tr><td>4</td><td>How to write ad copy that doesn&#x27;t suck</td></tr><tr><td>4</td><td>SEO isn&#x27;t dead, you&#x27;re just doing it wrong</td></tr><tr><td>4</td><td>The 15-minute marketing audit anyone can do</td></tr><tr><td>5</td><td>How I automated a client&#x27;s entire lead follow-up</td></tr><tr><td>5</td><td>Retargeting: the cheapest ads you&#x27;ll ever run</td></tr><tr><td>5</td><td>Your website speed is costing you customers</td></tr><tr><td>6</td><td>Content marketing vs paid ads: when to use each</td></tr><tr><td>6</td><td>The &quot;free value&quot; strategy that gets clients</td></tr><tr><td>6</td><td>How to spy on your competitors&#x27; ads (legally)</td></tr><tr><td>7</td><td>Building a landing page in 30 minutes</td></tr><tr><td>7</td><td>Why most small businesses waste money on social media</td></tr><tr><td>7</td><td>The power of a simple email welcome sequence</td></tr><tr><td>8</td><td>Case study: how we generated X leads for $Y</td></tr><tr><td>8</td><td>The tools I use to run my agency</td></tr><tr><td>8</td><td>Why you need a CRM (and the free one I use)</td></tr><tr><td>9</td><td>How to get your first 10 Google reviews this week</td></tr><tr><td>9</td><td>Facebook groups are the most underrated lead gen channel</td></tr><tr><td>9</td><td>The biggest mistake I see in small business websites</td></tr><tr><td>10</td><td>How to write a blog post that actually ranks</td></tr><tr><td>10</td><td>Video marketing doesn&#x27;t have to be expensive</td></tr><tr><td>10</td><td>Why consistency beats perfection in marketing</td></tr><tr><td>11</td><td>How to know if your marketing is working</td></tr><tr><td>11</td><td>The 3 things every small business needs before running ads</td></tr><tr><td>11</td><td>Automation isn&#x27;t cheating, it&#x27;s being smart</td></tr><tr><td>12</td><td>What I learned marketing 9 businesses in 90 days</td></tr><tr><td>12</td><td>My top 5 free marketing tools for small business</td></tr><tr><td>12</td><td>The one thing I wish every small business owner knew</td></tr></tbody></table></div>
+<h3 id="linkedin-3-per-week">LinkedIn (3 per week)</h3>
+<p>Repost/adapt the best performing Facebook group posts. Add Nunya Bunya positioning.</p>
+<h3 id="twitter-3-per-week">Twitter (3 per week)</h3>
+<p>Compressed versions of LinkedIn posts.</p>
+<h3 id="blog-posts-2-per-month">Blog Posts (2 per month)</h3>
+<div class="table-wrap"><table><thead><tr><th>Month</th><th>Post #1</th><th>Post #2</th></tr></thead><tbody><tr><td>1</td><td>&quot;The $0 Marketing Checklist: 20 Things Every Small Business Should Do Before Spending on Ads&quot;</td><td>&quot;Why Your Google My Business Profile Is Your Most Valuable Marketing Asset&quot;</td></tr><tr><td>2</td><td>&quot;How We Built a Complete Marketing Stack for $16/Month&quot;</td><td>&quot;The Small Business Guide to Facebook Ads That Actually Convert&quot;</td></tr><tr><td>3</td><td>&quot;90 Days of Marketing 9 Businesses: What Worked and What Didn&#x27;t&quot;</td><td>&quot;How to Build a Lead Capture System That Works While You Sleep&quot;</td></tr></tbody></table></div>
+<h3 id="email-newsletter-1-per-month">Email Newsletter (1 per month)</h3>
+<p>Roundup of best content, one big insight, CTA to book a call.</p>
+<hr>
+<h2 id="orca-film-awards">ORCA FILM AWARDS</h2>
+<h3 id="phase-1-voting-period-weeks-1-2-ends-april-4">Phase 1: Voting Period (Weeks 1-2, ends April 4)</h3>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Content</th></tr></thead><tbody><tr><td>Day 1</td><td>Twitter + Instagram</td><td>Voting reminder with link</td></tr><tr><td>Day 2</td><td>Instagram</td><td>Nominee spotlight: Best Picture nominees</td></tr><tr><td>Day 3</td><td>Twitter</td><td>&quot;Have you voted yet? X days left&quot;</td></tr><tr><td>Day 4</td><td>Instagram</td><td>Nominee spotlight: Best Director nominees</td></tr><tr><td>Day 5</td><td>Twitter + Instagram</td><td>&quot;Top 3 reasons to vote this year&quot;</td></tr><tr><td>Day 6</td><td>Instagram</td><td>Nominee spotlight: Best Actor nominees</td></tr><tr><td>Day 7</td><td>Twitter</td><td>&quot;Voting closes in X days. Don&#x27;t miss it.&quot;</td></tr><tr><td>Day 8</td><td>Instagram</td><td>Nominee spotlight: Best Actress nominees</td></tr><tr><td>Day 9</td><td>Twitter + Instagram</td><td>&quot;LAST CHANCE to vote. Closes tomorrow.&quot;</td></tr><tr><td>Day 10</td><td>All platforms</td><td>&quot;Voting is now CLOSED. Winners coming soon.&quot;</td></tr></tbody></table></div>
+<h3 id="phase-2-winner-announcements-week-3">Phase 2: Winner Announcements (Week 3)</h3>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Platform</th><th>Content</th></tr></thead><tbody><tr><td>Day 1</td><td>All</td><td>Teaser: &quot;Winners announced this week&quot;</td></tr><tr><td>Day 2</td><td>Instagram + Twitter</td><td>Best Supporting categories announced</td></tr><tr><td>Day 3</td><td>Instagram + Twitter</td><td>Best Screenplay, Best Editing, technical categories</td></tr><tr><td>Day 4</td><td>Instagram + Twitter</td><td>Best Director announced</td></tr><tr><td>Day 5</td><td>Instagram + Twitter</td><td>Best Actor + Best Actress announced</td></tr><tr><td>Day 6</td><td>Instagram + Twitter</td><td>BEST PICTURE announced (big reveal)</td></tr><tr><td>Day 7</td><td>All</td><td>Full winners recap post + email to list</td></tr></tbody></table></div>
+<h3 id="phase-3-content-platform-weeks-4-12">Phase 3: Content Platform (Weeks 4-12)</h3>
+<div class="table-wrap"><table><thead><tr><th>Week</th><th>Twitter (3x)</th><th>Instagram (3x)</th><th>Article</th></tr></thead><tbody><tr><td>4</td><td>Film review teaser, platform announcement, call for writers</td><td>Winner highlights, film stills, &quot;write for us&quot; graphic</td><td>&quot;Introducing the ORCA Film Platform&quot;</td></tr><tr><td>5</td><td>Film take/opinion, review quote, engagement question</td><td>Film still + review excerpt, behind-the-scenes, recommendation</td><td>Film review #1</td></tr><tr><td>6</td><td>Hot take on new release, industry news reaction, recommendation</td><td>Review graphic, film comparison, &quot;what to watch&quot;</td><td>Film review #2</td></tr><tr><td>7</td><td>Festival news, review snippet, engagement question</td><td>Festival coverage, review graphic, recommendation</td><td>Feature essay or interview</td></tr><tr><td>8</td><td>Industry opinion, review teaser, recommendation</td><td>Film still, &quot;staff picks&quot;, review excerpt</td><td>Film review #3</td></tr><tr><td>9</td><td>Hot take, engagement question, review quote</td><td>Film comparison, recommendation list, review graphic</td><td>Film review #4</td></tr><tr><td>10</td><td>Festival coverage, industry reaction, recommendation</td><td>Festival photos, review graphic, &quot;what to watch&quot;</td><td>Festival coverage piece</td></tr><tr><td>11</td><td>Review snippet, hot take, engagement question</td><td>Film still, recommendation, review excerpt</td><td>Film review #5</td></tr><tr><td>12</td><td>90-day recap, &quot;best of&quot; list, call for writers</td><td>Best films of the quarter, platform growth, community highlight</td><td>&quot;Best Films of Q2 2026&quot; roundup</td></tr></tbody></table></div>
+<hr>
+<h2 id="daily-creation-schedule">DAILY CREATION SCHEDULE</h2>
+<p>What to create each day of the week. YouTube is bi-weekly (every other Saturday/Sunday).</p>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Create</th><th>Post</th><th>Time Needed</th></tr></thead><tbody><tr><td><strong>Monday</strong></td><td>Write LinkedIn post (BAC). Write FB group post (NB).</td><td>LinkedIn, Twitter, 3 FB groups</td><td>45 min</td></tr><tr><td><strong>Tuesday</strong></td><td>Write LinkedIn post (BAC). Film 1 short/reel.</td><td>LinkedIn, Twitter, ORCA Twitter</td><td>60 min</td></tr><tr><td><strong>Wednesday</strong></td><td>Write LinkedIn post (BAC). Write FB group post (NB). Write ORCA article.</td><td>LinkedIn, Twitter, 2 FB groups, ORCA Instagram</td><td>90 min</td></tr><tr><td><strong>Thursday</strong></td><td>Write LinkedIn post (BAC). Film 1 short/reel. Edit shorts from this week.</td><td>LinkedIn, Twitter, ORCA Twitter, ORCA Instagram</td><td>75 min</td></tr><tr><td><strong>Friday</strong></td><td>Write LinkedIn post (BAC). Write FB group post (NB).</td><td>LinkedIn, Twitter, 2 FB groups, ORCA Instagram</td><td>45 min</td></tr><tr><td><strong>Saturday (YouTube week)</strong></td><td>Film YouTube video. Film 1 short/reel.</td><td>Schedule next week&#x27;s posts in Buffer</td><td>2-3 hours</td></tr><tr><td><strong>Saturday (off week)</strong></td><td>Film 1 short/reel. Batch extra shorts.</td><td>Schedule next week&#x27;s posts in Buffer</td><td>1 hour</td></tr><tr><td><strong>Sunday (YouTube week)</strong></td><td>Edit YouTube video.</td><td>Upload YouTube video</td><td>2-3 hours</td></tr><tr><td><strong>Sunday (off week)</strong></td><td>Edit shorts. Catch up on anything behind.</td><td>Upload shorts</td><td>1 hour</td></tr></tbody></table></div>
+<p><strong>Total weekly creation time:</strong> ~8-10 hours (YouTube weeks), ~6-8 hours (off weeks)</p>
+<hr>
+<h2 id="content-creation-workflow">CONTENT CREATION WORKFLOW</h2>
+<h3 id="youtube-batch-day-every-other-saturday">YouTube Batch Day (every other Saturday)</h3>
+<ol>
+<li>Film YouTube video (30-60 min of filming)</li>
+<li>Film 3 shorts/reels back to back (15 min each)</li>
+<li>Take any photos needed for the week</li>
+</ol>
+<h3 id="youtube-edit-day-every-other-sunday">YouTube Edit Day (every other Sunday)</h3>
+<ol>
+<li>Edit YouTube video</li>
+<li>Edit 3 shorts</li>
+<li>Upload everything</li>
+<li>Schedule the week&#x27;s text posts in Buffer</li>
+</ol>
+<h3 id="off-week-saturdaysunday">Off-Week Saturday/Sunday</h3>
+<ol>
+<li>Film and edit shorts only</li>
+<li>Batch schedule posts for the week</li>
+<li>Use extra time for business work, creative projects, or rest</li>
+</ol>
+<h3 id="daily-15-30-min">Daily (15-30 min)</h3>
+<ol>
+<li>Post the day&#x27;s scheduled content (or let Buffer do it)</li>
+<li>Comment on 5 LinkedIn posts</li>
+<li>Check engagement on yesterday&#x27;s posts</li>
+<li>Respond to any DMs or comments</li>
+</ol>
+<hr>
+<h2 id="tools">TOOLS</h2>
+<div class="table-wrap"><table><thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody><tr><td>CapCut or Final Cut</td><td>Video editing</td></tr><tr><td>Canva</td><td>Graphics, thumbnails, social posts</td></tr><tr><td>Buffer</td><td>Scheduling posts</td></tr><tr><td>Mautic</td><td>Email newsletters</td></tr><tr><td>Phone</td><td>Filming shorts/reels</td></tr><tr><td>Any camera</td><td>YouTube videos</td></tr></tbody></table></div>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/90-DAY-CONTENT-PLAN.md</div>
+    </main>
+  </div>
+</body>
+</html>

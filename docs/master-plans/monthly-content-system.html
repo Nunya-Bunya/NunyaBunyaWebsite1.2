@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monthly Content Generation System | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          Monthly Content Generation System
+        </div>
+        <h1 class="doc-title">Monthly Content Generation System</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="monthly-content-generation-system">Monthly Content Generation System</h1>
+<blockquote><strong>Goal</strong>: One command generates a full month of content for any client. The human role becomes assembly and curation (~2.5 hours per client per month).</blockquote>
+<h2 id="operating-principle">Operating Principle</h2>
+<p>Generate everything first. Curate second. Publish third. Learn fourth.</p>
+<p>This system is designed to make monthly marketing execution fast, consistent, testable, and highly scalable across multiple clients. The operator is not the writer. The operator is the creative director.</p>
+<hr>
+<h2 id="core-outcome">Core Outcome</h2>
+<p>For each client, the pipeline reliably produces a month of marketing inventory:</p>
+<ul>
+<li>80-100 caption drafts (with hook variations)</li>
+<li>4-8 carousel drafts</li>
+<li>8-12 short-form video scripts</li>
+<li>27+ ad copy variations</li>
+<li>20-30 story templates</li>
+<li>4 email campaigns</li>
+<li>visual pairings for all approved posts</li>
+<li>a filled monthly content calendar</li>
+<li>a surplus/swap pool of backup content</li>
+<li>a video shoot list for batch filming day</li>
+<li>a feedback loop that improves next month&#x27;s generation</li>
+</ul>
+<p>The human operator curates the month in roughly 2.5 hours.</p>
+<hr>
+<h2 id="system-architecture">System Architecture</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                    1. RAW MATERIAL INPUTS                        │
+│  (must exist before generation runs)                             │
+├─────────────────────────────────────────────────────────────────┤
+│  Brand Bible          Content Pillars       Offer Library        │
+│  Swipe File           Asset Library         Last Month Feedback  │
+│  client_configs.json  Competitor Analysis   Audience Research     │
+└──────────────────────────────┬──────────────────────────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    2. PLANNING                                   │
+├─────────────────────────────────────────────────────────────────┤
+│  input_normalizer → monthly_content_planner                      │
+│  Output: monthly plan with topics, pillar weights, hook targets  │
+└──────────────────────────────┬──────────────────────────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    3. BULK GENERATION (parallel)                  │
+├─────────────────────────────────────────────────────────────────┤
+│  caption_factory    carousel_generator    reel_script_generator   │
+│  ad_variation_factory    story_generator    email_sequence_gen    │
+└──────────────────────────────┬──────────────────────────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    4. CURATION (human — ~2.5 hours)              │
+├─────────────────────────────────────────────────────────────────┤
+│  Review queue: Keep / Tweak / Cut per item                       │
+│  Visual pairing review (swap mismatches)                         │
+│  Select reels for filming, ads for spend                         │
+└──────────────────────────────┬──────────────────────────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    5. ASSEMBLY                                    │
+├─────────────────────────────────────────────────────────────────┤
+│  monthly_calendar_assembler → platform_adapter                   │
+│  Output: 30-day calendar + video shoot list + ad launch schedule │
+└──────────────────────────────┬──────────────────────────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    6. PUBLISH &amp; DISTRIBUTE                        │
+├─────────────────────────────────────────────────────────────────┤
+│  schedule_approved_content → Buffer/Mixpost                      │
+│  Platform-specific variants generated at publish time            │
+└──────────────────────────────┬──────────────────────────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    7. MEASURE &amp; LEARN                             │
+├─────────────────────────────────────────────────────────────────┤
+│  metrics_agent → insight_agent → monthly_feedback_report         │
+│  Winners/losers tagged, learnings fed into next month&#x27;s planner  │
+└─────────────────────────────────────────────────────────────────┘</code></pre>
+<hr>
+<h2 id="1-raw-material-input-layer">1. Raw Material Input Layer</h2>
+<p>These inputs must exist before any generation runs. The quality of inputs directly governs whether outputs feel like the client or like generic AI content.</p>
+<h3 id="11-brand-bible">1.1 Brand Bible</h3>
+<p>Structured brand source of truth. Stored in <code>pipeline<em>documents</code> as doc</em>type <code>brand_bible</code>.</p>
+<p><strong>Required fields:</strong></p>
+<ul>
+<li>brand name</li>
+<li>one-line positioning statement</li>
+<li>audience definition</li>
+<li>tone / voice traits</li>
+<li>words to use</li>
+<li>words to avoid</li>
+<li>offer(s) and CTA library</li>
+<li>visual system (colors, fonts, visual references)</li>
+<li>content do/don&#x27;t rules</li>
+<li>platform priorities</li>
+</ul>
+<p><strong>Already built</strong>: 21-agent Brand Bible pipeline produces this. Existing client Brand Bibles in <code>pipeline_documents</code>.</p>
+<h3 id="12-content-pillars">1.2 Content Pillars</h3>
+<p>Recurring categories the brand can speak about forever. 4-6 pillars per client.</p>
+<p><strong>Required data per pillar:</strong></p>
+<ul>
+<li>pillar name</li>
+<li>pillar description</li>
+<li>examples of acceptable topics</li>
+<li>examples of unacceptable topics</li>
+<li>preferred CTA types</li>
+<li>best format types for this pillar (static, carousel, reel, etc.)</li>
+</ul>
+<p><strong>Currently stored in</strong>: <code>client<em>configs.json</code> as <code>content</em>pillars</code> (name only). <strong>Gap</strong>: needs to be expanded to include per-pillar metadata (acceptable/unacceptable topics, preferred CTAs, best formats). This becomes a new field <code>content<em>pillar</em>details</code> in client config or a dedicated <code>content_pillars</code> table.</p>
+<h3 id="13-swipe-file">1.3 Swipe File</h3>
+<p>Structured inspiration library. These are not copied — they are decomposed into reusable structure.</p>
+<p><strong>Store each entry as:</strong></p>
+<ul>
+<li>source URL or screenshot</li>
+<li>platform</li>
+<li>niche</li>
+<li>hook type</li>
+<li>angle</li>
+<li>format</li>
+<li>CTA type</li>
+<li>why it works (structural breakdown)</li>
+<li>reusability score (1-5)</li>
+</ul>
+<p><strong>Function</strong>: Used as structural prompt fuel for hooks, content flow, and creative variation. Fed into the monthly planner and caption factory as templates.</p>
+<p><strong>Currently stored in</strong>: <code>nb-admin-swipe-file.html</code> exists as a UI page. <strong>Gap</strong>: needs a Supabase <code>swipe_entries</code> table and an ingestion flow.</p>
+<h3 id="14-asset-library">1.4 Asset Library</h3>
+<p>Approved visual material the system can use automatically.</p>
+<p><strong>Includes:</strong></p>
+<ul>
+<li>AI brand photos</li>
+<li>real client photos</li>
+<li>product images</li>
+<li>logos and icons</li>
+<li>branded design templates (quote cards, stat graphics, carousels, story templates, ad templates)</li>
+<li>background textures</li>
+<li>B-roll clips</li>
+</ul>
+<p><strong>Required metadata per asset:</strong></p>
+<ul>
+<li>asset type</li>
+<li>aspect ratio</li>
+<li>campaign or pillar fit</li>
+<li>usage rights / approval status</li>
+<li>tags (searchable)</li>
+<li>last used date (for freshness rotation)</li>
+</ul>
+<p><strong>Currently stored in</strong>: <code>/Content Bank/</code> with 6 organized folders (00-ready-to-use through 99-review-or-delete). <strong>Gap</strong>: no metadata database. Assets are organized by folder but not queryable by tag, pillar, or aspect ratio. Needs a Supabase <code>assets</code> table or metadata sidecar files.</p>
+<h3 id="15-offer-library">1.5 Offer Library</h3>
+<p>Centralized list of the things the business wants people to do. Prevents content from floating aimlessly without commercial purpose.</p>
+<p><strong>Includes:</strong></p>
+<ul>
+<li>core offer (the main thing you sell)</li>
+<li>seasonal offers</li>
+<li>urgency offers (limited time, limited spots)</li>
+<li>lead magnets (free downloads, audits, consultations)</li>
+<li>low-friction CTAs (follow, save, share, comment)</li>
+<li>booking CTAs (calendar links, DM triggers)</li>
+</ul>
+<p><strong>Currently stored in</strong>: partially in <code>offer<em>strategy</code> pipeline document, partially in <code>client</em>configs.json</code> as <code>cta_link</code>. <strong>Gap</strong>: needs to be a structured list per client, queryable by type.</p>
+<h3 id="16-input-normalizer-agent">1.6 Input Normalizer Agent</h3>
+<p><strong>Purpose</strong>: Takes raw client materials (messy brand docs, scattered assets, verbal instructions from onboarding) and converts them into the structured format the pipeline expects.</p>
+<p><strong>File</strong>: <code>Execution/input_normalizer.py</code></p>
+<p><strong>Directive</strong>: <code>Directives/input_normalizer.md</code></p>
+<p><strong>Registry</strong>: <code>&quot;input<em>normalizer&quot;: (&quot;input</em>normalizer&quot;, &quot;run<em>input</em>normalizer&quot;)</code></p>
+<p><strong>When to run</strong>: Once per new client during onboarding, or when client materials change significantly.</p>
+<p><strong>Input</strong>: Raw brand docs, URLs, uploaded files, survey responses (from BFK/Brand Bible pipeline)</p>
+<p><strong>Output</strong>: Validated, structured entries in all input tables (pillars with metadata, offers, asset metadata, initial swipe entries)</p>
+<hr>
+<h2 id="2-data-model">2. Data Model</h2>
+<p>Each client has a normalized content workspace. Separate tables per content type for clean querying and curation UI.</p>
+<h3 id="core-entities">Core Entities</h3>
+<pre><code>Client
+BrandBible
+ContentPillar
+Offer
+SwipeEntry
+Asset
+DraftCaption
+CarouselDraft
+ReelScript
+AdVariant
+StoryTemplate
+EmailDraft
+CalendarSlot
+PerformanceMetric
+InsightTag
+MonthlyPlan
+FeedbackReport</code></pre>
+<h3 id="database-tables">Database Tables</h3>
+<h4 id="content-pillars-new"><code>content_pillars</code> (NEW)</h4>
+<pre><code class="lang-sql">CREATE TABLE content_pillars (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT,
+    acceptable_topics JSONB,          -- [&quot;topic1&quot;, &quot;topic2&quot;]
+    unacceptable_topics JSONB,        -- [&quot;topic1&quot;, &quot;topic2&quot;]
+    preferred_cta_types JSONB,        -- [&quot;booking&quot;, &quot;lead_magnet&quot;]
+    best_formats JSONB,               -- [&quot;static_post&quot;, &quot;carousel&quot;, &quot;reel&quot;]
+    weight DECIMAL DEFAULT 0.2,       -- default even distribution
+    active BOOLEAN DEFAULT true,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+<h4 id="offers-new"><code>offers</code> (NEW)</h4>
+<pre><code class="lang-sql">CREATE TABLE offers (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    offer_type TEXT NOT NULL,          -- &quot;core&quot;, &quot;seasonal&quot;, &quot;urgency&quot;, &quot;lead_magnet&quot;, &quot;low_friction&quot;, &quot;booking&quot;
+    name TEXT NOT NULL,
+    description TEXT,
+    cta_text TEXT,
+    cta_link TEXT,
+    active BOOLEAN DEFAULT true,
+    start_date DATE,                   -- for seasonal/urgency offers
+    end_date DATE,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+<h4 id="swipe-entries-new"><code>swipe_entries</code> (NEW)</h4>
+<pre><code class="lang-sql">CREATE TABLE swipe_entries (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT,                     -- NULL = global swipe file
+    source_url TEXT,
+    screenshot_path TEXT,
+    platform TEXT,
+    niche TEXT,
+    hook_type TEXT,
+    angle TEXT,
+    format TEXT,                        -- &quot;static&quot;, &quot;carousel&quot;, &quot;reel&quot;, &quot;ad&quot;
+    cta_type TEXT,
+    why_it_works TEXT,
+    reusability_score INTEGER,          -- 1-5
+    tags JSONB,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+<h4 id="assets-new"><code>assets</code> (NEW)</h4>
+<pre><code class="lang-sql">CREATE TABLE assets (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    asset_type TEXT NOT NULL,           -- &quot;ai_photo&quot;, &quot;real_photo&quot;, &quot;product&quot;, &quot;logo&quot;, &quot;icon&quot;, &quot;template&quot;, &quot;texture&quot;, &quot;broll&quot;
+    file_path TEXT,
+    file_url TEXT,
+    aspect_ratio TEXT,                  -- &quot;1:1&quot;, &quot;4:5&quot;, &quot;9:16&quot;, &quot;16:9&quot;
+    pillar_fit JSONB,                   -- [&quot;pillar1&quot;, &quot;pillar2&quot;]
+    campaign_fit TEXT,
+    tags JSONB,
+    usage_rights TEXT,                  -- &quot;owned&quot;, &quot;stock_licensed&quot;, &quot;ai_generated&quot;
+    approval_status TEXT DEFAULT &#x27;approved&#x27;,
+    last_used_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+<h4 id="draft-captions"><code>draft_captions</code></h4>
+<pre><code class="lang-sql">CREATE TABLE draft_captions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    pipeline_run_id UUID,
+    month TEXT NOT NULL,
+
+    -- Generation metadata
+    topic TEXT,
+    pillar TEXT,
+    pillar_id UUID REFERENCES content_pillars(id),
+    offer_id UUID REFERENCES offers(id),
+    hook_style TEXT,                    -- &quot;question_hook&quot;, &quot;bold_claim&quot;, &quot;story_opener&quot;, &quot;stat_lead&quot;, &quot;controversy&quot;
+    platform TEXT,                      -- &quot;instagram&quot;, &quot;linkedin&quot;, &quot;facebook&quot;, &quot;tiktok&quot;
+
+    -- Content
+    caption_text TEXT NOT NULL,
+    hashtags JSONB,
+    cta TEXT,
+    suggested_format TEXT,             -- &quot;static_post&quot;, &quot;carousel&quot;, &quot;quote_card&quot;
+
+    -- Visual pairing
+    visual_brief TEXT,                 -- AI description of ideal image
+    asset_id UUID REFERENCES assets(id),
+    image_url TEXT,
+    template_type TEXT,
+
+    -- Curation
+    status TEXT DEFAULT &#x27;draft&#x27;,       -- &quot;draft&quot;, &quot;kept&quot;, &quot;tweaked&quot;, &quot;cut&quot;, &quot;scheduled&quot;, &quot;published&quot;
+    quality_score DECIMAL,             -- AI confidence score
+    human_notes TEXT,
+
+    -- Scheduling
+    scheduled_date DATE,
+    scheduled_time TIME,
+    buffer_post_id TEXT,
+
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_dc_client_month ON draft_captions(client_id, month);
+CREATE INDEX idx_dc_status ON draft_captions(status);
+CREATE INDEX idx_dc_pillar ON draft_captions(pillar);</code></pre>
+<h4 id="carousel-drafts"><code>carousel_drafts</code></h4>
+<pre><code class="lang-sql">CREATE TABLE carousel_drafts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    pipeline_run_id UUID,
+    month TEXT NOT NULL,
+
+    topic TEXT,
+    pillar TEXT,
+    angle TEXT,
+    platform TEXT,
+
+    -- Slide content
+    cover_slide TEXT,                   -- cover slide copy
+    slides JSONB,                       -- [{slide_number, copy, visual_note}]
+    cta_slide TEXT,                     -- final CTA slide copy
+    total_slides INTEGER,
+    visual_treatment TEXT,              -- overall visual direction
+
+    -- Curation
+    status TEXT DEFAULT &#x27;draft&#x27;,
+    human_notes TEXT,
+    scheduled_date DATE,
+
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+<h4 id="reel-scripts"><code>reel_scripts</code></h4>
+<pre><code class="lang-sql">CREATE TABLE reel_scripts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    pipeline_run_id UUID,
+    month TEXT NOT NULL,
+
+    topic TEXT,
+    pillar TEXT,
+    video_format TEXT,                  -- &quot;hook_story_offer&quot;, &quot;pas&quot;, &quot;faq&quot;, &quot;listicle&quot;, &quot;testimonial&quot;, &quot;bts&quot;, &quot;educational&quot;, &quot;before_after&quot;, &quot;ugc&quot;
+
+    -- Script content
+    hook TEXT NOT NULL,
+    body TEXT NOT NULL,
+    cta TEXT NOT NULL,
+    shot_notes TEXT,
+    broll_suggestions TEXT,
+    speaking_vs_text TEXT,              -- &quot;speaking&quot;, &quot;text_overlay&quot;, &quot;mixed&quot;
+    duration_target TEXT,               -- &quot;30-45s&quot;, &quot;45-60s&quot;, &quot;60-90s&quot;
+    platform TEXT,
+
+    -- Curation
+    status TEXT DEFAULT &#x27;draft&#x27;,
+    selected_for_filming BOOLEAN DEFAULT false,
+    estimated_shoot_time TEXT,          -- &quot;10min&quot;, &quot;15min&quot;, &quot;20min&quot;
+    human_notes TEXT,
+
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+<h4 id="ad-variants"><code>ad_variants</code></h4>
+<pre><code class="lang-sql">CREATE TABLE ad_variants (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    pipeline_run_id UUID,
+    month TEXT NOT NULL,
+
+    -- Ad structure
+    ad_platform TEXT NOT NULL,          -- &quot;meta&quot;, &quot;google&quot;
+    angle TEXT,                         -- &quot;pain&quot;, &quot;aspiration&quot;, &quot;social_proof&quot;
+    headline TEXT,
+    body_text TEXT,
+    cta_text TEXT,
+    cta_link TEXT,
+
+    -- Google Ads specific
+    headlines JSONB,                    -- multiple headlines for responsive ads
+    descriptions JSONB,                 -- multiple descriptions
+
+    -- Visual
+    visual_brief TEXT,
+    asset_id UUID REFERENCES assets(id),
+    image_url TEXT,
+    landing_page TEXT,
+
+    -- Ranking
+    rank INTEGER,
+    status TEXT DEFAULT &#x27;draft&#x27;,
+    human_notes TEXT,
+
+    -- Campaign
+    start_date DATE,
+    end_date DATE,
+    budget_suggestion TEXT,
+
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+<h4 id="story-templates"><code>story_templates</code></h4>
+<pre><code class="lang-sql">CREATE TABLE story_templates (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    pipeline_run_id UUID,
+    month TEXT NOT NULL,
+
+    story_type TEXT NOT NULL,           -- &quot;poll&quot;, &quot;this_or_that&quot;, &quot;bts&quot;, &quot;testimonial&quot;, &quot;countdown&quot;, &quot;faq_box&quot;, &quot;promo_reminder&quot;
+    content JSONB,                      -- structure varies by story_type
+    pillar TEXT,
+    offer_id UUID REFERENCES offers(id),
+
+    status TEXT DEFAULT &#x27;draft&#x27;,
+    scheduled_date DATE,
+
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+<h4 id="email-drafts"><code>email_drafts</code></h4>
+<pre><code class="lang-sql">CREATE TABLE email_drafts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    pipeline_run_id UUID,
+    month TEXT NOT NULL,
+
+    week_number INTEGER,
+    weekly_theme TEXT,
+    subject_line TEXT,
+    preview_text TEXT,
+    body_html TEXT,
+    body_text TEXT,
+    cta_text TEXT,
+    cta_link TEXT,
+    segment TEXT,                        -- &quot;all_subscribers&quot;, &quot;leads&quot;, &quot;customers&quot;
+
+    status TEXT DEFAULT &#x27;draft&#x27;,
+    send_date DATE,
+    human_notes TEXT,
+
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+<h4 id="monthly-plans"><code>monthly_plans</code></h4>
+<pre><code class="lang-sql">CREATE TABLE monthly_plans (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    pipeline_run_id UUID,
+    month TEXT NOT NULL,
+
+    -- Targets
+    total_posts_target INTEGER,
+    total_carousels_target INTEGER,
+    total_reels_target INTEGER,
+    total_ads_target INTEGER,
+    total_stories_target INTEGER,
+    total_emails_target INTEGER,
+
+    -- Strategy
+    weekly_themes JSONB,                -- [{week, theme, pillar}]
+    pillar_distribution JSONB,          -- {pillar_name: percentage}
+    hook_styles_to_test JSONB,          -- [&quot;question_hook&quot;, &quot;bold_claim&quot;, ...]
+    ad_angles JSONB,                    -- [&quot;pain&quot;, &quot;aspiration&quot;, &quot;social_proof&quot;]
+    topics JSONB,                       -- [{topic, pillar, hook_style, format}]
+
+    -- Feedback-informed
+    last_month_winners JSONB,
+    last_month_losers JSONB,
+    adjustments_from_feedback TEXT,
+
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+<h4 id="calendar-slots"><code>calendar_slots</code></h4>
+<pre><code class="lang-sql">CREATE TABLE calendar_slots (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    month TEXT NOT NULL,
+
+    scheduled_date DATE NOT NULL,
+    scheduled_time TIME,
+    day_of_week TEXT,
+    platform TEXT NOT NULL,
+
+    -- Content reference (polymorphic — one of these will be set)
+    content_type TEXT NOT NULL,         -- &quot;caption&quot;, &quot;carousel&quot;, &quot;reel&quot;, &quot;story&quot;, &quot;ad&quot;, &quot;email&quot;
+    caption_id UUID REFERENCES draft_captions(id),
+    carousel_id UUID REFERENCES carousel_drafts(id),
+    reel_id UUID REFERENCES reel_scripts(id),
+    story_id UUID REFERENCES story_templates(id),
+    ad_id UUID REFERENCES ad_variants(id),
+    email_id UUID REFERENCES email_drafts(id),
+
+    -- Status
+    status TEXT DEFAULT &#x27;pending_review&#x27;,  -- &quot;pending_review&quot;, &quot;approved&quot;, &quot;scheduled&quot;, &quot;published&quot;
+    buffer_post_id TEXT,
+
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_cs_client_month ON calendar_slots(client_id, month);
+CREATE INDEX idx_cs_date ON calendar_slots(scheduled_date);
+CREATE INDEX idx_cs_status ON calendar_slots(status);</code></pre>
+<h4 id="performance-metrics"><code>performance_metrics</code></h4>
+<pre><code class="lang-sql">CREATE TABLE performance_metrics (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    month TEXT NOT NULL,
+
+    -- Content reference
+    content_type TEXT NOT NULL,
+    content_id UUID NOT NULL,           -- references the specific content table
+    platform TEXT,
+
+    -- Metrics
+    impressions INTEGER,
+    reach INTEGER,
+    saves INTEGER,
+    shares INTEGER,
+    comments INTEGER,
+    clicks INTEGER,
+    leads INTEGER,
+    bookings INTEGER,
+    engagement_rate DECIMAL,
+    spend DECIMAL,                      -- for ads
+    revenue DECIMAL,                    -- if attributable
+
+    -- Tags
+    insight_tags JSONB,                 -- [&quot;strong_hook&quot;, &quot;social_proof&quot;, &quot;face_on_camera&quot;, &quot;offer_urgency&quot;, ...]
+    is_winner BOOLEAN,
+    is_loser BOOLEAN,
+
+    pulled_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+<h4 id="monthlyfeedbackreports"><code>monthly<em>feedback</em>reports</code></h4>
+<pre><code class="lang-sql">CREATE TABLE monthly_feedback_reports (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_id TEXT NOT NULL,
+    month TEXT NOT NULL,
+
+    -- Rubric scores (from the marketing rubric)
+    score_output INTEGER,               -- /30
+    score_quality INTEGER,              -- /20
+    score_consistency INTEGER,          -- /15
+    score_testing INTEGER,              -- /15
+    score_impact INTEGER,               -- /20
+    score_total INTEGER,                -- /100
+
+    -- Top/bottom performers
+    top_5_content_ids JSONB,
+    bottom_5_content_ids JSONB,
+
+    -- Learnings
+    winning_pillars JSONB,
+    winning_hook_styles JSONB,
+    winning_platforms JSONB,
+    winning_formats JSONB,
+    losing_patterns TEXT,
+
+    -- Recommendations for next month
+    pillar_adjustments JSONB,           -- {&quot;increase&quot;: [...], &quot;decrease&quot;: [...]}
+    hook_style_adjustments JSONB,
+    format_adjustments JSONB,
+    next_month_hypotheses JSONB,        -- [&quot;Test more story hooks on LinkedIn&quot;, ...]
+
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+<hr>
+<h2 id="3-pipeline-definition">3. Pipeline Definition</h2>
+<p>Goes in <code>deliverable<em>pipeline</em>orchestrator.py</code> alongside existing pipelines. Maps to the existing <code>PipelineStep</code> / <code>PipelineDefinition</code> dataclass pattern.</p>
+<h3 id="mvp-pipeline-v1">MVP Pipeline (V1)</h3>
+<pre><code class="lang-python">PIPELINE_DEFINITIONS[&quot;monthly_content_v1&quot;] = PipelineDefinition(
+    name=&quot;monthly_content_v1&quot;,
+    description=&quot;MVP monthly content generation — captions + reel scripts + simple curation. Visual pairing and calendar assembly are manual.&quot;,
+    steps=[
+        # Step 1: Plan the month
+        PipelineStep(
+            agent_name=&quot;monthly_content_planner&quot;,
+            output_key=&quot;monthly_plan&quot;,
+            input_from=[&quot;brand_voice&quot;, &quot;audience_research&quot;],
+        ),
+
+        # Step 2-3: Bulk generation (parallel)
+        PipelineStep(
+            agent_name=&quot;bulk_caption_generator&quot;,
+            output_key=&quot;caption_drafts&quot;,
+            input_from=[&quot;monthly_plan&quot;, &quot;brand_voice&quot;],
+            parallel_group=10,
+        ),
+        PipelineStep(
+            agent_name=&quot;bulk_reel_scripts&quot;,
+            output_key=&quot;reel_script_drafts&quot;,
+            input_from=[&quot;monthly_plan&quot;, &quot;brand_voice&quot;],
+            parallel_group=10,
+        ),
+
+        # Step 4: REVIEW GATE — curate in approval queue
+        PipelineStep(
+            agent_name=&quot;monthly_content_planner&quot;,  # no-op, gate only
+            output_key=&quot;review_checkpoint&quot;,
+            requires_review=True,
+        ),
+    ]
+)</code></pre>
+<h3 id="full-pipeline-v3">Full Pipeline (V3)</h3>
+<pre><code class="lang-python">PIPELINE_DEFINITIONS[&quot;monthly_content_gen&quot;] = PipelineDefinition(
+    name=&quot;monthly_content_gen&quot;,
+    description=&quot;Full monthly content generation — all content types, visual pairing, calendar assembly, platform adaptation, and scheduling.&quot;,
+    steps=[
+        # Step 1: Plan the month — pillars, themes, topic distribution
+        PipelineStep(
+            agent_name=&quot;monthly_content_planner&quot;,
+            output_key=&quot;monthly_plan&quot;,
+            input_from=[&quot;brand_voice&quot;, &quot;audience_research&quot;, &quot;competitor_analysis&quot;],
+        ),
+
+        # Step 2: Bulk generation (all parallel — independent of each other)
+        PipelineStep(
+            agent_name=&quot;bulk_caption_generator&quot;,
+            output_key=&quot;caption_drafts&quot;,
+            input_from=[&quot;monthly_plan&quot;, &quot;brand_voice&quot;],
+            parallel_group=10,
+        ),
+        PipelineStep(
+            agent_name=&quot;bulk_carousel_generator&quot;,
+            output_key=&quot;carousel_drafts&quot;,
+            input_from=[&quot;monthly_plan&quot;, &quot;brand_voice&quot;],
+            parallel_group=10,
+        ),
+        PipelineStep(
+            agent_name=&quot;bulk_reel_scripts&quot;,
+            output_key=&quot;reel_script_drafts&quot;,
+            input_from=[&quot;monthly_plan&quot;, &quot;brand_voice&quot;],
+            parallel_group=10,
+        ),
+        PipelineStep(
+            agent_name=&quot;bulk_ad_variations&quot;,
+            output_key=&quot;ad_variation_drafts&quot;,
+            input_from=[&quot;monthly_plan&quot;, &quot;brand_voice&quot;, &quot;offer_strategy&quot;],
+            parallel_group=10,
+        ),
+        PipelineStep(
+            agent_name=&quot;bulk_story_templates&quot;,
+            output_key=&quot;story_drafts&quot;,
+            input_from=[&quot;monthly_plan&quot;, &quot;brand_voice&quot;],
+            parallel_group=10,
+        ),
+        PipelineStep(
+            agent_name=&quot;bulk_email_sequence&quot;,
+            output_key=&quot;email_drafts&quot;,
+            input_from=[&quot;monthly_plan&quot;, &quot;brand_voice&quot;],
+            parallel_group=10,
+        ),
+
+        # Step 3: REVIEW GATE — curate all generated content
+        PipelineStep(
+            agent_name=&quot;monthly_content_planner&quot;,  # no-op, gate only
+            output_key=&quot;curation_checkpoint&quot;,
+            requires_review=True,
+        ),
+
+        # Step 4: Visual pairing (only pairs approved content — saves API calls)
+        PipelineStep(
+            agent_name=&quot;visual_pairing_engine&quot;,
+            output_key=&quot;visual_pairings&quot;,
+            input_from=[&quot;caption_drafts&quot;, &quot;carousel_drafts&quot;, &quot;ad_variation_drafts&quot;],
+        ),
+
+        # Step 5: Assemble calendar from approved content
+        PipelineStep(
+            agent_name=&quot;monthly_calendar_assembler&quot;,
+            output_key=&quot;draft_calendar&quot;,
+            input_from=[
+                &quot;monthly_plan&quot;,
+                &quot;caption_drafts&quot;,
+                &quot;carousel_drafts&quot;,
+                &quot;reel_script_drafts&quot;,
+                &quot;ad_variation_drafts&quot;,
+                &quot;story_drafts&quot;,
+                &quot;email_drafts&quot;,
+                &quot;visual_pairings&quot;,
+            ],
+        ),
+
+        # Step 6: Generate platform-specific variants
+        PipelineStep(
+            agent_name=&quot;platform_adapter&quot;,
+            output_key=&quot;platform_variants&quot;,
+            input_from=[&quot;draft_calendar&quot;],
+        ),
+
+        # Step 7: Final review of calendar before scheduling
+        PipelineStep(
+            agent_name=&quot;monthly_calendar_assembler&quot;,  # no-op, gate only
+            output_key=&quot;scheduling_checkpoint&quot;,
+            requires_review=True,
+        ),
+
+        # Step 8: Push to scheduling platforms
+        PipelineStep(
+            agent_name=&quot;schedule_approved_content&quot;,
+            output_key=&quot;scheduling_result&quot;,
+            input_from=[&quot;draft_calendar&quot;, &quot;platform_variants&quot;],
+        ),
+    ]
+)</code></pre>
+<p><strong>Key difference between V1 and V3</strong>: In V1, visual pairing is manual (human picks images during curation). In V3, the review gate comes BEFORE visual pairing — so the system only fetches/generates images for approved content, saving API calls and compute.</p>
+<hr>
+<h2 id="4-agent-specifications">4. Agent Specifications</h2>
+<p>All agents follow the existing pattern: <code>run_{name}(config: dict) -&gt; dict</code>. Each saves output to its respective Supabase table AND returns the dict to the pipeline context.</p>
+<h3 id="41-monthly-content-planner">4.1 Monthly Content Planner</h3>
+<p><strong>Purpose</strong>: Takes brand context + last month&#x27;s performance and produces a strategic month plan — which pillars get emphasis, weekly themes, topic distribution, hook style targets, and ad angles.</p>
+<p><strong>File</strong>: <code>Execution/monthly<em>content</em>planner.py</code></p>
+<p><strong>Directive</strong>: <code>Directives/monthly<em>content</em>planner.md</code></p>
+<p><strong>Registry</strong>: <code>&quot;monthly<em>content</em>planner&quot;: (&quot;monthly<em>content</em>planner&quot;, &quot;run<em>monthly</em>content_planner&quot;)</code></p>
+<p><strong>Input</strong> (from pipeline context):</p>
+<pre><code class="lang-python">{
+    &quot;client_name&quot;: str,
+    &quot;client_id&quot;: str,
+    &quot;content_pillars&quot;: list,            # from client_configs.json
+    &quot;platforms&quot;: list,                  # from client_configs.json
+    &quot;posting_frequency&quot;: dict,          # from client_configs.json
+    &quot;brand_voice&quot;: dict,                # from pipeline_documents
+    &quot;audience_research&quot;: dict,          # from pipeline_documents
+    &quot;competitor_analysis&quot;: dict,        # from pipeline_documents (optional)
+    &quot;feedback_report&quot;: dict | None,     # from monthly_feedback_reports (if exists)
+    &quot;target_month&quot;: str,                # e.g. &quot;2026-05&quot;
+}</code></pre>
+<p><strong>Output</strong> (saved to <code>monthly_plans</code> table):</p>
+<pre><code class="lang-python">{
+    &quot;month&quot;: &quot;2026-05&quot;,
+    &quot;total_posts_target&quot;: 35,
+    &quot;total_carousels_target&quot;: 6,
+    &quot;total_reels_target&quot;: 8,
+    &quot;total_ads_target&quot;: 9,
+    &quot;total_stories_target&quot;: 25,
+    &quot;total_emails_target&quot;: 4,
+    &quot;weekly_themes&quot;: [
+        {&quot;week&quot;: 1, &quot;theme&quot;: &quot;Client Pain Points&quot;, &quot;pillar&quot;: &quot;AI Marketing Education&quot;},
+        {&quot;week&quot;: 2, &quot;theme&quot;: &quot;Case Study Week&quot;, &quot;pillar&quot;: &quot;Client Results &amp; Case Studies&quot;},
+        {&quot;week&quot;: 3, &quot;theme&quot;: &quot;Behind the Agency&quot;, &quot;pillar&quot;: &quot;Behind the Agency&quot;},
+        {&quot;week&quot;: 4, &quot;theme&quot;: &quot;Offer Push&quot;, &quot;pillar&quot;: &quot;Offers &amp; Services&quot;},
+    ],
+    &quot;pillar_distribution&quot;: {
+        &quot;AI Marketing Education&quot;: 30,
+        &quot;Client Results &amp; Case Studies&quot;: 25,
+        &quot;Behind the Agency&quot;: 20,
+        &quot;Industry Commentary&quot;: 10,
+        &quot;Offers &amp; Services&quot;: 15,
+    },
+    &quot;hook_styles_to_test&quot;: [
+        &quot;question_hook&quot;,
+        &quot;bold_claim&quot;,
+        &quot;story_opener&quot;,
+        &quot;stat_lead&quot;,
+        &quot;controversy&quot;,
+    ],
+    &quot;topics&quot;: [
+        {
+            &quot;topic&quot;: &quot;Why AI marketing isn&#x27;t replacing agencies&quot;,
+            &quot;pillar&quot;: &quot;AI Marketing Education&quot;,
+            &quot;hook_style&quot;: &quot;bold_claim&quot;,
+            &quot;suggested_format&quot;: &quot;static_post&quot;,
+        },
+        # ... 30-40 topics total
+    ],
+    &quot;ad_angles&quot;: [&quot;pain&quot;, &quot;aspiration&quot;, &quot;social_proof&quot;],
+    &quot;last_month_winners&quot;: [...],
+    &quot;last_month_losers&quot;: [...],
+    &quot;adjustments_from_feedback&quot;: &quot;Increase case study content (top performer last month). Reduce industry commentary (low engagement). Test more story opener hooks on LinkedIn.&quot;,
+}</code></pre>
+<h3 id="42-caption-factory-bulk-caption-generator">4.2 Caption Factory (Bulk Caption Generator)</h3>
+<p><strong>Purpose</strong>: Generate large-volume organic post drafts with structured variation.</p>
+<p><strong>File</strong>: <code>Execution/bulk<em>caption</em>generator.py</code></p>
+<p><strong>Directive</strong>: <code>Directives/bulk<em>caption</em>generator.md</code></p>
+<p><strong>Registry</strong>: <code>&quot;bulk<em>caption</em>generator&quot;: (&quot;bulk<em>caption</em>generator&quot;, &quot;run<em>bulk</em>captions&quot;)</code></p>
+<p><strong>Design rule</strong>: Every generator creates variation, not just volume. One topic produces multiple framings.</p>
+<p><strong>Required variation model — generate in triples:</strong></p>
+<ol>
+<li>Question hook — &quot;Are you still doing X?&quot;</li>
+<li>Bold claim hook — &quot;X is dead. Here&#x27;s what replaced it.&quot;</li>
+<li>Story opener hook — &quot;Last week a client told me...&quot;</li>
+</ol>
+<p><strong>Logic</strong>:</p>
+<pre><code class="lang-python">def run_bulk_captions(ctx: dict) -&gt; dict:
+    &quot;&quot;&quot;
+    For each topic in monthly_plan.topics:
+        For each of 3 hook styles:
+            Call Claude API directly (NOT full social_agent — too heavy for bulk)
+            Generate a platform-optimized caption with:
+                - hook (matching the style)
+                - caption body (brand voice aligned)
+                - CTA (from offer library)
+                - hashtags (platform-appropriate)
+                - visual_brief (description for pairing step)
+                - quality_score (AI confidence 0-1)
+
+    Quality checks per caption:
+        - brand voice match
+        - non-repetition check (no duplicate hooks across triples)
+        - CTA match check (CTA appropriate for pillar)
+        - banned phrase detection (from brand bible words_to_avoid)
+    &quot;&quot;&quot;</code></pre>
+<p><strong>Output</strong> (saved to <code>draft_captions</code> table, one row per caption):</p>
+<pre><code class="lang-python">{
+    &quot;total_generated&quot;: 105,
+    &quot;by_pillar&quot;: {&quot;AI Marketing Education&quot;: 32, ...},
+    &quot;by_hook_style&quot;: {&quot;question_hook&quot;: 35, &quot;bold_claim&quot;: 35, &quot;story_opener&quot;: 35},
+    &quot;by_platform&quot;: {&quot;instagram&quot;: 35, &quot;linkedin&quot;: 35, &quot;facebook&quot;: 35},
+    &quot;captions&quot;: [
+        {
+            &quot;id&quot;: &quot;uuid&quot;,
+            &quot;topic&quot;: &quot;Why AI marketing isn&#x27;t replacing agencies&quot;,
+            &quot;pillar&quot;: &quot;AI Marketing Education&quot;,
+            &quot;hook_style&quot;: &quot;bold_claim&quot;,
+            &quot;platform&quot;: &quot;instagram&quot;,
+            &quot;caption_text&quot;: &quot;AI isn&#x27;t replacing your marketing agency. Bad agencies are replacing themselves.\n\nHere&#x27;s the difference between...&quot;,
+            &quot;hashtags&quot;: [&quot;#aimarketing&quot;, &quot;#digitalagency&quot;],
+            &quot;cta&quot;: &quot;Link in bio for a free audit&quot;,
+            &quot;visual_brief&quot;: &quot;Split screen: robot on left, human strategist on right, warm lighting&quot;,
+            &quot;suggested_format&quot;: &quot;static_post&quot;,
+            &quot;quality_score&quot;: 0.87,
+            &quot;status&quot;: &quot;draft&quot;,
+        },
+        # ... 100+ more
+    ]
+}</code></pre>
+<h3 id="43-carousel-generator">4.3 Carousel Generator</h3>
+<p><strong>Purpose</strong>: Generate educational or persuasive multi-slide content.</p>
+<p><strong>File</strong>: <code>Execution/bulk<em>carousel</em>generator.py</code></p>
+<p><strong>Directive</strong>: <code>Directives/bulk<em>carousel</em>generator.md</code></p>
+<p><strong>Registry</strong>: <code>&quot;bulk<em>carousel</em>generator&quot;: (&quot;bulk<em>carousel</em>generator&quot;, &quot;run<em>bulk</em>carousels&quot;)</code></p>
+<p><strong>Output target</strong>: 4-8 carousels per month, 5-10 slides each.</p>
+<p><strong>Quality rule</strong>: Every carousel must earn the swipe. No filler slides.</p>
+<p><strong>Output</strong> (saved to <code>carousel_drafts</code> table):</p>
+<pre><code class="lang-python">{
+    &quot;total_generated&quot;: 6,
+    &quot;carousels&quot;: [
+        {
+            &quot;id&quot;: &quot;uuid&quot;,
+            &quot;topic&quot;: &quot;5 Signs Your Marketing Agency Is Wasting Your Money&quot;,
+            &quot;pillar&quot;: &quot;AI Marketing Education&quot;,
+            &quot;angle&quot;: &quot;educational&quot;,
+            &quot;platform&quot;: &quot;instagram&quot;,
+            &quot;cover_slide&quot;: &quot;5 Signs Your Marketing Agency Is Wasting Your Money&quot;,
+            &quot;slides&quot;: [
+                {&quot;slide_number&quot;: 1, &quot;copy&quot;: &quot;They can&#x27;t show you last month&#x27;s numbers.&quot;, &quot;visual_note&quot;: &quot;Red flag icon, dark bg&quot;},
+                {&quot;slide_number&quot;: 2, &quot;copy&quot;: &quot;They post the same thing everywhere.&quot;, &quot;visual_note&quot;: &quot;Copy-paste illustration&quot;},
+                # ... more slides
+            ],
+            &quot;cta_slide&quot;: &quot;Want an agency that actually tracks everything? DM &#x27;AUDIT&#x27;&quot;,
+            &quot;total_slides&quot;: 7,
+            &quot;visual_treatment&quot;: &quot;Dark bg, brand gold accent, one icon per slide, minimal text&quot;,
+            &quot;status&quot;: &quot;draft&quot;,
+        },
+    ]
+}</code></pre>
+<h3 id="44-reel-video-script-generator">4.4 Reel / Video Script Generator</h3>
+<p><strong>Purpose</strong>: Create batch-filmable short-form scripts across multiple video formats.</p>
+<p><strong>File</strong>: <code>Execution/bulk<em>reel</em>scripts.py</code></p>
+<p><strong>Directive</strong>: <code>Directives/bulk<em>reel</em>scripts.md</code></p>
+<p><strong>Registry</strong>: <code>&quot;bulk<em>reel</em>scripts&quot;: (&quot;bulk<em>reel</em>scripts&quot;, &quot;run<em>bulk</em>reel_scripts&quot;)</code></p>
+<p><strong>Logic</strong>: For each topic, picks the best video format from the 9 existing video format types:</p>
+<ul>
+<li>Hook/Story/Offer, PAS, FAQ/Myth-Bust, Listicle, Testimonial, BTS, Educational, Before/After, UGC</li>
+</ul>
+<p>Generates 2 script variations per topic (different hooks). Output: 16-24 script drafts.</p>
+<p><strong>Output</strong> (saved to <code>reel_scripts</code> table):</p>
+<pre><code class="lang-python">{
+    &quot;total_generated&quot;: 20,
+    &quot;scripts&quot;: [
+        {
+            &quot;id&quot;: &quot;uuid&quot;,
+            &quot;topic&quot;: &quot;How we doubled a cafe&#x27;s bookings&quot;,
+            &quot;pillar&quot;: &quot;Client Results &amp; Case Studies&quot;,
+            &quot;video_format&quot;: &quot;hook_story_offer&quot;,
+            &quot;hook&quot;: &quot;A cafe owner told me she was about to close. 30 days later...&quot;,
+            &quot;body&quot;: &quot;We rebuilt her Google Business Profile, launched $10/day Meta ads targeting a 5km radius, and set up an automated booking funnel...&quot;,
+            &quot;cta&quot;: &quot;DM &#x27;AUDIT&#x27; for a free marketing review&quot;,
+            &quot;shot_notes&quot;: &quot;Talking head → screen recording → B-roll of cafe → CTA card&quot;,
+            &quot;broll_suggestions&quot;: &quot;Coffee being poured, cafe exterior, phone showing booking notifications&quot;,
+            &quot;speaking_vs_text&quot;: &quot;speaking&quot;,
+            &quot;duration_target&quot;: &quot;45-60s&quot;,
+            &quot;platform&quot;: &quot;instagram_reels&quot;,
+            &quot;status&quot;: &quot;draft&quot;,
+        },
+    ]
+}</code></pre>
+<h3 id="45-ad-variation-factory">4.5 Ad Variation Factory</h3>
+<p><strong>Purpose</strong>: Produce high-volume, structured ad test inventory.</p>
+<p><strong>File</strong>: <code>Execution/bulk<em>ad</em>variations.py</code></p>
+<p><strong>Directive</strong>: <code>Directives/bulk<em>ad</em>variations.md</code></p>
+<p><strong>Registry</strong>: <code>&quot;bulk<em>ad</em>variations&quot;: (&quot;bulk<em>ad</em>variations&quot;, &quot;run<em>bulk</em>ad_variations&quot;)</code></p>
+<p><strong>Standard angle set</strong>: pain, aspiration, social proof.</p>
+<p><strong>Output target</strong>: 3 headlines x 3 bodies x 3 CTAs = 27 combinations minimum. AI ranks top 9.</p>
+<p><strong>Output</strong> (saved to <code>ad_variants</code> table):</p>
+<pre><code class="lang-python">{
+    &quot;total_combinations&quot;: 27,
+    &quot;top_ranked&quot;: 9,
+    &quot;meta_ads&quot;: [
+        {
+            &quot;id&quot;: &quot;uuid&quot;,
+            &quot;angle&quot;: &quot;pain&quot;,
+            &quot;headline&quot;: &quot;Tired of posting content that nobody sees?&quot;,
+            &quot;body_text&quot;: &quot;Most small businesses waste 10+ hours a week on social media with zero ROI...&quot;,
+            &quot;cta_text&quot;: &quot;Get Your Free Audit&quot;,
+            &quot;cta_link&quot;: &quot;https://...&quot;,
+            &quot;visual_brief&quot;: &quot;Frustrated business owner staring at phone, low engagement metrics overlay&quot;,
+            &quot;landing_page&quot;: &quot;https://nunyabunya.com.au/audit&quot;,
+            &quot;rank&quot;: 1,
+            &quot;status&quot;: &quot;draft&quot;,
+        },
+    ],
+    &quot;google_ads&quot;: [
+        {
+            &quot;id&quot;: &quot;uuid&quot;,
+            &quot;headlines&quot;: [&quot;AI Marketing Agency Brisbane&quot;, &quot;Stop Wasting Ad Spend&quot;, &quot;Marketing That Runs Itself&quot;],
+            &quot;descriptions&quot;: [&quot;We build marketing machines that run themselves. Free audit for Brisbane businesses.&quot;, ...],
+            &quot;rank&quot;: 1,
+            &quot;status&quot;: &quot;draft&quot;,
+        },
+    ]
+}</code></pre>
+<h3 id="46-story-template-generator">4.6 Story Template Generator</h3>
+<p><strong>Purpose</strong>: Generate low-friction, disposable daily story content.</p>
+<p><strong>File</strong>: <code>Execution/bulk<em>story</em>templates.py</code></p>
+<p><strong>Directive</strong>: <code>Directives/bulk<em>story</em>templates.md</code></p>
+<p><strong>Registry</strong>: <code>&quot;bulk<em>story</em>templates&quot;: (&quot;bulk<em>story</em>templates&quot;, &quot;run<em>bulk</em>stories&quot;)</code></p>
+<p><strong>Output target</strong>: 20-30 story templates per month.</p>
+<p><strong>Story types</strong>: poll, this-or-that, behind the scenes, testimonial highlight, countdown, FAQ box, promo reminder.</p>
+<p><strong>Output</strong> (saved to <code>story_templates</code> table):</p>
+<pre><code class="lang-python">{
+    &quot;total_generated&quot;: 25,
+    &quot;templates&quot;: [
+        {
+            &quot;id&quot;: &quot;uuid&quot;,
+            &quot;story_type&quot;: &quot;poll&quot;,
+            &quot;pillar&quot;: &quot;AI Marketing Education&quot;,
+            &quot;content&quot;: {
+                &quot;question&quot;: &quot;Do you track your marketing ROI?&quot;,
+                &quot;option_a&quot;: &quot;Every month&quot;,
+                &quot;option_b&quot;: &quot;What&#x27;s ROI?&quot;,
+                &quot;follow_up&quot;: &quot;If you picked B, we should talk. Link in bio.&quot;
+            },
+            &quot;status&quot;: &quot;draft&quot;,
+        },
+    ]
+}</code></pre>
+<h3 id="47-email-sequence-generator">4.7 Email Sequence Generator</h3>
+<p><strong>Purpose</strong>: Generate the month&#x27;s email campaigns aligned with weekly themes.</p>
+<p><strong>File</strong>: <code>Execution/pipeline_adapters.py</code> (add to existing file)</p>
+<p><strong>Registry</strong>: <code>&quot;bulk<em>email</em>sequence&quot;: (&quot;pipeline<em>adapters&quot;, &quot;run</em>bulk<em>email</em>sequence&quot;)</code></p>
+<p><strong>Logic</strong>: Calls <code>run<em>content</em>generator_pipeline</code> once per weekly theme with email-specific parameters. Wraps existing agent — no new agent needed.</p>
+<p><strong>Output</strong> (saved to <code>email_drafts</code> table): 4 email drafts, one per week.</p>
+<h3 id="48-visual-pairing-engine">4.8 Visual Pairing Engine</h3>
+<p><strong>Purpose</strong>: Match approved text content to visuals. Runs AFTER curation (V3) to avoid wasting API calls on cut content.</p>
+<p><strong>File</strong>: <code>Execution/visual<em>pairing</em>engine.py</code></p>
+<p><strong>Directive</strong>: <code>Directives/visual<em>pairing</em>engine.md</code></p>
+<p><strong>Registry</strong>: <code>&quot;visual<em>pairing</em>engine&quot;: (&quot;visual<em>pairing</em>engine&quot;, &quot;run<em>visual</em>pairing&quot;)</code></p>
+<p><strong>Matching logic (priority order):</strong></p>
+<ol>
+<li>Direct pillar relevance (search <code>assets</code> table by pillar_fit)</li>
+<li>Offer relevance</li>
+<li>Aspect ratio / platform fit</li>
+<li>Freshness (prefer assets not recently used — check <code>last<em>used</em>at</code>)</li>
+<li>Brand visual cohesion</li>
+</ol>
+<p><strong>Sources (in priority order):</strong></p>
+<ol>
+<li>Content Bank / <code>assets</code> table (existing approved assets)</li>
+<li>Pexels API (stock photos — API key configured)</li>
+<li>Unsplash API (backup stock — API key configured)</li>
+<li>Template assignment (for quote cards, stat graphics, carousels)</li>
+<li>Replicate API (generate custom AI image — last resort, most expensive)</li>
+</ol>
+<p><strong>Output</strong> (updates <code>asset<em>id</code> and <code>image</em>url</code> on the content tables):</p>
+<pre><code class="lang-python">{
+    &quot;total_paired&quot;: 42,
+    &quot;stats&quot;: {
+        &quot;from_asset_library&quot;: 8,
+        &quot;from_pexels&quot;: 22,
+        &quot;from_unsplash&quot;: 4,
+        &quot;template_assignments&quot;: 8,
+    }
+}</code></pre>
+<h3 id="49-monthly-calendar-assembler">4.9 Monthly Calendar Assembler</h3>
+<p><strong>Purpose</strong>: Distribute approved content into a 30-day calendar with proper spacing, variety, and platform distribution.</p>
+<p><strong>File</strong>: <code>Execution/monthly<em>calendar</em>assembler.py</code></p>
+<p><strong>Directive</strong>: <code>Directives/monthly<em>calendar</em>assembler.md</code></p>
+<p><strong>Registry</strong>: <code>&quot;monthly<em>calendar</em>assembler&quot;: (&quot;monthly<em>calendar</em>assembler&quot;, &quot;run<em>calendar</em>assembly&quot;)</code></p>
+<p><strong>Calendar rules:</strong></p>
+<ul>
+<li>Reads <code>posting_frequency</code> from client config (e.g. instagram: 5/week, linkedin: 3/week)</li>
+<li>No dead zones (gaps in posting)</li>
+<li>No pillar repeated back-to-back</li>
+<li>No three identical hook styles in a row</li>
+<li>Hook styles varied throughout the week</li>
+<li>Reels/video scripts spaced evenly (not clumped)</li>
+<li>Carousel spacing: max 3 per week, evenly distributed</li>
+<li>Ad campaign start dates staggered</li>
+<li>Emails align with weekly themes</li>
+<li>Offer spacing to avoid over-selling (max 2 direct offer posts per week)</li>
+<li>Enough repetition for learning without fatigue</li>
+<li>Optimal posting times per platform assigned</li>
+</ul>
+<p><strong>Slotting logic considers:</strong></p>
+<ul>
+<li>platform priority</li>
+<li>campaign dates</li>
+<li>offer timing</li>
+<li>local events / seasonal dates</li>
+<li>content pillar balance across the month</li>
+<li>content format balance</li>
+</ul>
+<p><strong>Output</strong> (saved to <code>calendar_slots</code> table):</p>
+<pre><code class="lang-python">{
+    &quot;month&quot;: &quot;2026-05&quot;,
+    &quot;total_scheduled&quot;: 95,
+    &quot;total_surplus&quot;: 25,
+    &quot;posts_per_platform&quot;: {&quot;instagram&quot;: 30, &quot;linkedin&quot;: 20, &quot;facebook&quot;: 20, &quot;tiktok&quot;: 10, &quot;stories&quot;: 25},
+    &quot;video_shoot_list&quot;: [
+        {&quot;script_id&quot;: &quot;uuid&quot;, &quot;topic&quot;: &quot;...&quot;, &quot;estimated_shoot_time&quot;: &quot;15min&quot;, &quot;format&quot;: &quot;hook_story_offer&quot;},
+        # ... 4-6 selected scripts grouped for batch filming
+    ],
+    &quot;ad_launch_schedule&quot;: [
+        {&quot;ad_id&quot;: &quot;uuid&quot;, &quot;start_date&quot;: &quot;2026-05-01&quot;, &quot;end_date&quot;: &quot;2026-05-15&quot;, &quot;budget_suggestion&quot;: &quot;$10/day&quot;},
+    ],
+    &quot;email_schedule&quot;: [
+        {&quot;email_id&quot;: &quot;uuid&quot;, &quot;send_date&quot;: &quot;2026-05-03&quot;, &quot;subject&quot;: &quot;...&quot;, &quot;segment&quot;: &quot;all_subscribers&quot;},
+    ],
+    &quot;surplus_pool&quot;: [
+        # Content that didn&#x27;t make the calendar — available for swaps during review
+    ],
+}</code></pre>
+<h3 id="410-platform-adapter">4.10 Platform Adapter</h3>
+<p><strong>Purpose</strong>: Generate platform-specific variants from base content. The same post may need different versions for different platforms.</p>
+<p><strong>File</strong>: <code>Execution/platform_adapter.py</code></p>
+<p><strong>Directive</strong>: <code>Directives/platform_adapter.md</code></p>
+<p><strong>Registry</strong>: <code>&quot;platform<em>adapter&quot;: (&quot;platform</em>adapter&quot;, &quot;run<em>platform</em>adaptation&quot;)</code></p>
+<p><strong>Platform adjustments:</strong></p>
+<ul>
+<li>Instagram: shorter caption, more hashtags, emoji-friendly</li>
+<li>LinkedIn: longer form, professional tone, no hashtag walls</li>
+<li>Facebook: conversational, community-oriented</li>
+<li>TikTok: ultra-casual, trend-aware, different first frame</li>
+<li>Stories: vertical crop, text overlay sizing</li>
+</ul>
+<p><strong>Output</strong>: Updates <code>calendar_slots</code> with platform-adapted versions of each post.</p>
+<h3 id="411-schedule-approved-content">4.11 Schedule Approved Content</h3>
+<p><strong>Purpose</strong>: Push approved, calendar-slotted content to Buffer/Mixpost for actual scheduling.</p>
+<p><strong>File</strong>: <code>Execution/schedule<em>approved</em>content.py</code></p>
+<p><strong>Registry</strong>: <code>&quot;schedule<em>approved</em>content&quot;: (&quot;schedule<em>approved</em>content&quot;, &quot;run<em>schedule</em>approved&quot;)</code></p>
+<p><strong>Logic:</strong></p>
+<ul>
+<li>Reads approved <code>calendar_slots</code> (status = &quot;approved&quot;)</li>
+<li>For each platform, pushes to Buffer API using <code>buffer_profiles</code> from client config</li>
+<li>Updates <code>calendar<em>slots.status</code> to &quot;scheduled&quot; and stores <code>buffer</em>post_id</code></li>
+<li>Returns summary of what was scheduled</li>
+</ul>
+<h3 id="412-metrics-agent">4.12 Metrics Agent</h3>
+<p><strong>Purpose</strong>: Pull performance data from all platforms at month-end.</p>
+<p><strong>File</strong>: <code>Execution/metrics_agent.py</code></p>
+<p><strong>Registry</strong>: <code>&quot;metrics<em>agent&quot;: (&quot;metrics</em>agent&quot;, &quot;run<em>metrics</em>pull&quot;)</code></p>
+<p><strong>Sources:</strong></p>
+<ul>
+<li>Meta Graph API (Instagram/Facebook post metrics)</li>
+<li>Matomo (website traffic, conversions)</li>
+<li>Google Ads API (ad performance)</li>
+<li>Buffer API (engagement metrics)</li>
+</ul>
+<p><strong>Output</strong> (saved to <code>performance_metrics</code> table): One row per published content piece with all available metrics.</p>
+<h3 id="413-insight-agent">4.13 Insight Agent</h3>
+<p><strong>Purpose</strong>: Extract learnings from performance data and structure them for the next month&#x27;s planner.</p>
+<p><strong>File</strong>: <code>Execution/insight_agent.py</code></p>
+<p><strong>Directive</strong>: <code>Directives/insight_agent.md</code></p>
+<p><strong>Registry</strong>: <code>&quot;insight<em>agent&quot;: (&quot;insight</em>agent&quot;, &quot;run<em>insight</em>analysis&quot;)</code></p>
+<p><strong>Logic:</strong></p>
+<ul>
+<li>Identifies top 5 and bottom 5 performers</li>
+<li>Tags each with WHY it won/lost:</li>
+<li>strong hook, social proof, face on camera, offer urgency, educational clarity, local relevance, curiosity gap, trending topic, emotional resonance</li>
+<li>Identifies winning patterns: best pillars, hook styles, formats, platforms, CTAs, posting times</li>
+<li>Generates specific hypotheses for next month</li>
+<li>Feeds winners into swipe file</li>
+</ul>
+<p><strong>Output</strong> (saved to <code>monthly<em>feedback</em>reports</code> table):</p>
+<pre><code class="lang-python">{
+    &quot;month&quot;: &quot;2026-05&quot;,
+    &quot;score_output&quot;: 24,
+    &quot;score_quality&quot;: 16,
+    &quot;score_consistency&quot;: 13,
+    &quot;score_testing&quot;: 11,
+    &quot;score_impact&quot;: 14,
+    &quot;score_total&quot;: 78,
+    &quot;top_5_content_ids&quot;: [...],
+    &quot;bottom_5_content_ids&quot;: [...],
+    &quot;winning_pillars&quot;: [&quot;Client Results&quot;, &quot;Behind the Agency&quot;],
+    &quot;winning_hook_styles&quot;: [&quot;story_opener&quot;, &quot;stat_lead&quot;],
+    &quot;winning_platforms&quot;: [&quot;instagram&quot;],
+    &quot;winning_formats&quot;: [&quot;carousel&quot;, &quot;reel&quot;],
+    &quot;losing_patterns&quot;: &quot;Industry commentary posts consistently underperform. Generic question hooks on LinkedIn get low engagement.&quot;,
+    &quot;pillar_adjustments&quot;: {&quot;increase&quot;: [&quot;Client Results&quot;], &quot;decrease&quot;: [&quot;Industry Commentary&quot;]},
+    &quot;hook_style_adjustments&quot;: {&quot;increase&quot;: [&quot;story_opener&quot;], &quot;decrease&quot;: [&quot;question_hook&quot;]},
+    &quot;next_month_hypotheses&quot;: [
+        &quot;Test more story hooks on LinkedIn (worked on IG, untested on LI)&quot;,
+        &quot;Double carousel frequency (top format this month)&quot;,
+        &quot;Add face-on-camera to 50% of reels (tagged as winner trait)&quot;,
+    ],
+}</code></pre>
+<hr>
+<h2 id="5-curation-layer">5. Curation Layer</h2>
+<p>The system generates abundance. The human protects taste and strategy.</p>
+<h3 id="51-curation-session">5.1 Curation Session</h3>
+<p><strong>Inputs reviewed:</strong></p>
+<ul>
+<li>80-100 caption drafts</li>
+<li>4-8 carousel drafts</li>
+<li>10-12 reel scripts</li>
+<li>27 ad variants</li>
+<li>20-30 story templates</li>
+<li>4 email drafts</li>
+</ul>
+<p><strong>Actions and estimated time:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Content Type</th><th>Action</th><th>Target</th><th>Time</th></tr></thead><tbody><tr><td>Captions</td><td>Delete weak, light edit winners → ~35 survivors</td><td>35 of 100</td><td>45 min</td></tr><tr><td>Visuals</td><td>Swap 5-10 weak pairings (V3 only — manual in V1)</td><td>Review pairings</td><td>20 min</td></tr><tr><td>Carousels</td><td>Reorder slides, cut 1-2 weak ones</td><td>4-6 of 8</td><td>30 min</td></tr><tr><td>Reel scripts</td><td>Select strongest, flag for filming</td><td>4-6 of 12</td><td>15 min</td></tr><tr><td>Ad variants</td><td>Choose top combos to run</td><td>6-9 of 27</td><td>20 min</td></tr><tr><td>Stories</td><td>Fast approval pass</td><td>20-25 of 30</td><td>10 min</td></tr><tr><td>Emails</td><td>Review subject lines and CTAs</td><td>4 of 4</td><td>10 min</td></tr><tr><td><strong>Total</strong></td><td></td><td></td><td><strong>~2.5 hours</strong></td></tr></tbody></table></div>
+<h3 id="52-curation-rubric">5.2 Curation Rubric</h3>
+<p>Every generated asset is judged by:</p>
+<ol>
+<li><strong>Brand fit</strong> — does it sound like this brand?</li>
+<li><strong>Clarity</strong> — is the message immediately understandable?</li>
+<li><strong>Novelty</strong> — is this saying something the feed hasn&#x27;t said recently?</li>
+<li><strong>Relevance</strong> — does this connect to a current goal or offer?</li>
+<li><strong>Engagement likelihood</strong> — would this stop a scroll?</li>
+<li><strong>Conversion likelihood</strong> — does this move someone closer to action?</li>
+<li><strong>Non-cringe factor</strong> — would you be proud to post this?</li>
+<li><strong>Platform fit</strong> — is this native to the platform it&#x27;s for?</li>
+</ol>
+<p><strong>Statuses:</strong></p>
+<ul>
+<li><strong>Keep</strong> — approve as-is</li>
+<li><strong>Tweak</strong> — inline edit, then approve</li>
+<li><strong>Cut</strong> — reject, moves to surplus pool (not deleted — available for swaps)</li>
+</ul>
+<hr>
+<h2 id="6-dashboard-ui-requirements">6. Dashboard / UI Requirements</h2>
+<p>The product should make monthly review feel easy and decisive.</p>
+<h3 id="main-views">Main Views</h3>
+<ol>
+<li><strong>Client Dashboard</strong> — overview of all content status for a client</li>
+<li><strong>Generation Queue</strong> — output of the latest pipeline run, grouped by type</li>
+<li><strong>Curation Board</strong> — Keep/Tweak/Cut interface, filterable by type, pillar, platform</li>
+<li><strong>Calendar View</strong> — visual 30-day calendar with drag-to-reorder</li>
+<li><strong>Swap Pool</strong> — surplus content available to replace rejected items</li>
+<li><strong>Asset Library</strong> — searchable visual assets with metadata</li>
+<li><strong>Swipe File</strong> — structured inspiration entries</li>
+<li><strong>Video Shoot List</strong> — approved reel scripts formatted as printable filming schedule</li>
+<li><strong>Performance Dashboard</strong> — metrics by content piece, pillar, platform, hook style</li>
+<li><strong>Insight Feed</strong> — month-end learnings and next-month hypotheses</li>
+</ol>
+<h3 id="essential-actions">Essential Actions</h3>
+<ul>
+<li>Keep / Tweak / Cut (per item)</li>
+<li>Assign visual (manual override)</li>
+<li>Add note</li>
+<li>Approve for calendar</li>
+<li>Select for filming</li>
+<li>Select for ad spend (Boost)</li>
+<li>Tag winner / loser (month-end)</li>
+<li>Swap (replace with item from surplus pool)</li>
+</ul>
+<h3 id="batch-actions">Batch Actions</h3>
+<ul>
+<li>&quot;Approve all in this pillar&quot;</li>
+<li>&quot;Approve all for this platform&quot;</li>
+<li>&quot;Reject all with hook_style = X&quot;</li>
+<li>&quot;Select all approved reels for filming&quot;</li>
+</ul>
+<h3 id="existing-pages-to-upgrade">Existing pages to upgrade</h3>
+<ul>
+<li><code>nb-admin-approval.html</code> — add monthly content board view</li>
+<li><code>nb-admin-content-tracker.html</code> — wire to <code>calendar_slots</code> table</li>
+<li><code>nb-admin-calendar.html</code> — wire to calendar assembler output</li>
+<li><code>nb-admin-swipe-file.html</code> — wire to <code>swipe_entries</code> table</li>
+<li><code>nb-admin-analytics.html</code> — wire to <code>performance_metrics</code> table</li>
+</ul>
+<hr>
+<h2 id="7-tools-mcps-and-external-services">7. Tools, MCPs, and External Services</h2>
+<h3 id="claude-code-mcps-already-connected">Claude Code MCPs (already connected)</h3>
+<div class="table-wrap"><table><thead><tr><th>MCP</th><th>Use in This System</th></tr></thead><tbody><tr><td><strong>Canva</strong></td><td>Generate branded social templates, resize designs, export carousel slides</td></tr><tr><td><strong>Gmail</strong></td><td>Preview/draft email campaigns before scheduling in Mautic</td></tr><tr><td><strong>Google Calendar</strong></td><td>Schedule content review sessions, filming days</td></tr><tr><td><strong>Google Drive</strong></td><td>Store monthly content packages for client review portal</td></tr></tbody></table></div>
+<h3 id="apis-called-by-agents">APIs Called by Agents</h3>
+<div class="table-wrap"><table><thead><tr><th>API</th><th>Agent</th><th>Purpose</th></tr></thead><tbody><tr><td><strong>Claude (Anthropic)</strong></td><td>All generators</td><td>Primary LLM for all content generation</td></tr><tr><td><strong>Pexels</strong></td><td>visual<em>pairing</em>engine</td><td>Stock photo matching</td></tr><tr><td><strong>Unsplash</strong></td><td>visual<em>pairing</em>engine</td><td>Backup stock source</td></tr><tr><td><strong>Replicate</strong></td><td>visual<em>pairing</em>engine</td><td>Custom AI image generation (last resort)</td></tr><tr><td><strong>Buffer</strong></td><td>schedule<em>approved</em>content</td><td>Push to social scheduling</td></tr><tr><td><strong>Ahrefs / SEMrush</strong></td><td>monthly<em>content</em>planner</td><td>Trending topics + keyword data</td></tr><tr><td><strong>Matomo</strong></td><td>metrics_agent</td><td>Website traffic + conversion data</td></tr><tr><td><strong>Meta Graph API</strong></td><td>metrics_agent</td><td>Instagram/Facebook post metrics</td></tr><tr><td><strong>Google Ads API</strong></td><td>metrics_agent</td><td>Ad performance data</td></tr></tbody></table></div>
+<h3 id="key-files">Key Files</h3>
+<div class="table-wrap"><table><thead><tr><th>File</th><th>Purpose</th></tr></thead><tbody><tr><td><code>MASTER PLANS/MONTHLY-CONTENT-SYSTEM.md</code></td><td>This file — canonical system spec</td></tr><tr><td><code>MASTER PLANS/DAILY-CONTENT-SYSTEM.md</code></td><td>Existing daily posting rotation (reference for cadence)</td></tr><tr><td><code>MASTER PLANS/90-DAY-CONTENT-PLAN.md</code></td><td>Existing quarterly plan (reference for themes)</td></tr><tr><td><code>Directives/monthly<em>content</em>planner.md</code></td><td>Prompt spec: how to plan a content month</td></tr><tr><td><code>Directives/bulk<em>caption</em>generator.md</code></td><td>Prompt spec: caption generation with variation</td></tr><tr><td><code>Directives/bulk<em>carousel</em>generator.md</code></td><td>Prompt spec: carousel generation</td></tr><tr><td><code>Directives/bulk<em>reel</em>scripts.md</code></td><td>Prompt spec: video script generation</td></tr><tr><td><code>Directives/bulk<em>ad</em>variations.md</code></td><td>Prompt spec: ad copy matrix generation</td></tr><tr><td><code>Directives/bulk<em>story</em>templates.md</code></td><td>Prompt spec: story template generation</td></tr><tr><td><code>Directives/visual<em>pairing</em>engine.md</code></td><td>Prompt spec: visual matching logic</td></tr><tr><td><code>Directives/monthly<em>calendar</em>assembler.md</code></td><td>Prompt spec: calendar distribution rules</td></tr><tr><td><code>Directives/platform_adapter.md</code></td><td>Prompt spec: platform-specific variants</td></tr><tr><td><code>Directives/insight_agent.md</code></td><td>Prompt spec: performance analysis + learning extraction</td></tr><tr><td><code>Execution/pipeline_registry.py</code></td><td>Register all new agents here</td></tr><tr><td><code>Execution/deliverable<em>pipeline</em>orchestrator.py</code></td><td>Add pipeline definitions here</td></tr><tr><td><code>Execution/pipeline_adapters.py</code></td><td>Add bulk<em>email</em>sequence adapter here</td></tr><tr><td><code>client_configs.json</code></td><td>Client configuration (expand with pillar details, offers)</td></tr></tbody></table></div>
+<hr>
+<h2 id="8-how-to-run-it">8. How To Run It</h2>
+<h3 id="generate-a-month-mvp">Generate a month (MVP)</h3>
+<pre><code class="lang-bash">cd /Users/benalekconner/Desktop/MASTER\ WORKSPACE/03-Nunya\ Bunya/Tools/NunyaBunyaAgents/Execution
+
+python deliverable_pipeline_orchestrator.py \
+    --pipeline monthly_content_v1 \
+    --client nunya-bunya \
+    --context &#x27;{&quot;target_month&quot;: &quot;2026-05&quot;}&#x27;</code></pre>
+<h3 id="generate-a-month-full-v3">Generate a month (Full — V3)</h3>
+<pre><code class="lang-bash">python deliverable_pipeline_orchestrator.py \
+    --pipeline monthly_content_gen \
+    --client nunya-bunya \
+    --context &#x27;{&quot;target_month&quot;: &quot;2026-05&quot;}&#x27;</code></pre>
+<h3 id="resume-after-curation">Resume after curation</h3>
+<pre><code class="lang-bash">python deliverable_pipeline_orchestrator.py --resume &lt;run_id&gt;</code></pre>
+<h3 id="month-end-feedback">Month-end feedback</h3>
+<pre><code class="lang-bash">python deliverable_pipeline_orchestrator.py \
+    --pipeline monthly_feedback \
+    --client nunya-bunya \
+    --context &#x27;{&quot;month&quot;: &quot;2026-05&quot;}&#x27;</code></pre>
+<hr>
+<h2 id="9-build-order">9. Build Order</h2>
+<h3 id="v1-prove-the-loop-mvp">V1 — Prove the Loop (MVP)</h3>
+<p>The smallest system that proves monthly content generation works.</p>
+<ol>
+<li><span class="cb cb-empty">&#9744;</span> Create Supabase tables: <code>content<em>pillars</code>, <code>offers</code>, <code>draft</em>captions</code>, <code>reel<em>scripts</code>, <code>monthly</em>plans</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Expand <code>client_configs.json</code> with per-pillar metadata and offer library for one client (nunya-bunya)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>monthly<em>content</em>planner.py</code> + directive</li>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>bulk<em>caption</em>generator.py</code> + directive (highest-value agent)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>bulk<em>reel</em>scripts.py</code> + directive</li>
+<li><span class="cb cb-empty">&#9744;</span> Register new agents in <code>pipeline_registry.py</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Add <code>monthly<em>content</em>v1</code> pipeline definition to orchestrator</li>
+<li><span class="cb cb-empty">&#9744;</span> Build simple curation board (read from <code>draft<em>captions</code> + <code>reel</em>scripts</code>, Keep/Tweak/Cut actions)</li>
+<li><span class="cb cb-empty">&#9744;</span> Manual calendar export (Google Sheets or CSV from approved content)</li>
+<li><span class="cb cb-empty">&#9744;</span> Manual month-end tagging (winner/loser tags on content rows)</li>
+<li><span class="cb cb-empty">&#9744;</span> Test full V1 cycle with nunya-bunya</li>
+</ol>
+<h3 id="v2-automate-the-tedious-parts">V2 — Automate the Tedious Parts</h3>
+<p>8 additional generators + visual pairing + calendar assembly.</p>
+<ol>
+<li><span class="cb cb-empty">&#9744;</span> Create Supabase tables: <code>carousel<em>drafts</code>, <code>ad</em>variants</code>, <code>story<em>templates</code>, <code>email</em>drafts</code>, <code>swipe<em>entries</code>, <code>assets</code>, <code>calendar</em>slots</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>bulk<em>carousel</em>generator.py</code> + directive</li>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>bulk<em>ad</em>variations.py</code> + directive</li>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>bulk<em>story</em>templates.py</code> + directive</li>
+<li><span class="cb cb-empty">&#9744;</span> Add <code>bulk<em>email</em>sequence</code> adapter to <code>pipeline_adapters.py</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>visual<em>pairing</em>engine.py</code> + directive</li>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>monthly<em>calendar</em>assembler.py</code> + directive</li>
+<li><span class="cb cb-empty">&#9744;</span> Upgrade <code>nb-admin-approval.html</code> with monthly content board, batch actions, swap pool</li>
+<li><span class="cb cb-empty">&#9744;</span> Wire calendar view to <code>calendar_slots</code> table</li>
+<li><span class="cb cb-empty">&#9744;</span> Build asset library UI with tagging (wire <code>nb-admin-design-library.html</code> to <code>assets</code> table)</li>
+<li><span class="cb cb-empty">&#9744;</span> Wire swipe file UI (<code>nb-admin-swipe-file.html</code> to <code>swipe_entries</code> table)</li>
+</ol>
+<h3 id="v3-close-the-loop">V3 — Close the Loop</h3>
+<p>Platform adaptation, automated scheduling, performance feedback.</p>
+<ol>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>platform_adapter.py</code> + directive</li>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>schedule<em>approved</em>content.py</code> (Buffer API integration)</li>
+<li><span class="cb cb-empty">&#9744;</span> Add FastAPI endpoints for curation actions (keep/cut/tweak/swap)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>metrics_agent.py</code> (pulls from Matomo, Meta Graph API, Google Ads API, Buffer)</li>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>insight_agent.py</code> + directive (scores rubric, tags winners, generates hypotheses)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create <code>performance<em>metrics</code> and <code>monthly</em>feedback_reports</code> tables</li>
+<li><span class="cb cb-empty">&#9744;</span> Wire <code>insight<em>agent</code> output into <code>monthly</em>content_planner</code> input</li>
+<li><span class="cb cb-empty">&#9744;</span> Write <code>input_normalizer.py</code> + directive (for scaling to new clients)</li>
+<li><span class="cb cb-empty">&#9744;</span> Add <code>monthly<em>content</em>gen</code> (full) and <code>monthly_feedback</code> pipeline definitions</li>
+<li><span class="cb cb-empty">&#9744;</span> Build multi-client dashboard (run pipeline for any client from one UI)</li>
+<li><span class="cb cb-empty">&#9744;</span> Test full V3 cycle: generate → curate → schedule → publish → measure → feed back</li>
+</ol>
+<hr>
+<h2 id="10-success-criteria">10. Success Criteria</h2>
+<p>The system works if:</p>
+<ul>
+<li>A month of content can be generated in one pipeline run (~15 min execution)</li>
+<li>Curation stays under 2.5 hours per client</li>
+<li>Output quality stays brand-aligned (passes the curation rubric)</li>
+<li>Posting cadence is consistent (no dead zones, no burst-and-disappear)</li>
+<li>Testing variation exists by default (every topic gets multiple hooks)</li>
+<li>Monthly learnings influence the next generation cycle</li>
+<li>Adding a new client means running the input normalizer, not rebuilding the pipeline</li>
+<li>The operator feels like a creative director, not a content hamster</li>
+</ul>
+<hr>
+<h2 id="11-what-this-replaces">11. What This Replaces</h2>
+<div class="table-wrap"><table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>Create posts one at a time</td><td>Generate 100+ in one pipeline run</td></tr><tr><td>Write every caption manually</td><td>Curate from AI-generated triples</td></tr><tr><td>Manually pick images for each post</td><td>Visual pairing engine auto-matches</td></tr><tr><td>Build calendar by hand</td><td>Calendar assembler distributes automatically</td></tr><tr><td>Same hook on every post</td><td>Every topic gets 3+ hook variations</td></tr><tr><td>No performance feedback loop</td><td>Month-end agent scores rubric + feeds winners forward</td></tr><tr><td>Platform-identical posting</td><td>Platform adapter generates native variants</td></tr><tr><td>No surplus content</td><td>Swap pool provides backup for any rejected slot</td></tr><tr><td>~20 hours per client per month</td><td>~2.5 hours curation + 1 hour filming</td></tr><tr><td>Scale = hire more writers</td><td>Scale = run the pipeline for another client</td></tr></tbody></table></div>
+<hr>
+<h2 id="12-human-role-definition">12. Human Role Definition</h2>
+<p>The operator is not the writer. The operator is the creative director.</p>
+<p><strong>Human responsibilities:</strong></p>
+<ul>
+<li>Define strategy inputs correctly (brand bible, pillars, offers)</li>
+<li>Spot weak or off-brand outputs during curation</li>
+<li>Approve the strongest assets</li>
+<li>Decide filming priorities for video content</li>
+<li>Approve ad test budgets</li>
+<li>Protect taste and brand consistency</li>
+<li>Interpret metrics at a strategic level</li>
+<li>Make judgment calls the system can&#x27;t (timing, sensitivity, cultural context)</li>
+</ul>
+<p><strong>Human should NOT spend time on:</strong></p>
+<ul>
+<li>Writing every post from scratch</li>
+<li>Resizing assets by hand</li>
+<li>Inventing fresh content ideas every day</li>
+<li>Calendar improvisation</li>
+<li>Manually pulling metrics from each platform</li>
+<li>Reformatting content per platform</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/MONTHLY-CONTENT-SYSTEM.md</div>
+    </main>
+  </div>
+</body>
+</html>

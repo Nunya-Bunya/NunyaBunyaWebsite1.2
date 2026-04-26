@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORCA Film Awards — Source of Truth | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link active"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#orca">ORCA Film Awards</a> &rsaquo;
+          ORCA Film Awards — Source of Truth
+        </div>
+        <h1 class="doc-title">ORCA Film Awards — Source of Truth</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#127916; ORCA Film Awards</span>
+          <span class="doc-path">04-ORCA Film Awards / 01-strategy</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="orca-film-awards-source-of-truth">ORCA Film Awards — Source of Truth</h1>
+<p><strong>Last Updated:</strong> 2026-04-05</p>
+<hr>
+<h2 id="identity">Identity</h2>
+<ul>
+<li><strong>What ORCA is:</strong> An awards body where members nominate and vote on existing films. It is NOT a film festival. It does NOT accept submissions from filmmakers.</li>
+<li><strong>Based in:</strong> Brisbane, QLD. National (Australia-wide) reach target.</li>
+<li><strong>Revenue:</strong> Pre-revenue. No monetization plan yet. Focus is on building credibility, membership, and content.</li>
+<li><strong>Legal structure:</strong> TBD (Pty Ltd vs incorporated association)</li>
+<li><strong>ABN/GST:</strong> Not yet registered</li>
+</ul>
+<h3 id="trajectory-in-order">Trajectory (in order)</h3>
+<ol>
+<li>Voting body</li>
+<li>Film news/review publication</li>
+<li>Press credentials at major festivals</li>
+<li>Full awards ceremony (long-term: rival the Oscars)</li>
+</ol>
+<h3 id="long-term-targets">Long-Term Targets</h3>
+<ul>
+<li>50 voting members by end of 2026</li>
+<li>1,000 voting members by 2030</li>
+<li>Physical awards ceremony (eventual)</li>
+</ul>
+<hr>
+<h2 id="brand-assets">Brand Assets</h2>
+<p>All located in <code>04-ORCA Film Awards/</code>:</p>
+<div class="table-wrap"><table><thead><tr><th>Asset</th><th>Location</th></tr></thead><tbody><tr><td>Brand Bible</td><td><code>Brand Bible/2026-03/</code></td></tr><tr><td>Style Guide</td><td><code>Style Guide/2026-03/</code></td></tr><tr><td>Elevator Pitch</td><td><code>Elevator Pitch/2026-03/</code></td></tr><tr><td>Logos</td><td><code>Logos/</code></td></tr><tr><td>Launch Content</td><td><code>Launch Content/2026-03/</code></td></tr><tr><td>Email Sequences</td><td><code>Email Sequences/</code></td></tr><tr><td>Email List</td><td><code>Email List/ORCA-Master-Email-List.csv</code></td></tr><tr><td>Website</td><td><code>website/</code></td></tr><tr><td>Awards History</td><td><code>Awards History/</code> (2024 + 2025 award images)</td></tr><tr><td>Ballots</td><td><code>ORCA Ballots 2026/</code></td></tr></tbody></table></div>
+<hr>
+<h2 id="awards-history">Awards History</h2>
+<h3 id="categories-20-awards">Categories (20 awards)</h3>
+<p>Picture, Director, Actor, Actress, Supporting Actor, Supporting Actress, Screenplay, Cinematography, Editing, Production Design, Costume Design, Hair &amp; Makeup, Sound Design, Score, Original Song, Visual Effects, Animated Film, Documentary, Animal/Non-Human/CGI Performance, Best Scene</p>
+<h3 id="past-ceremonies">Past Ceremonies</h3>
+<ul>
+<li><strong>2024:</strong> First ceremony (award images in <code>Awards History/</code>)</li>
+<li><strong>2025:</strong> Second ceremony (award images in <code>Awards History/</code>)</li>
+<li><strong>2026:</strong> First voting cycle in progress (ballots sent 2026-03-27)</li>
+</ul>
+<hr>
+<h2 id="youtube-show">YouTube Show</h2>
+<ul>
+<li>Produced and streamed on Ben Alek Conner&#x27;s personal YouTube channel</li>
+<li>Format: Winner announcements, film discussion</li>
+<li>Part of Ben&#x27;s personal production company output (Conner Productions)</li>
+</ul>
+<hr>
+<h2 id="seo-amp-content-strategy">SEO &amp; Content Strategy</h2>
+<h3 id="keyword-clusters">Keyword Clusters</h3>
+<ul>
+<li>&quot;oscar snubs&quot;</li>
+<li>&quot;best indie films&quot;</li>
+<li>&quot;underrated films&quot;</li>
+<li>&quot;hidden gem movies&quot;</li>
+<li>NOT submission-related keywords (ORCA doesn&#x27;t accept submissions)</li>
+</ul>
+<h3 id="content-niche">Content Niche</h3>
+<ul>
+<li>Indie, foreign, lesser-seen, and niche films</li>
+<li>Films overlooked by the Oscars</li>
+<li>Film criticism and essays (not generic reviews)</li>
+</ul>
+<hr>
+<h2 id="phase-2-film-publication-strategy">Phase 2: Film Publication Strategy</h2>
+<h3 id="the-big-picture-what-wex27re-actually-building">The Big Picture (what we&#x27;re actually building)</h3>
+<p>Building in this order:</p>
+<ol>
+<li><strong>Content</strong> (articles) — establish taste and voice</li>
+<li><strong>Taste</strong> (editorial identity) — what &quot;good writing&quot; looks like on ORCA</li>
+<li><strong>People</strong> (writers/community) — early contributors become future voters</li>
+<li><strong>Authority</strong> (recognition) — press credentials, festival coverage</li>
+<li><strong>Awards</strong> (later) — feels earned, not forced</li>
+</ol>
+<h3 id="benx27s-role-editor-in-chief">Ben&#x27;s Role: Editor-in-Chief</h3>
+<ul>
+<li>Write 1 article per week minimum</li>
+<li>Set the tone for depth, taste, and quality</li>
+<li>Early on, Ben IS the brand</li>
+<li>Light editing of contributor work (polish tone + clarity, don&#x27;t over-control voice)</li>
+</ul>
+<h3 id="what-to-write-high-leverage-content">What to Write (high-leverage content)</h3>
+<p>Avoid generic reviews. Focus on:</p>
+<ul>
+<li>&quot;Why [film] matters&quot; (not just review)</li>
+<li>&quot;Underrated films you missed this month&quot;</li>
+<li>Deep dives into one scene / theme</li>
+<li>Festival coverage (even if remote)</li>
+<li>&quot;5 Underrated Festival Films You Haven&#x27;t Heard Of&quot;</li>
+<li>&quot;Themes Emerging from [Festival] 2026&quot;</li>
+<li>&quot;Why [Festival] Still Matters for Indie Voices&quot;</li>
+<li>Comparative pieces (&quot;Berlin vs Cannes — politics in festival programming&quot;)</li>
+</ul>
+<h3 id="weekly-rhythm">Weekly Rhythm</h3>
+<ul>
+<li>3-10 articles total (mix of Ben + contributors)</li>
+<li>Quality over quantity — 1 great article beats 20 mediocre posts</li>
+</ul>
+<h3 id="editorial-rules">Editorial Rules</h3>
+<ul>
+<li>No AI spam</li>
+<li>Original voice</li>
+<li>Focus on the niche (indie, foreign, underseen)</li>
+</ul>
+<hr>
+<h2 id="volunteer-writer-program">Volunteer Writer Program</h2>
+<h3 id="who-to-recruit">Who to Recruit</h3>
+<p>Obsessed film nerds with taste. Not &quot;top writers.&quot; Target:</p>
+<ul>
+<li>Reddit film subs, Letterboxd-style communities</li>
+<li>Twitter/X film circles</li>
+<li>Discord film servers</li>
+<li>Letterboxd comments sections</li>
+<li>Film students at Australian universities</li>
+<li>Festival volunteers (they see films early, have access to press screenings)</li>
+</ul>
+<h3 id="recruitment-pitch-tone">Recruitment Pitch (tone)</h3>
+<p>Don&#x27;t say: &quot;write for my website&quot;</p>
+<p>Say: &quot;We&#x27;re building a platform focused on thoughtful discussion of independent and under-seen films. Early contributors will shape the voice of the site and become founding members of our voting body.&quot;</p>
+<h3 id="what-writers-get">What Writers Get</h3>
+<p><strong>1. Identity</strong></p>
+<ul>
+<li>&quot;Founding Contributor&quot; title</li>
+<li>Profile pages on the site</li>
+<li>Recognition</li>
+</ul>
+<p><strong>2. Influence</strong></p>
+<ul>
+<li>Their writing shapes what films get attention</li>
+<li>Input on future awards</li>
+</ul>
+<p><strong>3. Pathway</strong></p>
+<ul>
+<li>Top writers become editors</li>
+<li>Editors become core voting members</li>
+<li>Contributors = stakeholders in the platform</li>
+</ul>
+<h3 id="writer-commitments">Writer Commitments</h3>
+<ul>
+<li>1 article per month minimum</li>
+<li>1 festival writeup per season</li>
+</ul>
+<h3 id="contributor-roles">Contributor Roles</h3>
+<ul>
+<li>Festival Correspondent</li>
+<li>Features Editor</li>
+<li>Reviews Editor</li>
+</ul>
+<h3 id="contributor-pipeline">Contributor Pipeline</h3>
+<p>Phase 1: Contributors (write articles)</p>
+<p>Phase 2: Core community (shape editorial direction)</p>
+<p>Phase 3: Voting body (nominate and vote on awards)</p>
+<h3 id="scaling-targets">Scaling Targets</h3>
+<ul>
+<li>Start with 3-5 contributors</li>
+<li>Don&#x27;t spread too thin early</li>
+</ul>
+<hr>
+<h2 id="press-accreditation-strategy">Press Accreditation Strategy</h2>
+<h3 id="how-press-credentials-work">How Press Credentials Work</h3>
+<p>Most festivals offer &quot;Press&quot; credentials to writers with:</p>
+<ul>
+<li>A live outlet (website with published content)</li>
+<li>Portfolio of writing</li>
+<li>Coverage plans</li>
+</ul>
+<h3 id="steps-to-get-press-passes">Steps to Get Press Passes</h3>
+<ol>
+<li>Build enough published content on the ORCA website</li>
+<li>Start with smaller/local festivals (easier to get approved)</li>
+<li>Submit editorial calendar + examples of existing coverage</li>
+<li>Apply on behalf of ORCA writers</li>
+</ol>
+<h3 id="priority-festivals-for-first-press-applications">Priority Festivals for First Press Applications</h3>
+<ul>
+<li>Flickerfest (shorts, Australia)</li>
+<li>Melbourne International Film Festival (MIFF)</li>
+<li>Brisbane Asia Pacific Film Festival</li>
+<li>Gold Coast Film Festival</li>
+<li>Adelaide Film Festival</li>
+<li>Sydney Film Festival</li>
+</ul>
+<h3 id="eventual-international-press-targets">Eventual International Press Targets</h3>
+<ul>
+<li>Cannes, Venice, TIFF, Sundance, Berlinale</li>
+</ul>
+<h3 id="partnership-opportunities">Partnership Opportunities</h3>
+<p>Reach out to:</p>
+<ul>
+<li>Smaller festivals — offer coverage and reviews</li>
+<li>Local cinemas</li>
+<li>Film societies</li>
+</ul>
+<hr>
+<h2 id="2026-festival-coverage-calendar">2026 Festival Coverage Calendar</h2>
+<h3 id="january-february-winter-festivals">January - February (Winter Festivals)</h3>
+<div class="table-wrap"><table><thead><tr><th>Date</th><th>Festival</th><th>Notes</th></tr></thead><tbody><tr><td>Jan 2-12</td><td>Palm Springs International Film Festival</td><td>Strong indie focus</td></tr><tr><td>Jan 22-Feb 1</td><td>Sundance Film Festival</td><td>Online screenings often available (virtual window ~Jan 29-Feb 1)</td></tr><tr><td>Feb 12-22</td><td>Berlinale (76th)</td><td>Strong online/industry access</td></tr><tr><td>Feb 22</td><td>Tropfest (Sydney)</td><td>Limited online via YouTube public voting</td></tr><tr><td>Feb 23-Mar 1</td><td>Sydney Film Festival</td><td>Australia&#x27;s big summer fest</td></tr><tr><td>Early Feb (4-8)</td><td>AACTA Festival (Gold Coast)</td><td>Industry panels + awards celebrations</td></tr></tbody></table></div>
+<h3 id="march-april-spring-showcases">March - April (Spring Showcases)</h3>
+<div class="table-wrap"><table><thead><tr><th>Date</th><th>Festival</th><th>Notes</th></tr></thead><tbody><tr><td>Mar 6-15</td><td>Malaga Film Festival</td><td>European festival, good for niche/indie</td></tr><tr><td>Apr 1-12</td><td>Hong Kong International Film Festival (50th)</td><td>Asia-Pac cinema showcase</td></tr><tr><td>Apr 22-May 3</td><td>Gold Coast Film Festival</td><td>Broad local screenings and events</td></tr><tr><td>Apr 24-May 4</td><td>San Francisco International Film Festival</td><td>Indie-leaning</td></tr></tbody></table></div>
+<h3 id="may-june-prestige-amp-midseason">May - June (Prestige &amp; Midseason)</h3>
+<div class="table-wrap"><table><thead><tr><th>Date</th><th>Festival</th><th>Notes</th></tr></thead><tbody><tr><td>May 12-23</td><td>Cannes Film Festival</td><td>Major international — remote viewing limited, press access is key</td></tr><tr><td>Jun 3-14</td><td>Sydney Film Festival</td><td>Australia&#x27;s largest celebration of film</td></tr></tbody></table></div>
+<h3 id="july-august-summer-international">July - August (Summer / International)</h3>
+<div class="table-wrap"><table><thead><tr><th>Date</th><th>Festival</th><th>Notes</th></tr></thead><tbody><tr><td>Aug 6-23</td><td>Melbourne International Film Festival (MIFF)</td><td>Australia&#x27;s largest film fest, good indie content</td></tr><tr><td>Aug 13-19</td><td>Edinburgh International Film Festival</td><td>Often has online components</td></tr></tbody></table></div>
+<h3 id="september-november-fall-awards-build">September - November (Fall / Awards Build)</h3>
+<div class="table-wrap"><table><thead><tr><th>Date</th><th>Festival</th><th>Notes</th></tr></thead><tbody><tr><td>Sept 2-12</td><td>Venice International Film Festival</td><td>Prestige international cinema, major premieres</td></tr><tr><td>Sept 10-16</td><td>Toronto International Film Festival (TIFF)</td><td>Massive platform for global cinema</td></tr><tr><td>Oct (mid-month)</td><td>Adelaide Film Festival</td><td>Worth covering</td></tr><tr><td>Nov 12-22</td><td>IDFA (Amsterdam)</td><td>Top global documentary focus</td></tr></tbody></table></div>
+<h3 id="year-round-niche">Year-Round / Niche</h3>
+<div class="table-wrap"><table><thead><tr><th>Approx</th><th>Festival</th><th>Notes</th></tr></thead><tbody><tr><td>Early year</td><td>Flickerfest (Australia)</td><td>Annual short film focus</td></tr><tr><td>Various</td><td>Cine-Excess (UK)</td><td>Online screening strands, niche</td></tr><tr><td>Various</td><td>Vaughan International Film Festival (Canada)</td><td>Short film, good for early coverage</td></tr><tr><td>TBA</td><td>Byron Bay International Film Festival</td><td>Local</td></tr><tr><td>TBA</td><td>Australia Independent Film Festival (Brisbane)</td><td>Short/indie</td></tr><tr><td>TBA</td><td>Canberra International Film Festival</td><td></td></tr><tr><td>TBA</td><td>Revelation Perth International Film Festival</td><td></td></tr><tr><td>TBA</td><td>Brisbane Asia Pacific Film Festival</td><td></td></tr><tr><td>TBA</td><td>Sydney Underground Film Festival</td><td></td></tr><tr><td>TBA</td><td>Melbourne Underground Film Festival</td><td></td></tr></tbody></table></div>
+<h3 id="international-niche-festivals-for-future-coverage">International Niche Festivals (for future coverage)</h3>
+<ul>
+<li>Fantasia International Film Festival (genre)</li>
+<li>Sitges Film Festival (fantasy/horror)</li>
+<li>Ann Arbor Film Festival (experimental)</li>
+<li>Cleveland International Film Festival</li>
+<li>Dances With Films</li>
+<li>Cinequest</li>
+<li>Outfest (LGBTQ+)</li>
+<li>Docs Without Borders</li>
+<li>Raindance (London)</li>
+</ul>
+<h3 id="content-strategy-per-festival">Content Strategy Per Festival</h3>
+<p><strong>Before the festival:</strong></p>
+<ul>
+<li>Publish overview and anticipation piece</li>
+<li>Introduce key films to watch</li>
+</ul>
+<p><strong>During (remote screening window):</strong></p>
+<ul>
+<li>Reviews and top picks</li>
+<li>Curated lists (shorts, docs, hidden gems)</li>
+</ul>
+<p><strong>After:</strong></p>
+<ul>
+<li>Year-round takeaways</li>
+<li>Connect local taste with global coverage</li>
+</ul>
+<h3 id="seasonal-content-focus">Seasonal Content Focus</h3>
+<p><strong>January - March:</strong> Introductory festival essays, roundups from early fests, filmmaker profiles</p>
+<p><strong>April - June:</strong> Cannes buzz deep dives, comparative pieces, Aussie focus around Sydney/Melbourne</p>
+<p><strong>August - October:</strong> Editor&#x27;s picks from Edinburgh &amp; MIFF, &quot;hidden gems from fall festivals&quot;, documentary spotlights</p>
+<p><strong>Year-End:</strong> Best of year roundups, seasonal cinematic themes, awards season build-ups (TIFF/Venice/IDFA feed Oscar discourse)</p>
+<hr>
+<h2 id="remote-coverage-tips">Remote Coverage Tips</h2>
+<ol>
+<li><strong>Online passes</strong> — Many festivals offer digital/online screening passes (Sundance, SXSW, others via Eventive platform at watch.eventive.org)</li>
+<li><strong>Press screeners</strong> — Even in-person festivals sometimes provide virtual screeners for press</li>
+<li><strong>Curate themes, not just reviews</strong> — thematic roundups perform better than individual reviews</li>
+<li><strong>Remote windows are short</strong> — usually just a few days, plan content accordingly</li>
+</ol>
+<hr>
+<h2 id="australian-film-landscape-competitors-amp-collaborators">Australian Film Landscape (competitors &amp; collaborators)</h2>
+<h3 id="established-australian-publications">Established Australian Publications</h3>
+<div class="table-wrap"><table><thead><tr><th>Outlet</th><th>Notes</th></tr></thead><tbody><tr><td>IF (Inside Film)</td><td>Largest Australian film industry magazine + awards body</td></tr><tr><td>Cinema Australia</td><td>Industry publication focused on Australian cinema</td></tr><tr><td>Screenhub</td><td>Online magazine covering Australian TV &amp; film</td></tr><tr><td>FilmInk</td><td>Long-established film magazine</td></tr><tr><td>ArtsHub</td><td>Broader arts, publishes film/festival reviews</td></tr><tr><td>Urban Cinefile</td><td>Long-running website reviewing global + local cinema</td></tr><tr><td>Senses of Cinema</td><td>Hugely influential Australian-based online journal (film theory/criticism)</td></tr></tbody></table></div>
+<h3 id="industry-bodies">Industry Bodies</h3>
+<ul>
+<li><strong>Australian Film Critics Association (AFCA)</strong> — national body of professional critics</li>
+<li><strong>Film Critics Circle of Australia (FCCA)</strong> — ties into international critic bodies</li>
+</ul>
+<h3 id="australian-critics-to-followlearn-from">Australian Critics to Follow/Learn From</h3>
+<ul>
+<li>Adrian Martin — scholarly, prolific across academic and cultural outlets</li>
+<li>Marc Fennell — writer/broadcaster, engaging reviews across platforms</li>
+<li>Giles Hardie — critic/editor with strong journalism links</li>
+<li>Paul Harris — deep knowledge of local and global cinema</li>
+<li>Alexandra Heller-Nicholas — strong voice in genre cinema (critic, academic, author)</li>
+<li>John McDonald — veteran film and art critic</li>
+<li>Megan Spencer — broadcaster/critic, deep ties to Australian film culture</li>
+</ul>
+<h3 id="international-indie-outlets-potential-collaborationinspiration">International Indie Outlets (potential collaboration/inspiration)</h3>
+<ul>
+<li>Little White Lies (UK)</li>
+<li>Slant Magazine (US)</li>
+<li>Sight &amp; Sound (UK)</li>
+<li>The Film Stage (US)</li>
+<li>Cineuropa (EU)</li>
+</ul>
+<h3 id="key-insight-the-gap-orca-can-fill">Key Insight: The Gap ORCA Can Fill</h3>
+<p>Most Australian outlets do NOT send large rosters of writers to major international festivals. They send 1-2 delegates, syndicate freelance reviews, and rely on remote press access. There is room for a platform that recruits and supports a network of writers who attend festivals and publish consistently — especially covering indie, foreign, and niche cinema from an Australian perspective.</p>
+<hr>
+<h2 id="reference-matt-neglia-model">Reference: Matt Neglia Model</h2>
+<p>Matt Neglia (Next Best Picture) is a key inspiration — built a credible awards-focused publication with a distinctive voice. ORCA aims for a similar model but in its own lane: focused on underseen/indie/foreign films rather than mainstream Oscar contention.</p>
+<hr>
+<h2 id="key-warnings">Key Warnings</h2>
+<ul>
+<li>Don&#x27;t spread too thin early. Better: 1 great article/week + 3-5 contributors than 20 mediocre posts with no identity.</li>
+<li>Consistency is everything — weekly output, curation over volume, community ownership.</li>
+<li>Most people try to skip straight to awards — that&#x27;s why they fail. Build content, taste, people, authority FIRST.</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">04-ORCA Film Awards/01-strategy/ORCA-SOURCE-OF-TRUTH.md</div>
+    </main>
+  </div>
+</body>
+</html>

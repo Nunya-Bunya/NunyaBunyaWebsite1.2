@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slack Routing | NB Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  .channel-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:20px 24px; margin-bottom:16px; }
+  .channel-card h3 { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin:0 0 4px 0; display:flex; align-items:center; gap:10px; }
+  .channel-name { color:var(--teal); }
+  .channel-purpose { font-size:13px; color:rgba(255,255,255,0.4); margin-bottom:16px; }
+  .channel-id { font-size:11px; font-family:monospace; color:rgba(255,255,255,0.2); }
+  .feed-table { width:100%; border-collapse:collapse; }
+  .feed-table th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; color:rgba(255,255,255,0.35); padding:6px 12px; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .feed-table td { font-size:13px; padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.04); }
+  .feed-table tr:hover { background:rgba(255,255,255,0.02); }
+  .source-badge { font-size:10px; padding:2px 8px; border-radius:3px; font-weight:600; text-transform:uppercase; letter-spacing:0.3px; }
+  .src-n8n { background:rgba(255,107,53,0.15); color:#ff6b35; }
+  .src-python { background:rgba(52,152,219,0.15); color:#3498db; }
+  .src-webhook { background:rgba(155,89,182,0.15); color:#9b59b6; }
+  .src-todo { background:rgba(241,196,15,0.15); color:#f1c40f; }
+  .freq-badge { font-size:11px; color:rgba(255,255,255,0.35); }
+  .status-live { color:#2ecc71; }
+  .status-todo { color:#f1c40f; }
+  .status-empty { color:rgba(255,255,255,0.2); }
+  .section-divider { margin:40px 0 24px; padding-bottom:8px; border-bottom:2px solid rgba(255,255,255,0.06); }
+  .section-divider h2 { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:rgba(255,255,255,0.5); margin:0; }
+  .summary-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); gap:12px; margin-bottom:32px; }
+  .summary-stat { text-align:center; padding:16px; background:rgba(255,255,255,0.03); border-radius:8px; }
+  .summary-stat .num { font-family:'Barlow Condensed',sans-serif; font-size:32px; font-weight:900; color:var(--teal); }
+  .summary-stat .label { font-size:11px; text-transform:uppercase; letter-spacing:0.5px; color:rgba(255,255,255,0.4); }
+  .missing-section { background:rgba(241,196,15,0.05); border:1px solid rgba(241,196,15,0.15); border-radius:12px; padding:20px 24px; margin-bottom:16px; }
+  .missing-section h3 { color:#f1c40f; margin:0 0 12px; font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+  .missing-item { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:13px; }
+  .missing-item:last-child { border-bottom:none; }
+  .effort-badge { font-size:10px; padding:2px 8px; border-radius:3px; font-weight:600; }
+  .effort-easy { background:rgba(46,204,113,0.15); color:#2ecc71; }
+  .effort-medium { background:rgba(230,126,34,0.15); color:#e67e22; }
+  .check-when { font-size:12px; color:rgba(255,255,255,0.25); font-style:italic; }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Slack <span>Routing</span></h1>
+        <p style="font-size:13px;color:rgba(255,255,255,0.4);margin:4px 0 0">What posts where, what's missing, and what to check</p>
+      </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="summary-grid">
+      <div class="summary-stat"><div class="num">11</div><div class="label">Channels</div></div>
+      <div class="summary-stat"><div class="num">22</div><div class="label">Active Feeds</div></div>
+      <div class="summary-stat"><div class="num">4</div><div class="label">To Build</div></div>
+      <div class="summary-stat"><div class="num">3</div><div class="label">Reports</div></div>
+    </div>
+
+    <!-- DAILY CHECK CHANNELS -->
+    <div class="section-divider"><h2>Check Daily</h2></div>
+
+    <!-- #revenue -->
+    <div class="channel-card">
+      <h3><span class="channel-name">#revenue</span> <span class="channel-id">C0AVCV56WPK</span></h3>
+      <div class="channel-purpose">Every dollar in. Payments, invoices, wins.</div>
+      <div class="check-when">Check: every morning</div>
+      <table class="feed-table">
+        <tr><th>What</th><th>Source</th><th>Trigger</th><th>Status</th></tr>
+        <tr><td>BFK payment received</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">Stripe webhook</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Upsell payment received</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">Stripe webhook</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Upsell generation complete</td><td><span class="source-badge src-python">Python</span></td><td class="freq-badge">After payment</td><td class="status-live">LIVE</td></tr>
+        <tr><td>DTB generation complete</td><td><span class="source-badge src-python">Python</span></td><td class="freq-badge">After payment</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Weekly revenue recap</td><td><span class="source-badge src-todo">TO BUILD</span></td><td class="freq-badge">Weekly (Mon)</td><td class="status-todo">PLANNED</td></tr>
+      </table>
+    </div>
+
+    <!-- #clients -->
+    <div class="channel-card">
+      <h3><span class="channel-name">#clients</span> <span class="channel-id">C0AV3L5JPQC</span></h3>
+      <div class="channel-purpose">New leads, bookings, form submissions, onboarding.</div>
+      <div class="check-when">Check: every morning</div>
+      <table class="feed-table">
+        <tr><th>What</th><th>Source</th><th>Trigger</th><th>Status</th></tr>
+        <tr><td>New booking / cancel / reschedule</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">Cal.com webhook</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Contact form submitted</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">Form POST</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Lead magnet signup</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">Form POST</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Hot lead alert (score > 50)</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">Mautic score</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Email opened / link clicked</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">Mautic webhook</td><td class="status-live">LIVE</td></tr>
+        <tr><td>BFK survey submitted</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">Form POST</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Zinia booking</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">Cal.com webhook</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Daily booking digest</td><td><span class="source-badge src-python">Python</span></td><td class="freq-badge">Cron daily</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Daily hot lead check</td><td><span class="source-badge src-python">Python</span></td><td class="freq-badge">Cron daily</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Weekly lead funnel report</td><td><span class="source-badge src-todo">TO BUILD</span></td><td class="freq-badge">Weekly (Mon)</td><td class="status-todo">PLANNED</td></tr>
+      </table>
+    </div>
+
+    <!-- #daily-digest -->
+    <div class="channel-card">
+      <h3><span class="channel-name">#daily-digest</span> <span class="channel-id">C0AV0GXRGGG</span></h3>
+      <div class="channel-purpose">Last 24h across all businesses. Posted daily at 7am AEST.</div>
+      <div class="check-when">Check: every morning</div>
+      <table class="feed-table">
+        <tr><th>What</th><th>Source</th><th>Trigger</th><th>Status</th></tr>
+        <tr><td>Morning overview (traffic, leads, bookings, tweets, links)</td><td><span class="source-badge src-python">Python</span></td><td class="freq-badge">Cron 7am</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Weekly marketing summary</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">Weekly</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Link click stats</td><td><span class="source-badge src-python">Python</span></td><td class="freq-badge">Cron daily</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Traffic analytics</td><td><span class="source-badge src-python">Python</span></td><td class="freq-badge">Cron daily</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Weekly content scorecard</td><td><span class="source-badge src-todo">TO BUILD</span></td><td class="freq-badge">Weekly (Mon)</td><td class="status-todo">PLANNED</td></tr>
+        <tr><td>Monthly business review</td><td><span class="source-badge src-todo">TO BUILD</span></td><td class="freq-badge">1st of month</td><td class="status-todo">PLANNED</td></tr>
+      </table>
+    </div>
+
+    <!-- #outreach -->
+    <div class="channel-card">
+      <h3><span class="channel-name">#outreach</span> <span class="channel-id">C0ARXK9N68M</span></h3>
+      <div class="channel-purpose">Daily DM outreach queue. Brisbane professionals to message.</div>
+      <div class="check-when">Check: every morning</div>
+      <table class="feed-table">
+        <tr><th>What</th><th>Source</th><th>Trigger</th><th>Status</th></tr>
+        <tr><td>Twitter profiles to DM</td><td><span class="source-badge src-python">Python</span></td><td class="freq-badge">Daily cron</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Engagement opportunities</td><td><span class="source-badge src-python">Python</span></td><td class="freq-badge">Daily cron</td><td class="status-live">LIVE</td></tr>
+      </table>
+    </div>
+
+    <!-- SYSTEM CHANNELS -->
+    <div class="section-divider"><h2>System &amp; Infra</h2></div>
+
+    <!-- #alerts -->
+    <div class="channel-card">
+      <h3><span class="channel-name">#alerts</span> <span class="channel-id">C0AN3KML1DG</span></h3>
+      <div class="channel-purpose">Infrastructure only. Container health, DB monitoring, SSL certs.</div>
+      <div class="check-when">Check: only when something breaks</div>
+      <table class="feed-table">
+        <tr><th>What</th><th>Source</th><th>Trigger</th><th>Status</th></tr>
+        <tr><td>Container/endpoint health</td><td><span class="source-badge src-python">Bash</span></td><td class="freq-badge">Every 15 min</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Supabase monitoring</td><td><span class="source-badge src-python">Python</span></td><td class="freq-badge">Cron</td><td class="status-live">LIVE</td></tr>
+        <tr><td>SSL cert expiry warnings</td><td><span class="source-badge src-python">Python</span></td><td class="freq-badge">Cron</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Cron job health check</td><td><span class="source-badge src-python">Python</span></td><td class="freq-badge">Cron</td><td class="status-live">LIVE</td></tr>
+      </table>
+    </div>
+
+    <!-- #deploys -->
+    <div class="channel-card">
+      <h3><span class="channel-name">#deploys</span> <span class="channel-id">C0AV3L5AD0C</span></h3>
+      <div class="channel-purpose">Site deployments, DNS changes, code pushes.</div>
+      <div class="check-when">Check: after deploying anything</div>
+      <table class="feed-table">
+        <tr><th>What</th><th>Source</th><th>Trigger</th><th>Status</th></tr>
+        <tr><td>Vercel deploy complete (all sites)</td><td><span class="source-badge src-todo">TO BUILD</span></td><td class="freq-badge">Vercel webhook</td><td class="status-todo">PLANNED</td></tr>
+      </table>
+    </div>
+
+    <!-- UTILITY CHANNELS -->
+    <div class="section-divider"><h2>Utility</h2></div>
+
+    <!-- #approvals -->
+    <div class="channel-card">
+      <h3><span class="channel-name">#approvals</span> <span class="channel-id">C0ASH00KZJP</span></h3>
+      <div class="channel-purpose">Tweet/content approval queue.</div>
+      <div class="check-when">Check: when content queues up</div>
+      <table class="feed-table">
+        <tr><th>What</th><th>Source</th><th>Trigger</th><th>Status</th></tr>
+        <tr><td>Tweet approval requests</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">On queue</td><td class="status-live">LIVE</td></tr>
+      </table>
+    </div>
+
+    <!-- #swipe-file -->
+    <div class="channel-card">
+      <h3><span class="channel-name">#swipe-file</span> <span class="channel-id">C0ATLAY4NHG</span></h3>
+      <div class="channel-purpose">Screenshot ads from your phone. Auto-saved to NBHQ.</div>
+      <div class="check-when">Check: when you save inspiration</div>
+      <table class="feed-table">
+        <tr><th>What</th><th>Source</th><th>Trigger</th><th>Status</th></tr>
+        <tr><td>Phone screenshots &rarr; Supabase &rarr; NBHQ gallery</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">On upload</td><td class="status-live">LIVE</td></tr>
+      </table>
+    </div>
+
+    <!-- PER-BUSINESS CHANNELS -->
+    <div class="section-divider"><h2>Per-Business (Muted)</h2></div>
+
+    <div class="channel-card">
+      <h3><span class="channel-name">#nunya-bunya</span> <span class="channel-id">C0AN77GLB36</span></h3>
+      <div class="channel-purpose">Agency internal. Slack inbox auto-classifies messages here.</div>
+      <table class="feed-table">
+        <tr><th>What</th><th>Source</th><th>Trigger</th><th>Status</th></tr>
+        <tr><td>Slack inbox capture + classify + route</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">On message</td><td class="status-live">LIVE</td></tr>
+        <tr><td>Social media posts</td><td><span class="source-badge src-n8n">n8n</span></td><td class="freq-badge">On publish</td><td class="status-live">LIVE</td></tr>
+      </table>
+    </div>
+
+    <div class="channel-card" style="opacity:0.7">
+      <h3><span class="channel-name">#power-portraits</span></h3>
+      <div class="channel-purpose">Slack inbox auto-classify. Check when working on PP.</div>
+    </div>
+    <div class="channel-card" style="opacity:0.7">
+      <h3><span class="channel-name">#orca-film-awards</span></h3>
+      <div class="channel-purpose">Slack inbox + article publish alerts. Check when working on ORCA.</div>
+    </div>
+    <div class="channel-card" style="opacity:0.7">
+      <h3><span class="channel-name">#ben-alek-conner</span></h3>
+      <div class="channel-purpose">Personal brand. No automation yet.</div>
+    </div>
+    <div class="channel-card" style="opacity:0.7">
+      <h3><span class="channel-name">#conner-law-group</span></h3>
+      <div class="channel-purpose">CLG marketing coordination. No automation yet.</div>
+    </div>
+    <div class="channel-card" style="opacity:0.7">
+      <h3><span class="channel-name">#bella-rhyder</span></h3>
+      <div class="channel-purpose">Pre-launch. Nothing automated until suppliers confirmed.</div>
+    </div>
+
+    <!-- WHAT'S MISSING -->
+    <div class="section-divider"><h2>Still To Build</h2></div>
+
+    <div class="missing-section">
+      <h3>Real-Time Events</h3>
+      <div class="missing-item">
+        <div>Vercel deploy complete &rarr; <strong>#deploys</strong></div>
+        <div><span class="effort-badge effort-easy">EASY</span></div>
+      </div>
+      <div class="missing-item">
+        <div>Stripe subscription start/cancel &rarr; <strong>#revenue</strong></div>
+        <div><span class="effort-badge effort-easy">EASY</span></div>
+      </div>
+      <div class="missing-item">
+        <div>New Google review &rarr; <strong>#clients</strong></div>
+        <div><span class="effort-badge effort-medium">MEDIUM</span></div>
+      </div>
+      <div class="missing-item">
+        <div>Email reply received &rarr; <strong>#clients</strong></div>
+        <div><span class="effort-badge effort-medium">MEDIUM</span></div>
+      </div>
+    </div>
+
+    <div class="missing-section">
+      <h3>Weekly Reports</h3>
+      <div class="missing-item">
+        <div>Revenue recap (total $, by business, vs last week) &rarr; <strong>#revenue</strong></div>
+        <div><span class="effort-badge effort-easy">EASY</span></div>
+      </div>
+      <div class="missing-item">
+        <div>Lead funnel (new &rarr; qualified &rarr; booked &rarr; converted) &rarr; <strong>#clients</strong></div>
+        <div><span class="effort-badge effort-medium">MEDIUM</span></div>
+      </div>
+      <div class="missing-item">
+        <div>Content scorecard (posts, engagement, top performer) &rarr; <strong>#daily-digest</strong></div>
+        <div><span class="effort-badge effort-medium">MEDIUM</span></div>
+      </div>
+    </div>
+
+    <div class="missing-section">
+      <h3>Monthly Reports</h3>
+      <div class="missing-item">
+        <div>Business review (traffic, leads, revenue, content — all businesses side by side) &rarr; <strong>#daily-digest</strong></div>
+        <div><span class="effort-badge effort-medium">MEDIUM</span></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('slack-routing');
+  }
+  init();
+</script>
+</body>
+</html>

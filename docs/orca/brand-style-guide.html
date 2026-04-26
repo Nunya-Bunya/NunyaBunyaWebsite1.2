@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORCA Film Awards — Brand Style Guide | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link active"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#orca">ORCA Film Awards</a> &rsaquo;
+          ORCA Film Awards — Brand Style Guide
+        </div>
+        <h1 class="doc-title">ORCA Film Awards — Brand Style Guide</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#127916; ORCA Film Awards</span>
+          <span class="doc-path">04-ORCA Film Awards / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="orca-film-awards-brand-style-guide">ORCA Film Awards — Brand Style Guide</h1>
+<p><strong>Version 1.0 | 2026 Edition</strong></p>
+<p><strong>Confidential — Internal &amp; Partner Use</strong></p>
+<hr>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li>Brand Story &amp; Mission</li>
+<li>Visual Identity</li>
+<li>Color System</li>
+<li>Typography</li>
+<li>Logo Usage Rules</li>
+<li>Photography Style</li>
+<li>Voice &amp; Tone</li>
+<li>Do&#x27;s and Don&#x27;ts</li>
+<li>Social Media Visual Style</li>
+<li>Print Standards</li>
+<li>Partner &amp; Sponsor Co-Branding Rules</li>
+</ol>
+<hr>
+<h2 id="1-brand-story-amp-mission">1. Brand Story &amp; Mission</h2>
+<h3 id="who-we-are">Who We Are</h3>
+<p>ORCA Film Awards exists because independent film deserves a stage worthy of its ambition.</p>
+<p>Born in Brisbane, Australia, ORCA is an independent film awards organization and content platform dedicated to recognizing the craft, courage, and creative vision that defines the best in independent cinema. We are not a studio system. We are not a legacy institution. We are something rarer — a community of people who believe that the most honest, most powerful stories are being told outside the mainstream, and that those stories deserve to be celebrated with the same reverence as any major industry accolade.</p>
+<p>The name ORCA is a symbol of intelligence, community, and power — apex presence in its world. That is the aspiration ORCA Film Awards holds for every filmmaker it honors.</p>
+<h3 id="our-mission">Our Mission</h3>
+<p>To celebrate, elevate, and connect independent filmmakers across Australia and the world — through rigorous recognition, meaningful community, and a platform that amplifies their work.</p>
+<h3 id="our-values">Our Values</h3>
+<p><strong>Integrity.</strong> Every decision — from judging criteria to winner selection — is made with transparency, fairness, and genuine artistic merit as the only standard.</p>
+<p><strong>Excellence.</strong> We hold ourselves and the work we recognize to the highest standard. Prestige is earned through quality, not volume.</p>
+<p><strong>Passion.</strong> We are filmmakers, storytellers, and film lovers first. Every piece of communication we produce reflects that love.</p>
+<p><strong>Community.</strong> Independent film thrives when filmmakers support one another. ORCA exists to build that network and celebrate those connections.</p>
+<p><strong>Authenticity.</strong> We celebrate films that take risks, challenge conventions, and tell the truth. Our brand does the same.</p>
+<hr>
+<h2 id="2-visual-identity">2. Visual Identity</h2>
+<h3 id="the-orca-aesthetic">The ORCA Aesthetic</h3>
+<p>The ORCA visual identity is cinematic, prestigious, and bold. It draws from the visual grammar of film noir, awards culture, and high-end editorial design. Every visual choice should feel like it belongs in the lobby of a great cinema — rich, confident, and beautifully crafted.</p>
+<p>The identity is built on contrast: deep black against luminous gold. Silence against impact. Space against content. This is not a brand that shouts. It commands attention through restraint and precision.</p>
+<h3 id="design-principles">Design Principles</h3>
+<p><strong>Depth over flatness.</strong> Textures, gradients, and layering are used to create a sense of dimension — like a film projected onto a screen.</p>
+<p><strong>Space is prestige.</strong> Generous whitespace (or blackspace) communicates quality. Do not crowd the layout.</p>
+<p><strong>Gold is sacred.</strong> Award Gold (#D4AF37) is used purposefully — for emphasis, for celebration, for the moments that matter. Overuse dilutes its power.</p>
+<p><strong>Consistency is credibility.</strong> Every touchpoint — from a social post to a printed program — must feel unmistakably ORCA.</p>
+<hr>
+<h2 id="3-color-system">3. Color System</h2>
+<h3 id="primary-palette">Primary Palette</h3>
+<div class="table-wrap"><table><thead><tr><th>Color Name</th><th>Hex Code</th><th>RGB</th><th>Usage</th></tr></thead><tbody><tr><td>Cinematic Black</td><td>#0A0A0A</td><td>10, 10, 10</td><td>Primary background, dominant surface</td></tr><tr><td>Award Gold</td><td>#D4AF37</td><td>212, 175, 55</td><td>Headlines, accents, key brand moments</td></tr><tr><td>Crimson Red</td><td>#8B0000</td><td>139, 0, 0</td><td>Accent, urgency, passion, secondary emphasis</td></tr></tbody></table></div>
+<h3 id="secondary-palette">Secondary Palette</h3>
+<div class="table-wrap"><table><thead><tr><th>Color Name</th><th>Hex Code</th><th>RGB</th><th>Usage</th></tr></thead><tbody><tr><td>Warm White</td><td>#F5F0E8</td><td>245, 240, 232</td><td>Body text on dark backgrounds, reversed layouts</td></tr><tr><td>Charcoal</td><td>#1C1C1C</td><td>28, 28, 28</td><td>Secondary backgrounds, cards, panels</td></tr><tr><td>Mid Grey</td><td>#6B6B6B</td><td>107, 107, 107</td><td>Subheadings, captions, secondary text</td></tr><tr><td>Deep Gold</td><td>#A8892A</td><td>168, 137, 42</td><td>Gold hover states, shadows, depth on gold elements</td></tr><tr><td>Light Gold</td><td>#F0D060</td><td>240, 208, 96</td><td>Highlight moments, shimmer effects</td></tr></tbody></table></div>
+<h3 id="color-usage-rules">Color Usage Rules</h3>
+<p><strong>Cinematic Black</strong> is the default background for all primary brand materials. It is non-negotiable for the hero zones of any communication.</p>
+<p><strong>Award Gold</strong> must never appear on a white background in primary brand contexts. It exists in contrast to deep black. On white collateral (forms, letterhead), use Cinematic Black as the primary color and gold as a restrained accent.</p>
+<p><strong>Crimson Red</strong> is an accent only. It should never dominate a layout. Use for call-to-action elements, dates, urgency labels, or small graphic details.</p>
+<p><strong>Never use the three primary colors at full weight simultaneously.</strong> One should dominate, one should accent, one should whisper.</p>
+<h3 id="accessibility">Accessibility</h3>
+<p>For all body copy, use Warm White (#F5F0E8) or pure white (#FFFFFF) on Cinematic Black backgrounds. Award Gold on black passes WCAG AA for large text (18pt+). For smaller text, use white instead of gold.</p>
+<hr>
+<h2 id="4-typography">4. Typography</h2>
+<h3 id="primary-typeface-headings">Primary Typeface — Headings</h3>
+<p><strong>Playfair Display</strong> (or equivalent cinematic serif: Cormorant Garamond, EB Garamond)</p>
+<p>Playfair Display is the voice of ORCA Film Awards in print and digital. Its high-contrast strokes, elegant letterforms, and theatrical presence make it the ideal heading typeface for a prestigious film organization.</p>
+<ul>
+<li>Use for: All headings (H1–H3), award titles, ceremony program headers, certificate text, pull quotes</li>
+<li>Weight: Bold (700) for primary headlines; Regular (400) for elegant subheadings</li>
+<li>Style: Italic variants for award category names and film titles</li>
+<li>Color: Award Gold on dark backgrounds; Cinematic Black on light backgrounds</li>
+</ul>
+<h3 id="secondary-typeface-body-amp-ui">Secondary Typeface — Body &amp; UI</h3>
+<p><strong>Lato</strong> (or equivalent: Inter, Source Sans Pro, Montserrat)</p>
+<p>Clean, modern, and highly legible — Lato provides the functional counterweight to Playfair Display&#x27;s theatrical character. It should feel neutral and professional, never competing with the headline typeface.</p>
+<ul>
+<li>Use for: Body copy, navigation, labels, form fields, captions, metadata</li>
+<li>Weight: Regular (400) for body; Medium (500) for UI labels; Bold (700) for callouts</li>
+<li>Color: Warm White (#F5F0E8) for body text on dark; Charcoal (#1C1C1C) on light</li>
+</ul>
+<h3 id="typographic-scale">Typographic Scale</h3>
+<div class="table-wrap"><table><thead><tr><th>Element</th><th>Typeface</th><th>Size</th><th>Weight</th><th>Color</th></tr></thead><tbody><tr><td>Hero Headline</td><td>Playfair Display</td><td>72–96px</td><td>Bold</td><td>Award Gold</td></tr><tr><td>Section Headline</td><td>Playfair Display</td><td>40–56px</td><td>Bold</td><td>Award Gold or White</td></tr><tr><td>Sub-headline</td><td>Playfair Display</td><td>24–32px</td><td>Regular/Italic</td><td>White or Gold</td></tr><tr><td>Body Copy</td><td>Lato</td><td>16–18px</td><td>Regular</td><td>Warm White</td></tr><tr><td>Caption / Meta</td><td>Lato</td><td>12–14px</td><td>Regular</td><td>Mid Grey</td></tr><tr><td>Button Text</td><td>Lato</td><td>14–16px</td><td>Bold</td><td>Black on Gold; Gold on Black</td></tr><tr><td>Certificate Text</td><td>Playfair Display</td><td>Variable</td><td>Regular/Bold</td><td>Gold</td></tr></tbody></table></div>
+<h3 id="typographic-rules">Typographic Rules</h3>
+<ul>
+<li>Never set body text in the serif typeface at small sizes</li>
+<li>Film titles should always be italicized: <em>The Last Frame</em>, <em>Broken Light</em></li>
+<li>Award categories should be in Title Case</li>
+<li>Do not use all-caps for body text; use sparingly for labels and category tags only</li>
+<li>Minimum line height for body copy: 1.6</li>
+<li>Track headlines at +20–40 to create editorial breathing room</li>
+</ul>
+<hr>
+<h2 id="5-logo-usage-rules">5. Logo Usage Rules</h2>
+<h3 id="logo-versions">Logo Versions</h3>
+<p><strong>Primary Logo (Full)</strong></p>
+<p>The full ORCA Film Awards wordmark on black background with Award Gold text. This is the default logo for all primary brand applications. Use whenever sufficient space is available.</p>
+<p><strong>Reversed Logo</strong></p>
+<p>White wordmark on black, or black wordmark on gold or white backgrounds. Use when the primary gold version creates visual conflict with the background.</p>
+<p><strong>Icon-Only / Monogram</strong></p>
+<p>The ORCA monogram or symbol mark alone. Use for profile pictures, favicon, embossed treatments, watermarks on video content, and app icons. Never use the icon mark at sizes below 32px.</p>
+<p><strong>Horizontal Layout</strong></p>
+<p>For banner applications, email headers, and wide-format contexts where the stacked logo would be too tall.</p>
+<h3 id="minimum-size">Minimum Size</h3>
+<ul>
+<li>Digital: 120px wide (full logo), 32px (icon only)</li>
+<li>Print: 35mm wide (full logo), 12mm (icon only)</li>
+</ul>
+<h3 id="clear-space">Clear Space</h3>
+<p>Maintain clear space equal to the height of the &quot;O&quot; in ORCA on all sides of the logo. Nothing — no text, no graphic element, no image — enters this zone.</p>
+<h3 id="approved-backgrounds">Approved Backgrounds</h3>
+<ul>
+<li>Cinematic Black (#0A0A0A) — preferred</li>
+<li>Deep charcoal or dark photographic backgrounds with sufficient contrast</li>
+<li>Solid Award Gold (use reversed black logo)</li>
+<li>White (use reversed black or crimson logo for special occasions)</li>
+</ul>
+<h3 id="never-do-the-following">Never Do the Following</h3>
+<ul>
+<li>Do not stretch, distort, or rotate the logo</li>
+<li>Do not apply drop shadows, glows, or decorative effects</li>
+<li>Do not recolor the logo outside approved versions</li>
+<li>Do not place the logo on busy, low-contrast photographic backgrounds</li>
+<li>Do not use the logo at sizes below minimum</li>
+<li>Do not recreate the logo in a different typeface</li>
+<li>Do not use the logo in any context that could embarrass or misrepresent ORCA Film Awards</li>
+</ul>
+<hr>
+<h2 id="6-photography-style">6. Photography Style</h2>
+<h3 id="the-orca-photographic-aesthetic">The ORCA Photographic Aesthetic</h3>
+<p>Photography used in ORCA Film Awards materials should feel like stills from a great film. Every image should have intentionality — a point of view, a mood, a story. We are not a stock photo brand.</p>
+<h3 id="style-principles">Style Principles</h3>
+<p><strong>Cinematic Framing.</strong> Wide aspect ratios (2.35:1, 16:9) are preferred. Rule of thirds, leading lines, and deliberate negative space. Subjects rarely centered unless it is a powerful portrait.</p>
+<p><strong>Dramatic Lighting.</strong> Chiaroscuro influences — strong directional light, deep shadows, pools of warm light against darkness. Think noir. Think Deakins. Think atmosphere.</p>
+<p><strong>Film Grain is Welcome.</strong> A subtle grain or filmic texture adds authenticity and warmth. Overly clean, digitally sterile images feel out of place with ORCA&#x27;s aesthetic.</p>
+<p><strong>Color Treatment.</strong> Apply a cinematic grade: slight desaturation, lifted blacks, warm highlights, cool shadows. The ORCA grade leans toward the look of a well-graded drama — never oversaturated, never flat.</p>
+<p><strong>Subject Matter.</strong> Filmmakers at work, cinema projection, film equipment, audiences in darkened theatres, close-up details of cameras, reels, awards, and creative collaboration. People behind the lens, not just in front of it.</p>
+<h3 id="color-grading-guidance">Color Grading Guidance</h3>
+<ul>
+<li>Lift the blacks to #1A1A1A (never crush to pure black in photographs)</li>
+<li>Cool the shadows (blue-green tint)</li>
+<li>Warm the midtones and highlights (amber-gold push)</li>
+<li>Target overall tone: modern noir / prestige drama</li>
+</ul>
+<h3 id="what-to-avoid">What to Avoid</h3>
+<ul>
+<li>Stock photography that looks generic or corporate</li>
+<li>Overly bright, high-key, cheerful imagery</li>
+<li>Cellphone snapshot aesthetic</li>
+<li>HDR or over-processed imagery</li>
+<li>Images without a clear subject or focal point</li>
+</ul>
+<hr>
+<h2 id="7-voice-amp-tone">7. Voice &amp; Tone</h2>
+<h3 id="the-orca-voice">The ORCA Voice</h3>
+<p>ORCA Film Awards communicates with the authority of an institution that has earned its place and the warmth of a community that genuinely loves film. We are not distant or corporate. We are not casual or flippant. We occupy the space between the passionate and the prestigious.</p>
+<p>Think: the best film critic you&#x27;ve ever read. The one who makes you feel the film, who writes with conviction and depth, who you trust because they clearly care.</p>
+<h3 id="core-tone-attributes">Core Tone Attributes</h3>
+<p><strong>Prestigious.</strong> We speak with authority and precision. Our words are chosen carefully. We never use filler language or cliche where a well-crafted sentence would do.</p>
+<p><strong>Passionate.</strong> Film is not a product category to ORCA — it is an art form we are devoted to. That devotion should be palpable in every sentence.</p>
+<p><strong>Authentic.</strong> We do not use hollow corporate language. We do not speak in buzzwords. We speak like people who know film, make film, and live film.</p>
+<p><strong>Insider.</strong> ORCA speaks to filmmakers as peers. We know what a coverage ratio is, what an inciting incident means, what it feels like to wait for a festival decision. We are fluent in the language of film.</p>
+<p><strong>Celebratory.</strong> We are, above all, an awards organization. We celebrate. We honor. We recognize. Joy is appropriate — but joy with taste.</p>
+<h3 id="tone-by-context">Tone by Context</h3>
+<p><strong>Awards Announcements:</strong> Elevated, ceremonial, solemn with excitement. This is a moment of significance.</p>
+<p>Example: &quot;The ORCA Film Awards jury is proud to announce the nominees for Best Feature Film — five works of uncommon vision and craft.&quot;</p>
+<p><strong>Social Media:</strong> Warm, engaged, enthusiastic but never frivolous. Can include personality and wit on lighter content.</p>
+<p>Example: &quot;Submissions are open. Your story deserves a stage.&quot;</p>
+<p><strong>Press Releases:</strong> Formal, factual, precise. Quotes should be eloquent and quotable.</p>
+<p><strong>Filmmaker Outreach:</strong> Peer-to-peer warmth. Encouraging, knowledgeable, supportive.</p>
+<p>Example: &quot;We know what it takes to get a film made. We&#x27;re here to celebrate that work.&quot;</p>
+<p><strong>Sponsor Communications:</strong> Professional, data-informed, brand-confident. Clear value proposition.</p>
+<h3 id="words-we-use">Words We Use</h3>
+<ul>
+<li>Craft, vision, artistry, independent, recognize, celebrate, honor, prestige, community, story, frame, lens, award, merit, excellence, journey, screen, jury, deliberate</li>
+</ul>
+<h3 id="words-we-avoid">Words We Avoid</h3>
+<ul>
+<li>Amazing, awesome, epic (unless used precisely), content (when referring to films — they are <em>films</em> or <em>works</em>), product, consumers (our audience are <em>filmmakers</em> and <em>film lovers</em>), leverage, synergy</li>
+</ul>
+<hr>
+<h2 id="8-dox27s-and-donx27ts">8. Do&#x27;s and Don&#x27;ts</h2>
+<h3 id="visual-dox27s">Visual Do&#x27;s</h3>
+<ul>
+<li>Do use generous black space as a design element</li>
+<li>Do pair Playfair Display headlines with clean Lato body text</li>
+<li>Do use Award Gold sparingly — every use should feel earned</li>
+<li>Do apply the cinematic photo grade consistently</li>
+<li>Do use horizontal rules in gold to section print and digital layouts</li>
+<li>Do maintain clear logo spacing at all times</li>
+<li>Do test all designs on both screen and print outputs</li>
+</ul>
+<h3 id="visual-donx27ts">Visual Don&#x27;ts</h3>
+<ul>
+<li>Don&#x27;t use the brand on white backgrounds without explicit approval</li>
+<li>Don&#x27;t use more than three typefaces in any single piece</li>
+<li>Don&#x27;t use gradients that aren&#x27;t part of the approved palette</li>
+<li>Don&#x27;t apply unauthorized colors to the logo</li>
+<li>Don&#x27;t use low-resolution images (minimum 300dpi for print, 72dpi for web)</li>
+<li>Don&#x27;t use clipart, illustration, or cartoon-style imagery</li>
+<li>Don&#x27;t use Comic Sans, Impact, Papyrus, or any novelty typeface</li>
+<li>Don&#x27;t use more than two accent colors in a single composition</li>
+</ul>
+<h3 id="messaging-dox27s">Messaging Do&#x27;s</h3>
+<ul>
+<li>Do write in complete, well-constructed sentences</li>
+<li>Do name films in italics</li>
+<li>Do use &quot;independent film&quot; not &quot;indie film&quot; in formal contexts</li>
+<li>Do refer to the event as &quot;ORCA Film Awards&quot; (full name) in first reference, &quot;ORCA&quot; thereafter</li>
+<li>Do attribute quotes to full name and title on first use</li>
+</ul>
+<h3 id="messaging-donx27ts">Messaging Don&#x27;ts</h3>
+<ul>
+<li>Don&#x27;t use exclamation points more than once per communication</li>
+<li>Don&#x27;t use emoji in formal communications (social media is an exception)</li>
+<li>Don&#x27;t use passive voice when active is available</li>
+<li>Don&#x27;t make claims that cannot be substantiated</li>
+<li>Don&#x27;t speak disparagingly of other film festivals or awards organizations</li>
+</ul>
+<hr>
+<h2 id="9-social-media-visual-style">9. Social Media Visual Style</h2>
+<h3 id="platform-presence">Platform Presence</h3>
+<p>ORCA maintains active branded presence on Instagram, Facebook, LinkedIn, X (Twitter), YouTube, and TikTok. Each platform serves a distinct audience and content purpose, but all must remain visually consistent with the core brand identity.</p>
+<h3 id="instagram-facebook-visual-first-platforms">Instagram / Facebook (Visual-First Platforms)</h3>
+<p><strong>Grid Aesthetic:</strong> The Instagram grid should read as a cohesive cinematic gallery. Use a consistent color grade across all images. Alternate between full-bleed photography, typographic quote cards, and film-still-style graphics.</p>
+<p><strong>Post Templates:</strong></p>
+<ul>
+<li>Announcement Post: Black background, Award Gold headline in Playfair Display, film/winner name in large type, ORCA logo bottom right</li>
+<li>Nominee Reveal: Dark cinematic photo + overlay text, gold title bar across bottom</li>
+<li>Film Still Share: Full-bleed film still with minimal ORCA watermark, caption with film title and filmmaker credit</li>
+<li>Quote Card: Full black background, gold quotation marks, white body text, source in Lato italic</li>
+<li>Countdown/Date: Minimal black with gold number and Lato label text</li>
+</ul>
+<p><strong>Story Templates:</strong></p>
+<ul>
+<li>Use vertical (9:16) format with identical color rules</li>
+<li>Stories can be slightly more casual in content but never in visual standard</li>
+<li>Always include ORCA logo in upper-left corner of story frames</li>
+</ul>
+<h3 id="linkedin">LinkedIn</h3>
+<p>Maintains a more professional tone. Prioritize industry news, festival announcements, sponsorship opportunities, and filmmaker spotlights. Imagery can include wider editorial shots and team photography.</p>
+<h3 id="youtube">YouTube</h3>
+<p>All video content should open and close with the ORCA logo on black with a cinematic sound ident. Chapter titles and lower-thirds use Playfair Display for names, Lato for roles/titles. Color grade all produced content to the ORCA cinematic standard.</p>
+<h3 id="hashtag-standards">Hashtag Standards</h3>
+<p>Primary: #ORCAFilmAwards</p>
+<p>Secondary: #IndependentFilm #AustralianCinema #IndieFilm #FilmAwards</p>
+<p>Event-Specific: #ORCA2026 (updated annually)</p>
+<hr>
+<h2 id="10-print-standards">10. Print Standards</h2>
+<h3 id="primary-print-applications">Primary Print Applications</h3>
+<ul>
+<li>Awards Night Program</li>
+<li>Award Certificates</li>
+<li>Press Kit (printed version)</li>
+<li>Sponsor Proposals</li>
+<li>Invitations &amp; Tickets</li>
+<li>Banners &amp; Signage</li>
+<li>Photo Backdrops / Step-and-Repeats</li>
+</ul>
+<h3 id="specifications">Specifications</h3>
+<p><strong>Color Mode:</strong> All print files delivered in CMYK. Gold reproduction reference: PANTONE 871 C (metallic gold) for premium printing; CMYK approximation C:0 M:15 Y:80 K:20 for standard offset.</p>
+<p><strong>Resolution:</strong> Minimum 300dpi at final print size for all raster elements.</p>
+<p><strong>Bleed &amp; Safe Zone:</strong> 3mm bleed on all sides; keep all critical content within 5mm of trim line.</p>
+<p><strong>Paper Stock:</strong></p>
+<ul>
+<li>Awards Program: 170gsm silk text; cover 350gsm with soft-touch laminate</li>
+<li>Certificates: 300gsm uncoated or cotton stock for tactile premium feel</li>
+<li>Sponsor Proposals: 150gsm gloss or silk; cover 350gsm gloss laminate</li>
+<li>Invitations: 400gsm board; consider gold foil or emboss for premium invitations</li>
+</ul>
+<h3 id="signage">Signage</h3>
+<p>Event signage (step-and-repeat backdrops, venue wayfinding, stage graphics) must use the primary logo in vector format at correct scale. Minimum logo height on a step-and-repeat: 200mm.</p>
+<hr>
+<h2 id="11-partner-amp-sponsor-co-branding-rules">11. Partner &amp; Sponsor Co-Branding Rules</h2>
+<h3 id="principles">Principles</h3>
+<p>Co-branded materials must never allow a partner&#x27;s identity to visually dominate ORCA&#x27;s brand. ORCA is the host. Partner logos appear in a supporting role.</p>
+<h3 id="logo-placement-hierarchy">Logo Placement Hierarchy</h3>
+<p><strong>Presenting Sponsor:</strong> Placed immediately adjacent to the ORCA logo on all co-branded materials. Comparable size — no larger than the ORCA logo. Separated by a thin vertical rule in gold or mid-grey.</p>
+<p><strong>Gold Sponsor:</strong> Placed in a clearly defined &quot;Major Sponsors&quot; row below the primary branding area. Maximum height: 60% of ORCA logo height.</p>
+<p><strong>Silver / Bronze Sponsors:</strong> Grouped in tiered sponsor lockups in footer areas of materials. Maximum height: 40% of ORCA logo height.</p>
+<p><strong>Media Partners:</strong> Listed separately under &quot;Media Partners&quot; heading. Logo height: 40% of ORCA logo.</p>
+<h3 id="rules">Rules</h3>
+<ul>
+<li>All partner logos must be provided in vector format (SVG, EPS, or PDF) or high-resolution PNG with transparent background</li>
+<li>ORCA will not reproduce partner logos at low resolution</li>
+<li>Partner logos may only appear in approved co-branding zones — never overlaid on the ORCA hero design</li>
+<li>ORCA reserves the right to decline use of any partner identity that conflicts with its brand standards</li>
+<li>Partners must not use the ORCA logo without explicit written approval and must not modify it in any way</li>
+<li>The ORCA logo must never appear smaller than any individual sponsor logo on any ORCA-produced material</li>
+</ul>
+<h3 id="co-branded-social-content">Co-Branded Social Content</h3>
+<p>When producing social content that tags or features sponsors, maintain the ORCA visual identity as primary. Sponsor mentions in post copy should follow the approved phrasing: &quot;Proudly presented in partnership with [Sponsor Name]&quot; or &quot;Supported by [Sponsor Name].&quot;</p>
+<hr>
+<p><em>ORCA Film Awards Brand Style Guide — Version 1.0</em></p>
+<p><em>For brand enquiries and approvals: brand@orcafilmawards.com.au</em></p>
+<p><em>These guidelines are reviewed annually and updated prior to each awards season.</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">04-ORCA Film Awards/01-strategy/Documents/BRAND STYLE GUIDE.md</div>
+    </main>
+  </div>
+</body>
+</html>

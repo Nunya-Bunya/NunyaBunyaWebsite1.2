@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nunya Bunya — April 2026 Plan | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          Nunya Bunya — April 2026 Plan
+        </div>
+        <h1 class="doc-title">Nunya Bunya — April 2026 Plan</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS / 2026 / 04-April</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="nunya-bunya-april-2026-plan">Nunya Bunya — April 2026 Plan</h1>
+<p><strong>Status:</strong> In Progress — seeking first paying client</p>
+<p><strong>Last Updated:</strong> 2026-04-16</p>
+<p><strong>Carried Forward From:</strong> March 2026</p>
+<hr>
+<h2 id="goal">Goal</h2>
+<blockquote>Get Nunya Bunya&#x27;s first paying client. Infrastructure is built — now it&#x27;s about outreach, delivery, and closing.</blockquote>
+<hr>
+<h2 id="tasks">Tasks</h2>
+<h3 id="whatx27s-done-from-march">What&#x27;s Done (from March)</h3>
+<ul>
+<li><span class="cb cb-done">&#9745;</span> Agent system built (43 agents, 19 Execution scripts, 19 Directives)</li>
+<li><span class="cb cb-done">&#9745;</span> NBHQ dashboard (24 admin pages, 12 API endpoints)</li>
+<li><span class="cb cb-done">&#9745;</span> Marketing stack deployed on Hetzner (19 containers)</li>
+<li><span class="cb cb-done">&#9745;</span> Content delivery pipeline (platform previews, stock photos, calendar generator)</li>
+<li><span class="cb cb-done">&#9745;</span> Upsell products live (Brand Bible $299, Style Guide $399, Bundle $699, Website $3K/$3.5K)</li>
+<li><span class="cb cb-done">&#9745;</span> Stripe, n8n, Mautic, Cal.com all wired up</li>
+<li><span class="cb cb-done">&#9745;</span> 3 case studies live on nunyabunya.com (Zinia, Pawesome, Conner Injury Law)</li>
+<li><span class="cb cb-done">&#9745;</span> Enterprise month pipeline: 23/23 steps, 11.7 min per client</li>
+</ul>
+<h3 id="infrastructure-carry-forward-not-yet-deployed">Infrastructure (Carry-Forward — Not Yet Deployed)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Run Supabase migration (001-unify-tables.sql)</li>
+<li><span class="cb cb-empty">&#9744;</span> Seed clients table from client_configs.json via seed-clients API</li>
+<li><span class="cb cb-empty">&#9744;</span> Deploy FastAPI to Hetzner (agents.nunyabunya.com)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set AGENT<em>SERVER</em>URL in Vercel env vars</li>
+<li><span class="cb cb-empty">&#9744;</span> Deploy updated site to Vercel</li>
+</ul>
+<h3 id="client-acquisition-top-priority">Client Acquisition (TOP PRIORITY)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Send 5 cold outreach messages per week (LinkedIn DMs, email)</li>
+<li><span class="cb cb-empty">&#9744;</span> Post in Brisbane business Facebook groups (2/week, free audit offer)</li>
+<li><span class="cb cb-empty">&#9744;</span> Follow up on all previous outreach weekly</li>
+<li><span class="cb cb-empty">&#9744;</span> Write and send personalised proposals to warm leads</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Google My Business for Nunya Bunya</li>
+<li><span class="cb cb-empty">&#9744;</span> First paying client acquired</li>
+</ul>
+<h3 id="content-amp-marketing">Content &amp; Marketing</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Blog post: &quot;best marketing agency Brisbane&quot; (SEO-focused)</li>
+<li><span class="cb cb-empty">&#9744;</span> LinkedIn post: &quot;I replaced $800/month in SaaS with $16/month&quot;</li>
+<li><span class="cb cb-empty">&#9744;</span> NB email newsletter running weekly</li>
+<li><span class="cb cb-empty">&#9744;</span> Case study testimonial request to CLG contacts</li>
+</ul>
+<h3 id="nbhq-dashboard-gaps-small-adds">NBHQ Dashboard Gaps (Small Adds)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Add Twitter API integration to NBHQ — pull follower count + impressions into Analytics or Dashboard page</li>
+<li><span class="cb cb-empty">&#9744;</span> Add Cal.com API integration to NBHQ — show booking count + upcoming sessions on Dashboard</li>
+<li><span class="cb cb-empty">&#9744;</span> Add Mautic form submission counts to Lead Magnets page — show actual download numbers, not just resource list</li>
+</ul>
+<h3 id="integrations-blockeddeprioritised">Integrations (Blocked/Deprioritised)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Fix Mixpost Twitter OAuth (error 415 — deprioritised)</li>
+<li><span class="cb cb-empty">&#9744;</span> WordPress instance for test client blog publishing</li>
+<li><span class="cb cb-empty">&#9744;</span> Landing page form → Mautic lead capture wiring</li>
+</ul>
+<h3 id="future-phases-not-this-month">Future Phases (Not This Month)</h3>
+<ul>
+<li>Email marketing &amp; sales funnel (Mautic drips wired to content_generator)</li>
+<li>Twenty CRM lead pipeline integration</li>
+<li>Weekly report email delivery</li>
+<li>PDF export for strategy docs</li>
+<li>Client contract template finalised</li>
+</ul>
+<hr>
+<h2 id="notes-amp-decisions">Notes &amp; Decisions</h2>
+<ul>
+<li>AI-powered digital marketing agency targeting Brisbane/SEQ SMBs</li>
+<li>Retainer pricing: $3,500/mo &quot;Done For You Marketing&quot;</li>
+<li>Agent system in NunyaBunyaAgents/ (Directives + Execution)</li>
+<li>Brand colors: black/dark theme with gold (#C9A84C) accent</li>
+<li>Benchmark: full enterprise month = 21.6 min per client (brand setup + content)</li>
+</ul>
+<hr>
+<h2 id="session-log">Session Log</h2>
+<div class="table-wrap"><table><thead><tr><th>Date</th><th>What Was Done</th></tr></thead><tbody><tr><td>2026-03-09</td><td>Plan created</td></tr><tr><td>2026-03-11</td><td>Built full deliverable pipeline (42 files, 19 agents, orchestrator)</td></tr><tr><td>2026-03-30</td><td>NBHQ mega build + checkpoint test (Merkel &amp; Conner: 21.6 min full month)</td></tr><tr><td>2026-04-01</td><td>Content delivery, calendar generator, platform previews, batch 10-client run</td></tr><tr><td>2026-04-08</td><td>Upsells complete: 5 Stripe products, 4 landing pages, 5 email sequences, n8n workflows</td></tr><tr><td>2026-04-16</td><td>Plan carried forward to April. Focus shifted to client acquisition.</td></tr></tbody></table></div>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/2026/04-April/nunya-bunya.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FINANCIAL PROJECTIONS | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link active"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#power-portraits">Power Portraits</a> &rsaquo;
+          FINANCIAL PROJECTIONS
+        </div>
+        <h1 class="doc-title">FINANCIAL PROJECTIONS</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#128247; Power Portraits</span>
+          <span class="doc-path">02-Power Portraits / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="financial-projections">FINANCIAL PROJECTIONS</h1>
+<p><strong>Power Portraits -- Your Image. Your Power.</strong></p>
+<p><em>12-Month Conservative Model + Year 2-3 Outlook</em></p>
+<p><em>ABN 48 890 965 530 | GST Registered from Commencement</em></p>
+<hr>
+<p><em>Disclaimer: These are conservative projections for a premium portrait photography studio operating in Brisbane, Australia. Designed to underpromise -- actual results should exceed these figures with consistent execution. All prices are GST-inclusive unless marked (ex-GST). Review and update quarterly against actual booking data. Consult a qualified accountant before making financial decisions.</em></p>
+<hr>
+<h2 id="1-assumptions">1. Assumptions</h2>
+<h3 id="pricing-all-gst-inclusive">Pricing (All GST-Inclusive)</h3>
+<div class="table-wrap"><table><thead><tr><th>Package</th><th>Price (inc GST)</th><th>Price (ex GST)</th><th>Inclusions</th></tr></thead><tbody><tr><td>The Session</td><td>$350</td><td>$318.18</td><td>1hr, 10 retouched images</td></tr><tr><td>The Portrait</td><td>$650</td><td>$590.91</td><td>2hr, 25 retouched images</td></tr><tr><td>The Editorial</td><td>$950</td><td>$863.64</td><td>3hr, 50 retouched images</td></tr><tr><td>Corporate</td><td>$2,500-$5,000+</td><td>varies</td><td>On-site, team/individual</td></tr></tbody></table></div>
+<p><em>Corporate modelled at $3,500 average (inc GST) = $3,181.82 ex GST.</em></p>
+<h3 id="add-ons-inc-gst">Add-Ons (inc GST)</h3>
+<div class="table-wrap"><table><thead><tr><th>Add-On</th><th>Price</th></tr></thead><tbody><tr><td>Same-day delivery</td><td>+$500</td></tr><tr><td>Video clips</td><td>+$800</td></tr><tr><td>Extra retouching</td><td>$35/image</td></tr><tr><td>Hair &amp; Makeup</td><td>from $150</td></tr></tbody></table></div>
+<p><em>Add-on adoption: conservatively 15% of sessions include at least one add-on. Average add-on value: $300 inc GST ($272.73 ex GST).</em></p>
+<h3 id="monthly-session-mix-growth-ramp">Monthly Session Mix (Growth Ramp)</h3>
+<div class="table-wrap"><table><thead><tr><th>Period</th><th>Sessions/mo</th><th>The Session</th><th>The Portrait</th><th>The Editorial</th><th>Corporate Gigs</th></tr></thead><tbody><tr><td>Months 1-3</td><td>8</td><td>5</td><td>2</td><td>1</td><td>0</td></tr><tr><td>Months 4-6</td><td>12</td><td>6</td><td>4</td><td>2</td><td>1 in Month 5</td></tr><tr><td>Months 7-9</td><td>16</td><td>7</td><td>6</td><td>3</td><td>1 in Month 8</td></tr><tr><td>Months 10-12</td><td>20</td><td>8</td><td>7</td><td>5</td><td>2 total (Months 10 &amp; 12)</td></tr></tbody></table></div>
+<h3 id="cost-assumptions">Cost Assumptions</h3>
+<ul>
+<li><strong>Monthly fixed costs:</strong> ~$1,990 (cash) + $630 equipment depreciation (non-cash)</li>
+<li><strong>Variable cost per session:</strong> ~$25</li>
+<li><strong>GST:</strong> Collected on all sales, remitted to ATO quarterly via BAS. Input credits claimed on business purchases.</li>
+<li><strong>Income tax:</strong> Australian resident sole trader marginal rates (2025-26 rates used)</li>
+</ul>
+<h3 id="other-assumptions">Other Assumptions</h3>
+<ul>
+<li>No studio lease -- all sessions on-location or rented spaces (cost included in transport)</li>
+<li>No employees -- sole trader operation for Year 1</li>
+<li>Equipment already purchased (~$14,200 total, depreciated over 24 months = $630/mo)</li>
+<li>Brisbane market, targeting professionals, executives, creatives, and corporate teams</li>
+<li>No seasonal adjustments applied (conservative baseline)</li>
+</ul>
+<hr>
+<h2 id="2-monthly-revenue-forecast">2. Monthly Revenue Forecast</h2>
+<p>All revenue figures are <strong>GST-exclusive</strong> for P&amp;L purposes.</p>
+<h3 id="months-1-3-8-sessionsmonth">Months 1-3 (8 sessions/month)</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr></thead><tbody><tr><td>The Session (5 x $318.18)</td><td>$1,590.91</td><td>$1,590.91</td><td>$1,590.91</td></tr><tr><td>The Portrait (2 x $590.91)</td><td>$1,181.82</td><td>$1,181.82</td><td>$1,181.82</td></tr><tr><td>The Editorial (1 x $863.64)</td><td>$863.64</td><td>$863.64</td><td>$863.64</td></tr><tr><td>Corporate</td><td>$0.00</td><td>$0.00</td><td>$0.00</td></tr><tr><td>Add-ons (15% of 8 = 1.2 sessions x $272.73)</td><td>$327.27</td><td>$327.27</td><td>$327.27</td></tr><tr><td><strong>Monthly Revenue (ex GST)</strong></td><td><strong>$3,963.64</strong></td><td><strong>$3,963.64</strong></td><td><strong>$3,963.64</strong></td></tr><tr><td>GST collected</td><td>$396.36</td><td>$396.36</td><td>$396.36</td></tr><tr><td>Total invoiced (inc GST)</td><td>$4,360.00</td><td>$4,360.00</td><td>$4,360.00</td></tr></tbody></table></div>
+<h3 id="months-4-6-12-sessionsmonth-1-corporate-in-month-5">Months 4-6 (12 sessions/month + 1 corporate in Month 5)</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th>Month 4</th><th>Month 5</th><th>Month 6</th></tr></thead><tbody><tr><td>The Session (6 x $318.18)</td><td>$1,909.09</td><td>$1,909.09</td><td>$1,909.09</td></tr><tr><td>The Portrait (4 x $590.91)</td><td>$2,363.64</td><td>$2,363.64</td><td>$2,363.64</td></tr><tr><td>The Editorial (2 x $863.64)</td><td>$1,727.27</td><td>$1,727.27</td><td>$1,727.27</td></tr><tr><td>Corporate</td><td>$0.00</td><td>$3,181.82</td><td>$0.00</td></tr><tr><td>Add-ons (15% of 12 = 1.8 x $272.73)</td><td>$490.91</td><td>$490.91</td><td>$490.91</td></tr><tr><td><strong>Monthly Revenue (ex GST)</strong></td><td><strong>$6,490.91</strong></td><td><strong>$9,672.73</strong></td><td><strong>$6,490.91</strong></td></tr><tr><td>GST collected</td><td>$649.09</td><td>$967.27</td><td>$649.09</td></tr><tr><td>Total invoiced (inc GST)</td><td>$7,140.00</td><td>$10,640.00</td><td>$7,140.00</td></tr></tbody></table></div>
+<h3 id="months-7-9-16-sessionsmonth-1-corporate-in-month-8">Months 7-9 (16 sessions/month + 1 corporate in Month 8)</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th>Month 7</th><th>Month 8</th><th>Month 9</th></tr></thead><tbody><tr><td>The Session (7 x $318.18)</td><td>$2,227.27</td><td>$2,227.27</td><td>$2,227.27</td></tr><tr><td>The Portrait (6 x $590.91)</td><td>$3,545.45</td><td>$3,545.45</td><td>$3,545.45</td></tr><tr><td>The Editorial (3 x $863.64)</td><td>$2,590.91</td><td>$2,590.91</td><td>$2,590.91</td></tr><tr><td>Corporate</td><td>$0.00</td><td>$3,181.82</td><td>$0.00</td></tr><tr><td>Add-ons (15% of 16 = 2.4 x $272.73)</td><td>$654.55</td><td>$654.55</td><td>$654.55</td></tr><tr><td><strong>Monthly Revenue (ex GST)</strong></td><td><strong>$9,018.18</strong></td><td><strong>$12,200.00</strong></td><td><strong>$9,018.18</strong></td></tr><tr><td>GST collected</td><td>$901.82</td><td>$1,220.00</td><td>$901.82</td></tr><tr><td>Total invoiced (inc GST)</td><td>$9,920.00</td><td>$13,420.00</td><td>$9,920.00</td></tr></tbody></table></div>
+<h3 id="months-10-12-20-sessionsmonth-corporate-in-months-10-amp-12">Months 10-12 (20 sessions/month + corporate in Months 10 &amp; 12)</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th>Month 10</th><th>Month 11</th><th>Month 12</th></tr></thead><tbody><tr><td>The Session (8 x $318.18)</td><td>$2,545.45</td><td>$2,545.45</td><td>$2,545.45</td></tr><tr><td>The Portrait (7 x $590.91)</td><td>$4,136.36</td><td>$4,136.36</td><td>$4,136.36</td></tr><tr><td>The Editorial (5 x $863.64)</td><td>$4,318.18</td><td>$4,318.18</td><td>$4,318.18</td></tr><tr><td>Corporate</td><td>$3,181.82</td><td>$0.00</td><td>$3,181.82</td></tr><tr><td>Add-ons (15% of 20 = 3 x $272.73)</td><td>$818.18</td><td>$818.18</td><td>$818.18</td></tr><tr><td><strong>Monthly Revenue (ex GST)</strong></td><td><strong>$15,000.00</strong></td><td><strong>$11,818.18</strong></td><td><strong>$15,000.00</strong></td></tr><tr><td>GST collected</td><td>$1,500.00</td><td>$1,181.82</td><td>$1,500.00</td></tr><tr><td>Total invoiced (inc GST)</td><td>$16,500.00</td><td>$13,000.00</td><td>$16,500.00</td></tr></tbody></table></div>
+<h3 id="revenue-summary-table">Revenue Summary Table</h3>
+<div class="table-wrap"><table><thead><tr><th>Month</th><th>Sessions</th><th>Corporate</th><th>Add-on Sessions</th><th>Revenue (ex GST)</th><th>GST Collected</th><th>Total Invoiced</th></tr></thead><tbody><tr><td>1</td><td>8</td><td>0</td><td>1.2</td><td>$3,963.64</td><td>$396.36</td><td>$4,360.00</td></tr><tr><td>2</td><td>8</td><td>0</td><td>1.2</td><td>$3,963.64</td><td>$396.36</td><td>$4,360.00</td></tr><tr><td>3</td><td>8</td><td>0</td><td>1.2</td><td>$3,963.64</td><td>$396.36</td><td>$4,360.00</td></tr><tr><td>4</td><td>12</td><td>0</td><td>1.8</td><td>$6,490.91</td><td>$649.09</td><td>$7,140.00</td></tr><tr><td>5</td><td>12</td><td>1</td><td>1.8</td><td>$9,672.73</td><td>$967.27</td><td>$10,640.00</td></tr><tr><td>6</td><td>12</td><td>0</td><td>1.8</td><td>$6,490.91</td><td>$649.09</td><td>$7,140.00</td></tr><tr><td>7</td><td>16</td><td>0</td><td>2.4</td><td>$9,018.18</td><td>$901.82</td><td>$9,920.00</td></tr><tr><td>8</td><td>16</td><td>1</td><td>2.4</td><td>$12,200.00</td><td>$1,220.00</td><td>$13,420.00</td></tr><tr><td>9</td><td>16</td><td>0</td><td>2.4</td><td>$9,018.18</td><td>$901.82</td><td>$9,920.00</td></tr><tr><td>10</td><td>20</td><td>1</td><td>3.0</td><td>$15,000.00</td><td>$1,500.00</td><td>$16,500.00</td></tr><tr><td>11</td><td>20</td><td>0</td><td>3.0</td><td>$11,818.18</td><td>$1,181.82</td><td>$13,000.00</td></tr><tr><td>12</td><td>20</td><td>1</td><td>3.0</td><td>$15,000.00</td><td>$1,500.00</td><td>$16,500.00</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>168</strong></td><td><strong>4</strong></td><td><strong>25.2</strong></td><td><strong>$106,600.00</strong></td><td><strong>$10,660.00</strong></td><td><strong>$117,260.00</strong></td></tr></tbody></table></div>
+<p><strong>Year 1 Total Revenue (ex GST): $106,600.00</strong></p>
+<p><strong>Year 1 Total GST Collected: $10,660.00</strong></p>
+<hr>
+<h2 id="3-monthly-cost-forecast">3. Monthly Cost Forecast</h2>
+<h3 id="fixed-costs-monthly-cash-outflow-1990">Fixed Costs (Monthly Cash Outflow: $1,990)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Monthly (inc GST where applicable)</th></tr></thead><tbody><tr><td>Adobe Creative Cloud</td><td>$80</td></tr><tr><td>Pixieset (gallery delivery)</td><td>$30</td></tr><tr><td>Google Workspace</td><td>$15</td></tr><tr><td>Xero (accounting)</td><td>$50</td></tr><tr><td>Insurance (public liability + equipment)</td><td>$150</td></tr><tr><td>Website/hosting</td><td>$25</td></tr><tr><td>Marketing budget</td><td>$500</td></tr><tr><td>Transport/fuel</td><td>$200</td></tr><tr><td>Backblaze backup</td><td>$10</td></tr><tr><td>Phone/internet (business portion)</td><td>$100</td></tr><tr><td>Miscellaneous</td><td>$200</td></tr><tr><td>Cal.com/CRM (self-hosted on Hetzner)</td><td>$0</td></tr><tr><td><strong>Total Monthly Fixed (Cash)</strong></td><td><strong>$1,360</strong></td></tr></tbody></table></div>
+<p><em>Note: Some of these costs include GST which can be claimed as input credits. For simplicity, costs are shown at invoice value. Net GST position calculated separately.</em></p>
+<p><strong>Non-cash:</strong> Equipment depreciation $630/month ($14,200 over 24 months) -- included in P&amp;L but not in cash flow.</p>
+<p><strong>Total monthly fixed for P&amp;L purposes: $1,990 + $630 = $2,620</strong></p>
+<h3 id="variable-costs-per-session-25">Variable Costs Per Session ($25)</h3>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Per Session</th></tr></thead><tbody><tr><td>Memory cards/storage</td><td>$5</td></tr><tr><td>Backdrop wear/replacement</td><td>$5</td></tr><tr><td>Travel to location</td><td>$10</td></tr><tr><td>Miscellaneous</td><td>$5</td></tr><tr><td><strong>Total</strong></td><td><strong>$25</strong></td></tr></tbody></table></div>
+<h3 id="monthly-cost-table">Monthly Cost Table</h3>
+<div class="table-wrap"><table><thead><tr><th>Month</th><th>Sessions + Corp</th><th>Variable Costs</th><th>Fixed Costs (Cash)</th><th>Depreciation</th><th>Total Costs</th></tr></thead><tbody><tr><td>1</td><td>8</td><td>$200</td><td>$1,990</td><td>$630</td><td>$2,820</td></tr><tr><td>2</td><td>8</td><td>$200</td><td>$1,990</td><td>$630</td><td>$2,820</td></tr><tr><td>3</td><td>8</td><td>$200</td><td>$1,990</td><td>$630</td><td>$2,820</td></tr><tr><td>4</td><td>12</td><td>$300</td><td>$1,990</td><td>$630</td><td>$2,920</td></tr><tr><td>5</td><td>13</td><td>$325</td><td>$1,990</td><td>$630</td><td>$2,945</td></tr><tr><td>6</td><td>12</td><td>$300</td><td>$1,990</td><td>$630</td><td>$2,920</td></tr><tr><td>7</td><td>16</td><td>$400</td><td>$1,990</td><td>$630</td><td>$3,020</td></tr><tr><td>8</td><td>17</td><td>$425</td><td>$1,990</td><td>$630</td><td>$3,045</td></tr><tr><td>9</td><td>16</td><td>$400</td><td>$1,990</td><td>$630</td><td>$3,020</td></tr><tr><td>10</td><td>21</td><td>$525</td><td>$1,990</td><td>$630</td><td>$3,145</td></tr><tr><td>11</td><td>20</td><td>$500</td><td>$1,990</td><td>$630</td><td>$3,120</td></tr><tr><td>12</td><td>21</td><td>$525</td><td>$1,990</td><td>$630</td><td>$3,145</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>172</strong></td><td><strong>$4,300</strong></td><td><strong>$23,880</strong></td><td><strong>$7,560</strong></td><td><strong>$35,740</strong></td></tr></tbody></table></div>
+<hr>
+<h2 id="4-monthly-profit-amp-loss">4. Monthly Profit &amp; Loss</h2>
+<div class="table-wrap"><table><thead><tr><th>Month</th><th>Revenue (ex GST)</th><th>Total Costs</th><th>Monthly P&amp;L</th><th>Cumulative P&amp;L</th></tr></thead><tbody><tr><td>1</td><td>$3,963.64</td><td>$2,820</td><td>+$1,143.64</td><td>$1,143.64</td></tr><tr><td>2</td><td>$3,963.64</td><td>$2,820</td><td>+$1,143.64</td><td>$2,287.27</td></tr><tr><td>3</td><td>$3,963.64</td><td>$2,820</td><td>+$1,143.64</td><td>$3,430.91</td></tr><tr><td>4</td><td>$6,490.91</td><td>$2,920</td><td>+$3,570.91</td><td>$7,001.82</td></tr><tr><td>5</td><td>$9,672.73</td><td>$2,945</td><td>+$6,727.73</td><td>$13,729.55</td></tr><tr><td>6</td><td>$6,490.91</td><td>$2,920</td><td>+$3,570.91</td><td>$17,300.45</td></tr><tr><td>7</td><td>$9,018.18</td><td>$3,020</td><td>+$5,998.18</td><td>$23,298.64</td></tr><tr><td>8</td><td>$12,200.00</td><td>$3,045</td><td>+$9,155.00</td><td>$32,453.64</td></tr><tr><td>9</td><td>$9,018.18</td><td>$3,020</td><td>+$5,998.18</td><td>$38,451.82</td></tr><tr><td>10</td><td>$15,000.00</td><td>$3,145</td><td>+$11,855.00</td><td>$50,306.82</td></tr><tr><td>11</td><td>$11,818.18</td><td>$3,120</td><td>+$8,698.18</td><td>$59,005.00</td></tr><tr><td>12</td><td>$15,000.00</td><td>$3,145</td><td>+$11,855.00</td><td>$70,860.00</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>$106,600.00</strong></td><td><strong>$35,740</strong></td><td><strong>$70,860.00</strong></td><td></td></tr></tbody></table></div>
+<p><strong>Year 1 Net Profit (before tax): $70,860.00</strong></p>
+<h3 id="cash-flow-note">Cash Flow Note</h3>
+<p>Depreciation ($7,560 for the year) is a non-cash expense. Actual cash retained is higher:</p>
+<ul>
+<li><strong>Cash profit (revenue minus cash costs):</strong> $106,600 - $28,180 = <strong>$78,420</strong></li>
+<li>Equipment was purchased upfront (~$14,200), so Year 1 net cash position depends on when equipment was bought relative to trading commencement.</li>
+</ul>
+<h3 id="gst-position">GST Position</h3>
+<div class="table-wrap"><table><thead><tr><th>Quarter</th><th>GST Collected</th><th>Est. GST on Purchases</th><th>Net GST Payable</th></tr></thead><tbody><tr><td>Q1 (Months 1-3)</td><td>$1,189.09</td><td>~$350</td><td>~$839</td></tr><tr><td>Q2 (Months 4-6)</td><td>$2,265.45</td><td>~$380</td><td>~$1,885</td></tr><tr><td>Q3 (Months 7-9)</td><td>$3,023.64</td><td>~$400</td><td>~$2,624</td></tr><tr><td>Q4 (Months 10-12)</td><td>$4,181.82</td><td>~$420</td><td>~$3,762</td></tr><tr><td><strong>Annual</strong></td><td><strong>$10,660.00</strong></td><td><strong>~$1,550</strong></td><td><strong>~$9,110</strong></td></tr></tbody></table></div>
+<p><em>GST on purchases estimated conservatively. Actual input credits depend on which expenses include GST. Lodge BAS quarterly.</em></p>
+<hr>
+<h2 id="5-break-even-analysis">5. Break-Even Analysis</h2>
+<h3 id="blended-average-revenue-per-session-ex-gst">Blended Average Revenue Per Session (ex GST)</h3>
+<p>Based on the Month 1-3 mix (5 Session + 2 Portrait + 1 Editorial):</p>
+<div class="table-wrap"><table><thead><tr><th>Package</th><th>Sessions</th><th>Revenue (ex GST)</th><th>Weighted</th></tr></thead><tbody><tr><td>The Session</td><td>5</td><td>$318.18</td><td>$1,590.91</td></tr><tr><td>The Portrait</td><td>2</td><td>$590.91</td><td>$1,181.82</td></tr><tr><td>The Editorial</td><td>1</td><td>$863.64</td><td>$863.64</td></tr><tr><td><strong>Total</strong></td><td><strong>8</strong></td><td></td><td><strong>$3,636.36</strong></td></tr></tbody></table></div>
+<p><strong>Blended average per session (ex GST): $454.55</strong></p>
+<p>Adding 15% add-on adoption ($272.73 x 0.15 = $40.91 per session equivalent):</p>
+<p><strong>Blended average including add-ons: $495.45 per session (ex GST)</strong></p>
+<h3 id="break-even-calculation">Break-Even Calculation</h3>
+<ul>
+<li>Contribution margin per session: $495.45 - $25.00 = <strong>$470.45</strong></li>
+<li>Monthly fixed costs (cash): $1,990</li>
+<li>Monthly fixed costs (including depreciation): $2,620</li>
+</ul>
+<p><strong>Cash break-even: $1,990 / $470.45 = 4.2 sessions/month</strong></p>
+<p><strong>P&amp;L break-even (incl. depreciation): $2,620 / $470.45 = 5.6 sessions/month</strong></p>
+<p>Power Portraits covers all cash costs at just <strong>5 sessions per month</strong> and is profitable on paper (including depreciation) at <strong>6 sessions per month.</strong></p>
+<p>Even in Month 1 with 8 sessions, the business is profitable from day one.</p>
+<hr>
+<h2 id="6-annual-summary">6. Annual Summary</h2>
+<h3 id="year-1-headline-numbers">Year 1 Headline Numbers</h3>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Amount</th></tr></thead><tbody><tr><td>Total sessions (individual)</td><td>168</td></tr><tr><td>Total corporate gigs</td><td>4</td></tr><tr><td>Total revenue (ex GST)</td><td>$106,600</td></tr><tr><td>Total revenue (inc GST)</td><td>$117,260</td></tr><tr><td>Total costs (inc depreciation)</td><td>$35,740</td></tr><tr><td>Total costs (cash only)</td><td>$28,180</td></tr><tr><td><strong>Net profit (before tax)</strong></td><td><strong>$70,860</strong></td></tr><tr><td><strong>Cash profit (before tax)</strong></td><td><strong>$78,420</strong></td></tr><tr><td>GST collected</td><td>$10,660</td></tr><tr><td>Est. GST remitted to ATO</td><td>~$9,110</td></tr></tbody></table></div>
+<h3 id="income-tax-estimate-2025-26-ato-rates-sole-trader">Income Tax Estimate (2025-26 ATO Rates, Sole Trader)</h3>
+<p>Taxable income: $70,860 (after depreciation deduction)</p>
+<div class="table-wrap"><table><thead><tr><th>Bracket</th><th>Rate</th><th>Tax</th></tr></thead><tbody><tr><td>$0 - $18,200</td><td>0%</td><td>$0</td></tr><tr><td>$18,201 - $45,000</td><td>16%</td><td>$4,288</td></tr><tr><td>$45,001 - $70,860</td><td>30%</td><td>$7,758</td></tr><tr><td><strong>Total income tax</strong></td><td></td><td><strong>$12,046</strong></td></tr><tr><td>Medicare levy (2%)</td><td></td><td>$1,417</td></tr><tr><td><strong>Total tax + Medicare</strong></td><td></td><td><strong>$13,463</strong></td></tr></tbody></table></div>
+<p><em>Note: Tax rates are 2025-26 Australian resident rates. Actual tax may differ based on other income, deductions (home office, additional equipment, professional development), and any offsets. Consult your accountant.</em></p>
+<h3 id="after-tax-position">After-Tax Position</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th>Amount</th></tr></thead><tbody><tr><td>Net profit before tax</td><td>$70,860</td></tr><tr><td>Estimated tax + Medicare</td><td>$13,463</td></tr><tr><td><strong>After-tax earnings</strong></td><td><strong>$57,397</strong></td></tr><tr><td>Cash profit (before tax, excl depreciation)</td><td>$78,420</td></tr><tr><td>Estimated tax + Medicare</td><td>$13,463</td></tr><tr><td><strong>After-tax cash in hand</strong></td><td><strong>$64,957</strong></td></tr></tbody></table></div>
+<hr>
+<h2 id="7-year-2-3-outlook">7. Year 2-3 Outlook</h2>
+<h3 id="year-2-projections">Year 2 Projections</h3>
+<p><strong>Key changes from Year 1:</strong></p>
+<ul>
+<li>Price increase of 10-15% across all packages (justified by portfolio, reviews, demand)</li>
+<li>Second shooter engaged as contractor for overflow bookings</li>
+<li>Target 5 active corporate accounts (retainer or recurring)</li>
+<li>Organic referrals driving 30-40% of bookings (reducing marketing cost per acquisition)</li>
+</ul>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Conservative</th><th>On-Track</th></tr></thead><tbody><tr><td>Individual sessions/month</td><td>22-25</td><td>28-32</td></tr><tr><td>Corporate gigs/year</td><td>8-10</td><td>12-15</td></tr><tr><td>Revenue (ex GST)</td><td>$160,000</td><td>$200,000</td></tr><tr><td>Operating costs</td><td>$50,000</td><td>$60,000</td></tr><tr><td>Second shooter costs</td><td>$15,000</td><td>$25,000</td></tr><tr><td>Net profit before tax</td><td>$95,000</td><td>$115,000</td></tr><tr><td>Est. after-tax earnings</td><td>$72,000</td><td>$85,000</td></tr></tbody></table></div>
+<p><em>Second shooter engaged as contractor at ~$150-$200/session for overflow Session and Portrait bookings only. Ben retains all Editorial and Corporate work.</em></p>
+<h3 id="year-3-projections-premium-solo-model">Year 3 Projections -- Premium Solo Model</h3>
+<p><strong>Strategic direction:</strong> Ben focuses on high-value Editorial and Corporate work. Session and Portrait overflow handled by contractor. No studio lease unless justified by demand.</p>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Conservative</th><th>On-Track</th></tr></thead><tbody><tr><td>Revenue (ex GST)</td><td>$220,000</td><td>$280,000-$320,000</td></tr><tr><td>Operating costs (inc contractor)</td><td>$75,000</td><td>$90,000</td></tr><tr><td>Net profit before tax</td><td>$145,000</td><td>$190,000-$230,000</td></tr><tr><td>Est. after-tax earnings</td><td>$100,000</td><td>$130,000-$155,000</td></tr></tbody></table></div>
+<p><strong>Year 3 key enablers:</strong></p>
+<ul>
+<li>8-10 corporate accounts generating $120,000+/year</li>
+<li>Premium pricing ($1,100+ for Editorial equivalent)</li>
+<li>Reputation as Brisbane&#x27;s go-to portrait photographer for executives and creatives</li>
+<li>Minimal overhead -- high-margin solo operation with contractor support</li>
+</ul>
+<hr>
+<h2 id="8-key-metrics">8. Key Metrics</h2>
+<h3 id="blended-average-revenue-per-session">Blended Average Revenue Per Session</h3>
+<div class="table-wrap"><table><thead><tr><th>Period</th><th>Blended Avg (ex GST)</th><th>Blended Avg (inc GST)</th></tr></thead><tbody><tr><td>Months 1-3</td><td>$495</td><td>$545</td></tr><tr><td>Months 4-6</td><td>$541</td><td>$595</td></tr><tr><td>Months 7-9</td><td>$564</td><td>$620</td></tr><tr><td>Months 10-12</td><td>$593</td><td>$652</td></tr><tr><td><strong>Year 1 Average</strong></td><td><strong>$552</strong></td><td><strong>$607</strong></td></tr></tbody></table></div>
+<p><em>Blended average includes add-on revenue spread across all sessions. Increases over time as mix shifts toward higher-value Portrait and Editorial packages.</em></p>
+<h3 id="customer-acquisition-cost-cac">Customer Acquisition Cost (CAC)</h3>
+<div class="table-wrap"><table><thead><tr><th>Period</th><th>Marketing Spend</th><th>New Clients</th><th>CAC</th></tr></thead><tbody><tr><td>Months 1-3</td><td>$1,500</td><td>~24</td><td>$62.50</td></tr><tr><td>Months 4-6</td><td>$1,500</td><td>~36</td><td>$41.67</td></tr><tr><td>Months 7-9</td><td>$1,500</td><td>~48</td><td>$31.25</td></tr><tr><td>Months 10-12</td><td>$1,500</td><td>~60</td><td>$25.00</td></tr></tbody></table></div>
+<p><strong>Target CAC: under $50.</strong> Achieved by Month 4 as referrals and organic channels begin contributing. By Month 10, organic should represent 30%+ of bookings, driving CAC well below target.</p>
+<h3 id="lifetime-value-ltv-estimate">Lifetime Value (LTV) Estimate</h3>
+<ul>
+<li>Average first booking value (ex GST): ~$500</li>
+<li>Rebooking rate (conservative): 25% rebook within 12 months</li>
+<li>Average rebook value: ~$600 (clients tend to upgrade)</li>
+<li>Referral rate: 15% of clients refer at least one new client</li>
+<li><strong>Estimated LTV per client: $700-$850</strong></li>
+<li><strong>LTV:CAC ratio (at steady state): 15:1 to 25:1</strong> -- excellent unit economics</li>
+</ul>
+<h3 id="capacity-ceiling-solo-operator">Capacity Ceiling (Solo Operator)</h3>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody><tr><td>Max sessions per week (sustainable)</td><td>6-7</td></tr><tr><td>Max sessions per month</td><td>25-28</td></tr><tr><td>Max annual sessions (solo, no burnout)</td><td>~300</td></tr><tr><td>Revenue ceiling at current pricing (ex GST)</td><td>~$170,000 individual + corporate</td></tr><tr><td>Revenue ceiling with Year 2 pricing</td><td>~$200,000+</td></tr></tbody></table></div>
+<p><em>Capacity assumes 1-3hr shooting + 1-2hr editing per session, plus admin, marketing, and rest days. Exceeding 25 sessions/month solo risks quality degradation and burnout. Contractor support recommended beyond 20 sessions/month.</em></p>
+<h3 id="quarterly-milestones">Quarterly Milestones</h3>
+<div class="table-wrap"><table><thead><tr><th>Quarter</th><th>Revenue Target (ex GST)</th><th>Sessions Target</th><th>Key Goal</th></tr></thead><tbody><tr><td>Q1 (Months 1-3)</td><td>$11,891</td><td>24</td><td>Build portfolio, first 15 reviews</td></tr><tr><td>Q2 (Months 4-6)</td><td>$22,655</td><td>37</td><td>First corporate gig, CAC &lt; $50</td></tr><tr><td>Q3 (Months 7-9)</td><td>$30,236</td><td>49</td><td>Second corporate gig, 20% referral rate</td></tr><tr><td>Q4 (Months 10-12)</td><td>$41,818</td><td>62</td><td>Two corporate gigs, $15K month</td></tr></tbody></table></div>
+<hr>
+<p><em>Power Portraits -- Financial Projections (Conservative Model)</em></p>
+<p><em>Owner: Ben Alek Conner | ABN 48 890 965 530 | powerportraits.com.au</em></p>
+<p><em>Brisbane, Queensland, Australia</em></p>
+<p><em>All figures in AUD. Prices GST-inclusive unless marked (ex GST). P&amp;L calculated on GST-exclusive revenue.</em></p>
+<p><em>Last updated: April 2026 | Review quarterly against actuals</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">02-Power Portraits/01-strategy/Documents/FINANCIAL PROJECTIONS.md</div>
+    </main>
+  </div>
+</body>
+</html>

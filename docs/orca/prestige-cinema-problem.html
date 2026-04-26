@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Makes a Film &quot;Oscar-Worthy&quot;? The Problem with Prestige Cinema | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link active"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#orca">ORCA Film Awards</a> &rsaquo;
+          What Makes a Film &quot;Oscar-Worthy&quot;? The Problem with Prestige Cinema
+        </div>
+        <h1 class="doc-title">What Makes a Film &quot;Oscar-Worthy&quot;? The Problem with Prestige Cinema</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#127916; ORCA Film Awards</span>
+          <span class="doc-path">04-ORCA Film Awards / 05-content / articles</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="what-makes-a-film-quotoscar-worthyquot-the-problem-with-prestige-cinema">What Makes a Film &quot;Oscar-Worthy&quot;? The Problem with Prestige Cinema</h1>
+<p><em>By ORCA Editorial | April 19, 2026</em></p>
+<hr>
+<p>There is a type of film that wins Oscars. You know it when you see it. It is usually a period piece. It is often a biopic. It features a well-known actor undergoing a physical transformation — gaining weight, losing weight, wearing prosthetics, adopting an accent. It tells a story of triumph over adversity, preferably involving a historical injustice that has already been safely resolved. It is handsomely photographed, tastefully scored, and built on a three-act structure that delivers emotional catharsis without asking too much of its audience.</p>
+<p>This is the prestige film. And it is killing the Oscar conversation.</p>
+<h2 id="the-oscar-bait-playbook">The Oscar Bait Playbook</h2>
+<p>The term &quot;Oscar bait&quot; is used so casually that it has lost its edge, but the phenomenon it describes is real and measurable. Studios and distributors know what the Academy rewards. They schedule their prestige releases for October through December. They mount campaigns that cost millions. They screen their films for Academy voters at exclusive events with catered dinners. The entire apparatus of awards season is designed to funnel a specific type of film toward the gold statue.</p>
+<p>The playbook has been remarkably consistent for decades. Biopics of famous people: Gandhi, The King&#x27;s Speech, The Theory of Everything, Bohemian Rhapsody, Oppenheimer. Historical dramas about racial injustice: Schindler&#x27;s List, 12 Years a Slave, Green Book, Selma. War films that emphasize individual heroism: Saving Private Ryan, The Hurt Locker, Dunkirk, 1917. Literary adaptations with prestige casts: The English Patient, No Country for Old Men, The Remains of the Day.</p>
+<p>These are not bad films. Many of them are excellent. The problem is not that the Academy rewards them. The problem is that the Academy rewards almost nothing else.</p>
+<h2 id="the-genre-ceiling">The Genre Ceiling</h2>
+<p>Genre films — horror, science fiction, fantasy, comedy, thriller, action — exist on the other side of an invisible wall that the Academy has constructed and maintained for nearly a century. This wall has no official policy behind it. No one at the Academy has ever said that horror films cannot win Best Picture. But the voting patterns speak for themselves.</p>
+<p>Let us count. In 96 ceremonies, the number of horror films that have won Best Picture: one (The Silence of the Lambs, which the Academy reclassified as a &quot;thriller&quot; to make itself more comfortable). The number of science fiction films: zero. The number of animated films: zero. The number of comedies since Annie Hall in 1978: arguably zero, depending on how generously you categorize films like The Artist or Birdman.</p>
+<p>These are the genres that define popular cinema. They are the genres where the most interesting formal experimentation happens. They are the genres that produce the films people actually remember and revisit decades later. And the Academy treats them as lesser art.</p>
+<p>The consequences extend beyond trophies. Oscar nominations drive box office revenue, streaming deals, and future financing. When genre films are systematically excluded, it becomes harder to finance ambitious genre work. Studios learn that horror films and science fiction films do not win awards, so they stop investing in the kinds of horror and science fiction films that might. The result is a self-fulfilling prophecy: genre films are not &quot;Oscar-worthy&quot; because the Oscars have decided they are not, and the Oscars have decided they are not because they never see the kinds of genre films that would prove them wrong.</p>
+<p>Jordan Peele broke through this ceiling briefly with Get Out, which earned a Best Picture nomination and a Best Original Screenplay win in 2018. But Get Out was treated as an exception — a &quot;social thriller&quot; rather than a horror film, a Serious Work that happened to use horror conventions. The ceiling remained intact. Peele&#x27;s equally brilliant Us received nothing. Nope received nothing. The message was clear: you get one.</p>
+<h2 id="the-foreign-film-ghetto">The Foreign Film Ghetto</h2>
+<p>The Best International Feature Film category is the Academy&#x27;s most elegant mechanism for ignoring world cinema. By creating a designated space for non-English-language films, the Academy gave itself permission to exclude them from everything else.</p>
+<p>The category&#x27;s own rules have historically worked against the films it is supposed to celebrate. Each country submits one film. One. France gets one slot. Japan gets one slot. South Korea gets one slot. The entire continent of Africa gets as many slots as there are submitting nations, but most African countries lack the infrastructure to submit at all. The result is a category that represents a fraction of world cinema, filtered through national committees whose selections are often political rather than artistic.</p>
+<p>Meanwhile, the films that do get nominated in the category rarely cross over into the main race. Between the creation of the category in 1957 and Parasite&#x27;s win in 2020, only a handful of international films received Best Picture nominations: Grand Illusion (1939, before the category existed), Z (1970), The Emigrants (1973), Crouching Tiger Hidden Dragon (2001), Letters from Iwo Jima (2007), Amour (2013), and Roma (2019). Seven films in sixty years.</p>
+<p>The pattern is especially cruel for Asian cinema. Japanese, South Korean, Chinese, Indian, and Thai filmmakers have produced some of the most significant work of the last three decades. The Academy has almost entirely ignored them. Hirokazu Kore-eda&#x27;s Shoplifters — a Palme d&#x27;Or winner — was nominated for International Feature and nothing else. Wong Kar-wai has never been nominated for directing. Apichatpong Weerasethakul, whose Uncle Boonmee Who Can Recall His Past Lives won the Palme d&#x27;Or, has never been nominated for anything at the Oscars. Edward Yang&#x27;s Yi Yi, routinely cited as one of the greatest films of the 2000s, received zero nominations.</p>
+<p>These are not obscure filmmakers. They are among the most celebrated artists in cinema. The Academy simply does not watch their films.</p>
+<h2 id="the-animation-double-standard">The Animation Double Standard</h2>
+<p>The creation of the Best Animated Feature category in 2001 was presented as progress. It was the opposite. By giving animation its own category, the Academy told voters that animated films were a separate class of cinema — entertainment for children that deserved recognition on its own terms but not in competition with &quot;real&quot; films.</p>
+<p>The evidence is in the voting. Academy members have admitted, on the record, that they do not watch animated films before voting in the category. In a 2014 Hollywood Reporter roundtable, one anonymous voter said they always voted for the Disney or Pixar film because their children liked it. Another said they considered animated films &quot;not real filmmaking.&quot; These are the people deciding the Oscars.</p>
+<p>The result is a category dominated by American studio animation — Disney, Pixar, and DreamWorks films that voters&#x27; children have seen — while some of the most extraordinary animated works from around the world go unrecognized. Studio Ghibli&#x27;s output, from My Neighbor Totoro to The Wind Rises, has been almost entirely ignored. Satoshi Kon — whose Perfect Blue, Millennium Actress, and Paprika influenced everything from Black Swan to Inception — never received a nomination. The medium that gave us Fantasia, Yellow Submarine, Akira, and Waltz with Bashir is treated as a children&#x27;s entertainment format.</p>
+<p>Hayao Miyazaki&#x27;s The Boy and the Heron won Best Animated Feature in 2024, but the win felt less like recognition of the film itself and more like a lifetime achievement nod to the 83-year-old master. It was not nominated for Best Picture, Best Director, or Best Original Screenplay — categories where it would have been fully competitive on merit. The ghetto held.</p>
+<h2 id="the-performance-trap">The Performance Trap</h2>
+<p>One of the most insidious aspects of prestige cinema is the way it reduces acting to visible effort. The Oscar-winning performance is typically a Performance with a capital P: a transformation so extreme that the audience can see the work. Daniel Day-Lewis disappearing into Abraham Lincoln. Gary Oldman buried under Winston Churchill prosthetics. Rami Malek&#x27;s fake teeth and contact lenses as Freddie Mercury.</p>
+<p>This bias toward visible transformation systematically undervalues a different kind of acting — the kind where the skill is invisible, where the performance is so naturalistic that it does not look like performance at all. Actors like Gena Rowlands, whose volcanic work with John Cassavetes was recognized with only two nominations and zero wins. Like Toni Collette, whose shattering performance in Hereditary — widely considered one of the best performances of the 2010s — received not a single nomination. Like Song Kang-ho, whose work across two decades of Korean cinema was invisible to the Academy until Parasite made him impossible to ignore.</p>
+<p>The prestige performance is designed to win awards. The great performance is designed to serve the film. These are sometimes the same thing. More often, they are not.</p>
+<h2 id="who-gets-to-be-quotimportantquot">Who Gets to Be &quot;Important&quot;</h2>
+<p>The deepest problem with prestige cinema is not aesthetic — it is ideological. The films the Academy rewards carry implicit assumptions about whose stories matter and how those stories should be told.</p>
+<p>Stories about white men overcoming obstacles: important. Stories about communities of color navigating systemic oppression: important, but only if told through a framework of individual triumph. Stories about women: important, but only certain kinds of women in certain kinds of situations. Stories from outside the English-speaking world: occasionally important, but only if accessible enough for voters who do not read subtitles.</p>
+<p>Spike Lee directed Do the Right Thing in 1989. It was not nominated for Best Picture. He directed Malcolm X in 1992. It was not nominated. He directed 25th Hour in 2002. Not nominated. He directed Inside Man in 2006. Not nominated. He directed BlacKkKlansman in 2018. Nominated, finally, 29 years after his most important film. He did not win.</p>
+<p>Meanwhile, the Academy gave Best Picture to Crash — a film about racism so reductive and condescending that it has become a punchline — over Brokeback Mountain, Munich, Capote, and Good Night, and Good Luck. The Academy&#x27;s idea of an &quot;important&quot; film about race was one that reassured white audiences that racism is caused by individual prejudice and cured by individual goodness.</p>
+<p>This is the prestige cinema trap. It does not just reward safe films. It defines safety as importance. Films that challenge, provoke, unsettle, or refuse to offer resolution are pushed to the margins. Films that confirm existing assumptions about the world are elevated to the center.</p>
+<h2 id="breaking-the-mold">Breaking the Mold</h2>
+<p>The good news is that the mold is cracking. Parasite&#x27;s Best Picture win in 2020 was a genuine breakthrough. Nomadland&#x27;s win in 2021 rewarded a film that was formally unconventional and narratively quiet. Everything Everywhere All at Once&#x27;s win in 2023 proved that a genre-blending, multiverse-hopping action comedy could take the top prize. These are real changes.</p>
+<p>But they are exceptions, not the new rule. The Academy&#x27;s defaults reassert themselves quickly. The following year&#x27;s Best Picture race reverted to prestige form. The year after that, the same. Each breakthrough is treated as evidence that the system works, when it is actually evidence of how rarely the system produces breakthroughs at all.</p>
+<h2 id="why-orca-takes-a-different-approach">Why ORCA Takes a Different Approach</h2>
+<p>The ORCA Film Awards do not have a prestige bias because we do not have a prestige infrastructure. We have no campaigns, no screener politics, no For Your Consideration ads. Our voters nominate films because they watched them and were moved by them. A Park Chan-wook thriller gets the same consideration as a Mike Leigh character study. A Bi Gan visual poem gets the same ballot space as a Rian Johnson mystery.</p>
+<p>Our eligibility rule — no Oscar-nominated films allowed — is not just a differentiator. It is a filter that removes the prestige machinery entirely. The films on our ballot were not designed to win awards. They were designed to be great. The distinction matters more than it might seem.</p>
+<p>Prestige cinema is not the enemy. Some prestige films are extraordinary. The enemy is the assumption that prestige is the only form cinema can take when it aspires to greatness. Horror can be great. Animation can be great. A three-hour Chinese film about memory and loss can be great. A Korean revenge thriller can be great. A 68-minute Senegalese documentary about colonial restitution can be great.</p>
+<p>The Academy has spent 96 years defining what &quot;Oscar-worthy&quot; means. The definition is too narrow. It always has been. The ORCA Film Awards exist to prove that the best films of any year — the ones that challenge us, surprise us, and change the way we see the world — are almost never the ones the Academy chooses. And they deserve an audience anyway.</p>
+<p>That is not a failure of the films. It is a failure of the definition.</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">04-ORCA Film Awards/05-content/articles/prestige-cinema-problem.md</div>
+    </main>
+  </div>
+</body>
+</html>

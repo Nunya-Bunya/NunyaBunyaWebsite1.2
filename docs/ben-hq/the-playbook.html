@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE PLAYBOOK | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link active"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-hq">Ben HQ</a> &rsaquo;
+          THE PLAYBOOK
+        </div>
+        <h1 class="doc-title">THE PLAYBOOK</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#9670; Ben HQ</span>
+          <span class="doc-path">00-Ben HQ</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="the-playbook">THE PLAYBOOK</h1>
+<h3 id="built-by-doing-updated-by-learning">Built by doing. Updated by learning.</h3>
+<hr>
+<h2 id="the-client-onboarding-pipeline">The Client Onboarding Pipeline</h2>
+<p><em>Every client — internal or external — goes through these two plays before anything else.</em></p>
+<hr>
+<h3 id="the-opening-gambit">The Opening Gambit</h3>
+<p><strong>What:</strong> Full audit of the client&#x27;s brand + a complete strategy for improvement. This is the FIRST thing we do for any new client. Diagnose before you build.</p>
+<p><strong>Produces:</strong></p>
+<ol>
+<li><strong>Brand Audit Report</strong> — Web presence, social media, local SEO, email, reputation. Each category scored 0-10.</li>
+<li><strong>Strategy Document</strong> — 90-day plan covering SEO, social, email, content, outreach, paid ads (if applicable).</li>
+<li><strong>KPI Dashboard</strong> — Current metrics + 30-day and 90-day targets. What we track, how we track it, what good looks like.</li>
+<li><strong>Action Plan</strong> — Prioritized task list: Week 1 (foundation), Week 2-3 (content engine), Week 4 (outreach), Ongoing.</li>
+<li><strong>Tracking Setup</strong> — Matomo, Shlink links, Mautic segments, conversion tracking.</li>
+</ol>
+<p><strong>Agent:</strong> <code>opening_gambit</code> (Directive + Execution in NunyaBunyaAgents)</p>
+<p><strong>Status:</strong> LIVE — run for every new client</p>
+<p><strong>First deployment:</strong> Conner Law Group (3 firms: Kevin Conner PI [WA+OR], MBCS Estate Planning)</p>
+<hr>
+<h3 id="the-fitout">The Fitout</h3>
+<p><strong>What:</strong> Build everything the Opening Gambit recommended. Website, Google Business Profile, social accounts, email sequences, booking links, content engine, automations, tracking, outreach. This is the execution phase.</p>
+<p><strong>Produces:</strong></p>
+<ol>
+<li><strong>Website</strong> — Built or rebuilt per strategy</li>
+<li><strong>Google Business Profile</strong> — Setup checklist (manual steps)</li>
+<li><strong>Social Accounts</strong> — Created, branded, first posts published</li>
+<li><strong>Email Marketing</strong> — Lead magnet + welcome sequence + nurture sequence in Mautic</li>
+<li><strong>Booking System</strong> — Cal.com event types per service</li>
+<li><strong>Content Engine</strong> — First 4 blog posts + 30-day social calendar + tweet queue</li>
+<li><strong>Tracking</strong> — Matomo, Shlink, UTMs, conversion events, monthly report template</li>
+<li><strong>Automations</strong> — n8n workflows for blog-to-tweets, alerts, engagement</li>
+<li><strong>Outreach</strong> — Prospect list, Mautic sequence, follow-up cadence (configured but NOT activated until approved)</li>
+<li><strong>Fitout Summary</strong> — One-page summary of everything live, all links, what&#x27;s automated vs. manual</li>
+</ol>
+<p><strong>Agent:</strong> <code>the_fitout</code> (Directive + Execution in NunyaBunyaAgents)</p>
+<p><strong>Rule:</strong> The Fitout does NOT start until the Opening Gambit is reviewed and approved by Ben.</p>
+<p><strong>Status:</strong> LIVE</p>
+<p><strong>First deployment:</strong> Conner Law Group (after Opening Gambit complete)</p>
+<hr>
+<h3 id="the-polish">The Polish</h3>
+<p><strong>What:</strong> Second full audit of everything The Fitout built. Finds every gap, broken link, missing meta tag, untested flow — and fixes it immediately in the same pass. No separate plan. Just audit and fix.</p>
+<p><strong>What it does:</strong></p>
+<ol>
+<li>Re-audits every deliverable from The Fitout (website, GBP, social, email, booking, content, tracking, automations, outreach)</li>
+<li>Fixes everything it finds — code, config, content, copy</li>
+<li>Documents anything requiring manual action (GBP verification, social logins)</li>
+<li>Records KPI baselines (Day 0 numbers for all metrics)</li>
+<li>Produces client handoff document (everything they need to know)</li>
+</ol>
+<p><strong>After The Polish, the client has:</strong></p>
+<ul>
+<li>Fully audited brand presence</li>
+<li>Complete marketing strategy with targets</li>
+<li>Polished website, social accounts, email sequences, booking, tracking</li>
+<li>Content engine running</li>
+<li>Automations active</li>
+<li>KPI baselines recorded</li>
+<li>Ready for ongoing monthly execution ($3,500/mo retainer)</li>
+</ul>
+<p><strong>Agent:</strong> <code>the_polish</code> (Directive + Execution in NunyaBunyaAgents)</p>
+<pre><code>Opening Gambit → The Fitout → The Polish → Ongoing Retainer
+  (diagnose)      (build)      (perfect)    ($3,500/mo)</code></pre>
+<p><strong>Status:</strong> LIVE</p>
+<p><strong>First deployment:</strong> Conner Law Group (after Fitout complete)</p>
+<hr>
+<h2 id="chapter-1-zero-to-one">Chapter 1: Zero to One</h2>
+<p><em>Get your first engagements, replies, views, likes, shares, conversions. Everything to get all your firsts.</em></p>
+<hr>
+<h3 id="the-goal">The Goal</h3>
+<p>Before you can scale, you need proof that anything works at all. Zero to One is about getting the first signal — a stranger downloads your freebie, a business replies to your email, someone books a call, anyone engages with your content. You&#x27;re not optimising yet. You&#x27;re just proving the machine turns on.</p>
+<hr>
+<h3 id="play-1-build-the-content-engine">Play 1: Build the Content Engine</h3>
+<p><strong>What:</strong> Generate blog posts for all brands, turn each into 5 tweets, queue them for auto-posting.</p>
+<p><strong>How we built it:</strong></p>
+<ul>
+<li>Claude generates blog posts from topic + context</li>
+<li>Each blog post gets fed through <code>generate-tweets.py</code> → 5 tweets per post</li>
+<li>Tweets stored in Supabase <code>tweet_queue</code>, approved, posted on schedule</li>
+<li>Brand-aware scheduling: right brand at the right time of day</li>
+</ul>
+<p><strong>Schedule:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Time (AEST)</th><th>Brand</th></tr></thead><tbody><tr><td>9am Mon/Wed</td><td>Power Portraits</td></tr><tr><td>9am Tue/Thu</td><td>ORCA Film Awards</td></tr><tr><td>9am Fri</td><td>Ben Alek Conner</td></tr><tr><td>12pm</td><td>Nunya Bunya</td></tr><tr><td>3pm</td><td>Ben Alek Conner</td></tr><tr><td>6pm</td><td>Ben Alek Conner</td></tr></tbody></table></div>
+<p><strong>Status:</strong> LIVE</p>
+<p><strong>Results:</strong> <code>[pending first data — update after 1 week]</code></p>
+<p><strong>Learnings:</strong> <code>[update as we learn]</code></p>
+<hr>
+<h3 id="play-2-build-the-funnels">Play 2: Build the Funnels</h3>
+<p><strong>What:</strong> Lead magnet → email nurture → booking. For every business that needs revenue.</p>
+<p><strong>Power Portraits funnel:</strong></p>
+<ul>
+<li>Lead magnet: Free Posing Guide (powerportraits.com.au)</li>
+<li>5-email nurture (Day 0/2/5/8/12): guide → education → pain point → BTS → urgency</li>
+<li>CTA: Cal.com booking (Essential $250 / Professional $450 / Executive $800)</li>
+<li>Hot prospect alert when someone clicks booking link</li>
+</ul>
+<p><strong>Nunya Bunya funnel:</strong></p>
+<ul>
+<li>Lead magnet: Free Marketing Guide / Audit</li>
+<li>5-email nurture (Day 0/2/5/8/12): guide → 3 mistakes → case study → packages → last chance</li>
+<li>CTA: Cal.com free audit (cal.com/nunyabunya)</li>
+</ul>
+<p><strong>Status:</strong> LIVE</p>
+<p><strong>Results:</strong> <code>[pending — track first lead magnet download, first email open, first booking]</code></p>
+<p><strong>Learnings:</strong> <code>[update as we learn]</code></p>
+<hr>
+<h3 id="play-3-cold-outreach-email">Play 3: Cold Outreach (Email)</h3>
+<p><strong>What:</strong> Scrape Brisbane businesses, find their emails, import into Mautic, let the nurture sequence do the work.</p>
+<p><strong>How we did it:</strong></p>
+<ul>
+<li>Apify Google Maps scraper → 46 Brisbane businesses (law firms, accountants, architects)</li>
+<li>Website scraping → extracted 31 email addresses</li>
+<li>Imported 30 contacts into Mautic PP segment</li>
+<li>They automatically receive the 5-email nurture sequence</li>
+</ul>
+<p><strong>Status:</strong> LIVE — 30 businesses receiving emails</p>
+<p><strong>Results:</strong> <code>[track: email opens, link clicks, hot prospect alerts, bookings]</code></p>
+<p><strong>Learnings:</strong> <code>[update after first round completes (12 days)]</code></p>
+<hr>
+<h3 id="play-4-twitter-engagement-engine">Play 4: Twitter Engagement Engine</h3>
+<p><strong>What:</strong> Don&#x27;t just post — engage. Like, follow, reply to real conversations. Get your name in front of people who are already talking about what you offer.</p>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>Apify searches Twitter for relevant conversations (7 queries)</li>
+<li>Auto-likes top 10 tweets/day</li>
+<li>Auto-follows 20 Brisbane professionals/day</li>
+<li>Claude drafts contextual replies → auto-posts top 3</li>
+<li>Remaining replies queued in #outreach Slack for manual sending</li>
+</ul>
+<p><strong>Status:</strong> LIVE — runs 7am AEST daily</p>
+<p><strong>Results:</strong> <code>[track: follower growth, reply engagement, profile visits]</code></p>
+<p><strong>Learnings:</strong> <code>[update weekly]</code></p>
+<hr>
+<h3 id="play-5-cold-outreach-twitter-dms">Play 5: Cold Outreach (Twitter DMs)</h3>
+<p><strong>What:</strong> DM Brisbane professionals with a referral offer — share my post, get $50 off a session.</p>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>Daily cron finds Brisbane professionals on Twitter</li>
+<li>Auto-DMs top 1 prospect per day</li>
+<li>Queues 4 more in #outreach Slack for manual sending</li>
+</ul>
+<p><strong>Status:</strong> LIVE — 1 auto-DM/day</p>
+<p><strong>Results:</strong> <code>[track: DM response rate, shares, bookings from referral]</code></p>
+<p><strong>Learnings:</strong> <code>[update after first 10 DMs]</code></p>
+<hr>
+<h3 id="play-6-promotional-campaign-proof-of-concept">Play 6: Promotional Campaign (Proof of Concept)</h3>
+<p><strong>What:</strong> Full campaign built from a single sentence — &quot;Family portraits, $1,999 normally, half off for April.&quot;</p>
+<p><strong>What got built in &lt;5 minutes:</strong></p>
+<ul>
+<li>Cal.com booking event (pp-family, $999)</li>
+<li>Landing page with countdown (powerportraits.com.au/family-special.html)</li>
+<li>Tracked link (go.nunyabunya.com/family-special)</li>
+<li>3 promo emails (announcement → reminder → last chance)</li>
+<li>Mautic campaign (fires Day 0/7/14)</li>
+<li>5 tweets queued and approved</li>
+<li>6 ad designs (4 feed + 2 story) with stock photos</li>
+</ul>
+<p><strong>Status:</strong> LIVE</p>
+<p><strong>Results:</strong> <code>[track: landing page views, booking clicks, actual bookings]</code></p>
+<p><strong>Learnings:</strong> <code>[update end of April]</code></p>
+<hr>
+<h3 id="play-7-ad-creative">Play 7: Ad Creative</h3>
+<p><strong>What:</strong> Design ads for every funnel and offer. Test Gemini AI images vs HTML+stock photo overlays.</p>
+<p><strong>Result:</strong> HTML+stock won. Gemini generates good raw photos but not ads (no text/copy).</p>
+<p><strong>Where ads live:</strong></p>
+<ul>
+<li><code>05-Power Portraits/Ads/</code> — Family Special (HTML with stock photos)</li>
+<li><code>01-Nunya Bunya/Ads/</code> — Start Your Business campaign (NB branded)</li>
+<li><code>{business}/Assets/AI-Generated/</code> — Gemini photos for future use</li>
+</ul>
+<p><strong>Status:</strong> DESIGNED — need to post on FB/IG manually</p>
+<p><strong>Results:</strong> <code>[track per platform when posted]</code></p>
+<p><strong>Learnings:</strong> Always pull brand colours/fonts from actual website. PP = gold/dark/Cormorant Garamond. NB = teal/dark/Barlow Condensed.</p>
+<hr>
+<h3 id="play-8-post-ads-everywhere">Play 8: Post Ads Everywhere</h3>
+<p><strong>What:</strong> Take the best ads and post them on every platform with appropriate copy and hashtags.</p>
+<p><strong>Twitter:</strong> Posted 5 promotional tweets (PP corporate, PP family, PP LinkedIn, NB free plan, NB audit)</p>
+<p><strong>Facebook:</strong> <code>[not yet — manual post needed]</code></p>
+<p><strong>Instagram:</strong> <code>[not yet — manual post needed]</code></p>
+<p><strong>LinkedIn:</strong> <code>[not yet — manual post needed]</code></p>
+<p><strong>Status:</strong> Twitter done. FB/IG/LinkedIn manual.</p>
+<p><strong>Results:</strong> <code>[track per platform]</code></p>
+<p><strong>Learnings:</strong> Posting on own timeline = shouting into void. Replying to conversations = getting seen.</p>
+<hr>
+<h3 id="tracking-dashboard">Tracking Dashboard</h3>
+<blockquote><strong>Check NBHQ.</strong> Most of this is already there — don&#x27;t manually trawl platforms.<br><br>| Where to look | NBHQ Page | URL |<br>|---------------|-----------|-----|<br>| Email opens/clicks/sent | Email Campaigns | <code>nunyabunya.com/nb-admin-email-campaigns</code> |<br>| Landing page traffic | Analytics | <code>nunyabunya.com/nb-admin-analytics</code> |<br>| Lead captures | Leads | <code>nunyabunya.com/nb-admin-leads</code> |<br>| Content status | Social Feed | <code>nunyabunya.com/nb-admin-social-feed</code> |<br>| Twitter stats | <strong>Not in NBHQ yet</strong> | Check <code>analytics.twitter.com</code> manually |<br>| Cal.com bookings | <strong>Not in NBHQ yet</strong> | Check <code>cal.com</code> dashboard manually |<br>| Pawesome walks | <strong>Manual</strong> | Track in this table |</blockquote>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Baseline (Apr 10)</th><th>Week 1 (Apr 10-16)</th><th>Week 2 (Apr 17-23)</th><th>Week 3 (Apr 24-30)</th></tr></thead><tbody><tr><td>Twitter followers</td><td><code>[record]</code></td><td></td><td></td><td></td></tr><tr><td>Tweet impressions/week</td><td><code>[record]</code></td><td></td><td></td><td></td></tr><tr><td>PP email nurture opens</td><td>0</td><td></td><td></td><td></td></tr><tr><td>PP bookings</td><td>0</td><td></td><td></td><td></td></tr><tr><td>NB audit bookings</td><td>0</td><td></td><td></td><td></td></tr><tr><td>Cold email opens</td><td>0/30</td><td></td><td></td><td></td></tr><tr><td>Cold email clicks</td><td>0/30</td><td></td><td></td><td></td></tr><tr><td>Lead magnet downloads</td><td>0</td><td></td><td></td><td></td></tr><tr><td>Pawesome walks booked</td><td>—</td><td>0</td><td></td><td></td></tr><tr><td>First paying customer</td><td>NO</td><td></td><td></td><td></td></tr></tbody></table></div>
+<hr>
+<h3 id="play-9-the-brisbane-facebook-group-blitz">Play 9: The Brisbane Facebook Group Blitz</h3>
+<p><strong>What:</strong> Join every Brisbane business/entrepreneur Facebook group. Don&#x27;t drop links — answer questions, give free advice, become the helpful marketing/photography guy. When someone asks &quot;anyone know a good photographer?&quot; you&#x27;re already there.</p>
+<p><strong>Groups to find:</strong></p>
+<ul>
+<li>Brisbane Small Business Network</li>
+<li>Brisbane Entrepreneurs</li>
+<li>Gold Coast Business Owners</li>
+<li>Brisbane Mums (for family portraits)</li>
+<li>Brisbane Professional Women</li>
+<li>Brisbane Startups</li>
+<li>Local suburb groups (Fortitude Valley, West End, South Bank)</li>
+</ul>
+<p><strong>The rule:</strong> 5 genuine comments per day. No links for the first week. Just be useful. When you DO drop a link, it&#x27;s because someone specifically asked for what you offer.</p>
+<p><strong>Time:</strong> 10 min/day</p>
+<p><strong>Status:</strong> <code>[not started]</code></p>
+<p><strong>Results:</strong> <code>[track: group joins, comments, inbound DMs, bookings from FB]</code></p>
+<p><strong>Learnings:</strong> <code>[]</code></p>
+<hr>
+<h3 id="play-10-the-google-business-profile-play">Play 10: The Google Business Profile Play</h3>
+<p><strong>What:</strong> If Power Portraits doesn&#x27;t have a Google Business Profile, you&#x27;re invisible to anyone searching &quot;headshots brisbane&quot; or &quot;portrait photographer near me.&quot; This is free and it&#x27;s where local buyers search first — not Twitter, not Instagram.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Create/claim Google Business Profile for Power Portraits</li>
+<li>Add all photos, services, prices, booking link</li>
+<li>Add posts weekly (Google lets you post updates like social media)</li>
+<li>Ask anyone you know to leave a review (even if it&#x27;s a free test shoot)</li>
+</ol>
+<p><strong>Same for Nunya Bunya</strong> — &quot;marketing agency brisbane&quot; searches.</p>
+<p><strong>Time:</strong> 30 min setup, 5 min/week</p>
+<p><strong>Status:</strong> <code>[not started — check if profiles exist]</code></p>
+<p><strong>Results:</strong> <code>[track: profile views, direction requests, website clicks, calls]</code></p>
+<p><strong>Learnings:</strong> <code>[]</code></p>
+<hr>
+<h3 id="play-11-the-free-session-play">Play 11: The Free Session Play</h3>
+<p><strong>What:</strong> Offer 3-5 free portrait sessions to Brisbane business owners in exchange for: a Google review, a social media post tagging you, and permission to use the photos as portfolio/case study.</p>
+<p><strong>Why it works:</strong> You need portfolio, reviews, and social proof more than you need $250 right now. Five free sessions = 5 Google reviews + 5 social media posts about you + 50+ portfolio images. That&#x27;s worth more than the revenue.</p>
+<p><strong>Who to target:</strong> People with audiences — fitness trainers, real estate agents, mortgage brokers, influencers. Their post about you reaches their followers.</p>
+<p><strong>Time:</strong> 5 sessions x 1 hour = 5 hours total investment</p>
+<p><strong>Status:</strong> <code>[not started]</code></p>
+<p><strong>Results:</strong> <code>[track: reviews received, social posts, referrals from those posts]</code></p>
+<p><strong>Learnings:</strong> <code>[]</code></p>
+<hr>
+<h3 id="play-12-the-linkedin-content-play">Play 12: The LinkedIn Content Play</h3>
+<p><strong>What:</strong> Post the same Ben Alek Conner content (ownership, distribution, solopreneur philosophy) on LinkedIn. LinkedIn organic reach is 10-50x Twitter right now. One good post can get 10,000+ impressions.</p>
+<p><strong>Content format that works on LinkedIn:</strong></p>
+<ul>
+<li>Short paragraphs (1-2 sentences each)</li>
+<li>Start with a hook line</li>
+<li>Use the &quot;I did X. Here&#x27;s what happened.&quot; format</li>
+<li>End with a question</li>
+<li>No hashtags (they actually hurt reach on LinkedIn now)</li>
+</ul>
+<p><strong>Post your Ben Alek Conner blog posts reformatted for LinkedIn, 3x/week.</strong></p>
+<p><strong>Time:</strong> 15 min/day (3 days/week)</p>
+<p><strong>Status:</strong> <code>[not started]</code></p>
+<p><strong>Results:</strong> <code>[track: impressions, comments, profile views, connection requests, inbound leads]</code></p>
+<p><strong>Learnings:</strong> <code>[]</code></p>
+<hr>
+<h3 id="play-13-the-warm-outreach-blitz">Play 13: The Warm Outreach Blitz</h3>
+<p><strong>What:</strong> Before cold outreach to strangers, message everyone you already know. Friends, family, old colleagues, acquaintances. Not selling — just telling them what you&#x27;re doing and asking if they know anyone who needs it.</p>
+<p><strong>The message:</strong></p>
+<p>&quot;Hey [name], just wanted to let you know I&#x27;ve started a portrait photography studio in Brisbane called Power Portraits. If you know anyone who needs professional headshots or team photos, I&#x27;d love a referral. I&#x27;m also doing family portrait sessions at half price this month.&quot;</p>
+<p><strong>Send to:</strong> 50 people you already know. Personal message, not a mass blast.</p>
+<p><strong>Time:</strong> 1 hour (one-time)</p>
+<p><strong>Status:</strong> <code>[not started]</code></p>
+<p><strong>Results:</strong> <code>[track: replies, referrals, bookings]</code></p>
+<p><strong>Learnings:</strong> <code>[]</code></p>
+<hr>
+<h3 id="play-14-the-walking-portfolio">Play 14: The Walking Portfolio</h3>
+<p><strong>What:</strong> Go to a busy Brisbane business district (Eagle Street, Queen Street, Fortitude Valley) during lunch. Approach businesses in person with your portfolio on an iPad. Introduce yourself as a local photographer, show your work, leave a card or flyer.</p>
+<p><strong>Target:</strong> Reception desks at law firms, accounting firms, real estate offices — the same businesses you emailed. The email warms them up, the in-person visit closes.</p>
+<p><strong>The pitch:</strong> &quot;I&#x27;m Ben from Power Portraits — I specialise in corporate team headshots. I was in the building and thought I&#x27;d introduce myself. Here&#x27;s some of our work. We do on-site sessions so your team doesn&#x27;t even have to leave the office.&quot;</p>
+<p><strong>Time:</strong> 2 hours, one afternoon</p>
+<p><strong>Status:</strong> <code>[not started]</code></p>
+<p><strong>Results:</strong> <code>[track: businesses visited, cards left, follow-up meetings, bookings]</code></p>
+<p><strong>Learnings:</strong> <code>[]</code></p>
+<hr>
+<h3 id="play-15-the-content-swap">Play 15: The Content Swap</h3>
+<p><strong>What:</strong> Find Brisbane businesses with audiences (cafes, coworking spaces, gyms, event venues) and offer a trade: you shoot free photos of their space/team, they share your work with their audience.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>Shoot a coworking space&#x27;s team → they post it and tag you → their members see your work</li>
+<li>Shoot a cafe&#x27;s interior/staff → they use the photos on their social media with your credit</li>
+<li>Shoot a gym&#x27;s trainers&#x27; headshots → they share with their PT clients</li>
+</ul>
+<p><strong>Every swap = exposure to a new audience that you&#x27;d never reach through your own channels.</strong></p>
+<p><strong>Time:</strong> 1 session per week</p>
+<p><strong>Status:</strong> <code>[not started]</code></p>
+<p><strong>Results:</strong> <code>[track: swaps done, audience reached, inquiries from partner&#x27;s followers]</code></p>
+<p><strong>Learnings:</strong> <code>[]</code></p>
+<hr>
+<h3 id="play-16-the-quot50-off-for-sharingquot-referral-loop">Play 16: The &quot;$50 Off for Sharing&quot; Referral Loop</h3>
+<p><strong>What:</strong> Every person who books a session gets a unique referral link. If someone books through their link, both people get $50 off. Create a Shlink tracked link per client.</p>
+<p><strong>Automation:</strong></p>
+<ul>
+<li>After booking confirmation, send email with personal referral link</li>
+<li>Track clicks and conversions via Shlink</li>
+<li>When a referral books, both parties get notified</li>
+</ul>
+<p><strong>Why it works:</strong> Your happiest customer is your best salesperson. They just had an amazing experience and they&#x27;re showing off their new photos to everyone. Give them a reason to send people your way.</p>
+<p><strong>Time:</strong> 30 min to set up, then automatic</p>
+<p><strong>Status:</strong> <code>[not started]</code></p>
+<p><strong>Results:</strong> <code>[track: referral links shared, clicks, bookings from referrals]</code></p>
+<p><strong>Learnings:</strong> <code>[]</code></p>
+<hr>
+<h3 id="play-17-the-nunya-bunya-free-workshop">Play 17: The Nunya Bunya Free Workshop</h3>
+<p><strong>What:</strong> Host a free 30-minute online workshop: &quot;Marketing Your Small Business in Brisbane — What Actually Works in 2026.&quot; Promote it on all channels. Attendees become warm leads in your Mautic funnel.</p>
+<p><strong>Format:</strong> Zoom or Google Meet. Screen share. Show real examples from your own businesses. End with &quot;if you want help implementing this, book a free audit.&quot;</p>
+<p><strong>Promotion:</strong> Post on Facebook groups, LinkedIn, Twitter. Create a landing page with Cal.com booking for the workshop.</p>
+<p><strong>Why it works:</strong> Teaching is the ultimate authority builder. 20 people attend, 3 book an audit, 1 becomes a client. Repeat monthly.</p>
+<p><strong>Time:</strong> 1 hour prep + 30 min delivery</p>
+<p><strong>Status:</strong> <code>[not started]</code></p>
+<p><strong>Results:</strong> <code>[track: registrations, attendees, audit bookings, clients from workshop]</code></p>
+<p><strong>Learnings:</strong> <code>[]</code></p>
+<hr>
+<h3 id="play-18-the-beforeafter-portfolio-post">Play 18: The Before/After Portfolio Post</h3>
+<p><strong>What:</strong> Take the worst LinkedIn/team page photos you can find (with permission or using stock) and show a side-by-side with professional headshots. Post this as content across all platforms.</p>
+<p><strong>Format:</strong> Split image. Left: blurry iPhone selfie or cropped group photo. Right: professional Power Portraits headshot. Caption: &quot;Which one would you trust with your business?&quot;</p>
+<p><strong>This is your most shareable content format.</strong> People love before/after. It makes the value of what you do instantly obvious.</p>
+<p><strong>Time:</strong> 30 min to create, post everywhere</p>
+<p><strong>Status:</strong> <code>[not started]</code></p>
+<p><strong>Results:</strong> <code>[track: shares, saves, comments, inquiries]</code></p>
+<p><strong>Learnings:</strong> <code>[]</code></p>
+<hr>
+<h3 id="rules-for-zero-to-one">Rules for Zero to One</h3>
+<ol>
+<li><strong>Don&#x27;t optimise yet.</strong> You&#x27;re testing, not perfecting.</li>
+<li><strong>Track everything.</strong> If it can be measured, measure it.</li>
+<li><strong>One week minimum</strong> before judging if a play works.</li>
+<li><strong>Record failures.</strong> A play that doesn&#x27;t work is still a lesson.</li>
+<li><strong>Manual is fine.</strong> Automate what works, not what you hope will work.</li>
+</ol>
+<hr>
+<h2 id="chapter-2-second-gear">Chapter 2: Second Gear</h2>
+<p><em>The ramp up. You&#x27;re tasting momentum. Calendar is filling. You&#x27;re dreaming about your first hire.</em></p>
+<p><code>[This chapter gets written when Zero to One produces results.]</code></p>
+<h3 id="plays-to-unlock-when-ready">Plays to unlock when ready:</h3>
+<ul>
+<li>Scale cold outreach to 100+ businesses</li>
+<li>Paid ads ($5-10/day) on best-performing organic content</li>
+<li>Retargeting pixel audiences (people who visited but didn&#x27;t book)</li>
+<li>Referral program (existing clients bring new clients)</li>
+<li>Content partnerships (guest posts, podcast appearances)</li>
+<li>Reddit / Bluesky / Tumblr expansion</li>
+<li>Case study from first client → social proof loop</li>
+<li>Raise prices (demand &gt; supply)</li>
+<li>Hire first VA for admin/editing</li>
+</ul>
+<hr>
+<p><em>Last updated: April 16, 2026</em></p>
+<p><em>Next review: April 23, 2026</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">00-Ben HQ/THE PLAYBOOK.md</div>
+    </main>
+  </div>
+</body>
+</html>

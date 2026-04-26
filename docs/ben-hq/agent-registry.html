@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nunya Bunya — Master Agent Registry | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link active"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#ben-hq">Ben HQ</a> &rsaquo;
+          Nunya Bunya — Master Agent Registry
+        </div>
+        <h1 class="doc-title">Nunya Bunya — Master Agent Registry</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#9670; Ben HQ</span>
+          <span class="doc-path">00-Ben HQ / NunyaBunyaAgents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="nunya-bunya-master-agent-registry">Nunya Bunya — Master Agent Registry</h1>
+<p><strong>Version 2.2 | April 2026</strong></p>
+<p><strong>Total Agents: 68 | Designed to scale to 100+ clients</strong></p>
+<hr>
+<h2 id="how-this-works">How This Works</h2>
+<p>Every agent has a <strong>Directive</strong> (prompt spec in <code>/Directives/</code>) and an <strong>Execution script</strong> (Python in <code>/Execution/</code>). Agents are organized into <strong>Workflow Pipelines</strong> — sequences of agents that run together to produce a deliverable. Each client gets assigned the pipelines relevant to their service package.</p>
+<hr>
+<h2 id="agent-inventory">Agent Inventory</h2>
+<h3 id="lead-generation-amp-sales">Lead Generation &amp; Sales</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>1</td><td>Google Maps Lead Gen</td><td><code>gmaps<em>lead</em>generation.md</code></td><td><code>gmaps<em>lead</em>pipeline.py</code> / <code>gmaps<em>parallel</em>pipeline.py</code></td><td>Scrape Google Maps for B2B leads with contact enrichment</td></tr><tr><td>2</td><td>Google SERP Lead Scraper</td><td><code>google<em>serp</em>lead_scraper.md</code></td><td><code>scrape<em>apify.py</code> / <code>scrape</em>apify_parallel.py</code></td><td>Scrape Google search results for local business leads</td></tr><tr><td>3</td><td>Lead Scraper (Apify)</td><td><code>scrape_leads.md</code></td><td><code>scrape<em>apify.py</code> / <code>scrape</em>apify_parallel.py</code></td><td>Bulk lead scraping with industry-match verification</td></tr><tr><td>4</td><td>Lead Qualifier</td><td><code>lead_qualifier.md</code></td><td><code>lead_qualifier.py</code></td><td>Qualify inbound leads via SMS/chatbot, score, and book appointments</td></tr><tr><td>5</td><td>Upwork Scrape &amp; Apply</td><td><code>upwork<em>scrape</em>apply.md</code></td><td><code>upwork<em>apify</em>scraper.py</code> / <code>upwork<em>proposal</em>generator.py</code></td><td>Find and apply to Upwork jobs with AI-generated proposals</td></tr><tr><td>6</td><td>Create Proposal</td><td><code>create_proposal.md</code></td><td><code>create_proposal.py</code></td><td>Generate PandaDoc proposals from briefs or call transcripts</td></tr><tr><td>7</td><td>Instantly Autoreply</td><td><code>instantly_autoreply.md</code></td><td><code>instantly_autoreply.py</code></td><td>AI auto-replies for cold email campaigns via Instantly</td></tr></tbody></table></div>
+<h3 id="strategy-amp-planning">Strategy &amp; Planning</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>8</td><td>Strategy Agent (AI CMO)</td><td><code>strategy_agent.md</code></td><td><code>strategy_agent.py</code></td><td>Design 90-day marketing strategies, master campaign briefs</td></tr><tr><td>9</td><td>Content Marketing Agent</td><td><code>content<em>marketing</em>agent.md</code></td><td>—</td><td>Content marketing strategy using 5 Ps + RACE framework</td></tr><tr><td>10</td><td>Knowledge Base</td><td><code>knowledge_base.md</code></td><td><code>knowledge_base.py</code></td><td>Client memory system — ingest and query all client documents</td></tr></tbody></table></div>
+<h3 id="content-production">Content Production</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>11</td><td>Content Generator (Content Factory)</td><td><code>content_generator.md</code></td><td><code>content_generator.py</code></td><td>Full marketing campaign from one topic: blog, social, email, ads</td></tr><tr><td>12</td><td>Content Machine</td><td><code>content_machine.md</code></td><td><code>content_machine.py</code></td><td>Rapid single-keyword → publish-ready content package</td></tr><tr><td>13</td><td>Short Form Video Agent</td><td><code>short<em>form</em>video.md</code></td><td><code>short<em>form</em>video.py</code></td><td>AI scriptwriter for Reels/TikTok/Shorts with brand connection</td></tr><tr><td>14</td><td>Social Media Agent</td><td><code>social_agent.md</code></td><td><code>social_agent.py</code></td><td>Platform-optimized posts, Buffer scheduling, engagement tracking</td></tr><tr><td>15</td><td>Jump Cut Editor (VAD)</td><td><code>jump<em>cut</em>vad.md</code></td><td><code>jump<em>cut</em>vad_singlepass.py</code></td><td>Auto-remove silences from talking-head videos using neural VAD</td></tr></tbody></table></div>
+<h3 id="seo">SEO</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>16</td><td>SEO Agent</td><td><code>seo_agent.md</code></td><td><code>seo_agent.py</code></td><td>Weekly SEO analysis: keywords, competitor gaps, content calendar</td></tr><tr><td>17</td><td>SEO Opportunity Finder</td><td><code>seo<em>opportunity</em>finder.md</code></td><td><code>seo<em>opportunity</em>finder.py</code></td><td>On-demand: 50 ranked keyword opportunities + 12-week calendar</td></tr><tr><td>18</td><td>Local SEO Tool</td><td><code>local<em>seo</em>tool.md</code></td><td><code>local<em>seo</em>tool.py</code></td><td>Generate up to 50 local landing pages per client</td></tr></tbody></table></div>
+<h3 id="ads-management">Ads Management</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>19</td><td>Ads Optimization Agent</td><td><code>ads_agent.md</code></td><td><code>ads_agent.py</code></td><td>Monitor Google/Meta Ads, flag underperformers, generate new copy</td></tr></tbody></table></div>
+<h3 id="reputation-amp-reviews">Reputation &amp; Reviews</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>20</td><td>Reputation Agent</td><td><code>reputation_agent.md</code></td><td><code>reputation_agent.py</code></td><td>Monitor reviews (Google/Facebook/Yelp), auto-respond, alert on negative</td></tr></tbody></table></div>
+<h3 id="reporting-amp-analytics">Reporting &amp; Analytics</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>21</td><td>Reporting Agent</td><td><code>reporting_agent.md</code></td><td><code>reporting_agent.py</code></td><td>Weekly automated client reports with insights and recommendations</td></tr><tr><td>45</td><td>GBP Metrics Collector</td><td><code>gbp<em>metrics</em>agent.md</code></td><td><code>gbp<em>metrics</em>agent.py</code></td><td>Daily GBP data collection: impressions, actions, keywords, posts, media, profile snapshots</td></tr></tbody></table></div>
+<h3 id="client-onboarding-amp-setup">Client Onboarding &amp; Setup</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>22</td><td>Foundation Package Builder</td><td><code>foundation<em>package</em>builder.md</code></td><td><code>foundation<em>package</em>builder.py</code></td><td>Build complete branded operational docs for a new business</td></tr><tr><td>23</td><td>Foundations Builder</td><td><code>foundations_builder.md</code></td><td><code>foundations_builder.py</code></td><td>Portfolio-wide foundational document generation</td></tr><tr><td>24</td><td>First Client Package</td><td><code>first<em>client</em>package.md</code></td><td><code>first<em>client</em>package.py</code></td><td>Zero-to-signed-client pipeline: leads, pitch, proposal, follow-up</td></tr></tbody></table></div>
+<h3 id="foundational-research-run-once-per-client">Foundational Research (Run Once Per Client)</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>25</td><td>Audience Research</td><td><code>audience<em>research</em>agent.md</code></td><td><code>audience<em>research</em>agent.py</code></td><td>Demographics, psychographics, behaviors, buying triggers</td></tr><tr><td>26</td><td>Competitor Analysis</td><td><code>competitor<em>analysis</em>agent.md</code></td><td><code>competitor<em>analysis</em>agent.py</code></td><td>Competitor breakdown, gaps, opportunities, threat level</td></tr><tr><td>27</td><td>Market Research</td><td><code>market<em>research</em>agent.md</code></td><td><code>market<em>research</em>agent.py</code></td><td>Industry trends, market size, opportunities, seasonal patterns</td></tr><tr><td>28</td><td>Customer Pain Points</td><td><code>customer<em>pain</em>point_agent.md</code></td><td><code>customer<em>pain</em>point_agent.py</code></td><td>Categorized pain points, desires, objections with messaging angles</td></tr><tr><td>29</td><td>Customer Journey</td><td><code>customer<em>journey</em>agent.md</code></td><td><code>customer<em>journey</em>agent.py</code></td><td>5-stage journey (Awareness → Advocacy) with content needs</td></tr><tr><td>30</td><td>Brand Audit</td><td><code>brand<em>audit</em>agent.md</code></td><td><code>brand<em>audit</em>agent.py</code></td><td>Visual/messaging consistency scores, recommendations</td></tr><tr><td>31</td><td>Analytics Review</td><td><code>analytics<em>review</em>agent.md</code></td><td><code>analytics<em>review</em>agent.py</code></td><td>Traffic summary, top pages, keywords, conversion data</td></tr><tr><td>32</td><td>Business Overview</td><td><code>business<em>overview</em>agent.md</code></td><td><code>business<em>overview</em>agent.py</code></td><td>Executive synthesis of all foundational research</td></tr></tbody></table></div>
+<h3 id="strategic-documents-run-once-per-client-refresh-quarterly">Strategic Documents (Run Once Per Client, Refresh Quarterly)</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>33</td><td>Brand Voice</td><td><code>brand<em>voice</em>agent.md</code></td><td><code>brand<em>voice</em>agent.py</code></td><td>Voice attributes, tone spectrum, do/don&#x27;t examples, vocabulary</td></tr><tr><td>34</td><td>Audience Personas</td><td><code>audience<em>persona</em>agent.md</code></td><td><code>audience<em>persona</em>agent.py</code></td><td>3-5 buyer personas with goals, pains, channels, messaging</td></tr><tr><td>35</td><td>Messaging Framework</td><td><code>messaging<em>framework</em>agent.md</code></td><td><code>messaging<em>framework</em>agent.py</code></td><td>Value prop, core messages, proof points, per-persona messaging</td></tr><tr><td>36</td><td>Positioning</td><td><code>positioning_agent.md</code></td><td><code>positioning_agent.py</code></td><td>Positioning statement, differentiation, elevator pitches</td></tr><tr><td>37</td><td>Offer Strategy</td><td><code>offer<em>strategy</em>agent.md</code></td><td><code>offer<em>strategy</em>agent.py</code></td><td>Offer stack, pricing strategy, value ladder, upsell paths</td></tr><tr><td>38</td><td>Conversion Strategy</td><td><code>conversion<em>strategy</em>agent.md</code></td><td><code>conversion<em>strategy</em>agent.py</code></td><td>CRO recommendations, landing page principles, A/B priorities</td></tr><tr><td>39</td><td>Funnel Strategy</td><td><code>funnel<em>strategy</em>agent.md</code></td><td><code>funnel<em>strategy</em>agent.py</code></td><td>Full funnel with stages, email sequences, automation flows</td></tr><tr><td>40</td><td>Visual Identity</td><td><code>visual<em>identity</em>agent.md</code></td><td><code>visual<em>identity</em>agent.py</code></td><td>Color palette, typography, imagery guidelines, design principles</td></tr><tr><td>41</td><td>Growth Strategy</td><td><code>growth<em>strategy</em>agent.md</code></td><td><code>growth<em>strategy</em>agent.py</code></td><td>90-day roadmap, channel mix, budget allocation, experiments</td></tr></tbody></table></div>
+<h3 id="website-redesign-amp-case-study">Website Redesign &amp; Case Study</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>44</td><td>Website Redesign + Case Study</td><td><code>website<em>redesign</em>agent.md</code></td><td><code>website<em>redesign</em>agent.py</code></td><td>End-to-end website redesign: audit → content → AI photoshoot → build → case study → upsells (AI receptionist, bespoke shoot brief)</td></tr></tbody></table></div>
+<h3 id="visual-asset-production">Visual Asset Production</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>42</td><td>Social Graphics</td><td><code>social<em>graphics</em>agent.md</code></td><td><code>social<em>graphics</em>agent.py</code></td><td>AI-generated branded graphics (IG, LinkedIn, FB, banners, covers, email headers)</td></tr><tr><td>43</td><td>Blog Graphics</td><td><code>blog<em>graphics</em>agent.md</code></td><td><code>blog<em>graphics</em>agent.py</code></td><td>Featured images + in-article graphics for blog posts</td></tr><tr><td>46</td><td>Brand Launch Kit</td><td><code>brand<em>launch</em>kit.md</code></td><td><code>brand<em>launch</em>kit.py</code></td><td>One-shot pipeline: visual identity → style guide + brand bible → all banner assets</td></tr></tbody></table></div>
+<h3 id="logo-amp-branding">Logo &amp; Branding</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>68</td><td>Logo Package Builder</td><td><code>logo<em>package</em>builder.md</code></td><td><code>logo<em>package</em>builder.py</code></td><td>Full logo deliverable: 7 variations, 11 sizes, 6 mockups, presentation deck</td></tr></tbody></table></div>
+<h3 id="brand-bible-section-agents-multi-agent-pipeline">Brand Bible Section Agents (Multi-Agent Pipeline)</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Agent</th><th>Directive</th><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td>47</td><td>BB Executive Summary</td><td><code>bb<em>executive</em>summary.md</code></td><td><code>bb<em>executive</em>summary.py</code></td><td>Executive summary + business overview</td></tr><tr><td>48</td><td>BB Market Analysis</td><td><code>bb<em>market</em>analysis.md</code></td><td><code>bb<em>market</em>analysis.py</code></td><td>Industry overview, local market, segments, trends</td></tr><tr><td>49</td><td>BB Financial Projections</td><td><code>bb<em>financial</em>projections.md</code></td><td><code>bb<em>financial</em>projections.py</code></td><td>Realistic revenue projections, expenses, break-even</td></tr><tr><td>50</td><td>BB Operations &amp; Risk</td><td><code>bb<em>operations</em>risk.md</code></td><td><code>bb<em>operations</em>risk.py</code></td><td>Operations workflow, risk assessment, legal &amp; compliance</td></tr><tr><td>51</td><td>BB Founder Identity</td><td><code>bb<em>founder</em>identity.md</code></td><td><code>bb<em>founder</em>identity.py</code></td><td>Founder&#x27;s letter, mission/vision/values, origin story</td></tr><tr><td>52</td><td>BB Brand Personality</td><td><code>bb<em>brand</em>personality.md</code></td><td><code>bb<em>brand</em>personality.py</code></td><td>Personality traits, tone spectrum, voice examples, brand dictionary</td></tr><tr><td>53</td><td>BB Customer Personas</td><td><code>bb<em>customer</em>personas.md</code></td><td><code>bb<em>customer</em>personas.py</code></td><td>3 detailed customer personas with quotes and routines</td></tr><tr><td>54</td><td>BB Customer Journey &amp; VoC</td><td><code>bb<em>customer</em>journey_voc.md</code></td><td><code>bb<em>customer</em>journey_voc.py</code></td><td>6-stage customer journey + voice of the customer</td></tr><tr><td>55</td><td>BB Services &amp; Pricing</td><td><code>bb<em>services</em>pricing.md</code></td><td><code>bb<em>services</em>pricing.py</code></td><td>Services menu + pricing psychology &amp; packages</td></tr><tr><td>56</td><td>BB Competitive &amp; USP</td><td><code>bb<em>competitive</em>usp.md</code></td><td><code>bb<em>competitive</em>usp.py</code></td><td>Competitive landscape + unique selling proposition</td></tr><tr><td>57</td><td>BB Five-Year Vision</td><td><code>bb<em>five</em>year_vision.md</code></td><td><code>bb<em>five</em>year_vision.py</code></td><td>Five-year vision narrative + SWOT analysis</td></tr><tr><td>58</td><td>BB Visual Identity</td><td><code>bb<em>visual</em>identity.md</code></td><td><code>bb<em>visual</em>identity.py</code></td><td>Logo rules, colour palette, typography, photography style</td></tr><tr><td>59</td><td>BB Marketing &amp; Growth</td><td><code>bb<em>marketing</em>growth.md</code></td><td><code>bb<em>marketing</em>growth.py</code></td><td>Marketing strategy, partnerships, content, SEO, sales, 90-day plan</td></tr><tr><td>60</td><td>BB Toolkit</td><td><code>bb_toolkit.md</code></td><td><code>bb_toolkit.py</code></td><td>Service menu, business card, door sign, concierge card, online profiles</td></tr><tr><td>61</td><td>BB Content Calendar</td><td><code>bb<em>content</em>calendar.md</code></td><td><code>bb<em>content</em>calendar.py</code></td><td>30-day content calendar, weekly themes, hashtag sets</td></tr><tr><td>62</td><td>BB Ads Playbook</td><td><code>bb<em>ads</em>playbook.md</code></td><td><code>bb<em>ads</em>playbook.py</code></td><td>5 Meta ads + 3 Google ads, targeting, budget, retargeting</td></tr><tr><td>63</td><td>BB Email Playbook</td><td><code>bb<em>email</em>playbook.md</code></td><td><code>bb<em>email</em>playbook.py</code></td><td>Lead magnet, 5-email welcome sequence, subject line formulas</td></tr><tr><td>64</td><td>BB Graphics Package</td><td><code>bb<em>graphics</em>package.md</code></td><td><code>bb<em>graphics</em>package.py</code></td><td>Stock photos for personas, mood board, logos, social templates</td></tr><tr><td>65</td><td>BB Brand Assets</td><td><code>bb<em>brand</em>assets.md</code></td><td><code>bb<em>brand</em>assets.py</code></td><td>HTML social media suite (10) + print collateral (3) from logo + brand colours</td></tr><tr><td>66</td><td>BB Combiner</td><td><code>bb_combiner.md</code></td><td><code>bb_combiner.py</code></td><td>Assembles all section outputs into final HTML document</td></tr><tr><td>67</td><td>BB Reviewer</td><td><code>bb_reviewer.md</code></td><td><code>bb_reviewer.py</code></td><td>Final quality pass — consistency, tone, completeness</td></tr></tbody></table></div>
+<h3 id="pipeline-infrastructure">Pipeline Infrastructure</h3>
+<div class="table-wrap"><table><thead><tr><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td><code>deliverable<em>pipeline</em>orchestrator.py</code></td><td>Core orchestrator: chains agents, passes context, pause/resume</td></tr><tr><td><code>pipeline_registry.py</code></td><td>Central registry mapping agent names → (module, function)</td></tr><tr><td><code>pipeline_utils.py</code></td><td>Shared helpers: save<em>pipeline</em>document, load<em>client</em>context, ingest<em>to</em>knowledge_base</td></tr><tr><td><code>image_generation.py</code></td><td>Unified image generation: Replicate Flux → stock photos → PIL placeholder</td></tr></tbody></table></div>
+<h3 id="utility-scripts-no-directive">Utility Scripts (No Directive)</h3>
+<div class="table-wrap"><table><thead><tr><th>Script</th><th>Purpose</th></tr></thead><tbody><tr><td><code>append<em>to</em>sheet.py</code></td><td>Append data to Google Sheets</td></tr><tr><td><code>read_sheet.py</code></td><td>Read data from Google Sheets</td></tr><tr><td><code>update_sheet.py</code></td><td>Update Google Sheet data</td></tr><tr><td><code>enrich_emails.py</code></td><td>Email enrichment for lead lists</td></tr><tr><td><code>casualize<em>batch.py</code> / <code><em></em>city<em>names</em>batch.py</code> / <code></em><em>company</em>names<em>batch.py</code> / <code>*</em>first<em>names</em>batch.py</code></td><td>Humanize names for cold outreach</td></tr><tr><td><code>generate<em>content</em>calendars.py</code></td><td>Batch content calendar generation</td></tr><tr><td><code>ghl<em>client.py</code> / <code>ghl</em>setup.py</code></td><td>GoHighLevel CRM integration</td></tr><tr><td><code>instantly<em>create</em>campaigns.py</code></td><td>Create cold email campaigns in Instantly</td></tr><tr><td><code>welcome<em>client</em>emails.py</code></td><td>Automated welcome email sequences</td></tr><tr><td><code>onboarding<em>post</em>kickoff.py</code></td><td>Post-kickoff onboarding tasks</td></tr><tr><td><code>insert<em>3d</em>transition.py</code></td><td>Video editing: 3D transitions</td></tr><tr><td><code>modal_webhook.py</code></td><td>Modal.com webhook handler</td></tr></tbody></table></div>
+<hr>
+<h2 id="workflow-pipelines">Workflow Pipelines</h2>
+<p>These are the standard sequences agents run in to produce deliverables. Each pipeline = one SOP.</p>
+<h3 id="pipeline-1-new-client-onboarding">Pipeline 1: New Client Onboarding</h3>
+<pre><code>Strategy Agent → Foundation Package Builder → Knowledge Base → Content Marketing Agent → SEO Opportunity Finder → Social Media Agent (setup) → Reporting Agent (setup)</code></pre>
+<p><strong>Trigger:</strong> New client signs</p>
+<p><strong>Output:</strong> Complete client setup — strategy, brand docs, knowledge base, content plan, SEO baseline, social accounts, reporting dashboard</p>
+<p><strong>SOP:</strong> SOPs/Client Onboarding/</p>
+<h3 id="pipeline-2-weekly-content-production">Pipeline 2: Weekly Content Production</h3>
+<pre><code>Content Generator → Social Media Agent → Short Form Video Agent → Content Machine (overflow)</code></pre>
+<p><strong>Trigger:</strong> Weekly (Monday)</p>
+<p><strong>Output:</strong> Blog post, social posts (all platforms), video scripts, scheduled posts</p>
+<p><strong>SOP:</strong> SOPs/Content Production/</p>
+<h3 id="pipeline-3-weekly-seo-cycle">Pipeline 3: Weekly SEO Cycle</h3>
+<pre><code>SEO Agent → Local SEO Tool (if needed) → Content Machine (SEO articles)</code></pre>
+<p><strong>Trigger:</strong> Weekly (Tuesday)</p>
+<p><strong>Output:</strong> SEO report, new keyword targets, landing pages, optimized articles</p>
+<p><strong>SOP:</strong> SOPs/SEO/</p>
+<h3 id="pipeline-4-ads-monitoring-amp-optimization">Pipeline 4: Ads Monitoring &amp; Optimization</h3>
+<pre><code>Ads Optimization Agent → (flagged to team) → Content Generator (new ad copy if needed)</code></pre>
+<p><strong>Trigger:</strong> Daily (automated) + Weekly review</p>
+<p><strong>Output:</strong> Performance flags, new ad copy variants, budget recommendations</p>
+<p><strong>SOP:</strong> SOPs/Ads Management/</p>
+<h3 id="pipeline-5-reputation-monitoring-amp-gbp-analytics">Pipeline 5: Reputation Monitoring &amp; GBP Analytics</h3>
+<pre><code>GBP Metrics Collector → Reputation Agent → (negative alerts to team) → Knowledge Base (log interactions)</code></pre>
+<p><strong>Trigger:</strong> Daily (automated — GBP at 6 AM AEST, Reputation every 4 hours)</p>
+<p><strong>Output:</strong> GBP daily metrics (impressions, actions, keywords, posts, media), auto-responses to positive reviews, draft responses for negative, alerts</p>
+<p><strong>SOP:</strong> SOPs/Reputation Management/</p>
+<h3 id="pipeline-6-weekly-client-reporting">Pipeline 6: Weekly Client Reporting</h3>
+<pre><code>Reporting Agent → Knowledge Base (log report)</code></pre>
+<p><strong>Trigger:</strong> Weekly (Friday)</p>
+<p><strong>Output:</strong> Client-ready HTML/PDF report with insights and recommendations</p>
+<p><strong>SOP:</strong> SOPs/Reporting/</p>
+<h3 id="pipeline-7-lead-generation-sprint">Pipeline 7: Lead Generation Sprint</h3>
+<pre><code>Google Maps Lead Gen / SERP Scraper / Apify Scraper → Lead Qualifier → Create Proposal → Instantly Autoreply</code></pre>
+<p><strong>Trigger:</strong> On-demand or scheduled</p>
+<p><strong>Output:</strong> Qualified lead list, proposals, automated follow-up</p>
+<p><strong>SOP:</strong> SOPs/Lead Generation/</p>
+<h3 id="pipeline-8-new-business-acquisition-nunya-bunya-internal">Pipeline 8: New Business Acquisition (Nunya Bunya Internal)</h3>
+<pre><code>Upwork Scrape &amp; Apply → Create Proposal → First Client Package</code></pre>
+<p><strong>Trigger:</strong> On-demand</p>
+<p><strong>Output:</strong> Job applications, proposals, full client acquisition package</p>
+<p><strong>SOP:</strong> SOPs/Sales &amp; Proposals/</p>
+<h3 id="pipeline-9-website-redesign-case-study-productized-service">Pipeline 9: Website Redesign + Case Study (Productized Service)</h3>
+<pre><code>Phase 1: Audit &amp; Capture → Phase 2: Content &amp; Messaging → Phase 3: AI Photoshoot → Phase 4: Website Build → Phase 5: Case Study Kit → Phase 6: Upsells</code></pre>
+<p><strong>Trigger:</strong> <code>python website<em>redesign</em>agent.py --client &lt;client_id&gt; --headshot &lt;path&gt;</code></p>
+<p><strong>Output:</strong> Complete redesigned website, AI photography, case study video script + shot list, AI receptionist config, bespoke photoshoot brief</p>
+<p><strong>Phases can run independently:</strong> <code>--phase 1</code> through <code>--phase 6</code></p>
+<p><strong>Upsells:</strong> AI Receptionist ($149/mo), Bespoke Photoshoot Brief ($800-1500), Case Study Video (free — NB keeps content)</p>
+<h3 id="deliverable-pipeline-full-brand-setup-run-once-per-new-client">Deliverable Pipeline: Full Brand Setup (run once per new client)</h3>
+<pre><code>audience_research_agent ──┐
+competitor_analysis_agent ─┤ (parallel)
+market_research_agent ─────┘
+         ↓
+customer_pain_point_agent ─┐ (parallel, uses audience_research)
+customer_journey_agent ────┘
+         ↓
+brand_audit_agent ──┐ (parallel)
+analytics_review_agent ─┘
+         ↓
+business_overview_agent (synthesizes all research)
+         ↓
+brand_voice_agent ──┐ (parallel)
+audience_persona_agent ─┘
+         ↓
+messaging_framework_agent ──┐ (parallel)
+positioning_agent ──────────┘
+         ↓
+offer_strategy_agent
+         ↓
+conversion_strategy_agent ──┐ (parallel)
+funnel_strategy_agent ──────┘
+         ↓
+visual_identity_agent
+         ↓
+growth_strategy_agent (final synthesis)</code></pre>
+<p><strong>Trigger:</strong> New client onboarding or quarterly refresh</p>
+<p><strong>Output:</strong> 17 documents saved to <code>pipeline_documents</code> table + Knowledge Base</p>
+<p><strong>API:</strong> <code>POST /pipeline/full<em>brand</em>setup</code></p>
+<h3 id="deliverable-pipeline-brand-bible-multi-agent-run-once-per-client">Deliverable Pipeline: Brand Bible (Multi-Agent, run once per client)</h3>
+<pre><code>bb_executive_summary ──┐
+bb_market_analysis ────┤
+bb_financial_projections ┤
+bb_operations_risk ────┤
+bb_founder_identity ───┤ Parallel Group 1 (12 agents)
+bb_brand_personality ──┤
+bb_customer_personas ──┤
+bb_customer_journey_voc ┤
+bb_services_pricing ───┤
+bb_competitive_usp ────┤
+bb_five_year_vision ───┤
+bb_visual_identity ────┘
+         ↓
+bb_marketing_growth ──┐
+bb_toolkit ───────────┤
+bb_graphics_package ──┤ Parallel Group 2 (7 agents)
+bb_brand_assets ──────┤
+bb_ads_playbook ──────┤
+bb_email_playbook ────┘
+         ↓
+bb_content_calendar (needs marketing pillars + personality)
+         ↓
+bb_combiner (assembles all outputs → HTML)
+         ↓
+bb_reviewer (quality pass → corrected HTML)</code></pre>
+<p><strong>Trigger:</strong> New client onboarding (with survey data) or standalone</p>
+<p><strong>Output:</strong> BRAND-BIBLE.html (print-ready A4), content.json, content-calendar.json</p>
+<p><strong>CLI:</strong> <code>python deliverable<em>pipeline</em>orchestrator.py --pipeline brand<em>bible --client &lt;client</em>id&gt;</code></p>
+<p><strong>API:</strong> <code>POST /pipeline/brand_bible</code></p>
+<p><strong>Survey:</strong> 60 questions (q1-q50 original + q51-q60 new)</p>
+<p><strong>Sections:</strong> 38 sections across 7 parts (includes ads playbook + email playbook)</p>
+<p><strong>AI Calls:</strong> 19 focused calls (12 parallel + 6 parallel + 1 sequential) + 1 review call</p>
+<h3 id="deliverable-pipeline-brand-launch-kit-run-once-per-new-client">Deliverable Pipeline: Brand Launch Kit (run once per new client)</h3>
+<pre><code>visual_identity_agent
+         ↓
+style_guide_generator ──┐ (sequential — both are heavy AI calls)
+brand_bible_generator ──┘
+         ↓
+social_graphics_agent (banners: FB cover, LinkedIn banner, YouTube, IG, email header)
+         ↓
+[open output folder in Finder]</code></pre>
+<p><strong>Trigger:</strong> New client onboarding (runs after Full Brand Setup, or standalone with survey data)</p>
+<p><strong>Output:</strong> Style guide HTML + Brand bible HTML + SVG logo suite + 5 branded banners + manifest.json</p>
+<p><strong>CLI:</strong> <code>python brand<em>launch</em>kit.py --name &quot;Business Name&quot; --service &quot;main service&quot;</code></p>
+<p><strong>API:</strong> <code>POST /pipeline/brand<em>launch</em>kit</code></p>
+<p><strong>Note:</strong> Always run this alongside (or after) brand bible — they should never be generated separately</p>
+<h3 id="deliverable-pipeline-instagram-content-weekly">Deliverable Pipeline: Instagram Content (weekly)</h3>
+<pre><code>social_agent → social_graphics_agent → [review] → Buffer scheduling</code></pre>
+<p><strong>Trigger:</strong> Weekly (Monday)</p>
+<p><strong>Output:</strong> Branded social posts + AI-generated graphics</p>
+<p><strong>API:</strong> <code>POST /pipeline/instagram_content</code></p>
+<h3 id="deliverable-pipeline-seo-content-weekly">Deliverable Pipeline: SEO Content (weekly)</h3>
+<pre><code>content_machine → blog_graphics_agent → [review] → WordPress draft</code></pre>
+<p><strong>Trigger:</strong> Weekly (Monday)</p>
+<p><strong>Output:</strong> SEO article + featured image + in-article graphics</p>
+<p><strong>API:</strong> <code>POST /pipeline/seo_content</code></p>
+<hr>
+<h2 id="business-pipeline-matrix">Business × Pipeline Matrix</h2>
+<p>Which businesses use which pipelines:</p>
+<div class="table-wrap"><table><thead><tr><th>Business</th><th>Onboarding</th><th>Content</th><th>SEO</th><th>Ads</th><th>Reputation</th><th>Reporting</th><th>Lead Gen</th><th>Sales</th></tr></thead><tbody><tr><td><strong>Ben Alek Conner</strong></td><td>—</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td><strong>Nunya Bunya</strong></td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td><strong>Conner Law Group</strong></td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>—</td></tr><tr><td><strong>ORCA Film Awards</strong></td><td>—</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr><tr><td><strong>Power Portraits</strong></td><td>—</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr><tr><td><strong>Bella Rhyder</strong></td><td>—</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr><tr><td><strong>The Conner Store</strong></td><td>—</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr><tr><td><strong>Content Studio</strong></td><td>—</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>—</td><td>✅</td><td>—</td></tr><tr><td><strong>External Clients</strong></td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>—</td></tr></tbody></table></div>
+<hr>
+<h2 id="scaling-notes-100-client-architecture">Scaling Notes (100-Client Architecture)</h2>
+<h3 id="current-capacity">Current Capacity</h3>
+<ul>
+<li>Each agent is parameterized by <code>client_id</code> — no code changes needed per client</li>
+<li>Google Sheets, Supabase, and GoHighLevel are the shared data layers</li>
+<li>Buffer handles social scheduling across all clients</li>
+</ul>
+<h3 id="to-scale-to-100-clients">To Scale to 100 Clients</h3>
+<ol>
+<li><strong>Client Config Store</strong> — Each client gets a JSON config with all IDs (Google Ads, GHL, GBP, etc.)</li>
+<li><strong>Scheduler</strong> — Cron-based pipeline runner: <code>run<em>pipeline(client</em>id, pipeline_name)</code></li>
+<li><strong>Queue System</strong> — Rate-limit API calls across clients (Google, Meta, Buffer limits)</li>
+<li><strong>Dashboard</strong> — Central status board: which pipelines ran, which failed, which need review</li>
+<li><strong>Team Approval Queue</strong> — All ad copy, negative review responses, and proposals route through approval before going live</li>
+<li><strong>Client Tiers</strong> — Map service packages to pipeline assignments:</li>
+</ol>
+<ul>
+<li><strong>Starter:</strong> Content + SEO + Reputation</li>
+<li><strong>Growth:</strong> Content + SEO + Ads + Reputation + Reporting</li>
+<li><strong>Full Service:</strong> All pipelines</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">00-Ben HQ/NunyaBunyaAgents/AGENT_REGISTRY.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pre-Social Push Audit — Site Readiness Checklist | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          Pre-Social Push Audit — Site Readiness Checklist
+        </div>
+        <h1 class="doc-title">Pre-Social Push Audit — Site Readiness Checklist</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="pre-social-push-audit-site-readiness-checklist">Pre-Social Push Audit — Site Readiness Checklist</h1>
+<p><strong>Use this every time you&#x27;re about to push a business on social and want to make sure the site can actually convert.</strong></p>
+<p><strong>Last updated:</strong> 2026-04-20</p>
+<hr>
+<h2 id="phase-1-code-audit-claude-handles-this">PHASE 1 — CODE AUDIT (Claude handles this)</h2>
+<p>Run through these for every site before a social push. These are the things that silently kill conversions without anyone noticing.</p>
+<h3 id="1-booking-links">1. Booking Links</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Every &quot;Book Now&quot; / &quot;Get Started&quot; / &quot;Book a Session&quot; CTA has a real URL (not <code>#</code>, not <code>javascript:void</code>)</li>
+<li><span class="cb cb-empty">&#9744;</span> All booking links go to a live Cal.com event (or equivalent)</li>
+<li><span class="cb cb-empty">&#9744;</span> Nav CTA goes directly to booking, not to a scroll anchor that adds friction</li>
+<li><span class="cb cb-empty">&#9744;</span> Booking links open in a new tab (<code>target=&quot;_blank&quot;</code>)</li>
+</ul>
+<h3 id="2-lead-capture-forms">2. Lead Capture Forms</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Every form has a submit handler (no orphaned <code>&lt;form&gt;</code> tags with no JS)</li>
+<li><span class="cb cb-empty">&#9744;</span> Forms POST to a real API endpoint (check the <code>fetch()</code> URL)</li>
+<li><span class="cb cb-empty">&#9744;</span> Required fields are validated before submit</li>
+<li><span class="cb cb-empty">&#9744;</span> Button disables during submission (prevents double-submits)</li>
+<li><span class="cb cb-empty">&#9744;</span> Success state is handled (redirect to thank you page OR clear inline message)</li>
+<li><span class="cb cb-empty">&#9744;</span> Error state is handled (button re-enables, error shown)</li>
+</ul>
+<h3 id="3-lead-routing-mautic">3. Lead Routing — Mautic</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Form submissions create/update a Mautic contact via the <strong>contacts API</strong> (<code>/api/contacts/new</code>) — NOT the form submission endpoint (<code>/form/submit</code>) which requires <code>MAUTIC<em>FORM</em>ID</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Contact is added to the correct segment after creation</li>
+<li><span class="cb cb-empty">&#9744;</span> Tags are applied (<code>[&#x27;business-name&#x27;, &#x27;source&#x27;]</code>)</li>
+<li><span class="cb cb-empty">&#9744;</span> The correct env vars are available: <code>MAUTIC<em>URL</code>, <code>MAUTIC</em>API<em>USER</code> / <code>MAUTIC</em>USER</code>, <code>MAUTIC<em>API</em>PASSWORD</code> / <code>MAUTIC<em>PASS</code>, <code>MAUTIC</em>*<em>SEGMENT</em>ID</code></li>
+</ul>
+<h3 id="4-lead-routing-slack">4. Lead Routing — Slack</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Contact form triggers a Slack notification with name, email, phone, message</li>
+<li><span class="cb cb-empty">&#9744;</span> Lead magnet signup triggers a Slack notification</li>
+<li><span class="cb cb-empty">&#9744;</span> Notifications go to the correct channel ID (check <code>slack_workspace.md</code> for IDs)</li>
+<li><span class="cb cb-empty">&#9744;</span> <code>SLACK<em>BOT</em>TOKEN</code> env var is set in Vercel</li>
+</ul>
+<h3 id="5-lead-routing-supabase-nb-only">5. Lead Routing — Supabase (NB only)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Form submissions insert a row into the <code>leads</code> table</li>
+<li><span class="cb cb-empty">&#9744;</span> <code>SUPABASE<em>URL</code> and <code>SUPABASE</em>KEY</code> env vars are set</li>
+<li><span class="cb cb-empty">&#9744;</span> Required columns exist in the table (name, email, phone, source, page, interest, message, created_at)</li>
+</ul>
+<h3 id="6-lead-magnet-email-delivery">6. Lead Magnet Email Delivery</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> The subscribe/lead magnet API sends a Mautic email to the new contact</li>
+<li><span class="cb cb-empty">&#9744;</span> The email ID env var is set correctly (e.g. <code>MAUTIC<em>PP</em>LEADMAGNET<em>EMAIL</em>ID=85</code>)</li>
+<li><span class="cb cb-empty">&#9744;</span> The email ID default in code matches the actual welcome/Day 0 email in Mautic</li>
+<li><span class="cb cb-empty">&#9744;</span> The lead magnet PDF/asset is actually linked in that email (not a placeholder)</li>
+</ul>
+<h3 id="7-analytics-amp-tracking">7. Analytics &amp; Tracking</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Meta Pixel is present on <strong>every page</strong> (not just landing pages)</li>
+<li><span class="cb cb-empty">&#9744;</span> Pixel ID is correct (matches the actual Meta Business account)</li>
+<li><span class="cb cb-empty">&#9744;</span> Matomo / Google Analytics script is present</li>
+<li><span class="cb cb-empty">&#9744;</span> Schema.org structured data exists (LocalBusiness type at minimum)</li>
+</ul>
+<h3 id="8-thank-you-pages">8. Thank You Pages</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <code>/thankyou.html</code> or <code>/thankyou</code> exists and loads</li>
+<li><span class="cb cb-empty">&#9744;</span> Thank you page has a next step (book a call, follow on socials, share)</li>
+<li><span class="cb cb-empty">&#9744;</span> Lead magnet forms redirect to thank you page after submit</li>
+<li><span class="cb cb-empty">&#9744;</span> Contact forms either redirect or show a clear inline success message</li>
+</ul>
+<h3 id="9-vercel-config">9. Vercel Config</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <code>vercel.json</code> exists with <code>cleanUrls: true</code> and API rewrites</li>
+<li><span class="cb cb-empty">&#9744;</span> All required env vars are listed (compare <code>process.env.*</code> usage in <code>/api/</code> against actual Vercel dashboard)</li>
+<li><span class="cb cb-empty">&#9744;</span> No API keys hardcoded in HTML or JS files (should all be <code>process.env.*</code> in serverless functions)</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Redeploy after any env var changes</strong> — changes don&#x27;t go live until you trigger a new deployment</li>
+</ul>
+<h3 id="10-social-links">10. Social Links</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Every social icon in nav/footer goes to a real, live profile URL</li>
+<li><span class="cb cb-empty">&#9744;</span> Links open in a new tab</li>
+<li><span class="cb cb-empty">&#9744;</span> No placeholder <code>#</code> links remaining</li>
+</ul>
+<h3 id="11-mobile">11. Mobile</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Open on actual phone (not just Chrome dev tools)</li>
+<li><span class="cb cb-empty">&#9744;</span> Nav collapses correctly</li>
+<li><span class="cb cb-empty">&#9744;</span> CTAs are tappable (not too small, not overlapping)</li>
+<li><span class="cb cb-empty">&#9744;</span> Text doesn&#x27;t overflow or get cut off</li>
+<li><span class="cb cb-empty">&#9744;</span> Forms are usable on mobile keyboard</li>
+</ul>
+<h3 id="12-broken-links">12. Broken Links</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> All internal page links go to real pages</li>
+<li><span class="cb cb-empty">&#9744;</span> No 404s on package, service, or portfolio pages</li>
+<li><span class="cb cb-empty">&#9744;</span> Blog exists and has at least one real post (or is removed from nav)</li>
+</ul>
+<hr>
+<h2 id="phase-2-manual-checks-ben-does-these-15-hrs">PHASE 2 — MANUAL CHECKS (Ben does these — ~1.5 hrs)</h2>
+<h3 id="calcom">Cal.com</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> All booking events exist in the Cal.com dashboard</li>
+<li><span class="cb cb-empty">&#9744;</span> Events are set to <strong>Active</strong> (not draft/hidden)</li>
+<li><span class="cb cb-empty">&#9744;</span> Each event has a confirmation email set for the booker</li>
+<li><span class="cb cb-empty">&#9744;</span> Each event has a notification email going to you</li>
+<li><span class="cb cb-empty">&#9744;</span> Redirect URL after booking is set (thank you page or Cal.com default success screen)</li>
+<li><span class="cb cb-empty">&#9744;</span> Event durations and prices match what&#x27;s on the website</li>
+</ul>
+<h3 id="vercel-env-vars">Vercel Env Vars</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Go to Vercel → Project → Settings → Environment Variables</li>
+<li><span class="cb cb-empty">&#9744;</span> Compare against the list of <code>process.env.*</code> calls in <code>/api/</code> files</li>
+<li><span class="cb cb-empty">&#9744;</span> All required vars are present for Production environment</li>
+<li><span class="cb cb-empty">&#9744;</span> No vars are blank or set to placeholder values</li>
+</ul>
+<h3 id="mautic-campaigns">Mautic Campaigns</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Log into mautic.nunyabunya.com</li>
+<li><span class="cb cb-empty">&#9744;</span> Each email nurture sequence is <strong>Published</strong> (not Draft)</li>
+<li><span class="cb cb-empty">&#9744;</span> Day 0 welcome email has real content (not &quot;Hello [firstname]&quot; placeholder)</li>
+<li><span class="cb cb-empty">&#9744;</span> Lead magnet asset is linked in the delivery email (PDF, Google Drive, etc.)</li>
+<li><span class="cb cb-empty">&#9744;</span> Campaign is set to trigger when contact is added to segment</li>
+</ul>
+<h3 id="end-to-end-test">End-to-End Test</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Submit a real test form using your own email</li>
+<li><span class="cb cb-empty">&#9744;</span> Slack notification fires within 30 seconds</li>
+<li><span class="cb cb-empty">&#9744;</span> Mautic contact appears in the correct segment</li>
+<li><span class="cb cb-empty">&#9744;</span> Welcome/guide email arrives in inbox within 5 minutes</li>
+<li><span class="cb cb-empty">&#9744;</span> Book a fake test appointment via Cal.com</li>
+<li><span class="cb cb-empty">&#9744;</span> Confirmation email arrives in inbox within 2 minutes</li>
+</ul>
+<h3 id="social-links-live-check">Social Links Live Check</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Click every social icon on the live site (not local)</li>
+<li><span class="cb cb-empty">&#9744;</span> Each goes to the correct profile</li>
+<li><span class="cb cb-empty">&#9744;</span> Profiles are active (not empty, not suspended)</li>
+</ul>
+<hr>
+<h2 id="common-bugs-to-check-learned-from-past-audits">COMMON BUGS TO CHECK (learned from past audits)</h2>
+<div class="table-wrap"><table><thead><tr><th>Bug</th><th>Where to look</th><th>Fix</th></tr></thead><tbody><tr><td>Lead magnet email ID defaults to <code>1</code></td><td><code>api/subscribe.js</code> — the <code>MAUTIC<em>*_LEADMAGNET</em>EMAIL_ID</code> default</td><td>Change default to the correct Mautic email ID</td></tr><tr><td>Mautic gated behind <code>MAUTIC<em>FORM</em>ID</code></td><td>Any API file using <code>sendMauticSubmission()</code></td><td>Replace with contacts API pattern (see PP&#x27;s <code>subscribe.js</code>)</td></tr><tr><td>Meta Pixel only on landing page</td><td><code>index.html</code> <code>&lt;head&gt;</code></td><td>Copy pixel block from <code>landing.html</code> to <code>index.html</code></td></tr><tr><td>Contact form has no Mautic integration</td><td><code>api/submit-lead.js</code> or <code>api/contact.js</code></td><td>Add contacts API block with segment add</td></tr><tr><td>Social links are <code>#</code> placeholders</td><td>Footer/nav HTML</td><td>Replace with real profile URLs</td></tr><tr><td>Cal.com event slug doesn&#x27;t match the link</td><td><code>index.html</code> Book Now hrefs</td><td>Check actual Cal.com event slug in dashboard</td></tr></tbody></table></div>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/PRE-SOCIAL-PUSH-AUDIT.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORCA Film Awards 2026 — Judge Scoring Rubric | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link active"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#orca">ORCA Film Awards</a> &rsaquo;
+          ORCA Film Awards 2026 — Judge Scoring Rubric
+        </div>
+        <h1 class="doc-title">ORCA Film Awards 2026 — Judge Scoring Rubric</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,184,0,0.12);color:#FFB800">&#127916; ORCA Film Awards</span>
+          <span class="doc-path">04-ORCA Film Awards / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="orca-film-awards-2026-judge-scoring-rubric">ORCA Film Awards 2026 — Judge Scoring Rubric</h1>
+<p><strong>Confidential — For Judges Only</strong></p>
+<p><em>2026 Awards Season</em></p>
+<hr>
+<h2 id="foreword-from-the-founder">Foreword from the Founder</h2>
+<p>You are reading this because you have agreed to serve as a judge for ORCA Film Awards. That is not a small thing.</p>
+<p>Independent filmmakers have spent months — in many cases, years — bringing their work to life. When they submit to ORCA, they are trusting us with something irreplaceable: their vision, their effort, their story. Your role is to evaluate that work honestly, rigorously, and with the care it deserves. Not to find films that match your personal taste — but to assess with clarity what each film achieves on its own terms.</p>
+<p>The scores you give will determine who is nominated. The deliberations you participate in will determine who wins. That responsibility is real. We ask you to honour it.</p>
+<p>Thank you for your time, your expertise, and your commitment to independent cinema.</p>
+<p><em>— Ben Alek Conner, Founder &amp; Director, ORCA Film Awards</em></p>
+<hr>
+<h2 id="section-1-scoring-structure">Section 1: Scoring Structure</h2>
+<h3 id="total-score-100-points">Total Score: 100 Points</h3>
+<p>Each film is evaluated across ten categories, each scored out of 10:</p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Category</th><th>Max Score</th></tr></thead><tbody><tr><td>1</td><td>Direction</td><td>/10</td></tr><tr><td>2</td><td>Screenplay / Story</td><td>/10</td></tr><tr><td>3</td><td>Cinematography</td><td>/10</td></tr><tr><td>4</td><td>Editing and Pacing</td><td>/10</td></tr><tr><td>5</td><td>Sound Design and Score</td><td>/10</td></tr><tr><td>6</td><td>Production Design</td><td>/10</td></tr><tr><td>7</td><td>Performances</td><td>/10</td></tr><tr><td>8</td><td>Emotional Impact</td><td>/10</td></tr><tr><td>9</td><td>Originality and Innovation</td><td>/10</td></tr><tr><td>10</td><td>Technical Execution</td><td>/10</td></tr><tr><td></td><td><strong>TOTAL</strong></td><td><strong>/100</strong></td></tr></tbody></table></div>
+<h3 id="score-level-descriptors">Score Level Descriptors</h3>
+<div class="table-wrap"><table><thead><tr><th>Score Range</th><th>Level</th><th>General Meaning</th></tr></thead><tbody><tr><td><strong>9–10</strong></td><td>Exceptional</td><td>Remarkable distinction. Mastery of craft and singular creative vision. Award-worthy at any level.</td></tr><tr><td><strong>7–8</strong></td><td>Excellent</td><td>High-quality work demonstrating strong craft and clear creative intent. Competitive for nomination.</td></tr><tr><td><strong>4–6</strong></td><td>Competent</td><td>Solid work with genuine merit. Identifiable strengths; some weaknesses present but does not undermine the whole.</td></tr><tr><td><strong>1–3</strong></td><td>Below Standard</td><td>Does not meet the standard expected for ORCA consideration. Significant weaknesses in this area.</td></tr></tbody></table></div>
+<p><strong>Guiding Principle:</strong> Score each category independently. A film may score 9 in Cinematography and 4 in Screenplay — this granularity is valuable. Do not allow your impression of one category to colour your score in another. Budget and production scale are not scoring criteria. A film made for $500 can and should outperform a film made for $500,000 if the craft merits it.</p>
+<hr>
+<h2 id="section-2-category-scoring-criteria">Section 2: Category Scoring Criteria</h2>
+<hr>
+<h3 id="category-1-direction">CATEGORY 1: DIRECTION</h3>
+<p><em>Out of 10 — Evaluating the filmmaker&#x27;s creative vision, leadership, and command of the medium.</em></p>
+<p>Direction is the central creative intelligence of the film. The director shapes every element — the performances drawn from actors, the frames chosen, the pace at which the story unfolds. A strong directorial hand is visible without being intrusive. The film feels authored.</p>
+<p><strong>9–10 — Exceptional</strong></p>
+<p>The direction demonstrates a singular and fully realised creative vision. Every creative choice — shot composition, performance direction, tonal consistency, pacing — serves the film&#x27;s purpose with precision. The director&#x27;s voice is unmistakable. This film could only have been made this way, by this person.</p>
+<p><strong>7–8 — Excellent</strong></p>
+<p>Strong directorial vision is consistently evident throughout the film. The director demonstrates clear intent and skilled execution. There may be minor inconsistencies, but these do not undermine the overall achievement. The film has a coherent and intentional identity.</p>
+<p><strong>4–6 — Competent</strong></p>
+<p>The direction shows genuine competence and craft. A point of view is present, though it may not be fully realised or sustained throughout. Some sequences demonstrate real skill; others feel less assured. The film holds together, but the directorial voice occasionally gives way to convention.</p>
+<p><strong>1–3 — Below Standard</strong></p>
+<p>Directorial intent is unclear, inconsistent, or ineffective. The film lacks a coherent creative point of view. Choices appear arbitrary or confused. The filmmaking does not serve the story or demonstrates a fundamental lack of command over the medium.</p>
+<p><em>Consider: Is there a consistent directorial vision? How effectively does the director work with performers? Are creative decisions deliberate or accidental?</em></p>
+<hr>
+<h3 id="category-2-screenplay-story">CATEGORY 2: SCREENPLAY / STORY</h3>
+<p><em>Out of 10 — Evaluating narrative construction, dialogue, character, and thematic depth.</em></p>
+<p><em>Note: For documentaries, evaluate narrative structure, subject selection, and thematic coherence rather than written screenplay.</em></p>
+<p><strong>9–10 — Exceptional</strong></p>
+<p>The screenplay demonstrates mastery of story construction. Narrative architecture is clear and purposefully executed. Characters are fully realised with authentic motivation and emotional depth. Dialogue is distinctive and purposeful — it reveals character, advances story, or illuminates theme. The film has something meaningful to say and says it with craft.</p>
+<p><strong>7–8 — Excellent</strong></p>
+<p>The screenplay is strong, with well-constructed narrative and compelling characters. The story moves with purpose. Dialogue is competent and often effective. Themes are present and functional. There may be minor structural issues, but the screenplay forms a solid foundation for the film.</p>
+<p><strong>4–6 — Competent</strong></p>
+<p>The screenplay shows real craft in parts. The story is coherent and the central dramatic situation is engaging. Characters have defined arcs, though motivation may occasionally feel thin. Dialogue is functional but may fall into convention. Themes exist but may be stated rather than dramatised.</p>
+<p><strong>1–3 — Below Standard</strong></p>
+<p>The screenplay does not support the film. Narrative is unclear or lacks coherent structure. Characters are thin. Dialogue is weak or purely expository. There is little discernible thematic intent.</p>
+<p><em>Consider: Does the story have a compelling dramatic purpose? Are characters three-dimensional and motivated? Does the film have something meaningful to say?</em></p>
+<hr>
+<h3 id="category-3-cinematography">CATEGORY 3: CINEMATOGRAPHY</h3>
+<p><em>Out of 10 — Evaluating visual storytelling, composition, lighting, and camera craft.</em></p>
+<p><strong>9–10 — Exceptional</strong></p>
+<p>The cinematography is a major contributor to the film&#x27;s power. Every frame is composed with intention. Lighting serves mood, character, and theme. Camera movement is deliberate — when the camera moves, it means something. The visual language of the film is distinctive and entirely appropriate to the story.</p>
+<p><strong>7–8 — Excellent</strong></p>
+<p>Strong, purposeful cinematography that effectively serves the story. Compositions are consistently well-considered. Lighting creates the required mood. Camera choices feel deliberate. There may be occasional technical inconsistencies, but the overall visual execution is commendable.</p>
+<p><strong>4–6 — Competent</strong></p>
+<p>Solid cinematography that is functional and, in places, genuinely effective. Images serve the story without distracting from it. Some compositions are striking; others are conventional. Technical execution is largely sound. The cinematography does not distinguish itself but does not undermine the film.</p>
+<p><strong>1–3 — Below Standard</strong></p>
+<p>Significant technical or creative deficiencies undermine the visual experience. Compositions are consistently poor, lighting is ineffective, or technical problems significantly detract from the work.</p>
+<p><em>Note on low-budget films: Evaluate what the cinematographer achieves with available resources. A resourceful, visually coherent low-budget aesthetic can score higher than an expensive but visually empty production.</em></p>
+<hr>
+<h3 id="category-4-editing-and-pacing">CATEGORY 4: EDITING AND PACING</h3>
+<p><em>Out of 10 — Evaluating rhythm, structure, continuity, and the invisible art of assembly.</em></p>
+<p><strong>9–10 — Exceptional</strong></p>
+<p>The editing demonstrates a mastery of rhythm and tempo. Cuts are made at precisely the right moment. The film breathes — it has space when it needs space and momentum when the story demands it. The editing is largely invisible: you feel the story, not the assembly. In sequences of complexity, the editing demonstrates exceptional control.</p>
+<p><strong>7–8 — Excellent</strong></p>
+<p>Strong, purposeful editing throughout. The film moves well. Scene transitions are effective. The emotional rhythm is well-managed. There may be occasional cuts that could be refined, but overall editorial work serves the film with skill.</p>
+<p><strong>4–6 — Competent</strong></p>
+<p>Editing is functional and largely effective. The story flows coherently. Pacing is generally appropriate. There may be scenes that run slightly long or cuts that don&#x27;t land as intended, but these are not severely disruptive.</p>
+<p><strong>1–3 — Below Standard</strong></p>
+<p>Significant pacing or structural issues caused by the editing. The film feels poorly assembled. Scenes do not work in sequence, rhythmic choices undermine tension or emotion, or the editing draws constant unwanted attention to itself.</p>
+<hr>
+<h3 id="category-5-sound-design-and-score">CATEGORY 5: SOUND DESIGN AND SCORE</h3>
+<p><em>Out of 10 — Evaluating the film&#x27;s sonic world: dialogue, effects, ambience, and music.</em></p>
+<p><strong>9–10 — Exceptional</strong></p>
+<p>The sound design creates a complete and immersive world. Dialogue is clear and appropriately textured. Sound effects and ambience serve the narrative with intelligence — silence is used as effectively as sound. Music (where present) is integrated with intention and precision. The sonic landscape is a distinct creative achievement.</p>
+<p><strong>7–8 — Excellent</strong></p>
+<p>Strong sound design that serves the film effectively. Dialogue is clear. Ambience and effects create a believable world. Music is well-integrated. Minor issues may exist, but overall sound work is commendable.</p>
+<p><strong>4–6 — Competent</strong></p>
+<p>Functional sound design that does not significantly distract. Dialogue is largely intelligible. Ambience is present. The sound serves the story adequately if not distinctively.</p>
+<p><strong>1–3 — Below Standard</strong></p>
+<p>Significant audio issues that meaningfully undermine the film. Unintelligible dialogue, persistent technical problems, or jarring audio choices that damage the film&#x27;s credibility.</p>
+<hr>
+<h3 id="category-6-production-design">CATEGORY 6: PRODUCTION DESIGN</h3>
+<p><em>Out of 10 — Evaluating art direction, set design, costuming, props, and location choices.</em></p>
+<p><em>Note: For low-budget and no-budget films, evaluate how effectively available resources are used to create a coherent visual world. Resourcefulness is not penalised — carelessness is.</em></p>
+<p><strong>9–10 — Exceptional</strong></p>
+<p>Production design is a fully realised and distinctive element of the film. Every location, costume, and prop choice contributes meaningfully to the world of the story. The visual world is coherent, specific, and serves both narrative and theme. Design choices feel authored, not accidental.</p>
+<p><strong>7–8 — Excellent</strong></p>
+<p>Strong, purposeful production design that effectively supports the story. Locations are well-chosen and dressed appropriately. Costuming serves character. The visual world is consistent and believable.</p>
+<p><strong>4–6 — Competent</strong></p>
+<p>Production design is adequate and does not distract. Visual choices are reasonable. There may be inconsistencies or missed opportunities, but the world of the film is broadly established.</p>
+<p><strong>1–3 — Below Standard</strong></p>
+<p>Production design is absent, inconsistent, or actively harmful to the film&#x27;s credibility. Visual elements contradict the story world or feel accidental and unconsidered.</p>
+<hr>
+<h3 id="category-7-performances">CATEGORY 7: PERFORMANCES</h3>
+<p><em>Out of 10 — Evaluating authenticity, range, and emotional truth in all on-screen presence.</em></p>
+<p><em>Note: For documentaries with interview subjects, evaluate how effectively the filmmaker draws out authentic, compelling human presence. For animation, evaluate voice performances.</em></p>
+<p><strong>9–10 — Exceptional</strong></p>
+<p>The performances in this film are genuinely outstanding. Lead performance(s) demonstrate a level of truth and presence that feels fully inhabited. Characters feel like real people in real circumstances. A performance, a scene, a look — something here will stay with you.</p>
+<p><strong>7–8 — Excellent</strong></p>
+<p>Strong performances throughout. Leads are compelling and believable. The emotional register feels authentic. There may be minor moments where a performance reaches for something and falls slightly short, but these are exceptions.</p>
+<p><strong>4–6 — Competent</strong></p>
+<p>Performances are solid and largely effective. Leads handle the material competently. Emotional moments land adequately. There may be uneven moments or supporting performances of varying quality, but the central performances support the film.</p>
+<p><strong>1–3 — Below Standard</strong></p>
+<p>Performances significantly detract from the film. Lack of authenticity or technical control prevents meaningful emotional engagement with the story.</p>
+<hr>
+<h3 id="category-8-emotional-impact">CATEGORY 8: EMOTIONAL IMPACT</h3>
+<p><em>Out of 10 — Evaluating the film&#x27;s total emotional and intellectual effect on the viewer.</em></p>
+<p><strong>9–10 — Exceptional</strong></p>
+<p>This film matters. It leaves a mark. Whether through emotion, provocation, beauty, humour, or truth — it achieves an impact that places it beyond mere competent filmmaking. You will be thinking about this film after the credits roll. The sum of its parts exceeds any individual element. It is the kind of film that reminds you why independent cinema exists.</p>
+<p><strong>7–8 — Excellent</strong></p>
+<p>A genuinely affecting and accomplished film. Its impact is real and lingering. Strong in its emotional or intellectual delivery. A film that works on its own terms and fully delivers on its promise.</p>
+<p><strong>4–6 — Competent</strong></p>
+<p>A satisfying film that achieves its intended effect. Impact is present and appropriate. May not be transformative, but it is well-crafted independent work that deserves to be seen.</p>
+<p><strong>1–3 — Below Standard</strong></p>
+<p>The film does not achieve meaningful impact. The viewing experience may feel flat, incoherent, or emotionally disengaged.</p>
+<hr>
+<h3 id="category-9-originality-and-innovation">CATEGORY 9: ORIGINALITY AND INNOVATION</h3>
+<p><em>Out of 10 — Evaluating the distinctiveness of voice, approach, and creative contribution.</em></p>
+<p><strong>9–10 — Exceptional</strong></p>
+<p>The film presents a genuinely distinctive creative voice or makes a meaningful formal, narrative, or conceptual contribution to cinema. It does not feel derivative. It could not easily be confused with another film. The filmmaker is saying something in a way that feels entirely their own.</p>
+<p><strong>7–8 — Excellent</strong></p>
+<p>The film demonstrates a clear individual perspective and shows genuine creative ambition. While it may work within familiar forms, it does so with a freshness and specificity that lifts it above the generic.</p>
+<p><strong>4–6 — Competent</strong></p>
+<p>The film has a recognisable creative sensibility. It may work within well-established conventions but does so with craft. Moments of genuine originality are present even if the whole is not entirely distinctive.</p>
+<p><strong>1–3 — Below Standard</strong></p>
+<p>The film is highly derivative, follows genre convention without purpose or personality, or demonstrates no meaningful individual creative voice.</p>
+<hr>
+<h3 id="category-10-technical-execution">CATEGORY 10: TECHNICAL EXECUTION</h3>
+<p><em>Out of 10 — Evaluating overall professional execution across all technical departments.</em></p>
+<p><strong>9–10 — Exceptional</strong></p>
+<p>The film demonstrates outstanding technical execution across all visible departments. Technical craft serves the creative vision with complete fluency. There is nothing in the technical presentation that distracts from or undermines the work. The film is technically complete and polished to a standard appropriate for professional exhibition.</p>
+<p><strong>7–8 — Excellent</strong></p>
+<p>Strong technical execution throughout. The film is well-made at a production level. Minor technical issues may exist but do not affect the viewing experience meaningfully.</p>
+<p><strong>4–6 — Competent</strong></p>
+<p>Technical execution meets an adequate standard. The film is watchable and the technical presentation does not significantly distract. Some elements may be rough, but they do not undermine the work.</p>
+<p><strong>1–3 — Below Standard</strong></p>
+<p>Significant technical deficiencies across multiple departments. The film&#x27;s technical presentation undermines the creative work. Issues in this category would prevent professional exhibition.</p>
+<hr>
+<h2 id="section-3-score-calculation">Section 3: Score Calculation</h2>
+<h3 id="total-score-worksheet">Total Score Worksheet</h3>
+<div class="table-wrap"><table><thead><tr><th>Category</th><th>Score (/10)</th><th>Judge Notes</th></tr></thead><tbody><tr><td>1. Direction</td><td></td><td></td></tr><tr><td>2. Screenplay / Story</td><td></td><td></td></tr><tr><td>3. Cinematography</td><td></td><td></td></tr><tr><td>4. Editing and Pacing</td><td></td><td></td></tr><tr><td>5. Sound Design and Score</td><td></td><td></td></tr><tr><td>6. Production Design</td><td></td><td></td></tr><tr><td>7. Performances</td><td></td><td></td></tr><tr><td>8. Emotional Impact</td><td></td><td></td></tr><tr><td>9. Originality and Innovation</td><td></td><td></td></tr><tr><td>10. Technical Execution</td><td></td><td></td></tr><tr><td><strong>TOTAL</strong></td><td><strong>/100</strong></td><td></td></tr></tbody></table></div>
+<h3 id="score-interpretation">Score Interpretation</h3>
+<div class="table-wrap"><table><thead><tr><th>Total Score</th><th>Outcome Level</th></tr></thead><tbody><tr><td>85–100</td><td>Strong nomination candidate — flag for deliberation</td></tr><tr><td>70–84</td><td>Competitive — include in shortlist consideration</td></tr><tr><td>55–69</td><td>Solid work — below nomination threshold</td></tr><tr><td>40–54</td><td>Developing — unlikely for nomination</td></tr><tr><td>Below 40</td><td>Does not meet ORCA standard</td></tr></tbody></table></div>
+<hr>
+<h2 id="section-4-judging-instructions">Section 4: Judging Instructions</h2>
+<h3 id="before-you-begin-judging">Before You Begin Judging</h3>
+<ol>
+<li>Read this rubric in full. You are responsible for understanding the criteria before assessing any film.</li>
+<li>Confirm your assigned films and categories with the Head of Judging.</li>
+<li>Complete and submit your <strong>Conflict of Interest Declaration</strong> before accessing any screeners.</li>
+<li>Access the judge portal at <strong>judges.orcafilmawards.com.au</strong> using your provided credentials.</li>
+</ol>
+<h3 id="conflict-of-interest-declaration">Conflict of Interest Declaration</h3>
+<p>You must declare and recuse yourself from scoring any film in which you have:</p>
+<ul>
+<li>A personal relationship (friend, family, close colleague) with the director, producer, or any key cast or crew member</li>
+<li>A financial interest or commercial relationship with the production or its producers</li>
+<li>A prior professional collaboration (within the past 3 years) with a key creative on the film</li>
+<li>Any other circumstance that a reasonable person would consider a conflict of interest</li>
+</ul>
+<p><strong>When in doubt, declare.</strong> It is always better to recuse yourself than to score a film under a conflict. Contact the Head of Judging immediately upon identifying a potential conflict.</p>
+<h3 id="scoring-independence">Scoring Independence</h3>
+<ul>
+<li>Score each film independently, without discussion with other judges, until the formal deliberation phase.</li>
+<li>Do not seek out or share scores with other judges before deliberation.</li>
+<li>Base all scores on the criteria in this rubric — not personal taste, prior reputation, perceived budget, or production pedigree.</li>
+</ul>
+<h3 id="written-comments">Written Comments</h3>
+<p>Each category score must be accompanied by written comments (minimum 2 sentences). These comments are:</p>
+<ul>
+<li>Used during the deliberation process by all judges</li>
+<li>In some cases, shared in curated form as feedback to filmmakers</li>
+<li>A critical part of the integrity and transparency of ORCA&#x27;s process</li>
+</ul>
+<p>Write comments you would be proud to defend publicly. Be honest, be specific, and be fair.</p>
+<hr>
+<h2 id="section-5-confidentiality">Section 5: Confidentiality</h2>
+<p>All judging materials, screener links, scores, and deliberation discussions are strictly confidential.</p>
+<ul>
+<li>Do not discuss the content of any film you are judging with anyone outside the formal judging process</li>
+<li>Do not post about specific films, scoring outcomes, or deliberations on social media — during or after the judging period</li>
+<li>Do not disclose scores, shortlists, or nominees to any third party before the official public announcement</li>
+<li>All screener links are for your use only — do not share them under any circumstances</li>
+<li>This confidentiality obligation is ongoing and does not expire after the awards ceremony</li>
+</ul>
+<p>Breach of confidentiality may result in your removal from the judging panel and exclusion from future ORCA judging.</p>
+<hr>
+<h2 id="section-6-score-submission-process">Section 6: Score Submission Process</h2>
+<ol>
+<li>Access the judge portal at <strong>judges.orcafilmawards.com.au</strong> using your provided credentials</li>
+<li>For each assigned film, complete the scoring form — one score and comment per category</li>
+<li>Review your total score before submitting</li>
+<li>Submit; you will receive a confirmation email</li>
+<li>Scores may be revised until the deliberation window opens (date communicated by Head of Judging)</li>
+<li>All scores must be submitted by the date specified by the Head of Judging — late scores cannot be accepted once deliberation has begun</li>
+</ol>
+<p><strong>Queries:</strong> Contact the Head of Judging directly. Do not contact ORCA&#x27;s public communications channels with judging matters.</p>
+<hr>
+<h2 id="appendix-quick-reference-card">Appendix: Quick Reference Card</h2>
+<p><em>For use while screening.</em></p>
+<div class="table-wrap"><table><thead><tr><th>Score</th><th>Descriptor</th><th>Direction</th><th>Screenplay</th><th>Cinematography</th><th>Editing</th><th>Sound</th><th>Prod. Design</th><th>Performances</th><th>Impact</th><th>Originality</th><th>Technical</th></tr></thead><tbody><tr><td><strong>9–10</strong></td><td>Exceptional</td><td>Singular vision, mastery</td><td>Must-tell story, brilliant writing</td><td>Every frame intentional</td><td>Invisible perfection</td><td>Immersive sonic world</td><td>Fully authored visual world</td><td>Transcendent truth</td><td>Leaves a mark</td><td>Distinctive voice</td><td>Exhibition-ready mastery</td></tr><tr><td><strong>7–8</strong></td><td>Excellent</td><td>Strong consistent vision</td><td>Compelling, well-crafted</td><td>Purposeful, skilled</td><td>Strong rhythm</td><td>Effective, well-integrated</td><td>Well-chosen, consistent</td><td>Compelling, believable</td><td>Genuinely affecting</td><td>Clear individual perspective</td><td>Polished, professional</td></tr><tr><td><strong>4–6</strong></td><td>Competent</td><td>Point of view present</td><td>Coherent, some strengths</td><td>Functional, adequate</td><td>Pacing works</td><td>Adequate, few issues</td><td>Reasonable, not distinctive</td><td>Solid, adequate</td><td>Satisfying</td><td>Some originality present</td><td>Watchable, adequate</td></tr><tr><td><strong>1–3</strong></td><td>Below Standard</td><td>No clear vision</td><td>Story fails</td><td>Significant deficiencies</td><td>Undermines film</td><td>Dialogue problems</td><td>Absent or accidental</td><td>Detracts from film</td><td>No meaningful impact</td><td>Highly derivative</td><td>Professional exhibition unlikely</td></tr></tbody></table></div>
+<hr>
+<p><em>ORCA Film Awards — Judge Scoring Rubric, 2026 Awards Season</em></p>
+<p><em>Confidential — For Judge Use Only</em></p>
+<p><em>Judging enquiries: judging@orcafilmawards.com.au</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">04-ORCA Film Awards/01-strategy/Documents/JUDGE SCORING RUBRIC.md</div>
+    </main>
+  </div>
+</body>
+</html>

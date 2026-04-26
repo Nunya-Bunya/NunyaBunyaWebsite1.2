@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post-Setup SOPs | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link active"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#nunya-bunya">Nunya Bunya</a> &rsaquo;
+          Post-Setup SOPs
+        </div>
+        <h1 class="doc-title">Post-Setup SOPs</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(255,45,120,0.12);color:#FF2D78">&#9632; Nunya Bunya</span>
+          <span class="doc-path">01-Nunya Bunya / Docs</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="post-setup-sops">Post-Setup SOPs</h1>
+<h2 id="website-landing-page-funnel-and-automation-playbook">Website, Landing Page, Funnel, and Automation Playbook</h2>
+<p><strong>Purpose:</strong> Standard operating procedures for building websites, landing pages, retargeting funnels, and automations after the initial marketing stack is set up. This is how Nunya Bunya delivers for every client, every time.</p>
+<hr>
+<h2 id="sop-1-building-a-website">SOP 1: Building a Website</h2>
+<h3 id="when-to-use">When to Use</h3>
+<p>New client needs a website, or existing client needs a redesign.</p>
+<h3 id="tech-stack">Tech Stack</h3>
+<ul>
+<li><strong>Static sites:</strong> HTML + Tailwind CSS, deployed on Vercel</li>
+<li><strong>Dynamic sites:</strong> Next.js + Tailwind, deployed on Vercel</li>
+<li><strong>WordPress sites:</strong> WordPress on client hosting (for SEO-heavy sites that need a blog CMS)</li>
+<li><strong>E-commerce:</strong> Shopify (client manages, we set up)</li>
+</ul>
+<h3 id="process">Process</h3>
+<p><strong>Step 1: Discovery (Day 1)</strong></p>
+<ul>
+<li>Review client&#x27;s current site (if any)</li>
+<li>Identify target audience, key services, and competitive positioning</li>
+<li>Decide on pages needed:</li>
+<li>Home</li>
+<li>About</li>
+<li>Services (one page per service ideally)</li>
+<li>Contact</li>
+<li>Blog (if SEO is a priority)</li>
+<li>Landing pages (separate from main site navigation)</li>
+</ul>
+<p><strong>Step 2: Design &amp; Build (Days 2-5)</strong></p>
+<ul>
+<li>Start from a template or previous client site</li>
+<li>Apply client branding (colours, fonts, logo)</li>
+<li>Write or adapt copy for each page</li>
+<li>Mobile-first design (test on phone before desktop)</li>
+<li>Every page must include:</li>
+<li>Clear headline</li>
+<li>One primary CTA (call, book, buy, download)</li>
+<li>Social proof (testimonials, logos, reviews)</li>
+<li>Meta Pixel code in <code>&lt;head&gt;</code></li>
+<li>Matomo tracking code before <code>&lt;/body&gt;</code></li>
+<li>Structured data (LocalBusiness schema for service businesses)</li>
+<li>Open Graph meta tags for social sharing</li>
+</ul>
+<p><strong>Step 3: SEO Setup</strong></p>
+<ul>
+<li>Title tags: &quot;[Primary Keyword] | [Business Name]&quot; (under 60 chars)</li>
+<li>Meta descriptions: Include keyword + CTA (under 160 chars)</li>
+<li>H1: One per page, matches the page&#x27;s primary keyword</li>
+<li>Image alt tags: Descriptive, include keywords naturally</li>
+<li>Internal linking between service pages</li>
+<li>Google Business Profile optimised and linked</li>
+<li>Submit sitemap to Google Search Console</li>
+</ul>
+<p><strong>Step 4: Deploy</strong></p>
+<pre><code class="lang-bash">cd /path/to/site
+npx vercel --prod</code></pre>
+<p>Connect custom domain in Vercel dashboard if not already linked.</p>
+<p><strong>Step 5: Verify</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> All pages load on mobile and desktop</li>
+<li><span class="cb cb-empty">&#9744;</span> Forms submit correctly</li>
+<li><span class="cb cb-empty">&#9744;</span> Meta Pixel firing (check Facebook Events Manager &gt; Test Events)</li>
+<li><span class="cb cb-empty">&#9744;</span> Matomo recording visits (check analytics dashboard)</li>
+<li><span class="cb cb-empty">&#9744;</span> Page speed acceptable (test at pagespeed.web.dev)</li>
+<li><span class="cb cb-empty">&#9744;</span> SSL certificate active (https, no warnings)</li>
+<li><span class="cb cb-empty">&#9744;</span> Google Search Console connected and sitemap submitted</li>
+</ul>
+<hr>
+<h2 id="sop-2-building-a-landing-page">SOP 2: Building a Landing Page</h2>
+<h3 id="when-to-use">When to Use</h3>
+<p>Client has a new offer, promotion, lead magnet, or campaign that needs a dedicated conversion page.</p>
+<h3 id="principles">Principles</h3>
+<ul>
+<li>One page, one goal, one CTA</li>
+<li>No navigation menu (don&#x27;t give them a way to leave)</li>
+<li>Above the fold: headline + subheadline + CTA button</li>
+<li>Social proof within scroll</li>
+<li>Form is short (name + email minimum, phone if high-intent)</li>
+<li>Fast load time (no heavy images, no unnecessary scripts)</li>
+</ul>
+<h3 id="template-structure">Template Structure</h3>
+<pre><code>SECTION 1: Hero
+  - Headline (what they get)
+  - Subheadline (why it matters)
+  - CTA button or form
+  - Trust indicators (logos, &quot;As seen in&quot;, &quot;500+ clients&quot;)
+
+SECTION 2: Problem
+  - What pain point does this solve?
+  - Agitate the problem (make them feel it)
+
+SECTION 3: Solution
+  - What you&#x27;re offering
+  - 3-4 bullet points of what&#x27;s included
+  - Image or mockup of the deliverable
+
+SECTION 4: Social Proof
+  - Testimonials (with names and photos if possible)
+  - Case study snippet
+  - Review scores / star ratings
+
+SECTION 5: CTA (repeat)
+  - Same form or button as the hero
+  - Urgency element if appropriate (&quot;Limited spots&quot;, &quot;Offer ends [date]&quot;)
+
+SECTION 6: FAQ (optional)
+  - 3-5 common objections answered
+
+SECTION 7: Footer
+  - Business name, ABN, privacy policy link
+  - No navigation links</code></pre>
+<h3 id="building-the-page">Building the Page</h3>
+<ol>
+<li>Duplicate an existing landing page template (e.g., <code>/01-Nunya Bunya/Site/nunyabunya-site/landing.html</code>)</li>
+<li>Replace all copy, images, and branding</li>
+<li>Update the form action to point to the correct API handler</li>
+<li>Add tracking codes:</li>
+</ol>
+<ul>
+<li>Meta Pixel in <code>&lt;head&gt;</code> (PageView fires automatically)</li>
+<li>Matomo tracking before <code>&lt;/body&gt;</code></li>
+</ul>
+<ol>
+<li>Create the thank-you page (same branding, fires Lead event)</li>
+<li>Deploy to Vercel</li>
+</ol>
+<h3 id="form-handler-checklist">Form Handler Checklist</h3>
+<p>Every landing page form must trigger all of the following on submission:</p>
+<pre><code>Form submitted
+  |
+  +--&gt; Create contact in Mautic
+  |      - firstname, email, phone
+  |      - tag: client-name, campaign-name
+  |      - This auto-adds them to the segment
+  |      - Segment triggers the drip campaign
+  |
+  +--&gt; Send Slack notification
+  |      - Channel: #client-name
+  |      - Message: name, email, phone, interest
+  |      - &quot;Follow up within 24 hours&quot;
+  |
+  +--&gt; Redirect to thank-you page
+         - Thank-you page fires fbq(&#x27;track&#x27;, &#x27;Lead&#x27;)
+         - Shows confirmation + next steps</code></pre>
+<h3 id="testing">Testing</h3>
+<p>Before going live, submit a test form and verify:</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Mautic contact created with correct tags</li>
+<li><span class="cb cb-empty">&#9744;</span> Contact appears in the right segment</li>
+<li><span class="cb cb-empty">&#9744;</span> Drip campaign starts (check campaign pending events)</li>
+<li><span class="cb cb-empty">&#9744;</span> Slack notification received in correct channel</li>
+<li><span class="cb cb-empty">&#9744;</span> Thank-you page loads</li>
+<li><span class="cb cb-empty">&#9744;</span> Meta Pixel Lead event fires (Facebook Events Manager &gt; Test Events)</li>
+<li><span class="cb cb-empty">&#9744;</span> Matomo records the page view and form submission</li>
+</ul>
+<hr>
+<h2 id="sop-3-setting-up-retargeting">SOP 3: Setting Up Retargeting</h2>
+<h3 id="when-to-use">When to Use</h3>
+<p>Immediately after any landing page or website goes live. Every site should have retargeting from day one.</p>
+<h3 id="meta-pixel-setup">Meta Pixel Setup</h3>
+<p><strong>One pixel for all Nunya Bunya clients</strong> (Pixel ID: 251483972902519).</p>
+<p>This goes in the <code>&lt;head&gt;</code> of every page:</p>
+<pre><code class="lang-html">&lt;!-- Meta Pixel Code --&gt;
+&lt;script&gt;
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version=&#x27;2.0&#x27;;
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,&#x27;script&#x27;,
+&#x27;https://connect.facebook.net/en_US/fbevents.js&#x27;);
+fbq(&#x27;init&#x27;, &#x27;251483972902519&#x27;);
+fbq(&#x27;track&#x27;, &#x27;PageView&#x27;);
+&lt;/script&gt;
+&lt;noscript&gt;&lt;img height=&quot;1&quot; width=&quot;1&quot; style=&quot;display:none&quot;
+src=&quot;https://www.facebook.com/tr?id=251483972902519&amp;ev=PageView&amp;noscript=1&quot;
+/&gt;&lt;/noscript&gt;
+&lt;!-- End Meta Pixel Code --&gt;</code></pre>
+<p><strong>Event tracking by page type:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Page Type</th><th>Event</th><th>Code</th></tr></thead><tbody><tr><td>Any page</td><td>PageView</td><td>Automatic (in base pixel)</td></tr><tr><td>Thank-you page</td><td>Lead</td><td><code>fbq(&#x27;track&#x27;, &#x27;Lead&#x27;);</code></td></tr><tr><td>Booking confirmed</td><td>Schedule</td><td><code>fbq(&#x27;track&#x27;, &#x27;Schedule&#x27;);</code></td></tr><tr><td>Purchase/checkout</td><td>Purchase</td><td><code>fbq(&#x27;track&#x27;, &#x27;Purchase&#x27;);</code></td></tr><tr><td>Contact form submitted</td><td>Contact</td><td><code>fbq(&#x27;track&#x27;, &#x27;Contact&#x27;);</code></td></tr></tbody></table></div>
+<h3 id="creating-retargeting-audiences">Creating Retargeting Audiences</h3>
+<p>In Facebook Ads Manager (business.facebook.com):</p>
+<p><strong>Audience 1: All Website Visitors (warm audience)</strong></p>
+<ul>
+<li>Custom Audiences &gt; Website &gt; All website visitors &gt; Last 30 days</li>
+<li>Use for: retargeting ads</li>
+</ul>
+<p><strong>Audience 2: Converters (exclude from prospecting)</strong></p>
+<ul>
+<li>Custom Audiences &gt; Website &gt; People who visited specific pages &gt; Thank-you page URL</li>
+<li>Use for: excluding from ads (they already converted)</li>
+</ul>
+<p><strong>Audience 3: Engaged but didn&#x27;t convert</strong></p>
+<ul>
+<li>Custom Audiences &gt; Website &gt; All visitors MINUS thank-you page visitors</li>
+<li>Use for: retargeting with urgency messaging</li>
+</ul>
+<p><strong>Audience 4: Lookalike (cold prospecting)</strong></p>
+<ul>
+<li>Lookalike Audience &gt; Source: Audience 2 (converters) &gt; 1% similarity</li>
+<li>Use for: finding new people similar to those who already converted</li>
+</ul>
+<h3 id="retargeting-ad-strategy">Retargeting Ad Strategy</h3>
+<p><strong>Ad 1: Reminder (Day 1-7 after visit)</strong></p>
+<ul>
+<li>&quot;Still thinking about [offer]? Here&#x27;s why <span class="cb cb-done">&#9745;</span> businesses chose us...&quot;</li>
+<li>Light touch, value-driven</li>
+</ul>
+<p><strong>Ad 2: Social Proof (Day 7-14)</strong></p>
+<ul>
+<li>Testimonial or case study</li>
+<li>&quot;See how [client] got [result] in [timeframe]&quot;</li>
+</ul>
+<p><strong>Ad 3: Urgency (Day 14-21)</strong></p>
+<ul>
+<li>&quot;Last chance: [offer] expires [date]&quot;</li>
+<li>Scarcity or time-limited element</li>
+</ul>
+<p><strong>Ad 4: Different Angle (Day 21-30)</strong></p>
+<ul>
+<li>Different offer or entry point</li>
+<li>If they didn&#x27;t want the audit, offer the checklist instead</li>
+</ul>
+<hr>
+<h2 id="sop-4-building-a-full-funnel">SOP 4: Building a Full Funnel</h2>
+<h3 id="when-to-use">When to Use</h3>
+<p>Every client should have at least one complete funnel running. This is the core deliverable.</p>
+<h3 id="funnel-architecture">Funnel Architecture</h3>
+<pre><code>TRAFFIC SOURCE
+  |
+  |  Facebook Ads (prospecting + retargeting)
+  |  Google Ads (search intent)
+  |  Social media posts (organic)
+  |  Facebook Group posts (free advice with CTA)
+  |  LinkedIn outreach
+  |  Email newsletter
+  |
+  v
+LANDING PAGE
+  |
+  |  Offer: lead magnet, free audit, discount, consultation
+  |  Form: name, email, phone, qualifying question
+  |  Tracking: Meta Pixel + Matomo + Shlink
+  |
+  v
+FORM SUBMISSION (automated)
+  |
+  +--&gt; Mautic: contact created, tagged, segmented
+  +--&gt; Slack: instant notification to team
+  +--&gt; Thank-you page: Lead pixel fires, next steps shown
+  |
+  v
+EMAIL DRIP SEQUENCE (automated, via Mautic)
+  |
+  |  Email 1 (Day 0): Deliver the lead magnet / confirm interest
+  |  Email 2 (Day 2-3): Valuable insight or tip
+  |  Email 3 (Day 5-7): Case study / social proof
+  |  Email 4 (Day 9-10): Address objections
+  |  Email 5 (Day 12-14): Direct CTA -- book a call / buy
+  |
+  v
+CONVERSION
+  |
+  |  Book a call (Cal.com)
+  |  Make a purchase (Shopify / Stripe)
+  |  Request a quote (form)
+  |
+  v
+POST-CONVERSION (automated)
+  |
+  +--&gt; Slack: &quot;New booking/purchase from [client]!&quot;
+  +--&gt; Mautic: tag updated, moved to &quot;Customer&quot; segment
+  +--&gt; CRM: opportunity status updated in Twenty
+  +--&gt; Optional: review request email after 7 days</code></pre>
+<h3 id="building-the-funnel-step-by-step">Building the Funnel: Step by Step</h3>
+<p><strong>1. Define the Offer</strong></p>
+<ul>
+<li>What&#x27;s the hook? (Free audit, guide, discount, consultation)</li>
+<li>What does the prospect get immediately?</li>
+<li>What&#x27;s the end goal? (Book a call, buy a product, sign up)</li>
+</ul>
+<p><strong>2. Write the Email Sequence</strong></p>
+<p>Follow the drip sequence template in <code>drip_sequences.json</code>. For custom sequences:</p>
+<div class="table-wrap"><table><thead><tr><th>Email</th><th>Timing</th><th>Purpose</th><th>Template</th></tr></thead><tbody><tr><td>1</td><td>Immediate</td><td>Deliver the thing, quick win</td><td>&quot;Here&#x27;s your [thing]. Start with [action].&quot;</td></tr><tr><td>2</td><td>Day 2-3</td><td>Educate, build trust</td><td>&quot;The #1 mistake [audience] makes with [topic].&quot;</td></tr><tr><td>3</td><td>Day 5-7</td><td>Social proof</td><td>&quot;How [client] got [result] in [timeframe].&quot;</td></tr><tr><td>4</td><td>Day 9-10</td><td>Overcome objections</td><td>&quot;What [thing] actually costs (less than you think).&quot;</td></tr><tr><td>5</td><td>Day 12-14</td><td>Direct CTA</td><td>&quot;Ready? [Book/Buy/Start] now.&quot;</td></tr></tbody></table></div>
+<p>Each email should be:</p>
+<ul>
+<li>Under 200 words</li>
+<li>One clear CTA (not multiple)</li>
+<li>Personalised with <code>{contactfield=firstname}</code> in Mautic</li>
+<li>Mobile-friendly (short paragraphs, big buttons)</li>
+</ul>
+<p><strong>3. Build the Landing Page</strong> (see SOP 2)</p>
+<p><strong>4. Set Up Form Handler</strong> (see SOP 2)</p>
+<p><strong>5. Create Mautic Campaign</strong> (see New Client Setup Guide)</p>
+<p><strong>6. Create Tracking Links</strong></p>
+<ul>
+<li>Create a Shlink short link for the landing page</li>
+<li>Use this link in all ads and social posts</li>
+<li>Track separately: one link for Facebook, one for LinkedIn, one for organic posts</li>
+</ul>
+<p><strong>7. Launch Ads</strong></p>
+<ul>
+<li>Start with $10-20/day budget</li>
+<li>Run 2-3 ad variations</li>
+<li>Prospecting campaign + retargeting campaign</li>
+<li>Review after 3 days, kill underperformers</li>
+<li>Scale winners</li>
+</ul>
+<p><strong>8. Monitor and Optimise</strong></p>
+<p>Daily:</p>
+<ul>
+<li>Check Slack for new leads</li>
+<li>Check Mautic for email delivery issues</li>
+</ul>
+<p>Weekly:</p>
+<ul>
+<li>Check Matomo for landing page conversion rate</li>
+<li>Check email open rates and click rates in Mautic</li>
+<li>Check ad performance (cost per lead, click-through rate)</li>
+<li>Check Shlink for link click data</li>
+</ul>
+<p>Monthly:</p>
+<ul>
+<li>Calculate cost per lead and cost per acquisition</li>
+<li>Update email sequences based on performance</li>
+<li>Refresh ad creative</li>
+<li>Report to client</li>
+</ul>
+<hr>
+<h2 id="sop-5-automation-recipes">SOP 5: Automation Recipes</h2>
+<h3 id="recipe-1-new-lead-notification">Recipe 1: New Lead Notification</h3>
+<p><strong>Trigger:</strong> Form submission on any landing page</p>
+<p><strong>Actions:</strong></p>
+<ol>
+<li>Create Mautic contact with tags</li>
+<li>Post to Slack channel</li>
+<li>Create Twenty CRM lead</li>
+</ol>
+<p><strong>Implementation:</strong> Handled by the form submission API handler (see SOP 2).</p>
+<h3 id="recipe-2-hot-lead-alert">Recipe 2: Hot Lead Alert</h3>
+<p><strong>Trigger:</strong> Mautic contact score reaches 50+ points</p>
+<p><strong>Actions:</strong></p>
+<ol>
+<li>Post urgent Slack alert with fire emoji</li>
+<li>Move to &quot;Hot Leads&quot; segment in Mautic</li>
+<li>Optional: Create opportunity in Twenty CRM</li>
+</ol>
+<p><strong>Implementation:</strong> n8n workflow (see <code>n8n<em>webhook</em>setup.json</code>, workflow #3).</p>
+<p><strong>Mautic point scoring:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Action</th><th>Points</th></tr></thead><tbody><tr><td>Email opened</td><td>+5</td></tr><tr><td>Email link clicked</td><td>+10</td></tr><tr><td>Landing page visited</td><td>+10</td></tr><tr><td>Form submitted</td><td>+20</td></tr><tr><td>Pricing page visited</td><td>+15</td></tr><tr><td>Multiple visits in 7 days</td><td>+10</td></tr></tbody></table></div>
+<h3 id="recipe-3-follow-up-reminder">Recipe 3: Follow-Up Reminder</h3>
+<p><strong>Trigger:</strong> Lead submitted form 48 hours ago, no booking made</p>
+<p><strong>Actions:</strong></p>
+<ol>
+<li>Slack reminder: &quot;Follow up with [name] -- submitted 2 days ago, hasn&#x27;t booked&quot;</li>
+</ol>
+<p><strong>Implementation:</strong> Mautic campaign with condition: &quot;Has NOT visited booking-confirmed page within 48 hours&quot; --&gt; Webhook to Slack.</p>
+<h3 id="recipe-4-review-request">Recipe 4: Review Request</h3>
+<p><strong>Trigger:</strong> Client purchased / completed service 7 days ago</p>
+<p><strong>Actions:</strong></p>
+<ol>
+<li>Send email: &quot;How was your experience? Leave us a Google review&quot;</li>
+<li>Include direct link to Google review page</li>
+</ol>
+<p><strong>Implementation:</strong> Mautic campaign triggered by &quot;Customer&quot; tag + 7-day delay.</p>
+<h3 id="recipe-5-re-engagement">Recipe 5: Re-engagement</h3>
+<p><strong>Trigger:</strong> Contact hasn&#x27;t opened any email in 30 days</p>
+<p><strong>Actions:</strong></p>
+<ol>
+<li>Send &quot;We miss you&quot; email with a new offer</li>
+<li>If no open in 14 more days, move to &quot;Inactive&quot; segment</li>
+<li>Stop sending to avoid spam flags</li>
+</ol>
+<p><strong>Implementation:</strong> Mautic campaign with inactivity condition.</p>
+<hr>
+<h2 id="sop-6-reporting">SOP 6: Reporting</h2>
+<h3 id="client-report-template">Client Report Template</h3>
+<p>Monthly report for each client should include:</p>
+<p><strong>Summary</strong></p>
+<ul>
+<li>Total leads generated this month</li>
+<li>Cost per lead (if running ads)</li>
+<li>Revenue attributed to marketing (if trackable)</li>
+</ul>
+<p><strong>Traffic</strong></p>
+<ul>
+<li>Total website visitors (Matomo)</li>
+<li>Top traffic sources</li>
+<li>Top pages viewed</li>
+<li>Bounce rate</li>
+</ul>
+<p><strong>Email</strong></p>
+<ul>
+<li>Emails sent</li>
+<li>Open rate</li>
+<li>Click rate</li>
+<li>Unsubscribe rate</li>
+</ul>
+<p><strong>Ads (if applicable)</strong></p>
+<ul>
+<li>Spend</li>
+<li>Impressions</li>
+<li>Clicks</li>
+<li>Cost per click</li>
+<li>Conversions</li>
+<li>Cost per conversion</li>
+</ul>
+<p><strong>Recommendations</strong></p>
+<ul>
+<li>What to change next month</li>
+<li>What&#x27;s working (do more)</li>
+<li>What&#x27;s not working (stop or adjust)</li>
+</ul>
+<p>Use Metabase dashboards (https://reports.nunyabunya.com) to generate these automatically where possible.</p>
+<hr>
+<h2 id="file-locations-quick-reference">File Locations Quick Reference</h2>
+<div class="table-wrap"><table><thead><tr><th>What</th><th>Where</th></tr></thead><tbody><tr><td>Client configs</td><td><code>00-Ben HQ/NunyaBunyaAgents/client_configs.json</code></td></tr><tr><td>Drip sequences</td><td><code>00-Ben HQ/marketing-stack/mautic/campaigns/drip_sequences.json</code></td></tr><tr><td>Email template</td><td><code>00-Ben HQ/marketing-stack/mautic/templates/drip_welcome.html</code></td></tr><tr><td>Landing page templates</td><td><code>01-Nunya Bunya/Site/nunyabunya-site/landing.html</code></td></tr><tr><td>Ad copy templates</td><td><code>MASTER PLANS/ad-copy-all-businesses.md</code></td></tr><tr><td>Funnel plans</td><td><code>MASTER PLANS/SALES-FUNNEL-BUILD.md</code></td></tr><tr><td>Keyword strategy</td><td><code>MASTER PLANS/keyword-strategy.md</code></td></tr><tr><td>Provisioning script</td><td><code>00-Ben HQ/marketing-stack/scripts/provision_mautic.py</code></td></tr><tr><td>n8n webhooks</td><td><code>00-Ben HQ/marketing-stack/scripts/n8n<em>webhook</em>setup.json</code></td></tr><tr><td>Slack channel IDs</td><td>Memory: <code>slack_workspace.md</code></td></tr></tbody></table></div>
+<hr>
+<h2 id="the-goal-one-click-client-setup">The Goal: One-Click Client Setup</h2>
+<p>Eventually, all of this should be a single command:</p>
+<pre><code class="lang-bash">python3 setup_new_client.py \
+  --name &quot;Client Name&quot; \
+  --type &quot;photography&quot; \
+  --domain &quot;clientwebsite.com&quot; \
+  --offer &quot;Free Headshot Guide&quot; \
+  --colors &quot;#1a1a1a,#ffffff,#e63946&quot;</code></pre>
+<p>This would auto-generate: Mautic segment + emails + campaign, landing page HTML, form handler, Slack channel, Shlink links, ad copy, and Matomo site -- all wired together and ready to deploy.</p>
+<p>The agents in <code>NunyaBunyaAgents/</code> (funnel<em>strategy</em>agent, offer<em>strategy</em>agent, etc.) are the foundation for this. Building this meta-agent is a priority.</p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">01-Nunya Bunya/Docs/GUIDE - Post-Setup SOPs.md</div>
+    </main>
+  </div>
+</body>
+</html>

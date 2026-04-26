@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bella Rhyder — Social Media Strategy | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link active"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#bella-rhyder">Bella Rhyder</a> &rsaquo;
+          Bella Rhyder — Social Media Strategy
+        </div>
+        <h1 class="doc-title">Bella Rhyder — Social Media Strategy</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#10024; Bella Rhyder</span>
+          <span class="doc-path">07-Bella Rhyder / 05-content / CONTENT &amp; LAUNCH</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="bella-rhyder-social-media-strategy">Bella Rhyder — Social Media Strategy</h1>
+<p><strong>6-Month Plan: April–September 2026</strong></p>
+<p><strong>Version 2.0 | March 2026</strong></p>
+<p><strong>Owner: Ben Alek Conner | Brisbane, Australia</strong></p>
+<hr>
+<h2 id="platform-priorities">Platform Priorities</h2>
+<div class="table-wrap"><table><thead><tr><th>Platform</th><th>Priority</th><th>Role</th><th>Posting Frequency</th></tr></thead><tbody><tr><td>Instagram</td><td>Primary</td><td>Brand home, community hub, primary sales driver</td><td>5x/week feed + daily Stories</td></tr><tr><td>TikTok</td><td>Secondary</td><td>Discovery engine, viral potential, younger audience capture</td><td>3x/week</td></tr><tr><td>Pinterest</td><td>Tertiary</td><td>SEO and evergreen discovery, lifestyle inspiration</td><td>5–10 pins/week</td></tr><tr><td>Facebook</td><td>Supplementary</td><td>Paid advertising and retargeting only</td><td>Ad spend only</td></tr></tbody></table></div>
+<hr>
+<h2 id="platform-1-instagram-primary">Platform 1: Instagram (Primary)</h2>
+<h3 id="role">Role</h3>
+<p>Instagram is the flagship platform for Bella Rhyder. It is the brand&#x27;s primary storefront, community hub, customer service touchpoint, and aspiration engine. A strong, cohesive Instagram presence is the primary driver of brand credibility, purchase intent, and customer trust.</p>
+<h3 id="grid-aesthetic">Grid Aesthetic</h3>
+<ul>
+<li>Warm, consistent colour temperature across all posts — every image edited to the same Lightroom preset</li>
+<li>Content rhythm (loose, not rigid): Lifestyle → Product → Lifestyle → Quote/Campaign → Lifestyle</li>
+<li>Background tones: Sandy, warm white, coastal — never cold or grey</li>
+<li>Vertical product shots (4:5) and square lifestyle shots (1:1) — mix for visual rhythm</li>
+<li>No harsh studio lighting in the grid — all natural light or warm-toned outdoor settings</li>
+<li>Brand colours (#1A1A2E navy and #E8B86D gold) referenced in packaging, props, and design overlays</li>
+</ul>
+<h3 id="feed-posts">Feed Posts</h3>
+<ul>
+<li><strong>Frequency:</strong> 5 per week (Monday, Tuesday, Thursday, Friday, Saturday)</li>
+<li><strong>Format mix per week:</strong> Static images (3), Carousel (1), Reel (1)</li>
+<li><strong>Caption length:</strong> 80–200 words for primary posts; under 50 words for product posts</li>
+<li><strong>Hashtags:</strong> 10–15 per post (in caption or first comment)</li>
+</ul>
+<p><strong>Hashtag Strategy:</strong></p>
+<ul>
+<li><strong>Branded:</strong> #BellaRhyder #MoveBoldlyLiveFree #BellaRhyderWoman</li>
+<li><strong>Community:</strong> #AussieActivewear #QueenslandFitness #ActiveWomen #BeachFitness #AussieWomen</li>
+<li><strong>Product niche:</strong> #Activewear #Swimwear #SportsStyle #LeggingsOfInstagram #SportsBra #GymStyle</li>
+<li><strong>Local/lifestyle:</strong> #BrisbaneStyle #SunshineCoast #GoldCoastLife #QLDFitness #CoastalLiving #BrisbaneWomen</li>
+<li><strong>Seasonal/theme:</strong> Rotate based on monthly theme (see Monthly Calendar below)</li>
+</ul>
+<h3 id="reels-strategy">Reels Strategy</h3>
+<ul>
+<li><strong>Frequency:</strong> Minimum 1 Reel per week, target 2</li>
+<li><strong>Length targets:</strong></li>
+<li>7–15 seconds: Product showcase, colourway reveal, quick lifestyle moment</li>
+<li>15–30 seconds: Morning routine, GRWM workout, beach day content</li>
+<li>30–60 seconds: Community spotlight, brand story moments, seasonal campaign</li>
+<li><strong>Hook rule:</strong> First 2 seconds must stop the scroll — start mid-action, not at the beginning of a pose</li>
+<li><strong>Audio:</strong> Trending audio when contextually appropriate; original ambient audio for premium brand content</li>
+<li><strong>Text overlay:</strong> Use on all Reels in case audio is off — DM Sans Bold, white text</li>
+<li><strong>CTA:</strong> End screen with logo on navy, CTA text (&quot;Shop the look — link in bio&quot;)</li>
+</ul>
+<h3 id="stories-strategy">Stories Strategy</h3>
+<ul>
+<li><strong>Frequency:</strong> Daily (7 days/week)</li>
+</ul>
+<div class="table-wrap"><table><thead><tr><th>Story Type</th><th>Weekly Frequency</th><th>Purpose</th></tr></thead><tbody><tr><td>Product highlight with link</td><td>3x</td><td>Drive product page traffic</td></tr><tr><td>Poll or question sticker</td><td>3x</td><td>Engagement and community feedback</td></tr><tr><td>UGC repost (customer content)</td><td>4x</td><td>Social proof and community love</td></tr><tr><td>Behind the scenes</td><td>2x</td><td>Authenticity and brand connection</td></tr><tr><td>Lifestyle / personal</td><td>3x</td><td>Brand warmth and human personality</td></tr><tr><td>Countdown / promotion</td><td>As needed</td><td>Urgency and sales conversion</td></tr></tbody></table></div>
+<p><strong>Story Highlights (maintain always):</strong></p>
+<ul>
+<li>OUR STORY — brand intro for new visitors</li>
+<li>SHOP — product highlights with links</li>
+<li>ACTIVEWEAR — category-specific showcase</li>
+<li>SWIMWEAR — category-specific showcase</li>
+<li>REVIEWS — customer testimonials and UGC</li>
+<li>SHIPPING &amp; FAQ — reduces customer service load</li>
+</ul>
+<h3 id="instagram-shopping">Instagram Shopping</h3>
+<ul>
+<li>Tag all products in all feed posts and Stories from Day 1</li>
+<li>Product catalogue connected and updated in Meta Commerce Manager</li>
+<li>Link-in-bio tool pointing to Shopify store and hero products</li>
+</ul>
+<h3 id="engagement-protocol">Engagement Protocol</h3>
+<ul>
+<li>Reply to all comments within 24 hours (48-hour maximum)</li>
+<li>Reply to all DMs within 24 hours</li>
+<li>Proactively engage with content from community members who tag the brand</li>
+<li>Like and comment on content from target community (fitness, coastal, Queensland lifestyle)</li>
+<li>Engage with micro-influencer content for 2–4 weeks before approaching for collaboration</li>
+</ul>
+<hr>
+<h2 id="platform-2-tiktok-secondary">Platform 2: TikTok (Secondary)</h2>
+<h3 id="role">Role</h3>
+<p>TikTok is Bella Rhyder&#x27;s discovery engine. The algorithm allows a brand with zero followers to reach millions of targeted viewers through a single high-performing video. Content should feel notably more raw, real, and native than Instagram — never a polished repurpose.</p>
+<h3 id="content-philosophy">Content Philosophy</h3>
+<ul>
+<li>Native first — content that belongs on TikTok, not Instagram reformatted</li>
+<li>Personality-led — a real human presence on camera dramatically increases performance</li>
+<li>Trend-aware — respond to trending sounds and formats within 24–48 hours of peak</li>
+<li>Authentic over polished — real environments, handheld footage, natural cuts all outperform over-produced content</li>
+</ul>
+<h3 id="content-types">Content Types</h3>
+<div class="table-wrap"><table><thead><tr><th>Content Type</th><th>Frequency</th><th>Format Notes</th></tr></thead><tbody><tr><td>GRWM (Get Ready With Me)</td><td>1x/week</td><td>Morning routine, packing gym bag, beach prep — featuring BR products</td></tr><tr><td>Product showcase / colourway reveal</td><td>1x/week</td><td>Hold, zoom, texture reveal — fabric quality demo</td></tr><tr><td>Lifestyle day-in-the-life</td><td>1x/week</td><td>Brisbane morning, coastal walk, gym day, café stop</td></tr><tr><td>Trend participation</td><td>As applicable</td><td>Jump on trending sounds or formats with brand context</td></tr><tr><td>Behind the scenes</td><td>2x/month</td><td>Photoshoot BTS, packing orders, content creation process</td></tr><tr><td>Product POV / demo</td><td>1x/week</td><td>Stretch test, squat proof demo, opacity test, sports bra support</td></tr></tbody></table></div>
+<h3 id="posting-cadence">Posting Cadence</h3>
+<ul>
+<li><strong>Frequency:</strong> 3 videos per week (minimum)</li>
+<li><strong>Best posting times (AEST):</strong> 7–9 AM, 12–2 PM, 6–9 PM</li>
+<li>Consistency beats perfection — a real video posted on schedule beats a perfect video posted late</li>
+</ul>
+<h3 id="tiktok-seo">TikTok SEO</h3>
+<ul>
+<li>Include target keywords in caption and spoken audio (TikTok transcribes speech for search)</li>
+<li><strong>Target keywords:</strong> &quot;activewear australia,&quot; &quot;sports bra review,&quot; &quot;gym outfit australia,&quot; &quot;activewear haul,&quot; &quot;brisbane lifestyle,&quot; &quot;aussie activewear,&quot; &quot;leggings review,&quot; &quot;beach outfit&quot;</li>
+<li>Use 3–5 relevant hashtags per post (TikTok is less hashtag-dependent than Instagram)</li>
+<li><strong>Branded TikTok hashtags:</strong> #BellaRhyder #MoveBoldlyLiveFree</li>
+</ul>
+<hr>
+<h2 id="platform-3-pinterest-tertiary">Platform 3: Pinterest (Tertiary)</h2>
+<h3 id="role">Role</h3>
+<p>Pinterest is the long-tail discovery platform. A well-optimised pin can drive traffic for 3–5 years. The audience is overwhelmingly female (76%) and actively searches for inspiration before purchase decisions. Pinterest functions as a visual search engine for lifestyle and fashion — ideal for Bella Rhyder&#x27;s aesthetic.</p>
+<h3 id="board-structure">Board Structure</h3>
+<ul>
+<li>Bella Rhyder Activewear — product shots, outfit styling</li>
+<li>Beach Life Queensland — coastal lifestyle and location inspiration</li>
+<li>Workout Style &amp; Fitness — gym and training aesthetic</li>
+<li>Summer Ready — swimwear and beach collections</li>
+<li>Active Women Lifestyle — movement, fitness, community imagery</li>
+<li>Behind the Brand — BTS, values content, brand story</li>
+</ul>
+<h3 id="pinterest-content-guidelines">Pinterest Content Guidelines</h3>
+<ul>
+<li>Repurpose all Instagram images optimised for vertical format (1000×1500px)</li>
+<li>Add text overlay to all pins: brand name + category keyword (e.g., &quot;Bella Rhyder | High-Waist Leggings&quot;)</li>
+<li>Link every pin directly to the relevant Shopify product page or collection</li>
+<li>Enable Product Rich Pins so price and availability display automatically</li>
+<li>Schedule via Tailwind (5–10 pins per week, schedulable in advance)</li>
+</ul>
+<hr>
+<h2 id="content-pillars-5">Content Pillars (5)</h2>
+<p>All Bella Rhyder social content maps to one of five pillars. Content calendars are planned with the correct split to ensure variety and strategic balance.</p>
+<h3 id="pillar-1-product-showcase-30">Pillar 1: PRODUCT SHOWCASE (30%)</h3>
+<p><em>What we make. Why it matters. How it moves.</em></p>
+<ul>
+<li>Product reveals and new arrivals</li>
+<li>Colourway showcases and comparison posts</li>
+<li>Fabric detail and feature callouts</li>
+<li>Styling posts (how to wear it three ways)</li>
+<li>Flat lays and product photography</li>
+<li>&quot;Why our leggings are different&quot; comparison content</li>
+</ul>
+<p><strong>Specific post ideas:</strong></p>
+<ul>
+<li>&quot;3 ways to wear the [Legging Name]&quot; carousel</li>
+<li>Fabric close-up Reel: &quot;This is why they don&#x27;t fall down mid-run&quot;</li>
+<li>Before/after product layout: packaging reveal to styled outfit</li>
+<li>&quot;What fits in the [Bag Name]&quot; — pack with me content</li>
+<li>Colourway drop: &quot;New colours just dropped — which is yours?&quot;</li>
+</ul>
+<p><strong>Goal:</strong> Drive purchase intent and product awareness</p>
+<hr>
+<h3 id="pillar-2-lifestyle-amp-movement-25">Pillar 2: LIFESTYLE &amp; MOVEMENT (25%)</h3>
+<p><em>The world she lives in. The world we&#x27;re built for.</em></p>
+<ul>
+<li>Beach, outdoor, and Queensland location content</li>
+<li>Morning routines and active day-in-the-life</li>
+<li>Post-workout moments (coffee, stretch, sauna)</li>
+<li>Travel and weekend content featuring BR pieces</li>
+<li>Seasonal content aligned to monthly themes</li>
+</ul>
+<p><strong>Specific post ideas:</strong></p>
+<ul>
+<li>&quot;Sunday morning in Brisbane&quot; aesthetic reel — beach walk, coffee, movement</li>
+<li>&quot;This is what our pieces were made for&quot; — surf-to-street outfit transition</li>
+<li>Golden hour workout session on the beach — lifestyle editorial</li>
+<li>&quot;Morning routine&quot; TikTok — wake up, workout, get ready, coffee</li>
+<li>Weekend hike content: &quot;Where movement takes us&quot;</li>
+</ul>
+<p><strong>Goal:</strong> Build aspirational brand identity and emotional connection</p>
+<hr>
+<h3 id="pillar-3-behind-the-scenes-10">Pillar 3: BEHIND THE SCENES (10%)</h3>
+<p><em>The brand behind the product.</em></p>
+<ul>
+<li>Photoshoot day content</li>
+<li>Order packing and fulfilment glimpses</li>
+<li>Founder and team content (humanises the brand)</li>
+<li>New product development sneak peeks</li>
+<li>Event preparation and market setup</li>
+</ul>
+<p><strong>Specific post ideas:</strong></p>
+<ul>
+<li>Photoshoot day TikTok: &quot;A day building the brand&quot;</li>
+<li>&quot;We&#x27;re packing your orders&quot; — time-lapse or cut-together reel</li>
+<li>Founder voice: &quot;Why I started Bella Rhyder&quot; — personal TikTok</li>
+<li>&quot;You asked, we listened&quot; — new product development sneak peek</li>
+<li>Studio tour / creative process walkthrough</li>
+</ul>
+<p><strong>Goal:</strong> Brand trust, authenticity, and anticipation-building</p>
+<hr>
+<h3 id="pillar-4-community-amp-ugc-20">Pillar 4: COMMUNITY &amp; UGC (20%)</h3>
+<p><em>The women who move together.</em></p>
+<ul>
+<li>UGC reposts (customer content in BR pieces)</li>
+<li>Community shoutouts and tags</li>
+<li>&quot;Bella Rhyder Woman&quot; spotlight features</li>
+<li>Ambassador and influencer content reshares</li>
+<li>Testimonials and review highlights in branded frames</li>
+</ul>
+<p><strong>Specific post ideas:</strong></p>
+<ul>
+<li>Monthly &quot;Community Spotlight&quot; — one real customer featured in the feed</li>
+<li>&quot;Share your move&quot; ongoing challenge: tag us in your active moment</li>
+<li>Instagram Story series: &quot;The women who wear us&quot; — customer photos in Stories</li>
+<li>Review carousel: &quot;What they&#x27;re saying about [Product]&quot;</li>
+<li>Reshare influencer content with genuine commentary: &quot;This is exactly what we built it for&quot;</li>
+</ul>
+<p><strong>Goal:</strong> Social proof, belonging, and retention</p>
+<hr>
+<h3 id="pillar-5-education-15">Pillar 5: EDUCATION (15%)</h3>
+<p><em>Useful. Shareable. Worth saving.</em></p>
+<ul>
+<li>Activewear care instructions (how to wash technical fabrics)</li>
+<li>Fabric knowledge and technology explainers</li>
+<li>Styling guides (leggings for different occasions)</li>
+<li>Size and fit guides (build confidence in purchasing online)</li>
+<li>Sustainability and brand values content</li>
+</ul>
+<p><strong>Specific post ideas:</strong></p>
+<ul>
+<li>&quot;How to wash your activewear without ruining it&quot; — carousel save-worthy guide</li>
+<li>&quot;What does &#x27;4-way stretch&#x27; actually mean?&quot; — educational Reel</li>
+<li>&quot;How to find your Bella Rhyder size&quot; — try-on comparison and measurement guide</li>
+<li>&quot;5 ways to style your sports bra off the mat&quot; — outfit inspiration carousel</li>
+<li>&quot;Why fabric quality matters&quot; — brand values content with material breakdown</li>
+</ul>
+<p><strong>Goal:</strong> Shareability, saves, and SEO value; positions brand as a trusted expert</p>
+<hr>
+<h2 id="monthly-theme-calendar-aprilseptember-2026">Monthly Theme Calendar: April–September 2026</h2>
+<h3 id="april-2026-quotthis-is-your-seasonquot">April 2026 — &quot;This Is Your Season&quot;</h3>
+<p><strong>Theme:</strong> Autumn energy, transition from summer. Earthy tones, outdoor movement, new beginnings.</p>
+<p><strong>Focus:</strong> Brand building and audience warm-up pre-launch. No product sales yet — teasing what&#x27;s coming.</p>
+<p><strong>Content:</strong> Lifestyle-heavy. Brisbane autumn outdoor content. Behind-the-scenes. &quot;Coming soon&quot; energy.</p>
+<p><strong>Pillar split:</strong> Lifestyle 40%, BTS 25%, Community 20%, Education 15%</p>
+<p><strong>Key campaigns:</strong></p>
+<ul>
+<li>Brand reveal teaser content (if launching Instagram in April)</li>
+<li>&quot;What are you moving towards this season?&quot; community question series</li>
+<li>Behind-the-scenes of launch preparation</li>
+</ul>
+<p><strong>Instagram target:</strong> Grow from 0 to 1,000+ followers</p>
+<p><strong>TikTok target:</strong> 0 to 500 followers</p>
+<p><strong>Hashtags to emphasise:</strong> #BrisbaneAutumn #ActiveLife #ComingSoon #MoveBoldlyLiveFree</p>
+<hr>
+<h3 id="may-2026-quotbuilding-something-beautifulquot">May 2026 — &quot;Building Something Beautiful&quot;</h3>
+<p><strong>Theme:</strong> Pre-launch momentum. Deeper brand story reveals. Community building.</p>
+<p><strong>Focus:</strong> Email list growth, product teaser content, influencer seeding.</p>
+<p><strong>Content:</strong> Product shadow reveals, founder story, &quot;Meet the brand&quot; content, first influencer gifting posts appearing.</p>
+<p><strong>Pillar split:</strong> BTS 30%, Product 30%, Lifestyle 25%, Community 15%</p>
+<p><strong>Key campaigns:</strong></p>
+<ul>
+<li>&quot;7 days until Bella Rhyder launches&quot; countdown content (final week of May)</li>
+<li>Product close-up reveal series (one category per week)</li>
+<li>&quot;Sign up for first access&quot; call-to-action across all content</li>
+<li>Influencer gifting recipients start posting</li>
+</ul>
+<p><strong>Instagram target:</strong> 1,000 to 2,500 followers</p>
+<p><strong>TikTok target:</strong> 500 to 1,500 followers</p>
+<p><strong>Email list target:</strong> 500+ subscribers</p>
+<p><strong>Hashtags to emphasise:</strong> #BellaRhyder #LaunchingSoon #QLDFitness #ActivewearAustralia</p>
+<hr>
+<h3 id="june-2026-quotwex27re-live-move-boldlyquot">June 2026 — &quot;WE&#x27;RE LIVE. Move Boldly.&quot;</h3>
+<p><strong>Theme:</strong> Launch month. Maximum energy, urgency, community celebration.</p>
+<p><strong>Focus:</strong> Launch day (June 1), first orders, UGC, community engagement, social proof building.</p>
+<p><strong>Content:</strong> Launch day content blitz, first order unboxing, influencer posts, customer reviews, &quot;first to shop&quot; celebration.</p>
+<p><strong>Pillar split:</strong> Product 40%, Community 30%, Lifestyle 20%, BTS 10%</p>
+<p><strong>Key campaigns:</strong></p>
+<ul>
+<li>June 1 launch day: coordinated Instagram + TikTok drop</li>
+<li>&quot;First to shop&quot; customer shoutouts</li>
+<li>&quot;Unbox with me&quot; TikTok challenge — tag us with your first BR order</li>
+<li>Launch week influencer posts from seeded creators</li>
+<li>&quot;Free shipping this week only&quot; launch promotion</li>
+</ul>
+<p><strong>Instagram target:</strong> 2,500 to 5,000 followers</p>
+<p><strong>TikTok target:</strong> 1,500 to 3,000 followers</p>
+<p><strong>Revenue target:</strong> $15,000+ in June</p>
+<p><strong>Hashtags to emphasise:</strong> #BellaRhyderIsHere #NewBrand #AussieActivewear #ShopNow #BrisbaneStyle</p>
+<hr>
+<h3 id="july-2026-quotwinter-warmth-active-alwaysquot">July 2026 — &quot;Winter Warmth, Active Always&quot;</h3>
+<p><strong>Theme:</strong> Queensland winter — cool mornings, warm afternoons, outdoor lifestyle continues year-round.</p>
+<p><strong>Focus:</strong> Winter-appropriate activewear, seamless sets, beanies, layering. Community grows.</p>
+<p><strong>Content:</strong> Winter workout content, morning runs in cool weather, &quot;why QLD winter is the best season for movement&quot; lifestyle.</p>
+<p><strong>Pillar split:</strong> Lifestyle 35%, Product 30%, Community 20%, Education 15%</p>
+<p><strong>Key campaigns:</strong></p>
+<ul>
+<li>&quot;Winter moves&quot; campaign — workout content in cooler temperatures</li>
+<li>Seamless set and beanie product spotlight</li>
+<li>&quot;Morning person? Here&#x27;s your winter routine&quot; content series</li>
+<li>First monthly community spotlight (customer feature in feed)</li>
+<li>&quot;How to layer activewear for cooler mornings&quot; educational carousel</li>
+</ul>
+<p><strong>Instagram target:</strong> 5,000 to 7,000 followers</p>
+<p><strong>TikTok target:</strong> 3,000 to 5,000 followers</p>
+<p><strong>Revenue target:</strong> $12,000+ (post-launch normalisation)</p>
+<p><strong>Hashtags to emphasise:</strong> #QLDWinter #WinterWorkout #ActiveAlways #BellaRhyder #MorningRun</p>
+<hr>
+<h3 id="august-2026-quotcommunity-is-everythingquot">August 2026 — &quot;Community Is Everything&quot;</h3>
+<p><strong>Theme:</strong> UGC, real women, belonging. Mid-year check-in, brand story deepening.</p>
+<p><strong>Focus:</strong> Community building, social proof accumulation, repeat purchase encouragement.</p>
+<p><strong>Content:</strong> Customer spotlights, UGC campaign, &quot;tell us your move&quot; challenge, founder Q&amp;A, brand values content.</p>
+<p><strong>Pillar split:</strong> Community 40%, Lifestyle 25%, Product 20%, Education 15%</p>
+<p><strong>Key campaigns:</strong></p>
+<ul>
+<li>&quot;The Bella Rhyder Woman&quot; series: 4 customer spotlights across the month</li>
+<li>UGC competition: best photo wins $200 store credit + feed feature</li>
+<li>Founder Instagram Live Q&amp;A</li>
+<li>&quot;Share your move&quot; challenge with branded hashtag push</li>
+<li>2-month brand anniversary content: &quot;Look how far we&#x27;ve come&quot;</li>
+</ul>
+<p><strong>Instagram target:</strong> 7,000 to 9,000 followers</p>
+<p><strong>TikTok target:</strong> 5,000 to 7,000 followers</p>
+<p><strong>Revenue target:</strong> $18,000+</p>
+<p><strong>Hashtags to emphasise:</strong> #BellaRhyderWoman #CommunityFirst #ShareYourMove #ActiveWomen #UGC</p>
+<hr>
+<h3 id="september-2026-quotspring-loaded-new-energyquot">September 2026 — &quot;Spring Loaded. New Energy.&quot;</h3>
+<p><strong>Theme:</strong> Spring arrives — fresh energy, new collection teases, beach season approaching.</p>
+<p><strong>Focus:</strong> Spring/summer product preview, renewed energy campaign, swimwear teaser, email list push.</p>
+<p><strong>Content:</strong> Spring lifestyle content, new arrivals teaser, &quot;build your spring wardrobe&quot; styling content, pre-summer swimwear campaign.</p>
+<p><strong>Pillar split:</strong> Product 35%, Lifestyle 35%, Education 15%, BTS 15%</p>
+<p><strong>Key campaigns:</strong></p>
+<ul>
+<li>&quot;Spring Drop&quot; product preview campaign — new styles teased across 2 weeks</li>
+<li>&quot;Build your spring active wardrobe&quot; carousel and Reels series</li>
+<li>Swimwear content ramp-up: &quot;Beach season is coming&quot;</li>
+<li>&quot;What&#x27;s in my summer gym bag&quot; — lifestyle/product hybrid content</li>
+<li>Back-to-routine September campaign: &quot;New season, new goals&quot;</li>
+</ul>
+<p><strong>Instagram target:</strong> 9,000 to 12,000 followers</p>
+<p><strong>TikTok target:</strong> 7,000 to 10,000 followers</p>
+<p><strong>Revenue target:</strong> $22,000+</p>
+<p><strong>Hashtags to emphasise:</strong> #SpringActivewear #SpringStyle #BeachSeason #NewArrivals #BellaRhyder #SpringFitness</p>
+<hr>
+<h2 id="influencer-partnership-framework">Influencer Partnership Framework</h2>
+<h3 id="philosophy">Philosophy</h3>
+<p>Bella Rhyder builds genuine relationships with creators who actually live the lifestyle the brand is built for. Authentic alignment is prioritised over follower count. A 6,000-follower fitness creator in Brisbane who genuinely uses activewear is more valuable than a 200,000-follower fashion influencer who doesn&#x27;t.</p>
+<h3 id="tier-structure">Tier Structure</h3>
+<p><strong>Tier 1: Gifting Partners (5K–15K followers)</strong></p>
+<ul>
+<li>Arrangement: Product gifting only, no payment</li>
+<li>Expectation: 1–2 posts or Stories within 4 weeks (communicated, not contractual)</li>
+<li>Volume target: 20–30 active gifting partners at any time</li>
+<li>Selection: Active, authentic, Queensland/coastal/fitness focus, genuine engagement (3%+)</li>
+<li>What to gift: Hero pieces from current season (value $80–$150 per influencer)</li>
+</ul>
+<p><strong>Tier 2: Gifting + Affiliate Partners (15K–50K followers)</strong></p>
+<ul>
+<li>Arrangement: Product gifting + 15% commission on tracked sales (via Shopify affiliate app)</li>
+<li>Volume target: 10–20 active affiliates</li>
+<li>Selection: Track record of content that converts; engaged community; brand-aligned aesthetic</li>
+<li>What to gift: Full outfit or bundle (value $150–$250)</li>
+</ul>
+<p><strong>Tier 3: Paid Brand Ambassadors (20K+ engaged followers) — Year 2+</strong></p>
+<ul>
+<li>Arrangement: Monthly fee ($500–$2,000/month) + product + affiliate commission</li>
+<li>Deliverables: Minimum 4 posts per month (2 feed, 2 Stories minimum), product tagging</li>
+<li>Contract: 3–6 month minimum</li>
+<li>Volume: 2–3 ambassadors initially</li>
+<li>Selection: Values alignment, audience quality, proven conversion track record</li>
+</ul>
+<h3 id="gifting-vs-paid-decision-framework">Gifting vs. Paid Decision Framework</h3>
+<div class="table-wrap"><table><thead><tr><th>Situation</th><th>Approach</th></tr></thead><tbody><tr><td>Creator under 15K followers</td><td>Gifting only — no payment</td></tr><tr><td>Creator 15K–50K, brand-aligned</td><td>Gifting + affiliate code</td></tr><tr><td>Creator 50K+, strong conversion track record</td><td>Gifting + affiliate + negotiate paid post</td></tr><tr><td>Creator asking for payment, under 20K</td><td>Offer gifting + affiliate only; negotiate</td></tr><tr><td>Repeat creator with proven sales performance</td><td>Upgrade to paid partnership</td></tr></tbody></table></div>
+<h3 id="outreach-process">Outreach Process</h3>
+<ol>
+<li>Identify target via Instagram location tags, niche hashtags, or follower analysis</li>
+<li>Engage organically for 2–4 weeks (genuine likes and comments) before reaching out</li>
+<li>Send personalised DM or email — reference their specific content</li>
+<li>No mass copy-paste pitches — every outreach is individual</li>
+<li>Follow up once after 7 days if no response; do not follow up a third time</li>
+<li>On agreement, send gifting form and brief</li>
+</ol>
+<h3 id="influencer-brief-template">Influencer Brief Template</h3>
+<ul>
+<li>Brand overview and tagline</li>
+<li>Product being gifted and why it was chosen for them</li>
+<li>Content suggestions (not mandatory, but helpful)</li>
+<li>What to tag: @bellaRhyder + #BellaRhyder #MoveBoldlyLiveFree</li>
+<li>Timeline: Post within 4 weeks of receipt</li>
+<li>Disclosure: Must use #ad or #gifted per ACMA guidelines</li>
+</ul>
+<hr>
+<h2 id="ugc-user-generated-content-strategy">UGC (User-Generated Content) Strategy</h2>
+<h3 id="branded-hashtags">Branded Hashtags</h3>
+<ul>
+<li>Primary: <strong>#BellaRhyder</strong></li>
+<li>Secondary: <strong>#MoveBoldlyLiveFree</strong> | <strong>#BellaRhyderWoman</strong></li>
+</ul>
+<h3 id="ugc-incentive-programme">UGC Incentive Programme</h3>
+<ul>
+<li>Repost all tagged content with credit (minimum 1 UGC repost per week on Stories)</li>
+<li>Monthly Community Spotlight: one customer featured in the feed with their story</li>
+<li>&quot;Share your move&quot; ongoing challenge: community posts their active moment in BR gear</li>
+<li>Quarterly UGC competition: best photo wins a $200 gift card + feed feature</li>
+</ul>
+<h3 id="ugc-collection-process">UGC Collection Process</h3>
+<ul>
+<li>Monitor #BellaRhyder and brand tags daily</li>
+<li>Request permission before reposting to feed (DM: &quot;Love this photo — may we share it on our feed with credit?&quot;)</li>
+<li>Maintain a library of high-quality UGC in Google Drive, organised by month and product</li>
+<li>Thank creators personally when reposting — builds the relationship and encourages more content</li>
+</ul>
+<hr>
+<h2 id="growth-targets-aprilseptember-2026">Growth Targets: April–September 2026</h2>
+<div class="table-wrap"><table><thead><tr><th>Month</th><th>Instagram Followers</th><th>TikTok Followers</th><th>Email Subscribers</th><th>Monthly Revenue</th></tr></thead><tbody><tr><td>April</td><td>0 → 1,000</td><td>0 → 500</td><td>0 → 300</td><td>Pre-launch ($0)</td></tr><tr><td>May</td><td>1,000 → 2,500</td><td>500 → 1,500</td><td>300 → 800</td><td>Pre-launch ($0)</td></tr><tr><td>June</td><td>2,500 → 5,000</td><td>1,500 → 3,000</td><td>800 → 1,500</td><td>$15,000 (launch)</td></tr><tr><td>July</td><td>5,000 → 7,000</td><td>3,000 → 5,000</td><td>1,500 → 2,000</td><td>$12,000</td></tr><tr><td>August</td><td>7,000 → 9,000</td><td>5,000 → 7,000</td><td>2,000 → 2,800</td><td>$18,000</td></tr><tr><td>September</td><td>9,000 → 12,000</td><td>7,000 → 10,000</td><td>2,800 → 3,500</td><td>$22,000</td></tr></tbody></table></div>
+<hr>
+<h2 id="analytics-tracking">Analytics Tracking</h2>
+<h3 id="key-performance-indicators">Key Performance Indicators</h3>
+<div class="table-wrap"><table><thead><tr><th>KPI</th><th>Target (Sep 2026)</th><th>Review Frequency</th></tr></thead><tbody><tr><td>Instagram Followers</td><td>12,000+</td><td>Monthly</td></tr><tr><td>Instagram Engagement Rate</td><td>3.5%+</td><td>Monthly</td></tr><tr><td>Instagram Reel Average Views</td><td>2,500+</td><td>Per post</td></tr><tr><td>TikTok Followers</td><td>10,000+</td><td>Monthly</td></tr><tr><td>TikTok Average Views per Video</td><td>3,000+</td><td>Per post</td></tr><tr><td>Email List Size</td><td>3,500+</td><td>Monthly</td></tr><tr><td>Email Open Rate</td><td>35%+</td><td>Per campaign</td></tr><tr><td>Email Click Rate</td><td>4%+</td><td>Per campaign</td></tr><tr><td>Website Conversion Rate</td><td>2.5%+</td><td>Monthly</td></tr><tr><td>AOV (Average Order Value)</td><td>$165+ AUD</td><td>Monthly</td></tr><tr><td>Repeat Purchase Rate</td><td>20%+</td><td>Monthly</td></tr><tr><td>UGC pieces collected</td><td>30+ per month</td><td>Monthly</td></tr></tbody></table></div>
+<h3 id="monthly-reporting-checklist">Monthly Reporting Checklist</h3>
+<p>Each month, review and record:</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Instagram: follower count, engagement rate, top 3 performing posts, Reel views</li>
+<li><span class="cb cb-empty">&#9744;</span> TikTok: follower count, average views, top 3 performing videos</li>
+<li><span class="cb cb-empty">&#9744;</span> Pinterest: monthly impressions, link clicks, top pins</li>
+<li><span class="cb cb-empty">&#9744;</span> Email: list size, open rate, click rate, revenue attributed</li>
+<li><span class="cb cb-empty">&#9744;</span> Website: sessions, conversion rate, AOV, top traffic sources</li>
+<li><span class="cb cb-empty">&#9744;</span> Influencer: active partners, content posted, tracked affiliate sales</li>
+<li><span class="cb cb-empty">&#9744;</span> UGC: pieces collected, reposted, engagement generated</li>
+</ul>
+<h3 id="tools">Tools</h3>
+<ul>
+<li><strong>Scheduling:</strong> Later (Instagram + TikTok), Tailwind (Pinterest)</li>
+<li><strong>Design:</strong> Canva Pro (templates aligned to brand guidelines)</li>
+<li><strong>Storage:</strong> Google Drive (organised by month and pillar)</li>
+<li><strong>Analytics:</strong> Instagram Insights, TikTok Analytics, Klaviyo, Google Analytics 4</li>
+<li><strong>Caption library:</strong> Notion database of approved copy, hooks, and hashtag sets</li>
+</ul>
+<hr>
+<h2 id="content-production-system">Content Production System</h2>
+<h3 id="monthly-batching-process">Monthly Batching Process</h3>
+<ol>
+<li><strong>Week 1:</strong> Plan next month&#x27;s content calendar (pillars, themes, campaigns, briefing)</li>
+<li><strong>Week 2:</strong> Asset preparation (brief photographer/videographer, props, locations, outfits)</li>
+<li><strong>Week 3:</strong> Content shoot days — batch all images and video for the following month</li>
+<li><strong>Week 4:</strong> Edit, write captions, load into scheduling tool, quality check</li>
+</ol>
+<h3 id="monthly-content-requirements">Monthly Content Requirements</h3>
+<ul>
+<li>20–30 lifestyle and product images (mix of on-model and flat lays)</li>
+<li>4–8 short video clips for Reels and TikTok</li>
+<li>5–10 Story-specific assets (polls, Q&amp;A frames, product graphics)</li>
+<li>2–3 designed graphic posts (educational carousels, quote posts)</li>
+</ul>
+<hr>
+<p><em>Bella Rhyder Social Media Strategy — Version 2.0 | March 2026</em></p>
+<p><em>Owner: Ben Alek Conner | Brisbane, Australia</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">07-Bella Rhyder/05-content/CONTENT &amp; LAUNCH/SOCIAL MEDIA STRATEGY.md</div>
+    </main>
+  </div>
+</body>
+</html>

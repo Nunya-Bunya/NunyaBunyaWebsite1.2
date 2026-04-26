@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONNER LAW GROUP - SERVICE PACKAGES &amp; POSITIONING | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link active"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#conner-law">Conner Law</a> &rsaquo;
+          CONNER LAW GROUP - SERVICE PACKAGES &amp; POSITIONING
+        </div>
+        <h1 class="doc-title">CONNER LAW GROUP - SERVICE PACKAGES &amp; POSITIONING</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(74,144,217,0.12);color:#4A90D9">&#9878; Conner Law</span>
+          <span class="doc-path">05-Conner Law / 01-strategy / Documents</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="conner-law-group-service-packages-amp-positioning">CONNER LAW GROUP - SERVICE PACKAGES &amp; POSITIONING</h1>
+<p><strong>Legal Services Pricing and Offerings</strong></p>
+<hr>
+<h2 id="service-model">SERVICE MODEL</h2>
+<p>Conner Law Group offers three pricing/service models:</p>
+<ol>
+<li><strong>Hourly Billing</strong> - Traditional rate-per-hour</li>
+<li><strong>Flat Fee</strong> - Fixed price for specific services</li>
+<li><strong>Contingency</strong> - Client pays only if we win/settle</li>
+</ol>
+<hr>
+<h2 id="merkel-amp-conner-services">MERKEL &amp; CONNER SERVICES</h2>
+<h3 id="practice-areas">PRACTICE AREAS</h3>
+<ul>
+<li>Personal injury &amp; wrongful death</li>
+<li>Medical malpractice</li>
+<li>Product liability</li>
+<li>Catastrophic injury cases</li>
+</ul>
+<h3 id="pricing-model">PRICING MODEL</h3>
+<p><strong>Primarily contingency</strong> (35-45% of settlement/verdict)</p>
+<ul>
+<li>High-value cases only ($50K+ potential)</li>
+<li>No upfront cost to client</li>
+<li>We advance case costs</li>
+<li>Client only pays if we recover funds</li>
+</ul>
+<h3 id="case-evaluation">CASE EVALUATION</h3>
+<ul>
+<li>Free initial consultation (30 min)</li>
+<li>No obligation to proceed</li>
+<li>Honest assessment of case strength</li>
+<li>Clear explanation of process and timeline</li>
+</ul>
+<h3 id="service-includes">SERVICE INCLUDES</h3>
+<p>✓ Full case investigation</p>
+<p>✓ Expert witness coordination</p>
+<p>✓ Settlement negotiation</p>
+<p>✓ Trial representation (if needed)</p>
+<p>✓ Regular client communication</p>
+<p>✓ Clear cost structure &amp; updates</p>
+<h3 id="typical-process">TYPICAL PROCESS</h3>
+<ol>
+<li><strong>Initial Consultation</strong> (free) - Assess case</li>
+<li><strong>Investigation</strong> (2-8 weeks) - Gather evidence</li>
+<li><strong>Demand Letter</strong> (sent to defendant)</li>
+<li><strong>Settlement Negotiation</strong> (1-3 months)</li>
+<li><strong>Trial Preparation</strong> (if no settlement)</li>
+<li><strong>Trial or Final Settlement</strong></li>
+</ol>
+<hr>
+<h2 id="conner-injury-law-services">CONNER INJURY LAW SERVICES</h2>
+<h3 id="practice-areas">PRACTICE AREAS</h3>
+<ul>
+<li>Auto accidents</li>
+<li>Slip and fall injuries</li>
+<li>Workplace injuries</li>
+<li>Workers&#x27; compensation</li>
+<li>General personal injury</li>
+<li>Dog bites</li>
+<li>Bicycle accidents</li>
+</ul>
+<h3 id="pricing-options">PRICING OPTIONS</h3>
+<p><strong>Option 1: STANDARD CONTINGENCY</strong></p>
+<ul>
+<li>33-40% of settlement/verdict</li>
+<li>We advance all case costs</li>
+<li>No upfront cost to client</li>
+</ul>
+<p><strong>Option 2: FIXED FEE (For Simple Cases)</strong></p>
+<ul>
+<li>Straightforward accident, clear liability</li>
+<li>Standard payout: $800-2,500 flat fee (depending on complexity)</li>
+<li>Faster resolution, lower cost to client</li>
+</ul>
+<p><strong>Option 3: HOURLY + CONTINGENCY (Hybrid)</strong></p>
+<ul>
+<li>Some cases billed hourly ($250-400/hr) with reduced contingency</li>
+<li>For complex cases or client preference</li>
+</ul>
+<h3 id="initial-consultation">INITIAL CONSULTATION</h3>
+<ul>
+<li>Free (30 min, in-person or phone)</li>
+<li>Discuss case, injuries, liability</li>
+<li>Explain options and next steps</li>
+<li>No sales pressure—honest advice only</li>
+</ul>
+<h3 id="service-includes">SERVICE INCLUDES</h3>
+<p>✓ Injury assessment and documentation</p>
+<p>✓ InsuranceAnd claim filing</p>
+<p>✓ Medical record gathering</p>
+<p>✓ Negotiation with insurance</p>
+<p>✓ Settlement documentation</p>
+<p>✓ Regular updates and communication</p>
+<h3 id="typical-timeline">TYPICAL TIMELINE</h3>
+<ul>
+<li><strong>Simple case:</strong> 2-4 months (personal injury, clear fault)</li>
+<li><strong>Moderate case:</strong> 3-6 months (multiple injuries, disputed liability)</li>
+<li><strong>Complex case:</strong> 6-12+ months (severe injuries, multiple parties)</li>
+</ul>
+<h3 id="quick-stats">QUICK STATS</h3>
+<ul>
+<li>Average case value: $15,000-75,000</li>
+<li>Average time to resolution: 4-6 months</li>
+<li>Settlement rate: 85%+ (very few go to trial)</li>
+</ul>
+<hr>
+<h2 id="mbcs-business-law-services">MBCS (BUSINESS LAW) SERVICES</h2>
+<h3 id="practice-areas">PRACTICE AREAS</h3>
+<ul>
+<li>Business formation &amp; structure</li>
+<li>Contracts &amp; agreements</li>
+<li>Commercial disputes</li>
+<li>Employment law (employment contracts, terminations, disputes)</li>
+<li>Lease negotiations</li>
+<li>Intellectual property</li>
+<li>Small business counsel</li>
+</ul>
+<h3 id="pricing-model">PRICING MODEL</h3>
+<p><strong>Primarily hourly or flat fee</strong> (some contingency for commercial litigation)</p>
+<h3 id="hourly-rates">HOURLY RATES</h3>
+<ul>
+<li><strong>Senior Partner:</strong> $400-500/hr</li>
+<li><strong>Associate Attorney:</strong> $250-350/hr</li>
+<li><strong>Paralegal:</strong> $125-175/hr</li>
+</ul>
+<h3 id="flat-fee-services">FLAT FEE SERVICES</h3>
+<div class="table-wrap"><table><thead><tr><th>Service</th><th>Fee</th></tr></thead><tbody><tr><td>Business formation (LLC, sole prop)</td><td>$800-1,500</td></tr><tr><td>Partnership agreement</td><td>$1,500-3,000</td></tr><tr><td>Employee handbook creation</td><td>$2,000-3,500</td></tr><tr><td>Contract review &amp; negotiation (simple)</td><td>$800-2,000</td></tr><tr><td>Lease review &amp; negotiation</td><td>$1,000-2,500</td></tr><tr><td>Non-compete/confidentiality agreement</td><td>$600-1,200</td></tr><tr><td>Dispute letter &amp; negotiation (initial phase)</td><td>$1,500-3,000</td></tr><tr><td>Lawsuit preparation (through pre-trial)</td><td>$8,000-20,000+</td></tr></tbody></table></div>
+<h3 id="retainer-packages-business-counsel">RETAINER PACKAGES (BUSINESS COUNSEL)</h3>
+<p><strong>STARTUP RETAINER</strong></p>
+<ul>
+<li>$1,500/month</li>
+<li>10 hours/month of legal counsel</li>
+<li>Prioritize my calls and emails</li>
+<li>Monthly business law consultation</li>
+<li>Document review and updates</li>
+</ul>
+<p><strong>GROWING BUSINESS RETAINER</strong></p>
+<ul>
+<li>$3,000/month</li>
+<li>20 hours/month available</li>
+<li>Same benefits as above</li>
+<li>Quarterly strategy check-in</li>
+<li>10% discount on additional work</li>
+</ul>
+<p><strong>ENTERPRISE RETAINER</strong></p>
+<ul>
+<li>$6,000+/month</li>
+<li>Unlimited phone/email support</li>
+<li>40 hours/month legal work</li>
+<li>Monthly strategy meetings</li>
+<li>Priority litigation support</li>
+<li>Custom arrangement for larger firms</li>
+</ul>
+<h3 id="litigation-services">LITIGATION SERVICES</h3>
+<p><strong>Commercial Litigation - Flat Fee Estimates</strong></p>
+<ul>
+<li>Initial demand letter &amp; response: $2,500-5,000</li>
+<li>Pre-litigation negotiation phase: $5,000-15,000</li>
+<li>Court filing &amp; initial motion practice: $8,000-20,000</li>
+<li>Full case through pre-trial: $20,000-50,000+</li>
+<li>Trial (per day): $2,500-5,000</li>
+<li>Appeal preparation: $5,000-15,000+</li>
+</ul>
+<p><strong>Contingency Option (if applicable):</strong></p>
+<ul>
+<li>25-35% of recovered amounts for commercial disputes</li>
+<li>Usually reserved for cases where clear liability/damages</li>
+</ul>
+<h3 id="initial-consultation">INITIAL CONSULTATION</h3>
+<ul>
+<li>Free (30 min, phone or in-person)</li>
+<li>Brief business overview</li>
+<li>Identify legal needs</li>
+<li>Discuss options and fees</li>
+<li>No pressure, honest advice</li>
+</ul>
+<h3 id="service-includes">SERVICE INCLUDES</h3>
+<p>✓ Legal counsel and strategy</p>
+<p>✓ Document drafting and review</p>
+<p>✓ Negotiation on your behalf</p>
+<p>✓ Regulatory compliance review</p>
+<p>✓ Regular communication</p>
+<p>✓ Document management &amp; filing</p>
+<hr>
+<h2 id="special-offers-amp-packages">SPECIAL OFFERS &amp; PACKAGES</h2>
+<h3 id="startup-package">STARTUP PACKAGE</h3>
+<p><strong>For new business owners</strong></p>
+<ul>
+<li>Business formation: $800 (LLC or sole prop)</li>
+<li>Employee handbook: $1,500</li>
+<li>Basic confidentiality agreement: $400</li>
+<li>Startup retainer (first month free): $1,500</li>
+<li><strong>Total value: $4,200 → Special offer: $3,500 first year</strong></li>
+</ul>
+<h3 id="contract-protection-package">CONTRACT PROTECTION PACKAGE</h3>
+<p><strong>For established businesses wanting legal protection</strong></p>
+<ul>
+<li>3 contracts reviewed &amp; revised: $2,400</li>
+<li>Employee handbook reviewed: $800</li>
+<li>Non-compete agreement: $600</li>
+<li>3-month retainer included: $4,500</li>
+<li><strong>Total value: $8,300 → Special offer: $6,500</strong></li>
+</ul>
+<h3 id="dispute-resolution-package">DISPUTE RESOLUTION PACKAGE</h3>
+<p><strong>For businesses in conflict with another party</strong></p>
+<ul>
+<li>Initial case assessment: Free</li>
+<li>Demand letter preparation &amp; sending: $2,000</li>
+<li>60 days of negotiation support: Included</li>
+<li>If settlement reached: Attorney fee of 10% of settlement (capped at $5,000)</li>
+<li><strong>Cost: $2,000 + potential success fee</strong></li>
+</ul>
+<hr>
+<h2 id="kevlaw-ai-pricing-coming-soon">KEVLAW AI PRICING (COMING SOON)</h2>
+<h3 id="product-overview">PRODUCT OVERVIEW</h3>
+<p>AI-powered tool for legal research, document drafting, and case management specifically for law firms.</p>
+<h3 id="pricing-estimated">PRICING (ESTIMATED)</h3>
+<ul>
+<li><strong>Solo/Small Firm Plan:</strong> $199/month (up to 3 users)</li>
+<li><strong>Growing Firm Plan:</strong> $499/month (up to 10 users)</li>
+<li><strong>Enterprise Plan:</strong> Custom pricing (unlimited users)</li>
+</ul>
+<h3 id="features-included">FEATURES INCLUDED</h3>
+<p>✓ Demand letter generator</p>
+<p>✓ Legal research database</p>
+<p>✓ Contract template library</p>
+<p>✓ Case timeline &amp; doc management</p>
+<p>✓ Billing integration</p>
+<p>✓ Client portal</p>
+<h3 id="target-market">TARGET MARKET</h3>
+<ul>
+<li>Law firms (to increase efficiency)</li>
+<li>Solo practitioners (to scale without hiring)</li>
+<li>Corporate legal departments</li>
+<li>Alternative fee structures (fixed-fee, hybrid)</li>
+</ul>
+<hr>
+<h2 id="payment-terms">PAYMENT TERMS</h2>
+<h3 id="hourly-work">HOURLY WORK</h3>
+<ul>
+<li>Invoice monthly for hours worked</li>
+<li>Due within 30 days of invoice</li>
+<li>Late payment: 1.5% monthly interest</li>
+</ul>
+<h3 id="flat-fee-work">FLAT FEE WORK</h3>
+<ul>
+<li>50% due at engagement</li>
+<li>50% due at completion</li>
+<li>Or full payment upfront for discount</li>
+</ul>
+<h3 id="contingency-work">CONTINGENCY WORK</h3>
+<ul>
+<li>No payment until settlement/verdict</li>
+<li>Client receives remainder after attorney fees and costs</li>
+<li>Clear written agreement on fees</li>
+</ul>
+<h3 id="retainer">RETAINER</h3>
+<ul>
+<li>Due on 1st of month</li>
+<li>Annual option: 10% discount if paid full year upfront</li>
+<li>Unused hours: Roll over to next month (not refundable)</li>
+</ul>
+<hr>
+<h2 id="payment-methods">PAYMENT METHODS</h2>
+<p>✓ Credit/debit card</p>
+<p>✓ Bank transfer</p>
+<p>✓ Check</p>
+<p>✓ Payment plan (with approval)</p>
+<hr>
+<h2 id="faq-legal-services">FAQ - LEGAL SERVICES</h2>
+<p><strong>Q: How much will my case cost?</strong></p>
+<p>A: Depends on your case type. Personal injury = mostly contingency. Business law = hourly or flat fee. We&#x27;ll discuss all options in your consultation.</p>
+<p><strong>Q: Will you guarantee a win?</strong></p>
+<p>A: No attorney can guarantee outcomes, but we honestly assess case strength and won&#x27;t take cases we don&#x27;t believe in.</p>
+<p><strong>Q: How long will my case take?</strong></p>
+<p>A: Personal injury typically 3-6 months. Business law varies (contracts can be weeks, litigation can be years). We&#x27;ll give honest timelines.</p>
+<p><strong>Q: What if I can&#x27;t afford a lawyer?</strong></p>
+<p>A: If your case has good value, we&#x27;ll take it on contingency (you pay nothing upfront). Contact us for free consultation.</p>
+<p><strong>Q: Can I call or text with questions?</strong></p>
+<p>A: Yes. Retainer clients have priority access. Other clients reach out via email or scheduled calls.</p>
+<hr>
+<h2 id="next-steps">NEXT STEPS</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Approve all pricing packages</li>
+<li><span class="cb cb-empty">&#9744;</span> Brief all attorneys on pricing/positioning</li>
+<li><span class="cb cb-empty">&#9744;</span> Update website with service offerings</li>
+<li><span class="cb cb-empty">&#9744;</span> Create service agreements/contracts</li>
+<li><span class="cb cb-empty">&#9744;</span> Train intake staff on pricing options</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up client payment system</li>
+<li><span class="cb cb-empty">&#9744;</span> Monitor profitability by service/attorney</li>
+<li><span class="cb cb-empty">&#9744;</span> Adjust pricing annually as needed</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">05-Conner Law/01-strategy/Documents/SERVICE PACKAGES.md</div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shipping Tracker | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+  <link rel="stylesheet" href="/nb-admin-style.css">
+  <style>
+    .ship-status { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--font-heading); }
+    .ship-status.building { background: var(--yellow); color: #000; }
+    .ship-status.shipped { background: var(--teal); color: #000; }
+    .ship-status.signal { background: #00ff88; color: #000; }
+    .ship-status.kill { background: #ff4444; color: #fff; }
+    .ship-status.blocked { background: var(--magenta); color: #fff; }
+    .ship-status.paused { background: var(--subtle); color: var(--muted); }
+
+    .ship-card { background: var(--dark3); border: 1px solid var(--subtle); border-radius: 12px; padding: 20px; margin-bottom: 12px; }
+    .ship-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .ship-card-title { font-family: var(--font-heading); font-size: 18px; font-weight: 700; color: var(--white); }
+    .ship-card-business { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-heading); }
+    .ship-card-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+    .ship-card-meta dt { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--font-heading); margin-bottom: 2px; }
+    .ship-card-meta dd { font-size: 13px; color: var(--white); margin: 0 0 8px 0; }
+
+    .ship-section { margin-bottom: 32px; }
+    .ship-section-header { font-family: var(--font-heading); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--subtle); display: flex; justify-content: space-between; align-items: center; }
+    .ship-section-count { background: var(--subtle); color: var(--teal); font-size: 12px; padding: 2px 8px; border-radius: 4px; }
+
+    .ship-rules { background: var(--dark3); border: 1px solid var(--subtle); border-radius: 12px; padding: 20px; margin-bottom: 32px; }
+    .ship-rules h3 { font-family: var(--font-heading); font-size: 16px; color: var(--teal); margin: 0 0 12px 0; }
+    .ship-rules p { font-size: 13px; color: var(--muted); margin: 0 0 6px 0; line-height: 1.5; }
+    .ship-rules strong { color: var(--white); }
+
+    .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .filter-btn { background: var(--dark3); border: 1px solid var(--subtle); color: var(--muted); padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s; }
+    .filter-btn:hover { border-color: var(--teal); color: var(--white); }
+    .filter-btn.active { background: var(--teal); color: #000; border-color: var(--teal); }
+
+    .prompt-banner { background: linear-gradient(135deg, rgba(0,229,204,0.1), rgba(255,45,120,0.1)); border: 1px solid var(--teal); border-radius: 12px; padding: 20px; margin-bottom: 24px; text-align: center; }
+    .prompt-banner .question { font-family: var(--font-heading); font-size: 24px; font-weight: 900; color: var(--teal); margin-bottom: 4px; }
+    .prompt-banner .sub { font-size: 13px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar" id="sidebar"></aside>
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <h1>Shipping <span>Tracker</span></h1>
+          <div class="date" id="dateLabel"></div>
+        </div>
+      </div>
+
+      <div class="prompt-banner">
+        <div class="question">Can you ship something today?</div>
+        <div class="sub">If yes, ship it. If no, what's the ONE thing blocking it?</div>
+      </div>
+
+      <div class="kpi-grid" id="kpiGrid"></div>
+
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all" onclick="filterCards('all')">All</button>
+        <button class="filter-btn" data-filter="building" onclick="filterCards('building')">Building</button>
+        <button class="filter-btn" data-filter="blocked" onclick="filterCards('blocked')">Blocked</button>
+        <button class="filter-btn" data-filter="shipped" onclick="filterCards('shipped')">Shipped</button>
+        <button class="filter-btn" data-filter="signal" onclick="filterCards('signal')">Signal</button>
+        <button class="filter-btn" data-filter="paused" onclick="filterCards('paused')">Paused</button>
+        <button class="filter-btn" data-filter="kill" onclick="filterCards('kill')">Kill</button>
+      </div>
+
+      <div id="shipContent"></div>
+
+      <div class="ship-rules">
+        <h3>The Ship Rules</h3>
+        <p><strong>1.</strong> Define MVP before building. <strong>2.</strong> MVP = smallest thing that proves the idea. <strong>3.</strong> Ship in days, not weeks. <strong>4.</strong> Track signal immediately. <strong>5.</strong> 14-day rule: no signal = kill candidate. <strong>6.</strong> Stop polishing shipped things. <strong>7.</strong> One BUILDING item per business at a time. <strong>8.</strong> BLOCKED = do something else. <strong>9.</strong> Ask "Can I ship this today?" every session. <strong>10.</strong> Revenue > everything.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="/nb-admin-shared.js"></script>
+  <script>
+    // DEFINITIVE SHIPPING DATA — Verified from file audit 2026-04-20
+    // Zero businesses generating revenue. Everything serves one of 7 offers.
+    const DELIVERABLES = [
+      // === THE 7 OFFERS ===
+      { name: 'Offer 1: Brand Bible ($999)', business: 'Nunya Bunya', status: 'building', category: 'offers',
+        mvp: 'Product shipped. Need first buyer.', shipCriteria: 'First Brand Bible sold',
+        signal: 'Outreach replies, audit bookings', blocker: 'Cold outreach not at scale' },
+      { name: 'Offer 2: Website Build ($3K-3.5K)', business: 'Nunya Bunya', status: 'building', category: 'offers',
+        mvp: 'Product shipped. Need first buyer.', shipCriteria: 'First website project signed',
+        signal: 'Inbound inquiries, outreach replies', blocker: 'Cold outreach not at scale' },
+      { name: 'Offer 3: DFY Marketing ($3,500/mo)', business: 'Nunya Bunya', status: 'building', category: 'offers',
+        mvp: 'Stack shipped. Need first client.', shipCriteria: 'Retainer contract signed, first invoice paid',
+        signal: 'Audit bookings, proposal requests', blocker: 'Cold outreach not at scale' },
+      { name: 'Offer 4: Headshot Session ($250-800)', business: 'Power Portraits', status: 'building', category: 'offers',
+        mvp: 'Site live. Cal.com booking exists. Need first customer.', shipCriteria: 'First session booked + paid',
+        signal: 'Website visits, Cal.com clicks', blocker: null },
+      { name: 'Offer 5: Family Portrait ($499)', business: 'Power Portraits', status: 'building', category: 'offers',
+        mvp: 'Landing page + Cal.com event live. Need first booking.', shipCriteria: 'First family session booked',
+        signal: 'Landing page visits', blocker: null },
+      { name: 'Offer 6: CLG Marketing ($3K/mo)', business: 'Conner Law Group', status: 'shipped', category: 'offers',
+        mvp: 'Dad already paying $3K/mo. Now deliver results.', shipCriteria: 'SHIPPED — already getting paid',
+        signal: 'Leads generated for M&C, CIL, MBCS. More leads = more pay.', blocker: null },
+      { name: 'Offer 7: Dog Walking ($25-40)', business: 'Pawesome', status: 'building', category: 'offers',
+        mvp: 'Website live. Need first customer.', shipCriteria: 'First walk completed, payment received',
+        signal: 'Facebook group replies, website bookings', blocker: null },
+
+      // === WHAT EACH OFFER NEEDS ===
+      // NB Offers 1-3
+      { name: 'NB Cold Outreach (5/week)', business: 'Nunya Bunya', status: 'building', category: 'outreach',
+        mvp: '5 personalized messages/week to Brisbane SMBs', shipCriteria: 'First batch of 5 sent',
+        signal: 'Reply rate, audit bookings', blocker: null },
+      { name: 'NB Google My Business', business: 'Nunya Bunya', status: 'building', category: 'social',
+        mvp: 'Profile live and searchable', shipCriteria: 'Profile verified',
+        signal: 'Profile views, website clicks', blocker: null },
+      // PP Offers 4-5
+      { name: 'PP Opening Gambit (NB Strategy)', business: 'Power Portraits', status: 'building', category: 'outreach',
+        mvp: 'Run full NB opening gambit for PP', shipCriteria: 'Content engine + funnels + outreach running',
+        signal: 'First booking from outreach', blocker: null },
+      { name: 'PP Instagram + Portfolio', business: 'Power Portraits', status: 'building', category: 'social',
+        mvp: 'Account created + first portfolio post', shipCriteria: 'First image posted',
+        signal: 'Followers, DM inquiries', blocker: null },
+      { name: 'PP Free Session Play (3 shoots)', business: 'Power Portraits', status: 'building', category: 'outreach',
+        mvp: '3 free sessions with local professionals', shipCriteria: 'Sessions shot, portfolio live, Google reviews',
+        signal: 'Referrals from recipients', blocker: null },
+      { name: 'PP Google My Business', business: 'Power Portraits', status: 'building', category: 'social',
+        mvp: 'Profile live', shipCriteria: 'Profile verified',
+        signal: 'Local search visibility', blocker: null },
+      // CLG Offer 6
+      { name: 'CLG: Deliver Results for Dad', business: 'Conner Law Group', status: 'building', category: 'outreach',
+        mvp: 'Run NB agents for all 3 firms', shipCriteria: 'First month of content + leads produced',
+        signal: 'Leads generated, dad sees ROI', blocker: null },
+      { name: 'CLG: GMB for 3 Firms', business: 'Conner Law Group', status: 'building', category: 'social',
+        mvp: 'All 3 firms on Google My Business', shipCriteria: 'Profiles verified',
+        signal: 'Local search visibility', blocker: null },
+      { name: 'CLG: Run NB Agents for 3 Firms', business: 'Conner Law Group', status: 'building', category: 'outreach',
+        mvp: 'Content generation running for M&C, CIL, MBCS', shipCriteria: 'First month of content produced',
+        signal: 'Content published, leads generated', blocker: null },
+      // PDW Offer 7
+      { name: 'PDW Facebook Group Posts (5 groups)', business: 'Pawesome', status: 'building', category: 'outreach',
+        mvp: 'Post in 5 Brisbane dog owner groups', shipCriteria: '5 posts published',
+        signal: 'Comments, DMs, bookings', blocker: null },
+      { name: 'PDW Google My Business', business: 'Pawesome', status: 'building', category: 'social',
+        mvp: 'Profile live and searchable', shipCriteria: 'Profile verified',
+        signal: 'Local search visibility', blocker: null },
+      { name: 'PDW Instagram', business: 'Pawesome', status: 'building', category: 'social',
+        mvp: 'Account created + first dog photo', shipCriteria: 'First post published',
+        signal: 'Followers, engagement', blocker: null },
+
+      // === SHIPPED OUTREACH ===
+      { name: 'PP Cold Email (30 businesses)', business: 'Power Portraits', status: 'shipped', category: 'outreach',
+        mvp: '30 targeted emails sent', shipCriteria: 'Emails delivered',
+        signal: '0/30 opens — deliverability issue?', blocker: null },
+
+      // === NON-REVENUE CONTENT (lower priority) ===
+      { name: 'ORCA Editorial Content (2 articles)', business: 'ORCA', status: 'building', category: 'content',
+        mvp: '2 film reviews/essays published', shipCriteria: 'Articles live',
+        signal: 'Page views, social shares', blocker: null },
+      { name: 'BAC YouTube + First Video', business: 'Ben Alek Conner', status: 'building', category: 'content',
+        mvp: '"$16/month Backend" video', shipCriteria: 'Video live on YouTube',
+        signal: 'Views, subscribers', blocker: 'Needs to be filmed' },
+      { name: 'BAC LinkedIn Posts (3)', business: 'Ben Alek Conner', status: 'building', category: 'content',
+        mvp: '3 posts published', shipCriteria: 'First post live',
+        signal: 'Impressions, connections', blocker: null },
+
+      // === SHIPPED WEBSITES ===
+      { name: 'nunyabunya.com (139 pages)', business: 'Nunya Bunya', status: 'shipped', category: 'websites',
+        mvp: 'Full site + API', shipCriteria: 'Live on Vercel',
+        signal: 'Leads in NBHQ', blocker: null },
+      { name: 'pawesomedogwalkers.com.au', business: 'Pawesome', status: 'shipped', category: 'websites',
+        mvp: '7-page site + booking', shipCriteria: 'Live on Vercel',
+        signal: 'Booking submissions', blocker: null },
+      { name: 'orcafilmawards.com', business: 'ORCA', status: 'shipped', category: 'websites',
+        mvp: 'React + Express SPA', shipCriteria: 'Live on Vercel',
+        signal: 'Traffic', blocker: null },
+      { name: 'connerinjurylaw.com', business: 'Conner Law', status: 'shipped', category: 'websites',
+        mvp: '11-page site', shipCriteria: 'Live on Vercel',
+        signal: 'Form submissions', blocker: null },
+      { name: 'powerportraitsphotography.com', business: 'Power Portraits', status: 'shipped', category: 'websites',
+        mvp: '12+ pages live on Vercel', shipCriteria: 'Live and accessible',
+        signal: 'Website visits, booking clicks', blocker: null },
+      { name: 'benalekconner.com', business: 'Ben Alek Conner', status: 'building', category: 'websites',
+        mvp: 'Next.js in repo', shipCriteria: 'Vercel deploy',
+        signal: 'N/A until YouTube', blocker: null },
+
+      // === SHIPPED PRODUCTS & CONTENT ===
+      { name: 'Brand Bible / BFK Product', business: 'Nunya Bunya', status: 'shipped', category: 'products',
+        mvp: 'Survey + pipeline + Stripe', shipCriteria: 'Live, 3 case studies',
+        signal: 'Purchases', blocker: null },
+      { name: 'Stripe Products (4)', business: 'Nunya Bunya', status: 'shipped', category: 'products',
+        mvp: 'BB $299, SG $399, Bundle $699, Web $3K+', shipCriteria: 'Stripe connected',
+        signal: 'Revenue', blocker: null },
+      { name: 'Blog Posts (8)', business: 'Nunya Bunya', status: 'shipped', category: 'products',
+        mvp: '8 posts live', shipCriteria: 'On nunyabunya.com/blog',
+        signal: 'Organic traffic', blocker: null },
+      { name: 'Case Studies (3)', business: 'Nunya Bunya', status: 'shipped', category: 'products',
+        mvp: 'Zinia, Pawesome, Conner Law', shipCriteria: 'Live on site',
+        signal: 'Used in outreach', blocker: null },
+      { name: 'Lead Magnets (6)', business: 'Cross-Business', status: 'shipped', category: 'products',
+        mvp: 'NB, PP, PDW, ORCA, CL, BAC', shipCriteria: 'HTML + PDF downloadable',
+        signal: 'Mautic downloads', blocker: null },
+
+      // === SHIPPED INFRASTRUCTURE (STOP TOUCHING) ===
+      { name: 'NBHQ Dashboard (37 pages)', business: 'Nunya Bunya', status: 'shipped', category: 'infra',
+        mvp: 'Full admin backend', shipCriteria: 'Live',
+        signal: 'Daily use', blocker: null },
+      { name: 'Marketing Stack (12 services)', business: 'Nunya Bunya', status: 'shipped', category: 'infra',
+        mvp: 'Mautic, n8n, Matomo, Metabase, CRM, Shlink', shipCriteria: 'All running on Hetzner',
+        signal: 'Operational', blocker: null },
+      { name: 'Agent System (294 files)', business: 'Nunya Bunya', status: 'shipped', category: 'infra',
+        mvp: '121 directives + 173 scripts', shipCriteria: 'Functional',
+        signal: 'Used for client work', blocker: null },
+      { name: 'Email Sequences (5)', business: 'Cross-Business', status: 'shipped', category: 'infra',
+        mvp: 'NB, PP, ORCA, BR welcome/nurture', shipCriteria: 'In Mautic',
+        signal: 'Opens/clicks', blocker: null },
+      { name: 'Landing Pages (9)', business: 'Cross-Business', status: 'shipped', category: 'infra',
+        mvp: 'NB 4, PP 2, BAC 2, voice 1', shipCriteria: 'On Hetzner',
+        signal: 'Form submissions', blocker: null },
+      { name: 'Cal.com Booking', business: 'NB + PP', status: 'shipped', category: 'infra',
+        mvp: 'Audit + session booking', shipCriteria: 'Links live',
+        signal: 'Bookings', blocker: null },
+      { name: 'Twitter Automation', business: 'Nunya Bunya', status: 'shipped', category: 'infra',
+        mvp: 'Blog-to-tweets + engagement', shipCriteria: 'Running daily',
+        signal: 'Follower growth', blocker: null },
+
+      // === BACKBURNER ===
+      { name: 'Bella Rhyder Store', business: 'Bella Rhyder', status: 'paused', category: 'backburner',
+        mvp: 'Shopify with real products', shipCriteria: 'Store live',
+        signal: 'N/A', blocker: 'Supplier sourcing' },
+      { name: 'KevLaw AI SaaS', business: 'Conner Law', status: 'paused', category: 'backburner',
+        mvp: 'Beta with external firms', shipCriteria: 'Firms using it',
+        signal: 'N/A', blocker: 'Needs NB revenue first' },
+      { name: 'Content Calendar Builder', business: 'Nunya Bunya', status: 'paused', category: 'backburner',
+        mvp: 'Visual calendar', shipCriteria: 'Used with first client',
+        signal: 'N/A', blocker: 'Needs first client' },
+      { name: 'Digital Twin Builder', business: 'Ben Alek Conner', status: 'paused', category: 'backburner',
+        mvp: 'AI clone product', shipCriteria: 'First twin',
+        signal: 'N/A', blocker: 'Needs audience' },
+      { name: 'AdMap', business: 'Ben HQ', status: 'paused', category: 'backburner',
+        mvp: 'Prototype exists', shipCriteria: 'No demand',
+        signal: 'N/A', blocker: 'Nobody asked' },
+    ];
+
+    function getStatusCounts() {
+      const counts = { building: 0, shipped: 0, signal: 0, kill: 0, blocked: 0, paused: 0 };
+      DELIVERABLES.forEach(d => { counts[d.status] = (counts[d.status] || 0) + 1; });
+      return counts;
+    }
+
+    function renderKPIs() {
+      const c = getStatusCounts();
+      document.getElementById('kpiGrid').innerHTML = `
+        <div class="kpi-card yellow"><div class="num">${c.building}</div><div class="label">Building</div></div>
+        <div class="kpi-card magenta"><div class="num">${c.blocked}</div><div class="label">Blocked</div></div>
+        <div class="kpi-card"><div class="num">${c.shipped}</div><div class="label">Shipped</div></div>
+        <div class="kpi-card" style="border-color:#00ff88"><div class="num">${c.signal}</div><div class="label">Signal</div></div>
+        <div class="kpi-card purple"><div class="num">${c.paused}</div><div class="label">Paused</div></div>
+      `;
+    }
+
+    function renderCard(d) {
+      return `
+        <div class="ship-card" data-status="${d.status}">
+          <div class="ship-card-header">
+            <div>
+              <div class="ship-card-title">${NB_ADMIN.esc(d.name)}</div>
+              <div class="ship-card-business">${NB_ADMIN.esc(d.business)}</div>
+            </div>
+            <span class="ship-status ${d.status}">${d.status}</span>
+          </div>
+          <div class="ship-card-meta">
+            <div><dt>MVP</dt><dd>${NB_ADMIN.esc(d.mvp)}</dd></div>
+            <div><dt>Ship Criteria</dt><dd>${NB_ADMIN.esc(d.shipCriteria)}</dd></div>
+            <div><dt>Signal</dt><dd>${NB_ADMIN.esc(d.signal)}</dd></div>
+            <div><dt>${d.blocker ? 'Blocker' : 'Next Step'}</dt><dd>${NB_ADMIN.esc(d.blocker || 'Ship it.')}</dd></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCards(filter) {
+      const categories = [
+        { key: 'offers', label: 'The 7 Offers (Everything Serves These)' },
+        { key: 'outreach', label: 'What Each Offer Needs' },
+        { key: 'social', label: 'Social Accounts' },
+        { key: 'content', label: 'Non-Revenue Content' },
+        { key: 'websites', label: 'Websites' },
+        { key: 'products', label: 'Shipped Products & Content' },
+        { key: 'infra', label: 'Infrastructure (Stop Touching)' },
+        { key: 'backburner', label: 'Backburner (Don\'t Touch)' },
+      ];
+
+      let html = '';
+      categories.forEach(cat => {
+        let items = DELIVERABLES.filter(d => d.category === cat.key);
+        if (filter && filter !== 'all') items = items.filter(d => d.status === filter);
+        if (items.length === 0) return;
+        html += `
+          <div class="ship-section">
+            <div class="ship-section-header">${cat.label} <span class="ship-section-count">${items.length}</span></div>
+            ${items.map(renderCard).join('')}
+          </div>
+        `;
+      });
+      document.getElementById('shipContent').innerHTML = html || '<p style="color:var(--muted);text-align:center;padding:40px;">No deliverables match this filter.</p>';
+    }
+
+    function filterCards(status) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector(`[data-filter="${status}"]`).classList.add('active');
+      renderCards(status);
+    }
+
+    async function init() {
+      const ok = await NB_ADMIN.checkAuth();
+      if (!ok) return;
+      NB_ADMIN.renderSidebar('shipping-tracker');
+      document.getElementById('dateLabel').textContent = NB_ADMIN.formatDateFull(new Date());
+      renderKPIs();
+      renderCards('all');
+    }
+    init();
+  </script>
+</body>
+</html>

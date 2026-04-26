@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bella Rhyder — 30-Day Pre-Launch &amp; Launch Content Plan | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link active"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#bella-rhyder">Bella Rhyder</a> &rsaquo;
+          Bella Rhyder — 30-Day Pre-Launch &amp; Launch Content Plan
+        </div>
+        <h1 class="doc-title">Bella Rhyder — 30-Day Pre-Launch &amp; Launch Content Plan</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(155,89,182,0.12);color:#9B59B6">&#10024; Bella Rhyder</span>
+          <span class="doc-path">07-Bella Rhyder / 05-content / CONTENT &amp; LAUNCH</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="bella-rhyder-30-day-pre-launch-amp-launch-content-plan">Bella Rhyder — 30-Day Pre-Launch &amp; Launch Content Plan</h1>
+<p><strong>Launch Date: June 1, 2026</strong></p>
+<p><strong>Version 2.0 | March 2026</strong></p>
+<p><strong>Owner: Ben Alek Conner | Brisbane, Australia</strong></p>
+<hr>
+<h2 id="overview">Overview</h2>
+<div class="table-wrap"><table><thead><tr><th>Phase</th><th>Dates</th><th>Theme</th><th>Primary Goal</th></tr></thead><tbody><tr><td>Week 1–2: Tease &amp; Reveal</td><td>May 4–17</td><td>&quot;Something is coming&quot;</td><td>Build audience and intrigue before reveal</td></tr><tr><td>Week 3: Product Previews &amp; BTS</td><td>May 18–24</td><td>&quot;Meet the brand&quot;</td><td>Product awareness and email list growth</td></tr><tr><td>Week 4: Countdown &amp; Early Access</td><td>May 25–31</td><td>&quot;Get ready. She&#x27;s almost here.&quot;</td><td>Final list push, influencer activation</td></tr><tr><td>Launch Day</td><td>June 1</td><td>&quot;She&#x27;s live. Move Boldly.&quot;</td><td>Maximum sales conversion and brand moment</td></tr><tr><td>Post-Launch Week 1</td><td>June 2–8</td><td>&quot;The community grows&quot;</td><td>Social proof, UGC, repeat traffic</td></tr></tbody></table></div>
+<p><strong>Launch Day:</strong> Monday, June 1, 2026 — 9:00 AM AEST</p>
+<p><strong>Platform Focus:</strong> Instagram (primary), TikTok (secondary)</p>
+<p><strong>Email Platform:</strong> Klaviyo</p>
+<p><strong>Influencer Seeding:</strong> Products dispatched no later than May 11 (3 weeks before launch)</p>
+<hr>
+<h2 id="week-12-tease-amp-brand-reveal-may-417">Week 1–2: Tease &amp; Brand Reveal (May 4–17)</h2>
+<h3 id="theme-quotsomething-is-comingquot">Theme: &quot;Something is coming.&quot;</h3>
+<p>Build anticipation and a following before anyone can buy. Make launch day feel like an event worth waiting for. Early followers should feel like insiders who discovered something before it was mainstream.</p>
+<hr>
+<h3 id="day-1-monday-may-4-account-goes-live">Day 1 — Monday, May 4: Account Goes Live</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>A single, perfectly lit close-up detail shot: fabric texture, swing tag, or waistband detail — no full product reveal</li>
+<li>Caption: &quot;Coming soon. #BellaRhyder&quot;</li>
+<li>Bio set up: &quot;Move Boldly. Live Freely. | Queensland | Launching June 1 | Link below&quot;</li>
+<li>Link-in-bio pointing to email sign-up landing page with copy: &quot;Be first. Get exclusive launch access + 10% off.&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>10-second atmospheric clip — no talking, no product reveal. Trending audio.</li>
+<li>Text overlay: &quot;Bella Rhyder. Coming June 1. Move boldly. Live freely.&quot;</li>
+</ul>
+<p><strong>Email Landing Page Goes Live:</strong></p>
+<ul>
+<li>Headline: &quot;She&#x27;s coming. June 1.&quot;</li>
+<li>Subheadline: &quot;Sign up for first access to the Bella Rhyder launch + 10% off your first order.&quot;</li>
+<li>CTA: &quot;I&#x27;m in — notify me&quot;</li>
+</ul>
+<hr>
+<h3 id="day-2-tuesday-may-5">Day 2 — Tuesday, May 5</h3>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>Close-up of a brand label, swing tag, or product silhouette — extreme close-up, cryptic</li>
+<li>Poll sticker: &quot;Guessing game — what are we?&quot; (Activewear / Swimwear / Both)</li>
+<li>Second Story: &quot;Follow us — something good is coming.&quot;</li>
+</ul>
+<hr>
+<h3 id="day-3-wednesday-may-6">Day 3 — Wednesday, May 6</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>Lifestyle image — a woman running along the Brisbane esplanade at golden hour. No product visible. Natural, aspirational, beautiful.</li>
+<li>Caption: &quot;This is what we&#x27;re built for. Brisbane, we&#x27;re coming for you. #BellaRhyder #MoveBoldlyLiveFree&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>Behind-the-scenes of photoshoot preparation — location scouting, golden hour lighting, no product reveal yet</li>
+<li>Audio: something warm and coastal</li>
+</ul>
+<hr>
+<h3 id="day-4-thursday-may-7">Day 4 — Thursday, May 7</h3>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>&quot;What does your perfect activewear look like?&quot; — open question sticker</li>
+<li>Save answers publicly and in DMs for product insights and future content</li>
+</ul>
+<hr>
+<h3 id="day-5-friday-may-8">Day 5 — Friday, May 8</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>Dramatically lit product silhouette — backlit so shape is visible but details are not</li>
+<li>Caption: &quot;She moves differently. #MoveBoldlyLiveFree #BellaRhyder&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>15 seconds: hands holding a sealed poly mailer bag, pulling out tissue paper — no product reveal, just the unboxing anticipation</li>
+<li>Text: &quot;Something is coming. Very soon.&quot;</li>
+</ul>
+<hr>
+<h3 id="day-6-saturday-may-9">Day 6 — Saturday, May 9</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>First partial product reveal — cropped image showing ONE detail: the waistband of the leggings, the strap of the sports bra, or the buckle of the bag</li>
+<li>Caption: &quot;This is just the beginning. #BellaRhyder&quot;</li>
+</ul>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>Share email sign-up milestone: &quot;X women have already signed up for first access. Are you in?&quot;</li>
+<li>Swipe-up or link sticker to sign-up page</li>
+</ul>
+<hr>
+<h3 id="day-7-sunday-may-10">Day 7 — Sunday, May 10</h3>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>Sunday lifestyle content: coffee, sunny window, beach walk — warm and unhurried</li>
+<li>&quot;How are you moving this Sunday? Tell us in the comments.&quot;</li>
+<li>Spend the day replying to all comments and DMs from the week — build individual connections</li>
+</ul>
+<hr>
+<h3 id="day-8-monday-may-11-first-product-reveal-email-1">Day 8 — Monday, May 11: First Product Reveal + Email 1</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>First proper product image — one hero piece (leggings), beautifully shot in natural light. No price yet.</li>
+<li>Caption: &quot;Meet her. Crafted for the woman who doesn&#x27;t stop. Bella Rhyder arrives June 1. Link in bio to be first.&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>20-second video: a woman in activewear at the beach — natural, warm, real</li>
+<li>Music: something coastal and building</li>
+<li>Text overlay: &quot;This is what we&#x27;re built for. June 1. #BellaRhyder&quot;</li>
+</ul>
+<p><strong>EMAIL 1 — Waitlist Teaser (Send to sign-up list):</strong></p>
+<ul>
+<li>Subject: &quot;Something we&#x27;ve been working on...&quot;</li>
+<li>Preview text: &quot;June 1. You&#x27;re going to love it.&quot;</li>
+<li>Body:</li>
+</ul>
+<blockquote>&quot;We&#x27;ve been working on something. Something made for the woman who moves through life with intention — at the gym, at the beach, at the café, everywhere in between. Bella Rhyder is almost here. On June 1, we launch our full collection: activewear, swimwear, bags, hats, and accessories built for the Queensland woman. You&#x27;re on the list. That means first access — and 10% off your first order. Stay close. We&#x27;ll see you June 1.&quot;</blockquote>
+<ul>
+<li>One product image. Countdown to launch. CTA: &quot;Make sure you&#x27;re on the list — you&#x27;ll be first to shop.&quot;</li>
+</ul>
+<hr>
+<h3 id="day-9-tuesday-may-12">Day 9 — Tuesday, May 12</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>Lifestyle image — woman at the beach, natural light, relaxed and confident. No obvious product focus.</li>
+<li>Caption: &quot;Born from the Queensland coastline. Built for the women who live here. #QLDFitness #CoastalLiving&quot;</li>
+</ul>
+<hr>
+<h3 id="day-10-wednesday-may-13">Day 10 — Wednesday, May 13</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>Product flat lay — multiple pieces laid out beautifully on sand or white linen. No prices, no CTA. Just the visual.</li>
+<li>Caption: &quot;The full collection. 3 weeks. #BellaRhyder&quot;</li>
+</ul>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>Behind-the-scenes of photoshoot day — candid, fun, real</li>
+</ul>
+<hr>
+<h3 id="day-11-thursday-may-14">Day 11 — Thursday, May 14</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>Founder story post — &quot;We built Bella Rhyder because...&quot; A personal, genuine caption from the founder</li>
+<li>Example caption: &quot;We built Bella Rhyder because we were tired of choosing between activewear that performed and activewear that looked good. Between beach pieces that were resort-ready and gym pieces that survived a real workout. We live here, in Queensland, in the sun, near the water. We built this for us. And for you. June 1.&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>&quot;Why I started Bella Rhyder&quot; — founder on camera, talking directly, personal and real</li>
+<li>No script — authentic delivery</li>
+</ul>
+<p><em>Note: This is also the week influencer gifting packages should be arriving with recipients. Brief them: post from May 28 onward.</em></p>
+<hr>
+<h3 id="day-12-friday-may-15-countdown-17-days-email-2">Day 12 — Friday, May 15: Countdown 17 Days + Email 2</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>Countdown graphic or product image with text overlay: &quot;17 days until Bella Rhyder goes live.&quot;</li>
+<li>Show two more product pieces</li>
+</ul>
+<p><strong>EMAIL 2 — Product Preview:</strong></p>
+<ul>
+<li>Subject: &quot;Here&#x27;s what&#x27;s coming June 1.&quot;</li>
+<li>Preview text: &quot;Preview the collection before anyone else.&quot;</li>
+<li>Body: Preview of 4–5 hero products with images and names (no prices yet)</li>
+<li>CTA: &quot;Save this email — you&#x27;ll want to shop the moment we go live. June 1, 9 AM AEST.&quot;</li>
+</ul>
+<hr>
+<h3 id="day-13-saturday-may-16">Day 13 — Saturday, May 16</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>First full collection image — team shot or flat lay showing the breadth of the range: activewear, swimwear, bags, hats, accessories</li>
+<li>Caption: &quot;Everything arrives June 1. She&#x27;s ready. Are you? Link in bio.&quot;</li>
+</ul>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>Ask: &quot;Which category are you most excited for?&quot; (Poll: Activewear / Swimwear / Bags / All of them)</li>
+<li>Countdown sticker set for June 1, 9:00 AM AEST</li>
+</ul>
+<hr>
+<h3 id="day-14-sunday-may-17">Day 14 — Sunday, May 17</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>A single, powerful lifestyle image. Aspirational. No product in frame.</li>
+<li>Caption: &quot;June 1. 9am. bellaRhyder.com.au — link in bio.&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>30-second &quot;brand story&quot; video — atmospheric, emotional, builds to &quot;June 1. We&#x27;re coming.&quot;</li>
+<li>Music: Building, cinematic</li>
+</ul>
+<hr>
+<h2 id="week-3-product-previews-amp-behind-the-scenes-may-1824">Week 3: Product Previews &amp; Behind the Scenes (May 18–24)</h2>
+<h3 id="theme-quotmeet-the-brandquot">Theme: &quot;Meet the brand.&quot;</h3>
+<p>Deep product previews, brand value content, influencer content begins building, email list final push.</p>
+<hr>
+<h3 id="day-15-monday-may-18">Day 15 — Monday, May 18</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>Activewear category deep-dive Reel — showcase 3 key pieces in movement</li>
+<li>Caption: &quot;This is what happens when form meets function. #BellaRhyder&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>&quot;GRWM: Gym edition in Bella Rhyder&quot; — try-on, outfit showcase, walk out the door</li>
+</ul>
+<hr>
+<h3 id="day-16-tuesday-may-19">Day 16 — Tuesday, May 19</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>Swimwear category reveal post — beautiful beach or poolside shot</li>
+<li>Caption: &quot;From lap to lounge. The Bella Rhyder swimwear collection. June 1.&quot;</li>
+</ul>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>Behind-the-scenes of campaign photoshoot day (if not yet shared)</li>
+</ul>
+<hr>
+<h3 id="day-17-wednesday-may-20">Day 17 — Wednesday, May 20</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>Bags and accessories category post — flat lay or lifestyle image</li>
+<li>Caption: &quot;Every move. Every bag. Built for where she goes.&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>&quot;What fits in the Bella Rhyder gym bag?&quot; — pack with me video, practical and fun</li>
+</ul>
+<hr>
+<h3 id="day-18-thursday-may-21">Day 18 — Thursday, May 21</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>Educational carousel: &quot;Why fabric quality matters in activewear&quot;</li>
+<li>5 slides: what to look for, what BR fabrics offer, care tips</li>
+<li>Caption: &quot;Not all activewear is created equal. Here&#x27;s what we look for. (Save this.)&quot;</li>
+</ul>
+<p><strong>EMAIL 3 — &quot;Why Bella Rhyder is different&quot;:</strong></p>
+<ul>
+<li>Subject: &quot;The quality you&#x27;ve been looking for.&quot;</li>
+<li>Body: Brand values, fabric story, Australian identity, the gap we fill</li>
+<li>CTA: &quot;June 1. First access. You&#x27;re on the list.&quot;</li>
+</ul>
+<hr>
+<h3 id="day-19-friday-may-22">Day 19 — Friday, May 22</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>Weekend lifestyle post — golden hour, movement, outdoor Queensland</li>
+<li>Caption: &quot;Weekends were made for this. #MoveBoldlyLiveFree&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>&quot;Day in the life wearing Bella Rhyder&quot; — morning to evening lifestyle content</li>
+</ul>
+<hr>
+<h3 id="day-20-saturday-may-23">Day 20 — Saturday, May 23</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>Influencer content begins appearing (pre-seeded creators) — share to Stories with genuine reaction: &quot;She gets it.&quot;</li>
+<li>Own feed: UGC-style flat lay with pieces</li>
+</ul>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>&quot;10 days until launch&quot; milestone — energy and excitement</li>
+</ul>
+<hr>
+<h3 id="day-21-sunday-may-24">Day 21 — Sunday, May 24</h3>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>&quot;Sunday scaries? Not when you have this to look forward to.&quot; — countdown energy</li>
+<li>Week-in-review: recap the week&#x27;s content in a Story sequence</li>
+</ul>
+<hr>
+<h2 id="week-4-countdown-amp-early-access-may-2531">Week 4: Countdown &amp; Early Access (May 25–31)</h2>
+<h3 id="theme-quotget-ready-shex27s-almost-herequot">Theme: &quot;Get ready. She&#x27;s almost here.&quot;</h3>
+<p>Countdown urgency, final email list push, influencer posts live, social proof building pre-launch.</p>
+<hr>
+<h3 id="day-22-monday-may-25-7-days-out">Day 22 — Monday, May 25: 7 Days Out</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>&quot;7 days.&quot; — clean, confident countdown image</li>
+<li>Caption: &quot;One week. 9am AEST. June 1. bellaRhyder.com.au — link in bio. Are you on the list?&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>&quot;One week until we launch&quot; — founder on camera, excited and personal</li>
+</ul>
+<p><strong>EMAIL 4 — Final Countdown:</strong></p>
+<ul>
+<li>Subject: &quot;7 days. You&#x27;ll want to be ready.&quot;</li>
+<li>Body: Full product preview (6–8 hero products with images and names), launch offer preview (&quot;free shipping + 10% off for waitlist members on launch day only&quot;)</li>
+<li>CTA: &quot;Set a reminder. June 1. 9 AM AEST.&quot;</li>
+</ul>
+<hr>
+<h3 id="day-23-tuesday-may-26">Day 23 — Tuesday, May 26</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>&quot;5 reasons we built Bella Rhyder&quot; — brand values carousel</li>
+<li>Shares the founder&#x27;s why, the product philosophy, and the lifestyle vision</li>
+</ul>
+<hr>
+<h3 id="day-24-wednesday-may-27">Day 24 — Wednesday, May 27</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>Product story: highlight the most anticipated product based on poll data from earlier in the month</li>
+<li>Let the audience feel their feedback was heard</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>Influencer content reshare / duet with creator content arriving this week</li>
+</ul>
+<hr>
+<h3 id="day-25-thursday-may-28">Day 25 — Thursday, May 28</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>&quot;3 days.&quot; countdown image — single product hero shot, minimal text</li>
+<li>Caption: &quot;3 days. The wait is almost over. Link in bio to sign up for first access.&quot;</li>
+</ul>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>Countdown sticker sequence showing 3 days</li>
+<li>&quot;X women are signed up for first access — are you one of them?&quot;</li>
+</ul>
+<hr>
+<h3 id="day-26-friday-may-29">Day 26 — Friday, May 29</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>First influencer UGC post goes live (seeded creators briefed to post this week)</li>
+<li>Reshare immediately to Stories: &quot;She got hers early. Yours is coming Monday.&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>Influencer unboxing content (if received)</li>
+<li>Own content: &quot;Inside our launch packages&quot; — what influencers received</li>
+</ul>
+<hr>
+<h3 id="day-27-saturday-may-30">Day 27 — Saturday, May 30</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>Full collection flat lay or team shot — &quot;She&#x27;s ready. Are you?&quot;</li>
+<li>Caption: &quot;Tomorrow at 9am. June 1. bellaRhyder.com.au — link in bio.&quot;</li>
+</ul>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>&quot;Tomorrow is the day&quot;</li>
+<li>Countdown sticker: final hours</li>
+</ul>
+<p><strong>EMAIL 5 — Launch Eve:</strong></p>
+<ul>
+<li>Subject: &quot;Tomorrow morning. Be ready.&quot;</li>
+<li>Preview text: &quot;9am AEST. The full collection goes live.&quot;</li>
+<li>Body: Launch announcement, 9 AM AEST, preview 6 products with images. Launch day offer: free shipping on orders over $100, 10% off for waitlist members</li>
+<li>CTA: &quot;Set your alarm. Shop first.&quot;</li>
+</ul>
+<hr>
+<h3 id="day-28-sunday-may-31-launch-eve">Day 28 — Sunday, May 31: Launch Eve</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>A single, powerful aspirational lifestyle image. No product noise.</li>
+<li>Caption: &quot;Tomorrow. 9am. We&#x27;re live. #MoveBoldlyLiveFree&quot;</li>
+<li>That&#x27;s it. Clean, confident, final.</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>30-second &quot;eve of launch&quot; video — atmospheric, emotional, building</li>
+<li>&quot;Tomorrow we go live. Everything we&#x27;ve worked for. June 1.&quot;</li>
+</ul>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>Final countdown sequence: 12 hours, 6 hours, 1 hour (scheduled)</li>
+</ul>
+<hr>
+<h2 id="launch-day-monday-june-1-2026">Launch Day — Monday, June 1, 2026</h2>
+<h3 id="minute-by-minute-content-calendar">Minute-by-Minute Content Calendar</h3>
+<p><strong>7:00 AM — Final Story countdown</strong></p>
+<ul>
+<li>&quot;2 hours. Set your alarms.&quot;</li>
+<li>Show packing station / launch day setup behind-the-scenes</li>
+</ul>
+<p><strong>8:30 AM — &quot;30 minutes&quot; Story</strong></p>
+<ul>
+<li>&quot;Almost time. Link in bio. 9am AEST.&quot;</li>
+</ul>
+<p><strong>9:00 AM — STORE GOES LIVE</strong></p>
+<ul>
+<li>All products published on Shopify</li>
+<li>Launch email triggered automatically (EMAIL 6 — Launch Email)</li>
+</ul>
+<p><strong>EMAIL 6 — Launch Email (9:00 AM AEST):</strong></p>
+<ul>
+<li>Subject: &quot;It&#x27;s here. Bella Rhyder is live.&quot;</li>
+<li>Preview text: &quot;Shop the full collection now — free shipping today only.&quot;</li>
+<li>Body: Hero image, brand intro (50 words), full product grid (8 hero products), launch offer</li>
+<li>Offer: Free shipping on all orders over $100, first 24 hours only. 10% off for waitlist members (auto-applied)</li>
+<li>CTA: &quot;Shop Now&quot; — links directly to homepage</li>
+</ul>
+<p><strong>9:02 AM — Instagram Feed Post (Launch Hero)</strong></p>
+<ul>
+<li>The best image in the collection. One product or lifestyle hero shot.</li>
+<li>Caption: &quot;She&#x27;s here. Bella Rhyder is officially live. Move boldly. Live freely. Shop the full collection now — link in bio. #BellaRhyder #MoveBoldlyLiveFree #AussieActivewear&quot;</li>
+<li>15 hashtags loaded in caption or first comment</li>
+</ul>
+<p><strong>9:15 AM — TikTok Launch Video</strong></p>
+<ul>
+<li>High energy, full product showcase, 30–45 seconds, trending audio</li>
+<li>Text overlay: &quot;WE ARE LIVE. Shop now — link in bio. #BellaRhyder&quot;</li>
+</ul>
+<p><strong>9:30 AM — Instagram Story Sequence (7 frames)</strong></p>
+<ul>
+<li>Frame 1: &quot;SHE&#x27;S LIVE.&quot; — bold text on navy background</li>
+<li>Frame 2: Product 1 (leggings) — hero shot + price + link sticker</li>
+<li>Frame 3: Product 2 (sports bra) — same format</li>
+<li>Frame 4: Product 3 (bikini set) — same format</li>
+<li>Frame 5: Product 4 (gym bag) — same format</li>
+<li>Frame 6: &quot;FREE SHIPPING today on orders over $100. LINK IN BIO.&quot;</li>
+<li>Frame 7: Behind-the-scenes of founder at launch: &quot;Thank you for being here from Day 1.&quot;</li>
+</ul>
+<p><strong>10:00 AM — Influencer posts coordinated</strong></p>
+<ul>
+<li>Influencers briefed to post between 9–11 AM</li>
+<li>Reshare first influencer post immediately to Stories</li>
+</ul>
+<p><strong>11:00 AM — First sale story</strong></p>
+<ul>
+<li>&quot;First order is in. Thank you.&quot; — authentic, real, personal</li>
+</ul>
+<p><strong>12:00 PM — Mid-day Story check-in</strong></p>
+<ul>
+<li>&quot;It&#x27;s been 3 hours and we&#x27;re overwhelmed. Thank you.&quot;</li>
+<li>Show order notification feed if comfortable (or describe the response)</li>
+</ul>
+<p><strong>1:00 PM — TikTok Post 2</strong></p>
+<ul>
+<li>Founder on camera: what this moment means, genuine emotion, thank you</li>
+<li>Real, unscripted, 30–60 seconds</li>
+</ul>
+<p><strong>3:00 PM — Instagram Story: product spotlight</strong></p>
+<ul>
+<li>Pick one product with strongest early traction — spotlight it with link sticker</li>
+</ul>
+<p><strong>5:00 PM — &quot;Selling fast&quot; Story</strong></p>
+<ul>
+<li>One product near low stock: &quot;These are going fast — link in bio.&quot;</li>
+</ul>
+<p><strong>6:00 PM — Instagram Live (Optional but recommended)</strong></p>
+<ul>
+<li>20–30 minute live with the founder</li>
+<li>Product walkthrough and try-on, Q&amp;A with live audience</li>
+<li>Invite influencer guest to join</li>
+<li>Exclusive launch day discount code shared during Live</li>
+<li>Save replay to Stories for 24 hours</li>
+</ul>
+<p><strong>8:00 PM — Evening Story wrap-up</strong></p>
+<ul>
+<li>&quot;Day 1. Thank you. We&#x27;re just getting started.&quot;</li>
+<li>Countdown sticker: &quot;Free shipping ends in X hours&quot;</li>
+</ul>
+<p><strong>11:00 PM — Final Day 1 Story</strong></p>
+<ul>
+<li>&quot;Less than 1 hour left for free shipping. Link in bio.&quot;</li>
+</ul>
+<hr>
+<h2 id="post-launch-week-1-june-28">Post-Launch Week 1 (June 2–8)</h2>
+<h3 id="theme-quotthe-community-growsquot">Theme: &quot;The community grows.&quot;</h3>
+<p>Convert on-the-fence buyers, accumulate social proof, encourage first UGC from real customers.</p>
+<hr>
+<h3 id="day-29-tuesday-june-2">Day 29 — Tuesday, June 2</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>Second hero product post (different category from launch day — swimwear)</li>
+<li>Caption: &quot;The collection doesn&#x27;t stop at the gym. #BellaRhyder&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>&quot;Unboxing the Bella Rhyder launch package&quot; — show packaging, tissue paper, thank-you card, product</li>
+<li>Text: &quot;This is what it feels like to unbox your first Bella Rhyder order.&quot;</li>
+</ul>
+<p><strong>EMAIL 7 — &quot;In Case You Missed It&quot; (to non-openers from Launch Email):</strong></p>
+<ul>
+<li>Subject: &quot;Did you miss us? We&#x27;re still live.&quot;</li>
+<li>Preview text: &quot;The collection is still live. Free shipping ends soon.&quot;</li>
+<li>Body: Same as launch email, resent to non-openers with urgency</li>
+<li>CTA: &quot;Shop the collection — before your size sells out.&quot;</li>
+</ul>
+<hr>
+<h3 id="day-30-wednesday-june-3">Day 30 — Wednesday, June 3</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>Influencer content reshare to feed (first batch of seeded creator posts)</li>
+<li>Caption: &quot;She got hers. Now it&#x27;s your turn. #BellaRhyder&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>Day-in-the-life wearing Bella Rhyder — morning coffee to afternoon beach</li>
+</ul>
+<hr>
+<h3 id="day-31-thursday-june-4">Day 31 — Thursday, June 4</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>First customer review post (if first orders have arrived — likely pre-seeded influencer reviews)</li>
+<li>Screenshot-style review in a branded frame</li>
+<li>Caption: &quot;Real women. Real words. #BellaRhyderWoman&quot;</li>
+</ul>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>&quot;Selling fast&quot; Story — specific product with low stock indicator</li>
+<li>&quot;Your size might not be there tomorrow — link in bio&quot;</li>
+</ul>
+<hr>
+<h3 id="day-32-friday-june-5">Day 32 — Friday, June 5</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>Weekend lifestyle post — golden hour, outdoor, movement</li>
+<li>Caption: &quot;Your weekend, amplified. #MoveBoldlyLiveFree&quot;</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>GRWM: Weekend workout in Bella Rhyder — beach run, gym, post-workout coffee</li>
+</ul>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>&quot;Tag us in your first order unboxing — we&#x27;ll repost our favourites.&quot;</li>
+<li>Start building UGC pipeline</li>
+</ul>
+<hr>
+<h3 id="day-33-saturday-june-6">Day 33 — Saturday, June 6</h3>
+<p><strong>Instagram:</strong></p>
+<ul>
+<li>First UGC post — influencer or early customer wearing BR</li>
+<li>Caption: &quot;This is why we built it. #BellaRhyderWoman&quot; + tag the creator</li>
+</ul>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>Poll: &quot;Which colourway is your favourite?&quot; (with product images as options)</li>
+<li>Engagement + product research for future decisions</li>
+</ul>
+<hr>
+<h3 id="day-34-sunday-june-7">Day 34 — Sunday, June 7</h3>
+<p><strong>Instagram Story:</strong></p>
+<ul>
+<li>Week-in-review sequence: &quot;Our first week. Thank you.&quot; — recap key moments, orders shipped, influencer posts, first reviews</li>
+<li>Genuine, personal, grateful</li>
+</ul>
+<p><strong>EMAIL 8 — Launch Week Wrap-Up:</strong></p>
+<ul>
+<li>Subject: &quot;Our first week. Your favourites are selling fast.&quot;</li>
+<li>Body: 3 bestselling products with photos, limited stock callout on 1–2 items</li>
+<li>CTA: &quot;Don&#x27;t miss your size — shop now before it&#x27;s gone.&quot;</li>
+<li>Include: &quot;Share this with someone who&#x27;d love Bella Rhyder&quot; — referral mechanic</li>
+</ul>
+<hr>
+<h3 id="day-35-monday-june-8-one-week-post-launch">Day 35 — Monday, June 8: One Week Post-Launch</h3>
+<p><strong>Instagram Feed Post:</strong></p>
+<ul>
+<li>Milestone post: &quot;One week in. To every woman who showed up for this — thank you.&quot;</li>
+<li>Personal caption from the founder. Real, reflective, community-forward.</li>
+</ul>
+<p><strong>TikTok:</strong></p>
+<ul>
+<li>&quot;One week since we launched Bella Rhyder. Here&#x27;s what happened.&quot; — genuine recap, numbers if comfortable, emotional</li>
+</ul>
+<hr>
+<h2 id="email-sequence-summary">Email Sequence Summary</h2>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Email</th><th>Send Date</th><th>Subject Line</th></tr></thead><tbody><tr><td>1</td><td>Waitlist Teaser</td><td>May 11</td><td>&quot;Something we&#x27;ve been working on...&quot;</td></tr><tr><td>2</td><td>Product Preview</td><td>May 15</td><td>&quot;Here&#x27;s what&#x27;s coming June 1.&quot;</td></tr><tr><td>3</td><td>Brand Values</td><td>May 20</td><td>&quot;The quality you&#x27;ve been looking for.&quot;</td></tr><tr><td>4</td><td>Final Countdown</td><td>May 25</td><td>&quot;7 days. You&#x27;ll want to be ready.&quot;</td></tr><tr><td>5</td><td>Launch Eve</td><td>May 30</td><td>&quot;Tomorrow morning. Be ready.&quot;</td></tr><tr><td>6</td><td>Launch</td><td>June 1 — 9am</td><td>&quot;It&#x27;s here. Bella Rhyder is live.&quot;</td></tr><tr><td>7</td><td>ICYMI</td><td>June 2</td><td>&quot;Did you miss us? We&#x27;re still live.&quot;</td></tr><tr><td>8</td><td>First Week Wrap</td><td>June 7</td><td>&quot;Our first week. Your favourites are selling fast.&quot;</td></tr></tbody></table></div>
+<h3 id="welcome-sequence-automated-triggers-on-sign-up">Welcome Sequence (automated, triggers on sign-up)</h3>
+<ul>
+<li>Email A (immediate): Welcome to Bella Rhyder — brand story + 10% discount code</li>
+<li>Email B (+2 days): &quot;What we believe&quot; — values and quality story</li>
+<li>Email C (+5 days): &quot;Our hero pieces&quot; — product showcase with links</li>
+<li>Email D (+10 days): &quot;The women who wear us&quot; — UGC and community</li>
+<li>Email E (+14 days): &quot;Still thinking? Here&#x27;s what they&#x27;re saying.&quot; — reviews and FAQ</li>
+</ul>
+<hr>
+<h2 id="ugc-encouragement-plan">UGC Encouragement Plan</h2>
+<p><strong>Launch Day:</strong></p>
+<ul>
+<li>Story post: &quot;Tag us in your unboxing — we&#x27;ll reshare our favourites&quot;</li>
+<li>Branded hashtag call-to-action in all launch posts: #BellaRhyder #BellaRhyderWoman</li>
+</ul>
+<p><strong>Week 1 Post-Launch:</strong></p>
+<ul>
+<li>Email inclusion: &quot;Share your BR moment on Instagram and tag us&quot;</li>
+<li>Package insert card: &quot;Tag us @BellaRhyder for a chance to be featured&quot;</li>
+</ul>
+<p><strong>Ongoing:</strong></p>
+<ul>
+<li>Reshare all tagged content within 24 hours (with permission)</li>
+<li>Monthly community spotlight in feed</li>
+<li>Quarterly UGC competition with $200 gift card prize</li>
+</ul>
+<hr>
+<h2 id="press-outreach-plan">Press Outreach Plan</h2>
+<h3 id="target-media">Target Media</h3>
+<div class="table-wrap"><table><thead><tr><th>Publication</th><th>Audience</th><th>Pitch Angle</th></tr></thead><tbody><tr><td>Body + Soul (News Corp)</td><td>Health-conscious women, national</td><td>Queensland brand launch — coastal activewear story</td></tr><tr><td>Women&#x27;s Health Australia</td><td>Fitness women 25–40</td><td>New premium Australian activewear brand</td></tr><tr><td>Broadsheet Brisbane</td><td>Brisbane lifestyle audience</td><td>Brisbane brand story — local pride angle</td></tr><tr><td>Courier Mail (Lifestyle)</td><td>Brisbane and QLD audience</td><td>Local business launch feature</td></tr><tr><td>Fashion Journal</td><td>Young fashion-forward women</td><td>New brand launch + aesthetic story</td></tr><tr><td>Scout The City Brisbane</td><td>Brisbane city guide</td><td>Brand feature — local made, locally loved</td></tr><tr><td>The Style Insider</td><td>Fashion-forward women</td><td>Premium activewear design story</td></tr></tbody></table></div>
+<h3 id="pr-timeline">PR Timeline</h3>
+<div class="table-wrap"><table><thead><tr><th>Week</th><th>Action</th></tr></thead><tbody><tr><td>May 11–17</td><td>Prepare media kit, press release, product sample packages</td></tr><tr><td>May 18–24</td><td>Send review samples to journalists at target publications</td></tr><tr><td>June 1 (Launch Day)</td><td>Send press release: &quot;Bella Rhyder launches today&quot;</td></tr><tr><td>June 8–14</td><td>Follow up with journalists who received samples</td></tr><tr><td>June 15–30</td><td>Pitch deeper feature stories (founder story, QLD identity angle)</td></tr></tbody></table></div>
+<h3 id="press-release-headline">Press Release Headline</h3>
+<p><em>Brisbane&#x27;s Bella Rhyder Launches Premium Activewear and Lifestyle Brand for the Modern Australian Woman</em></p>
+<hr>
+<h2 id="tiktok-concept-library-pre-launch-and-launch">TikTok Concept Library (Pre-Launch and Launch)</h2>
+<div class="table-wrap"><table><thead><tr><th>Concept</th><th>Timing</th><th>Format</th><th>Hook</th></tr></thead><tbody><tr><td>&quot;Coming soon&quot; atmospheric teaser</td><td>Week 1</td><td>10-sec ambient</td><td>No words, trending audio</td></tr><tr><td>&quot;Why I started Bella Rhyder&quot;</td><td>Week 2</td><td>60-sec founder talk</td><td>&quot;I was tired of choosing between...&quot;</td></tr><tr><td>&quot;Unboxing our own product&quot;</td><td>Week 3</td><td>30-sec reveal</td><td>&quot;Wait until you see the quality...&quot;</td></tr><tr><td>&quot;Launch day countdown&quot;</td><td>May 31</td><td>15-sec energy</td><td>&quot;Tomorrow. 9am. We&#x27;re live.&quot;</td></tr><tr><td>&quot;Launch day — we&#x27;re live&quot;</td><td>June 1</td><td>30-sec high energy</td><td>&quot;WE&#x27;RE LIVE. Let&#x27;s go.&quot;</td></tr><tr><td>&quot;First order ever&quot;</td><td>June 1–2</td><td>20-sec genuine moment</td><td>&quot;Our first order just came in and I...&quot;</td></tr><tr><td>&quot;Unboxing the Bella Rhyder order&quot;</td><td>June 2–3</td><td>45-sec unboxing</td><td>&quot;This is what it looks like when it arrives...&quot;</td></tr><tr><td>&quot;Day-in-the-life in BR&quot;</td><td>June 4–5</td><td>60-sec lifestyle</td><td>&quot;Morning routine wearing Bella Rhyder...&quot;</td></tr><tr><td>&quot;One week since we launched&quot;</td><td>June 8</td><td>60-sec recap</td><td>&quot;One week ago today we went live and...&quot;</td></tr></tbody></table></div>
+<hr>
+<p><em>Bella Rhyder 30-Day Pre-Launch &amp; Launch Content Plan — Version 2.0 | March 2026</em></p>
+<p><em>Owner: Ben Alek Conner | Brisbane, Australia</em></p>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">07-Bella Rhyder/05-content/CONTENT &amp; LAUNCH/LAUNCH CONTENT PLAN.md</div>
+    </main>
+  </div>
+</body>
+</html>

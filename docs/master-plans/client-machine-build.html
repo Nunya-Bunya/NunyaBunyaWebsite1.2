@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Machine Build Plan | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          Client Machine Build Plan
+        </div>
+        <h1 class="doc-title">Client Machine Build Plan</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="client-machine-build-plan">Client Machine Build Plan</h1>
+<h2 id="get-nunya-bunya-to-quotready-to-take-clientsquot-as-fast-as-possible">Get Nunya Bunya to &quot;ready to take clients&quot; as fast as possible</h2>
+<p><strong>Created:</strong> 2026-03-28</p>
+<p><strong>Goal:</strong> Complete the infrastructure so that onboarding a new client takes under 2 hours, and monthly management takes under 5 hours per client.</p>
+<p><strong>Current state:</strong> Stack is deployed, Mautic provisioned, emails created, campaigns built, pixel live on 4 sites. But the client-facing pipeline isn&#x27;t complete -- no way to actually sign, onboard, and deliver for a paying client end-to-end.</p>
+<hr>
+<h2 id="what-quotready-to-take-clientsquot-means">What &quot;Ready to Take Clients&quot; Means</h2>
+<p>A client signs. Within 48 hours they have:</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> A live landing page with their branding, offer, and form</li>
+<li><span class="cb cb-empty">&#9744;</span> Form connected to Mautic (auto-creates contact, tags, starts drip)</li>
+<li><span class="cb cb-empty">&#9744;</span> Slack notifications on every lead</li>
+<li><span class="cb cb-empty">&#9744;</span> 3-5 email drip sequence running automatically</li>
+<li><span class="cb cb-empty">&#9744;</span> Meta Pixel retargeting on all pages</li>
+<li><span class="cb cb-empty">&#9744;</span> Matomo analytics tracking</li>
+<li><span class="cb cb-empty">&#9744;</span> Shlink tracking links for all campaigns</li>
+<li><span class="cb cb-empty">&#9744;</span> Ad campaigns live (Meta prospecting + retargeting)</li>
+<li><span class="cb cb-empty">&#9744;</span> Metabase dashboard showing their leads and performance</li>
+<li><span class="cb cb-empty">&#9744;</span> Cal.com booking link for consultations</li>
+</ul>
+<p>And every month, mostly on autopilot:</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Ads running and optimised</li>
+<li><span class="cb cb-empty">&#9744;</span> Drip emails sending</li>
+<li><span class="cb cb-empty">&#9744;</span> Leads flowing to Slack</li>
+<li><span class="cb cb-empty">&#9744;</span> Monthly report auto-generated</li>
+<li><span class="cb cb-empty">&#9744;</span> One client call</li>
+</ul>
+<hr>
+<h2 id="build-phases">Build Phases</h2>
+<h3 id="phase-1-fix-the-gaps-day-1">PHASE 1: Fix the Gaps (Day 1)</h3>
+<p><strong>Time: 3-4 hours</strong></p>
+<p><strong>What:</strong> Finish the things that are 90% done but not working end-to-end.</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>1.1 Verify SES production access is approved</strong></li>
+<li>Check AWS SES console</li>
+<li>If not approved, follow up or send test to verified email only</li>
+<li>Send a test email from Mautic to confirm delivery works</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>1.2 Publish Mautic campaigns</strong></li>
+<li>Log into https://mautic.nunyabunya.com</li>
+<li>Review all 6 campaigns (BAC, Nunya Bunya, Conner Law, ORCA, Power Portraits, Bella Rhyder)</li>
+<li>Check email content looks right</li>
+<li>Publish each campaign</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>1.3 Set up Cal.com</strong></li>
+<li>Create account at cal.com (or log in if existing)</li>
+<li>Create booking type: &quot;Free 30-Minute Strategy Call&quot;</li>
+<li>Set availability (your actual working hours)</li>
+<li>Get the booking URL</li>
+<li>Update all landing page CTAs and email CTAs with the real booking link</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>1.4 Test the full pipeline end-to-end</strong></li>
+<li>Submit a form on nunyabunya.com/free-audit</li>
+<li>Verify: Mautic contact created, Slack notification received, drip email #1 arrives</li>
+<li>Submit a form on powerportraitsphotography.com/lead-magnet</li>
+<li>Verify same pipeline works</li>
+<li>Fix anything broken</li>
+</ul>
+<h3 id="phase-2-client-onboarding-template-day-2">PHASE 2: Client Onboarding Template (Day 2)</h3>
+<p><strong>Time: 3-4 hours</strong></p>
+<p><strong>What:</strong> Build reusable templates so every new client setup is copy-paste, not start-from-scratch.</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>2.1 Landing page template</strong></li>
+<li>Create a clean, brandable HTML template at <code>/01-Nunya Bunya/Templates/landing-page-template/</code></li>
+<li>Includes: hero section, problem/solution, social proof, form, thank-you page</li>
+<li>Placeholders for: business name, colours, headline, offer, form fields</li>
+<li>Pre-wired: Meta Pixel, Matomo tracking, form handler stub</li>
+<li>To use: duplicate folder, find-and-replace placeholders, deploy</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>2.2 Form handler template</strong></li>
+<li>Create a reusable <code>/api/lead.js</code> that accepts config via environment variables</li>
+<li>ENV vars: <code>CLIENT<em>NAME</code>, <code>MAUTIC</em>TAG</code>, <code>SLACK<em>CHANNEL</em>ID</code></li>
+<li>Handles: Mautic contact creation, Slack notification, response</li>
+<li>To use: set 3 env vars in Vercel, done</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>2.3 Email sequence templates</strong></li>
+<li>Write generic versions of each business type drip:</li>
+<li>Service business (audit/consultation offer)</li>
+<li>E-commerce (discount/launch offer)</li>
+<li>Professional services (guide/resource offer)</li>
+<li>Store in <code>/01-Nunya Bunya/Templates/email-sequences/</code></li>
+<li>To use: copy, customise subject lines and body, load into Mautic</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>2.4 Client onboarding script (v1)</strong></li>
+<li>Python script: <code>setup<em>new</em>client.py</code></li>
+<li>Input: client name, business type, brand colours, Slack channel ID</li>
+<li>Creates: Mautic segment + emails + campaign via API</li>
+<li>Output: segment ID, email IDs, campaign ID (all logged)</li>
+<li>Does NOT create landing pages yet (Phase 3)</li>
+</ul>
+<h3 id="phase-3-automation-agent-day-3-4">PHASE 3: Automation Agent (Day 3-4)</h3>
+<p><strong>Time: 4-6 hours</strong></p>
+<p><strong>What:</strong> Build the one-click client setup that generates everything.</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>3.1 Expand setup<em>new</em>client.py to full agent</strong></li>
+<li>Input: client name, type, colours, domain, offer headline, lead magnet title</li>
+<li>Auto-generates:</li>
+<li>Mautic segment, emails (from template), campaign</li>
+<li>Landing page HTML (from template, with branding applied)</li>
+<li>Thank-you page HTML</li>
+<li>Form handler with correct env vars</li>
+<li>Shlink tracking links</li>
+<li>Slack channel (via Slack API)</li>
+<li>Matomo site (via Matomo API)</li>
+<li>Ad copy (2 Meta, 2 Google -- from templates)</li>
+<li>Output: a deployable folder + a summary of all IDs and links</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>3.2 One-command deploy</strong></li>
+<li><code>npx vercel --prod</code> from the generated folder</li>
+<li>Or: push to a git repo that auto-deploys via Vercel</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>3.3 Test with a fake client</strong></li>
+<li>Run the agent with test data</li>
+<li>Verify everything works end-to-end</li>
+<li>Time it -- goal is under 30 minutes from input to live</li>
+</ul>
+<h3 id="phase-4-monthly-automation-day-5">PHASE 4: Monthly Automation (Day 5)</h3>
+<p><strong>Time: 3-4 hours</strong></p>
+<p><strong>What:</strong> Automate the recurring monthly tasks so they don&#x27;t eat your time.</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>4.1 Automated lead alerts (already mostly done)</strong></li>
+<li>Verify n8n workflows are active:</li>
+<li>Form submission --&gt; Slack notification</li>
+<li>Mautic email opened --&gt; Slack notification (optional, can be noisy)</li>
+<li>Hot lead (score &gt;= 50) --&gt; urgent Slack alert</li>
+<li>Test each workflow</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>4.2 Automated monthly reports</strong></li>
+<li>Build a Metabase dashboard template for clients:</li>
+<li>New leads this month</li>
+<li>Email open rate / click rate</li>
+<li>Landing page conversion rate</li>
+<li>Ad spend and cost per lead (manual input or connected to Meta API)</li>
+<li>Schedule Metabase to email the dashboard as PDF on the 1st of each month</li>
+<li>Or: create a shareable dashboard link for each client</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>4.3 Ad performance monitoring</strong></li>
+<li>Set up n8n workflow: weekly check of Meta Ads API</li>
+<li>Alert to Slack if cost-per-lead exceeds threshold</li>
+<li>Alert if ad spend is $0 (ads paused or billing issue)</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>4.4 Email health monitoring</strong></li>
+<li>n8n workflow: daily check of Mautic bounce rate</li>
+<li>Alert if bounce rate exceeds 5% (list quality issue)</li>
+<li>Alert if any campaign has 0 sends in 24 hours (something broken)</li>
+</ul>
+<h3 id="phase-5-sales-pipeline-day-6">PHASE 5: Sales Pipeline (Day 6)</h3>
+<p><strong>Time: 2-3 hours</strong></p>
+<p><strong>What:</strong> Build the system to actually get and close clients.</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>5.1 Nunya Bunya&#x27;s own funnel is live and working</strong></li>
+<li>nunyabunya.com/free-audit --&gt; form --&gt; Mautic drip --&gt; booking</li>
+<li>nunyabunya.com/checklist --&gt; form --&gt; Mautic drip --&gt; booking</li>
+<li>Both funnels tested end-to-end</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>5.2 Proposal template</strong></li>
+<li>Create or update the proposal template (PandaDoc or PDF)</li>
+<li>Include: scope, deliverables, timeline, pricing, terms</li>
+<li>Pre-filled with standard Nunya Bunya packages</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>5.3 Contract template</strong></li>
+<li>Review existing CLIENT CONTRACT.md</li>
+<li>Make sure it covers: scope, payment terms, cancellation, IP rights</li>
+<li>Ready to send digitally (PandaDoc or DocuSign)</li>
+</ul>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>5.4 Outreach system</strong></li>
+<li>Daily: post in 3 Facebook groups (free advice, soft CTA)</li>
+<li>Daily: engage on 5 LinkedIn posts</li>
+<li>Weekly: 2 cold outreach DMs to businesses that need help</li>
+<li>Weekly: check Google Maps for new Brisbane businesses without marketing</li>
+<li>Track all outreach in Twenty CRM</li>
+</ul>
+<hr>
+<h2 id="timeline">Timeline</h2>
+<div class="table-wrap"><table><thead><tr><th>Day</th><th>Phase</th><th>Hours</th><th>Status</th></tr></thead><tbody><tr><td>1</td><td>Fix the Gaps</td><td>3-4</td><td><strong>DONE</strong> (2026-03-28) -- SES working, 6 campaigns published, Cal.com live, pipeline tested</td></tr><tr><td>2</td><td>Templates</td><td>3-4</td><td><strong>DONE</strong> (2026-03-28) -- Landing page template, form handler, email templates, onboarding script</td></tr><tr><td>3-4</td><td>Automation Agent</td><td>4-6</td><td><strong>DONE</strong> (2026-03-29) -- setup<em>new</em>client.py: Slack + Mautic + Matomo + Shlink + landing page + ad copy + deploy</td></tr><tr><td>5</td><td>Monthly Automation</td><td>3-4</td><td><strong>DONE</strong> (2026-03-29) -- n8n workflow definitions, Mautic point scoring live, report reminders</td></tr><tr><td>6</td><td>Sales Pipeline</td><td>2-3</td><td><strong>DONE</strong> (2026-03-29) -- Funnels tested, contract fixed, proposal agent ready, outreach defined</td></tr><tr><td><strong>Total</strong></td><td></td><td><strong>16-21 hrs</strong></td><td><strong>ALL 6 PHASES COMPLETE IN ONE SESSION</strong></td></tr></tbody></table></div>
+<p>At 4-5 hours/day, this is about <strong>4-5 days of focused work.</strong></p>
+<hr>
+<h2 id="after-this-plan-is-done">After This Plan Is Done</h2>
+<p>You will be able to:</p>
+<ol>
+<li><strong>Sign a client</strong> -- send proposal + contract from templates</li>
+<li><strong>Onboard in under 2 hours</strong> -- run the setup agent, deploy, test</li>
+<li><strong>Deliver from day 1</strong> -- landing page live, ads running, emails flowing</li>
+<li><strong>Manage in 5 hours/month</strong> -- mostly automated, you handle strategy + client calls</li>
+<li><strong>Scale to 8 clients solo</strong> -- before needing your first hire</li>
+</ol>
+<hr>
+<h2 id="success-metrics">Success Metrics</h2>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Target</th></tr></thead><tbody><tr><td>Time to onboard new client</td><td>Under 2 hours</td></tr><tr><td>Time per client per month</td><td>Under 5 hours</td></tr><tr><td>First paying client signed</td><td>Within 2 weeks of completing this plan</td></tr><tr><td>Monthly recurring revenue</td><td>$1,500+ within 30 days</td></tr><tr><td>Clients by end of Q2 2026</td><td>3-5</td></tr></tbody></table></div>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/CLIENT-MACHINE-BUILD.md</div>
+    </main>
+  </div>
+</body>
+</html>

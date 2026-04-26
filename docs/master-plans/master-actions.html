@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MASTER ACTIONS | NBHQ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Self-contained dark theme (no external deps) ── */
+    :root {
+      --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+      --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+      --muted: #999999; --subtle: #2a2a2a;
+      --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body); background: var(--dark);
+      color: var(--white); min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 240px; background: var(--dark2); border-right: 1px solid var(--subtle);
+      padding: 24px 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 24px 20px; border-bottom: 1px solid var(--subtle); margin-bottom: 12px; }
+    .sidebar-logo span {
+      font-family: var(--font-heading); font-weight: 900; font-size: 18px;
+      letter-spacing: 0.06em; color: var(--teal);
+    }
+    .sidebar-label {
+      padding: 10px 24px 6px; font-family: var(--font-heading); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(153,153,153,0.5);
+    }
+    .sidebar-nav { flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 9px 24px; font-size: 13px;
+      color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.15s; font-weight: 400;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--teal); border-left-color: var(--teal); background: rgba(0,229,204,0.04); font-weight: 500; }
+    .sidebar-link .icon { font-size: 14px; width: 20px; text-align: center; }
+    .sidebar-divider { height: 1px; background: var(--subtle); margin: 8px 24px; }
+
+    .admin-main { margin-left: 240px; flex: 1; padding: 48px 56px 80px; max-width: 960px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; padding: 24px 20px 60px; }
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-weight: 300;
+    }
+    .doc-breadcrumb a { color: var(--teal); text-decoration: none; }
+    .doc-breadcrumb a:hover { text-decoration: underline; }
+    .doc-title {
+      font-family: var(--font-heading); font-weight: 900; font-size: 42px;
+      text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05;
+      margin-bottom: 20px; color: var(--white);
+    }
+    .doc-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: var(--font-heading);
+    }
+    .doc-path {
+      font-size: 12px; color: var(--muted); font-weight: 300;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+      padding: 48px 56px;
+    }
+
+    /* Headings */
+    .doc-body h1 {
+      font-family: var(--font-heading); font-weight: 900; font-size: 26px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.02em;
+      margin: 48px 0 16px; padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0,229,204,0.15);
+    }
+    .doc-body h1:first-child { margin-top: 0; }
+    .doc-body h2 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 20px;
+      color: var(--white); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 40px 0 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body h3 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+      color: var(--teal); text-transform: uppercase; letter-spacing: 0.03em;
+      margin: 32px 0 10px;
+    }
+    .doc-body h4 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+      color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em;
+      margin: 24px 0 8px;
+    }
+    .doc-body h5, .doc-body h6 {
+      font-family: var(--font-heading); font-weight: 600; font-size: 12px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      margin: 20px 0 6px;
+    }
+
+    /* Paragraphs */
+    .doc-body p {
+      font-size: 14px; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    }
+    .doc-body p strong { font-weight: 600; color: var(--white); }
+
+    /* Links */
+    .doc-body a {
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,204,0.3);
+      transition: border-color 0.15s;
+    }
+    .doc-body a:hover { border-bottom-color: var(--teal); }
+
+    /* Lists */
+    .doc-body ul {
+      margin: 14px 0; padding-left: 0; list-style: none;
+    }
+    .doc-body ul li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      padding-left: 20px; position: relative;
+    }
+    .doc-body ul li::before {
+      content: ''; position: absolute; left: 4px; top: 10px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); opacity: 0.6;
+    }
+    .doc-body ol {
+      margin: 14px 0; padding-left: 28px;
+      counter-reset: doc-ol;
+    }
+    .doc-body ol li {
+      font-size: 14px; line-height: 1.75; font-weight: 300;
+      color: rgba(255,255,255,0.82); margin-bottom: 6px;
+      counter-increment: doc-ol; list-style: none;
+      padding-left: 8px; position: relative;
+    }
+    .doc-body ol li::before {
+      content: counter(doc-ol); position: absolute; left: -28px;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      color: var(--teal); width: 20px; text-align: right;
+    }
+    .doc-body li strong { font-weight: 600; color: var(--white); }
+
+    /* Blockquotes */
+    .doc-body blockquote {
+      border-left: 3px solid var(--teal); padding: 16px 24px;
+      margin: 20px 0; background: rgba(0,229,204,0.05);
+      border-radius: 0 10px 10px 0;
+      color: rgba(255,255,255,0.75); font-weight: 300;
+      font-size: 14px; line-height: 1.7; font-style: italic;
+    }
+
+    /* Code */
+    .doc-body code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px; color: var(--teal);
+      background: rgba(0,229,204,0.08); padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .doc-body pre {
+      background: var(--dark3); border: 1px solid var(--subtle);
+      border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; margin: 20px 0;
+    }
+    .doc-body pre code {
+      background: none; padding: 0; color: rgba(255,255,255,0.8);
+      font-size: 13px; line-height: 1.6;
+    }
+
+    /* Tables */
+    .doc-body .table-wrap {
+      border-radius: 10px; overflow: hidden; margin: 20px 0;
+      border: 1px solid var(--subtle);
+    }
+    .doc-body table { width: 100%; border-collapse: collapse; }
+    .doc-body thead th {
+      background: var(--dark3); padding: 12px 18px; text-align: left;
+      font-family: var(--font-heading); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border-bottom: 1px solid var(--subtle);
+    }
+    .doc-body tbody td {
+      padding: 12px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300;
+    }
+    .doc-body tbody tr:hover { background: rgba(0,229,204,0.03); }
+
+    /* Horizontal rules */
+    .doc-body hr {
+      border: none; border-top: 1px solid var(--subtle);
+      margin: 32px 0;
+    }
+
+    /* Checkboxes */
+    .cb { font-size: 16px; margin-right: 4px; }
+    .cb-empty { color: var(--muted); }
+    .cb-done { color: var(--teal); }
+    .cb-active { color: var(--yellow); }
+
+    /* Delete */
+    .doc-body del { color: var(--muted); }
+
+    /* ── Back button ── */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 10px 20px;
+      background: transparent; border: 1px solid var(--subtle);
+      border-radius: 8px; color: var(--muted); text-decoration: none;
+      font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .doc-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    /* ── Footer ── */
+    .doc-source {
+      margin-top: 16px; font-size: 11px;
+      color: rgba(153,153,153,0.4); font-weight: 300;
+      font-family: 'SF Mono', monospace;
+    }
+</style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo"><span>NBHQ</span></div>
+      <nav class="sidebar-nav">
+        <a href="/nb-admin-my-day" class="sidebar-link"><span class="icon">&#9728;</span> My Day</a>
+        <a href="/nb-admin-dashboard" class="sidebar-link"><span class="icon">&#9670;</span> Dashboard</a>
+        <a href="/nb-admin-docs" class="sidebar-link active"><span class="icon">&#128218;</span> Documents</a>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Categories</div>
+        <a href="/nb-admin-docs#master-plans" class="sidebar-link active"><span class="icon">&#128640;</span> Master Plans</a>
+<a href="/nb-admin-docs#ben-hq" class="sidebar-link"><span class="icon">&#9670;</span> Ben HQ</a>
+<a href="/nb-admin-docs#nunya-bunya" class="sidebar-link"><span class="icon">&#9632;</span> Nunya Bunya</a>
+<a href="/nb-admin-docs#power-portraits" class="sidebar-link"><span class="icon">&#128247;</span> Power Portraits</a>
+<a href="/nb-admin-docs#pawesome" class="sidebar-link"><span class="icon">&#128054;</span> Pawesome</a>
+<a href="/nb-admin-docs#orca" class="sidebar-link"><span class="icon">&#127916;</span> ORCA Film Awards</a>
+<a href="/nb-admin-docs#conner-law" class="sidebar-link"><span class="icon">&#9878;</span> Conner Law</a>
+<a href="/nb-admin-docs#ben-alek-conner" class="sidebar-link"><span class="icon">&#127908;</span> Ben Alek Conner</a>
+<a href="/nb-admin-docs#bella-rhyder" class="sidebar-link"><span class="icon">&#10024;</span> Bella Rhyder</a>
+<a href="/nb-admin-docs#operations" class="sidebar-link"><span class="icon">&#9881;</span> Operations</a>
+
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <div class="doc-header">
+        <div class="doc-breadcrumb">
+          <a href="/nb-admin-docs">Documents</a> &rsaquo;
+          <a href="/nb-admin-docs#master-plans">Master Plans</a> &rsaquo;
+          MASTER ACTIONS
+        </div>
+        <h1 class="doc-title">MASTER ACTIONS</h1>
+        <div class="doc-meta">
+          <span class="doc-badge" style="background:rgba(0,229,204,0.12);color:#00E5CC">&#128640; Master Plans</span>
+          <span class="doc-path">MASTER PLANS</span>
+        </div>
+      </div>
+
+      <div class="doc-body">
+<h1 id="master-actions">MASTER ACTIONS</h1>
+<blockquote>Single source of truth. Every task lives here. Nothing competes with this file.<br>&quot;Built&quot; is not &quot;done.&quot; Done = deployed + promoted + generating value.</blockquote>
+<p>Last updated: 2026-04-21</p>
+<hr>
+<h2 id="daily-recurring">DAILY (Recurring)</h2>
+<blockquote>These repeat on a schedule. The daily digest and NBHQ pull from this section.<br>Keep it real — only tasks that actually need to happen regularly.</blockquote>
+<h3 id="every-weekday-monfri">Every Weekday (Mon–Fri)</h3>
+<p><strong>Admin &amp; Ops (15 min)</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Check #alerts and #outreach in Slack</li>
+<li><span class="cb cb-empty">&#9744;</span> Respond to all DMs, emails, and inbound leads</li>
+<li><span class="cb cb-empty">&#9744;</span> Update Twenty CRM with any new leads</li>
+</ul>
+<p><strong>Nunya Bunya Content (30 min)</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Write 1 LinkedIn post (marketing tip, client win, or hot take)</li>
+<li><span class="cb cb-empty">&#9744;</span> Compress to Twitter post</li>
+<li><span class="cb cb-empty">&#9744;</span> Engage in 2 Facebook groups (comment/help, not spam)</li>
+<li><span class="cb cb-empty">&#9744;</span> Follow up on any NB inbound leads/DMs</li>
+</ul>
+<p><strong>Ben Alek Conner Content (15 min)</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Write 1 LinkedIn post (personal story, lesson, or BTS)</li>
+<li><span class="cb cb-empty">&#9744;</span> Compress to Twitter post</li>
+<li><span class="cb cb-empty">&#9744;</span> Comment on 5 LinkedIn posts in your niche</li>
+</ul>
+<h3 id="monday">Monday</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> NB: Cold outreach — send 5 messages to Brisbane SMBs</li>
+<li><span class="cb cb-empty">&#9744;</span> Review week&#x27;s priorities in MASTER-ACTIONS</li>
+</ul>
+<h3 id="tuesday">Tuesday</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> NB: Post in 2nd FB group (case study angle)</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: Twitter post (film recommendation)</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: Engage with film Twitter community</li>
+<li><span class="cb cb-empty">&#9744;</span> Quick check: Matomo + social metrics</li>
+</ul>
+<h3 id="wednesday">Wednesday</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: Instagram post (film still + caption)</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: Write/publish film criticism article</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: Twitter thread promoting article</li>
+<li><span class="cb cb-empty">&#9744;</span> NB: If 1st/3rd Wed — write NB blog post</li>
+</ul>
+<h3 id="thursday">Thursday</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> NB: If last Thu of month — send NB newsletter (Mautic)</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: Twitter post (critic discussion thread)</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: Instagram post (nominee spotlight)</li>
+<li><span class="cb cb-empty">&#9744;</span> Review sales pipeline in Twenty CRM</li>
+</ul>
+<h3 id="friday">Friday</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> PP: Instagram post (portrait showcase)</li>
+<li><span class="cb cb-empty">&#9744;</span> PP: LinkedIn post (photography tip / client result)</li>
+<li><span class="cb cb-empty">&#9744;</span> PP: Engage with Brisbane photography community</li>
+<li><span class="cb cb-empty">&#9744;</span> NB: Review week&#x27;s content metrics — what performed best?</li>
+<li><span class="cb cb-empty">&#9744;</span> Admin: Send weekly invoices + chase overdue</li>
+<li><span class="cb cb-empty">&#9744;</span> Admin: Update bookkeeping / expense tracking</li>
+</ul>
+<h3 id="saturday">Saturday</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> NB: Schedule next week&#x27;s posts</li>
+<li><span class="cb cb-empty">&#9744;</span> NB: Quick audit — any client sites need updates?</li>
+<li><span class="cb cb-empty">&#9744;</span> NB: Brainstorm 3 content ideas for next week</li>
+<li><span class="cb cb-empty">&#9744;</span> BAC: Film YouTube video (Building Everything series)</li>
+<li><span class="cb cb-empty">&#9744;</span> BAC: Film 3 shorts/reels back to back</li>
+<li><span class="cb cb-empty">&#9744;</span> Admin: Weekly review — what worked, what didn&#x27;t</li>
+<li><span class="cb cb-empty">&#9744;</span> Admin: Plan next week&#x27;s priorities</li>
+<li><span class="cb cb-empty">&#9744;</span> Admin: Update MASTER-ACTIONS with progress</li>
+</ul>
+<h3 id="sunday">Sunday</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> NB: Verify next week&#x27;s posts are scheduled</li>
+<li><span class="cb cb-empty">&#9744;</span> BAC: Edit + upload YouTube video</li>
+<li><span class="cb cb-empty">&#9744;</span> BAC: Edit 3 shorts from Saturday</li>
+<li><span class="cb cb-empty">&#9744;</span> Bella Rhyder: Instagram post (product showcase)</li>
+<li><span class="cb cb-empty">&#9744;</span> Bella Rhyder: TikTok post (brand content)</li>
+<li><span class="cb cb-empty">&#9744;</span> Admin: Final review — is next week&#x27;s calendar set?</li>
+</ul>
+<h3 id="health-daily">Health (Daily)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Keto eating window: 12 PM – 8 PM</li>
+<li><span class="cb cb-empty">&#9744;</span> Drink 2L+ water before eating window opens</li>
+<li><span class="cb cb-empty">&#9744;</span> Exercise: C25K run (Mon/Wed/Fri) or walk/stretch (other days)</li>
+</ul>
+<hr>
+<h2 id="at-the-computer">AT THE COMPUTER</h2>
+<h3 id="clg-opening-gambit-fitout-polish-offer-6-3kmo-from-dad">CLG Opening Gambit → Fitout → Polish (Offer 6: $3K/mo from dad)</h3>
+<p><strong>Opening Gambit (Audit + Strategy)</strong></p>
+<ul>
+<li><span class="cb cb-done">&#9745;</span> Scrape all 4 CLG sites (CIL, M&amp;C, MBCS, i5crash) — 2026-04-20</li>
+<li><span class="cb cb-done">&#9745;</span> Produce branded audit report (audit-report.html) — 2026-04-20</li>
+<li><span class="cb cb-done">&#9745;</span> Create strategy doc with 90-day plan per firm (strategy.html) — 2026-04-20</li>
+<li><span class="cb cb-empty">&#9744;</span> Create KPI dashboard with baselines + targets (kpis.html) — DONE = current metrics recorded, 30/90 day targets set</li>
+<li><span class="cb cb-empty">&#9744;</span> Create action plan with weekly breakdown (action-plan.html) — DONE = tasks loaded into this file</li>
+</ul>
+<p><strong>The Fitout (Build Everything)</strong></p>
+<ul>
+<li><span class="cb cb-done">&#9745;</span> Build connerinjurylaw.com new site (10 pages, 184KB, SEO redirects) — 2026-04-20</li>
+<li><span class="cb cb-empty">&#9744;</span> Deploy connerinjurylaw.com to Vercel — DONE = live at URL, DNS pointed from DreamHost</li>
+</ul>
+<ul>
+<li><span class="cb cb-done">&#9745;</span> Build merkelandconner.com new site (10 pages, emerald/charcoal design) — 2026-04-20</li>
+<li><span class="cb cb-empty">&#9744;</span> Deploy merkelandconner.com to Vercel — DONE = live at URL, DNS pointed from DreamHost</li>
+<li><span class="cb cb-empty">&#9744;</span> Build mbcs-law.com new site — DONE = deployed to Vercel, DNS pointed from Wix</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Google Business Profile: Conner Injury Law (WA) — DONE = profile verified + live</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Google Business Profile: Merkel &amp; Conner (OR) — DONE = profile verified + live</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Google Business Profile: MBCS (Salem + Portland) — DONE = both locations verified + live</li>
+<li><span class="cb cb-empty">&#9744;</span> Create Cal.com booking: CIL free case evaluation — DONE = booking link on website, tested end-to-end</li>
+<li><span class="cb cb-empty">&#9744;</span> Create Cal.com booking: M&amp;C free consultation — DONE = booking link on website</li>
+<li><span class="cb cb-empty">&#9744;</span> Create Cal.com booking: MBCS 60-min consultation — DONE = booking link on website</li>
+<li><span class="cb cb-empty">&#9744;</span> Create Mautic segments for 3 firms — DONE = CIL, M&amp;C, MBCS segments in Mautic</li>
+<li><span class="cb cb-empty">&#9744;</span> Build CIL lead magnet (car accident checklist exists, deploy to new site) — DONE = downloadable on site, Mautic form captures email</li>
+<li><span class="cb cb-empty">&#9744;</span> Build M&amp;C lead magnet — DONE = downloadable on site, Mautic form captures email</li>
+<li><span class="cb cb-empty">&#9744;</span> Build MBCS lead magnet (estate planning guide) — DONE = downloadable on site, Mautic form captures email</li>
+<li><span class="cb cb-empty">&#9744;</span> Deploy email welcome sequences for 3 firms — DONE = Mautic campaigns live, test emails received</li>
+<li><span class="cb cb-empty">&#9744;</span> Generate first 4 blog posts per firm (12 total) — DONE = published on each site, indexed by Google</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Matomo tracking on all 3 sites — DONE = analytics receiving data</li>
+<li><span class="cb cb-empty">&#9744;</span> Create Shlink tracked links per firm per channel — DONE = links created, documented</li>
+<li><span class="cb cb-empty">&#9744;</span> Redirect i5crash.com → connerinjurylaw.com — DONE = DNS redirect working</li>
+<li><span class="cb cb-empty">&#9744;</span> Redirect injuryclaims + kwclaw → connerinjurylaw.com — DONE = DNS redirects working</li>
+<li><span class="cb cb-empty">&#9744;</span> Begin running NB agents for all 3 firms (content, social, SEO)</li>
+<li><span class="cb cb-empty">&#9744;</span> Track leads generated — more leads = more pay</li>
+</ul>
+<p><strong>The Polish (Re-audit + Fix)</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Run Polish audit on all 3 new sites — DONE = all categories score 7+, no broken links, no placeholder text</li>
+<li><span class="cb cb-empty">&#9744;</span> Record KPI baselines (Day 0 metrics) — DONE = traffic, rankings, GMB views, review count all recorded</li>
+<li><span class="cb cb-empty">&#9744;</span> Produce client handoff document — DONE = branded HTML showing Kevin everything that&#x27;s live</li>
+</ul>
+<h3 id="verify-amp-submit-quick-wins">Verify &amp; Submit (quick wins)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Verify /api/leads works: submit test email on trivia blog post</li>
+<li><span class="cb cb-empty">&#9744;</span> Verify NBHQ pages load (check each one in sidebar)</li>
+<li><span class="cb cb-empty">&#9744;</span> Submit sitemaps to Google Search Console: nunyabunya.com, powerportraits.com.au, orcafilmawards.com, benalekconner.com, pawesomedogwalkers.com</li>
+</ul>
+<h3 id="security">Security</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Rotate the Supabase service role key in dashboard</li>
+<li><span class="cb cb-empty">&#9744;</span> Update .env.local and .env.production with new key</li>
+<li><span class="cb cb-empty">&#9744;</span> Update all nb-admin-*.html files (search and replace old key)</li>
+<li><span class="cb cb-empty">&#9744;</span> Redeploy NB site after key rotation</li>
+</ul>
+<h3 id="hetzner-cron-deployment">Hetzner Cron Deployment</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Copy cron deploy files and run script on Hetzner</li>
+<li><span class="cb cb-empty">&#9744;</span> Verify crontab entries: <code>crontab -l</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Wait for first Monday to confirm weekly scripts fire</li>
+<li><span class="cb cb-empty">&#9744;</span> Check Slack #alerts for health check results</li>
+<li><span class="cb cb-empty">&#9744;</span> Verify daily dashboard cron is running on Hetzner (was disabled locally)</li>
+</ul>
+<h3 id="shlink-tracking-links">Shlink Tracking Links</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Run setup script (creates 150+ tracked short links)</li>
+<li><span class="cb cb-empty">&#9744;</span> Update social bios with new go.nunyabunya.com links</li>
+<li><span class="cb cb-empty">&#9744;</span> Update email signatures with tracked links</li>
+</ul>
+<h3 id="lead-magnets-fully-live">Lead Magnets → Fully Live</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create 3 Mautic forms (Pawesome, ORCA, Conner Law) at mautic.nunyabunya.com</li>
+<li><span class="cb cb-empty">&#9744;</span> Upload 4 lead magnet PDFs to site or Supabase storage</li>
+<li><span class="cb cb-empty">&#9744;</span> Replace Mautic form placeholder comments in each landing page with real embed code</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Mautic email delivery: form submit → auto-email with PDF link</li>
+<li><span class="cb cb-empty">&#9744;</span> Deploy ORCA root <code>25-films.html</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Add &quot;Free Guide&quot; CTA to Pawesome homepage</li>
+<li><span class="cb cb-empty">&#9744;</span> Link lead magnet landing pages from each site&#x27;s homepage (Pawesome, ORCA, Conner Law)</li>
+</ul>
+<h3 id="email-sequences-build-in-mautic">Email Sequences → Build in Mautic</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Pawesome welcome drip (5 emails) — <code>03-Pawesome Dog Walkers/05-content/Email Sequences/welcome-sequence.md</code></li>
+<li><span class="cb cb-empty">&#9744;</span> PP nurture drip (5 emails) — <code>02-Power Portraits/05-content/Email Sequences/nurture-sequence.md</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Conner Law welcome drip (5 emails) — <code>05-Conner Law/05-content/Email Sequences/welcome-sequence.md</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Bella Rhyder waitlist drip (3 emails) — <code>07-Bella Rhyder/05-content/Email Sequences/waitlist-sequence.md</code></li>
+</ul>
+<h3 id="photo-review-30-min">Photo Review (30 min)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Pawesome: <code>open &quot;03-Pawesome Dog Walkers/photos/raw/&quot;</code> (31 photos)</li>
+<li><span class="cb cb-empty">&#9744;</span> Power Portraits: <code>open &quot;02-Power Portraits/photos/raw/&quot;</code> (33 photos)</li>
+<li><span class="cb cb-empty">&#9744;</span> Nunya Bunya: <code>open &quot;01-Nunya Bunya/Clients/nunya-bunya/photos/raw/&quot;</code> (35 photos)</li>
+<li><span class="cb cb-empty">&#9744;</span> Conner Law: <code>open &quot;05-Conner Law/photos/raw/&quot;</code> (32 photos)</li>
+<li><span class="cb cb-empty">&#9744;</span> After approving: generate 16 ads (4 per brand) with <code>python Execution/ad_factory.py --brand all --count 4</code></li>
+</ul>
+<h3 id="revenue-infrastructure">Revenue Infrastructure</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Create Stripe Payment Links: Pawesome $25 first walk, PP $175 session deposit</li>
+<li><span class="cb cb-empty">&#9744;</span> Create Cal.com event types: PP ($350/$650/$950), Pawesome (free Meet &amp; Greet)</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up email forwarding: woof@pawesomedogwalkers.com (Cloudflare Email Routing)</li>
+</ul>
+<h3 id="content-publish">Content → Publish</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Post LinkedIn #1: The $16/Month Stack — from <code>06-Ben Alek Conner/05-content/linkedin-posts-draft.md</code></li>
+<li><span class="cb cb-empty">&#9744;</span> Post LinkedIn #2: No Budget, First Client</li>
+<li><span class="cb cb-empty">&#9744;</span> Post LinkedIn #3: Overpaying for Marketing</li>
+<li><span class="cb cb-empty">&#9744;</span> Post Quick Win #1: NB Open-Source Stack tweet (from <code>MASTER PLANS/SOCIAL-POST-BANK.md</code>)</li>
+<li><span class="cb cb-empty">&#9744;</span> Post Quick Win #2: NB AI Trivia Machine tweet</li>
+<li><span class="cb cb-empty">&#9744;</span> Post Quick Win #3: NB 7 Marketing Mistakes on LinkedIn</li>
+<li><span class="cb cb-empty">&#9744;</span> Post Quick Win #4: ORCA Park Chan-wook tweet</li>
+<li><span class="cb cb-empty">&#9744;</span> Post Quick Win #5: Conner Law Car Accident Guide on Facebook</li>
+<li><span class="cb cb-empty">&#9744;</span> Work through remaining 67 social posts over the next 2 weeks</li>
+</ul>
+<h3 id="content-plans-execute-may-2026">Content Plans → Execute (May 2026)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Pawesome: start posting from <code>03-Pawesome Dog Walkers/05-content/pawesome-30-day-content-may-2026.md</code> on May 1</li>
+<li><span class="cb cb-empty">&#9744;</span> Conner Law: start posting from <code>05-Conner Law/05-content/conner-law-30-day-content-may-2026.md</code> on May 1</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: start posting from <code>04-ORCA Film Awards/05-content/orca-30-day-content-may-2026.md</code> on May 9</li>
+<li><span class="cb cb-empty">&#9744;</span> Bella Rhyder: start pre-launch posting from <code>07-Bella Rhyder/05-content/bella-rhyder-prelaunch-content.md</code></li>
+</ul>
+<h3 id="site-code-fixes-from-launch-ready-audit-2026-04-20">Site Code Fixes (from Launch-Ready Audit — 2026-04-20)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> PP-1: Fix lead magnet email ID default from <code>1</code> to <code>85</code> in <code>api/subscribe.js:52</code></li>
+<li><span class="cb cb-empty">&#9744;</span> PP-2: Add Meta Pixel to <code>index.html</code> (only on landing.html currently)</li>
+<li><span class="cb cb-empty">&#9744;</span> PP-3: Contact form success — add follow-up CTA after &quot;Sent!&quot; message</li>
+<li><span class="cb cb-empty">&#9744;</span> PP-4: Nav CTA &quot;Book a Session&quot; → link to Cal.com instead of scroll to #contact</li>
+<li><span class="cb cb-empty">&#9744;</span> NB-1: Fix Mautic contact creation in <code>submit-lead.js</code> — use contacts API, not form submission</li>
+<li><span class="cb cb-empty">&#9744;</span> NB-2: Verify <code>inlineLeadForm</code> on index.html has a working submit handler</li>
+<li><span class="cb cb-empty">&#9744;</span> NB-3: Pass &quot;Interested In&quot; dropdown value as <code>interest</code> field in contact form</li>
+</ul>
+<h3 id="nb-getting-buyers-offers-1-3">NB Getting Buyers (Offers 1-3)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Cold outreach running at scale (5+ messages/week to Brisbane SMBs)</li>
+<li><span class="cb cb-empty">&#9744;</span> Outreach messages specifically mention Brand Bible</li>
+<li><span class="cb cb-empty">&#9744;</span> Outreach messages specifically mention website builds</li>
+<li><span class="cb cb-empty">&#9744;</span> Free audit → retainer pipeline working (Cal.com audit bookings coming in)</li>
+<li><span class="cb cb-empty">&#9744;</span> Case studies (Zinia, Pawesome, Conner Law) used in all outreach pitches</li>
+</ul>
+<h3 id="pp-getting-buyers-offers-4-5">PP Getting Buyers (Offers 4-5)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> PP Instagram created with portfolio content</li>
+<li><span class="cb cb-empty">&#9744;</span> PP Free Session Play — shoot 3 pros, get Google reviews</li>
+<li><span class="cb cb-empty">&#9744;</span> PP Google My Business set up</li>
+<li><span class="cb cb-empty">&#9744;</span> Run NB opening gambit for PP (audit own business, produce deliverables)</li>
+<li><span class="cb cb-empty">&#9744;</span> Push family portrait special via email + social</li>
+</ul>
+<h3 id="pawesome-getting-customers-offer-7">Pawesome Getting Customers (Offer 7)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Pawesome Google My Business set up</li>
+<li><span class="cb cb-empty">&#9744;</span> Pawesome Instagram created</li>
+</ul>
+<h3 id="orca-content-publishing-pivot">ORCA — Content Publishing Pivot</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Begin pivot to content publishing website</li>
+<li><span class="cb cb-empty">&#9744;</span> Publish first editorial content</li>
+<li><span class="cb cb-empty">&#9744;</span> Recruit voting members (target: 1,000 by 2030)</li>
+<li><span class="cb cb-empty">&#9744;</span> Include lead magnet in member recruitment outreach</li>
+</ul>
+<h3 id="bac-youtube-amp-personal-brand">BAC — YouTube &amp; Personal Brand</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> First YouTube video published</li>
+<li><span class="cb cb-empty">&#9744;</span> Feature film logline + 1-page treatment</li>
+<li><span class="cb cb-empty">&#9744;</span> Short film concept (1 page)</li>
+</ul>
+<h3 id="bella-rhyder-pre-launch-foundation">Bella Rhyder — Pre-Launch Foundation</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Research product sourcing: manufacturers/suppliers for activewear (AU local or Bali/Portugal)</li>
+<li><span class="cb cb-empty">&#9744;</span> Trademark &quot;Bella Rhyder&quot; with IP Australia before launch</li>
+</ul>
+<h3 id="infrastructure-amp-wix-migrations">Infrastructure &amp; Wix Migrations</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Migrate Merkel &amp; Conner website off Wix to new site (already built)</li>
+<li><span class="cb cb-empty">&#9744;</span> Migrate MBCS website off Wix to new site</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up proper SEO for both law firm sites</li>
+</ul>
+<h3 id="slack-cleanup">Slack Cleanup</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Archive dead Slack channels: #content-studio, #admap, #merkel-conner, #mbcs, #conner-injury-law, #wins</li>
+<li><span class="cb cb-empty">&#9744;</span> Star #alerts and #outreach</li>
+<li><span class="cb cb-empty">&#9744;</span> Mute per-business dashboard channels</li>
+</ul>
+<h3 id="legal-amp-financial-setup">Legal &amp; Financial Setup</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Register business names with ASIC (check: Nunya Bunya, Power Portraits, Bella Rhyder)</li>
+<li><span class="cb cb-empty">&#9744;</span> Get ABN for each entity (or confirm which trade under personal ABN)</li>
+<li><span class="cb cb-empty">&#9744;</span> Open Nunya Bunya business bank account</li>
+<li><span class="cb cb-empty">&#9744;</span> Engage a Brisbane accountant who understands multi-entity structures</li>
+<li><span class="cb cb-empty">&#9744;</span> Get professional indemnity insurance for NB and PP</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up bill tracking system</li>
+<li><span class="cb cb-empty">&#9744;</span> Track all income and expenses for tax</li>
+<li><span class="cb cb-empty">&#9744;</span> Register for GST once any business hits $75K ARR</li>
+</ul>
+<h3 id="personal-health">Personal Health</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Get ADHD assessment (Kantoko — book ASAP)</li>
+<li><span class="cb cb-empty">&#9744;</span> Get low testosterone treated (have recent blood tests, find online clinic before bloods expire)</li>
+</ul>
+<h3 id="social-media-account-setup-27-accounts-total">Social Media Account Setup (27 accounts total)</h3>
+<blockquote>Reference: <code>MASTER PLANS/SOCIAL-MEDIA-SIGNUP-BLITZ.md</code> has bios and handles for each platform.<br>Goal: daily posting on every account + engagement tracking to see what works best.</blockquote>
+<p><strong>Nunya Bunya</strong> (posted as Ben)</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> NB: Instagram <code>@nunyabunya</code> (Business Account) — value posts → content → retainer leads</li>
+<li><span class="cb cb-empty">&#9744;</span> NB: LinkedIn Company Page — B2B credibility, solopreneurs</li>
+<li><span class="cb cb-empty">&#9744;</span> NB: Twitter/X <code>@nunyabunya</code> — automation already built in n8n</li>
+<li><span class="cb cb-done">&#9745;</span> NB: Facebook Page — already exists</li>
+<li><span class="cb cb-done">&#9745;</span> NB: Google My Business — already live</li>
+</ul>
+<p><strong>Power Portraits</strong> (posted as the brand, never as Ben)</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> PP: Instagram <code>@powerportraitsau</code> (Business Account) — #1 priority platform for PP</li>
+<li><span class="cb cb-empty">&#9744;</span> PP: Google My Business — local SEO for Brisbane bookings</li>
+<li><span class="cb cb-empty">&#9744;</span> PP: Facebook Page — ads platform + local discovery</li>
+<li><span class="cb cb-empty">&#9744;</span> PP: LinkedIn Company Page — corporate headshot clients</li>
+</ul>
+<p><strong>Pawesome Dog Walkers</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Pawesome: Instagram <code>@pawesomedogwalkers</code> — dog content is Instagram gold</li>
+<li><span class="cb cb-empty">&#9744;</span> Pawesome: Facebook Page — local community groups, neighbourhood reach</li>
+<li><span class="cb cb-empty">&#9744;</span> Pawesome: Google My Business — local SEO for inner-north Brisbane</li>
+</ul>
+<p><strong>ORCA Film Awards</strong> (posted as the organisation)</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: Instagram <code>@orcafilmawards</code> — film community, poster art, announcements</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: YouTube channel — winner announcements, ORCA show, film essays</li>
+<li><span class="cb cb-empty">&#9744;</span> ORCA: Letterboxd <code>orcafilmawards</code> — film community crossover, credibility</li>
+<li><span class="cb cb-done">&#9745;</span> ORCA: Twitter/X — already exists, film Twitter is huge</li>
+<li><span class="cb cb-done">&#9745;</span> ORCA: Facebook Page — already exists</li>
+</ul>
+<p><strong>Conner Injury Law (WA)</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> CIL: Google My Business — #1 way PI clients find lawyers locally</li>
+<li><span class="cb cb-empty">&#9744;</span> CIL: LinkedIn Company Page — referral credibility with attorneys</li>
+<li><span class="cb cb-done">&#9745;</span> CIL: Facebook Page — already exists</li>
+</ul>
+<p><strong>Merkel &amp; Conner (OR)</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> M&amp;C: Google My Business — local search for PI</li>
+<li><span class="cb cb-empty">&#9744;</span> M&amp;C: LinkedIn Company Page — attorney referral network</li>
+<li><span class="cb cb-done">&#9745;</span> M&amp;C: Facebook Page — already exists</li>
+</ul>
+<p><strong>MBCS (Estate Planning)</strong></p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> MBCS: Google My Business — local search for estate planning</li>
+<li><span class="cb cb-empty">&#9744;</span> MBCS: LinkedIn Company Page — professional credibility</li>
+<li><span class="cb cb-done">&#9745;</span> MBCS: Facebook Page — already exists</li>
+</ul>
+<p><strong>Ben Alek Conner</strong> (personal brand)</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> BAC: YouTube Channel <code>@benalekconner</code> — primary platform, long-form + shorts</li>
+<li><span class="cb cb-empty">&#9744;</span> BAC: Instagram <code>@benalekconner</code> (Creator Account) — reels + carousels, cross-promote YouTube</li>
+<li><span class="cb cb-empty">&#9744;</span> BAC: Optimize LinkedIn profile (headline + about) — consulting/directing credibility</li>
+<li><span class="cb cb-empty">&#9744;</span> BAC: Twitter/X <code>@benalekconner</code> — daily engagement, thought leadership</li>
+</ul>
+<p><strong>Bella Rhyder</strong> (posted as the brand — June 1 launch)</p>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Bella Rhyder: Instagram <code>@bellarhyder</code> — CRITICAL, fashion lives on Instagram</li>
+<li><span class="cb cb-empty">&#9744;</span> Bella Rhyder: TikTok <code>@bellarhyder</code> — athleisure + lifestyle content</li>
+<li><span class="cb cb-empty">&#9744;</span> Bella Rhyder: Facebook Page — needed for Meta ads</li>
+<li><span class="cb cb-empty">&#9744;</span> Bella Rhyder: Pinterest <code>bellarhyder</code> — e-commerce + lifestyle = high purchase intent</li>
+</ul>
+<h3 id="social-media-automation-amp-tracking">Social Media Automation &amp; Tracking</h3>
+<blockquote>Once accounts are created, wire them up and start tracking.</blockquote>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Connect all new accounts to Postiz (API tokens into <code>.env</code>)</li>
+<li><span class="cb cb-empty">&#9744;</span> Wire up n8n distribution workflows with new API tokens</li>
+<li><span class="cb cb-empty">&#9744;</span> Set up Matomo campaign tracking for all social links (UTM params via Shlink)</li>
+<li><span class="cb cb-empty">&#9744;</span> Create Metabase dashboard: engagement metrics per platform per business (likes, comments, shares, clicks, follows)</li>
+<li><span class="cb cb-empty">&#9744;</span> Establish Day 0 follower baselines for all accounts</li>
+<li><span class="cb cb-empty">&#9744;</span> Weekly review: which platforms/content types drive most engagement? (add to Friday recurring task)</li>
+</ul>
+<h3 id="film-industry">Film Industry</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Register on Screen Queensland crew database</li>
+<li><span class="cb cb-empty">&#9744;</span> Build automated alert system for feature films shooting in QLD</li>
+</ul>
+<h3 id="linkedin-certifications-when-time-permits">LinkedIn Certifications (when time permits)</h3>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> Google Digital Marketing certification</li>
+<li><span class="cb cb-empty">&#9744;</span> Meta Ads certification</li>
+<li><span class="cb cb-empty">&#9744;</span> AI course (Google or DeepLearning.AI)</li>
+</ul>
+<hr>
+<h2 id="out-in-the-world">OUT IN THE WORLD</h2>
+<ul>
+<li><span class="cb cb-empty">&#9744;</span> <strong>@benalekconner Instagram — make it look live:</strong> post 6-9 pieces of content before driving traffic there. Currently 0 posts — an empty grid kills trust.</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Create @powerportraitsphotography Instagram:</strong> set up account, profile photo, bio + website link, post 6-9 photos before linking from PP site.</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>PP: Shoot 3 portfolio sessions</strong> — free or discounted, diverse subjects (executives, actors, corporate). Need real work before selling.</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>PP: Set up studio</strong> — consistent backdrop, 2-3 key lights, reflector (dedicated space or mobile kit)</li>
+<li><span class="cb cb-empty">&#9744;</span> Claim Google Business Profiles: PP, NB, Pawesome (3 profiles, 30 min each)</li>
+<li><span class="cb cb-empty">&#9744;</span> Share Pawesome free-guide link in Brisbane Facebook groups</li>
+<li><span class="cb cb-empty">&#9744;</span> Share ORCA 25-films link in r/TrueFilm, Letterboxd, Twitter film circles</li>
+<li><span class="cb cb-empty">&#9744;</span> Share BAC lead magnet on LinkedIn + Twitter + cold outreach to solopreneurs</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Pawesome: Post in 5 Brisbane dog owner Facebook groups</strong></li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Pawesome: Flyers/cards in local area</strong></li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Pawesome: Word of mouth, door knocking</strong></li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Pawesome: Get 3+ recurring weekly clients by end of April</strong></li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>NB: Formalize $3K/mo marketing deal with dad</strong> (currently informal)</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>PP: Get photography insurance</strong> (equipment + public liability — mandatory for client shoots)</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Sign and date all service agreements, NDAs, retainer templates</strong> before sending to clients</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>Personal brand photoshoot</strong> — 20-30 lifestyle + headshot images for website, YouTube thumbnails, socials</li>
+<li><span class="cb cb-empty">&#9744;</span> <strong>BAC: Hit Record</strong> — first 10 YouTube videos are the most important. Just start.</li>
+</ul>
+<hr>
+<h2 id="reference-checklists-reusable-not-one-time-actions">REFERENCE CHECKLISTS (Reusable — Not One-Time Actions)</h2>
+<p>These are templates to run through before specific events. Don&#x27;t track individual items here — use the checklist when the event happens.</p>
+<ul>
+<li><strong>Launch-Ready Audit:</strong> <code>MASTER PLANS/LAUNCH-READY-AUDIT.md</code> — Run before any social push</li>
+<li><strong>Pre-Social Push Audit:</strong> <code>MASTER PLANS/PRE-SOCIAL-PUSH-AUDIT.md</code> — Site readiness template</li>
+<li><strong>Social Media Signup Blitz:</strong> <code>MASTER PLANS/SOCIAL-MEDIA-SIGNUP-BLITZ.md</code> — Bios, handles, signup links</li>
+</ul>
+<hr>
+<h2 id="shipped-amp-live-stop-touching-start-selling">SHIPPED &amp; LIVE (Stop Touching — Start Selling)</h2>
+<h3 id="websites">Websites</h3>
+<ol>
+<li>nunyabunya.com — 139 HTML pages, Vercel</li>
+<li>pawesomedogwalkers.com.au — 7-page site, Vercel</li>
+<li>orcafilmawards.com — React + Express SPA, Vercel</li>
+<li>connerinjurylaw.com — 11-page site, Vercel</li>
+<li>powerportraitsphotography.com — 12+ pages, Vercel</li>
+<li>benalekconner.com — Next.js, deployed</li>
+</ol>
+<h3 id="products-amp-content">Products &amp; Content</h3>
+<ol>
+<li>Brand Bible / BFK — Survey, 17-agent pipeline, Stripe, 3 case studies</li>
+<li>Stripe Products — Brand Bible $299, Style Guide $399, Bundle $699, Website $3K/$3.5K</li>
+<li>Blog Posts (8+) — Live on nunyabunya.com/blog</li>
+<li>Case Studies (3) — Zinia, Pawesome, Conner Law</li>
+<li>Lead Magnets (6) — NB, PP, Pawesome, ORCA, Conner Law, BAC</li>
+<li>Landing Pages (9) — NB (4), PP (2), BAC (2), voice memo (1)</li>
+</ol>
+<h3 id="infrastructure-stop-touching">Infrastructure (STOP TOUCHING)</h3>
+<ol>
+<li>NBHQ Dashboard — 37 admin pages</li>
+<li>Marketing Stack (Hetzner) — 12 services</li>
+<li>Agent System — 121 directives + 173 execution scripts</li>
+<li>Email Sequences (5) — NB, PP, ORCA, Conner Law, BR</li>
+<li>Cal.com Booking — NB audit + PP sessions</li>
+<li>Twitter Automation — Blog-to-tweets + engagement engine</li>
+<li>ORCA Phase 1 Voting — Complete, winners announced</li>
+</ol>
+<hr>
+<h2 id="backburner-donx27t-touch-donx27t-think-about">BACKBURNER (Don&#x27;t Touch — Don&#x27;t Think About)</h2>
+<div class="table-wrap"><table><thead><tr><th>Deliverable</th><th>Resume When</th></tr></thead><tbody><tr><td>Bella Rhyder Store + Site</td><td>Suppliers confirmed</td></tr><tr><td>KevLaw AI SaaS</td><td>NB has paying clients</td></tr><tr><td>Content Calendar Builder</td><td>First client onboarded</td></tr><tr><td>Digital Twin Builder</td><td>YouTube has subscribers</td></tr><tr><td>AdMap</td><td>Someone asks for it</td></tr><tr><td>The Conner Store</td><td>Never (killed)</td></tr><tr><td><del>ORCA Instagram</del></td><td>Moved to active — Social Media Account Setup</td></tr><tr><td><del>Bella Rhyder Instagram</del></td><td>Moved to active — Social Media Account Setup (June 1 launch)</td></tr><tr><td>Intelligence Reports product</td><td>NB revenue established</td></tr><tr><td>Auto Outreach Video product</td><td>Manual outreach working first</td></tr><tr><td>Podcast (BAC)</td><td>YouTube consistent first</td></tr></tbody></table></div>
+<hr>
+<h2 id="completed">COMPLETED</h2>
+<ul>
+<li><span class="cb cb-done">&#9745;</span> Fix Pawesome Supabase brand constraint — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Fix tweet posting hours (7am-10pm AEST) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Update NBHQ Playbook placeholders — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Add Mautic retry logic — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Portland/US reference sweep (clean) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Fix /api/leads endpoint — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Build NBHQ Email Hub — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Prepare Hetzner cron deployment script — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Audit tracking on PP/ORCA/BAC — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Rebuild Ad Factory (HTML+Playwright) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Create OG images for 5 blog posts — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Add author bios to 5 blog posts — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Wire photo folders (approved/raw) across all agents — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Wire outreach pause/resume to Supabase — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Create blog thumbnails — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Generate sitemaps for all sites — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Create Shlink UTM tracking setup — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Create Pawesome lead magnet (dog parks guide) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Build NBHQ Integrations page — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Create ORCA lead magnet (25 Films) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Create BAC lead magnet (Solopreneur Stack) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Build NBHQ Deployments tracker — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Asset audit across all businesses — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Workspace restructure (8 folders consolidated, 80+ paths updated) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Orphan asset sweep + cleanup (20 items → Backburner) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Fix ORCA fake festival copy (6 files rewritten) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Pawesome email drip (5 emails) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Conner Law lead magnet (car accident checklist) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Conner Law email drip (5 emails) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> 3 LinkedIn post drafts for Ben — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> BAC sitemap + robots.txt — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> 3 lead magnet landing pages (Pawesome, ORCA, Conner Law) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Pawesome 30-day content plan (May) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Pawesome source of truth doc — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> 3 NB SEO blog posts (deployed) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> 3 PP SEO blog posts (deployed) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> PP nurture email drip (5 emails) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Conner Law 30-day content plan (May) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> 3 Conner Law blog posts + index (deployed) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> 3 ORCA film criticism articles (deployed) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> ORCA May content plan — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Bella Rhyder pre-launch content (15 posts) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Bella Rhyder waitlist email sequence (3 emails) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> 3 BAC blog posts (deployed) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Social post bank (72 posts across all businesses) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Fix Pawesome brand.json suburbs — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Deploy NB site (8 features) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Deploy PP site (blog + tracking) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Deploy ORCA site (articles + tracking + fixes) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Deploy BAC site (blog + tracking + sitemap) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Deploy Pawesome (landing page + tracking) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Deploy Conner Law (blog + landing page) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> All Supabase migrations run (Email Hub, Playbook, auto-ad-tweeter) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Generate all lead magnet PDFs (Pawesome, ORCA, Conner Law, BAC) — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Conner Law blog nav link added + redeployed — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> BAC site found, exists, deployed — 2026-04-19</li>
+<li><span class="cb cb-done">&#9745;</span> Slack bot token removed from source code (4 files) — 2026-04-21</li>
+<li><span class="cb cb-done">&#9745;</span> Created .env files for daily-dashboard and marketing-stack with token — 2026-04-21</li>
+<li><span class="cb cb-done">&#9745;</span> Consolidated all task files into single MASTER-ACTIONS — 2026-04-21</li>
+</ul>
+      </div>
+
+      <a href="javascript:history.back()" class="doc-back">&#8592; Back</a>
+      <div class="doc-source">MASTER PLANS/MASTER-ACTIONS.md</div>
+    </main>
+  </div>
+</body>
+</html>
