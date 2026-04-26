@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Report — 27 April 2026 | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<style>
+:root {
+  --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+  --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+  --muted: #999999; --subtle: #2a2a2a;
+  --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+  --font-heading: 'Barlow Condensed', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-body); background: var(--dark); color: var(--white); min-height: 100vh; padding: 40px; }
+.report { max-width: 900px; margin: 0 auto; }
+.report-header {
+  border-bottom: 2px solid var(--teal);
+  padding-bottom: 24px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.report-header h1 {
+  font-family: var(--font-heading);
+  font-size: 36px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+.report-header h1 span { color: var(--teal); }
+.report-header .date {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.stat-card {
+  background: var(--dark3);
+  border: 1px solid var(--subtle);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+.stat-card .number {
+  font-family: var(--font-heading);
+  font-size: 42px;
+  font-weight: 900;
+  color: var(--teal);
+  line-height: 1;
+}
+.stat-card .label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 8px;
+}
+.section {
+  margin-bottom: 40px;
+}
+.section h2 {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--teal);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--subtle);
+}
+.section h3 {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin: 20px 0 12px;
+}
+.task-list { list-style: none; }
+.task-list li {
+  padding: 10px 16px;
+  border-left: 3px solid var(--subtle);
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.75);
+  background: var(--dark3);
+  border-radius: 0 8px 8px 0;
+}
+.task-list li.completed {
+  border-left-color: var(--teal);
+  color: rgba(255,255,255,0.4);
+  text-decoration: line-through;
+}
+.task-list li .date-tag {
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: 8px;
+}
+.priority-badge {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+.priority-badge.highest { background: rgba(255,45,120,0.15); color: var(--magenta); }
+.priority-badge.high { background: rgba(255,184,0,0.15); color: var(--yellow); }
+.priority-badge.medium { background: rgba(74,144,217,0.15); color: var(--blue); }
+.priority-badge.low { background: rgba(155,89,182,0.15); color: var(--purple); }
+.priority-badge.maintenance { background: rgba(153,153,153,0.1); color: var(--muted); }
+.section-card {
+  background: var(--dark3);
+  border: 1px solid var(--subtle);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 12px;
+}
+.section-card .section-title {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+.section-card .task-count {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 300;
+}
+.section-card ul { margin-top: 10px; }
+.section-card ul li {
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 4px;
+  padding-left: 12px;
+  position: relative;
+}
+.section-card ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.footer {
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid var(--subtle);
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+.footer span { color: var(--teal); }
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--teal);
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.back-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="report">
+  <a href="/nb-admin-reports" class="back-link">&larr; Back to Reports</a>
+
+  <div class="report-header">
+    <h1>Weekly <span>Report</span></h1>
+    <div class="date">Week of 27 April 2026 &mdash; First Edition (Full Inventory)</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="number">76</div>
+      <div class="label">Completed</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">139</div>
+      <div class="label">Remaining</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">27</div>
+      <div class="label">Sections</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">11</div>
+      <div class="label">Backburner</div>
+    </div>
+  </div>
+
+  <!-- COMPLETED -->
+  <div class="section">
+    <h2>Everything Accomplished So Far</h2>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:16px;font-weight:300">76 tasks completed across infrastructure, content, deployments, and operations.</p>
+
+    <h3>Infrastructure &amp; Systems</h3>
+    <ul class="task-list">
+      <li class="completed">Workspace restructure (8 folders consolidated, 80+ paths updated) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Asset audit across all businesses <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Orphan asset sweep + cleanup (20 items to Backburner) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">All Supabase migrations run (Email Hub, Playbook, auto-ad-tweeter) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Build NBHQ Email Hub <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Build NBHQ Integrations page <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Build NBHQ Deployments tracker <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Build NBHQ Slack Routing page <span class="date-tag">Apr 24</span></li>
+      <li class="completed">Prepare Hetzner cron deployment script <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Create Shlink UTM tracking setup <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Wire photo folders (approved/raw) across all agents <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Wire outreach pause/resume to Supabase <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Generate sitemaps for all sites <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Audit tracking on PP/ORCA/BAC <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Rebuild Ad Factory (HTML+Playwright) <span class="date-tag">Apr 19</span></li>
+    </ul>
+
+    <h3>Deployments</h3>
+    <ul class="task-list">
+      <li class="completed">Deploy NB site (8 features) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Deploy PP site (blog + tracking) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Deploy ORCA site (articles + tracking + fixes) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Deploy BAC site (blog + tracking + sitemap) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Deploy Pawesome (landing page + tracking) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Deploy Conner Law (blog + landing page) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">BAC site found, exists, deployed <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Conner Law blog nav link added + redeployed <span class="date-tag">Apr 19</span></li>
+    </ul>
+
+    <h3>Content &amp; Lead Magnets</h3>
+    <ul class="task-list">
+      <li class="completed">3 NB SEO blog posts (deployed) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">3 PP SEO blog posts (deployed) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">3 Conner Law blog posts + index (deployed) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">3 ORCA film criticism articles (deployed) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">3 BAC blog posts (deployed) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Create OG images for 5 blog posts <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Add author bios to 5 blog posts <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Create blog thumbnails <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Social post bank (72 posts across all businesses) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">3 LinkedIn post drafts for Ben <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Create Pawesome lead magnet (dog parks guide) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Create ORCA lead magnet (25 Films) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Create BAC lead magnet (Solopreneur Stack) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Conner Law lead magnet (car accident checklist) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Generate all lead magnet PDFs (Pawesome, ORCA, Conner Law, BAC) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">3 lead magnet landing pages (Pawesome, ORCA, Conner Law) <span class="date-tag">Apr 19</span></li>
+    </ul>
+
+    <h3>Content Plans &amp; Email</h3>
+    <ul class="task-list">
+      <li class="completed">Pawesome 30-day content plan (May) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Conner Law 30-day content plan (May) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">ORCA May content plan <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Bella Rhyder pre-launch content (15 posts) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Pawesome email drip (5 emails) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">PP nurture email drip (5 emails) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Conner Law email drip (5 emails) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Bella Rhyder waitlist email sequence (3 emails) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Pawesome source of truth doc <span class="date-tag">Apr 19</span></li>
+      <li class="completed">BAC sitemap + robots.txt <span class="date-tag">Apr 19</span></li>
+    </ul>
+
+    <h3>CLG (Dad's Law Firms)</h3>
+    <ul class="task-list">
+      <li class="completed">Scrape all 4 CLG sites (CIL, M&amp;C, MBCS, i5crash) <span class="date-tag">Apr 20</span></li>
+      <li class="completed">Produce branded audit report (audit-report.html) <span class="date-tag">Apr 20</span></li>
+      <li class="completed">Create strategy doc with 90-day plan per firm <span class="date-tag">Apr 20</span></li>
+      <li class="completed">Build connerinjurylaw.com new site (10 pages) <span class="date-tag">Apr 20</span></li>
+      <li class="completed">Build merkelandconner.com new site (10 pages) <span class="date-tag">Apr 20</span></li>
+    </ul>
+
+    <h3>Bug Fixes &amp; Cleanup</h3>
+    <ul class="task-list">
+      <li class="completed">Fix Pawesome Supabase brand constraint <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Fix tweet posting hours (7am-10pm AEST) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Update NBHQ Playbook placeholders <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Add Mautic retry logic <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Portland/US reference sweep (clean) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Fix /api/leads endpoint <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Fix ORCA fake festival copy (6 files rewritten) <span class="date-tag">Apr 19</span></li>
+      <li class="completed">Fix Pawesome brand.json suburbs <span class="date-tag">Apr 19</span></li>
+    </ul>
+
+    <h3>Slack &amp; Automation (Apr 21-24)</h3>
+    <ul class="task-list">
+      <li class="completed">Slack bot token removed from source code (4 files) <span class="date-tag">Apr 21</span></li>
+      <li class="completed">Created .env files for daily-dashboard and marketing-stack <span class="date-tag">Apr 21</span></li>
+      <li class="completed">Consolidated all task files into single MASTER-ACTIONS <span class="date-tag">Apr 21</span></li>
+      <li class="completed">Built daily digest script (Matomo, Mautic, Cal.com, Shlink, Supabase) <span class="date-tag">Apr 21</span></li>
+      <li class="completed">Created #daily-digest Slack channel <span class="date-tag">Apr 21</span></li>
+      <li class="completed">Built MASTER-ACTIONS to Supabase daily_tasks sync script <span class="date-tag">Apr 21</span></li>
+      <li class="completed">Rewrote NBHQ tasks page <span class="date-tag">Apr 21</span></li>
+      <li class="completed">Fixed Mautic raw JSON alerts (n8n workflow now formats) <span class="date-tag">Apr 21</span></li>
+      <li class="completed">Archived 14 dead Slack channels <span class="date-tag">Apr 24</span></li>
+      <li class="completed">Created #revenue, #clients, #deploys Slack channels <span class="date-tag">Apr 24</span></li>
+      <li class="completed">Rerouted 9 n8n workflows to correct channels <span class="date-tag">Apr 24</span></li>
+      <li class="completed">Rerouted 7 Python scripts to correct channels <span class="date-tag">Apr 24</span></li>
+      <li class="completed">Created Cal.com Booking Alert v2 <span class="date-tag">Apr 24</span></li>
+      <li class="completed">Fixed Weekly Marketing Summary routing <span class="date-tag">Apr 24</span></li>
+      <li class="completed">Built Vercel deploy webhook n8n workflow <span class="date-tag">Apr 24</span></li>
+      <li class="completed">Built weekly revenue recap script <span class="date-tag">Apr 24</span></li>
+      <li class="completed">Built weekly lead funnel report script <span class="date-tag">Apr 24</span></li>
+      <li class="completed">Built monthly business review script <span class="date-tag">Apr 24</span></li>
+      <li class="completed">Archived GOALS.md, SHIPPING.md, YOUR ACTION LIST.md <span class="date-tag">Apr 21</span></li>
+    </ul>
+  </div>
+
+  <!-- ACTIVE TASKS BY ROI -->
+  <div class="section">
+    <h2>Active Task List (Ordered by ROI)</h2>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:16px;font-weight:300">139 tasks remaining across 27 sections. Highest-value items first.</p>
+
+    <!-- HIGHEST ROI -->
+    <div class="section-card" style="border-left: 3px solid var(--magenta);">
+      <div class="section-title"><span class="priority-badge highest">Highest ROI</span> 1. CLG Opening Gambit &mdash; $3K/mo from Dad</div>
+      <div class="task-count">~25 tasks &mdash; Deploy sites, set up GMB, Cal.com bookings, lead magnets, email sequences, Matomo, blog posts, DNS redirects, Polish audit, client handoff</div>
+    </div>
+
+    <div class="section-card" style="border-left: 3px solid var(--magenta);">
+      <div class="section-title"><span class="priority-badge highest">Highest ROI</span> 2. Revenue Infrastructure</div>
+      <div class="task-count">5 tasks &mdash; Stripe payment links, Cal.com event types, email forwarding, booking CTAs on Instagram</div>
+    </div>
+
+    <div class="section-card" style="border-left: 3px solid var(--magenta);">
+      <div class="section-title"><span class="priority-badge highest">Highest ROI</span> 3. Lead Magnets &rarr; Fully Live</div>
+      <div class="task-count">9 tasks &mdash; Mautic forms, PDF uploads, email delivery, deploy ORCA 25-films, homepage CTAs</div>
+    </div>
+
+    <!-- HIGH ROI -->
+    <div class="section-card" style="border-left: 3px solid var(--yellow);">
+      <div class="section-title"><span class="priority-badge high">High ROI</span> 4. Email Sequences &rarr; Mautic</div>
+      <div class="task-count">5 tasks &mdash; Pawesome, PP, Conner Law, Bella Rhyder drips + publish all campaigns</div>
+    </div>
+
+    <div class="section-card" style="border-left: 3px solid var(--yellow);">
+      <div class="section-title"><span class="priority-badge high">High ROI</span> 5. Hetzner Cron Deployment</div>
+      <div class="task-count">5 tasks &mdash; Copy scripts, add crontabs, verify, confirm weekly scripts fire</div>
+    </div>
+
+    <div class="section-card" style="border-left: 3px solid var(--yellow);">
+      <div class="section-title"><span class="priority-badge high">High ROI</span> 6. NB Getting Buyers (Offers 1-3)</div>
+      <div class="task-count">6 tasks &mdash; Cold outreach at scale, Brand Bible mentions, case studies in pitches, audit pipeline</div>
+    </div>
+
+    <div class="section-card" style="border-left: 3px solid var(--yellow);">
+      <div class="section-title"><span class="priority-badge high">High ROI</span> 7. PP Getting Buyers (Offers 4-5)</div>
+      <div class="task-count">5 tasks &mdash; PP Instagram, free sessions, GMB, opening gambit, family portrait special</div>
+    </div>
+
+    <!-- MEDIUM ROI -->
+    <div class="section-card" style="border-left: 3px solid var(--blue);">
+      <div class="section-title"><span class="priority-badge medium">Medium ROI</span> 8. Content &rarr; Publish</div>
+      <div class="task-count">11 tasks &mdash; 3 LinkedIn posts, 5 quick wins, 3 first Instagram posts per brand, 67 remaining social posts</div>
+    </div>
+
+    <div class="section-card" style="border-left: 3px solid var(--blue);">
+      <div class="section-title"><span class="priority-badge medium">Medium ROI</span> 9. Content Plans &rarr; Execute</div>
+      <div class="task-count">4 tasks &mdash; Start May content plans for Pawesome, Conner Law, ORCA, Bella Rhyder</div>
+    </div>
+
+    <div class="section-card" style="border-left: 3px solid var(--blue);">
+      <div class="section-title"><span class="priority-badge medium">Medium ROI</span> 10. Social Media Account Setup (27 accounts)</div>
+      <div class="task-count">~20 tasks &mdash; Instagram, LinkedIn, YouTube, GMB, Facebook, Letterboxd, TikTok, Pinterest across all brands</div>
+    </div>
+
+    <div class="section-card" style="border-left: 3px solid var(--blue);">
+      <div class="section-title"><span class="priority-badge medium">Medium ROI</span> 11. Social Media Automation &amp; Tracking</div>
+      <div class="task-count">6 tasks &mdash; Postiz, n8n workflows, Matomo UTMs, Metabase dashboard, baselines</div>
+    </div>
+
+    <div class="section-card" style="border-left: 3px solid var(--blue);">
+      <div class="section-title"><span class="priority-badge medium">Medium ROI</span> 12. Pawesome Getting Customers</div>
+      <div class="task-count">3 tasks &mdash; GMB, Instagram, share guide in Facebook groups</div>
+    </div>
+
+    <div class="section-card" style="border-left: 3px solid var(--blue);">
+      <div class="section-title"><span class="priority-badge medium">Medium ROI</span> 13. Site Code Fixes</div>
+      <div class="task-count">7 tasks &mdash; PP email ID fix, Meta Pixel, contact form CTA, NB Mautic fix, form handler, interest field</div>
+    </div>
+
+    <div class="section-card" style="border-left: 3px solid var(--blue);">
+      <div class="section-title"><span class="priority-badge medium">Medium ROI</span> 14. Verify &amp; Submit</div>
+      <div class="task-count">6 tasks &mdash; Test /api/leads, check NBHQ pages, submit sitemaps to GSC, end-to-end form tests</div>
+    </div>
+
+    <!-- LOW ROI / MAINTENANCE -->
+    <div class="section-card" style="border-left: 3px solid var(--purple);">
+      <div class="section-title"><span class="priority-badge low">Lower ROI</span> 15-19. Ops &amp; Tracking</div>
+      <div class="task-count">Vercel webhooks (6), Shlink links (3), Photo review (5), Security key rotation (4), Slack cleanup (3)</div>
+    </div>
+
+    <div class="section-card" style="border-left: 3px solid var(--muted);">
+      <div class="section-title"><span class="priority-badge maintenance">Long-term</span> 20-27. Growth &amp; Foundation</div>
+      <div class="task-count">ORCA content pivot (4), BAC YouTube (3), Bella Rhyder (2), Wix migrations (3), Legal/Financial (8), Health (2), Film industry (2), LinkedIn certs (3)</div>
+    </div>
+  </div>
+
+  <!-- OUT IN THE WORLD -->
+  <div class="section">
+    <h2>Out in the World (16 Tasks)</h2>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:16px;font-weight:300">Things that require leaving the computer, ordered by ROI.</p>
+    <ul class="task-list">
+      <li><span class="priority-badge highest">$$$</span> Formalize $3K/mo marketing deal with dad</li>
+      <li><span class="priority-badge high">Unlock</span> Get photography insurance (mandatory for PP client shoots)</li>
+      <li><span class="priority-badge high">Unlock</span> Sign and date all service agreements, NDAs, retainer templates</li>
+      <li>Claim Google Business Profiles: PP, NB, Pawesome</li>
+      <li>PP: Shoot 3 portfolio sessions (free/discounted, diverse subjects)</li>
+      <li>PP: Set up studio (backdrop, lights, reflector)</li>
+      <li>Pawesome: Post in 5 Brisbane dog owner Facebook groups</li>
+      <li>Pawesome: Flyers/cards in local area + door knocking</li>
+      <li>Pawesome: Get 3+ recurring weekly clients</li>
+      <li>Create @powerportraitsphotography Instagram (post 6-9 photos first)</li>
+      <li>@benalekconner Instagram (post 6-9 pieces before driving traffic)</li>
+      <li>Personal brand photoshoot (20-30 images)</li>
+      <li>Share lead magnets in communities (Pawesome, ORCA, BAC)</li>
+      <li>BAC: Hit Record (first 10 YouTube videos)</li>
+      <li><span class="priority-badge maintenance">Health</span> Get ADHD assessment (Kantoko)</li>
+      <li><span class="priority-badge maintenance">Health</span> Get low testosterone treated</li>
+    </ul>
+  </div>
+
+  <!-- SHIPPED -->
+  <div class="section">
+    <h2>Shipped &amp; Live (Stop Touching)</h2>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:16px;font-weight:300">19 items live and generating value.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <div class="section-card">
+        <div class="section-title" style="color:var(--teal);font-size:13px">Websites (6)</div>
+        <ul>
+          <li>nunyabunya.com</li>
+          <li>pawesomedogwalkers.com.au</li>
+          <li>orcafilmawards.com</li>
+          <li>connerinjurylaw.com</li>
+          <li>powerportraitsphotography.com</li>
+          <li>benalekconner.com</li>
+        </ul>
+      </div>
+      <div class="section-card">
+        <div class="section-title" style="color:var(--teal);font-size:13px">Products (6)</div>
+        <ul>
+          <li>Brand Bible / BFK pipeline</li>
+          <li>Stripe products (4 tiers)</li>
+          <li>Blog posts (8+)</li>
+          <li>Case studies (3)</li>
+          <li>Lead magnets (6)</li>
+          <li>Landing pages (9)</li>
+        </ul>
+      </div>
+      <div class="section-card">
+        <div class="section-title" style="color:var(--teal);font-size:13px">Infrastructure (7)</div>
+        <ul>
+          <li>NBHQ Dashboard (37 pages)</li>
+          <li>Marketing Stack (12 services)</li>
+          <li>Agent System (121+173)</li>
+          <li>Email Sequences (5)</li>
+          <li>Cal.com Booking</li>
+          <li>Twitter Automation</li>
+          <li>ORCA Phase 1 Voting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- BACKBURNER -->
+  <div class="section">
+    <h2>Backburner (11 Items)</h2>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:16px;font-weight:300">Parked until trigger conditions are met. Don't touch, don't think about.</p>
+    <ul class="task-list">
+      <li>Bella Rhyder Store + Site <span class="date-tag">Resume: suppliers confirmed</span></li>
+      <li>KevLaw AI SaaS <span class="date-tag">Resume: NB has paying clients</span></li>
+      <li>Content Calendar Builder <span class="date-tag">Resume: first client onboarded</span></li>
+      <li>Digital Twin Builder <span class="date-tag">Resume: YouTube has subscribers</span></li>
+      <li>AdMap <span class="date-tag">Resume: someone asks for it</span></li>
+      <li style="text-decoration:line-through;color:rgba(255,255,255,0.3)">The Conner Store <span class="date-tag">Killed</span></li>
+      <li>Intelligence Reports product <span class="date-tag">Resume: NB revenue established</span></li>
+      <li>Auto Outreach Video product <span class="date-tag">Resume: manual outreach working</span></li>
+      <li>Podcast (BAC) <span class="date-tag">Resume: YouTube consistent first</span></li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <span>NBHQ</span> Weekly Report &mdash; Generated 27 April 2026
+  </div>
+</div>
+</body>
+</html>
