@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>This Is Why We Exist | Nunya Bunya</title>
+  <meta name="description" content="41 million solopreneurs. 99% say marketing is their biggest challenge. 71% are doing it alone. This is why Nunya Bunya exists." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal: #00E5CC;
+      --teal-dark: #00c9b1;
+      --magenta: #FF4DDD;
+      --black: #111111;
+      --dark: #161616;
+      --border: #1e1e1e;
+      --border-mid: #2a2a2a;
+      --text-muted: #aaaaaa;
+      --text-dim: #777777;
+      --text-faint: #444444;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: #ffffff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(17,17,17,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--teal); }
+    .nav-cta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      text-decoration: none;
+      border: 1px solid var(--teal);
+      padding: 6px 16px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-cta:hover { background: var(--teal); color: var(--black); }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 5rem 2rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+    .eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.5rem;
+    }
+    .hero-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.6rem, 6.5vw, 5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 1.75rem;
+    }
+    .hero-headline .teal { color: var(--teal); }
+    .hero-headline .mag { color: var(--magenta); }
+    .hero-sub {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--text-muted);
+      max-width: 580px;
+      margin-bottom: 0.75rem;
+    }
+    .hero-source {
+      font-size: 12px;
+      color: var(--text-faint);
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--black);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 13px 32px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--teal-dark); }
+    .btn-ghost {
+      display: inline-block;
+      margin-left: 1.25rem;
+      font-size: 13.5px;
+      color: var(--text-faint);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .btn-ghost:hover { color: #888; }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat {
+      padding: 2rem;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--magenta);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-label { font-size: 12.5px; color: var(--text-dim); line-height: 1.5; }
+    .stat-source { font-size: 11px; color: var(--text-faint); margin-top: 0.3rem; }
+
+    /* ── SECTION SHARED ── */
+    .section {
+      padding: 3.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .section-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-tag::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 36px;
+      background: var(--magenta);
+      opacity: 0.35;
+    }
+    .section-tag.teal-tag { color: var(--teal); }
+    .section-tag.teal-tag::after { background: var(--teal); }
+
+    /* ── AUDIENCE SPLIT ── */
+    .audience-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .audience-card {
+      background: var(--black);
+      padding: 3rem 2rem;
+    }
+    .audience-card.right { background: var(--dark); }
+    .aud-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .aud-tag-mag { color: var(--magenta); }
+    .aud-tag-teal { color: var(--teal); }
+    .aud-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1.05;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .aud-body {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+    .aud-body strong { color: #fff; font-weight: 500; }
+    .aud-cta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .aud-cta-mag { color: var(--magenta); }
+    .aud-cta-teal { color: var(--teal); }
+
+    /* ── LEAD MAGNET BANNER ── */
+    .lead-banner {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .lead-banner-left {}
+    .lead-banner-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.4rem;
+    }
+    .lead-banner-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .lead-banner-sub {
+      font-size: 13.5px;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+    }
+    .lead-banner-sub strong { color: var(--teal); font-weight: 500; }
+
+    /* ── PACKAGES ── */
+    .packages-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      margin-top: 1.5rem;
+    }
+    .package-card {
+      background: var(--black);
+      padding: 2rem;
+    }
+    .package-card.featured {
+      background: var(--dark);
+      border: 1px solid var(--teal);
+    }
+    .package-badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+    .badge-teal { background: #00E5CC18; color: var(--teal); border: 0.5px solid #00E5CC44; }
+    .badge-mag { background: #FF4DDD18; color: var(--magenta); border: 0.5px solid #FF4DDD44; }
+    .badge-gold { background: #EF9F2718; color: #EF9F27; border: 0.5px solid #EF9F2744; }
+    .package-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .package-tier {
+      font-size: 12px;
+      color: var(--text-faint);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+    .package-price {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .package-price-note {
+      font-size: 12px;
+      color: var(--text-faint);
+      margin-bottom: 1.25rem;
+    }
+    .package-desc {
+      font-size: 13.5px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .package-includes {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+    .package-includes li {
+      font-size: 13px;
+      color: var(--text-dim);
+      padding: 0.35rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      border-bottom: 0.5px solid #1a1a1a;
+    }
+    .package-includes li:last-child { border-bottom: none; }
+    .check {
+      color: var(--teal);
+      font-size: 13px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .package-timeline {
+      font-size: 12px;
+      color: var(--text-faint);
+      margin-bottom: 1.25rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── RETAINER GRID ── */
+    .retainer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 1.5rem;
+    }
+    .retainer-card {
+      background: var(--black);
+      padding: 1.75rem;
+    }
+    .retainer-card.featured { background: var(--dark); border: 1px solid var(--magenta); }
+    .retainer-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 0.2rem;
+    }
+    .retainer-price {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--magenta);
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+    .retainer-note {
+      font-size: 11.5px;
+      color: var(--text-faint);
+      margin-bottom: 1rem;
+    }
+    .retainer-includes {
+      list-style: none;
+    }
+    .retainer-includes li {
+      font-size: 12.5px;
+      color: var(--text-dim);
+      padding: 0.3rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      border-bottom: 0.5px solid #1a1a1a;
+    }
+    .retainer-includes li:last-child { border-bottom: none; }
+
+    /* ── TERMS ROW ── */
+    .terms-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 1.5rem;
+    }
+    .term {
+      background: var(--dark);
+      padding: 1.25rem;
+    }
+    .term-icon {
+      font-size: 15px;
+      margin-bottom: 0.5rem;
+    }
+    .term-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+    .term-desc { font-size: 12px; color: var(--text-faint); line-height: 1.5; }
+
+    /* ── LEAD MAGNET FULL ── */
+    .lead-full {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 1.5rem;
+    }
+    .lead-card {
+      background: var(--black);
+      padding: 1.75rem;
+    }
+    .lead-card.highlight { background: var(--dark); }
+    .lead-price {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+    .lead-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+    .lead-desc { font-size: 13px; color: var(--text-dim); line-height: 1.65; }
+
+    /* ── CONVERSION OFFER ── */
+    .conversion-banner {
+      background: #00E5CC0d;
+      border: 1px solid #00E5CC33;
+      padding: 1.5rem 2rem;
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .conversion-banner p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .conversion-banner strong { color: var(--teal); font-weight: 500; }
+
+    /* ── CLOSE ── */
+    .close-section {
+      padding: 5rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .close-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .close-sub {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+    .close-source {
+      margin-top: 1.5rem;
+      font-size: 12px;
+      color: var(--text-faint);
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+    .footer-logo span { color: var(--teal); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 13px;
+      color: #444;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: #888; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .audience-split { grid-template-columns: 1fr; }
+      .packages-grid { grid-template-columns: 1fr; }
+      .retainer-grid { grid-template-columns: 1fr; }
+      .terms-row { grid-template-columns: 1fr 1fr; }
+      .lead-full { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .btn-ghost { display: block; margin-left: 0; margin-top: 1rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .lead-banner { flex-direction: column; gap: 1rem; }
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="https://nunyabunya.com" class="nav-logo">Nunya <span>Bunya</span></a>
+    <a href="#contact" class="nav-cta">Let's Talk</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero fade-in">
+    <div class="eyebrow">This is why we exist</div>
+    <h1 class="hero-headline">
+      41 million people<br>
+      already made<br>
+      the <span class="teal">move.</span><br>
+      99% are drowning<br>
+      in the <span class="mag">marketing.</span>
+    </h1>
+    <p class="hero-sub">
+      Whether you're still working up the nerve to start, or you've already launched and the marketing is eating you alive — you're in the right place. We built Nunya Bunya for exactly this moment.
+    </p>
+    <p class="hero-source">Sources: Mighty Marketer 2025 / VistaPrint & Wix SMB Survey 2024 / US Census Bureau</p>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-row fade-in">
+    <div class="stat">
+      <div class="stat-num">41M</div>
+      <div class="stat-label">solopreneurs operating in the US alone — a 90% increase over pre-pandemic levels</div>
+      <div class="stat-source">SBA, 2025</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">99%</div>
+      <div class="stat-label">of freelancers and solopreneurs say marketing is their biggest challenge</div>
+      <div class="stat-source">Mighty Marketer, 2025</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">71%</div>
+      <div class="stat-label">are doing all their marketing themselves — with no idea if it's actually working</div>
+      <div class="stat-source">VistaPrint & Wix, 2024</div>
+    </div>
+  </div>
+
+  <!-- AUDIENCE SPLIT -->
+  <div class="audience-split">
+    <div class="audience-card fade-in">
+      <div class="aud-tag aud-tag-mag">Still in the 9–5</div>
+      <h2 class="aud-headline">You know<br>something<br>is wrong.</h2>
+      <p class="aud-body">
+        You've done everything right. Showed up. Put in the hours. And somewhere between the third performance review and the fifth "we're going in a different direction" — you started wondering if the problem was you.
+        <br><br>
+        It wasn't.
+        <br><br>
+        <strong>The skill you've been using to make someone else money? It can make you money.</strong> The thing people always ask you for help with? Someone will pay for that. You don't need more qualifications. You need a plan.
+        <br><br>
+        Start with our free Business Foundation Kit. One automated document. Zero risk. Your first step out.
+      </p>
+      <a href="#lead-magnet" class="aud-cta aud-cta-mag">Get the free kit →</a>
+    </div>
+    <div class="audience-card right fade-in">
+      <div class="aud-tag aud-tag-teal">Already started</div>
+      <h2 class="aud-headline">You made<br>the right call.<br>Now let's<br>make it work.</h2>
+      <p class="aud-body">
+        You took the leap. You built something real. And now you're spending Sunday nights writing captions, Monday mornings wondering why nobody's clicking, and every other hour doing work that should belong to a whole team.
+        <br><br>
+        <strong>That's not a you problem. That's a capacity problem.</strong>
+        <br><br>
+        61% of solopreneurs underestimated how hard it would be to handle everything alone. The ones who figured it out didn't grind harder — they got smarter about what they outsourced first.
+        <br><br>
+        Your marketing is the thing to outsource first. Always.
+      </p>
+      <a href="#packages" class="aud-cta aud-cta-teal">See what we do →</a>
+    </div>
+  </div>
+
+  <!-- FREE KIT BANNER -->
+  <div class="lead-banner fade-in" id="lead-magnet">
+    <div class="lead-banner-left">
+      <div class="lead-banner-tag">Start here — it's free</div>
+      <div class="lead-banner-headline">Business Foundation Kit</div>
+      <div class="lead-banner-sub">One automated Business Plan document. <strong>Free.</strong> No catch. Just your first move.</div>
+    </div>
+    <a href="https://nunyabunya.com/contact" class="btn-primary">Get it free →</a>
+  </div>
+
+  <!-- BEDROCK PACKAGES -->
+  <section class="section fade-in" id="packages">
+    <div class="section-tag">One-time launch packages</div>
+    <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:.5rem">The Bedrock Series</h2>
+    <p style="font-size:14px;color:var(--text-dim);max-width:560px;line-height:1.7;margin-bottom:0">Everything you need to exist properly online — and actually convert the traffic you get. Built once, built right.</p>
+
+    <div class="packages-grid">
+
+      <div class="package-card">
+        <span class="package-badge badge-teal">Bedrock Lite</span>
+        <div class="package-name">Bedrock<br>Lite</div>
+        <div class="package-tier">One-time · 3–4 weeks</div>
+        <div class="package-price">$2,000</div>
+        <div class="package-price-note">AUD · One-time payment · Ad spend billed separately</div>
+        <p class="package-desc">For early-stage businesses who need the basics done properly. Your foundation, built fast.</p>
+        <ul class="package-includes">
+          <li><span class="check">✓</span> Professional website</li>
+          <li><span class="check">✓</span> Landing page</li>
+          <li><span class="check">✓</span> Lead magnet setup</li>
+          <li><span class="check">✓</span> Basic email automation</li>
+          <li><span class="check">✓</span> 90-day roadmap</li>
+        </ul>
+        <a href="https://nunyabunya.com/contact" class="btn-primary" style="font-size:14px;padding:10px 24px">Start with Lite →</a>
+      </div>
+
+      <div class="package-card featured">
+        <span class="package-badge badge-teal">Most popular</span>
+        <div class="package-name">Bedrock</div>
+        <div class="package-tier">One-time · 5–6 weeks</div>
+        <div class="package-price">$3,500</div>
+        <div class="package-price-note">AUD · One-time payment · Ad spend billed separately</div>
+        <p class="package-desc">For local service businesses who need a real marketing system — not just a website. The full foundation.</p>
+        <ul class="package-includes">
+          <li><span class="check">✓</span> Website + landing page</li>
+          <li><span class="check">✓</span> Lead magnet</li>
+          <li><span class="check">✓</span> Email drip sequence</li>
+          <li><span class="check">✓</span> Booking / CRM automation</li>
+          <li><span class="check">✓</span> Paid ads setup</li>
+          <li><span class="check">✓</span> 90-day roadmap</li>
+        </ul>
+        <a href="https://nunyabunya.com/contact" class="btn-primary">Start with Bedrock →</a>
+      </div>
+
+    </div>
+
+    <div class="package-card" style="background:var(--dark);border:1px solid var(--border-mid);padding:2rem;margin-top:1px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
+        <div>
+          <span class="package-badge badge-gold">Bedrock Pro</span>
+          <div class="package-name">Bedrock Pro</div>
+          <div class="package-tier">One-time · Timeline on request</div>
+          <div class="package-price">$8,000 – $10,000</div>
+          <div class="package-price-note">AUD · One-time payment · Ad spend billed separately</div>
+          <p class="package-desc" style="border-bottom:none;margin-bottom:0">Full brand + marketing foundation. For businesses serious about building something that lasts.</p>
+        </div>
+        <div>
+          <p style="font-size:13px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.1em;font-family:'Barlow Condensed',sans-serif;margin-bottom:.75rem">Everything in Bedrock, plus:</p>
+          <ul class="package-includes">
+            <li><span class="check">✓</span> Full brand strategy</li>
+            <li><span class="check">✓</span> Customer personas</li>
+            <li><span class="check">✓</span> Content calendar</li>
+            <li><span class="check">✓</span> SEO foundation + blog posts</li>
+            <li><span class="check">✓</span> Printed Brand Bible</li>
+          </ul>
+          <a href="https://nunyabunya.com/contact" class="btn-primary" style="font-size:14px;padding:10px 24px;margin-top:1rem;display:inline-block">Talk to us about Pro →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="conversion-banner">
+      <p><strong>Bedrock buyers who convert to a retainer within 30 days get 50% off Month 1.</strong> Because we'd rather keep building with you than start over with someone new.</p>
+    </div>
+  </section>
+
+  <!-- GEMSTONE RETAINERS -->
+  <section class="section fade-in">
+    <div class="section-tag teal-tag">Monthly retainers</div>
+    <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:.5rem">The Gemstone Tier</h2>
+    <p style="font-size:14px;color:var(--text-dim);max-width:560px;line-height:1.7;margin-bottom:0">Your ongoing marketing engine. We show up every month so you don't have to think about it. 3-month minimum. 30-day money-back guarantee.</p>
+
+    <div class="retainer-grid">
+
+      <div class="retainer-card">
+        <span class="package-badge badge-mag" style="margin-bottom:.75rem">NB Onyx</span>
+        <div class="retainer-name">Onyx</div>
+        <div class="retainer-price">$3,500</div>
+        <div class="retainer-note">AUD / month · 2–3 platforms · Ad spend billed separately</div>
+        <ul class="retainer-includes">
+          <li><span class="check">✓</span> 18 posts/month</li>
+          <li><span class="check">✓</span> Bi-weekly strategy calls</li>
+          <li><span class="check">✓</span> Local SEO</li>
+          <li><span class="check">✓</span> Managed ads</li>
+          <li><span class="check">✓</span> Unlimited revisions</li>
+          <li><span class="check">✓</span> Direct access to Ben</li>
+        </ul>
+        <a href="https://nunyabunya.com/contact" class="btn-primary" style="font-size:13px;padding:10px 20px;margin-top:1.25rem;display:inline-block">Start with Onyx →</a>
+      </div>
+
+      <div class="retainer-card featured">
+        <span class="package-badge badge-mag" style="margin-bottom:.75rem">Most popular</span>
+        <div class="retainer-name">Tanzanite</div>
+        <div class="retainer-price">$5,000</div>
+        <div class="retainer-note">AUD / month · 4–5 platforms · Ad spend billed separately</div>
+        <ul class="retainer-includes">
+          <li><span class="check">✓</span> 28 posts/month</li>
+          <li><span class="check">✓</span> Weekly strategy calls</li>
+          <li><span class="check">✓</span> Video production</li>
+          <li><span class="check">✓</span> Full SEO management</li>
+          <li><span class="check">✓</span> CRM management</li>
+          <li><span class="check">✓</span> Unlimited revisions</li>
+          <li><span class="check">✓</span> Direct access to Ben</li>
+        </ul>
+        <a href="https://nunyabunya.com/contact" class="btn-primary" style="font-size:13px;padding:10px 20px;margin-top:1.25rem;display:inline-block">Start with Tanzanite →</a>
+      </div>
+
+      <div class="retainer-card">
+        <span class="package-badge badge-gold" style="margin-bottom:.75rem">NB Black Opal</span>
+        <div class="retainer-name">Black Opal</div>
+        <div class="retainer-price">$12,000</div>
+        <div class="retainer-note">AUD / month · All platforms · Ad spend billed separately</div>
+        <ul class="retainer-includes">
+          <li><span class="check">✓</span> 40+ posts/month</li>
+          <li><span class="check">✓</span> Dedicated strategist</li>
+          <li><span class="check">✓</span> Podcast / YouTube support</li>
+          <li><span class="check">✓</span> Unlimited ad management</li>
+          <li><span class="check">✓</span> Full content operation</li>
+          <li><span class="check">✓</span> Unlimited revisions</li>
+          <li><span class="check">✓</span> Direct access to Ben</li>
+        </ul>
+        <a href="https://nunyabunya.com/contact" class="btn-primary" style="font-size:13px;padding:10px 20px;margin-top:1.25rem;display:inline-block">Talk about Black Opal →</a>
+      </div>
+
+    </div>
+
+    <!-- TERMS -->
+    <div class="terms-row">
+      <div class="term">
+        <div class="term-icon">🔒</div>
+        <div class="term-label">3-month minimum</div>
+        <div class="term-desc">Then month-to-month. No lock-in after that.</div>
+      </div>
+      <div class="term">
+        <div class="term-icon">↩</div>
+        <div class="term-label">30-day guarantee</div>
+        <div class="term-desc">If we're not the right fit, you get your money back.</div>
+      </div>
+      <div class="term">
+        <div class="term-icon">∞</div>
+        <div class="term-label">Unlimited revisions</div>
+        <div class="term-desc">Every plan. Until it's right.</div>
+      </div>
+      <div class="term">
+        <div class="term-icon">📁</div>
+        <div class="term-label">You own everything</div>
+        <div class="term-desc">All files, assets, and source code. Always yours.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAD MAGNET FULL -->
+  <section class="section fade-in">
+    <div class="section-tag">Not ready yet? Start here.</div>
+    <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:.5rem">Business Foundation Kit</h2>
+    <p style="font-size:14px;color:var(--text-dim);max-width:560px;line-height:1.7;margin-bottom:0">Your first move doesn't have to cost anything. Start with the free kit, upgrade when you're ready.</p>
+
+    <div class="lead-full">
+      <div class="lead-card">
+        <div class="lead-price">Free</div>
+        <div class="lead-name">Automated Business Plan</div>
+        <p class="lead-desc">One document. Automated. Gives you a real business plan to work from so you stop planning and start moving.</p>
+        <a href="https://nunyabunya.com/contact" class="btn-primary" style="font-size:13px;padding:10px 20px;margin-top:1.25rem;display:inline-block">Get it free →</a>
+      </div>
+      <div class="lead-card highlight">
+        <div class="lead-price">$499</div>
+        <div class="lead-name">Plan + Visual Style Guide</div>
+        <p class="lead-desc">Your business plan plus a visual identity guide — so your brand looks intentional from day one, not just cobbled together.</p>
+        <a href="https://nunyabunya.com/contact" class="btn-primary" style="font-size:13px;padding:10px 20px;margin-top:1.25rem;display:inline-block">Get started →</a>
+      </div>
+      <div class="lead-card">
+        <div class="lead-price">$999</div>
+        <div class="lead-name">Full 21-Document Brand Bible</div>
+        <p class="lead-desc">Everything in one place. Strategy, identity, messaging, positioning — the complete playbook for your brand. Printed and delivered.</p>
+        <a href="https://nunyabunya.com/contact" class="btn-primary" style="font-size:13px;padding:10px 20px;margin-top:1.25rem;display:inline-block">Get the Bible →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSE -->
+  <section class="close-section fade-in" id="contact">
+    <div class="eyebrow" style="justify-content:center;display:flex">41 million solopreneurs. 99% struggling with marketing.</div>
+    <h2 class="close-headline">This is why<br>we <span style="color:var(--teal)">exist.</span></h2>
+    <p class="close-sub">You've already done the hard part — deciding to back yourself. Let us handle the part that's been holding you back.</p>
+    <a href="https://nunyabunya.com/contact" class="btn-primary" style="font-size:19px;padding:16px 42px">Let's talk →</a>
+    <div class="close-source">No lock-in · No cancellation penalties · Ad spend billed separately</div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Nunya <span>Bunya</span></div>
+    <div class="footer-links">
+      <a href="https://nunyabunya.com">Home</a>
+      <a href="https://nunyabunya.com/contact">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    fadeEls.forEach(el => obs.observe(el));
+  </script>
+
+</body>
+</html>

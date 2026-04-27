@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Future Is Yours | Nunya Bunya</title>
+  <meta name="description" content="The middle class is disappearing. The degree is worthless. Your job is next. The only move is to build something of your own." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal: #00E5CC;
+      --teal-dark: #00c9b1;
+      --magenta: #FF4DDD;
+      --black: #111111;
+      --dark: #161616;
+      --border: #1e1e1e;
+      --border-mid: #2a2a2a;
+      --text-muted: #aaaaaa;
+      --text-dim: #777777;
+      --text-faint: #555555;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: #ffffff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAVIGATION ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(17,17,17,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--teal); }
+
+    .nav-cta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      text-decoration: none;
+      border: 1px solid var(--teal);
+      padding: 6px 16px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-cta:hover { background: var(--teal); color: var(--black); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 5rem 2rem 4rem;
+      border-bottom: 1px solid var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin-bottom: 1.75rem;
+    }
+    .hero-headline .mag { color: var(--magenta); }
+    .hero-headline .teal { color: var(--teal); }
+
+    .hero-sub {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--black);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 14px 36px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--teal-dark); }
+
+    .btn-ghost {
+      display: inline-block;
+      margin-left: 1.25rem;
+      font-size: 13.5px;
+      color: var(--text-faint);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .btn-ghost:hover { color: #888; }
+
+    /* ── STATS BAR ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat {
+      padding: 2rem;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--magenta);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 12.5px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      padding: 3.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-tag::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 36px;
+      background: var(--magenta);
+      opacity: 0.35;
+    }
+
+    /* ── TRUTH GRID ── */
+    .truth-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      margin-top: 1.5rem;
+    }
+
+    .truth-item {
+      background: var(--black);
+      padding: 1.5rem;
+    }
+
+    .truth-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #1a1a1a;
+      border: 1px solid var(--border-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 15px;
+    }
+
+    .truth-item h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .truth-item p {
+      font-size: 13.5px;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+    .truth-item p strong { color: var(--teal); font-weight: 500; }
+
+    /* ── PULL QUOTE ── */
+    .pull-quote {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.3;
+      color: #fff;
+      max-width: 680px;
+    }
+    .pull-quote .accent { color: var(--teal); }
+
+    /* ── ANIMATED MANIFESTO ── */
+    .manifesto-section {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .manifesto-header {
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .progress-bar { height: 3px; background: var(--border); }
+    .progress-fill { height: 100%; background: var(--teal); width: 0; transition: width 0.3s ease; }
+
+    .nav-dots {
+      display: flex;
+      gap: 8px;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2a2a2a;
+      cursor: pointer;
+      transition: background 0.2s;
+      border: none;
+    }
+    .dot.active { background: var(--teal); }
+
+    .act {
+      padding: 3rem 2rem;
+      border-bottom: 1px solid var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .act.visible { opacity: 1; transform: none; }
+
+    .act-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .act-tag::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 32px;
+      background: var(--magenta);
+      opacity: 0.35;
+    }
+
+    .act-hl {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .act-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin: 1.5rem 0;
+    }
+
+    .act-stat {
+      background: var(--black);
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .act-stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--magenta);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .act-stat-lbl {
+      font-size: 11.5px;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    .thinker-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      margin: 1.5rem 0;
+    }
+
+    .thinker {
+      background: var(--black);
+      padding: 1.25rem;
+    }
+
+    .thinker-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.5rem;
+    }
+
+    .thinker-quote {
+      font-size: 13.5px;
+      color: #cccccc;
+      line-height: 1.65;
+      font-style: italic;
+      border-left: 2px solid var(--border);
+      padding-left: 0.75rem;
+    }
+    .thinker-quote strong { color: #fff; font-style: normal; }
+
+    .bar-wrap { margin: 1.5rem 0; }
+    .bar-item { margin-bottom: 1.1rem; }
+    .bar-label {
+      font-size: 12.5px;
+      color: #888;
+      margin-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .bar-label .pct { font-weight: 600; }
+    .bar-label .pct-teal { color: var(--teal); }
+    .bar-label .pct-mag { color: var(--magenta); }
+    .bar-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 3px; width: 0; transition: width 1.3s cubic-bezier(.4,0,.2,1); }
+    .bar-fill-teal { background: var(--teal); }
+    .bar-fill-mag { background: var(--magenta); }
+
+    .source-line {
+      font-size: 11.5px;
+      color: #444;
+      margin-top: 0.5rem;
+    }
+
+    /* ── OFFER BLOCK ── */
+    .offer-block {
+      background: var(--dark);
+      border: 1px solid #222;
+      padding: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .offer-block h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .offer-block p {
+      font-size: 14.5px;
+      color: #888;
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+      max-width: 500px;
+    }
+
+    .service-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12.5px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border: 1px solid #2a2a2a;
+      color: #888;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+    .footer-logo span { color: var(--teal); }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: #444;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: #888; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .hero-headline { font-size: 2.6rem; }
+      .stats-row { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .truth-grid { grid-template-columns: 1fr; }
+      .thinker-grid { grid-template-columns: 1fr; }
+      .act-stats { grid-template-columns: 1fr; }
+      .btn-ghost { display: block; margin-left: 0; margin-top: 1rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="https://www.nunyabunya.com" class="nav-logo">Nunya <span>Bunya</span></a>
+    <a href="https://www.nunyabunya.com/services.html" class="nav-cta">Get Started</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">A message about your future</div>
+    <h1 class="hero-headline">
+      The middle class<br>
+      is <span class="mag">disappearing.</span><br>
+      The degree is <span class="teal">worthless.</span><br>
+      Your job is <span class="mag">next.</span>
+    </h1>
+    <p class="hero-sub">
+      AI is eating entry-level work. The system that promised you security no longer delivers it. The only people who win from here are the ones who stop waiting for permission.
+    </p>
+    <a href="https://www.nunyabunya.com/services.html" class="btn-primary">Start your business today →</a>
+    <a href="#manifesto" class="btn-ghost">Show me the evidence ↓</a>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num">92M</div>
+      <div class="stat-label">jobs predicted to be displaced by AI by 2030 — World Economic Forum</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">50%</div>
+      <div class="stat-label">drop in entry-level tech hiring between 2019–2024 — SignalFire</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">49%</div>
+      <div class="stat-label">of Gen Z believe AI has already devalued their college degree</div>
+    </div>
+  </div>
+
+  <!-- HARD TRUTHS -->
+  <section class="section">
+    <div class="section-tag">The hard truth</div>
+    <div class="truth-grid">
+      <div class="truth-item">
+        <div class="truth-icon">📉</div>
+        <h3>The Middle Class Is Shrinking</h3>
+        <p>In 1971, 61% of Americans were middle class. Today it's 50% — and falling. <strong>The rungs are being pulled off the ladder.</strong></p>
+      </div>
+      <div class="truth-item">
+        <div class="truth-icon">🎓</div>
+        <h3>Your Degree Won't Save You</h3>
+        <p>A four-year degree costs $120K+ and gets you an entry-level role that AI now performs in seconds. <strong>The credential economy is broken.</strong></p>
+      </div>
+      <div class="truth-item">
+        <div class="truth-icon">🤖</div>
+        <h3>AI Is Eating Entry-Level Jobs</h3>
+        <p>The first roles to go aren't the top ones. Junior copywriters, analysts, coordinators, paralegals. <strong>AI does it faster, cheaper, and without HR.</strong></p>
+      </div>
+      <div class="truth-item">
+        <div class="truth-icon">🏦</div>
+        <h3>The System Rewards Owners, Not Workers</h3>
+        <p>Every efficiency gain goes upward. More output, same salary. The gap between employee and owner has never been wider — <strong>and it's accelerating.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PULL QUOTE -->
+  <section class="section">
+    <p class="pull-quote">
+      The only move left is to <span class="accent">play outside the system.</span> Build something that belongs to you. Stop renting your time and start owning your output.
+    </p>
+  </section>
+
+  <!-- ANIMATED MANIFESTO -->
+  <section class="manifesto-section" id="manifesto">
+    <div class="manifesto-header">
+      <div class="section-tag">The animated case</div>
+    </div>
+
+    <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+    <div class="nav-dots" id="dots"></div>
+
+    <div class="act" id="act0">
+      <div class="act-tag">The world they promised you</div>
+      <div class="act-hl">The path is<br><span style="color:var(--magenta)">disappearing</span><br>beneath your feet.</div>
+      <div class="act-stats">
+        <div class="act-stat">
+          <div class="act-stat-num" data-count="92" data-suffix="M">0</div>
+          <div class="act-stat-lbl">jobs displaced by AI by 2030 — WEF</div>
+        </div>
+        <div class="act-stat">
+          <div class="act-stat-num" data-count="50" data-suffix="%">0</div>
+          <div class="act-stat-lbl">drop in entry-level tech hiring 2019–2024</div>
+        </div>
+        <div class="act-stat">
+          <div class="act-stat-num" data-count="49" data-suffix="%">0</div>
+          <div class="act-stat-lbl">of Gen Z say AI devalued their degree</div>
+        </div>
+      </div>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:520px">The ladder everyone told you to climb is missing rungs. Entry-level positions aren't being "restructured." They're being permanently removed.</p>
+    </div>
+
+    <div class="act" id="act1">
+      <div class="act-tag">What the thinkers are saying</div>
+      <div class="act-hl">Everyone who<br>predicted this is<br><span style="color:var(--teal)">saying the same thing.</span></div>
+      <div class="thinker-grid">
+        <div class="thinker">
+          <div class="thinker-name">Naval Ravikant — AngelList</div>
+          <div class="thinker-quote">"The efficient size of a company is shrinking rapidly. <strong>The future will be almost all startups.</strong>"</div>
+        </div>
+        <div class="thinker">
+          <div class="thinker-name">Alex Hormozi — Acquisition.com</div>
+          <div class="thinker-quote">"<strong>I'm going to be an entrepreneur so I can be free.</strong> Free to do whatever I want, whenever I want, with whomever I want."</div>
+        </div>
+        <div class="thinker">
+          <div class="thinker-name">Dario Amodei — Anthropic CEO</div>
+          <div class="thinker-quote">"AI could <strong>eliminate half of all entry-level white-collar jobs</strong> — and spike unemployment to 10–20% within five years."</div>
+        </div>
+        <div class="thinker">
+          <div class="thinker-name">Alex Hormozi — $100M Offers</div>
+          <div class="thinker-quote">"<strong>You can beat 99% of people</strong> simply by continuing to work without needing immediate reward."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="act" id="act2">
+      <div class="act-tag">The case, by the numbers</div>
+      <div class="act-hl">The system<br>was never built<br>for <span style="color:var(--magenta)">you.</span></div>
+      <div class="bar-wrap">
+        <div class="bar-item">
+          <div class="bar-label"><span>Companies that replaced workers with AI in 2024</span><span class="pct pct-teal">44%</span></div>
+          <div class="bar-track"><div class="bar-fill bar-fill-teal" data-width="44"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>New AI jobs requiring a master's degree or higher</span><span class="pct pct-mag">77%</span></div>
+          <div class="bar-track"><div class="bar-fill bar-fill-mag" data-width="77"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>White-collar job seekers in 2024 who couldn't get interviews</span><span class="pct pct-teal">40%</span></div>
+          <div class="bar-track"><div class="bar-fill bar-fill-teal" data-width="40"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>Microsoft code now written by AI (Satya Nadella, 2025)</span><span class="pct pct-mag">30%</span></div>
+          <div class="bar-track"><div class="bar-fill bar-fill-mag" data-width="30"></div></div>
+        </div>
+      </div>
+      <p class="source-line">Sources: SignalFire, WEF, Bloomberg, CNBC, Anthropic, Microsoft</p>
+    </div>
+
+    <div class="act" id="act3">
+      <div class="act-tag">The only move left</div>
+      <div class="act-hl">Stop waiting<br>for <span style="color:var(--magenta)">permission.</span><br>Build the thing.</div>
+      <p style="font-size:15px;color:#aaa;line-height:1.8;max-width:540px;margin:1rem 0 1.5rem">The only economic position that gets stronger as the world changes isn't a job title. It's ownership. The people who win from here are the ones who build something that belongs to them.</p>
+      <div class="thinker-grid" style="margin-bottom:1.5rem">
+        <div class="thinker" style="grid-column:span 2">
+          <div class="thinker-name">Naval Ravikant</div>
+          <div class="thinker-quote" style="font-size:15px">"<strong>Seek wealth, not money or status.</strong> Wealth is having assets that earn while you sleep."</div>
+        </div>
+      </div>
+      <div class="offer-block">
+        <h2>Nunya Bunya</h2>
+        <p>We're a Brisbane digital marketing agency. We build brands, grow audiences, and turn small business owners into the most visible name in their market. We've done it for ourselves. Now we do it for you.</p>
+        <div class="service-pills">
+          <span class="pill">Brand strategy</span>
+          <span class="pill">Social media growth</span>
+          <span class="pill">Content machine</span>
+          <span class="pill">Full takeover campaigns</span>
+          <span class="pill">AI-powered marketing</span>
+        </div>
+        <a href="https://www.nunyabunya.com/services.html" class="btn-primary">Start your business today →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Nunya <span>Bunya</span></div>
+    <div class="footer-links">
+      <a href="https://www.nunyabunya.com">nunyabunya.com</a>
+      <a href="https://www.nunyabunya.com/contact.html">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    // ── SCROLL ANIMATIONS ──
+    const acts = document.querySelectorAll('.act');
+    const dotsEl = document.getElementById('dots');
+    const prog = document.getElementById('prog');
+
+    acts.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Go to section ' + (i + 1));
+      d.onclick = () => acts[i].scrollIntoView({ behavior: 'smooth' });
+      dotsEl.appendChild(d);
+    });
+
+    function countUp(el) {
+      const target = parseInt(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      let current = 0;
+      const step = target / 40;
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = Math.round(current) + suffix;
+        if (current >= target) clearInterval(timer);
+      }, 30);
+    }
+
+    function animateBars(act) {
+      act.querySelectorAll('.bar-fill').forEach(b => {
+        b.style.width = b.dataset.width + '%';
+      });
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          const idx = [...acts].indexOf(e.target);
+          document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+          prog.style.width = ((idx + 1) / acts.length * 100) + '%';
+          e.target.querySelectorAll('[data-count]').forEach(countUp);
+          animateBars(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    acts.forEach(a => observer.observe(a));
+
+    // ── GENERAL SCROLL FADE-INS ──
+    const fadeEls = document.querySelectorAll('.section, .hero, .stats-row');
+    const fadeObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'none';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    fadeEls.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(16px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      fadeObs.observe(el);
+    });
+  </script>
+</body>
+</html>
