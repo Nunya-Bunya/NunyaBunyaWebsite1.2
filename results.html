@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Results — Real Client Work | Nunya Bunya Brisbane</title>
+<meta name="description" content="Real clients. Real deliverables. See the websites, brand bibles, AI photography, and marketing systems I've built for businesses in Brisbane and beyond.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.nunyabunya.com/results.html">
+<meta property="og:title" content="Results — Real Client Work | Nunya Bunya Brisbane">
+<meta property="og:description" content="Real clients. Real deliverables. Websites, brand bibles, AI photography, and marketing systems built for real businesses.">
+<meta property="og:image" content="https://www.nunyabunya.com/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Nunya Bunya">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Results — Real Client Work | Nunya Bunya Brisbane">
+<meta name="twitter:description" content="Real clients. Real deliverables. See the work behind Brisbane's digital marketing agency.">
+<meta name="twitter:image" content="https://www.nunyabunya.com/images/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="style-v2.css">
+<style>
+/* ═══════════ RESULTS PAGE ═══════════ */
+
+/* What You Get grid */
+.deliverables-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+.deliverable-card {
+  background: var(--dark2);
+  border: 1px solid var(--subtle);
+  border-radius: 8px;
+  padding: 32px 28px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.deliverable-card:hover {
+  border-color: rgba(0,229,204,0.3);
+  transform: translateY(-2px);
+}
+.deliverable-icon {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+.deliverable-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.deliverable-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Client showcase blocks */
+.client-block {
+  margin-bottom: 100px;
+}
+.client-block:last-child {
+  margin-bottom: 0;
+}
+.client-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+.client-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.client-name {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: clamp(28px, 4vw, 40px);
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--white);
+}
+.client-name span {
+  color: var(--teal);
+}
+.client-type {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 24px;
+}
+.client-summary {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 700px;
+  margin-bottom: 32px;
+}
+
+/* Deliverable pills */
+.client-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.client-pill {
+  background: rgba(0,229,204,0.08);
+  border: 1px solid rgba(0,229,204,0.2);
+  color: var(--teal);
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 100px;
+}
+
+/* Screenshot showcase grid */
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.showcase-item {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--subtle);
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative;
+}
+.showcase-item:hover {
+  border-color: rgba(0,229,204,0.25);
+  transform: translateY(-2px);
+}
+.showcase-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.showcase-item.span-8 { grid-column: span 8; }
+.showcase-item.span-6 { grid-column: span 6; }
+.showcase-item.span-4 { grid-column: span 4; }
+.showcase-item.span-3 { grid-column: span 3; }
+
+/* Screenshot label */
+.showcase-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px 14px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.85));
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+
+/* Case study link */
+.client-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  border-bottom: 1px solid rgba(0,229,204,0.3);
+  padding-bottom: 2px;
+  transition: border-color 0.3s;
+}
+.client-cta:hover {
+  border-color: var(--teal);
+}
+.client-cta svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s;
+}
+.client-cta:hover svg {
+  transform: translateX(4px);
+}
+
+/* Divider between client blocks */
+.client-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,229,204,0.15), transparent);
+  margin-bottom: 100px;
+}
+
+/* Before/After mini */
+.before-after-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.ba-side {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--subtle);
+}
+.ba-side img {
+  width: 100%;
+  display: block;
+}
+.ba-label {
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+}
+.ba-label.before {
+  color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.03);
+}
+.ba-label.after {
+  color: var(--teal);
+  background: rgba(0,229,204,0.04);
+}
+.ba-arrow {
+  font-size: 24px;
+  color: var(--teal);
+  font-weight: 300;
+}
+
+/* Video ads grid */
+.ads-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+.ad-card {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--subtle);
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative;
+  background: var(--dark2);
+}
+.ad-card:hover {
+  border-color: rgba(0,229,204,0.3);
+  transform: translateY(-3px);
+}
+.ad-card video {
+  width: 100%;
+  display: block;
+  aspect-ratio: 9/16;
+  object-fit: cover;
+  background: #000;
+}
+.ad-card-label {
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ad-card-name {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.ad-card-type {
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  background: rgba(0,229,204,0.08);
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+/* Play button overlay */
+.ad-play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+}
+.ad-play-btn {
+  width: 56px;
+  height: 56px;
+  background: rgba(0,0,0,0.5);
+  border: 2px solid rgba(255,255,255,0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s, background 0.3s;
+}
+.ad-play-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: white;
+  margin-left: 3px;
+}
+.ad-play-overlay:hover .ad-play-btn {
+  transform: scale(1.1);
+  background: rgba(0,229,204,0.5);
+  border-color: var(--teal);
+}
+.ad-play-overlay.playing {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Static ads row */
+.static-ads-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 24px;
+}
+.static-ad-card {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--subtle);
+  transition: border-color 0.3s, transform 0.3s;
+}
+.static-ad-card:hover {
+  border-color: rgba(0,229,204,0.25);
+  transform: translateY(-2px);
+}
+.static-ad-card img {
+  width: 100%;
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .deliverables-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .ads-grid,
+  .static-ads-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .showcase-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .showcase-item.span-8,
+  .showcase-item.span-6 { grid-column: span 2; }
+  .showcase-item.span-4,
+  .showcase-item.span-3 { grid-column: span 1; }
+  .before-after-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .ba-arrow {
+    text-align: center;
+    transform: rotate(90deg);
+  }
+  .client-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo"><img src="images/logo-icon-white.png" alt="Nunya Bunya"> NUNYA <span>BUNYA</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="results.html" class="active">Results</a></li>
+    <li><a href="portfolio.html">Work</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html" class="nav-cta">Let's Talk</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="hero-orb-1"></div>
+  <div class="hero-orb-2"></div>
+  <div class="container">
+    <div class="section-label">Results</div>
+    <h1>Real clients.<br>Real <span>work.</span></h1>
+    <p>These aren't mockups or concepts. These are complete brand systems I've built and delivered for real businesses. Websites, brand bibles, AI photography, social templates, and marketing infrastructure — from zero to live.</p>
+  </div>
+</section>
+
+<!-- WHAT EVERY CLIENT GETS -->
+<section class="section-dark section-pad" style="padding-bottom: 60px;">
+  <div class="container">
+    <div class="section-label">What Every Client Gets</div>
+    <h2 class="section-heading">The full <span>package.</span></h2>
+    <p class="section-sub" style="max-width: 560px;">Every engagement delivers a complete digital foundation — not just a logo or a landing page. Here's what that looks like.</p>
+
+    <div class="deliverables-grid reveal">
+      <div class="deliverable-card">
+        <div class="deliverable-icon">&#128218;</div>
+        <div class="deliverable-title">Brand Bible</div>
+        <div class="deliverable-desc">44-page strategic document covering positioning, voice, visual identity, typography, colour systems, and brand guidelines.</div>
+      </div>
+      <div class="deliverable-card">
+        <div class="deliverable-icon">&#127760;</div>
+        <div class="deliverable-title">Website</div>
+        <div class="deliverable-desc">Conversion-focused site with booking integration, SEO, mobile-first design, and clear service hierarchy.</div>
+      </div>
+      <div class="deliverable-card">
+        <div class="deliverable-icon">&#128248;</div>
+        <div class="deliverable-title">AI Photography</div>
+        <div class="deliverable-desc">Custom AI-generated photoshoot — lifestyle shots, portraits, product images, and atmosphere photography matched to the brand.</div>
+      </div>
+      <div class="deliverable-card">
+        <div class="deliverable-icon">&#127912;</div>
+        <div class="deliverable-title">Social Templates</div>
+        <div class="deliverable-desc">Branded templates for Instagram posts, stories, Facebook covers, LinkedIn banners, email headers, and business cards.</div>
+      </div>
+      <div class="deliverable-card">
+        <div class="deliverable-icon">&#128202;</div>
+        <div class="deliverable-title">SEO &amp; Analytics</div>
+        <div class="deliverable-desc">Full SEO setup, keyword strategy, meta tags, schema markup, and self-hosted privacy-first analytics tracking.</div>
+      </div>
+      <div class="deliverable-card">
+        <div class="deliverable-icon">&#128231;</div>
+        <div class="deliverable-title">Email &amp; Lead Gen</div>
+        <div class="deliverable-desc">Email sequences, lead magnets, booking flows, and CRM integration — the infrastructure that turns visitors into clients.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADS & VIDEO -->
+<section class="section-pad" style="padding-top: 0;">
+  <div class="container">
+    <div class="section-label">Ads I've Created</div>
+    <h2 class="section-heading">Video &amp; static <span>ads.</span></h2>
+    <p class="section-sub" style="max-width: 560px;">Kinetic text video ads and static social campaigns — built for each client's brand, ready to run on Instagram, Facebook, and LinkedIn.</p>
+
+    <!-- Video Ads -->
+    <div class="ads-grid reveal">
+      <div class="ad-card">
+        <video id="vid-zinia" muted loop playsinline preload="metadata" poster="ads/videos/web/zinia-poster.jpg">
+          <source src="ads/videos/web/zinia-ad.mp4" type="video/mp4">
+        </video>
+        <div class="ad-play-overlay" data-video="vid-zinia">
+          <div class="ad-play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
+        </div>
+        <div class="ad-card-label">
+          <span class="ad-card-name">Zinia Massage</span>
+          <span class="ad-card-type">Video Ad</span>
+        </div>
+      </div>
+      <div class="ad-card">
+        <video id="vid-conner" muted loop playsinline preload="metadata" poster="ads/videos/web/conner-poster.jpg">
+          <source src="ads/videos/web/conner-ad.mp4" type="video/mp4">
+        </video>
+        <div class="ad-play-overlay" data-video="vid-conner">
+          <div class="ad-play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
+        </div>
+        <div class="ad-card-label">
+          <span class="ad-card-name">Conner Injury Law</span>
+          <span class="ad-card-type">Video Ad</span>
+        </div>
+      </div>
+      <div class="ad-card">
+        <video id="vid-pawesome" muted loop playsinline preload="metadata" poster="ads/videos/web/pawesome-poster.jpg">
+          <source src="ads/videos/web/pawesome-ad.mp4" type="video/mp4">
+        </video>
+        <div class="ad-play-overlay" data-video="vid-pawesome">
+          <div class="ad-play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
+        </div>
+        <div class="ad-card-label">
+          <span class="ad-card-name">Pawesome Dog Walkers</span>
+          <span class="ad-card-type">Video Ad</span>
+        </div>
+      </div>
+      <div class="ad-card">
+        <video id="vid-bella" muted loop playsinline preload="metadata" poster="ads/videos/web/bella-poster.jpg">
+          <source src="ads/videos/web/bella-ad.mp4" type="video/mp4">
+        </video>
+        <div class="ad-play-overlay" data-video="vid-bella">
+          <div class="ad-play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
+        </div>
+        <div class="ad-card-label">
+          <span class="ad-card-name">Bella Rhyder</span>
+          <span class="ad-card-type">Video Ad</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Static Ads -->
+    <div class="static-ads-grid reveal">
+      <div class="static-ad-card">
+        <img src="ads/generated/conner-injury-law/instagram-story-offer-20260416-002.png" alt="Conner Law — No Win No Fee offer ad" loading="lazy">
+      </div>
+      <div class="static-ad-card">
+        <img src="ads/generated/pawesome-dog-walkers/instagram-story-offer-20260416-002.png" alt="Pawesome — First Walk Free offer ad" loading="lazy">
+      </div>
+      <div class="static-ad-card">
+        <img src="ads/generated/conner-injury-law/instagram-feed-testimonial-20260416-001.png" alt="Conner Law — testimonial social ad" loading="lazy">
+      </div>
+      <div class="static-ad-card">
+        <img src="ads/generated/pawesome-dog-walkers/instagram-feed-testimonial-20260416-001.png" alt="Pawesome — testimonial social ad" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENT SHOWCASES -->
+<section class="section-pad">
+  <div class="container">
+
+    <!-- ═══════════ ZINIA MASSAGE ═══════════ -->
+    <div class="client-block reveal">
+      <div class="client-type">Client Project</div>
+      <div class="client-header">
+        <img src="images/campaigns/zinia-massage/logo.png" alt="Brisbane Zinia Massage" class="client-logo">
+        <h2 class="client-name">Brisbane Zinia <span>Massage</span></h2>
+      </div>
+      <p class="client-summary">A premium massage therapy clinic in Brisbane CBD. They had a broken WordPress site with confused pricing and zero brand identity. I built their entire digital presence from scratch in 3 weeks — brand bible, website, AI photoshoot, social templates, print design, and SEO.</p>
+      <div class="client-pills">
+        <span class="client-pill">44-Page Brand Bible</span>
+        <span class="client-pill">5-Page Website</span>
+        <span class="client-pill">AI Photography</span>
+        <span class="client-pill">Social Templates</span>
+        <span class="client-pill">Print Design</span>
+        <span class="client-pill">SEO Setup</span>
+      </div>
+
+      <!-- Screenshot grid -->
+      <div class="showcase-grid">
+        <div class="showcase-item span-8">
+          <img src="images/case-study-zinia/after-cropped/index-desktop.png" alt="Zinia homepage" loading="lazy">
+          <div class="showcase-label">Homepage</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/case-study-zinia/ai-photoshoot/hero-treatment-room.png" alt="AI-generated treatment room" loading="lazy">
+          <div class="showcase-label">AI Photography</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/case-study-zinia/brand-bible/cover-page.png" alt="Brand bible cover" loading="lazy">
+          <div class="showcase-label">Brand Bible</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/case-study-zinia/social/business-card-front.png" alt="Business card" loading="lazy">
+          <div class="showcase-label">Business Cards</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/case-study-zinia/social/instagram-post.png" alt="Instagram template" loading="lazy">
+          <div class="showcase-label">Social Templates</div>
+        </div>
+      </div>
+
+      <a href="case-study-zinia.html" class="client-cta">
+        Read full case study
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="client-divider"></div>
+
+    <!-- ═══════════ CONNER INJURY LAW ═══════════ -->
+    <div class="client-block reveal">
+      <div class="client-type">Client Project</div>
+      <div class="client-header">
+        <img src="images/campaigns/conner-injury-law/justice.png" alt="Conner Injury Law" class="client-logo">
+        <h2 class="client-name">Conner <span>Injury Law</span></h2>
+      </div>
+      <p class="client-summary">A Washington State personal injury firm with 30+ years of experience and $50M+ in settlements — spread across 3 different websites with 3 different brands. I consolidated everything into one conversion-focused lead-gen site targeting the entire I-5 corridor.</p>
+      <div class="client-pills">
+        <span class="client-pill">3 Sites → 1</span>
+        <span class="client-pill">9-Page Website</span>
+        <span class="client-pill">Lead-Gen Architecture</span>
+        <span class="client-pill">AI Photography</span>
+        <span class="client-pill">SEO Strategy</span>
+        <span class="client-pill">Social Templates</span>
+      </div>
+
+      <!-- Screenshot grid -->
+      <div class="showcase-grid">
+        <div class="showcase-item span-6">
+          <img src="images/case-study-conner/after-cropped/index-desktop.png" alt="Conner Law homepage" loading="lazy">
+          <div class="showcase-label">Homepage</div>
+        </div>
+        <div class="showcase-item span-6">
+          <img src="images/case-study-conner/after-cropped/car-accidents-desktop.png" alt="Car accidents landing page" loading="lazy">
+          <div class="showcase-label">Injury Landing Page</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/case-study-conner/after-cropped/brain-injuries-desktop.png" alt="Brain injuries page" loading="lazy">
+          <div class="showcase-label">TBI Page</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/case-study-conner/after-cropped/services-desktop.png" alt="Services page" loading="lazy">
+          <div class="showcase-label">Services</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/case-study-conner/after-cropped/about-desktop.png" alt="About page" loading="lazy">
+          <div class="showcase-label">About</div>
+        </div>
+      </div>
+
+      <a href="case-study-conner.html" class="client-cta">
+        Read full case study
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="client-divider"></div>
+
+    <!-- ═══════════ PAWESOME DOG WALKERS ═══════════ -->
+    <div class="client-block reveal">
+      <div class="client-type">Client Project</div>
+      <div class="client-header">
+        <img src="images/campaigns/pawesome/happy-dog.png" alt="Pawesome Dog Walkers" class="client-logo">
+        <h2 class="client-name">Pawesome <span>Dog Walkers</span></h2>
+      </div>
+      <p class="client-summary">A brand-new dog walking business in Brisbane's inner north — no website, no brand, no online presence. I built the complete digital foundation in under two weeks: brand bible, booking-ready website, AI photoshoot, social templates, and launched their Instagram and Facebook.</p>
+      <div class="client-pills">
+        <span class="client-pill">44-Page Brand Bible</span>
+        <span class="client-pill">5-Page Website</span>
+        <span class="client-pill">AI Photography</span>
+        <span class="client-pill">Social Templates</span>
+        <span class="client-pill">Instagram Launch</span>
+        <span class="client-pill">Facebook Page</span>
+      </div>
+
+      <!-- Screenshot grid -->
+      <div class="showcase-grid">
+        <div class="showcase-item span-8">
+          <img src="images/case-study-pawesome/after-cropped/index-desktop.png" alt="Pawesome homepage" loading="lazy">
+          <div class="showcase-label">Homepage</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/case-study-pawesome/ai-photoshoot/hero-park-walk.png" alt="AI dog walking photo" loading="lazy">
+          <div class="showcase-label">AI Photography</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/case-study-pawesome/after-cropped/services-desktop.png" alt="Services page" loading="lazy">
+          <div class="showcase-label">Services</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/case-study-pawesome/ai-photoshoot/service-group-walk.png" alt="Group walk photo" loading="lazy">
+          <div class="showcase-label">Group Walk Shoot</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/case-study-pawesome/after-cropped/book-desktop.png" alt="Booking page" loading="lazy">
+          <div class="showcase-label">Booking Page</div>
+        </div>
+      </div>
+
+      <a href="case-study-pawesome.html" class="client-cta">
+        Read full case study
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="client-divider"></div>
+
+    <!-- ═══════════ BELLA RHYDER ═══════════ -->
+    <div class="client-block reveal">
+      <div class="client-type">Brand Campaign</div>
+      <div class="client-header">
+        <img src="images/campaigns/bella-rhyder/bella-logo.png" alt="Bella Rhyder" class="client-logo">
+        <h2 class="client-name">Bella <span>Rhyder</span></h2>
+      </div>
+      <p class="client-summary">A Queensland-born activewear and swimwear brand — built from scratch using AI-powered creative tools. Full brand identity, 20+ product mockups, 30+ lifestyle photos, and a launch-ready content library. Zero photoshoot budget, launch-quality output.</p>
+      <div class="client-pills">
+        <span class="client-pill">Brand Identity</span>
+        <span class="client-pill">Logo Design</span>
+        <span class="client-pill">20+ Product Mockups</span>
+        <span class="client-pill">30+ Lifestyle Photos</span>
+        <span class="client-pill">Social Strategy</span>
+      </div>
+
+      <!-- Screenshot grid -->
+      <div class="showcase-grid">
+        <div class="showcase-item span-8">
+          <img src="images/campaigns/bella-rhyder/bella-flatlay.jpg" alt="Product flat lay" loading="lazy">
+          <div class="showcase-label">Product Flat Lay</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/campaigns/bella-rhyder/bella-bomber.jpg" alt="Bomber jacket mockup" loading="lazy">
+          <div class="showcase-label">Product Mockup</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/campaigns/bella-rhyder/bella-lifestyle-1.jpg" alt="Lifestyle shoot" loading="lazy">
+          <div class="showcase-label">Lifestyle Shoot</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/campaigns/bella-rhyder/bella-onepiece.jpg" alt="Swimwear mockup" loading="lazy">
+          <div class="showcase-label">Swimwear</div>
+        </div>
+        <div class="showcase-item span-4">
+          <img src="images/campaigns/bella-rhyder/bella-bag.jpg" alt="Accessories" loading="lazy">
+          <div class="showcase-label">Accessories</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-cta section-dark section-pad">
+  <div class="hero-orb-1"></div>
+  <div class="hero-orb-2"></div>
+  <div class="container" style="text-align: center; position: relative; z-index: 2;">
+    <h2 class="section-heading">Want to see this<br>for <span>your business?</span></h2>
+    <p class="section-sub" style="max-width: 460px; margin: 0 auto 40px; text-align: center;">I'll show you exactly what your complete brand system would look like — no commitment, no pressure.</p>
+    <a href="contact.html" class="btn-primary">Get Your Free Marketing Audit</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo"><img src="images/logo-icon-white.png" alt="Nunya Bunya"> <span>NUNYA<em>BUNYA</em></span></div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li>
+    <li><a href="products.html">Products</a></li><li><a href="results.html">Results</a></li><li><a href="portfolio.html">Work</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+  <p class="footer-copy">&copy; 2026 Nunya Bunya Pty Ltd &middot; Brisbane, QLD &middot; All rights reserved.</p>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor'); const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px'; });
+  function animateRing() { ringX += (mouseX - ringX) * 0.12; ringY += (mouseY - ringY) * 0.12; ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px'; requestAnimationFrame(animateRing); } animateRing();
+  document.querySelectorAll('a, button, .showcase-item, .deliverable-card, .client-cta').forEach(el => { el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering'); }); el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering'); }); });
+  document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
+
+  // Video ad play/pause
+  document.querySelectorAll('.ad-play-overlay').forEach(overlay => {
+    overlay.addEventListener('click', () => {
+      const vid = document.getElementById(overlay.dataset.video);
+      if (vid.paused) {
+        // Pause all other videos first
+        document.querySelectorAll('.ad-card video').forEach(v => {
+          v.pause();
+          v.closest('.ad-card').querySelector('.ad-play-overlay').classList.remove('playing');
+        });
+        vid.play();
+        overlay.classList.add('playing');
+      } else {
+        vid.pause();
+        overlay.classList.remove('playing');
+      }
+    });
+    // Show play button again when video ends or is paused
+    const vid = document.getElementById(overlay.dataset.video);
+    vid.addEventListener('pause', () => overlay.classList.remove('playing'));
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+</script>
+
+<!-- Matomo -->
+<script>
+var _paq = window._paq = window._paq || [];
+_paq.push(["trackPageView"]);
+_paq.push(["enableLinkTracking"]);
+(function() {
+  var u="https://analytics.nunyabunya.com/";
+  _paq.push(["setTrackerUrl", u+"matomo.php"]);
+  _paq.push(["setSiteId", "1"]);
+  var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
+  g.async=true; g.src=u+"matomo.js"; s.parentNode.insertBefore(g,s);
+})();
+</script>
+<noscript><img referrerpolicy="no-referrer-when-downgrade" src="https://analytics.nunyabunya.com/matomo.php?idsite=1&amp;rec=1" style="border:0" alt="" /></noscript>
+<!-- End Matomo -->
+</body>
+</html>

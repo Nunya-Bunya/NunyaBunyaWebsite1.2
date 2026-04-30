@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 1080px; height: 1920px; overflow: hidden; background: #1A1A2E; font-family: 'DM Sans', sans-serif; }
+        #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+        .scene { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px; }
+        .headline { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 96px; line-height: 1.05; color: #FFFFFF; position: relative; z-index: 10; }
+        .subtext { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 42px; line-height: 1.4; color: rgba(255,255,255,0.6); margin-top: 30px; position: relative; z-index: 10; }
+        .gold { color: #E8B86D; }
+        .coral { color: #D4654A; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(100px); z-index: 1; }
+        .line-v { position: absolute; width: 1px; background: linear-gradient(180deg, transparent, rgba(232,184,109,0.2), transparent); z-index: 2; }
+        .line-h { position: absolute; height: 1px; background: linear-gradient(90deg, transparent, rgba(232,184,109,0.15), transparent); z-index: 2; }
+        .diamond { position: absolute; width: 16px; height: 16px; background: #E8B86D; transform: rotate(45deg); z-index: 3; }
+        .stat-big { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 240px; color: #E8B86D; position: relative; z-index: 10; line-height: 1; text-shadow: 0 0 60px rgba(232,184,109,0.3); }
+        .pill { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 34px; color: #E8B86D; border: 2px solid rgba(232,184,109,0.3); padding: 16px 40px; border-radius: 100px; display: inline-block; margin: 10px; position: relative; z-index: 10; }
+        .cta-button { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 46px; color: #1A1A2E; background: #E8B86D; padding: 40px 72px; border-radius: 14px; position: relative; z-index: 10; }
+        .cta-glow { position: absolute; width: 500px; height: 250px; background: rgba(232,184,109,0.2); border-radius: 100px; filter: blur(80px); z-index: 1; }
+        .cta-url { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 34px; color: rgba(232,184,109,0.7); margin-top: 40px; letter-spacing: 2px; position: relative; z-index: 10; }
+        .italic { font-style: italic; }
+        .divider { width: 120px; height: 2px; background: #E8B86D; position: relative; z-index: 10; margin: 25px 0; }
+    </style>
+</head>
+<body>
+    <div id="root" data-composition-id="bella-ad" data-start="0" data-duration="14" data-width="1080" data-height="1920">
+
+        <!-- SCENE 1: Bold opener — 0s to 3.5s -->
+        <div id="s1" class="clip scene" data-start="0" data-duration="3.5" data-track-index="1"
+             style="background: radial-gradient(ellipse at 50% 40%, #2C2C3E 0%, #1A1A2E 70%);">
+            <div class="orb" id="s1-orb1" style="width: 500px; height: 500px; top: 300px; left: -100px; background: rgba(232,184,109,0.1);"></div>
+            <div class="orb" id="s1-orb2" style="width: 400px; height: 400px; bottom: 200px; right: -80px; background: rgba(212,101,74,0.08);"></div>
+            <div class="line-v" id="s1-lv1" style="height: 1920px; left: 200px;"></div>
+            <div class="line-v" id="s1-lv2" style="height: 1920px; right: 200px;"></div>
+            <div class="line-h" id="s1-lh" style="width: 1080px; top: 960px;"></div>
+            <div class="diamond" id="s1-dm1" style="top: 952px; left: 192px;"></div>
+            <div class="diamond" id="s1-dm2" style="top: 952px; right: 192px;"></div>
+            <div class="headline" id="s1-h1">Move</div>
+            <div class="headline gold italic" id="s1-h2" style="font-size: 120px;">boldly.</div>
+            <div class="divider" id="s1-div"></div>
+            <div class="subtext" id="s1-sub">Live freely.</div>
+        </div>
+
+        <!-- SCENE 2: What it is — 3.5s to 7s -->
+        <div id="s2" class="clip scene" data-start="3.5" data-duration="3.5" data-track-index="2"
+             style="background: #1A1A2E;">
+            <div class="orb" id="s2-orb" style="width: 600px; height: 600px; top: 500px; left: 200px; background: rgba(232,184,109,0.08);"></div>
+            <div class="line-v" style="height: 1920px; left: 540px;"></div>
+            <div class="headline" id="s2-h1">Premium</div>
+            <div class="headline gold" id="s2-h2">activewear</div>
+            <div class="headline" id="s2-h3">&amp; swimwear.</div>
+            <div class="divider" id="s2-div"></div>
+            <div class="subtext" id="s2-sub">Born in Queensland.<br>Made for women who move.</div>
+        </div>
+
+        <!-- SCENE 3: Products — 7s to 10.5s -->
+        <div id="s3" class="clip scene" data-start="7" data-duration="3.5" data-track-index="3"
+             style="background: radial-gradient(ellipse at 60% 50%, #2C2C3E 0%, #1A1A2E 70%);">
+            <div class="orb" id="s3-orb" style="width: 500px; height: 500px; top: 600px; right: -80px; background: rgba(212,101,74,0.08);"></div>
+            <div class="diamond" id="s3-dm1" style="top: 300px; left: 250px;"></div>
+            <div class="diamond" id="s3-dm2" style="bottom: 350px; right: 200px;"></div>
+            <div class="headline" id="s3-h1" style="margin-bottom: 50px; font-size: 72px;">The <span class="gold italic">collection</span></div>
+            <div class="pill" id="s3-p1">Leggings</div>
+            <div class="pill" id="s3-p2">Swimwear</div>
+            <div class="pill" id="s3-p3">Bomber Jackets</div>
+            <div class="pill" id="s3-p4">Accessories</div>
+        </div>
+
+        <!-- SCENE 4: CTA — 10.5s to 14s -->
+        <div id="s4" class="clip scene" data-start="10.5" data-duration="3.5" data-track-index="4"
+             style="background: radial-gradient(ellipse at 50% 50%, #2C2C3E 0%, #1A1A2E 80%);">
+            <div class="cta-glow" id="s4-glow" style="top: 800px; left: 290px;"></div>
+            <div class="orb" id="s4-orb" style="width: 400px; height: 400px; top: 400px; right: -100px; background: rgba(232,184,109,0.1);"></div>
+            <div class="line-v" style="height: 1920px; left: 200px;"></div>
+            <div class="line-v" style="height: 1920px; right: 200px;"></div>
+            <div class="headline" id="s4-h1" style="margin-bottom: 20px;">Wear the</div>
+            <div class="headline gold italic" id="s4-h2" style="font-size: 110px; margin-bottom: 50px;">movement.</div>
+            <div class="cta-button" id="s4-btn">Shop Now</div>
+            <div class="cta-url" id="s4-url">bellarhyder.com.au</div>
+        </div>
+    </div>
+
+    <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        // S1
+        tl.from("#s1-orb1", { x: -200, opacity: 0, duration: 1.5, ease: "power1.out" }, 0);
+        tl.from("#s1-orb2", { x: 200, opacity: 0, duration: 1.5, ease: "power1.out" }, 0.2);
+        tl.from("#s1-lv1", { scaleY: 0, duration: 1, ease: "power3.out" }, 0);
+        tl.from("#s1-lv2", { scaleY: 0, duration: 1, ease: "power3.out" }, 0.1);
+        tl.from("#s1-lh", { scaleX: 0, duration: 0.8, ease: "power3.out" }, 0.3);
+        tl.from("#s1-dm1", { scale: 0, rotation: 90, duration: 0.4, ease: "back.out(2)" }, 0.8);
+        tl.from("#s1-dm2", { scale: 0, rotation: 90, duration: 0.4, ease: "back.out(2)" }, 0.9);
+        tl.from("#s1-h1", { y: 60, opacity: 0, duration: 0.5, ease: "power3.out" }, 0.3);
+        tl.from("#s1-h2", { scale: 0.3, opacity: 0, duration: 0.7, ease: "back.out(1.4)" }, 0.6);
+        tl.from("#s1-div", { scaleX: 0, duration: 0.5, ease: "power3.out" }, 1.0);
+        tl.from("#s1-sub", { y: 30, opacity: 0, duration: 0.5, ease: "power2.out" }, 1.3);
+
+        // S2
+        tl.from("#s2-orb", { scale: 0.3, opacity: 0, duration: 1.5, ease: "power2.out" }, 3.5);
+        tl.from("#s2-h1", { x: -80, opacity: 0, duration: 0.5, ease: "power3.out" }, 3.7);
+        tl.from("#s2-h2", { x: -80, opacity: 0, duration: 0.5, ease: "power3.out" }, 4.0);
+        tl.from("#s2-h3", { x: -80, opacity: 0, duration: 0.5, ease: "power3.out" }, 4.3);
+        tl.from("#s2-div", { scaleX: 0, duration: 0.5, ease: "power3.out" }, 4.6);
+        tl.from("#s2-sub", { y: 30, opacity: 0, duration: 0.5, ease: "power2.out" }, 4.9);
+
+        // S3
+        tl.from("#s3-orb", { x: 200, opacity: 0, duration: 1.5, ease: "power1.out" }, 7);
+        tl.from("#s3-dm1", { scale: 0, rotation: 90, duration: 0.5, ease: "back.out(2)" }, 7.2);
+        tl.from("#s3-dm2", { scale: 0, rotation: 90, duration: 0.5, ease: "back.out(2)" }, 7.4);
+        tl.from("#s3-h1", { y: 40, opacity: 0, duration: 0.5, ease: "power3.out" }, 7.3);
+        tl.from("#s3-p1", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 7.7);
+        tl.from("#s3-p2", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 8.0);
+        tl.from("#s3-p3", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 8.3);
+        tl.from("#s3-p4", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 8.6);
+
+        // S4
+        tl.from("#s4-glow", { opacity: 0, scale: 0.5, duration: 1, ease: "power2.out" }, 10.5);
+        tl.from("#s4-orb", { x: 100, opacity: 0, duration: 1.5, ease: "power1.out" }, 10.5);
+        tl.from("#s4-h1", { y: 40, opacity: 0, duration: 0.5, ease: "power3.out" }, 10.7);
+        tl.from("#s4-h2", { scale: 0.3, opacity: 0, duration: 0.7, ease: "back.out(1.4)" }, 11.0);
+        tl.from("#s4-btn", { scale: 0.5, opacity: 0, duration: 0.6, ease: "back.out(1.7)" }, 11.5);
+        tl.from("#s4-url", { y: 30, opacity: 0, duration: 0.4, ease: "power2.out" }, 12.0);
+        tl.to("#s4-btn", { scale: 1.05, duration: 0.5, repeat: 3, yoyo: true, ease: "power1.inOut" }, 12.5);
+
+        window.__timelines["bella-ad"] = tl;
+    </script>
+</body>
+</html>

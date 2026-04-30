@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 1080px; height: 1920px; overflow: hidden; background: #FFFFFF; font-family: 'Open Sans', sans-serif; }
+        #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+        .scene { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px; }
+        .headline { font-family: Georgia, serif; font-weight: 700; font-size: 96px; line-height: 1.05; color: #1E4D7B; position: relative; z-index: 10; }
+        .subtext { font-family: 'Open Sans', sans-serif; font-weight: 400; font-size: 40px; line-height: 1.4; color: #4A4A4A; margin-top: 30px; position: relative; z-index: 10; }
+        .accent { color: #B8860B; }
+        .blue { color: #1E4D7B; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(100px); z-index: 1; }
+        .bar-h { position: absolute; height: 6px; background: #1E4D7B; z-index: 2; }
+        .bar-accent { position: absolute; height: 4px; background: #B8860B; z-index: 3; }
+        .stat-big { font-family: Georgia, serif; font-weight: 700; font-size: 200px; color: #1E4D7B; position: relative; z-index: 10; line-height: 1; }
+        .stat-label { font-family: Georgia, serif; font-weight: 700; font-size: 56px; color: #B8860B; position: relative; z-index: 10; }
+        .pill { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 34px; color: #1E4D7B; border: 3px solid rgba(30,77,123,0.3); padding: 18px 40px; border-radius: 12px; display: inline-block; margin: 10px; position: relative; z-index: 10; }
+        .cta-button { font-family: Georgia, serif; font-weight: 700; font-size: 48px; color: #FFFFFF; background: #1E4D7B; padding: 40px 72px; border-radius: 14px; position: relative; z-index: 10; }
+        .cta-glow { position: absolute; width: 500px; height: 250px; background: rgba(30,77,123,0.15); border-radius: 100px; filter: blur(80px); z-index: 1; }
+        .cta-url { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 34px; color: #B8860B; margin-top: 40px; position: relative; z-index: 10; }
+        .shield { position: absolute; width: 80px; height: 96px; border: 3px solid rgba(30,77,123,0.15); border-radius: 0 0 40px 40px; clip-path: polygon(50% 0%, 100% 15%, 100% 70%, 50% 100%, 0% 70%, 0% 15%); z-index: 2; }
+    </style>
+</head>
+<body>
+    <div id="root" data-composition-id="conner-ad" data-start="0" data-duration="14" data-width="1080" data-height="1920">
+
+        <!-- SCENE 1: Pain — 0s to 3.5s -->
+        <div id="s1" class="clip scene" data-start="0" data-duration="3.5" data-track-index="1"
+             style="background: linear-gradient(180deg, #FFFFFF 0%, #F5F7FA 100%);">
+            <div class="orb" id="s1-orb1" style="width: 500px; height: 500px; top: 200px; right: -100px; background: rgba(30,77,123,0.08);"></div>
+            <div class="bar-h" id="s1-bar1" style="width: 1080px; top: 200px;"></div>
+            <div class="bar-h" id="s1-bar2" style="width: 1080px; bottom: 200px;"></div>
+            <div class="bar-accent" id="s1-acc" style="width: 200px; top: 200px; left: 0;"></div>
+            <div class="headline" id="s1-h1">Injured in</div>
+            <div class="headline" id="s1-h2">a crash?</div>
+            <div class="headline accent" id="s1-h3" style="font-size: 80px; margin-top: 20px;">You deserve answers.</div>
+        </div>
+
+        <!-- SCENE 2: Authority — 3.5s to 7s -->
+        <div id="s2" class="clip scene" data-start="3.5" data-duration="3.5" data-track-index="2"
+             style="background: #FFFFFF;">
+            <div class="orb" id="s2-orb" style="width: 600px; height: 600px; top: 500px; left: -100px; background: rgba(184,134,11,0.08);"></div>
+            <div class="bar-h" id="s2-bar" style="width: 1080px; top: 960px;"></div>
+            <div class="stat-big" id="s2-stat">$50M+</div>
+            <div class="stat-label" id="s2-label">recovered for clients</div>
+            <div class="subtext" id="s2-sub" style="margin-top: 50px;">30+ years fighting for<br>Washington accident victims</div>
+        </div>
+
+        <!-- SCENE 3: Practice areas — 7s to 10.5s -->
+        <div id="s3" class="clip scene" data-start="7" data-duration="3.5" data-track-index="3"
+             style="background: linear-gradient(180deg, #F5F7FA 0%, #FFFFFF 100%);">
+            <div class="orb" id="s3-orb" style="width: 500px; height: 500px; top: 600px; right: -80px; background: rgba(30,77,123,0.08);"></div>
+            <div class="shield" id="s3-sh1" style="top: 250px; left: 150px;"></div>
+            <div class="shield" id="s3-sh2" style="bottom: 250px; right: 150px;"></div>
+            <div class="headline blue" id="s3-h1" style="font-size: 72px; margin-bottom: 50px;">I fight for</div>
+            <div class="pill" id="s3-p1">Brain Injuries</div>
+            <div class="pill" id="s3-p2">Car Accidents</div>
+            <div class="pill" id="s3-p3">CRPS</div>
+            <div class="pill" id="s3-p4">Workplace Injuries</div>
+        </div>
+
+        <!-- SCENE 4: CTA — 10.5s to 14s -->
+        <div id="s4" class="clip scene" data-start="10.5" data-duration="3.5" data-track-index="4"
+             style="background: #FFFFFF;">
+            <div class="cta-glow" id="s4-glow" style="top: 800px; left: 290px;"></div>
+            <div class="bar-h" id="s4-bar1" style="width: 1080px; top: 200px;"></div>
+            <div class="bar-accent" id="s4-acc" style="width: 300px; top: 200px; right: 0;"></div>
+            <div class="headline" id="s4-h1" style="margin-bottom: 20px;">Free case</div>
+            <div class="headline accent" id="s4-h2" style="font-size: 100px; margin-bottom: 50px;">assessment.</div>
+            <div class="cta-button" id="s4-btn">Call Now</div>
+            <div class="cta-url" id="s4-url">connerinjurylaw.com</div>
+        </div>
+    </div>
+
+    <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        // S1
+        tl.from("#s1-bar1", { scaleX: 0, duration: 0.6, ease: "power3.out" }, 0);
+        tl.from("#s1-bar2", { scaleX: 0, duration: 0.6, ease: "power3.out" }, 0.1);
+        tl.from("#s1-acc", { scaleX: 0, duration: 0.4, ease: "power3.out" }, 0.3);
+        tl.from("#s1-orb1", { x: 200, opacity: 0, duration: 1.5, ease: "power1.out" }, 0);
+        tl.from("#s1-h1", { y: 60, opacity: 0, duration: 0.5, ease: "power3.out" }, 0.3);
+        tl.from("#s1-h2", { y: 60, opacity: 0, duration: 0.5, ease: "power3.out" }, 0.5);
+        tl.from("#s1-h3", { y: 40, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.8);
+
+        // S2
+        tl.from("#s2-orb", { scale: 0.3, opacity: 0, duration: 1.5, ease: "power2.out" }, 3.5);
+        tl.from("#s2-bar", { scaleX: 0, duration: 0.6, ease: "power3.out" }, 3.6);
+        tl.from("#s2-stat", { scale: 0, opacity: 0, duration: 0.7, ease: "back.out(1.3)" }, 3.8);
+        tl.from("#s2-label", { y: 30, opacity: 0, duration: 0.5, ease: "power2.out" }, 4.3);
+        tl.from("#s2-sub", { y: 30, opacity: 0, duration: 0.5, ease: "power2.out" }, 4.7);
+
+        // S3
+        tl.from("#s3-orb", { x: 200, opacity: 0, duration: 1.5, ease: "power1.out" }, 7);
+        tl.from("#s3-sh1", { scale: 0, rotation: -30, opacity: 0, duration: 0.8, ease: "power2.out" }, 7.2);
+        tl.from("#s3-sh2", { scale: 0, rotation: 30, opacity: 0, duration: 0.8, ease: "power2.out" }, 7.4);
+        tl.from("#s3-h1", { y: 40, opacity: 0, duration: 0.5, ease: "power3.out" }, 7.3);
+        tl.from("#s3-p1", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 7.7);
+        tl.from("#s3-p2", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 8.0);
+        tl.from("#s3-p3", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 8.3);
+        tl.from("#s3-p4", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 8.6);
+
+        // S4
+        tl.from("#s4-glow", { opacity: 0, scale: 0.5, duration: 1, ease: "power2.out" }, 10.5);
+        tl.from("#s4-bar1", { scaleX: 0, duration: 0.6, ease: "power3.out" }, 10.6);
+        tl.from("#s4-acc", { scaleX: 0, duration: 0.4, ease: "power3.out" }, 10.8);
+        tl.from("#s4-h1", { y: 40, opacity: 0, duration: 0.5, ease: "power3.out" }, 10.8);
+        tl.from("#s4-h2", { scale: 0.5, opacity: 0, duration: 0.6, ease: "back.out(1.4)" }, 11.1);
+        tl.from("#s4-btn", { scale: 0.5, opacity: 0, duration: 0.6, ease: "back.out(1.7)" }, 11.6);
+        tl.from("#s4-url", { y: 30, opacity: 0, duration: 0.4, ease: "power2.out" }, 12.1);
+        tl.to("#s4-btn", { scale: 1.05, duration: 0.5, repeat: 3, yoyo: true, ease: "power1.inOut" }, 12.5);
+
+        window.__timelines["conner-ad"] = tl;
+    </script>
+</body>
+</html>
