@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1080">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 1080px; height: 1080px; overflow: hidden; background: #0a0a0a; }
+        #root { position: relative; width: 1080px; height: 1080px; overflow: hidden; }
+        .scene { position: absolute; top: 0; left: 0; width: 1080px; height: 1080px; }
+        .bg { position: absolute; top: -60px; left: -60px; width: 1200px; height: 1200px; object-fit: cover; z-index: 1; }
+        .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); z-index: 2; }
+        .text-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 80px; text-align: center; }
+        .tagline { font-family: 'Bebas Neue', sans-serif; font-size: 100px; color: #FFFFFF; letter-spacing: 6px; line-height: 1.1; text-shadow: 0 4px 30px rgba(0,0,0,0.6); }
+        .brand { font-family: 'Bebas Neue', sans-serif; font-size: 80px; color: #FFFFFF; letter-spacing: 8px; margin-top: 30px; text-shadow: 0 4px 30px rgba(0,0,0,0.6); }
+        .url { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 22px; color: rgba(255,255,255,0.5); letter-spacing: 3px; margin-top: 16px; text-shadow: 0 2px 10px rgba(0,0,0,0.6); }
+        .divider { width: 60px; height: 2px; background: #FFFFFF; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div id="root" data-composition-id="black-ink" data-start="0" data-duration="6" data-width="1080" data-height="1080">
+        <div id="s1" class="clip scene" data-start="0" data-duration="6" data-track-index="1">
+            <img class="bg" id="bg" src="bg.jpg" alt="">
+            <div class="overlay" id="ov"></div>
+            <div class="text-wrap">
+                <div class="tagline" id="t1">YOUR STORY.</div>
+                <div class="tagline" id="t2">YOUR INK.</div>
+                <div class="divider" id="dv"></div>
+                <div class="brand" id="br">BLACK INK<br>COLLECTIVE.</div>
+                <div class="url" id="ur">BLACKINKCOLLECTIVE.COM</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+        tl.from("#bg", { scale: 1.15, duration: 6, ease: "power1.out" }, 0);
+        tl.from("#ov", { opacity: 0, duration: 0.6 }, 0);
+        tl.from("#t1", { x: -80, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.3);
+        tl.from("#t2", { x: 80, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.6);
+        tl.from("#dv", { scaleX: 0, duration: 0.4, ease: "power3.out" }, 1.0);
+        tl.from("#br", { y: 40, opacity: 0, duration: 0.6, ease: "power3.out" }, 1.2);
+        tl.from("#ur", { y: 20, opacity: 0, duration: 0.4, ease: "power2.out" }, 1.7);
+        window.__timelines["black-ink"] = tl;
+    </script>
+</body>
+</html>

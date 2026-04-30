@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1080">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 1080px; height: 1080px; overflow: hidden; background: #0a0a0a; }
+        #root { position: relative; width: 1080px; height: 1080px; overflow: hidden; }
+        .scene { position: absolute; top: 0; left: 0; width: 1080px; height: 1080px; }
+        .bg { position: absolute; top: -60px; left: -60px; width: 1200px; height: 1200px; object-fit: cover; z-index: 1; }
+        .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.35); z-index: 2; }
+        .text-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 60px; text-align: center; }
+        .line1 { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 72px; color: #FFFFFF; text-transform: uppercase; letter-spacing: 3px; }
+        .line2 { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 72px; color: #C0C0C0; text-transform: uppercase; letter-spacing: 3px; }
+        .line3 { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 88px; color: #FFFFFF; text-transform: uppercase; letter-spacing: 3px; }
+        .brand { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 42px; color: rgba(255,255,255,0.7); letter-spacing: 6px; text-transform: uppercase; margin-top: 40px; }
+        .pulse-line { width: 80px; height: 3px; background: #FFFFFF; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div id="root" data-composition-id="iron-haven" data-start="0" data-duration="6" data-width="1080" data-height="1080">
+        <div id="s1" class="clip scene" data-start="0" data-duration="6" data-track-index="1">
+            <img class="bg" id="bg" src="bg.jpg" alt="">
+            <div class="overlay" id="ov"></div>
+            <div class="text-wrap">
+                <div class="line1" id="t1">6 weeks from now</div>
+                <div class="line2" id="t2">you'll wish</div>
+                <div class="line3" id="t3">you started today</div>
+                <div class="pulse-line" id="pl"></div>
+                <div class="brand" id="br">Iron Haven</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+        tl.from("#bg", { scale: 1.15, duration: 6, ease: "power1.out" }, 0);
+        tl.from("#ov", { opacity: 0, duration: 0.8 }, 0);
+        tl.from("#t1", { y: 50, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.3);
+        tl.from("#t2", { y: 50, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.6);
+        tl.from("#t3", { y: 50, opacity: 0, scale: 1.1, duration: 0.7, ease: "power3.out" }, 0.9);
+        tl.from("#pl", { scaleX: 0, duration: 0.5, ease: "power3.out" }, 1.4);
+        tl.from("#br", { y: 20, opacity: 0, duration: 0.5, ease: "power2.out" }, 1.7);
+        window.__timelines["iron-haven"] = tl;
+    </script>
+</body>
+</html>

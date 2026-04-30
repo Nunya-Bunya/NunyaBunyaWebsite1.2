@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1080">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 1080px; height: 1080px; overflow: hidden; background: #0a0a0a; }
+        #root { position: relative; width: 1080px; height: 1080px; overflow: hidden; }
+        .scene { position: absolute; top: 0; left: 0; width: 1080px; height: 1080px; }
+        .bg { position: absolute; top: -60px; left: -60px; width: 1200px; height: 1200px; object-fit: cover; z-index: 1; }
+        .overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.4) 100%); z-index: 2; }
+        .text-wrap { position: absolute; top: 60px; left: 0; right: 0; z-index: 10; text-align: center; padding: 40px; }
+        .sold { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 120px; color: #FFFFFF; line-height: 1; text-shadow: 0 4px 40px rgba(0,0,0,0.6); }
+        .days { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 120px; color: #D4AF37; line-height: 1; text-shadow: 0 4px 40px rgba(0,0,0,0.6); }
+        .bottom-wrap { position: absolute; bottom: 60px; left: 0; right: 0; z-index: 10; text-align: center; padding: 40px; }
+        .brand-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 48px; color: #FFFFFF; text-shadow: 0 2px 20px rgba(0,0,0,0.6); }
+        .brand-sub { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 24px; color: rgba(255,255,255,0.7); letter-spacing: 4px; text-transform: uppercase; margin-top: 8px; text-shadow: 0 2px 15px rgba(0,0,0,0.6); }
+        .gold-line { width: 100px; height: 3px; background: #D4AF37; margin: 16px auto; }
+    </style>
+</head>
+<body>
+    <div id="root" data-composition-id="oakridge" data-start="0" data-duration="6" data-width="1080" data-height="1080">
+        <div id="s1" class="clip scene" data-start="0" data-duration="6" data-track-index="1">
+            <img class="bg" id="bg" src="bg.jpg" alt="">
+            <div class="overlay" id="ov"></div>
+            <div class="text-wrap">
+                <div class="sold" id="t1">SOLD IN</div>
+                <div class="days" id="t2">9 DAYS</div>
+            </div>
+            <div class="bottom-wrap">
+                <div class="gold-line" id="gl"></div>
+                <div class="brand-name" id="bn">Oakridge Property Group</div>
+                <div class="brand-sub" id="bs">Luxury Results · Expert Results</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+        tl.from("#bg", { scale: 1.12, duration: 6, ease: "power1.out" }, 0);
+        tl.from("#ov", { opacity: 0, duration: 0.6 }, 0);
+        tl.from("#t1", { y: -60, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.3);
+        tl.from("#t2", { scale: 0.5, opacity: 0, duration: 0.7, ease: "back.out(1.4)" }, 0.7);
+        tl.from("#gl", { scaleX: 0, duration: 0.5, ease: "power3.out" }, 1.2);
+        tl.from("#bn", { y: 30, opacity: 0, duration: 0.5, ease: "power2.out" }, 1.5);
+        tl.from("#bs", { y: 20, opacity: 0, duration: 0.4, ease: "power2.out" }, 1.8);
+        window.__timelines["oakridge"] = tl;
+    </script>
+</body>
+</html>
