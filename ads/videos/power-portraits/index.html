@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0F0F0F; font-family: 'Inter', sans-serif; }
+        #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+        .scene { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px; }
+        .headline { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 92px; line-height: 1.05; color: #F5F0E8; position: relative; z-index: 10; }
+        .subtext { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 38px; line-height: 1.5; color: rgba(245,240,232,0.5); margin-top: 30px; position: relative; z-index: 10; letter-spacing: 1px; }
+        .brass { color: #B08D57; }
+        .parchment { color: #F5F0E8; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(120px); z-index: 1; }
+        .line-v { position: absolute; width: 1px; background: linear-gradient(180deg, transparent, rgba(176,141,87,0.2), transparent); z-index: 2; }
+        .line-h { position: absolute; height: 1px; background: linear-gradient(90deg, transparent, rgba(176,141,87,0.15), transparent); z-index: 2; }
+        .frame-corner-tl, .frame-corner-br { position: absolute; width: 80px; height: 80px; z-index: 5; }
+        .frame-corner-tl { top: 100px; left: 80px; border-top: 2px solid rgba(176,141,87,0.4); border-left: 2px solid rgba(176,141,87,0.4); }
+        .frame-corner-br { bottom: 100px; right: 80px; border-bottom: 2px solid rgba(176,141,87,0.4); border-right: 2px solid rgba(176,141,87,0.4); }
+        .divider { width: 80px; height: 2px; background: #B08D57; position: relative; z-index: 10; margin: 24px 0; }
+        .pill { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 32px; color: #B08D57; border: 1px solid rgba(176,141,87,0.3); padding: 16px 40px; border-radius: 4px; display: inline-block; margin: 10px; position: relative; z-index: 10; letter-spacing: 2px; text-transform: uppercase; }
+        .cta-button { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 48px; color: #0F0F0F; background: #B08D57; padding: 36px 72px; border-radius: 4px; position: relative; z-index: 10; letter-spacing: 2px; }
+        .cta-glow { position: absolute; width: 500px; height: 250px; background: rgba(176,141,87,0.15); border-radius: 100px; filter: blur(80px); z-index: 1; }
+        .cta-url { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 32px; color: rgba(176,141,87,0.6); margin-top: 40px; letter-spacing: 3px; text-transform: uppercase; position: relative; z-index: 10; }
+    </style>
+</head>
+<body>
+    <div id="root" data-composition-id="pp-ad" data-start="0" data-duration="14" data-width="1080" data-height="1920">
+
+        <!-- SCENE 1: Hook — 0s to 3.5s -->
+        <div id="s1" class="clip scene" data-start="0" data-duration="3.5" data-track-index="1"
+             style="background: radial-gradient(ellipse at 50% 40%, #1a1a1a 0%, #0F0F0F 70%);">
+            <div class="orb" id="s1-orb1" style="width: 500px; height: 500px; top: 300px; left: -100px; background: rgba(176,141,87,0.08);"></div>
+            <div class="line-v" id="s1-lv1" style="height: 1920px; left: 200px;"></div>
+            <div class="line-v" id="s1-lv2" style="height: 1920px; right: 200px;"></div>
+            <div class="line-h" id="s1-lh" style="width: 1080px; top: 960px;"></div>
+            <div class="frame-corner-tl" id="s1-ftl"></div>
+            <div class="frame-corner-br" id="s1-fbr"></div>
+            <div class="headline" id="s1-h1">Your image</div>
+            <div class="headline brass" id="s1-h2" style="font-size: 110px;">speaks first.</div>
+            <div class="divider" id="s1-div"></div>
+            <div class="subtext" id="s1-sub">Before you say a word.</div>
+        </div>
+
+        <!-- SCENE 2: What we do — 3.5s to 7s -->
+        <div id="s2" class="clip scene" data-start="3.5" data-duration="3.5" data-track-index="2"
+             style="background: #0F0F0F;">
+            <div class="orb" id="s2-orb" style="width: 600px; height: 600px; top: 500px; right: -100px; background: rgba(176,141,87,0.06);"></div>
+            <div class="line-v" style="height: 1920px; left: 540px;"></div>
+            <div class="headline parchment" id="s2-h1">Executive</div>
+            <div class="headline parchment" id="s2-h2">headshots.</div>
+            <div class="headline brass" id="s2-h3" style="font-style: italic;">Redefined.</div>
+            <div class="divider" id="s2-div"></div>
+            <div class="subtext" id="s2-sub">Studio portraits that command<br>the room before you walk in</div>
+        </div>
+
+        <!-- SCENE 3: Services — 7s to 10.5s -->
+        <div id="s3" class="clip scene" data-start="7" data-duration="3.5" data-track-index="3"
+             style="background: radial-gradient(ellipse at 40% 50%, #1a1a1a 0%, #0F0F0F 70%);">
+            <div class="orb" id="s3-orb" style="width: 500px; height: 500px; top: 600px; left: -80px; background: rgba(176,141,87,0.06);"></div>
+            <div class="frame-corner-tl" id="s3-ftl"></div>
+            <div class="frame-corner-br" id="s3-fbr"></div>
+            <div class="headline parchment" id="s3-h1" style="font-size: 72px; margin-bottom: 50px;">Sessions</div>
+            <div class="pill" id="s3-p1">Executive</div>
+            <div class="pill" id="s3-p2">Corporate</div>
+            <div class="pill" id="s3-p3">Personal Brand</div>
+            <div class="pill" id="s3-p4">Editorial</div>
+        </div>
+
+        <!-- SCENE 4: CTA — 10.5s to 14s -->
+        <div id="s4" class="clip scene" data-start="10.5" data-duration="3.5" data-track-index="4"
+             style="background: radial-gradient(ellipse at 50% 50%, #1a1a1a 0%, #0F0F0F 80%);">
+            <div class="cta-glow" id="s4-glow" style="top: 800px; left: 290px;"></div>
+            <div class="line-v" style="height: 1920px; left: 200px;"></div>
+            <div class="line-v" style="height: 1920px; right: 200px;"></div>
+            <div class="headline parchment" id="s4-h1" style="margin-bottom: 20px;">Book your</div>
+            <div class="headline brass" id="s4-h2" style="font-size: 110px; font-style: italic; margin-bottom: 50px;">session.</div>
+            <div class="cta-button" id="s4-btn">Book Now</div>
+            <div class="cta-url" id="s4-url">powerportraits.com.au</div>
+        </div>
+    </div>
+
+    <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        tl.from("#s1-lv1", { scaleY: 0, duration: 1.2, ease: "power3.out" }, 0);
+        tl.from("#s1-lv2", { scaleY: 0, duration: 1.2, ease: "power3.out" }, 0.1);
+        tl.from("#s1-lh", { scaleX: 0, duration: 1, ease: "power3.out" }, 0.3);
+        tl.from("#s1-ftl", { x: -30, y: -30, opacity: 0, duration: 0.4, ease: "power3.out" }, 0.2);
+        tl.from("#s1-fbr", { x: 30, y: 30, opacity: 0, duration: 0.4, ease: "power3.out" }, 0.2);
+        tl.from("#s1-orb1", { x: -200, opacity: 0, duration: 1.5, ease: "power1.out" }, 0);
+        tl.from("#s1-h1", { y: 50, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.4);
+        tl.from("#s1-h2", { y: 50, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.7);
+        tl.from("#s1-div", { scaleX: 0, duration: 0.5, ease: "power3.out" }, 1.1);
+        tl.from("#s1-sub", { y: 20, opacity: 0, duration: 0.5, ease: "power2.out" }, 1.4);
+
+        tl.from("#s2-orb", { scale: 0.3, opacity: 0, duration: 1.5, ease: "power2.out" }, 3.5);
+        tl.from("#s2-h1", { x: -60, opacity: 0, duration: 0.5, ease: "power3.out" }, 3.7);
+        tl.from("#s2-h2", { x: -60, opacity: 0, duration: 0.5, ease: "power3.out" }, 4.0);
+        tl.from("#s2-h3", { x: -60, opacity: 0, duration: 0.6, ease: "power3.out" }, 4.3);
+        tl.from("#s2-div", { scaleX: 0, duration: 0.5, ease: "power3.out" }, 4.7);
+        tl.from("#s2-sub", { y: 20, opacity: 0, duration: 0.5, ease: "power2.out" }, 5.0);
+
+        tl.from("#s3-orb", { x: -200, opacity: 0, duration: 1.5, ease: "power1.out" }, 7);
+        tl.from("#s3-ftl", { x: -30, y: -30, opacity: 0, duration: 0.4, ease: "power3.out" }, 7.1);
+        tl.from("#s3-fbr", { x: 30, y: 30, opacity: 0, duration: 0.4, ease: "power3.out" }, 7.1);
+        tl.from("#s3-h1", { y: 40, opacity: 0, duration: 0.5, ease: "power3.out" }, 7.3);
+        tl.from("#s3-p1", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 7.7);
+        tl.from("#s3-p2", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 8.0);
+        tl.from("#s3-p3", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 8.3);
+        tl.from("#s3-p4", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 8.6);
+
+        tl.from("#s4-glow", { opacity: 0, scale: 0.5, duration: 1, ease: "power2.out" }, 10.5);
+        tl.from("#s4-h1", { y: 40, opacity: 0, duration: 0.5, ease: "power3.out" }, 10.7);
+        tl.from("#s4-h2", { scale: 0.5, opacity: 0, duration: 0.7, ease: "back.out(1.3)" }, 11.0);
+        tl.from("#s4-btn", { scale: 0.5, opacity: 0, duration: 0.6, ease: "back.out(1.7)" }, 11.5);
+        tl.from("#s4-url", { y: 20, opacity: 0, duration: 0.4, ease: "power2.out" }, 12.0);
+        tl.to("#s4-btn", { scale: 1.05, duration: 0.5, repeat: 3, yoyo: true, ease: "power1.inOut" }, 12.5);
+
+        window.__timelines["pp-ad"] = tl;
+    </script>
+</body>
+</html>

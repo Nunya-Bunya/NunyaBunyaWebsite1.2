@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0A0A0A; font-family: 'Inter', sans-serif; }
+        #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+        .scene { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px; }
+        .headline { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 96px; line-height: 1.05; color: #FFFFFF; position: relative; z-index: 10; }
+        .subtext { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 38px; line-height: 1.5; color: rgba(255,255,255,0.5); margin-top: 30px; position: relative; z-index: 10; }
+        .gold { color: #D4AF37; }
+        .red { color: #8B0000; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(120px); z-index: 1; }
+        .film-line { position: absolute; height: 3px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent); z-index: 2; }
+        .film-v { position: absolute; width: 1px; background: linear-gradient(180deg, transparent, rgba(212,175,55,0.15), transparent); z-index: 2; }
+        .star { position: absolute; width: 6px; height: 6px; background: #D4AF37; border-radius: 50%; z-index: 3; box-shadow: 0 0 8px rgba(212,175,55,0.5); }
+        .divider { width: 120px; height: 2px; background: #D4AF37; position: relative; z-index: 10; margin: 24px 0; }
+        .stat-big { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 220px; color: #D4AF37; position: relative; z-index: 10; line-height: 1; text-shadow: 0 0 80px rgba(212,175,55,0.3); }
+        .pill { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 32px; color: #D4AF37; border: 1px solid rgba(212,175,55,0.3); padding: 16px 36px; border-radius: 4px; display: inline-block; margin: 10px; position: relative; z-index: 10; }
+        .cta-button { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 44px; color: #0A0A0A; background: #D4AF37; padding: 36px 64px; border-radius: 4px; position: relative; z-index: 10; }
+        .cta-glow { position: absolute; width: 500px; height: 250px; background: rgba(212,175,55,0.15); border-radius: 100px; filter: blur(80px); z-index: 1; }
+        .cta-url { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 32px; color: rgba(212,175,55,0.6); margin-top: 40px; letter-spacing: 2px; position: relative; z-index: 10; }
+    </style>
+</head>
+<body>
+    <div id="root" data-composition-id="orca-ad" data-start="0" data-duration="14" data-width="1080" data-height="1920">
+
+        <!-- SCENE 1: Hook — 0s to 3.5s -->
+        <div id="s1" class="clip scene" data-start="0" data-duration="3.5" data-track-index="1"
+             style="background: radial-gradient(ellipse at 50% 40%, #1a1510 0%, #0A0A0A 70%);">
+            <div class="orb" id="s1-orb1" style="width: 600px; height: 600px; top: 250px; left: -100px; background: rgba(212,175,55,0.06);"></div>
+            <div class="orb" id="s1-orb2" style="width: 400px; height: 400px; bottom: 200px; right: -80px; background: rgba(139,0,0,0.06);"></div>
+            <div class="film-line" id="s1-fl1" style="width: 1080px; top: 300px;"></div>
+            <div class="film-line" id="s1-fl2" style="width: 1080px; bottom: 300px;"></div>
+            <div class="film-v" id="s1-fv" style="height: 1920px; left: 540px;"></div>
+            <div class="star" id="s1-st1" style="top: 297px; left: 537px;"></div>
+            <div class="star" id="s1-st2" style="top: 400px; right: 200px;"></div>
+            <div class="star" id="s1-st3" style="bottom: 400px; left: 250px;"></div>
+            <div class="headline" id="s1-h1">The films</div>
+            <div class="headline" id="s1-h2">the Oscars</div>
+            <div class="headline gold" id="s1-h3" style="font-size: 110px; font-style: italic;">missed.</div>
+            <div class="divider" id="s1-div"></div>
+        </div>
+
+        <!-- SCENE 2: What we are — 3.5s to 7s -->
+        <div id="s2" class="clip scene" data-start="3.5" data-duration="3.5" data-track-index="2"
+             style="background: #0A0A0A;">
+            <div class="orb" id="s2-orb" style="width: 600px; height: 600px; top: 500px; left: 200px; background: rgba(212,175,55,0.05);"></div>
+            <div class="headline" id="s2-h1">An awards body</div>
+            <div class="headline" id="s2-h2">for the</div>
+            <div class="headline gold" id="s2-h3" style="font-style: italic;">overlooked.</div>
+            <div class="divider" id="s2-div"></div>
+            <div class="subtext" id="s2-sub">Foreign. Independent. Underseen.<br>The cinema that matters.</div>
+        </div>
+
+        <!-- SCENE 3: Categories — 7s to 10.5s -->
+        <div id="s3" class="clip scene" data-start="7" data-duration="3.5" data-track-index="3"
+             style="background: radial-gradient(ellipse at 60% 50%, #1a1510 0%, #0A0A0A 70%);">
+            <div class="orb" id="s3-orb" style="width: 500px; height: 500px; top: 600px; right: -80px; background: rgba(139,0,0,0.05);"></div>
+            <div class="star" id="s3-st1" style="top: 300px; left: 200px;"></div>
+            <div class="star" id="s3-st2" style="bottom: 350px; right: 250px;"></div>
+            <div class="headline" id="s3-h1" style="font-size: 72px; margin-bottom: 50px;">20+ <span class="gold">categories</span></div>
+            <div class="pill" id="s3-p1">Best Picture</div>
+            <div class="pill" id="s3-p2">Best Director</div>
+            <div class="pill" id="s3-p3">Cinematography</div>
+            <div class="pill" id="s3-p4">Best Performance</div>
+        </div>
+
+        <!-- SCENE 4: CTA — 10.5s to 14s -->
+        <div id="s4" class="clip scene" data-start="10.5" data-duration="3.5" data-track-index="4"
+             style="background: radial-gradient(ellipse at 50% 50%, #1a1510 0%, #0A0A0A 80%);">
+            <div class="cta-glow" id="s4-glow" style="top: 800px; left: 290px;"></div>
+            <div class="film-line" style="width: 1080px; top: 300px;"></div>
+            <div class="film-line" style="width: 1080px; bottom: 300px;"></div>
+            <div class="headline" id="s4-h1" style="margin-bottom: 20px;">Join the</div>
+            <div class="headline gold" id="s4-h2" style="font-size: 110px; font-style: italic; margin-bottom: 50px;">movement.</div>
+            <div class="cta-button" id="s4-btn">Become a Voter</div>
+            <div class="cta-url" id="s4-url">orcafilmawards.com</div>
+        </div>
+    </div>
+
+    <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        tl.from("#s1-orb1", { x: -200, opacity: 0, duration: 1.5, ease: "power1.out" }, 0);
+        tl.from("#s1-orb2", { x: 200, opacity: 0, duration: 1.5, ease: "power1.out" }, 0.2);
+        tl.from("#s1-fl1", { scaleX: 0, duration: 1, ease: "power3.out" }, 0);
+        tl.from("#s1-fl2", { scaleX: 0, duration: 1, ease: "power3.out" }, 0.15);
+        tl.from("#s1-fv", { scaleY: 0, duration: 1.2, ease: "power3.out" }, 0.1);
+        tl.from("#s1-st1", { scale: 0, duration: 0.3, ease: "back.out(3)" }, 0.8);
+        tl.from("#s1-st2", { scale: 0, duration: 0.3, ease: "back.out(3)" }, 1.0);
+        tl.from("#s1-st3", { scale: 0, duration: 0.3, ease: "back.out(3)" }, 1.2);
+        tl.from("#s1-h1", { y: 60, opacity: 0, duration: 0.5, ease: "power3.out" }, 0.3);
+        tl.from("#s1-h2", { y: 60, opacity: 0, duration: 0.5, ease: "power3.out" }, 0.5);
+        tl.from("#s1-h3", { scale: 0.3, opacity: 0, duration: 0.8, ease: "back.out(1.3)" }, 0.8);
+        tl.from("#s1-div", { scaleX: 0, duration: 0.5, ease: "power3.out" }, 1.3);
+
+        tl.from("#s2-orb", { scale: 0.3, opacity: 0, duration: 1.5, ease: "power2.out" }, 3.5);
+        tl.from("#s2-h1", { x: -80, opacity: 0, duration: 0.5, ease: "power3.out" }, 3.7);
+        tl.from("#s2-h2", { x: -80, opacity: 0, duration: 0.5, ease: "power3.out" }, 4.0);
+        tl.from("#s2-h3", { x: -80, opacity: 0, duration: 0.6, ease: "power3.out" }, 4.3);
+        tl.from("#s2-div", { scaleX: 0, duration: 0.5, ease: "power3.out" }, 4.7);
+        tl.from("#s2-sub", { y: 30, opacity: 0, duration: 0.5, ease: "power2.out" }, 5.0);
+
+        tl.from("#s3-orb", { x: 200, opacity: 0, duration: 1.5, ease: "power1.out" }, 7);
+        tl.from("#s3-st1", { scale: 0, duration: 0.3, ease: "back.out(3)" }, 7.2);
+        tl.from("#s3-st2", { scale: 0, duration: 0.3, ease: "back.out(3)" }, 7.4);
+        tl.from("#s3-h1", { y: 40, opacity: 0, duration: 0.5, ease: "power3.out" }, 7.3);
+        tl.from("#s3-p1", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 7.7);
+        tl.from("#s3-p2", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 8.0);
+        tl.from("#s3-p3", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 8.3);
+        tl.from("#s3-p4", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)" }, 8.6);
+
+        tl.from("#s4-glow", { opacity: 0, scale: 0.5, duration: 1, ease: "power2.out" }, 10.5);
+        tl.from("#s4-h1", { y: 40, opacity: 0, duration: 0.5, ease: "power3.out" }, 10.7);
+        tl.from("#s4-h2", { scale: 0.3, opacity: 0, duration: 0.7, ease: "back.out(1.3)" }, 11.0);
+        tl.from("#s4-btn", { scale: 0.5, opacity: 0, duration: 0.6, ease: "back.out(1.7)" }, 11.5);
+        tl.from("#s4-url", { y: 20, opacity: 0, duration: 0.4, ease: "power2.out" }, 12.0);
+        tl.to("#s4-btn", { scale: 1.05, duration: 0.5, repeat: 3, yoyo: true, ease: "power1.inOut" }, 12.5);
+
+        window.__timelines["orca-ad"] = tl;
+    </script>
+</body>
+</html>
