@@ -22,6 +22,7 @@
     <div style="display:flex;gap:4px;margin-bottom:24px">
       <button class="an-period-btn active" id="tabDashboards" onclick="switchTab('dashboards')" style="padding:10px 20px;border-radius:8px;border:1px solid var(--subtle);background:rgba(0,229,204,0.05);color:var(--teal);font-size:13px;cursor:pointer;font-family:var(--font-heading);font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Dashboards</button>
       <button class="an-period-btn" id="tabWeekly" onclick="switchTab('weekly')" style="padding:10px 20px;border-radius:8px;border:1px solid var(--subtle);background:transparent;color:var(--muted);font-size:13px;cursor:pointer;font-family:var(--font-heading);font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Weekly Reports</button>
+      <button class="an-period-btn" id="tabMonthly" onclick="switchTab('monthly')" style="padding:10px 20px;border-radius:8px;border:1px solid var(--subtle);background:transparent;color:var(--muted);font-size:13px;cursor:pointer;font-family:var(--font-heading);font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Monthly Reports</button>
       <button class="an-period-btn" id="tabReports" onclick="switchTab('reports')" style="padding:10px 20px;border-radius:8px;border:1px solid var(--subtle);background:transparent;color:var(--muted);font-size:13px;cursor:pointer;font-family:var(--font-heading);font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Client Reports</button>
     </div>
 
@@ -42,6 +43,12 @@
     <div id="weeklyTab" style="display:none">
       <div id="weeklyList"></div>
       <div class="empty-state" id="weeklyEmpty" style="display:none"><div class="icon">&#128200;</div><p>No weekly reports yet.</p></div>
+    </div>
+
+    <!-- Monthly Reports Tab -->
+    <div id="monthlyTab" style="display:none">
+      <div id="monthlyList"></div>
+      <div class="empty-state" id="monthlyEmpty" style="display:none"><div class="icon">&#128200;</div><p>No monthly reports yet.</p></div>
     </div>
 
     <!-- Client Reports Tab -->
@@ -86,13 +93,18 @@
   };
 
   const WEEKLY_REPORTS = [
+    { date: '2026-05-01', title: 'Weekly Empire Report — Week of 24 Apr', href: '/reports/weekly/2026-05-01.html' },
     { date: '2026-04-27', title: 'First Edition — Full Inventory', href: '/reports/weekly/2026-04-27.html' },
   ];
 
+  const MONTHLY_REPORTS = [
+    { date: '2026-05-01', title: 'Monthly Empire Report — May 2026 (Baseline)', href: '/reports/monthly/2026-05.html' },
+  ];
+
   function switchTab(tab) {
-    const tabs = ['dashboards', 'weekly', 'reports'];
-    const tabIds = { dashboards: 'dashboardsTab', weekly: 'weeklyTab', reports: 'reportsTab' };
-    const btnIds = { dashboards: 'tabDashboards', weekly: 'tabWeekly', reports: 'tabReports' };
+    const tabs = ['dashboards', 'weekly', 'monthly', 'reports'];
+    const tabIds = { dashboards: 'dashboardsTab', weekly: 'weeklyTab', monthly: 'monthlyTab', reports: 'reportsTab' };
+    const btnIds = { dashboards: 'tabDashboards', weekly: 'tabWeekly', monthly: 'tabMonthly', reports: 'tabReports' };
 
     tabs.forEach(t => {
       const el = document.getElementById(tabIds[t]);
@@ -106,6 +118,7 @@
     });
 
     if (tab === 'weekly') renderWeeklyReports();
+    if (tab === 'monthly') renderMonthlyReports();
   }
 
   function renderWeeklyReports() {
@@ -120,6 +133,27 @@
           <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
               <span style="background:rgba(0,229,204,0.12);color:var(--teal);font-family:var(--font-heading);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:3px 10px;border-radius:4px;margin-right:8px">Weekly</span>
+              <strong style="color:var(--white)">${r.title}</strong>
+            </div>
+            <span style="color:var(--muted);font-size:12px">${r.date}</span>
+          </div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  function renderMonthlyReports() {
+    const list = document.getElementById('monthlyList');
+    if (!MONTHLY_REPORTS.length) {
+      document.getElementById('monthlyEmpty').style.display = 'block';
+      return;
+    }
+    list.innerHTML = MONTHLY_REPORTS.map(r => `
+      <a href="${r.href}" style="text-decoration:none;display:block">
+        <div class="card" style="margin-bottom:12px;cursor:pointer;border-left:3px solid var(--magenta);padding:16px 20px;background:var(--dark3);border-radius:0 12px 12px 0;border-top:1px solid var(--subtle);border-right:1px solid var(--subtle);border-bottom:1px solid var(--subtle)">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <span style="background:rgba(255,45,120,0.12);color:var(--magenta);font-family:var(--font-heading);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:3px 10px;border-radius:4px;margin-right:8px">Monthly</span>
               <strong style="color:var(--white)">${r.title}</strong>
             </div>
             <span style="color:var(--muted);font-size:12px">${r.date}</span>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monthly Empire Report — May 2026 | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<style>
+:root {
+  --dark: #0a0a0a; --dark2: #111111; --dark3: #1a1a1a;
+  --teal: #00E5CC; --magenta: #FF2D78; --white: #ffffff;
+  --muted: #999999; --subtle: #2a2a2a;
+  --yellow: #FFB800; --blue: #4A90D9; --purple: #9B59B6;
+  --green: #2ECC71; --red: #E74C3C;
+  --font-heading: 'Barlow Condensed', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-body); background: var(--dark); color: var(--white); min-height: 100vh; padding: 40px; }
+.report { max-width: 1000px; margin: 0 auto; }
+.report-header {
+  border-bottom: 2px solid var(--magenta);
+  padding-bottom: 24px;
+  margin-bottom: 40px;
+}
+.report-header h1 {
+  font-family: var(--font-heading);
+  font-size: 42px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+.report-header h1 span { color: var(--magenta); }
+.report-header .subtitle {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 8px;
+}
+.period-badge {
+  display: inline-block;
+  background: rgba(255,45,120,0.1);
+  border: 1px solid var(--magenta);
+  color: var(--magenta);
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border-radius: 6px;
+  margin-top: 12px;
+}
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.kpi-card {
+  background: var(--dark3);
+  border: 1px solid var(--subtle);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+.kpi-card .number {
+  font-family: var(--font-heading);
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--magenta);
+  line-height: 1;
+}
+.kpi-card .label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 8px;
+}
+.kpi-card .context {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 4px;
+}
+.trend-up { color: var(--green); }
+.trend-down { color: var(--red); }
+.trend-flat { color: var(--muted); }
+.section {
+  margin-bottom: 40px;
+}
+.section h2 {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--magenta);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--subtle);
+}
+.section .period-note {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 300;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--subtle);
+}
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-weight: 300;
+  color: rgba(255,255,255,0.8);
+}
+tr:hover td { background: rgba(255,45,120,0.02); }
+.table-card {
+  background: var(--dark3);
+  border: 1px solid var(--subtle);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.metric-card {
+  background: var(--dark3);
+  border: 1px solid var(--subtle);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.metric-card h3 {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+  color: var(--white);
+}
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 14px;
+}
+.metric-row:last-child { border-bottom: none; }
+.metric-row .label { color: rgba(255,255,255,0.7); font-weight: 300; }
+.metric-row .value { font-weight: 600; }
+.goal-card {
+  background: var(--dark3);
+  border: 1px solid var(--subtle);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.goal-card .biz {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.goal-card .target { font-size: 13px; color: var(--muted); font-weight: 300; }
+.goal-card .status {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+.status-not-started { background: rgba(255,255,255,0.05); color: var(--muted); }
+.status-in-progress { background: rgba(255,184,0,0.12); color: var(--yellow); }
+.status-on-track { background: rgba(0,229,204,0.12); color: var(--teal); }
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.footer {
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid var(--subtle);
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+.footer span { color: var(--magenta); }
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--magenta);
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.back-link:hover { text-decoration: underline; }
+.callout {
+  background: rgba(255,45,120,0.05);
+  border: 1px solid rgba(255,45,120,0.2);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.callout h3 {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--magenta);
+  margin-bottom: 8px;
+}
+.callout p { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.7); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="report">
+  <a href="/nb-admin-reports" class="back-link">&larr; Back to Reports</a>
+
+  <div class="report-header">
+    <h1>Monthly <span>Empire Report</span></h1>
+    <div class="subtitle">All Businesses &mdash; May 2026 Board Meeting</div>
+    <div class="period-badge">Reporting Period: 1 May &ndash; 1 May 2026 (Day 1 &mdash; partial month)</div>
+  </div>
+
+  <!-- NOTE: this is day 1 -->
+  <div class="callout">
+    <h3>Note: Partial Month</h3>
+    <p>This report was generated on May 1 &mdash; only 1 day of data. April comparison is the full 30-day month. This establishes the baseline format. Next month's report (June 1) will have a complete May vs April comparison.</p>
+  </div>
+
+  <!-- TOP-LINE KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="number">18</div>
+      <div class="label">May Visits (so far)</div>
+      <div class="context">All 6 sites, 1 day only</div>
+    </div>
+    <div class="kpi-card">
+      <div class="number">660</div>
+      <div class="label">April Visits</div>
+      <div class="context">Full month baseline</div>
+    </div>
+    <div class="kpi-card">
+      <div class="number">$0</div>
+      <div class="label">May Revenue</div>
+      <div class="context">No paid sales yet</div>
+    </div>
+    <div class="kpi-card">
+      <div class="number">52%</div>
+      <div class="label">Email Open Rate</div>
+      <div class="context">107 sent, 56 read (all-time avg)</div>
+    </div>
+  </div>
+
+  <!-- TRAFFIC: MONTH OVER MONTH -->
+  <div class="section">
+    <h2>Traffic: May vs April</h2>
+    <p class="period-note">May 2026 (1 day) vs April 2026 (full month) &mdash; Matomo analytics</p>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Business</th>
+            <th>May (1 day)</th>
+            <th>April (full)</th>
+            <th>April Daily Avg</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Nunya Bunya</strong></td>
+            <td>16</td>
+            <td>372</td>
+            <td>12.4/day</td>
+          </tr>
+          <tr>
+            <td><strong>Power Portraits</strong></td>
+            <td>1</td>
+            <td>34</td>
+            <td>1.1/day</td>
+          </tr>
+          <tr>
+            <td><strong>ORCA Film Awards</strong></td>
+            <td>1</td>
+            <td>69</td>
+            <td>2.3/day</td>
+          </tr>
+          <tr>
+            <td><strong>Pawesome Dog Walkers</strong></td>
+            <td>0</td>
+            <td>185</td>
+            <td>6.2/day</td>
+          </tr>
+          <tr>
+            <td><strong>Conner Injury Law</strong></td>
+            <td>0</td>
+            <td>0</td>
+            <td>0/day</td>
+          </tr>
+          <tr>
+            <td><strong>Ben Alek Conner</strong></td>
+            <td>0</td>
+            <td>0</td>
+            <td>0/day</td>
+          </tr>
+          <tr style="background:rgba(255,45,120,0.03)">
+            <td><strong style="color:var(--magenta)">TOTAL</strong></td>
+            <td><strong>18</strong></td>
+            <td><strong>660</strong></td>
+            <td><strong>22/day avg</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TOP PAGES -->
+  <div class="section">
+    <h2>Top Pages in April</h2>
+    <p class="period-note">Most visited pages across all sites during April 2026</p>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr><th>Site</th><th>Page</th><th>Visits</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Nunya Bunya</td><td>/ (homepage)</td><td>14</td></tr>
+          <tr><td>Nunya Bunya</td><td>/about</td><td>1</td></tr>
+          <tr><td>Power Portraits</td><td>/ (homepage)</td><td>1</td></tr>
+          <tr><td>ORCA Film Awards</td><td>/ (homepage)</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px;color:var(--muted);font-style:italic;margin-top:8px">Note: Top pages data for May 1 only &mdash; too early for meaningful patterns.</p>
+  </div>
+
+  <!-- REVENUE -->
+  <div class="section">
+    <h2>Revenue</h2>
+    <p class="period-note">All revenue streams, May 2026 vs April 2026</p>
+    <div class="comparison-grid">
+      <div class="metric-card">
+        <h3>May 2026 (Day 1)</h3>
+        <div class="metric-row"><span class="label">Brand Bible sales</span><span class="value">$0</span></div>
+        <div class="metric-row"><span class="label">Retainer clients</span><span class="value">$0</span></div>
+        <div class="metric-row"><span class="label">Pawesome walks</span><span class="value">Not tracked</span></div>
+        <div class="metric-row"><span class="label">PP shoots</span><span class="value">Not tracked</span></div>
+        <div class="metric-row" style="border-top:1px solid var(--subtle);padding-top:12px"><span class="label"><strong>Total</strong></span><span class="value"><strong>$0</strong></span></div>
+      </div>
+      <div class="metric-card">
+        <h3>April 2026 (Full Month)</h3>
+        <div class="metric-row"><span class="label">Brand Bible sales</span><span class="value">$0</span></div>
+        <div class="metric-row"><span class="label">Retainer clients</span><span class="value">$0</span></div>
+        <div class="metric-row"><span class="label">Pawesome walks</span><span class="value">Not tracked</span></div>
+        <div class="metric-row"><span class="label">PP shoots</span><span class="value">Not tracked</span></div>
+        <div class="metric-row" style="border-top:1px solid var(--subtle);padding-top:12px"><span class="label"><strong>Total</strong></span><span class="value"><strong>$0</strong></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMAIL & CONTACTS -->
+  <div class="section">
+    <h2>Email &amp; Contacts</h2>
+    <p class="period-note">Mautic email marketing stats as of 1 May 2026</p>
+    <div class="metric-card">
+      <h3>List Health</h3>
+      <div class="metric-row"><span class="label">Total contacts in Mautic</span><span class="value">3,865</span></div>
+      <div class="metric-row"><span class="label">New contacts in May</span><span class="value">0 (day 1)</span></div>
+      <div class="metric-row"><span class="label">New contacts in April</span><span class="value">~0 organic (bulk from scraping)</span></div>
+    </div>
+    <div class="metric-card">
+      <h3>Email Performance (All-time Averages)</h3>
+      <div class="metric-row"><span class="label">Emails sent (campaigns active)</span><span class="value">107</span></div>
+      <div class="metric-row"><span class="label">Emails opened/read</span><span class="value">56</span></div>
+      <div class="metric-row"><span class="label">Open rate</span><span class="value trend-up">52.3%</span></div>
+      <div class="metric-row"><span class="label">Industry benchmark</span><span class="value" style="color:var(--muted)">~20-25%</span></div>
+    </div>
+  </div>
+
+  <!-- OUTREACH -->
+  <div class="section">
+    <h2>Outreach &amp; Social</h2>
+    <p class="period-note">Cold email + social media activity, May 2026 vs April 2026</p>
+    <div class="comparison-grid">
+      <div class="metric-card">
+        <h3>May (Day 1)</h3>
+        <div class="metric-row"><span class="label">Cold emails sent</span><span class="value">0</span></div>
+        <div class="metric-row"><span class="label">Replies</span><span class="value">0</span></div>
+        <div class="metric-row"><span class="label">Tweets posted</span><span class="value">0</span></div>
+      </div>
+      <div class="metric-card">
+        <h3>April (Full Month)</h3>
+        <div class="metric-row"><span class="label">Cold emails sent</span><span class="value">57+</span></div>
+        <div class="metric-row"><span class="label">Replies</span><span class="value">0</span></div>
+        <div class="metric-row"><span class="label">Tweets posted</span><span class="value">~80+</span></div>
+        <div class="metric-row"><span class="label">Reply rate</span><span class="value trend-down">0%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOALS -->
+  <div class="section">
+    <h2>Major Goals &mdash; Progress as of May 1</h2>
+    <p class="period-note">These are the north-star metrics for each business</p>
+
+    <div class="goal-card">
+      <div>
+        <div class="biz">Nunya Bunya</div>
+        <div class="target">Sign 3 retainer clients ($2,500&ndash;$12,000/mo each)</div>
+      </div>
+      <div class="status status-not-started">0 / 3</div>
+    </div>
+
+    <div class="goal-card">
+      <div>
+        <div class="biz">Power Portraits</div>
+        <div class="target">Book 5 paid shoots this month</div>
+      </div>
+      <div class="status status-not-started">0 / 5</div>
+    </div>
+
+    <div class="goal-card">
+      <div>
+        <div class="biz">Pawesome Dog Walkers</div>
+        <div class="target">Get to 10 regular weekly walks</div>
+      </div>
+      <div class="status status-not-started">0 / 10</div>
+    </div>
+
+    <div class="goal-card">
+      <div>
+        <div class="biz">ORCA Film Awards</div>
+        <div class="target">Recruit 100 voting members</div>
+      </div>
+      <div class="status status-not-started">0 / 100</div>
+    </div>
+
+    <div class="goal-card">
+      <div>
+        <div class="biz">Ben Alek Conner (YouTube)</div>
+        <div class="target">Publish first 2 long-form videos</div>
+      </div>
+      <div class="status status-in-progress">1 script done</div>
+    </div>
+
+    <div class="goal-card">
+      <div>
+        <div class="biz">Conner Injury Law (CLG)</div>
+        <div class="target">Generate 5 qualified PI leads/month</div>
+      </div>
+      <div class="status status-not-started">Sites not deployed</div>
+    </div>
+  </div>
+
+  <!-- MAY TARGETS -->
+  <div class="section">
+    <h2>May 2026 Targets</h2>
+    <p class="period-note">What each metric needs to hit by May 31 to be "on track"</p>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr><th>Metric</th><th>April Actual</th><th>May Target</th><th>Why This Target</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Total monthly visits</td><td>660</td><td>1,000</td><td>+50% growth from content + social posting</td></tr>
+          <tr><td>Revenue</td><td>$0</td><td>$999</td><td>1 Brand Bible sale proves the funnel works</td></tr>
+          <tr><td>New email contacts</td><td>~0 organic</td><td>200</td><td>From lead magnets + social sharing</td></tr>
+          <tr><td>Cal.com bookings</td><td>0</td><td>10</td><td>Free calls that become paying clients</td></tr>
+          <tr><td>Cold email reply rate</td><td>0%</td><td>5%</td><td>Industry avg is 3-5%; proves messaging works</td></tr>
+          <tr><td>Social posts (manual)</td><td>0</td><td>48</td><td>3x/week across 4 brands</td></tr>
+          <tr><td>YouTube videos published</td><td>0</td><td>2</td><td>First 2 long-form videos live</td></tr>
+          <tr><td>Pawesome walks/week</td><td>0</td><td>5</td><td>Halfway to 10/week goal</td></tr>
+          <tr><td>ORCA voting members</td><td>0</td><td>10</td><td>First 10 recruited, pathway to 100</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MONTHLY ACTION PLAN -->
+  <div class="section">
+    <h2>May Action Plan</h2>
+    <p class="period-note">The specific moves that will close the gap between current and target</p>
+
+    <div class="metric-card" style="border-left:3px solid var(--magenta)">
+      <h3>Week 1 (May 1&ndash;4): Launch Week</h3>
+      <div class="metric-row"><span class="label">Post Day 1 social pack across all brands</span><span class="value" style="color:var(--magenta)">Priority</span></div>
+      <div class="metric-row"><span class="label">Send BVM proposal (deadline Mon May 5)</span><span class="value" style="color:var(--magenta)">Priority</span></div>
+      <div class="metric-row"><span class="label">Wire lead magnets to Mautic forms (end-to-end)</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Submit all sitemaps to Google Search Console</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Deploy CLG sites to Vercel</span><span class="value">At Computer</span></div>
+    </div>
+
+    <div class="metric-card" style="border-left:3px solid var(--yellow)">
+      <h3>Week 2 (May 5&ndash;11): Content + Outreach</h3>
+      <div class="metric-row"><span class="label">Record 20 YouTube intros on phone</span><span class="value">Out in World</span></div>
+      <div class="metric-row"><span class="label">Stitch + upload first YouTube video</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">A/B test cold email subject lines (2 variants)</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Post 3x across all 4 brands (12 posts)</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Share lead magnets in 5 Facebook groups</span><span class="value">Out in World</span></div>
+      <div class="metric-row"><span class="label">Claim Google Business Profiles (NB, PP, Pawesome)</span><span class="value">Out in World</span></div>
+    </div>
+
+    <div class="metric-card" style="border-left:3px solid var(--blue)">
+      <h3>Week 3 (May 12&ndash;18): Scale + Iterate</h3>
+      <div class="metric-row"><span class="label">Publish second YouTube video</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Continue 3x/week posting cadence</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Pawesome: door knock + flyers in local area</span><span class="value">Out in World</span></div>
+      <div class="metric-row"><span class="label">PP: shoot 1 free portfolio session</span><span class="value">Out in World</span></div>
+      <div class="metric-row"><span class="label">ORCA: recruit first 5 voting members (film Twitter)</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Review cold email performance, kill or scale</span><span class="value">At Computer</span></div>
+    </div>
+
+    <div class="metric-card" style="border-left:3px solid var(--purple)">
+      <h3>Week 4 (May 19&ndash;25): Close + Convert</h3>
+      <div class="metric-row"><span class="label">Follow up on all warm leads from the month</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Push for at least 1 Brand Bible sale or retainer sign</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Continue posting cadence (48 total by month end)</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">ORCA: recruit 5 more voting members (target 10)</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Pawesome: get 3+ recurring walk clients</span><span class="value">Out in World</span></div>
+    </div>
+
+    <div class="metric-card" style="border-left:3px solid var(--teal)">
+      <h3>Week 5 (May 26&ndash;31): Review + Report</h3>
+      <div class="metric-row"><span class="label">Run weekly sweep (Sunday)</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Update Playbook with May learnings</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Prepare June targets based on what worked</span><span class="value">At Computer</span></div>
+      <div class="metric-row"><span class="label">Monthly Empire Report auto-generates June 1</span><span class="value">Automated</span></div>
+    </div>
+  </div>
+
+  <!-- WHAT NEEDS ATTENTION -->
+  <div class="section">
+    <h2>What Needs Attention</h2>
+    <div class="callout">
+      <h3>Revenue: Still at $0</h3>
+      <p>All infrastructure is built. The pipeline exists. But no money is coming in yet. The gap is between "built" and "publicly visible." Content needs to be posted, outreach needs replies, and bookings need to happen.</p>
+    </div>
+    <div class="callout">
+      <h3>Traffic: Declining Without Content</h3>
+      <p>April averaged 22 visits/day across all sites. Without regular content publishing and social media activity, traffic will continue to decay. The Day 1 posting pack is ready &mdash; it needs to go live.</p>
+    </div>
+    <div class="callout">
+      <h3>Cold Email: 0% Reply Rate</h3>
+      <p>57 cold emails sent in April with zero replies. Either the targeting, subject lines, or messaging needs adjustment. Consider A/B testing different approaches or focusing on warm outreach instead.</p>
+    </div>
+  </div>
+
+  <!-- INFRASTRUCTURE STATUS -->
+  <div class="section">
+    <h2>Infrastructure Status</h2>
+    <p class="period-note">What's running and healthy as of 1 May 2026</p>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr><th>System</th><th>Status</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Hetzner Server</td><td style="color:var(--teal)">Healthy</td><td>16 active crons, 75% disk</td></tr>
+          <tr><td>Matomo Analytics</td><td style="color:var(--teal)">Tracking</td><td>All 6 sites reporting</td></tr>
+          <tr><td>Mautic Email</td><td style="color:var(--teal)">Running</td><td>3,865 contacts, campaigns active</td></tr>
+          <tr><td>Cal.com Booking</td><td style="color:var(--yellow)">API Issue</td><td>Key needs v2 refresh</td></tr>
+          <tr><td>Twitter Automation</td><td style="color:var(--teal)">Posting</td><td>20 tweets/week across brands</td></tr>
+          <tr><td>Lead Engine</td><td style="color:var(--teal)">Active</td><td>Brisbane scrape + send running</td></tr>
+          <tr><td>NBHQ Dashboard</td><td style="color:var(--teal)">Live</td><td>51 admin pages</td></tr>
+          <tr><td>Supabase</td><td style="color:var(--teal)">Healthy</td><td>All tables active</td></tr>
+          <tr><td>n8n Workflows</td><td style="color:var(--teal)">Running</td><td>Webhooks, alerts, routing</td></tr>
+          <tr><td>Hans (OpenClaw AI)</td><td style="color:var(--teal)">Online</td><td>WhatsApp + Slack connected</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>NBHQ</span> Monthly Empire Report &mdash; Generated 1 May 2026<br>
+    <span style="font-size:11px;opacity:0.6">Next full report: 1 June 2026 (complete May vs April comparison)</span>
+  </div>
+</div>
+</body>
+</html>
