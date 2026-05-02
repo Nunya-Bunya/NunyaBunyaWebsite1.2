@@ -3,210 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Today's Tasks | NB Admin</title>
+<title>Moved to Mission Control | NBHQ</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="/nb-admin-style.css">
 <style>
-  .task-row { display:flex; align-items:center; gap:12px; padding:12px 16px; border-bottom:1px solid rgba(255,255,255,0.06); transition:background 0.15s; }
-  .task-row:hover { background:rgba(255,255,255,0.03); }
-  .task-row.done { opacity:0.5; }
-  .task-row.done .task-title { text-decoration:line-through; }
-  .task-check { width:22px; height:22px; border-radius:6px; border:2px solid rgba(255,255,255,0.2); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.15s; }
-  .task-check:hover { border-color:var(--teal); }
-  .task-check.checked { background:var(--teal); border-color:var(--teal); }
-  .task-check.checked::after { content:'\2713'; color:#000; font-size:14px; font-weight:700; }
-  .task-title { flex:1; font-size:14px; }
-  .task-meta { display:flex; gap:8px; align-items:center; }
-  .cat-badge { font-size:11px; padding:2px 8px; border-radius:4px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
-  .cat-revenue { background:rgba(46,204,113,0.15); color:#2ecc71; }
-  .cat-content { background:rgba(52,152,219,0.15); color:#3498db; }
-  .cat-operations { background:rgba(241,196,15,0.15); color:#f1c40f; }
-  .cat-health { background:rgba(155,89,182,0.15); color:#9b59b6; }
-  .cat-general { background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.5); }
-  .biz-label { font-size:11px; color:rgba(255,255,255,0.4); }
-  .section { margin-bottom:24px; }
-  .section-title { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:8px 16px; border-left:3px solid var(--teal); margin-bottom:4px; }
-  .progress-bar { height:6px; background:rgba(255,255,255,0.08); border-radius:3px; overflow:hidden; margin:12px 0; }
-  .progress-fill { height:100%; background:var(--teal); border-radius:3px; transition:width 0.3s; }
-  .source-note { font-size:12px; color:rgba(255,255,255,0.3); margin-top:24px; padding:12px 16px; border-top:1px solid rgba(255,255,255,0.06); }
+  .moved-card { max-width: 600px; margin: 80px auto; padding: 48px; background: var(--surface, #141414); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; text-align: center; }
+  .moved-card h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 40px; text-transform: uppercase; letter-spacing: -1px; line-height: 1; margin-bottom: 16px; }
+  .moved-card h1 span { color: #2dd4bf; }
+  .moved-card p { color: rgba(255,255,255,0.7); font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
+  .moved-card .btn { display: inline-block; background: #2dd4bf; color: #000; padding: 14px 28px; border-radius: 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 1.5px; text-decoration: none; transition: transform 0.15s; }
+  .moved-card .btn:hover { transform: translateY(-2px); }
+  .moved-card .small { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 24px; }
 </style>
 </head>
 <body>
 <div class="admin-layout">
   <aside class="admin-sidebar" id="sidebar"></aside>
   <main class="admin-main">
-    <div class="admin-topbar">
-      <div>
-        <h1>Today's <span>Tasks</span></h1>
-        <div class="date" id="dateLabel"></div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn-outline btn-small" onclick="changeDate(-1)">&larr; Yesterday</button>
-        <button class="btn-outline btn-small" onclick="goToday()">Today</button>
-        <button class="btn-outline btn-small" onclick="changeDate(1)">Tomorrow &rarr;</button>
-      </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="kpi-grid" id="taskStats"></div>
-
-    <!-- Progress -->
-    <div class="progress-bar" id="progressBar" style="display:none"><div class="progress-fill" id="progressFill"></div></div>
-
-    <!-- Task List -->
-    <div id="taskList"></div>
-
-    <div class="loading" id="loading"><div class="spinner"></div><p>Loading tasks...</p></div>
-    <div class="empty-state" id="empty" style="display:none"><div class="icon">&#10003;</div><p>No tasks for this day. Run sync_daily_tasks.py to populate from MASTER-ACTIONS.</p></div>
-
-    <div class="source-note" id="sourceNote" style="display:none">
-      Source: MASTER-ACTIONS.md &rarr; sync_daily_tasks.py &rarr; Supabase daily_tasks
+    <div class="moved-card">
+      <h1>Moved to <span>Mission Control</span></h1>
+      <p>The personal dashboard now lives at Mission Control — a richer view tied to your real action list, with weekly goals, north stars, and Sunday recaps.</p>
+      <a href="http://127.0.0.1:8765/mission-control.html" class="btn">Open Mission Control →</a>
+      <p class="small">Mission Control runs locally. If it doesn't open, double-click <code>MASTER PLANS/open-mission-control.command</code>.</p>
     </div>
   </main>
 </div>
-
 <script src="/nb-admin-shared.js"></script>
 <script>
-  let currentDate = NB_ADMIN.todayStr();
-  let tasks = [];
-
-  const BUSINESS_NAMES = {
-    'nunya-bunya': 'Nunya Bunya',
-    'ben-alek-conner': 'Ben Alek Conner',
-    'power-portraits': 'Power Portraits',
-    'orca': 'ORCA Film Awards',
-    'pawesome': 'Pawesome Dog Walkers',
-    'bella-rhyder': 'Bella Rhyder',
-    'conner-law-group': 'Conner Law Group',
-    'admin': 'Admin & Ops',
-  };
-
-  const BUSINESS_ORDER = [
-    'admin', 'nunya-bunya', 'ben-alek-conner', 'power-portraits',
-    'orca', 'pawesome', 'conner-law-group', 'bella-rhyder',
-  ];
-
-  async function init() {
+  (async () => {
     const ok = await NB_ADMIN.checkAuth();
     if (!ok) return;
-    NB_ADMIN.renderSidebar('tasks');
-    await loadTasks();
-  }
-
-  function changeDate(delta) {
-    const d = new Date(currentDate + 'T12:00:00');
-    d.setDate(d.getDate() + delta);
-    currentDate = NB_ADMIN.toDateStr(d);
-    loadTasks();
-  }
-
-  function goToday() {
-    currentDate = NB_ADMIN.todayStr();
-    loadTasks();
-  }
-
-  async function loadTasks() {
-    document.getElementById('loading').style.display = 'block';
-    document.getElementById('empty').style.display = 'none';
-    document.getElementById('sourceNote').style.display = 'none';
-    document.getElementById('dateLabel').textContent = NB_ADMIN.formatDateFull(currentDate + 'T12:00:00');
-
-    const data = await NB_ADMIN.apiFetch('data?action=daily-tasks&date=' + currentDate);
-    document.getElementById('loading').style.display = 'none';
-
-    tasks = data ? (data.tasks || []) : [];
-
-    if (!tasks.length) {
-      document.getElementById('empty').style.display = 'block';
-      document.getElementById('taskList').innerHTML = '';
-      document.getElementById('taskStats').innerHTML = '';
-      document.getElementById('progressBar').style.display = 'none';
-      return;
-    }
-
-    document.getElementById('sourceNote').style.display = 'block';
-    renderTasks();
-  }
-
-  function renderTasks() {
-    const pending = tasks.filter(t => t.status === 'pending');
-    const done = tasks.filter(t => t.status === 'done');
-    const skipped = tasks.filter(t => t.status === 'skipped');
-    const pct = Math.round((done.length / tasks.length) * 100);
-
-    // Stats
-    document.getElementById('taskStats').innerHTML = `
-      <div class="kpi-card"><div class="num">${tasks.length}</div><div class="label">Total</div></div>
-      <div class="kpi-card yellow"><div class="num">${pending.length}</div><div class="label">Pending</div></div>
-      <div class="kpi-card"><div class="num">${done.length}</div><div class="label">Done</div></div>
-      <div class="kpi-card"><div class="num">${pct}%</div><div class="label">Progress</div></div>
-    `;
-
-    // Progress bar
-    document.getElementById('progressBar').style.display = 'block';
-    document.getElementById('progressFill').style.width = pct + '%';
-
-    // Group by business
-    const byBiz = {};
-    tasks.forEach(t => {
-      const biz = t.business || 'admin';
-      if (!byBiz[biz]) byBiz[biz] = [];
-      byBiz[biz].push(t);
-    });
-
-    // Sort businesses by defined order
-    const sortedBiz = Object.keys(byBiz).sort((a, b) => {
-      const ai = BUSINESS_ORDER.indexOf(a);
-      const bi = BUSINESS_ORDER.indexOf(b);
-      return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
-    });
-
-    document.getElementById('taskList').innerHTML = sortedBiz.map(biz => {
-      const items = byBiz[biz];
-      const bizName = BUSINESS_NAMES[biz] || biz;
-      const bizDone = items.filter(t => t.status === 'done').length;
-
-      return `
-        <div class="section">
-          <div class="section-title">${NB_ADMIN.esc(bizName)} <span style="font-weight:400;font-size:13px;opacity:0.5">${bizDone}/${items.length}</span></div>
-          ${items.map(item => {
-            const isDone = item.status === 'done';
-            const isSkipped = item.status === 'skipped';
-            return `
-              <div class="task-row ${isDone ? 'done' : ''} ${isSkipped ? 'done' : ''}">
-                <div class="task-check ${isDone ? 'checked' : ''}" onclick="toggleTask('${item.id}', '${item.status}')"></div>
-                <span class="task-title">${NB_ADMIN.esc(item.title)}</span>
-                <div class="task-meta">
-                  <span class="cat-badge cat-${item.category || 'general'}">${item.category || 'general'}</span>
-                  ${item.priority === 'urgent' ? '<span class="cat-badge" style="background:rgba(231,76,60,0.2);color:#e74c3c">URGENT</span>' : ''}
-                  ${item.priority === 'high' ? '<span class="cat-badge" style="background:rgba(230,126,34,0.2);color:#e67e22">HIGH</span>' : ''}
-                </div>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      `;
-    }).join('');
-  }
-
-  async function toggleTask(id, currentStatus) {
-    const newStatus = currentStatus === 'done' ? 'pending' : 'done';
-    const result = await NB_ADMIN.apiSend('data?action=daily-tasks', 'PATCH', { id, status: newStatus });
-    if (result) {
-      const task = tasks.find(t => t.id === id);
-      if (task) {
-        task.status = newStatus;
-        if (newStatus === 'done') task.completed_at = new Date().toISOString();
-        else task.completed_at = null;
-      }
-      renderTasks();
-    }
-  }
-
-  init();
+    NB_ADMIN.renderSidebar('mission-control');
+  })();
 </script>
 </body>
 </html>

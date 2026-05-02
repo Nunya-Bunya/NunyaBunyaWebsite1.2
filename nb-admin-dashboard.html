@@ -3,237 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard | NBHQ</title>
+<title>Moved to Mission Control | NBHQ</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  .moved-card { max-width: 600px; margin: 80px auto; padding: 48px; background: var(--surface, #141414); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; text-align: center; }
+  .moved-card h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 40px; text-transform: uppercase; letter-spacing: -1px; line-height: 1; margin-bottom: 16px; }
+  .moved-card h1 span { color: #2dd4bf; }
+  .moved-card p { color: rgba(255,255,255,0.7); font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
+  .moved-card .btn { display: inline-block; background: #2dd4bf; color: #000; padding: 14px 28px; border-radius: 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 1.5px; text-decoration: none; transition: transform 0.15s; }
+  .moved-card .btn:hover { transform: translateY(-2px); }
+  .moved-card .small { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 24px; }
+</style>
 </head>
 <body>
 <div class="admin-layout">
   <aside class="admin-sidebar" id="sidebar"></aside>
   <main class="admin-main">
-    <div class="admin-topbar">
-      <div>
-        <h1 id="greeting"></h1>
-        <div class="date" id="dateLabel"></div>
-      </div>
+    <div class="moved-card">
+      <h1>Moved to <span>Mission Control</span></h1>
+      <p>The personal dashboard now lives at Mission Control — a richer view tied to your real action list, with weekly goals, north stars, and Sunday recaps.</p>
+      <a href="http://127.0.0.1:8765/mission-control.html" class="btn">Open Mission Control →</a>
+      <p class="small">Mission Control runs locally. If it doesn't open, double-click <code>MASTER PLANS/open-mission-control.command</code>.</p>
     </div>
-
-    <!-- KPI Cards -->
-    <div class="kpi-grid" id="kpiGrid"></div>
-
-    <!-- Two Column Layout -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-
-      <!-- Pending Approvals -->
-      <div class="section">
-        <div class="section-header">Pending Approvals <span class="badge" id="approvalCount">0</span></div>
-        <div id="pendingApprovals" class="card" style="max-height:300px;overflow-y:auto"></div>
-      </div>
-
-      <!-- Active Pipelines -->
-      <div class="section">
-        <div class="section-header">Active Pipelines <span class="badge" id="pipelineCount">0</span></div>
-        <div id="activePipelines" class="card" style="max-height:300px;overflow-y:auto"></div>
-      </div>
-    </div>
-
-    <!-- Two Column Layout -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px">
-
-      <!-- Today's Tasks -->
-      <div class="section">
-        <div class="section-header">Today's Tasks <span class="badge" id="taskCount">0</span></div>
-        <div id="todayTasks" class="card" style="max-height:400px;overflow-y:auto"></div>
-      </div>
-
-      <!-- Client Quick View -->
-      <div class="section">
-        <div class="section-header">Clients <span class="badge" id="clientCount">0</span></div>
-        <div id="clientQuickList" style="max-height:400px;overflow-y:auto"></div>
-      </div>
-    </div>
-
-    <!-- This Week Summary -->
-    <div class="section" style="margin-top:24px">
-      <div class="section-header">This Week at a Glance</div>
-      <div class="week-columns" id="weekSummary"></div>
-    </div>
-
-    <div class="loading" id="loading"><div class="spinner"></div><p>Loading dashboard...</p></div>
   </main>
 </div>
-
 <script src="/nb-admin-shared.js"></script>
 <script>
-  let allClients = [];
-
-  async function init() {
+  (async () => {
     const ok = await NB_ADMIN.checkAuth();
     if (!ok) return;
-    NB_ADMIN.renderSidebar('dashboard');
-
-    document.getElementById('greeting').innerHTML = `${NB_ADMIN.greeting()}, <span>Ben</span>`;
-    document.getElementById('dateLabel').textContent = NB_ADMIN.formatDateFull(new Date());
-
-    // Load all data in parallel
-    const [clientsData, tasksData, weekData, approvalData, pipelineData] = await Promise.all([
-      NB_ADMIN.apiFetch('clients'),
-      NB_ADMIN.apiFetch('tasks?date=' + NB_ADMIN.todayStr()),
-      NB_ADMIN.apiFetch('week?date=' + NB_ADMIN.todayStr()),
-      NB_ADMIN.apiFetch('approval?limit=10'),
-      NB_ADMIN.apiFetch('pipeline?status=running&limit=10'),
-    ]);
-
-    document.getElementById('loading').style.display = 'none';
-
-    allClients = clientsData ? clientsData.clients : [];
-    const tasks = tasksData ? tasksData.tasks : [];
-    const week = weekData;
-    const approvals = approvalData ? approvalData.items : [];
-    const pipelines = pipelineData ? pipelineData.runs : [];
-
-    renderKPIs(allClients, tasks, week, approvals, pipelines);
-    renderApprovals(approvals);
-    renderPipelines(pipelines);
-    renderTodayTasks(tasks);
-    renderClientList(allClients);
-    if (week) renderWeekSummary(week);
-  }
-
-  function renderKPIs(clients, tasks, week, approvals, pipelines) {
-    const activeClients = clients.filter(c => c.active).length;
-    const pendingApprovals = approvals.length;
-    const activePipelines = pipelines.length;
-    const pendingTasks = tasks.filter(t => t.status !== 'published').length;
-
-    document.getElementById('kpiGrid').innerHTML = `
-      <div class="kpi-card"><div class="num">${activeClients}</div><div class="label">Active Clients</div></div>
-      <div class="kpi-card yellow"><div class="num">${pendingApprovals}</div><div class="label">Pending Approvals</div></div>
-      <div class="kpi-card magenta"><div class="num">${activePipelines}</div><div class="label">Active Pipelines</div></div>
-      <div class="kpi-card purple"><div class="num">${pendingTasks}</div><div class="label">Tasks Today</div></div>
-    `;
-  }
-
-  function renderApprovals(items) {
-    document.getElementById('approvalCount').textContent = items.length;
-    if (!items.length) {
-      document.getElementById('pendingApprovals').innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted)">All caught up!</div>';
-      return;
-    }
-    document.getElementById('pendingApprovals').innerHTML = items.slice(0, 5).map(i => `
-      <div class="task-item">
-        ${NB_ADMIN.typeBadge(i.item_type)}
-        <span class="topic">${NB_ADMIN.esc(i.title || 'Untitled')}</span>
-        <span style="font-size:11px;color:var(--muted)">${NB_ADMIN.timeAgo(i.created_at)}</span>
-      </div>
-    `).join('') + (items.length > 5 ? `<a href="/nb-admin-approval" style="display:block;text-align:center;padding:10px;font-size:13px;color:var(--teal)">View all ${items.length} items &rarr;</a>` : '');
-  }
-
-  function renderPipelines(runs) {
-    document.getElementById('pipelineCount').textContent = runs.length;
-    if (!runs.length) {
-      document.getElementById('activePipelines').innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted)">No active pipelines</div>';
-      return;
-    }
-    document.getElementById('activePipelines').innerHTML = runs.map(r => `
-      <div class="task-item" onclick="window.location='/nb-admin-pipelines'">
-        ${NB_ADMIN.pipelineBadge(r.status)}
-        <span class="topic">${NB_ADMIN.esc(r.pipeline_name)}</span>
-        <span style="font-size:11px;color:var(--muted)">${NB_ADMIN.esc(r.client_id)}</span>
-        <span style="font-size:11px;color:var(--muted)">${NB_ADMIN.timeAgo(r.started_at)}</span>
-      </div>
-    `).join('');
-  }
-
-  function renderTodayTasks(tasks) {
-    document.getElementById('taskCount').textContent = tasks.length;
-    if (!tasks.length) {
-      document.getElementById('todayTasks').innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">No tasks for today!</div>';
-      return;
-    }
-
-    const pending = tasks.filter(t => t.status !== 'published');
-    const done = tasks.filter(t => t.status === 'published');
-
-    document.getElementById('todayTasks').innerHTML = [
-      ...pending.map(t => taskRow(t)),
-      ...done.map(t => taskRow(t)),
-    ].join('');
-  }
-
-  function taskRow(t) {
-    const isDone = t.status === 'published';
-    const client = allClients.find(c => c.client_id === t.client_id);
-    const clientLabel = client ? client.client_name : t.client_id;
-    return `
-      <div class="task-item ${isDone ? 'task-done' : ''}">
-        <div class="platform-dot ${NB_ADMIN.platformClass(t.platform)}"></div>
-        <span style="font-size:10px;color:var(--muted);min-width:60px">${NB_ADMIN.esc(clientLabel).substring(0, 10)}</span>
-        <span class="topic">${NB_ADMIN.esc(t.topic || t.content_type || 'Item')}</span>
-        ${!isDone ? `<button class="btn-teal btn-small" onclick="markDone('${t.id}')">Done</button>` : ''}
-      </div>
-    `;
-  }
-
-  async function markDone(id) {
-    await NB_ADMIN.apiSend('tasks', 'PATCH', { id, status: 'published' });
-    // Reload
-    const tasksData = await NB_ADMIN.apiFetch('tasks?date=' + NB_ADMIN.todayStr());
-    renderTodayTasks(tasksData ? tasksData.tasks : []);
-  }
-
-  function renderClientList(clients) {
-    document.getElementById('clientCount').textContent = clients.length;
-    document.getElementById('clientQuickList').innerHTML = clients.map(c => {
-      const totalPosts = Object.values(c.posting_frequency || {}).reduce((a, b) => a + b, 0);
-      return `
-        <a href="/nb-admin-client?id=${c.client_id}" class="client-card" style="margin-bottom:8px">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div class="name" style="font-size:15px">${NB_ADMIN.esc(c.client_name)}</div>
-            ${NB_ADMIN.tierBadge(c.tier)}
-          </div>
-          <div class="type" style="margin-bottom:4px">${NB_ADMIN.esc(c.business_type || '')} &bull; ${totalPosts} posts/wk</div>
-        </a>
-      `;
-    }).join('');
-  }
-
-  function renderWeekSummary(data) {
-    const weeks = [
-      { key: 'last_week', label: 'Last Week', cls: 'last' },
-      { key: 'this_week', label: 'This Week', cls: 'current' },
-      { key: 'next_week', label: 'Next Week', cls: 'next' },
-    ];
-
-    document.getElementById('weekSummary').innerHTML = weeks.map(w => {
-      const week = data[w.key];
-      if (!week) return '';
-      const total = week.items ? week.items.length : 0;
-      const done = week.items ? week.items.filter(i => i.status === 'published').length : 0;
-      const notes = week.notes;
-
-      return `
-        <div class="week-col">
-          <div class="week-col-header ${w.cls}">
-            ${w.label}
-            <div style="font-size:11px;font-weight:400;font-family:var(--font-body);margin-top:4px">${done}/${total} content items</div>
-          </div>
-          <div class="week-col-body">
-            ${notes ? `
-              ${notes.accomplished ? `<div style="font-size:12px;margin-bottom:6px"><strong style="color:var(--teal)">Done:</strong> <span style="color:rgba(255,255,255,0.6);font-weight:300">${NB_ADMIN.esc(notes.accomplished)}</span></div>` : ''}
-              ${notes.in_progress ? `<div style="font-size:12px;margin-bottom:6px"><strong style="color:var(--yellow)">Active:</strong> <span style="color:rgba(255,255,255,0.6);font-weight:300">${NB_ADMIN.esc(notes.in_progress)}</span></div>` : ''}
-              ${notes.upcoming ? `<div style="font-size:12px;margin-bottom:6px"><strong style="color:var(--purple)">Next:</strong> <span style="color:rgba(255,255,255,0.6);font-weight:300">${NB_ADMIN.esc(notes.upcoming)}</span></div>` : ''}
-            ` : `<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">${total > 0 ? total + ' items scheduled' : 'Nothing scheduled'}</div>`}
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  init();
+    NB_ADMIN.renderSidebar('mission-control');
+  })();
 </script>
 </body>
 </html>

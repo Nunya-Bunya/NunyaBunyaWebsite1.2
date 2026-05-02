@@ -3,251 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Day | NBHQ</title>
+<title>Moved to Mission Control | NBHQ</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="/images/logo-icon-white.png" type="image/png">
 <link rel="stylesheet" href="/nb-admin-style.css">
 <style>
-  .vision-box {
-    background: linear-gradient(135deg, rgba(0,229,204,0.06), rgba(255,77,221,0.04));
-    border: 1px solid rgba(0,229,204,0.12); border-radius: 12px; padding: 16px 20px;
-    margin-bottom: 24px; cursor: pointer;
-  }
-  .vision-label { font-family: var(--font-heading); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--teal); }
-  .vision-line { font-size: 15px; color: rgba(255,255,255,0.85); margin-top: 8px; }
-  .vision-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 13px; color: var(--muted); line-height: 1.7; }
-
-  .biz-card {
-    background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
-    padding: 0; margin-bottom: 20px; overflow: hidden; transition: border-color 0.3s;
-  }
-  .biz-card.green { border-left: 4px solid #00E5CC; }
-  .biz-card.yellow { border-left: 4px solid #FFB800; }
-  .biz-card.red { border-left: 4px solid #FF2D78; }
-
-  .biz-header { padding: 20px 24px 0; display: flex; justify-content: space-between; align-items: flex-start; }
-  .biz-name { font-family: var(--font-heading); font-size: 20px; font-weight: 900; text-transform: uppercase; }
-  .biz-urgency {
-    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
-    padding: 4px 10px; border-radius: 6px;
-  }
-  .biz-urgency.green { background: rgba(0,229,204,0.12); color: #00E5CC; }
-  .biz-urgency.yellow { background: rgba(255,183,0,0.12); color: #FFB800; }
-  .biz-urgency.red { background: rgba(255,45,120,0.12); color: #FF2D78; }
-
-  .biz-tier { padding: 12px 24px; }
-  .tier-row { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; }
-  .tier-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; width: 80px; flex-shrink: 0; font-family: var(--font-heading); font-weight: 600; }
-  .tier-value { font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 300; }
-  .tier-value.milestone { color: var(--teal); font-weight: 500; font-size: 14px; }
-  .tier-value.goal { color: rgba(255,255,255,0.85); }
-
-  .biz-task {
-    padding: 16px 24px; border-top: 1px solid var(--subtle);
-    display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,0.01);
-  }
-  .biz-task-checkbox {
-    width: 28px; height: 28px; border-radius: 8px; border: 2px solid var(--subtle);
-    cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    background: none; font-size: 14px; color: transparent; transition: all 0.2s;
-  }
-  .biz-task-checkbox:hover { border-color: var(--teal); }
-  .biz-task-checkbox.done { background: var(--teal); border-color: var(--teal); color: var(--dark); }
-  .biz-task-title { font-size: 16px; color: var(--white); font-weight: 400; line-height: 1.4; }
-  .biz-task.completed .biz-task-title { text-decoration: line-through; color: var(--muted); }
-
-  .biz-progress { padding: 0 24px 16px; }
-  .biz-progress-bar { height: 4px; background: var(--subtle); border-radius: 2px; overflow: hidden; }
-  .biz-progress-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
-  .biz-progress-text { font-size: 11px; color: var(--muted); margin-top: 4px; }
-
-  .all-done { text-align: center; padding: 60px 20px; }
-  .all-done h2 { font-family: var(--font-heading); font-size: 28px; font-weight: 900; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
-  .all-done p { font-size: 15px; color: var(--muted); font-weight: 300; }
-
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .moved-card { max-width: 600px; margin: 80px auto; padding: 48px; background: var(--surface, #141414); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; text-align: center; }
+  .moved-card h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 40px; text-transform: uppercase; letter-spacing: -1px; line-height: 1; margin-bottom: 16px; }
+  .moved-card h1 span { color: #2dd4bf; }
+  .moved-card p { color: rgba(255,255,255,0.7); font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
+  .moved-card .btn { display: inline-block; background: #2dd4bf; color: #000; padding: 14px 28px; border-radius: 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 1.5px; text-decoration: none; transition: transform 0.15s; }
+  .moved-card .btn:hover { transform: translateY(-2px); }
+  .moved-card .small { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 24px; }
 </style>
 </head>
 <body>
 <div class="admin-layout">
   <aside class="admin-sidebar" id="sidebar"></aside>
   <main class="admin-main">
-    <div class="admin-topbar">
-      <div>
-        <h1>My <span>Day</span></h1>
-        <div class="date" id="dateLabel"></div>
-      </div>
+    <div class="moved-card">
+      <h1>Moved to <span>Mission Control</span></h1>
+      <p>The personal dashboard now lives at Mission Control — a richer view tied to your real action list, with weekly goals, north stars, and Sunday recaps.</p>
+      <a href="http://127.0.0.1:8765/mission-control.html" class="btn">Open Mission Control →</a>
+      <p class="small">Mission Control runs locally. If it doesn't open, double-click <code>MASTER PLANS/open-mission-control.command</code>.</p>
     </div>
-
-    <!-- Vision -->
-    <div class="vision-box" onclick="this.querySelector('.vision-detail').style.display = this.querySelector('.vision-detail').style.display === 'none' ? 'block' : 'none'">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div class="vision-label">The Vision</div>
-        <div style="font-size:11px;color:var(--muted);">tap to expand</div>
-      </div>
-      <div class="vision-line">Nunya Bunya is a profitable agency with paying clients. You work from home, make content, and build things you're proud of.</div>
-      <div class="vision-detail">
-        <strong style="color:var(--white);">By end of April:</strong> First paying client. PROOF submitted. YouTube active. All businesses posting weekly.<br><br>
-        <strong style="color:var(--white);">By end of Q2:</strong> 2+ paying clients. $5K/month. Power Portraits doing Portrait Days. ORCA winners announced.<br><br>
-        <strong style="color:var(--white);">By end of 2026:</strong> 10 clients. First hire. Feature film in development. Brisbane knows your name.
-      </div>
-    </div>
-
-    <!-- Business Cards -->
-    <div id="businessCards"></div>
-
-    <div class="loading" id="loading"><div class="spinner"></div><p>Loading your tasks...</p></div>
   </main>
 </div>
-
 <script src="/nb-admin-shared.js"></script>
 <script>
-const BIZ_CONFIG = {
-  'nunya-bunya': { name: 'Nunya Bunya', color: '#00E5CC' },
-  'power-portraits': { name: 'Power Portraits', color: '#FFB800' },
-  'ben-alek-conner': { name: 'Ben Alek Conner', color: '#9B59B6' },
-  'orca': { name: 'ORCA Film Awards', color: '#E17055' },
-  'clg': { name: 'Conner Law Group', color: '#4A90D9' },
-};
-
-let allTasks = [];
-
-async function init() {
-  const ok = await NB_ADMIN.checkAuth();
-  if (!ok) return;
-  NB_ADMIN.renderSidebar('my-day');
-  document.getElementById('dateLabel').textContent = NB_ADMIN.formatDateFull(new Date());
-  await loadTasks();
-}
-
-async function loadTasks() {
-  document.getElementById('loading').style.display = 'flex';
-  const data = await NB_ADMIN.apiFetch('data?action=daily-tasks').catch(() => ({ tasks: [] }));
-  allTasks = (data?.tasks || []).filter(t => t.business);
-  document.getElementById('loading').style.display = 'none';
-  render();
-}
-
-function render() {
-  const container = document.getElementById('businessCards');
-
-  // Group by business
-  const groups = {};
-  allTasks.forEach(t => {
-    if (!groups[t.business]) groups[t.business] = [];
-    groups[t.business].push(t);
-  });
-
-  // Sort each group by sort_order from notes
-  for (const biz in groups) {
-    groups[biz].sort((a, b) => {
-      const aOrder = getNote(a, 'sort_order') || 999;
-      const bOrder = getNote(b, 'sort_order') || 999;
-      return aOrder - bOrder;
-    });
-  }
-
-  // Check if ALL next tasks are done
-  const allNextDone = Object.keys(BIZ_CONFIG).every(biz => {
-    const tasks = groups[biz];
-    if (!tasks) return true;
-    return !tasks.find(t => t.status === 'pending');
-  });
-
-  if (allNextDone) {
-    container.innerHTML = '<div class="all-done"><h2>All Clear</h2><p>Every business has its next task done. Nice work. Come back tomorrow.</p></div>';
-    return;
-  }
-
-  // Render each business
-  const bizOrder = ['nunya-bunya', 'power-portraits', 'ben-alek-conner', 'orca', 'clg'];
-
-  container.innerHTML = bizOrder.map((bizId, i) => {
-    const tasks = groups[bizId];
-    if (!tasks || !tasks.length) return '';
-
-    const config = BIZ_CONFIG[bizId] || { name: bizId, color: '#999' };
-    const nextTask = tasks.find(t => t.status === 'pending');
-    if (!nextTask) {
-      // All done for this business — show completed card
-      const total = tasks.length;
-      const done = tasks.filter(t => t.status === 'done').length;
-      return `
-        <div class="biz-card green" style="animation: fadeIn 0.3s ease ${i * 60}ms both; opacity: 0.5;">
-          <div class="biz-header"><div class="biz-name" style="color: ${config.color};">${config.name}</div><div class="biz-urgency green">All Done</div></div>
-          <div class="biz-progress" style="padding: 12px 24px 16px;"><div class="biz-progress-bar"><div class="biz-progress-fill" style="width:100%;background:${config.color};"></div></div><div class="biz-progress-text">${done} of ${total} tasks complete</div></div>
-        </div>`;
-    }
-
-    const milestone = getNote(nextTask, 'milestone') || '';
-    const goal = getNote(nextTask, 'goal') || '';
-
-    const total = tasks.length;
-    const done = tasks.filter(t => t.status === 'done').length;
-    const pct = Math.round((done / total) * 100);
-
-    const urgency = getUrgency(tasks);
-
-    return `
-      <div class="biz-card ${urgency}" style="animation: fadeIn 0.3s ease ${i * 60}ms both">
-        <div class="biz-header">
-          <div class="biz-name" style="color: ${config.color};">${config.name}</div>
-          <div class="biz-urgency ${urgency}">${urgency === 'green' ? 'On Track' : urgency === 'yellow' ? 'Do Today' : 'Overdue'}</div>
-        </div>
-        <div class="biz-tier">
-          <div class="tier-row"><span class="tier-label">Milestone</span><span class="tier-value milestone">${milestone}</span></div>
-          <div class="tier-row"><span class="tier-label">Goal</span><span class="tier-value goal">${goal}</span></div>
-        </div>
-        <div class="biz-progress">
-          <div class="biz-progress-bar"><div class="biz-progress-fill" style="width:${pct}%;background:${config.color};"></div></div>
-          <div class="biz-progress-text">${done} of ${total} tasks complete (${pct}%)</div>
-        </div>
-        <div class="biz-task">
-          <button class="biz-task-checkbox" onclick="toggleTask('${nextTask.id}', '${nextTask.status}')"></button>
-          <div class="biz-task-title">${nextTask.title}</div>
-        </div>
-      </div>`;
-  }).join('');
-}
-
-function getNote(task, key) {
-  if (!task.notes) return null;
-  try {
-    const parsed = typeof task.notes === 'string' ? JSON.parse(task.notes) : task.notes;
-    return parsed[key];
-  } catch { return null; }
-}
-
-function getUrgency(tasks) {
-  const completed = tasks.filter(t => t.status === 'done' && t.completed_at);
-  if (!completed.length) {
-    const created = new Date(tasks[0]?.created_at || Date.now());
-    const daysSince = Math.floor((Date.now() - created.getTime()) / 86400000);
-    if (daysSince <= 1) return 'green';
-    if (daysSince <= 2) return 'yellow';
-    return 'red';
-  }
-  completed.sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at));
-  const daysSince = Math.floor((Date.now() - new Date(completed[0].completed_at).getTime()) / 86400000);
-  if (daysSince <= 1) return 'green';
-  if (daysSince <= 2) return 'yellow';
-  return 'red';
-}
-
-async function toggleTask(id, currentStatus) {
-  const newStatus = currentStatus === 'done' ? 'pending' : 'done';
-  await NB_ADMIN.apiSend('data?action=daily-tasks', 'PATCH', { id, status: newStatus });
-  const task = allTasks.find(t => t.id === id);
-  if (task) {
-    task.status = newStatus;
-    task.completed_at = newStatus === 'done' ? new Date().toISOString() : null;
-  }
-  render();
-}
-
-init();
+  (async () => {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('mission-control');
+  })();
 </script>
 </body>
 </html>

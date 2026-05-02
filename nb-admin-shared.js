@@ -31,10 +31,11 @@ const NB_ADMIN = {
       {
         label: null, // No label = always visible, no header
         pages: [
-          { id: 'my-day', label: 'My Day', icon: '&#9728;', href: '/nb-admin-my-day' },
+          // Mission Control is the daily front door (local-only). Opens in new tab.
+          { id: 'mission-control', label: 'Mission Control', icon: '&#127919;', href: 'http://127.0.0.1:8765/mission-control.html', target: '_blank' },
+          { id: 'todays-posts', label: "Today's Posts", icon: '&#128172;', href: '/nb-admin-todays-posts' },
           { id: 'approval', label: 'Approve Content', icon: '&#9998;', href: '/nb-admin-approval' },
           { id: 'bfk', label: 'BFK Submissions', icon: '&#128218;', href: '/nb-admin-bfk' },
-          { id: 'dashboard', label: 'Dashboard', icon: '&#9670;', href: '/nb-admin-dashboard' },
           { id: 'inventory', label: 'Asset Inventory', icon: '&#128230;', href: '/nb-admin-inventory' },
           { id: 'playbook', label: 'Playbook', icon: '&#9889;', href: '/nb-admin-playbook' },
           { id: 'shipping-tracker', label: 'Shipping Tracker', icon: '&#128640;', href: '/nb-admin-shipping-tracker' },
@@ -51,6 +52,7 @@ const NB_ADMIN = {
       {
         label: 'Content',
         pages: [
+          { id: 'content-calendars', label: 'Content Calendars', icon: '&#128197;', href: '/nb-admin-content-calendars' },
           { id: 'calendar', label: 'Calendar', icon: '&#9783;', href: '/nb-admin-calendar' },
           { id: 'calendar-edit', label: 'Calendar Editor', icon: '&#128197;', href: '/nb-admin-calendar-edit' },
           { id: 'voice-memos', label: 'Voice Memos', icon: '&#127908;', href: '/nb-admin-voice-memos' },
@@ -83,9 +85,13 @@ const NB_ADMIN = {
           { id: 'skills-library', label: 'Skills Library', icon: '&#129520;', href: '/nb-admin-skills-library' },
           { id: 'agent-registry', label: 'Agent Registry', icon: '&#129302;', href: '/nb-admin-agent-registry' },
           { id: 'reports', label: 'Reports', icon: '&#9776;', href: '/nb-admin-reports' },
+          { id: 'tool-discovery', label: 'Tool Discovery', icon: '&#128270;', href: '/nb-admin-tool-discovery' },
+          { id: 'resource-library', label: 'Resource Library', icon: '&#128218;', href: '/nb-admin-resource-library' },
           { id: 'integrations', label: 'Integrations', icon: '&#128268;', href: '/nb-admin-integrations' },
           { id: 'slack-routing', label: 'Slack Routing', icon: '&#128172;', href: '/nb-admin-slack-routing' },
           { id: 'cron-jobs', label: 'Cron Jobs', icon: '&#9201;', href: '/nb-admin-cron-jobs' },
+          { id: 'commands', label: 'Command Bank', icon: '&#62;&#95;', href: '/nb-admin-commands' },
+          { id: 'outreach-map', label: 'Outreach Map', icon: '&#128506;', href: '/nb-admin-outreach-map' },
           { id: 'deployments', label: 'Deployments', icon: '&#128640;', href: '/nb-admin-deployments' },
           { id: 'activity', label: 'Activity Log', icon: '&#9200;', href: '/nb-admin-activity' },
           { id: 'settings', label: 'Settings', icon: '&#9881;', href: '/nb-admin-settings' },
@@ -115,7 +121,7 @@ const NB_ADMIN = {
           if (!section.label) {
             // Top-level pages — always visible
             return section.pages.map(p => `
-              <a href="${p.href}" class="sidebar-link ${p.id === activePage ? 'active' : ''}">
+              <a href="${p.href}" class="sidebar-link ${p.id === activePage ? 'active' : ''}"${p.target ? ` target="${p.target}"` : ''}>
                 <span class="icon">${p.icon}</span> ${p.label}
               </a>
             `).join('');
