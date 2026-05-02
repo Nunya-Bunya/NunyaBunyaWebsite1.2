@@ -52,7 +52,6 @@ const NB_ADMIN = {
       {
         label: 'Content',
         pages: [
-          { id: 'content-calendars', label: 'Content Calendars', icon: '&#128197;', href: '/nb-admin-content-calendars' },
           { id: 'calendar', label: 'Calendar', icon: '&#9783;', href: '/nb-admin-calendar' },
           { id: 'calendar-edit', label: 'Calendar Editor', icon: '&#128197;', href: '/nb-admin-calendar-edit' },
           { id: 'voice-memos', label: 'Voice Memos', icon: '&#127908;', href: '/nb-admin-voice-memos' },

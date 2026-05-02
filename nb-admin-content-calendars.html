@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moved to Mission Control | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  .moved-card { max-width: 600px; margin: 80px auto; padding: 48px; background: var(--surface, #141414); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; text-align: center; }
+  .moved-card h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 40px; text-transform: uppercase; letter-spacing: -1px; line-height: 1; margin-bottom: 16px; }
+  .moved-card h1 span { color: #2dd4bf; }
+  .moved-card p { color: rgba(255,255,255,0.7); font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
+  .moved-card .btn { display: inline-block; background: #2dd4bf; color: #000; padding: 14px 28px; border-radius: 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 1.5px; text-decoration: none; transition: transform 0.15s; }
+  .moved-card .btn:hover { transform: translateY(-2px); }
+  .moved-card .small { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 24px; }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="moved-card">
+      <h1>Moved to <span>Mission Control</span></h1>
+      <p>The personal dashboard now lives at Mission Control — a richer view tied to your real action list, with weekly goals, north stars, and Sunday recaps.</p>
+      <a href="http://127.0.0.1:8765/mission-control.html" class="btn">Open Mission Control →</a>
+      <p class="small">Mission Control runs locally. If it doesn't open, double-click <code>MASTER PLANS/open-mission-control.command</code>.</p>
+    </div>
+  </main>
+</div>
+<script src="/nb-admin-shared.js"></script>
+<script>
+  (async () => {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('mission-control');
+  })();
+</script>
+</body>
+</html>
