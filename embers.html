@@ -241,6 +241,161 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"
     .ladder-row { grid-template-columns: 1fr; gap: 8px; padding: 16px 18px; }
     .ladder-row .when { font-size: 11px; }
   }
+
+  /* ===== Exit-intent modal ===== */
+  .exit-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
+    animation: exitFadeIn 0.3s ease-out;
+  }
+  .exit-overlay.show { display: flex; }
+  @keyframes exitFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .exit-modal {
+    background: var(--bg2, #141414);
+    border: 1px solid rgba(0, 229, 204, 0.25);
+    border-radius: 24px;
+    max-width: 560px; width: 100%;
+    padding: 44px 40px 36px;
+    position: relative;
+    box-shadow:
+      0 0 60px rgba(0, 229, 204, 0.18),
+      0 25px 60px rgba(0, 0, 0, 0.6);
+    animation: exitSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    color: white;
+  }
+  @keyframes exitSlideIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .exit-close {
+    position: absolute; top: 16px; right: 18px;
+    background: none; border: none;
+    color: rgba(255,255,255,0.4);
+    font-size: 26px; cursor: pointer;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+  .exit-close:hover { color: white; background: rgba(255,255,255,0.06); }
+  .exit-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 11px;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--mint, #00E5CC);
+    margin-bottom: 14px;
+  }
+  .exit-h {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 4vw, 36px);
+    text-transform: uppercase;
+    line-height: 1.05;
+    color: white;
+    margin-bottom: 10px;
+    letter-spacing: -0.005em;
+  }
+  .exit-h span { color: var(--mint, #00E5CC); }
+  .exit-sub {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 300;
+    font-size: 15px; line-height: 1.6;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 24px;
+  }
+  .exit-form {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  /* Style the Mautic form inside */
+  .exit-form form { display: flex; flex-direction: column; gap: 12px; }
+  .exit-form .mauticform-row { margin: 0 !important; }
+  .exit-form .mauticform-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.55) !important;
+    margin-bottom: 6px !important;
+  }
+  .exit-form input[type="email"],
+  .exit-form input[type="text"] {
+    width: 100%;
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-radius: 10px !important;
+    padding: 14px 16px !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 15px !important;
+    color: white !important;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .exit-form input[type="email"]:focus,
+  .exit-form input[type="text"]:focus {
+    outline: none;
+    border-color: var(--mint, #00E5CC) !important;
+    background: rgba(0, 229, 204, 0.04) !important;
+  }
+  .exit-form button[type="submit"] {
+    background: var(--mint, #00E5CC) !important;
+    color: #0a0a0a !important;
+    border: none !important;
+    padding: 16px 28px !important;
+    border-radius: 10px !important;
+    font-family: 'Barlow Condensed', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 15px !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+    box-shadow: 0 0 24px rgba(0, 229, 204, 0.25) !important;
+    width: 100% !important;
+    margin-top: 4px !important;
+  }
+  .exit-form button[type="submit"]:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 0 36px rgba(0, 229, 204, 0.45) !important;
+  }
+  .exit-trust {
+    margin-top: 14px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    font-weight: 300;
+  }
+  .exit-tools {
+    margin-top: 22px;
+    display: flex; gap: 10px; flex-wrap: wrap;
+    justify-content: center;
+  }
+  .exit-tool {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.02);
+  }
+  .exit-tool .strike {
+    text-decoration: line-through;
+    color: rgba(255,77,221,0.6);
+    margin-right: 4px;
+  }
+  @media (max-width: 540px) {
+    .exit-modal { padding: 32px 24px 28px; }
+    .exit-h { font-size: 24px; }
+    .exit-form { padding: 18px; }
+  }
 </style>
 </head>
 <body>
@@ -436,6 +591,89 @@ document.querySelectorAll('.embers-faq-item').forEach(item => {
     item.classList.toggle('open');
   });
 });
+</script>
+
+<!-- ===== Exit-intent modal ===== -->
+<div class="exit-overlay" id="exitOverlay" role="dialog" aria-modal="true" aria-labelledby="exitH">
+  <div class="exit-modal">
+    <button class="exit-close" id="exitClose" aria-label="Close">×</button>
+    <div class="exit-eyebrow">// Wait — one thing</div>
+    <h2 class="exit-h" id="exitH">Not ready to book?<br><span>Take the stack with you.</span></h2>
+    <p class="exit-sub">Get the exact $16/month marketing stack we run our agency on. Every tool, what it costs, what it replaces, and how to set it up. Free PDF, no spam.</p>
+    <div class="exit-form">
+      <script type="text/javascript" src="https://mautic.nunyabunya.com/form/generate.js?id=22"></script>
+    </div>
+    <p class="exit-trust">No credit card. Unsubscribe anytime. We respect your inbox.</p>
+    <div class="exit-tools">
+      <span class="exit-tool"><span class="strike">HubSpot</span>Mautic</span>
+      <span class="exit-tool"><span class="strike">Mailchimp</span>Mautic</span>
+      <span class="exit-tool"><span class="strike">Calendly</span>Cal.com</span>
+      <span class="exit-tool"><span class="strike">GA4</span>Matomo</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Exit-intent modal logic
+  (function() {
+    const KEY = 'nb_embers_exit_dismissed';
+    const overlay = document.getElementById('exitOverlay');
+    const closeBtn = document.getElementById('exitClose');
+    let shown = false;
+    let dismissed = false;
+
+    // Don't show if user already dismissed it (24h cooldown via localStorage)
+    try {
+      const last = localStorage.getItem(KEY);
+      if (last && (Date.now() - parseInt(last, 10)) < 24 * 60 * 60 * 1000) {
+        dismissed = true;
+      }
+    } catch (e) { /* localStorage blocked, fine */ }
+
+    function show() {
+      if (shown || dismissed) return;
+      shown = true;
+      overlay.classList.add('show');
+      // Track exit-intent trigger as Lead-pre event
+      if (window.fbq) window.fbq('trackCustom', 'ExitIntentTriggered');
+    }
+    function hide() {
+      overlay.classList.remove('show');
+      try { localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
+      dismissed = true;
+    }
+
+    // Desktop: trigger when mouse leaves through the top of the viewport
+    document.addEventListener('mouseout', function(e) {
+      if (e.relatedTarget) return; // moved to a child element, not actually leaving
+      if (e.clientY > 0) return;   // only top edge
+      // Wait at least 5 seconds before allowing trigger (don't blast people instantly)
+      if (performance.now() < 5000) return;
+      show();
+    });
+
+    // Mobile / touch fallback: trigger on rapid scroll-up after scrolling halfway down
+    let lastScrollY = window.scrollY;
+    let scrolledHalf = false;
+    window.addEventListener('scroll', function() {
+      const sy = window.scrollY;
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      if (sy / docH > 0.5) scrolledHalf = true;
+      // Rapid upward scroll past 80px after they've explored = "trying to leave"
+      if (scrolledHalf && sy < 80 && lastScrollY > 200) {
+        if (performance.now() > 5000) show();
+      }
+      lastScrollY = sy;
+    }, { passive: true });
+
+    closeBtn.addEventListener('click', hide);
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) hide();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && overlay.classList.contains('show')) hide();
+    });
+  })();
 </script>
 
 <!-- Matomo -->
