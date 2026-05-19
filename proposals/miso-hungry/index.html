@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Miso Hungry — Brand Content Production Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0d2a32;            /* deep teal — darker than logo ring */
+    --soft: #18404D;           /* logo dark teal */
+    --paper: #f4f1e8;          /* warm cream */
+    --warm: #C6FD71;           /* logo lime — primary accent */
+    --warm-light: #d8ff9c;     /* lime tint */
+    --pop: #E030F0;            /* magenta — sparing use */
+    --muted: #7a9aa0;           /* desaturated teal-grey */
+    --line: rgba(198, 253, 113, 0.22);
+  }
+  html, body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 1.55;
+    font-size: 10.5pt;
+    letter-spacing: 0.005em;
+  }
+  .sheet {
+    width: 210mm;
+    padding: 16mm 20mm 18mm;
+    margin: 0 auto;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+  }
+  .sheet:last-child { page-break-after: auto; }
+
+  /* Force full A4 height only when printing — browser view sizes to content */
+  @media print {
+    .sheet { min-height: 297mm; }
+  }
+
+  /* Subtle grid background on inner pages — nod to the spin-the-wheel post */
+  .sheet.gridded::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(198, 253, 113, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(198, 253, 113, 0.04) 1px, transparent 1px);
+    background-size: 18mm 18mm;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .sheet > * { position: relative; z-index: 1; }
+
+  h1, h2, h3 { color: var(--paper); }
+  h1 { font-family: 'Anton', 'Inter', sans-serif; font-weight: 400; font-size: 92pt; line-height: 0.88; letter-spacing: -0.005em; text-transform: uppercase; }
+  h2 { font-family: 'Anton', 'Inter', sans-serif; font-weight: 400; font-size: 28pt; line-height: 1; margin-bottom: 8pt; letter-spacing: 0.005em; text-transform: uppercase; }
+  h3 { font-family: 'Inter', sans-serif; font-size: 12pt; margin-bottom: 6pt; font-weight: 700; letter-spacing: 0.01em; }
+
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 8pt; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm); font-weight: 500; }
+  .mono-dim { font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .gold { color: var(--warm); }
+
+  /* Pixel mascot — CSS art nod to the Miso character */
+  .mascot {
+    width: 28pt;
+    height: 28pt;
+    display: inline-block;
+    position: relative;
+    image-rendering: pixelated;
+  }
+  .mascot svg { display: block; width: 100%; height: 100%; }
+  .mascot-lg { width: 56pt; height: 56pt; }
+
+  /* Sticker label — borrowed from "SPIN THE WHEEL" post */
+  .sticker {
+    display: inline-block;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 5pt 11pt 4pt;
+    font-family: 'Anton', sans-serif;
+    font-size: 11pt;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1.5pt solid var(--pop);
+    box-shadow: 3pt 3pt 0 var(--pop);
+    transform: rotate(-1.5deg);
+  }
+  .sticker.lime { background: var(--warm); border-color: var(--ink); box-shadow: 3pt 3pt 0 var(--ink); }
+  .sticker.magenta { background: var(--pop); color: var(--paper); border-color: var(--paper); box-shadow: 3pt 3pt 0 var(--ink); }
+
+  p { margin-bottom: 10pt; max-width: 155mm; font-size: 10.5pt; line-height: 1.65; color: rgba(244, 239, 231, 0.85); }
+  p.lede { font-family: 'Inter', sans-serif; font-size: 14pt; line-height: 1.45; color: var(--paper); font-weight: 500; max-width: 150mm; letter-spacing: -0.005em; }
+  p.lede strong { color: var(--warm); font-weight: 700; }
+
+  /* ============ COVER ============ */
+  .cover {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    padding: 16mm 20mm 18mm;
+  }
+  @media print {
+    .cover {
+      grid-template-rows: auto 1fr auto;
+      min-height: 297mm;
+      height: 297mm;
+    }
+  }
+  .cover-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 14pt; }
+  .cover-title { flex: 1 1 auto; min-width: 0; max-width: 120mm; }
+  .cover-meta { flex: 0 0 auto; }
+  .cover-title h1 { color: var(--warm); font-size: 76pt; }
+  .cover-title h1 .row2 { color: var(--paper); display: block; }
+  .cover-title .sub { font-family: 'Inter', sans-serif; font-size: 13pt; font-weight: 500; color: var(--paper); margin-top: 16pt; line-height: 1.4; letter-spacing: -0.005em; max-width: 130mm; }
+  .cover-title .sub strong { color: var(--pop); font-weight: 700; }
+  .cover-meta { text-align: right; line-height: 1.7; min-width: 50mm; }
+  .cover-meta .label { font-family: 'JetBrains Mono', monospace; font-size: 7pt; letter-spacing: 0.22em; text-transform: uppercase; color: var(--warm); display: block; margin-bottom: 2pt; }
+  .cover-meta .value { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11pt; color: var(--paper); display: block; margin-bottom: 10pt; letter-spacing: -0.005em; }
+  .cover-mid { display: flex; align-items: center; gap: 14pt; margin: 8pt 0; flex-wrap: wrap; }
+  .cover-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 16pt; margin-top: 8pt; border-top: 1.5pt solid var(--warm); }
+  .cover-bottom .pill { padding: 7pt 16pt; background: var(--pop); color: var(--paper); font-family: 'Anton', sans-serif; font-size: 11pt; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 50pt; }
+  .cover-lede { max-width: 150mm; }
+
+  /* ============ REFERENCES PAGE ============ */
+  .section-header { display: flex; align-items: center; gap: 14pt; margin-bottom: 18pt; padding-bottom: 12pt; border-bottom: 1.5pt solid var(--warm); }
+  .section-num { font-family: 'JetBrains Mono', monospace; font-size: 9pt; letter-spacing: 0.2em; color: var(--ink); background: var(--warm); padding: 4pt 9pt; font-weight: 500; }
+
+  .ref-section { margin-top: 16pt; }
+  .ref-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8pt; }
+  .ref-label .name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13pt; color: var(--paper); letter-spacing: -0.005em; }
+  .ref-label .note { font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+  .ref-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8pt; }
+  .ref-card {
+    aspect-ratio: 3/4;
+    background: var(--soft);
+    border: 1px solid var(--line);
+    border-radius: 2pt;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .ref-card img, .ref-card video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ref-card-placeholder {
+    text-align: center;
+    padding: 14pt;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .ref-card-placeholder .brand { color: var(--warm); display: block; font-size: 8.5pt; margin-bottom: 4pt; }
+
+  /* ============ TEASER GRID (page 2) ============ */
+  .teaser-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12pt; margin-top: 22pt; }
+  .teaser-card { display: flex; flex-direction: column; }
+  .teaser-img { aspect-ratio: 4/5; background: var(--soft); border: 1.5pt solid var(--warm); overflow: hidden; position: relative; }
+  .teaser-img.empty { background: linear-gradient(135deg, var(--soft) 0%, rgba(13, 42, 50, 0.6) 100%); }
+  .teaser-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .teaser-meta { margin-top: 10pt; }
+  .teaser-meta .name { font-family: 'Anton', sans-serif; font-size: 16pt; color: var(--warm); display: block; letter-spacing: 0.01em; text-transform: uppercase; }
+  .teaser-meta .note { font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244, 239, 231, 0.7); display: block; margin-top: 3pt; }
+
+  .teaser-footer { margin-top: 26pt; padding-top: 16pt; border-top: 1.5pt solid var(--pop); }
+
+  /* ============ DELIVERABLES PAGE ============ */
+  .deliv-intro { font-family: 'Inter', sans-serif; font-size: 10pt; font-weight: 500; color: rgba(244, 239, 231, 0.9); max-width: 165mm; margin-bottom: 10pt; line-height: 1.45; }
+  .deliv-intro strong { color: var(--warm); font-weight: 700; }
+
+  .deliv-row {
+    display: grid;
+    grid-template-columns: 1fr 55mm;
+    gap: 10pt;
+    padding: 2pt 0;
+    border-bottom: 1px dashed var(--line);
+    align-items: center;
+    page-break-inside: avoid;
+  }
+  .deliv-row:last-of-type { border-bottom: none; }
+  .deliv-row .copy .qty { font-family: 'Anton', sans-serif; font-size: 22pt; line-height: 1; letter-spacing: 0.01em; text-transform: uppercase; color: var(--warm); display: block; margin-bottom: 3pt; }
+  .deliv-row .copy .qty .arrow { color: var(--pop); margin-left: 4pt; }
+  .deliv-row .copy .what { font-family: 'Inter', sans-serif; font-size: 9.5pt; font-weight: 500; color: var(--paper); display: block; margin-bottom: 3pt; letter-spacing: -0.005em; }
+  .deliv-row .copy .detail { font-family: 'Inter', sans-serif; font-size: 8pt; font-weight: 400; color: rgba(244, 239, 231, 0.72); line-height: 1.4; max-width: 95mm; margin: 0; }
+
+  .deliv-sample {
+    background: var(--soft);
+    border: 1.5pt solid var(--warm);
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 16/9;
+  }
+  .deliv-sample.tall { aspect-ratio: 4/5; }
+  .deliv-sample.square { aspect-ratio: 1/1; }
+  .deliv-sample img,
+  .deliv-sample video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .deliv-sample.collage { display: grid; grid-template-columns: 1fr 1fr; gap: 1pt; background: var(--ink); }
+  .deliv-sample.collage img { width: 100%; height: 100%; object-fit: cover; }
+
+  .deliv-sample .ref-tag {
+    position: absolute;
+    top: 5pt; left: 5pt;
+    background: var(--pop);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6pt;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 2pt 6pt;
+    z-index: 2;
+  }
+  .deliv-sample .ref-tag.lime { background: var(--warm); color: var(--ink); }
+
+  .deliv-sample.placeholder {
+    background: var(--soft);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 14pt;
+  }
+  .deliv-sample.placeholder .ph-label { font-family: 'Anton', sans-serif; font-size: 14pt; color: var(--warm); letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.1; }
+  .deliv-sample.placeholder .ph-sub { font-family: 'JetBrains Mono', monospace; font-size: 7pt; color: rgba(244, 239, 231, 0.6); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 6pt; }
+
+  /* ============ INSPO BOARD ============ */
+  .inspo-board {
+    margin-top: 12pt;
+    page-break-inside: avoid;
+  }
+  .inspo-board img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 48mm;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  /* ============ INSPIRED BY STRIP (legacy, unused) ============ */
+  .inspired-by {
+    margin-top: 10pt;
+    padding-top: 8pt;
+    border-top: 1px dashed var(--line);
+    display: grid;
+    grid-template-columns: 22mm 1fr 1fr 1fr;
+    gap: 8pt;
+    align-items: center;
+    page-break-inside: avoid;
+  }
+  .inspired-by .label {
+    font-family: 'Anton', sans-serif;
+    font-size: 10pt;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--pop);
+  }
+  .inspired-by .label span { display: block; color: var(--warm); }
+  .inspired-by .ref-tile {
+    display: grid;
+    grid-template-columns: 12mm 1fr;
+    gap: 7pt;
+    align-items: center;
+  }
+  .inspired-by .ref-tile .thumb {
+    width: 12mm;
+    height: 12mm;
+    background: var(--soft);
+    border: 1px solid var(--warm);
+    overflow: hidden;
+  }
+  .inspired-by .ref-tile .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .inspired-by .ref-tile .meta .name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 9pt; color: var(--paper); display: block; line-height: 1.1; letter-spacing: -0.005em; }
+  .inspired-by .ref-tile .meta .note { font-family: 'JetBrains Mono', monospace; font-size: 6pt; color: rgba(244, 239, 231, 0.6); letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-top: 2pt; line-height: 1.2; }
+
+  /* ============ CLOSE PAGE ============ */
+  .close-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 22pt; margin-top: 14pt; }
+
+  ul.clean { list-style: none; padding: 0; }
+  ul.clean li { padding: 5pt 0 5pt 16pt; position: relative; color: rgba(244, 239, 231, 0.9); font-size: 10pt; line-height: 1.55; }
+  ul.clean li::before { content: ''; position: absolute; left: 0; top: 10pt; width: 7pt; height: 2pt; background: var(--warm); }
+  ul.clean li.head { font-family: 'Anton', sans-serif; font-weight: 400; font-size: 12pt; letter-spacing: 0.04em; text-transform: uppercase; color: var(--pop); padding-left: 0; padding-top: 16pt; padding-bottom: 6pt; }
+  ul.clean li.head::before { display: none; }
+  ul.clean li.head:first-child { padding-top: 0; }
+
+  .investment-frame {
+    margin-top: 6pt;
+    padding: 20pt 22pt 24pt;
+    background: var(--warm);
+    color: var(--ink);
+    position: relative;
+  }
+  .investment-frame::after {
+    content: '';
+    position: absolute;
+    inset: 4pt -4pt -4pt 4pt;
+    background: var(--pop);
+    z-index: -1;
+  }
+  .investment-frame .label { font-family: 'JetBrains Mono', monospace; font-size: 8pt; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); display: block; margin-bottom: 4pt; font-weight: 500; }
+  .investment-frame .struck {
+    display: inline-block;
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    font-size: 22pt;
+    color: rgba(13, 42, 50, 0.55);
+    text-decoration: line-through;
+    text-decoration-color: var(--pop);
+    text-decoration-thickness: 2.5pt;
+    line-height: 1;
+    margin-top: 6pt;
+    letter-spacing: -0.005em;
+  }
+  .total-value { font-family: 'Anton', sans-serif; font-weight: 400; font-size: 64pt; color: var(--ink); line-height: 0.9; margin-top: 2pt; letter-spacing: -0.005em; }
+  .total-value .aud { font-family: 'JetBrains Mono', monospace; font-size: 12pt; color: var(--pop); letter-spacing: 0.1em; margin-left: 6pt; font-weight: 500; vertical-align: top; }
+  .investment-note { margin-top: 14pt; font-family: 'Inter', sans-serif; color: var(--ink); font-size: 10pt; line-height: 1.5; font-weight: 500; max-width: none; margin-bottom: 0; }
+  .investment-note strong { color: var(--pop); font-weight: 700; }
+
+  .timeline-mini { margin-top: 18pt; }
+  .timeline-mini .row { display: grid; grid-template-columns: 38mm 1fr; gap: 14pt; padding: 8pt 0; border-bottom: 1px dashed var(--line); align-items: baseline; }
+  .timeline-mini .row:last-child { border-bottom: none; }
+  .timeline-mini .stage { font-family: 'Anton', sans-serif; font-size: 12pt; letter-spacing: 0.04em; text-transform: uppercase; color: var(--warm); }
+  .timeline-mini .detail { font-size: 9.5pt; color: rgba(244, 239, 231, 0.85); line-height: 1.5; }
+
+  .next-steps { margin-top: 22pt; padding-top: 16pt; border-top: 1.5pt solid var(--warm); }
+  .steps-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12pt; font-size: 9pt; color: rgba(244, 239, 231, 0.85); }
+  .steps-row > span { display: flex; align-items: baseline; gap: 8pt; }
+  .step-n { font-family: 'Anton', sans-serif; font-size: 14pt; letter-spacing: 0.02em; color: var(--pop); line-height: 1; }
+
+  .sign-block { margin-top: 20pt; padding-top: 16pt; border-top: 1.5pt solid var(--pop); }
+  .sig-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24pt; margin-top: 16pt; }
+  .sig-line { border-bottom: 1.5pt solid var(--warm); height: 26pt; margin-bottom: 5pt; }
+  .sig-label { font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+
+  .page-footer { position: absolute; bottom: 14mm; left: 20mm; right: 20mm; display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 7pt; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding-top: 8pt; border-top: 1px solid var(--line); }
+  .page-footer .pgnum { color: var(--warm); }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 — COVER ============ -->
+<section class="sheet cover">
+  <div class="cover-top">
+    <div class="cover-title">
+      <span class="mono">Production Proposal · 2026</span>
+      <h1 style="margin-top:14pt;">Miso<br><span class="row2">Hungry.</span></h1>
+      <div class="cover-mid">
+        <span class="sticker lime">Brand Content</span>
+        <span class="sticker magenta">One Day Shoot</span>
+      </div>
+      <div class="sub">A library of food, lifestyle &amp; brand films — <strong>built once, reused everywhere.</strong></div>
+    </div>
+    <div class="cover-meta">
+      <span class="label">Prepared for</span>
+      <span class="value">Kaish &amp; Janae</span>
+      <span class="label">Prepared by</span>
+      <span class="value">Ben Alek Conner<br><span style="font-family: 'JetBrains Mono', monospace; font-size: 8pt; color: var(--warm); letter-spacing: 0.12em; font-weight: 400;">benalekconner.com</span></span>
+      <span class="label">Issued</span>
+      <span class="value">19 May 2026</span>
+    </div>
+  </div>
+
+  <div></div><!-- flexible spacer to push cover-bottom to page bottom -->
+
+  <div class="cover-bottom">
+    <span class="mono-dim">Brisbane · Queensland</span>
+    <span class="pill">Expansion-Ready</span>
+  </div>
+</section>
+
+<!-- ============ PAGE 2 — DELIVERABLES (with samples) ============ -->
+<section class="sheet gridded">
+  <div class="section-header">
+    <span class="section-num">01 / Deliverables</span>
+    <span class="mono-dim">Exactly what shows up in your inbox</span>
+  </div>
+
+  <h2>What You Get.</h2>
+
+  <p class="deliv-intro">A single production day, edited and delivered as a <strong>full asset library</strong> — sized for every channel you'll need it. Sample frames below show the visual standard.</p>
+
+  <!-- 1. Hero film — Yiros video as the direct reference -->
+  <div class="deliv-row">
+    <div class="copy">
+      <span class="qty">1 Hero Film <span class="arrow">→</span></span>
+      <span class="what">60–90s cinematic brand film. Like the Yiros Shop piece you sent.</span>
+      <p class="detail">Slow, intentional, food-as-character. Your kitchen, your dishes, your service rhythm — built to anchor your homepage, in-store screens, and paid social.</p>
+    </div>
+    <div class="deliv-sample">
+      <span class="ref-tag lime">Reference · Yiros Shop</span>
+      <video src="assets/videos/yiros-shop-hero.mp4" poster="assets/videos/yiros-poster.jpg" autoplay loop muted playsinline></video>
+    </div>
+  </div>
+
+  <!-- 2. Food + lifestyle image library -->
+  <div class="deliv-row">
+    <div class="copy">
+      <span class="qty">50+ Images <span class="arrow">→</span></span>
+      <span class="what">Curated food, lifestyle, venue &amp; team library.</span>
+      <p class="detail">Hero plating, ingredient detail, hand-in-frame lifestyle, customer moments, kitchen &amp; team. Edited and color-graded. Vertical and horizontal crops included.</p>
+    </div>
+    <div class="deliv-sample">
+      <span class="ref-tag">Concept · 50+ Asset Preview</span>
+      <img src="assets/50-plus-images-preview.png" alt="Preview of 50+ asset library — food, lifestyle, venue, team">
+    </div>
+  </div>
+
+  <!-- 3. Short-form reels -->
+  <div class="deliv-row">
+    <div class="copy">
+      <span class="qty">3–5 Promo Reels <span class="arrow">→</span></span>
+      <span class="what">20–30s vertical social cuts. Bold, hero-product driven.</span>
+      <p class="detail">Built native for Instagram, TikTok, and in-store screens. One concept per reel — designed to be reposted weekly across the next 90 days.</p>
+    </div>
+    <div class="deliv-sample">
+      <span class="ref-tag">Concept · 5 Phone Previews</span>
+      <img src="assets/5-reels-preview.png" alt="Five reel concepts shown as phone previews">
+    </div>
+  </div>
+
+  <!-- 4. Brand story films — team + founder -->
+  <div class="deliv-row">
+    <div class="copy">
+      <span class="qty">2 Brand Films <span class="arrow">→</span></span>
+      <span class="what">Team film (20s) + Executive film (20s). Portrait &amp; landscape cuts.</span>
+      <p class="detail"><strong style="color:var(--paper);">Video 01 — Team:</strong> "What it's like working here." Built for recruitment.<br><strong style="color:var(--paper);">Video 02 — Executive:</strong> Leadership on culture &amp; vision. Built for franchise sales, investor decks, and the About page.</p>
+    </div>
+    <div class="deliv-sample">
+      <span class="ref-tag lime">Reference Mockup · 4 Cuts</span>
+      <img src="assets/brand-films-mockup.png" alt="Two brand films mockup — team member + founder, portrait and landscape">
+    </div>
+  </div>
+
+  <!-- 5. Raw archive -->
+  <div class="deliv-row">
+    <div class="copy">
+      <span class="qty">Full Raw Archive <span class="arrow">→</span></span>
+      <span class="what">Every frame we shot. Organized. Yours forever.</span>
+      <p class="detail">Delivered alongside the edited assets — so your future team, your franchisees, or your next agency can build from the same source material without paying for another shoot.</p>
+    </div>
+    <div class="deliv-sample">
+      <span class="ref-tag lime">Delivered · Drive / WeTransfer</span>
+      <img src="assets/full-raw-archive.png" alt="Full raw archive — organized folder delivery">
+    </div>
+  </div>
+
+  <!-- Inspo board — branded reference panel (Miso teal grid + stickers) -->
+  <div class="inspo-board">
+    <img src="assets/inspo-board-v2.png" alt="Inspo brands we love — Messina, Shake Shack, Sweetgreen">
+  </div>
+
+  <div class="page-footer">
+    <span>Miso Hungry · Deliverables</span>
+    <span><span class="pgnum">02</span> / 03</span>
+  </div>
+</section>
+
+<!-- ============ PAGE 3 — THE CLOSE ============ -->
+<section class="sheet gridded">
+  <div class="section-header">
+    <span class="section-num">02 / Investment</span>
+    <span class="mono-dim">What it costs · how we start</span>
+  </div>
+
+  <h2>One Day.<br>A Library That Lasts.</h2>
+
+  <p>A single intentional production day, captured around your trading rhythm — producing assets versatile enough to repurpose across social, web, in-store screens, advertising, and franchise sales for the next ninety days and beyond.</p>
+
+  <div class="close-grid">
+    <div>
+      <div class="timeline-mini">
+        <div class="row">
+          <span class="stage">Stage 01</span>
+          <span class="detail">Pre-production — full reference board, shot list, schedule, talent coordination</span>
+        </div>
+        <div class="row">
+          <span class="stage">Stage 02</span>
+          <span class="detail">One full production day, on location at Miso Hungry</span>
+        </div>
+        <div class="row">
+          <span class="stage">Stage 03</span>
+          <span class="detail">Post-production — approximately 7 days, edit and color grade</span>
+        </div>
+        <div class="row">
+          <span class="stage">Stage 04</span>
+          <span class="detail">Digital delivery — edited assets + raw archive, organized for your team</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="investment-frame">
+        <span class="label">Investment</span>
+        <span class="struck">$3,650</span>
+        <div class="total-value">$1,825<span class="aud">AUD</span></div>
+        <p class="investment-note"><strong>50% off — Introductory Brisbane rate.</strong> Locks in standard pricing ($3,650) for any future production days as you expand.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-steps">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12pt;">
+      <span class="mono">Next Steps</span>
+      <span class="mono-dim">50% deposit locks the date · balance on delivery</span>
+    </div>
+    <div class="steps-row">
+      <span><span class="step-n">01</span> Proposal approval</span>
+      <span><span class="step-n">02</span> Lock production date</span>
+      <span><span class="step-n">03</span> Pre-production planning</span>
+      <span><span class="step-n">04</span> Production &amp; delivery</span>
+    </div>
+  </div>
+
+  <div class="sign-block">
+    <div style="display:flex; justify-content:space-between; align-items:baseline;">
+      <span class="mono">Acceptance</span>
+      <span class="mono-dim">Sign to begin</span>
+    </div>
+    <div class="sig-row">
+      <div>
+        <div class="sig-line"></div>
+        <span class="sig-label">Miso Hungry · Kaish / Janae</span>
+      </div>
+      <div>
+        <div class="sig-line"></div>
+        <span class="sig-label">Date</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Ben Alek Conner · benalekconner.com</span>
+    <span><span class="pgnum">03</span> / 03</span>
+  </div>
+</section>
+
+</body>
+</html>
