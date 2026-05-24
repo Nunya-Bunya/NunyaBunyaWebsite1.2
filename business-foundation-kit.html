@@ -1232,8 +1232,55 @@ let currentStep = 1;
 const totalSteps = 8;
 const questionsPerStep = [8, 9, 8, 5, 7, 7, 6, 10];
 const STORAGE_KEY = 'nb_bfk_survey';
+const SESSION_KEY = 'nb_bfk_session_id';
 const PLAN_STYLE_PRICE = 499;
 let businessStage = 'startup'; /* 'startup' or 'existing' */
+
+/* Stable per-visitor id so server-side partial saves upsert one row per person. */
+function getSessionId() {
+  let sid = null;
+  try { sid = localStorage.getItem(SESSION_KEY); } catch (e) {}
+  if (!sid) {
+    sid = (window.crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : 'bfk-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+    try { localStorage.setItem(SESSION_KEY, sid); } catch (e) {}
+  }
+  return sid;
+}
+
+/* Per-page server save. OFF until the bfk_submissions table has session_id /
+   is_partial / submission_stage columns (see deploy notes). Flip to true after
+   the migration SQL has run. */
+const PARTIAL_SAVE_ENABLED = false;
+
+/* Fire-and-forget partial save to Supabase via the webhook. Never blocks the UI. */
+function savePartialToServer(stage) {
+  if (!PARTIAL_SAVE_ENABLED) return;
+  try {
+    const contactName = (document.getElementById('clientName') || {}).value || '';
+    const contactEmail = (document.getElementById('clientEmail') || {}).value || '';
+    const contactPhone = (document.getElementById('clientPhone') || {}).value || '';
+    const payload = {
+      product: 'plan-style-guide',
+      tier: selectedTier || 'free',
+      session_id: getSessionId(),
+      is_partial: true,
+      submission_stage: stage || ('section_' + currentStep),
+      client_name: contactName.trim(),
+      client_email: contactEmail.trim(),
+      client_phone: contactPhone.trim(),
+      answers: collectSurveyAnswers(),
+      payment_status: 'promo_free'
+    };
+    fetch('/api/webhook?type=business-foundation-kit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(function () { /* offline / blocked — localStorage still holds it */ });
+  } catch (e) { /* never let a save break navigation */ }
+}
 
 /* ═══════════ ADAPTIVE SURVEY — SHOW/HIDE BASED ON STAGE ═══════════ */
 const EXISTING_ONLY = ['q12', 'q51', 'q52', 'q53', 'q59']; /* skip for startups */
@@ -1287,6 +1334,8 @@ function saveProgress() {
   const data = new FormData(form);
   const saved = {};
   for (const [key, value] of data.entries()) {
+    /* Skip File objects — they serialize to {} and can't be restored. */
+    if (typeof value !== 'string') continue;
     if (saved[key]) {
       if (Array.isArray(saved[key])) saved[key].push(value);
       else saved[key] = [saved[key], value];
@@ -1317,19 +1366,25 @@ function collectSurveyAnswers() {
 function restoreProgress() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) return;
-  try {
-    const saved = JSON.parse(raw);
-    const form = document.getElementById('surveyForm');
-    Object.entries(saved).forEach(([key, value]) => {
-      if (key === '_step') return;
+  let saved;
+  try { saved = JSON.parse(raw); } catch (e) { return; }
+  const form = document.getElementById('surveyForm');
+  if (!form) return;
+  Object.entries(saved).forEach(([key, value]) => {
+    if (key === '_step') return;
+    /* Each field is restored independently — one bad field must never abort the rest. */
+    try {
       const fields = form.querySelectorAll(`[name="${key}"]`);
       if (!fields.length) return;
       const field = fields[0];
+      /* File inputs cannot be set programmatically (throws InvalidStateError) — skip. */
+      if (field.type === 'file') return;
       if (field.type === 'radio') {
         fields.forEach(f => {
           if (f.value === value) {
             f.checked = true;
-            f.closest('.option-item').classList.add('selected');
+            const item = f.closest('.option-item');
+            if (item) item.classList.add('selected');
           }
         });
       } else if (field.type === 'checkbox') {
@@ -1337,19 +1392,25 @@ function restoreProgress() {
         fields.forEach(f => {
           if (values.includes(f.value)) {
             f.checked = true;
-            f.closest('.option-item').classList.add('selected');
+            const item = f.closest('.option-item');
+            if (item) item.classList.add('selected');
           }
         });
       } else {
         field.value = value;
       }
-    });
-  } catch (e) { /* ignore corrupt data */ }
+    } catch (e) { /* skip this field, keep restoring the rest */ }
+  });
 }
 
-/* Auto-save on input */
-document.getElementById('surveyForm').addEventListener('input', () => saveProgress());
-document.getElementById('surveyForm').addEventListener('change', () => saveProgress());
+/* Auto-save on input — delegated on document so it survives any earlier
+   script error and does not depend on #surveyForm existing yet. */
+document.addEventListener('input', function (e) {
+  if (e.target && e.target.closest && e.target.closest('#surveyForm')) saveProgress();
+});
+document.addEventListener('change', function (e) {
+  if (e.target && e.target.closest && e.target.closest('#surveyForm')) saveProgress();
+});
 
 /* ═══════════ NAVIGATION ═══════════ */
 function startSurvey() {
@@ -1433,6 +1494,7 @@ function nextStep() {
   }
   if (currentStep < totalSteps) {
     saveProgress();
+    savePartialToServer('section_' + currentStep + '_complete');
     showStep(currentStep + 1);
   }
 }
@@ -1493,6 +1555,13 @@ async function submitSurvey() {
     payment_status: bpPromoApplied ? 'promo_free' : 'free',
     submitted_at: new Date().toISOString()
   };
+  /* Tie the final submit to the session so it completes the same row the
+     per-page saves built up — only once that feature is live. */
+  if (PARTIAL_SAVE_ENABLED) {
+    payload.session_id = getSessionId();
+    payload.is_partial = false;
+    payload.submission_stage = 'full_survey';
+  }
 
   try {
     const res = await fetch('/api/webhook?type=business-foundation-kit', {
@@ -1504,6 +1573,7 @@ async function submitSurvey() {
     if (res.ok) {
       /* Success — show free confirmation (no prices) */
       localStorage.removeItem(STORAGE_KEY);
+      try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
       document.getElementById('surveySection').style.display = 'none';
       document.getElementById('progressBar').style.display = 'none';
       document.getElementById('successScreen').classList.add('active');

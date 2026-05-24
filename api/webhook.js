@@ -58,7 +58,7 @@ export default async function handler(req, res) {
       break;
 
     case 'business-foundation-kit':
-      // BFK purchase/checkout
+      // BFK survey — supports partial (per-section) saves AND final submit.
       tableName = 'bfk_submissions';
       leadData = {
         tier: body.tier || 'foundation',
@@ -66,11 +66,16 @@ export default async function handler(req, res) {
         client_email: (body.client_email || body.email || '').trim(),
         client_phone: (body.client_phone || body.phone || '').trim() || null,
         answers: body.answers || {},
-        promo_code: body.promo_code || null,
         payment_status: body.payment_status || 'pending',
         submitted_at: new Date().toISOString()
       };
-      slackMessage = `*New BFK purchase*\n*Name:* ${escapeText(leadData.client_name)}\n*Email:* ${escapeText(leadData.client_email)}\n*Tier:* ${escapeText(leadData.tier)}`;
+      // Partial-save support: a session_id lets us upsert one row per visitor
+      // that fills in as they progress, so we keep their data even if they
+      // never reach Submit.
+      if (body.session_id) leadData.session_id = String(body.session_id);
+      if (body.submission_stage) leadData.submission_stage = String(body.submission_stage);
+      leadData.is_partial = body.is_partial === true;
+      slackMessage = `*New BFK submission*\n*Name:* ${escapeText(leadData.client_name)}\n*Email:* ${escapeText(leadData.client_email)}\n*Tier:* ${escapeText(leadData.tier)}`;
       mauticData = {
         email: leadData.client_email,
         firstname: leadData.client_name,
@@ -111,38 +116,54 @@ export default async function handler(req, res) {
       return res.status(400).json({ ok: false, error: 'Unknown webhook type' });
   }
 
-  // Validate required fields
+  // Partial BFK saves (per-section autosave) are allowed without name/email —
+  // the whole point is to keep their answers before they finish. Everything
+  // else still requires name + email.
+  const isPartialSave = webhookType === 'business-foundation-kit' && leadData.is_partial === true;
   const email = leadData.email || leadData.client_email;
   const name = leadData.name || leadData.client_name;
-  if (!email || !name) {
+  if (!isPartialSave && (!email || !name)) {
     return res.status(400).json({ ok: false, error: 'Name and email are required.' });
   }
 
-  // Save to Supabase
+  // Save to Supabase. For BFK with a session_id, UPSERT so each visitor has
+  // one row that fills in as they progress (no duplicate rows per Next click).
+  const useUpsert = webhookType === 'business-foundation-kit' && leadData.session_id;
   let savedRecord = null;
   try {
-    const supabaseRes = await fetch(`${SUPABASE_URL}/rest/v1/${tableName}`, {
+    const endpoint = useUpsert
+      ? `${SUPABASE_URL}/rest/v1/${tableName}?on_conflict=session_id`
+      : `${SUPABASE_URL}/rest/v1/${tableName}`;
+    const preferHeader = useUpsert
+      ? 'return=representation,resolution=merge-duplicates'
+      : 'return=representation';
+    const supabaseRes = await fetch(endpoint, {
       method: 'POST',
       headers: {
         apikey: SUPABASE_KEY,
         Authorization: `Bearer ${SUPABASE_KEY}`,
         'Content-Type': 'application/json',
-        Prefer: 'return=representation'
+        Prefer: preferHeader
       },
       body: JSON.stringify(leadData)
     });
 
     if (!supabaseRes.ok) {
       const errText = await supabaseRes.text();
-      console.error('Supabase insert failed:', supabaseRes.status, errText);
+      console.error('Supabase save failed:', supabaseRes.status, errText);
       return res.status(500).json({ ok: false, error: 'Could not save your submission. Please try again.' });
     }
 
     const rows = await supabaseRes.json();
     savedRecord = Array.isArray(rows) ? rows[0] : rows;
   } catch (err) {
-    console.error('Supabase insert exception:', err);
+    console.error('Supabase save exception:', err);
     return res.status(500).json({ ok: false, error: 'Could not save your submission. Please try again.' });
+  }
+
+  // Partial saves are silent — no Slack/Mautic noise on every section.
+  if (isPartialSave) {
+    return res.status(200).json({ ok: true, record: savedRecord, partial: true });
   }
 
   // Send notifications
