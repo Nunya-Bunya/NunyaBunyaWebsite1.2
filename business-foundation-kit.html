@@ -36,11 +36,15 @@
 .progress-step-label {
   font-family: var(--font-heading); font-weight: 700;
   font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: rgba(255,255,255,0.2); transition: color 0.3s;
+  color: rgba(255,255,255,0.2); transition: color 0.2s;
   text-align: center; flex: 1;
+  cursor: pointer; user-select: none;
 }
+.progress-step-label:hover { color: rgba(255,255,255,0.55); }
 .progress-step-label.active { color: var(--teal); }
+.progress-step-label.active:hover { color: var(--teal); }
 .progress-step-label.done { color: rgba(0,229,204,0.5); }
+.progress-step-label.done:hover { color: rgba(0,229,204,0.85); }
 .progress-bar-track {
   width: 100%; height: 3px; background: var(--subtle); position: relative;
 }
@@ -1473,6 +1477,22 @@ function showStep(step) {
     _paq.push(['trackEvent', 'Survey', 'Step ' + step + ': ' + (STEP_NAMES[step] || ''), 'Free Business Plan']);
   }
 }
+
+/* Jump straight to a section via the top labels. Saves current answers first. */
+function goToStep(step) {
+  step = parseInt(step, 10);
+  if (!step || step < 1 || step > totalSteps) return;
+  saveProgress();
+  savePartialToServer('jumped_from_section_' + currentStep);
+  showStep(step);
+}
+
+/* Make the section labels at the top clickable. */
+document.querySelectorAll('.progress-step-label').forEach(function (label) {
+  label.addEventListener('click', function () {
+    goToStep(label.getAttribute('data-step'));
+  });
+});
 
 function validateCurrentStep() {
   /* Every question is optional — respondents can skip anything. */
