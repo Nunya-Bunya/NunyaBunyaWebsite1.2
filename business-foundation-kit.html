@@ -23,7 +23,7 @@
 
 /* Progress Bar */
 .survey-progress {
-  position: sticky; top: 60px; z-index: 50;
+  position: sticky; top: 0; z-index: 101;
   background: var(--dark2); border-bottom: 1px solid var(--subtle);
   padding: 16px 48px;
 }
@@ -313,7 +313,7 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .survey-progress { padding: 12px 16px; top: 56px; }
+  .survey-progress { padding: 12px 16px; top: 0; }
   .progress-steps { display: none; }
   .how-steps { grid-template-columns: 1fr; }
   .checkbox-grid { grid-template-columns: 1fr; }
@@ -1435,6 +1435,10 @@ function startSurvey() {
   /* Hide footer during survey */
   var footer = document.querySelector('footer');
   if (footer) footer.style.display = 'none';
+  /* Hide the site nav so the category bar owns the top of the screen and the
+     nav never scrolls back over it. */
+  var siteNav = document.querySelector('nav');
+  if (siteNav) siteNav.style.display = 'none';
 
   document.getElementById('progressBar').style.display = 'block';
   document.getElementById('surveySection').style.display = 'block';
