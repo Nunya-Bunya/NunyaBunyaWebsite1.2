@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Recover My Survey Answers — Nunya Bunya</title>
+  <style>
+    :root { --teal:#00E5CC; --dark:#0d0d0d; --dark2:#161616; --subtle:#2a2a2a; --muted:#8a8a8a; }
+    * { box-sizing: border-box; }
+    body {
+      margin:0; background:var(--dark); color:#fff;
+      font-family:'Plus Jakarta Sans',-apple-system,system-ui,sans-serif;
+      line-height:1.55; padding:32px 20px;
+    }
+    .wrap { max-width:760px; margin:0 auto; }
+    h1 { font-size:26px; margin:0 0 6px; }
+    .sub { color:var(--muted); margin:0 0 28px; font-size:15px; }
+    .card { background:var(--dark2); border:1px solid var(--subtle); border-radius:10px; padding:24px; margin-bottom:20px; }
+    .ok { border-color:rgba(0,229,204,0.4); }
+    .bad { border-color:rgba(255,80,80,0.5); }
+    .status { font-size:18px; font-weight:700; margin:0 0 6px; }
+    .status.ok { color:var(--teal); }
+    .status.bad { color:#ff6b6b; }
+    .count { color:var(--muted); font-size:14px; margin:0 0 18px; }
+    button {
+      background:var(--teal); color:#06231f; border:none; border-radius:8px;
+      font-size:16px; font-weight:700; padding:14px 22px; cursor:pointer;
+      margin:0 10px 10px 0; transition:opacity .15s;
+    }
+    button:hover { opacity:.88; }
+    button.secondary { background:transparent; color:var(--teal); border:1px solid var(--teal); }
+    .answers { margin-top:24px; }
+    .qa { padding:14px 0; border-bottom:1px solid var(--subtle); }
+    .qa:last-child { border-bottom:none; }
+    .q { font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--teal); margin:0 0 4px; }
+    .a { font-size:15px; white-space:pre-wrap; word-break:break-word; margin:0; }
+    .copied { color:var(--teal); font-weight:700; font-size:14px; display:none; margin-left:6px; }
+    .hint { color:var(--muted); font-size:13px; margin-top:16px; }
+    a { color:var(--teal); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Recover My Survey Answers</h1>
+    <p class="sub">This reads the answers saved in this browser from the Business Foundation survey. Nothing is sent anywhere until you choose to.</p>
+
+    <div class="card" id="statusCard">
+      <p class="status" id="statusLine">Checking…</p>
+      <p class="count" id="countLine"></p>
+      <div id="actions" style="display:none;">
+        <button id="copyBtn">Copy all my answers</button>
+        <button id="downloadBtn" class="secondary">Download as a file</button>
+        <span class="copied" id="copiedMsg">Copied! Now paste it into a reply.</span>
+        <p class="hint">Easiest option: click <b>Copy all my answers</b>, then paste it into a message back to us. That's your safety net — once we have this, your 2 hours are safe no matter what.</p>
+      </div>
+      <div id="emptyHelp" style="display:none;">
+        <p class="hint">No saved answers were found <b>in this browser</b>. They're only stored on the exact device + browser you used to fill out the survey. If you used a different browser, a private/incognito window, or cleared your history, they may not be here. If you think you used this browser, don't refresh or close anything — message us and we'll help.</p>
+      </div>
+    </div>
+
+    <div class="answers" id="answersList"></div>
+  </div>
+
+  <script>
+    var STORAGE_KEY = 'nb_bfk_survey';
+    var raw = null;
+    try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+
+    var statusLine = document.getElementById('statusLine');
+    var countLine = document.getElementById('countLine');
+    var actions = document.getElementById('actions');
+    var emptyHelp = document.getElementById('emptyHelp');
+    var statusCard = document.getElementById('statusCard');
+    var answersList = document.getElementById('answersList');
+
+    function isEmpty(obj) {
+      var keys = Object.keys(obj).filter(function (k) { return k !== '_step'; });
+      var hasAny = keys.some(function (k) {
+        var v = obj[k];
+        return v !== null && v !== undefined && String(v).trim() !== '';
+      });
+      return !hasAny;
+    }
+
+    if (!raw) {
+      statusLine.textContent = 'No saved answers found in this browser.';
+      statusLine.className = 'status bad';
+      statusCard.classList.add('bad');
+      emptyHelp.style.display = 'block';
+    } else {
+      var data;
+      try { data = JSON.parse(raw); } catch (e) { data = null; }
+      if (!data || isEmpty(data)) {
+        statusLine.textContent = 'No usable answers found in this browser.';
+        statusLine.className = 'status bad';
+        statusCard.classList.add('bad');
+        emptyHelp.style.display = 'block';
+      } else {
+        var answered = Object.keys(data).filter(function (k) {
+          return k !== '_step' && data[k] !== null && String(data[k]).trim() !== '';
+        });
+        statusLine.textContent = 'Your answers are safe.';
+        statusLine.className = 'status ok';
+        statusCard.classList.add('ok');
+        countLine.textContent = answered.length + ' answers found and saved in this browser.';
+        actions.style.display = 'block';
+
+        // Render readable list
+        answered.sort(function (a, b) {
+          var qa = /^q\d+$/.test(a), qb = /^q\d+$/.test(b);
+          if (qa && qb) return parseInt(a.slice(1), 10) - parseInt(b.slice(1), 10);
+          if (qa) return -1;   // numbered questions first, in order
+          if (qb) return 1;
+          return a.localeCompare(b);  // then named fields (contact details)
+        });
+        answered.forEach(function (k) {
+          var label = /^q\d+$/.test(k) ? ('Question ' + k.replace('q', '')) : k.replace(/_/g, ' ');
+          var div = document.createElement('div');
+          div.className = 'qa';
+          var q = document.createElement('p'); q.className = 'q'; q.textContent = label;
+          var a = document.createElement('p'); a.className = 'a'; a.textContent = data[k];
+          div.appendChild(q); div.appendChild(a);
+          answersList.appendChild(div);
+        });
+
+        // Build a clean text version for copy/download
+        function buildText() {
+          var lines = ['Business Foundation Survey — saved answers', ''];
+          answered.forEach(function (k) {
+            var label = /^q\d+$/.test(k) ? ('Q' + k.replace('q', '')) : k.replace(/_/g, ' ');
+            lines.push(label + ': ' + data[k]);
+            lines.push('');
+          });
+          lines.push('--- raw backup (do not edit) ---');
+          lines.push(raw);
+          return lines.join('\n');
+        }
+
+        document.getElementById('copyBtn').addEventListener('click', function () {
+          var text = buildText();
+          function done() {
+            document.getElementById('copiedMsg').style.display = 'inline';
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, function () {
+              window.prompt('Copy this text and send it to us:', text);
+            });
+          } else {
+            window.prompt('Copy this text and send it to us:', text);
+          }
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', function () {
+          var blob = new Blob([buildText()], { type: 'text/plain' });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url; a.download = 'my-survey-answers.txt';
+          document.body.appendChild(a); a.click();
+          document.body.removeChild(a); URL.revokeObjectURL(url);
+        });
+      }
+    }
+  </script>
+</body>
+</html>
