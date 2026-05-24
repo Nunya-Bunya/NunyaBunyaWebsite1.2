@@ -782,9 +782,44 @@
 
         <div class="question-block" data-q="35b">
           <span class="question-number">Question 35b</span>
-          <div class="question-text">What's your website URL? (if you have one)</div>
-          <div class="question-hint">We'll look at your site to match your existing brand. Leave blank if you don't have one yet.</div>
+          <div class="question-text">Got a website we can look at?</div>
+          <div class="question-hint">Drop the link and we'll pull your existing colours, fonts and vibe straight from it — saves you describing them. Leave blank if you don't have one yet.</div>
           <div class="form-group"><input class="form-input" type="url" name="q35b" placeholder="https://yourbusiness.com"></div>
+        </div>
+
+        <div class="question-block" data-q="35c">
+          <span class="question-number">Question 35c</span>
+          <div class="question-text">Your brand colours</div>
+          <div class="question-hint">If you know your exact colour codes (hex), pop them in — we'll use them everywhere. Don't know them? Just describe your colours below and we'll match.</div>
+          <div class="form-group" style="display:flex;gap:12px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:180px;">
+              <label class="form-label" style="font-size:12px;color:var(--muted);">Primary colour</label>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <input type="color" name="brand_color_primary_picker" value="#00E5CC" style="width:46px;height:42px;padding:2px;border:1px solid var(--subtle);background:var(--dark);border-radius:6px;cursor:pointer;" oninput="syncColorHex(this,'brand_color_primary')">
+                <input class="form-input" type="text" name="brand_color_primary" placeholder="#00E5CC" style="flex:1;" oninput="syncColorPicker(this,'brand_color_primary_picker')">
+              </div>
+            </div>
+            <div style="flex:1;min-width:180px;">
+              <label class="form-label" style="font-size:12px;color:var(--muted);">Secondary colour</label>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <input type="color" name="brand_color_secondary_picker" value="#7B4FE0" style="width:46px;height:42px;padding:2px;border:1px solid var(--subtle);background:var(--dark);border-radius:6px;cursor:pointer;" oninput="syncColorHex(this,'brand_color_secondary')">
+                <input class="form-input" type="text" name="brand_color_secondary" placeholder="#7B4FE0" style="flex:1;" oninput="syncColorPicker(this,'brand_color_secondary_picker')">
+              </div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:10px;">
+            <input class="form-input" type="text" name="brand_colors_described" placeholder="Don't know the codes? Describe them — e.g. 'warm gold + teal, like my logo'">
+          </div>
+        </div>
+
+        <div class="question-block" data-q="35d">
+          <span class="question-number">Question 35d</span>
+          <div class="question-text">Your fonts (if you have brand fonts)</div>
+          <div class="question-hint">The fonts your brand uses. If you're not sure, leave blank and we'll choose a pairing that fits your vibe.</div>
+          <div class="form-group" style="display:flex;gap:12px;flex-wrap:wrap;">
+            <input class="form-input" type="text" name="brand_font_heading" placeholder="Heading font (e.g. Poppins)" style="flex:1;min-width:160px;">
+            <input class="form-input" type="text" name="brand_font_body" placeholder="Body font (e.g. Inter)" style="flex:1;min-width:160px;">
+          </div>
         </div>
 
         <div class="question-block" data-q="36">
@@ -1479,6 +1514,19 @@ function showStep(step) {
   /* Track step progression */
   if (typeof _paq !== 'undefined') {
     _paq.push(['trackEvent', 'Survey', 'Step ' + step + ': ' + (STEP_NAMES[step] || ''), 'Free Business Plan']);
+  }
+}
+
+/* Keep the colour picker and hex text field in sync (brand colour question). */
+function syncColorHex(picker, textName) {
+  var t = document.querySelector('[name="' + textName + '"]');
+  if (t) t.value = picker.value;
+}
+function syncColorPicker(text, pickerName) {
+  var v = (text.value || '').trim();
+  if (/^#?[0-9A-Fa-f]{6}$/.test(v)) {
+    var p = document.querySelector('[name="' + pickerName + '"]');
+    if (p) p.value = v.charAt(0) === '#' ? v : '#' + v;
   }
 }
 
