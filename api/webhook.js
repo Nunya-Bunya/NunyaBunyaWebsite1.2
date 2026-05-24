@@ -69,12 +69,14 @@ export default async function handler(req, res) {
         payment_status: body.payment_status || 'pending',
         submitted_at: new Date().toISOString()
       };
-      // Partial-save support: a session_id lets us upsert one row per visitor
-      // that fills in as they progress, so we keep their data even if they
-      // never reach Submit.
+      // Partial-save support (DORMANT until bfk_submissions has the
+      // session_id / is_partial / submission_stage columns). Only attach these
+      // when the request actually carries them — otherwise a normal final
+      // submit would send columns that don't exist yet and Supabase rejects
+      // the whole insert (PGRST204 -> 500 "Could not save your submission").
       if (body.session_id) leadData.session_id = String(body.session_id);
       if (body.submission_stage) leadData.submission_stage = String(body.submission_stage);
-      leadData.is_partial = body.is_partial === true;
+      if (body.is_partial === true) leadData.is_partial = true;
       slackMessage = `*New BFK submission*\n*Name:* ${escapeText(leadData.client_name)}\n*Email:* ${escapeText(leadData.client_email)}\n*Tier:* ${escapeText(leadData.tier)}`;
       mauticData = {
         email: leadData.client_email,
