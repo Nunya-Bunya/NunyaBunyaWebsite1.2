@@ -59,6 +59,14 @@
   .form-success-icon { font-size: 44px; color: var(--teal); }
   .form-success-title { font-family: var(--font-heading); text-transform: uppercase; font-size: 26px; margin: 8px 0; }
   .form-success-text { color: var(--muted); font-weight: 300; }
+  .promo-row { display: flex; gap: 10px; align-items: stretch; }
+  .promo-row .form-input { flex: 1; text-transform: uppercase; letter-spacing: 0.08em; }
+  .promo-apply { white-space: nowrap; padding: 0 22px; }
+  .promo-result { font-size: 13px; margin-top: 8px; min-height: 18px; font-weight: 500; }
+  .promo-result.ok { color: var(--teal); }
+  .promo-result.bad { color: #ff6b6b; }
+  .price-tag .now.discounted { color: var(--teal); }
+  .price-tag .was-inline { font-size: 18px; color: var(--muted); text-decoration: line-through; margin-left: 4px; }
   @media (max-width: 600px) { .how-row { gap: 14px; } .cd-form-wrap { padding: 28px 20px; } }
 </style>
 </head>
@@ -90,9 +98,9 @@
     <h1>One day on the floor.<br>A <span>year</span> of brand content.</h1>
     <p class="cd-sub">No production crew in your way. I show up for a single day and leave you with a cinematic hero film, fifty-plus stills, a stack of native vertical reels, and brand films — enough to anchor your homepage and feed your socials for the next ninety days and beyond.</p>
 
-    <div class="price-tag">
+    <div class="price-tag" id="priceTag">
       <span class="lbl">Content Day</span>
-      <span class="now">$3,650</span>
+      <span class="now" id="priceNow">$3,650</span>
     </div>
     <div class="price-note">AUD &middot; 50% deposit locks your date &middot; full ownership of every file</div>
     <div style="margin-top:32px;">
@@ -226,6 +234,14 @@
           <label class="form-label" for="message">Tell me about your space</label>
           <textarea class="form-textarea" id="message" name="message" placeholder="What's the business, where are you, and what would you most want on camera?"></textarea>
         </div>
+        <div class="form-group">
+          <label class="form-label" for="promo">Have a code?</label>
+          <div class="promo-row">
+            <input class="form-input" type="text" id="promo" name="promo" placeholder="Enter code" autocapitalize="characters" spellcheck="false">
+            <button type="button" class="btn-outline promo-apply" id="promoApply">Apply</button>
+          </div>
+          <p class="promo-result" id="promoResult"></p>
+        </div>
         <button type="submit" class="btn-submit" id="submitBtn">Request my Content Day</button>
         <p class="form-error" id="formError" style="color:#ff4444;font-size:13px;text-align:center;margin-top:12px;display:none;"></p>
       </form>
@@ -269,6 +285,47 @@
   const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
 
+  // ── Promo code ──────────────────────────────────────────────
+  const BASE_PRICE = 3650;
+  let appliedPromo = null;
+  function fmt(n) { return '$' + n.toLocaleString('en-AU'); }
+  function priceAfter(pct) { return fmt(Math.round(BASE_PRICE * (1 - pct / 100))); }
+
+  async function applyPromo() {
+    const input = document.getElementById('promo');
+    const result = document.getElementById('promoResult');
+    const priceNow = document.getElementById('priceNow');
+    const code = input.value.trim().toUpperCase();
+    result.className = 'promo-result';
+    if (!code) { result.textContent = ''; return; }
+    result.textContent = 'Checking…'; result.classList.remove('ok', 'bad');
+    try {
+      const res = await fetch('/api/validate-promo?code=' + encodeURIComponent(code));
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        appliedPromo = { code: data.promo.code, discount_percent: data.promo.discount_percent };
+        const final = priceAfter(appliedPromo.discount_percent);
+        result.textContent = '✓ ' + appliedPromo.discount_percent + '% off applied — ' + final;
+        result.classList.add('ok');
+        // reflect on the hero price tag
+        priceNow.classList.add('discounted');
+        priceNow.innerHTML = final + ' <span class="was-inline">' + fmt(BASE_PRICE) + '</span>';
+      } else {
+        appliedPromo = null;
+        result.textContent = data.error || 'Invalid code';
+        result.classList.add('bad');
+        priceNow.classList.remove('discounted');
+        priceNow.textContent = fmt(BASE_PRICE);
+      }
+    } catch (err) {
+      appliedPromo = null;
+      result.textContent = 'Could not check code — try again.';
+      result.classList.add('bad');
+    }
+  }
+  document.getElementById('promoApply').addEventListener('click', applyPromo);
+  document.getElementById('promo').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); applyPromo(); } });
+
   async function handleContentDay(e) {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
@@ -282,7 +339,13 @@
     if (!name || !email) return;
     btn.disabled = true; btn.textContent = 'Sending...'; errorEl.style.display = 'none';
 
-    const fullMessage = (business ? 'Business: ' + business + '\n\n' : '') + message;
+    let fullMessage = (business ? 'Business: ' + business + '\n\n' : '') + message;
+    let interest = 'Content Day ($3,650)';
+    if (appliedPromo) {
+      const final = priceAfter(appliedPromo.discount_percent);
+      interest = 'Content Day ($3,650 — code ' + appliedPromo.code + ' -' + appliedPromo.discount_percent + '% → ' + final + ')';
+      fullMessage = 'PROMO: ' + appliedPromo.code + ' (' + appliedPromo.discount_percent + '% off → ' + final + ')\n\n' + fullMessage;
+    }
 
     try {
       const res = await fetch('/api/submit-lead', {
@@ -292,7 +355,7 @@
           name,
           email,
           phone,
-          interest: 'Content Day ($3,650)',
+          interest,
           message: fullMessage,
           source: 'content-day',
           page: 'content-day'
