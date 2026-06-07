@@ -1,6 +1,35 @@
 // Vercel serverless function — handles various webhook submissions from frontend
 // Centralizes lead capture for different form types and stores in Supabase
-import { sendSlackAlert, sendMauticSubmission, escapeText } from '../lib/notifications.js';
+import { sendSlackAlert, sendMauticSubmission, escapeText, sendEmailNotification } from '../lib/notifications.js';
+
+// The free guide, sent automatically when someone opts in on business-plan-guide.html.
+// (Source of truth for the prose: Content/business-plan-engine/01-LEAD-MAGNET.md)
+function businessPlanGuideEmail(firstName) {
+  const hi = firstName ? `Hi ${escapeText(firstName)},` : 'Hi there,';
+  return `<!DOCTYPE html><html><body style="margin:0;background:#0D0D0D;font-family:'Helvetica Neue',Arial,sans-serif;color:#e8e8e8;">
+  <div style="max-width:600px;margin:0 auto;padding:40px 28px;">
+    <p style="font-family:'Courier New',monospace;color:#00E5CC;letter-spacing:3px;font-size:12px;text-transform:uppercase;">// Nunya Bunya · Free Guide</p>
+    <h1 style="color:#fff;font-size:30px;line-height:1.1;text-transform:uppercase;font-weight:900;margin:8px 0 24px;">What great business plans get right</h1>
+    <p>${hi}</p>
+    <p>Here's the guide you asked for. Almost every "business plan template" you'll download is built backwards. It asks you to fill in thirty boxes designed to make a bank comfortable, not to make your business work. The plans that actually built companies do the opposite: short, specific, and obsessed with a few things.</p>
+    <h2 style="color:#00E5CC;font-size:18px;text-transform:uppercase;margin-top:30px;">5 plans worth studying</h2>
+    <p><strong style="color:#fff;">1. Airbnb's pitch (2008)</strong> — ten slides, led with the <em>problem</em>, not the product. Once you believed the problem, the product was obvious.</p>
+    <p><strong style="color:#fff;">2. The one-page plan</strong> — short on purpose. If you can't say who you serve, what you sell, how you reach them and how you make money on one page, you don't understand your business yet.</p>
+    <p><strong style="color:#fff;">3. Tesla's master plan (2006)</strong> — four sentences. It showed the <em>order of operations</em>: what we do first, and what that unlocks. A plan is a sequence, not a feature list.</p>
+    <p><strong style="color:#fff;">4. The local business that gets the loan</strong> — knew its numbers cold. It could survive the one question that kills most plans: "walk me through the money."</p>
+    <p><strong style="color:#fff;">5. The lean anti-plan</strong> — a list of the riskiest assumptions and the cheapest way to test each one in 90 days. More honest than a confident forecast that's wrong by week two.</p>
+    <h2 style="color:#00E5CC;font-size:18px;text-transform:uppercase;margin-top:30px;">The 5 things they share</h2>
+    <p>1. Names the problem so clearly you feel it.<br>2. Knows exactly who it's for (one customer, in detail).<br>3. Can explain the money in one breath.<br>4. Has an order of operations.<br>5. Is honest about the risks.</p>
+    <h2 style="color:#00E5CC;font-size:18px;text-transform:uppercase;margin-top:30px;">The Monday test</h2>
+    <p>Read every section of your plan and ask: <strong style="color:#fff;">could I act on this on Monday?</strong> "Leverage strategic synergies" fails. "This week I call the ten people most likely to have this problem" passes. The job of a plan isn't to impress — it's to tell you what to do next.</p>
+    <div style="margin:36px 0;padding:24px;background:#141414;border:1px solid #00E5CC;border-radius:14px;">
+      <p style="margin:0 0 14px;color:#fff;">Rather not start from a blank page? Answer ten questions and we'll build you a custom plan that passes the Monday test — your market, your numbers, a 90-day order of operations.</p>
+      <a href="https://www.nunyabunya.com/business-plan.html" style="display:inline-block;background:#00E5CC;color:#0D0D0D;text-decoration:none;font-weight:700;padding:12px 24px;border-radius:30px;">Build my plan — $89 →</a>
+      <p style="margin:12px 0 0;color:#888;font-size:13px;">$89, normally $299. Built for your business, not a template.</p>
+    </div>
+    <p style="color:#888;font-size:13px;">— Ben, Nunya Bunya<br>nunyabunya.com</p>
+  </div></body></html>`;
+}
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -227,6 +256,21 @@ export default async function handler(req, res) {
       }
     } catch (e) {
       console.error('Mautic error:', e);
+    }
+  }
+
+  // Auto-deliver the free guide to lead-magnet opt-ins (business-plan-guide page).
+  // Uses Resend via sendEmailNotification; from = ben@ so it reads as a personal send.
+  if (webhookType === 'lead-magnet' && (leadData.page === 'business-plan-guide' || leadData.source === 'business-plan-guide') && leadData.email) {
+    try {
+      await sendEmailNotification(
+        leadData.email,
+        'Your business-plan breakdown (free guide)',
+        businessPlanGuideEmail(leadData.name),
+        'Ben at Nunya Bunya <ben@nunyabunya.com>'
+      );
+    } catch (e) {
+      console.error('Guide auto-send failed:', e);
     }
   }
 
