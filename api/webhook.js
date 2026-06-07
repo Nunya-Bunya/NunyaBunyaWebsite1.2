@@ -101,6 +101,31 @@ export default async function handler(req, res) {
       mauticData = { email: leadData.email, firstname: leadData.name, phone: leadData.phone };
       break;
 
+    case 'business-plan': {
+      // $89 Business Plan quiz — captures intake answers, then the buyer is sent
+      // to the Stripe Payment Link. The answers ride along so Ben (or the auto
+      // delivery handler) can run generate_plan.py on them. Stores in `leads`.
+      const a = body.answers || {};
+      const fields = ['business_name','owner_name','what_it_does','customer','problem','offer','location','stage','goal','edge'];
+      const answersText = fields
+        .filter(k => (a[k] || '').toString().trim())
+        .map(k => `${k}: ${a[k].toString().trim()}`)
+        .join('\n');
+      leadData = {
+        name: (a.owner_name || body.name || '').trim(),
+        email: (body.email || a.email || '').trim(),
+        phone: (body.phone || '').trim() || null,
+        source: 'business-plan',
+        page: 'business-plan-quiz',
+        interest: 'Business Plan ($89)',
+        message: answersText,
+        created_at: new Date().toISOString()
+      };
+      slackMessage = `*🧾 New Business Plan quiz* ($89)\n*Name:* ${escapeText(leadData.name)}\n*Email:* ${escapeText(leadData.email)}\n*Business:* ${escapeText(a.business_name || '—')}\n\n*Answers (for generate_plan.py):*\n${escapeText(answersText)}`;
+      mauticData = { email: leadData.email, firstname: leadData.name, phone: leadData.phone };
+      break;
+    }
+
     case 'voice-memo':
       // Voice memo submission
       tableName = 'voice_memos';
