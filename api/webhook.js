@@ -72,6 +72,21 @@ export default async function handler(req, res) {
       mauticData = { email: leadData.email, firstname: leadData.name, phone: leadData.phone };
       break;
 
+    case 'business-plan-guide':
+      // Free "What Great Business Plans Get Right" guide opt-in. Auto-emails the guide below.
+      leadData = {
+        name: (body.name || '').trim(),
+        email: (body.email || '').trim(),
+        source: 'business-plan-guide',
+        page: 'business-plan-guide',
+        interest: 'business-plan-guide (free lead magnet)',
+        message: (body.message || '').trim() || null,
+        created_at: new Date().toISOString()
+      };
+      slackMessage = `*📘 Free guide opt-in* (Business Plan)\n*Name:* ${escapeText(leadData.name)}\n*Email:* ${escapeText(leadData.email)}`;
+      mauticData = { email: leadData.email, firstname: leadData.name };
+      break;
+
     case 'subscribe':
       // Newsletter subscription
       leadData = {
@@ -261,7 +276,7 @@ export default async function handler(req, res) {
 
   // Auto-deliver the free guide to lead-magnet opt-ins (business-plan-guide page).
   // Uses Resend via sendEmailNotification; from = ben@ so it reads as a personal send.
-  if (webhookType === 'lead-magnet' && (leadData.page === 'business-plan-guide' || leadData.source === 'business-plan-guide') && leadData.email) {
+  if (webhookType === 'business-plan-guide' && leadData.email) {
     try {
       await sendEmailNotification(
         leadData.email,
