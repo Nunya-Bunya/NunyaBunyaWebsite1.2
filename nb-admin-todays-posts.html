@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Today's Posts | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+/* ── Daily briefing header ── */
+.briefing-header {
+  background: linear-gradient(135deg, rgba(0,229,204,0.06), rgba(255,45,120,0.03));
+  border: 1px solid rgba(0,229,204,0.12); border-radius: 16px;
+  padding: 28px 32px; margin-bottom: 32px;
+}
+.briefing-date { font-family: var(--font-heading); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--teal); }
+.briefing-summary { font-size: 18px; color: rgba(255,255,255,0.85); margin-top: 8px; font-weight: 300; line-height: 1.5; }
+.briefing-stats { display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
+.briefing-stat { font-size: 13px; color: var(--muted); }
+.briefing-stat strong { color: var(--white); font-weight: 600; }
+
+/* ── No posts state ── */
+.rest-day-banner {
+  text-align: center; padding: 80px 20px;
+  background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+}
+.rest-day-banner h2 { font-family: var(--font-heading); font-size: 32px; font-weight: 900; text-transform: uppercase; color: var(--teal); }
+.rest-day-banner p { font-size: 16px; color: var(--muted); font-weight: 300; margin-top: 8px; }
+
+/* ── Post cards ── */
+.post-card {
+  background: var(--dark2); border: 1px solid var(--subtle); border-radius: 16px;
+  margin-bottom: 20px; overflow: hidden; transition: border-color 0.3s;
+}
+.post-card:hover { border-color: rgba(255,255,255,0.1); }
+.post-card-header {
+  padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--subtle);
+}
+.post-biz { font-family: var(--font-heading); font-size: 18px; font-weight: 900; text-transform: uppercase; }
+.post-meta { display: flex; align-items: center; gap: 12px; }
+.post-type-badge {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 4px 10px; border-radius: 6px; background: rgba(255,255,255,0.06); color: var(--muted);
+}
+.post-status-toggle {
+  width: 32px; height: 32px; border-radius: 8px; border: 2px solid var(--subtle);
+  background: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: transparent; transition: all 0.2s;
+}
+.post-status-toggle:hover { border-color: var(--teal); }
+.post-status-toggle.posted { background: var(--teal); border-color: var(--teal); color: var(--dark); }
+
+/* Platform pills */
+.post-platforms { padding: 16px 24px 0; display: flex; gap: 8px; flex-wrap: wrap; }
+.plat-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 500;
+}
+.plat-pill.ig { background: rgba(225,48,108,0.12); color: #E1306C; }
+.plat-pill.fb { background: rgba(24,119,242,0.12); color: #5B9EF4; }
+.plat-pill.li { background: rgba(10,102,194,0.12); color: #5B9EF4; }
+.plat-pill.tw { background: rgba(29,161,242,0.12); color: #1DA1F2; }
+.plat-pill.gbp { background: rgba(52,168,83,0.12); color: #34A853; }
+.plat-pill .plat-dot { width: 6px; height: 6px; border-radius: 50%; }
+.plat-pill .plat-dot.ig { background: #E1306C; }
+.plat-pill .plat-dot.fb { background: #1877F2; }
+.plat-pill .plat-dot.li { background: #0A66C2; }
+.plat-pill .plat-dot.tw { background: #1DA1F2; }
+.plat-pill .plat-dot.gbp { background: #34A853; }
+
+/* Caption block */
+.post-caption-wrap { padding: 16px 24px; }
+.post-caption-label {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
+}
+.post-caption-label span {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+  font-family: var(--font-heading); font-weight: 700;
+}
+.copy-btn {
+  padding: 4px 12px; border-radius: 6px; border: 1px solid var(--subtle);
+  background: none; color: var(--muted); font-size: 11px; cursor: pointer;
+  font-family: var(--font-heading); font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.04em; transition: all 0.2s;
+}
+.copy-btn:hover { border-color: var(--teal); color: var(--teal); }
+.copy-btn.copied { border-color: var(--teal); color: var(--teal); background: rgba(0,229,204,0.1); }
+.post-caption {
+  background: var(--dark3); border-radius: 10px; padding: 16px 20px;
+  font-size: 14px; line-height: 1.7; white-space: pre-wrap; font-weight: 300;
+  color: rgba(255,255,255,0.85); max-height: 200px; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: var(--subtle) transparent;
+}
+
+/* Fields row (CTA, Image, Pillar) */
+.post-fields { padding: 0 24px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.post-field { }
+.post-field-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-family: var(--font-heading); font-weight: 700; margin-bottom: 4px; }
+.post-field-value { font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 300; line-height: 1.5; }
+
+/* Notes */
+.post-notes-wrap { padding: 0 24px 20px; }
+.post-notes {
+  width: 100%; min-height: 50px; background: var(--dark3); border: 1px solid var(--subtle);
+  border-radius: 8px; color: var(--white); padding: 10px 14px; font-family: var(--font-body);
+  font-size: 12px; resize: vertical; font-weight: 300;
+}
+.post-notes:focus { outline: none; border-color: var(--teal); }
+.post-notes::placeholder { color: rgba(255,255,255,0.15); }
+
+/* ── Engagement reminder ── */
+.engage-reminder {
+  background: rgba(255,184,0,0.06); border: 1px solid rgba(255,184,0,0.15);
+  border-radius: 12px; padding: 16px 20px; margin-bottom: 32px;
+}
+.engage-reminder-title { font-family: var(--font-heading); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--yellow); }
+.engage-reminder-text { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 6px; font-weight: 300; line-height: 1.6; }
+
+/* ── Mini calendar ── */
+.mini-cal-section { margin-top: 40px; }
+.mini-cal-header {
+  font-family: var(--font-heading); font-weight: 700; font-size: 18px;
+  text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.mini-cal-header .badge {
+  font-size: 11px; background: rgba(0,229,204,0.15); color: var(--teal);
+  padding: 2px 10px; border-radius: 10px; font-weight: 500; font-family: var(--font-body);
+}
+.mini-cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--subtle); border-radius: 12px; overflow: hidden; }
+.mini-cal-hdr {
+  background: var(--dark3); padding: 8px 4px; text-align: center;
+  font-family: var(--font-heading); font-weight: 700; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
+}
+.mini-cal-day {
+  background: var(--dark2); min-height: 70px; padding: 6px; position: relative;
+  cursor: pointer; transition: background 0.15s;
+}
+.mini-cal-day:hover { background: var(--dark3); }
+.mini-cal-day.other { opacity: 0.2; }
+.mini-cal-day.today { border: 2px solid var(--teal); }
+.mini-cal-day.selected { background: rgba(0,229,204,0.08); }
+.mini-cal-day .day-num { font-family: var(--font-heading); font-weight: 700; font-size: 12px; color: var(--muted); }
+.mini-cal-day.today .day-num { color: var(--teal); }
+.mini-cal-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin: 1px; }
+.mini-cal-dot.nb { background: var(--teal); }
+.mini-cal-dot.pp { background: var(--magenta); }
+.mini-cal-dot.paw { background: var(--yellow); }
+.mini-cal-dot.bac { background: var(--blue); }
+.mini-cal-dots { margin-top: 4px; line-height: 1; }
+
+/* Nav arrows */
+.day-nav { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+.day-nav button {
+  background: none; border: 1px solid var(--subtle); color: var(--muted);
+  width: 36px; height: 36px; border-radius: 8px; cursor: pointer; font-size: 16px;
+  transition: all 0.2s;
+}
+.day-nav button:hover { border-color: var(--teal); color: var(--teal); }
+.day-nav h2 { font-family: var(--font-heading); font-weight: 700; font-size: 22px; min-width: 200px; }
+.day-nav .today-btn { font-size: 12px; padding: 6px 14px; width: auto; font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+
+/* Business color bars on cards */
+.post-card[data-biz="nb"] { border-left: 4px solid var(--teal); }
+.post-card[data-biz="pp"] { border-left: 4px solid var(--magenta); }
+.post-card[data-biz="paw"] { border-left: 4px solid var(--yellow); }
+.post-card[data-biz="bac"] { border-left: 4px solid var(--blue); }
+
+@media (max-width: 700px) {
+  .post-fields { grid-template-columns: 1fr; }
+  .briefing-stats { flex-direction: column; gap: 8px; }
+}
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Today's <span>Posts</span></h1>
+    </div>
+
+    <!-- Day Navigation -->
+    <div class="day-nav">
+      <button onclick="changeDay(-1)">&larr;</button>
+      <h2 id="dayLabel"></h2>
+      <button onclick="changeDay(1)">&rarr;</button>
+      <button class="today-btn" onclick="goToday()">Today</button>
+    </div>
+
+    <!-- Briefing Header -->
+    <div class="briefing-header" id="briefing"></div>
+
+    <!-- Post Cards -->
+    <div id="postCards"></div>
+
+    <!-- Engagement Reminder -->
+    <div class="engage-reminder" id="engageReminder" style="display:none">
+      <div class="engage-reminder-title">After Posting</div>
+      <div class="engage-reminder-text">
+        Spend 3-5 minutes per platform engaging with other accounts AFTER each post.
+        Like, comment, and reply to people in your niche. This is what makes the algorithm show your content to more people.
+        Automated posts without engagement get buried. Manual posting with 5 minutes of engagement compounds.
+      </div>
+    </div>
+
+    <!-- Mini Calendar -->
+    <div class="mini-cal-section">
+      <div class="mini-cal-header">May 2026 <span class="badge" id="calBadge"></span></div>
+      <div class="mini-cal" id="miniCal"></div>
+    </div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+// ============================================================
+// ALL CALENDAR DATA — MAY 2026
+// ============================================================
+
+const BIZ = {
+  nb:  { name: 'Nunya Bunya',       color: 'var(--teal)',    colorClass: 'nb' },
+  pp:  { name: 'Power Portraits',    color: 'var(--magenta)', colorClass: 'pp' },
+  paw: { name: 'Pawesome Dog Walkers', color: 'var(--yellow)', colorClass: 'paw' },
+  bac: { name: 'Ben Alek Conner',    color: 'var(--blue)',    colorClass: 'bac' },
+};
+
+const PLAT_NAMES = { ig:'Instagram', fb:'Facebook', li:'LinkedIn', tw:'Twitter', gbp:'Google Business' };
+
+const POSTS = [
+  // ── NUNYA BUNYA ──
+  { id:'nb-1', biz:'nb', day:1, platforms:['ig','li'], type:'Value Post', pillar:'Authority', title:'Marketing systems vs vibes', caption:"Most small businesses in Brisbane are paying $2,500/month for marketing that amounts to scheduled social posts and a monthly PDF report.\n\nHere's what that should actually look like:\n- A website that loads in under 2 seconds and ranks for your suburb\n- Email sequences that follow up with leads while you sleep\n- A dashboard where you can see exactly what's working\n\nWe build marketing systems. Not vibes.\n\nIf you're a solopreneur or small team in Brisbane and you want to see what a real marketing setup looks like, the website's in the bio.", cta:'Link to nunyabunya.com', image:'Screenshot of NBHQ dashboard or website homepage', hashtags:'#BrisbaneMarketing #SmallBusinessBrisbane #MarketingSystems #BrisbaneSmallBusiness #DigitalMarketingBrisbane #MarketingAgencyBrisbane #SmallBusinessMarketing #Solopreneur #NunyaBunya #BrisbaneEntrepreneur' },
+  { id:'nb-2', biz:'nb', day:2, platforms:['ig','fb'], type:'Behind-the-Scenes', pillar:'Systems', title:'Brand Bible before ads', caption:"Every client we work with gets a Brand Bible before we touch a single ad.\n\nIt's a 40+ page document that locks in your colours, fonts, voice, audience, content pillars, and messaging. So nothing we ever produce for you feels random.\n\nMost agencies skip this because it takes time. We do it because everything downstream is better when the foundation is right.", cta:'None', image:'Brand Bible cover page or table of contents spread', hashtags:'#BrandStrategy #BrisbaneMarketing #MarketingSystems #BrandBible' },
+  { id:'nb-3', biz:'nb', day:5, platforms:['ig','gbp'], type:'Local Insight', pillar:'Brisbane Business', title:'Google Business Profile guide', caption:"If you're a Brisbane service business and you're not on Google Business Profile, you're invisible to the people most ready to buy.\n\nWhen someone searches \"plumber near me\" or \"massage Fortitude Valley,\" Google pulls from GBP listings first. Before your website. Before your socials.\n\nThree things that move the needle on your GBP ranking:\n1. Reviews (quantity and recency both matter)\n2. Photos (businesses with 100+ photos get 520% more calls)\n3. Posts (yes, Google has posts. Almost nobody uses them)\n\nSet up takes 20 minutes. The return is years of free local traffic.", cta:'DM us if you want help setting yours up', image:'Google Business Profile search result screenshot', hashtags:'#GoogleBusiness #LocalSEO #BrisbaneSmallBusiness #GoogleBusinessProfile' },
+  { id:'nb-4', biz:'nb', day:6, platforms:['li'], type:'Myth-Busting', pillar:'Marketing Myths', title:"You don't need every platform", caption:"\"We need to be on every platform.\"\n\nNo you don't. You need to be where your customers actually are.\n\nIf you're a trades business in Brisbane, your customers are on Google and Facebook. Not TikTok.\nIf you're a B2B consultant, LinkedIn is doing more for you than Instagram ever will.\nIf you're a local cafe, Instagram and Google Business. That's it.\n\nPick two platforms. Do them properly. That beats five platforms done badly every single time.", cta:'None', image:'None (LinkedIn text post)', hashtags:'' },
+  { id:'nb-5', biz:'nb', day:7, platforms:['ig','fb'], type:'Reel', pillar:'Service Awareness', title:'Free audit offer', caption:"We audit Brisbane businesses for free. Not a sales call disguised as an audit. An actual document you keep.\n\nWe look at your website speed, your Google ranking, your social presence, your review profile, and your email setup. Then we tell you exactly what's working, what's not, and what to fix first.\n\nNo obligation. No follow-up spam. Just a clear picture of where you stand.\n\nLink in bio to book one.", cta:'Book free audit via Cal.com', image:'Reel: screen recording walkthrough of an audit doc', hashtags:'#FreeMarketingAudit #BrisbaneMarketing #SmallBusinessHelp' },
+  { id:'nb-6', biz:'nb', day:8, platforms:['ig','li'], type:'Value Post', pillar:'Systems', title:'$16/month tech stack', caption:"Our tech stack costs $16/month.\n\nThat's not a typo. We self-host everything: email marketing, CRM, analytics, link tracking, reporting dashboards.\n\nMost agencies are paying $500+/month just in software subscriptions and passing that cost to you.\n\nOpen-source tools have caught up. The gap between free and paid software in marketing is almost zero now. The gap is knowing how to set it up.", cta:'None', image:'Screenshot of the self-hosted stack logos', hashtags:'#OpenSource #TechStack #MarketingTools #SelfHosted' },
+  { id:'nb-7', biz:'nb', day:9, platforms:['ig','fb'], type:'Behind-the-Scenes', pillar:'Process', title:'3-play client process', caption:"Here's how a new client goes from \"I need help with marketing\" to a fully running system:\n\nWeek 1: We audit everything you've got. Website, socials, Google, email, ads. The Opening Gambit.\nWeek 2-3: We build the foundation. Brand Bible, website fixes, email sequences, booking systems. The Fitout.\nWeek 4+: We refine and optimise. Content, SEO, ads, reporting. The Polish.\n\nEvery client follows this path. No guesswork. No \"let's just try some stuff and see what happens.\"", cta:'Link in bio for full process', image:'Simple 3-step visual', hashtags:'#AgencyLife #MarketingProcess #ClientOnboarding' },
+  { id:'nb-8', biz:'nb', day:12, platforms:['ig','li'], type:'Case Study', pillar:'Results', title:'Zinia massage case study', caption:"We rebuilt a massage therapist's entire online presence in Brisbane.\n\nBefore: A basic website with no booking system, zero Google reviews, and social media that hadn't been touched in months.\n\nAfter: A site that ranks for \"massage Fortitude Valley,\" an automated review request system, and a content calendar that runs without her having to think about it.\n\nFull case study on the website if you want to see the breakdown.", cta:'Link to case study', image:'Before/after website screenshot (Zinia)', hashtags:'#CaseStudy #BrisbaneMarketing #ClientResults' },
+  { id:'nb-9', biz:'nb', day:13, platforms:['ig','fb'], type:'Value Post', pillar:'Education', title:'Email is underrated', caption:"The single most underrated marketing channel for Brisbane small businesses: email.\n\nNot social media. Not paid ads. Email.\n\nHere's why:\n- You own the list. Instagram can change its algorithm tomorrow. Your email list is yours.\n- Open rates for small business emails average 35-40%. Organic reach on Instagram is under 5%.\n- A 5-email welcome sequence can nurture a lead from \"just browsing\" to \"ready to book\" without you lifting a finger.\n\nIf you don't have an email list yet, start one today. Even if you only collect 10 addresses this month.", cta:'None', image:'Simple stat comparison graphic', hashtags:'#EmailMarketing #SmallBusinessTips #MarketingStrategy' },
+  { id:'nb-10', biz:'nb', day:14, platforms:['ig'], type:'Reel', pillar:'Offer', title:'Brand Bible $999', caption:"What you get in a Nunya Bunya Brand Bible:\n\nYour colours (with exact hex codes)\nYour fonts (primary, secondary, accent)\nYour voice and tone guidelines\nYour audience personas\nYour content pillars\nYour messaging framework\n40+ pages of strategic foundation\n\nThis is the document that makes everything else we do for you feel cohesive instead of random.\n\n$999. One-time. You keep it forever.", cta:'DM "BIBLE" to learn more', image:'Reel: flip-through of Brand Bible pages', hashtags:'#BrandBible #BrandStrategy #NunyaBunya' },
+  { id:'nb-11', biz:'nb', day:15, platforms:['li'], type:'Authority', pillar:'Industry', title:'Systems beat creative', caption:"I've been building marketing systems for small businesses and here's the pattern I keep seeing:\n\nThe businesses that grow aren't the ones spending the most on ads. They're the ones with the best systems behind the ads.\n\nA great ad that sends people to a slow website with no follow-up sequence is a waste of money. A mediocre ad that sends people to a fast site with a clear offer, automated follow-up, and a review request system will outperform it every time.\n\nSystems beat creative. Every time.", cta:'None', image:'None', hashtags:'' },
+  { id:'nb-12', biz:'nb', day:16, platforms:['ig','fb','gbp'], type:'Local', pillar:'Brisbane', title:'Claim your GBP', caption:"Brisbane small business owners: if you haven't claimed your Google Business Profile yet, here's your sign.\n\nIt's free. It takes 20 minutes. And it's the single highest-ROI thing you can do for local visibility.\n\nWe've set these up for businesses across Fortitude Valley, New Farm, West End, and the CBD. Happy to walk you through it if you need a hand.", cta:'DM us for help', image:'Map screenshot showing Brisbane GBP listings', hashtags:'#GoogleBusinessProfile #BrisbaneSmallBusiness #LocalSEO' },
+  { id:'nb-13', biz:'nb', day:19, platforms:['ig','li'], type:'Behind-the-Scenes', pillar:'Systems', title:'Approval queue system', caption:"We built an approval queue so clients can see exactly what's about to go live on their behalf.\n\nEvery blog post, social caption, email, and ad goes through this queue before it touches the internet. You approve it or send it back with notes. Nothing goes live without your sign-off.\n\nSounds obvious. But most agencies just post and hope you don't notice the typo.", cta:'None', image:'Screenshot of approval queue (NBHQ)', hashtags:'#AgencyLife #Transparency #MarketingSystems' },
+  { id:'nb-14', biz:'nb', day:20, platforms:['ig','fb'], type:'Value Post', pillar:'Education', title:'Homepage has one job', caption:"Your website's homepage has one job: get people to take the next step.\n\nNot tell your life story. Not list every service you offer. Not autoplay a video.\n\nOne clear headline. One clear offer. One clear button.\n\nIf someone lands on your homepage and can't figure out what you do and how to contact you within 5 seconds, you're losing them.", cta:'None', image:'Good vs bad homepage comparison graphic', hashtags:'#WebDesign #SmallBusinessTips #WebsiteOptimization' },
+  { id:'nb-15', biz:'nb', day:21, platforms:['ig','fb'], type:'Reel', pillar:'Offer', title:'Free audit (repeat)', caption:"Free marketing audit for Brisbane businesses.\n\nWe check:\n- Website speed and mobile experience\n- Google Business Profile setup\n- Social media presence and engagement\n- Review profile and reputation\n- Email marketing setup\n- Local SEO ranking\n\nYou get a written report with priorities ranked by impact.\n\nNo sales pitch. No obligation. Book through the link in bio.", cta:'Cal.com booking link', image:'Reel: quick walkthrough of audit checklist', hashtags:'#FreeAudit #BrisbaneMarketing #SmallBusinessHelp' },
+  { id:'nb-16', biz:'nb', day:22, platforms:['li'], type:'Myth-Busting', pillar:'Marketing Myths', title:"You don't need to post daily", caption:"\"You need to post every day.\"\n\nNo you don't. You need to post consistently.\n\nThree quality posts per week will always beat seven mediocre ones. Your audience doesn't care about your posting streak. They care about whether what you post is worth reading.\n\nConsistency means showing up on a schedule they can rely on. Not flooding their feed because some marketing guru told you the algorithm rewards daily posting.", cta:'None', image:'None', hashtags:'' },
+  { id:'nb-17', biz:'nb', day:23, platforms:['ig','fb'], type:'Behind-the-Scenes', pillar:'Process', title:'Content starts with a brief', caption:"Every piece of content we create starts with a brief. Not a vague idea. A brief.\n\nThe brief includes:\n- Who this is for (specific audience segment)\n- What we want them to do after reading it\n- What platform it's going on (format changes everything)\n- What content pillar it falls under\n\nThis is why our content doesn't feel random. Because it isn't.", cta:'None', image:'Screenshot of a content brief template', hashtags:'#ContentStrategy #MarketingProcess #ContentCreation' },
+  { id:'nb-18', biz:'nb', day:26, platforms:['ig','li'], type:'Value Post', pillar:'Education', title:'Three channels every business needs', caption:"The three marketing channels every Brisbane small business should have running by the end of 2026:\n\n1. Google Business Profile (optimised, with 20+ reviews)\n2. Email list with an automated welcome sequence\n3. A website that loads fast, ranks locally, and has a clear CTA\n\nThat's it. Everything else is a bonus. Get these three right and you'll be ahead of 90% of local businesses.", cta:'We can help set all three up', image:'Checklist graphic', hashtags:'#MarketingStrategy #SmallBusinessTips #BrisbaneMarketing' },
+  { id:'nb-19', biz:'nb', day:27, platforms:['ig','fb'], type:'Case Study', pillar:'Results', title:'Pawesome case study', caption:"We built a dog walking business a complete online presence from scratch.\n\nWebsite, brand identity, social media templates, Google Business Profile, booking system, email sequences.\n\nThe full case study shows every piece of the puzzle, from the logo to the lead capture form.", cta:'Link to case study', image:'Pawesome case study hero shot', hashtags:'#CaseStudy #SmallBusiness #BrisbaneMarketing' },
+  { id:'nb-20', biz:'nb', day:28, platforms:['ig'], type:'Reel', pillar:'Offer', title:'Bedrock package $2,500/mo', caption:"What $2,500/month gets you at Nunya Bunya:\n\nBrand Bible (your strategic foundation)\nWebsite build or rebuild\nGoogle Business Profile setup\nEmail marketing system\nContent calendar and execution\nMonthly reporting dashboard\nA human who actually picks up the phone\n\nThis isn't a template. It's a system built around your specific business.", cta:'DM "BEDROCK" to learn more', image:'Reel: quick service overview with text overlays', hashtags:'#MarketingAgency #NunyaBunya #BrisbaneMarketing' },
+  { id:'nb-21', biz:'nb', day:29, platforms:['li'], type:'Thought Leadership', pillar:'Authority', title:"Best marketing doesn't feel like marketing", caption:"The best marketing doesn't feel like marketing.\n\nIt feels like a business that has its act together. Fast website. Quick email response. Easy booking process. Consistent social presence. Good reviews.\n\nNone of that is flashy. All of it compounds.\n\nIf you're a small business owner in Brisbane and you want to build that kind of presence, that's exactly what we do.", cta:'nunyabunya.com', image:'None', hashtags:'' },
+  { id:'nb-22', biz:'nb', day:30, platforms:['ig','fb','gbp'], type:'Monthly Wrap', pillar:'Transparency', title:'May wrap', caption:"May wrap. First full month of consistent content for Nunya Bunya.\n\nWe showed up every weekday. Shared what we know. Didn't try to sell you on every post.\n\nIf any of this was useful, follow along. We're doing the same thing in June, and we're only getting sharper.\n\nIf you're a Brisbane business owner who wants to talk about your marketing, the DMs are open. No pitch. Just a conversation.", cta:'Follow + DM', image:'Month in review collage', hashtags:'#BrisbaneMarketing #NunyaBunya #ContentMarketing' },
+
+  // ── POWER PORTRAITS ──
+  { id:'pp-1', biz:'pp', day:1, platforms:['ig','fb'], type:'Portfolio', pillar:'Authentic Presence', title:"A headshot shouldn't look like a headshot", caption:"A professional headshot shouldn't look like a professional headshot.\n\nIt should look like the best version of you on your best day, caught in a moment where you forgot the camera was there.\n\nThat's the difference between a headshot and a portrait. One is a photo for your LinkedIn. The other is a photo that makes people want to work with you.\n\nPower Portraits. Brisbane.", cta:'Link in bio to book', image:'Best portfolio shot: environmental, natural light, subject mid-conversation', hashtags:'#BrisbanePhotographer #PortraitPhotography #Headshots #ProfessionalHeadshots #BrisbaneHeadshots #PowerPortraits #NaturalLightPhotography' },
+  { id:'pp-2', biz:'pp', day:2, platforms:['ig','li'], type:'Famous Photographer', pillar:'Authority', title:'Annie Leibovitz on forgetting the camera', caption:"Annie Leibovitz once said the best portrait is the one where the subject forgets they're being photographed.\n\nThat's not about catching someone off guard. It's about creating an environment so comfortable that the performance drops away and the person shows up.\n\nEvery session at Power Portraits starts with a conversation. Not posing directions. Not \"chin down, eyes here.\" A conversation about who you are and what you want people to see.\n\nThe camera comes second.", cta:'None', image:'Behind-the-scenes of a session setup', hashtags:'#PortraitPhotography #AnnieLeibovitz #BrisbanePhotographer' },
+  { id:'pp-3', biz:'pp', day:5, platforms:['ig'], type:'Location Feature', pillar:'Environmental', title:'Kangaroo Point cliffs', caption:"Kangaroo Point cliffs at golden hour.\n\nWarm sandstone walls. Soft directional light. The city skyline behind you without stealing the frame.\n\nThis location says: grounded, established, connected to Brisbane. It works for executives, founders, and anyone who wants their portrait to feel like it belongs somewhere real.\n\nEvery location we choose says something about the person in front of the camera.", cta:'None', image:'Portrait shot at Kangaroo Point', hashtags:'#KangarooPoint #BrisbanePhotographer #GoldenHour #EnvironmentalPortrait' },
+  { id:'pp-4', biz:'pp', day:6, platforms:['li','fb'], type:'Business Case', pillar:'Professional Presence', title:'14x more LinkedIn views', caption:"Profiles with professional photos receive 14x more views on LinkedIn.\n\nBut \"professional\" doesn't mean stiff. The photos that perform best are the ones where the person looks approachable and competent at the same time.\n\nThat balance is harder to achieve than it sounds. It's the difference between a photo that says \"I'm important\" and one that says \"I'm good at what I do and I'd be great to work with.\"\n\nPower Portraits specialises in that balance.", cta:'Book a session', image:'Before/after corporate vs environmental portrait', hashtags:'#LinkedInTips #ProfessionalHeadshot #PersonalBranding' },
+  { id:'pp-5', biz:'pp', day:7, platforms:['ig'], type:'Reel', pillar:'Booking', title:'What a PP session looks like', caption:"What a Power Portraits session looks like:\n\nWe meet at a Brisbane location that fits your brand.\nWe talk for 10 minutes before the camera comes out.\nWe shoot for 60-90 minutes in natural light.\nYou get 15-20 edited portraits delivered within a week.\n\nNo studio. No ring lights. No awkward posing.\n\nJust you, looking like you, in a place that means something.\n\nSessions starting from $350. Link in bio.", cta:'Book via Cal.com', image:'Reel: BTS montage of a session', hashtags:'#PowerPortraits #BrisbaneHeadshots #PortraitSession' },
+  { id:'pp-6', biz:'pp', day:8, platforms:['ig','li'], type:'Famous Photographer', pillar:'Authority', title:'Richard Avedon vs environment', caption:"Richard Avedon shot portraits against plain white backgrounds for decades. Removed every distraction. Made it entirely about the face.\n\nWe take the opposite approach. The environment is part of the story. Where you stand, what's behind you, how the light falls on the space around you. It all communicates something.\n\nNeither approach is wrong. But for professionals who want a portrait that says something about who they are beyond their face, environment is everything.", cta:'None', image:'Environmental portrait showing strong location context', hashtags:'#RichardAvedon #PortraitPhotography #EnvironmentalPortrait' },
+  { id:'pp-7', biz:'pp', day:9, platforms:['ig','fb'], type:'Location Feature', pillar:'Environmental', title:'New Farm Park', caption:"New Farm Park. Early morning. The light comes through the jacaranda canopy in patches.\n\nThis location works for creatives, consultants, and anyone whose brand is warm and approachable rather than corporate. The greenery softens everything. The light is forgiving.\n\nSome of our favourite portraits have come from 30-minute sessions here before the crowds arrive.", cta:'None', image:'Portrait at New Farm Park', hashtags:'#NewFarmPark #BrisbanePhotography #NaturalLight #PortraitLocation' },
+  { id:'pp-8', biz:'pp', day:12, platforms:['ig','li'], type:'Education', pillar:'Professional Presence', title:'3-second first impression', caption:"People form a first impression in 3 seconds.\n\nYour profile photo is often the very first thing a potential client, employer, or collaborator sees. Before your bio. Before your portfolio. Before your website.\n\nA strong portrait doesn't just look good. It communicates competence, warmth, and trustworthiness in a single frame.\n\nThat's not vanity. That's strategy.", cta:'None', image:'Close-up environmental portrait with strong eye contact', hashtags:'#FirstImpressions #ProfessionalImage #PersonalBranding' },
+  { id:'pp-9', biz:'pp', day:13, platforms:['ig','fb'], type:'Behind-the-Scenes', pillar:'Process', title:'The 30-second rule', caption:"The 30-second rule.\n\nWhen we arrive at a location, we spend the first 30 seconds doing nothing but looking at the light. Where it's falling. Where it's bouncing. Where it's creating shadows.\n\nThat 30 seconds determines everything about where we position the shoot. The best photographers don't chase light. They read it.", cta:'None', image:'BTS photo of reading light at a location', hashtags:'#PhotographyTips #NaturalLight #BehindTheScenes' },
+  { id:'pp-10', biz:'pp', day:14, platforms:['ig','fb'], type:'Reel', pillar:'Offer', title:'LinkedIn photo matters', caption:"Your LinkedIn photo is doing more work than you think.\n\nRecruiters spend an average of 7 seconds on a profile. Your photo is the anchor. It's what makes them stop scrolling and start reading.\n\nIf your current photo is a crop from a group shot, a selfie, or something from 5 years ago. It's time.\n\nPower Portraits. One session. Portraits you'll use everywhere for years.\n\nLink in bio.", cta:'Book a session', image:'Reel: phone selfie to Power Portrait transformation', hashtags:'#LinkedInHeadshot #ProfessionalPhoto #PowerPortraits' },
+  { id:'pp-11', biz:'pp', day:15, platforms:['li'], type:'Authority', pillar:'Industry', title:'The middle ground', caption:"The portrait photography industry is full of two extremes: cheap headshot studios with grey backdrops and $5,000 personal branding shoots with 47 outfit changes.\n\nThere's a middle ground. One location. Natural light. A photographer who talks to you like a person. Portraits that look like they were taken by someone who understands composition, not someone who owns a ring light.\n\nThat's where Power Portraits sits.", cta:'powerportraits.com.au', image:'None', hashtags:'' },
+  { id:'pp-12', biz:'pp', day:16, platforms:['ig'], type:'Famous Photographer', pillar:'Authority', title:'Peter Lindbergh on retouching', caption:"Peter Lindbergh refused to retouch his subjects. He believed imperfection was what made a portrait honest.\n\nWe follow the same principle. Light editing. Colour correction. Skin stays real. Lines stay real. You look like you, not a smoothed-out version of yourself.\n\nBecause the people who hire you want to meet the person in the photo. If that person doesn't exist, you've already started the relationship with a lie.", cta:'None', image:'Natural, minimally retouched portrait', hashtags:'#NoRetouch #AuthenticPortraits #PeterLindbergh' },
+  { id:'pp-13', biz:'pp', day:19, platforms:['ig','li'], type:'Portfolio', pillar:'Work Quality', title:'South Bank architect', caption:"South Bank. Late afternoon. An architect who wanted something that felt creative without trying too hard.\n\nWe found a section of the cultural precinct where the concrete geometry created natural leading lines. The light was low and warm.\n\nThe result: a portrait that looks editorial but feels effortless. Exactly what the brief asked for.", cta:'None', image:'Best architectural/urban portrait', hashtags:'#SouthBank #ArchitecturalPortrait #BrisbanePhotographer' },
+  { id:'pp-14', biz:'pp', day:20, platforms:['ig','fb'], type:'Education', pillar:'Practical Value', title:'Where to use your portraits', caption:"Where to use your professional portraits:\n- LinkedIn profile and banner\n- Website about page\n- Email signature\n- Google Business Profile\n- Speaker bios and conference submissions\n- Media kit\n- Proposal documents\n\nOne session. Dozens of uses. That's the ROI on quality portraiture.", cta:'Book your session', image:'Mockup showing portrait across multiple platforms', hashtags:'#ProfessionalPortrait #PersonalBranding #HeadshotUses' },
+  { id:'pp-15', biz:'pp', day:21, platforms:['ig'], type:'Reel', pillar:'Booking', title:'Stop using the selfie', caption:"Brisbane founders, executives, and creatives:\n\nYour portrait is the first thing people see before they decide whether to take you seriously.\n\nStop using the selfie. Stop using the conference lanyard photo. Stop using the crop from your mate's wedding.\n\nOne hour. One session. Portraits that work everywhere.\n\nPower Portraits. Brisbane's environmental portrait studio.", cta:'Link in bio to book', image:'Reel: portfolio montage with booking CTA', hashtags:'#StopUsingTheSelfie #PowerPortraits #BrisbaneHeadshots' },
+  { id:'pp-16', biz:'pp', day:22, platforms:['ig','li'], type:'Location Feature', pillar:'Environmental', title:'Story Bridge at dusk', caption:"Story Bridge at dusk.\n\nSteel and light and the river below. This location has weight. It communicates ambition, scale, and Brisbane roots without saying a word.\n\nWe've shot lawyers, engineers, and startup founders here. The bridge does the heavy lifting. We just find the angle.", cta:'None', image:'Portrait with Story Bridge context', hashtags:'#StoryBridge #BrisbanePhotography #EnvironmentalPortrait' },
+  { id:'pp-17', biz:'pp', day:23, platforms:['ig','fb'], type:'Behind-the-Scenes', pillar:'Trust', title:'Nervous is normal', caption:"Most people are nervous before a portrait session. That's normal.\n\nHere's what we do about it:\n\nWe start with coffee or a walk. We talk about your work, your week, whatever puts you at ease. The camera stays in the bag for the first 10-15 minutes.\n\nBy the time we start shooting, you've forgotten to be nervous. That's when the best portraits happen.", cta:'None', image:'BTS candid of pre-session conversation', hashtags:'#PortraitSession #BehindTheScenes #BrisbanePhotographer' },
+  { id:'pp-18', biz:'pp', day:26, platforms:['ig','li'], type:'Portfolio', pillar:'Work Quality', title:'West End musician', caption:"West End. A musician who didn't want anything that looked like a headshot.\n\nWe found a laneway with peeling paint and afternoon light cutting through at a sharp angle. Shot wide. Let the environment tell the story.\n\nSometimes the best portrait barely shows the face. It shows the world the person inhabits.", cta:'None', image:'Wide environmental portrait, artistic', hashtags:'#WestEnd #BrisbaneCreatives #PortraitPhotography' },
+  { id:'pp-19', biz:'pp', day:27, platforms:['ig','fb'], type:'Value Post', pillar:'Education', title:'Three things make a portrait great', caption:"Three things that make a portrait great:\n1. Light (natural, directional, soft but not flat)\n2. Environment (a location that says something about the subject)\n3. Connection (a moment where the person is present, not performing)\n\nEquipment is maybe number 7 on the list. Maybe.", cta:'None', image:'BTS showing natural light setup', hashtags:'#PhotographyTips #PortraitTips #NaturalLight' },
+  { id:'pp-20', biz:'pp', day:28, platforms:['ig'], type:'Reel', pillar:'Offer', title:'June sessions booking', caption:"June sessions are booking now.\n\nIf you've been putting off getting a proper portrait, this is your nudge.\n\nOne session. Brisbane location of your choice. 15-20 edited portraits. Starting from $350.\n\nDM \"JUNE\" or book through the link in bio.", cta:'Book for June', image:'Reel: best-of portfolio montage', hashtags:'#PowerPortraits #BookNow #BrisbaneHeadshots' },
+  { id:'pp-21', biz:'pp', day:29, platforms:['li'], type:'Thought Leadership', pillar:'Industry', title:'AI vs real portraits', caption:"The portrait industry is about to change. AI-generated headshots are already here and they look decent from a distance.\n\nBut they all look the same. Same lighting. Same angle. Same uncanny smoothness.\n\nReal portraits, shot in real locations with real light, will only become more valuable as AI floods the market with synthetic alternatives.\n\nAuthenticity is about to become a luxury. It already is.", cta:'powerportraits.com.au', image:'None', hashtags:'' },
+  { id:'pp-22', biz:'pp', day:30, platforms:['ig','fb'], type:'Monthly Wrap', pillar:'Community', title:'May done', caption:"May done. First full month of Power Portraits content.\n\nThis month we shared locations, process, philosophy, and portfolio work. The goal was simple: show you what we do and why we do it this way.\n\nIf you've been following along and you're ready to book, the link's in the bio. If you're not ready yet, keep following. The work speaks for itself.", cta:'Follow + book', image:'Best portrait of the month', hashtags:'#PowerPortraits #BrisbanePhotographer #MonthlyWrap' },
+
+  // ── PAWESOME ──
+  { id:'paw-1', biz:'paw', day:1, platforms:['ig','fb'], type:'Introduction', pillar:'Trust', title:'Meet Ben, your walker', caption:"Pawesome Dog Walkers is officially open for business in Brisbane's inner north.\n\nMy name's Ben. I walk your dog personally. Not a subcontractor. Not a teenager on school holidays. Me.\n\nHere's what's different:\n- Maximum 4 dogs per walk. Ever. This isn't crowd control.\n- You get photo updates every single walk so you know exactly how it went.\n- GPS tracking so you can see the route.\n- I know which parks have off-leash areas, which ones to avoid after rain, and where the shady spots are at 2pm in summer.\n\nFounding client rate: $25 per walk. That rate locks in permanently for early supporters.\n\nNew Farm. Newstead. Teneriffe. Fortitude Valley. Bowen Hills.\n\nDM me or book through the link in bio.", cta:'Book via Cal.com', image:'Ben with a dog at a local park', hashtags:'#DogWalkerBrisbane #DogWalkingBrisbane #NewFarmDogs #NewsteadDogs #TeneriffeDogs #BrisbaneDogWalker #PawesomeDogWalkers' },
+  { id:'paw-2', biz:'paw', day:2, platforms:['ig'], type:'Park Guide', pillar:'Local Expertise', title:'New Farm Park guide', caption:"Park of the Week: New Farm Park\n\nThe best off-leash area in the inner north, hands down.\n\nWhat you need to know:\n- Off-leash area is at the river end (away from the playground)\n- Morning shade from the fig trees keeps dogs cool until about 10am\n- Water access at the river bank but watch the current after rain\n- Flat terrain, great for older dogs or dogs recovering from injury\n- Parking on Brunswick Street side is easiest\n\nI walk here almost every day. If your dog hasn't experienced New Farm Park off-leash, they're missing out.", cta:'None', image:'Photo of New Farm Park dog area', hashtags:'#NewFarmPark #BrisbaneDogs #OffLeash #DogParks' },
+  { id:'paw-3', biz:'paw', day:5, platforms:['ig','fb'], type:'Dog Care Tips', pillar:'Expertise', title:'Footpath temperature check', caption:"Brisbane tip: check the footpath temperature before you walk your dog.\n\nPut the back of your hand on the pavement. If you can't hold it there for 5 seconds, it's too hot for paw pads.\n\nIn Brisbane from October to March, this rules out any walk between 11am and 3pm on concrete. Grass and shade paths only during those hours.\n\nBurns heal slowly on paw pads. It's not worth the risk.\n\nMorning walks (before 9am) or late afternoon (after 4pm) are your safe windows in summer. In May, you've got more flexibility, but concrete in direct sun can still surprise you.", cta:'None', image:'Close-up of dog paws on grass', hashtags:'#DogCareTips #BrisbaneDogs #PawSafety #DogWalkingTips' },
+  { id:'paw-4', biz:'paw', day:6, platforms:['ig'], type:'Behind-the-Scenes', pillar:'Transparency', title:'What a walk looks like', caption:"What a Pawesome walk actually looks like:\n\nI arrive 5 minutes early. I greet your dog calmly (no hype, no baby voice. It sets the wrong energy for the walk). I clip the lead, check the harness fit, and we go.\n\nEvery walk is 45-60 minutes. Mix of on-leash structured walking and off-leash play depending on the dog and the park.\n\nAt the end, fresh water. A quick check of paws and coat. A photo sent to you.\n\nNo clipboard. No app. Just a proper walk with someone who actually likes dogs.", cta:'None', image:'BTS of a walk in progress', hashtags:'#DogWalking #BehindTheScenes #BrisbaneDogWalker' },
+  { id:'paw-5', biz:'paw', day:8, platforms:['fb','ig'], type:'Dog Care Tips', pillar:'Expertise', title:'How much water per day', caption:"How much water should your dog drink per day?\n\nRule of thumb: about 50ml per kilogram of body weight.\n\nSo a 20kg dog (think: Labrador) needs about 1 litre per day. A 10kg dog (Cavoodle, French Bulldog) needs about 500ml.\n\nIn Brisbane heat, add 50% more. And always bring water on walks. Don't rely on park taps.\n\nI carry a collapsible bowl on every walk. Non-negotiable.", cta:'None', image:'Dog drinking from collapsible bowl', hashtags:'#DogHydration #DogCareTips #BrisbaneDogs' },
+  { id:'paw-6', biz:'paw', day:9, platforms:['ig','fb'], type:'Offer', pillar:'Growth', title:'Founding client $25', caption:"Founding client spots are still open.\n\n$25 per walk. That rate stays locked in for as long as you're with us. No price increases. No catches.\n\nWhy? Because early clients are taking a chance on something new. That deserves to be rewarded.\n\nWhen the founding spots are full, the standard rate is $35 per walk. Or $150/week for a 5-walk package.\n\nInner north Brisbane: New Farm, Newstead, Teneriffe, Fortitude Valley, Bowen Hills.\n\nDM me or book through the link in bio.", cta:'Book via Cal.com', image:'Branded graphic with pricing', hashtags:'#DogWalkerBrisbane #FoundingClient #PawesomeDogWalkers' },
+  { id:'paw-7', biz:'paw', day:12, platforms:['ig','fb'], type:'Park Guide', pillar:'Local Expertise', title:'Newstead Park', caption:"Park of the Week: Newstead Park\n\nUnderrated. Quieter than New Farm, especially on weekday mornings.\n\nWhat you need to know:\n- Off-leash is allowed in the main grassy area\n- River views keep walks interesting for dogs who like to sniff along the bank\n- Shade from the large trees along the south side\n- Not great after heavy rain (gets boggy near the river)\n- Close to Gasworks Plaza if you want coffee after drop-off\n\nPerfect for dogs who get overstimulated in busier parks. Less chaos, more calm.", cta:'None', image:'Photo of Newstead Park', hashtags:'#NewsteadPark #BrisbaneDogParks #DogWalking' },
+  { id:'paw-8', biz:'paw', day:13, platforms:['ig'], type:'Dog Care Tips', pillar:'Expertise', title:'Tick prevention', caption:"Tick season in Brisbane runs from September to March, but paralysis ticks can show up any time of year in coastal and bushy areas.\n\nThree things every Brisbane dog owner should know:\n1. Check your dog after every walk. Run your fingers through the coat, especially around ears, neck, and between toes.\n2. Keep tick prevention up to date year-round. Not just summer.\n3. If your dog suddenly goes wobbly in the back legs, gets to a vet immediately. Paralysis ticks are no joke.\n\nI check every dog I walk. Every time. It takes 2 minutes and it's worth it.", cta:'None', image:'Infographic of tick check areas', hashtags:'#TickPrevention #DogHealth #BrisbaneDogs' },
+  { id:'paw-9', biz:'paw', day:15, platforms:['ig','fb'], type:'Behind-the-Scenes', pillar:'Differentiator', title:'Max 4 dogs per walk', caption:"I walk a maximum of 4 dogs at a time.\n\nMost dog walking companies walk 6, 8, sometimes 10. That's not walking. That's herding.\n\nWith 4 dogs, I can give each one individual attention. I can manage different energy levels. I can respond if something goes wrong.\n\nYour dog isn't a number in a pack. They're a dog who deserves a proper walk.", cta:'None', image:'Ben with a small group of dogs', hashtags:'#QualityDogWalking #SmallGroups #BrisbaneDogWalker' },
+  { id:'paw-10', biz:'paw', day:16, platforms:['ig','fb'], type:'Referral', pillar:'Growth', title:'Refer a friend free walk', caption:"Know someone in New Farm, Newstead, or Teneriffe who needs a dog walker?\n\nSend them this post. If they sign up and mention your name, you both get a free walk.\n\nNo gimmicks. Just a thank-you for spreading the word.", cta:'Tag a friend / DM to book', image:'Branded referral graphic', hashtags:'#ReferAFriend #DogWalkerBrisbane #PawesomeDogWalkers' },
+  { id:'paw-11', biz:'paw', day:19, platforms:['ig','fb'], type:'Dog Care Tips', pillar:'Expertise', title:'Recall training mistake', caption:"The number one recall mistake dog owners make: saying the dog's name without a command.\n\n\"Buddy! Buddy! BUDDY!\" is not a recall. It's just noise.\n\nA recall is: one clear word (like \"come\" or \"here\"), said once, in a firm but calm voice.\n\nPractice at home first. In the hallway. Then the backyard. Then a quiet park. Then a busy park.\n\nDon't go to the busy park until the quiet park is bulletproof.", cta:'None', image:'Dog mid-recall at a park', hashtags:'#DogTraining #RecallTraining #DogCareTips' },
+  { id:'paw-12', biz:'paw', day:20, platforms:['ig'], type:'Park Guide', pillar:'Local Expertise', title:'Teneriffe Park', caption:"Park of the Week: Teneriffe Park (at the old wool stores)\n\nCompact but functional. Good for a quick midday walk.\n\nWhat you need to know:\n- Not officially off-leash, but the grassy area by the river is popular with locals\n- Great shade from the mature trees along the waterfront\n- Flat and accessible. Good for older dogs\n- Close to the Teneriffe ferry terminal\n- Can connect to the riverwalk for a longer route toward New Farm\n\nI use this one for lunchtime walks when dogs need a stretch but not a full session.", cta:'None', image:'Teneriffe Park waterfront area', hashtags:'#TeneriffePark #BrisbaneDogParks #DogWalking' },
+  { id:'paw-13', biz:'paw', day:22, platforms:['ig','fb'], type:'Behind-the-Scenes', pillar:'Trust', title:'Photo updates every walk', caption:"Every walk ends with a photo sent to you.\n\nNot a blurry action shot (unless that's funnier). An actual photo of your dog having a good time.\n\nIt takes 10 seconds to snap and send. But for you at work wondering if your dog is okay? It means everything.\n\nThat's the kind of detail that separates someone who walks dogs from someone who cares about dogs.", cta:'None', image:'Example walk photo (happy dog)', hashtags:'#DogWalkUpdates #HappyDogs #BrisbaneDogWalker' },
+  { id:'paw-14', biz:'paw', day:23, platforms:['ig','fb'], type:'Offer', pillar:'Growth', title:'Weekly packages', caption:"Weekly packages make life easier.\n\n$150/week for 5 walks (Monday to Friday). That's $30 per walk. Cheaper than the standard single rate.\n\nYour dog gets consistent exercise, consistent routine, and a walker they actually know and trust.\n\nYou get peace of mind and one less thing to think about during the week.\n\nFounding clients: your locked-in rate applies to packages too. $125/week.\n\nDM to set up a weekly schedule.", cta:'DM to book', image:'Weekly schedule graphic', hashtags:'#DogWalkingPackages #PawesomeDogWalkers #BrisbaneDogs' },
+  { id:'paw-15', biz:'paw', day:26, platforms:['ig','fb'], type:'Dog Care Tips', pillar:'Seasonal', title:'Brisbane winter tips', caption:"Brisbane winter is coming (such as it is).\n\nMay mornings are getting cooler and the days are shorter. Here's what that means for your dog:\n\n- Short-coated breeds (Staffies, Greyhounds, Whippets) might need a light jacket for early morning walks\n- Grass stays wet longer in the morning. Towel off paws after walks to avoid that wet-dog-in-the-house situation\n- The good news: no more heat stress. Winter in Brisbane is actually peak walking season\n\nEnjoy it. Your dog definitely will.", cta:'None', image:'Dog in light jacket or dewy park', hashtags:'#BrisbaneWinter #DogCareTips #WinterDogWalking' },
+  { id:'paw-16', biz:'paw', day:27, platforms:['ig'], type:'Behind-the-Scenes', pillar:'Trust', title:'Free meet-and-greet', caption:"A question I get asked: \"What if my dog doesn't like you?\"\n\nFair question. Here's the answer:\n\nI do a free meet-and-greet before the first walk. Always. I come to your place, meet your dog on their turf, let them sniff me out, and we go for a short walk together.\n\nIf your dog isn't feeling it, no hard feelings. No charge. Better to know upfront than force something that doesn't work.\n\nMost dogs warm up in about 3 minutes. But the option is always there.", cta:'Book a free meet-and-greet', image:'Ben meeting a dog at a front door', hashtags:'#MeetAndGreet #DogWalkerBrisbane #PawesomeDogWalkers' },
+  { id:'paw-17', biz:'paw', day:29, platforms:['ig','fb'], type:'Monthly Wrap', pillar:'Growth', title:'First month in the books', caption:"First month of Pawesome Dog Walkers in the books.\n\nShowed up every week with dog care tips, park guides, and behind-the-scenes of how walks work.\n\nIf you're in Brisbane's inner north and you need a walker who actually cares, the founding client rate is still open. $25/walk, locked in.\n\nDM me. Let's walk.", cta:'DM to book', image:"Month's best dog photo", hashtags:'#PawesomeDogWalkers #BrisbaneDogWalker #FirstMonth' },
+  { id:'paw-18', biz:'paw', day:30, platforms:['fb'], type:'Community', pillar:'Engagement', title:'Happy Friday to the good dogs', caption:"Happy Friday to every dog in New Farm, Newstead, and Teneriffe who spent the week being a very good boy or girl.\n\nYou know who you are.\n\nHave a great weekend.", cta:'None', image:'Cute dog photo', hashtags:'#GoodDogs #BrisbaneDogs #HappyFriday' },
+
+  // ── BEN ALEK CONNER ──
+  { id:'bac-1', biz:'bac', day:1, platforms:['tw','li'], type:'Building in Public', pillar:'Multi-Business', title:'May 1 state of play', caption:"May 1. New month. Here's what I'm running right now:\n\n- A marketing agency (Nunya Bunya)\n- A portrait photography studio (Power Portraits)\n- A dog walking business (Pawesome Dog Walkers)\n- A YouTube channel (barely started)\n- A film awards body (ORCA Film Awards)\n\nAll of them are in the early stages. None of them are where I want them to be yet.\n\nBut they're all real. They all have websites, systems, and content calendars running.\n\nThis month I'm documenting what it actually looks like to build all of these at once. The good, the bad, and the \"why did I think this was a good idea\" moments.\n\nFollow along if you want the unfiltered version.", cta:'None', image:'None (text post)', hashtags:'#BuildingInPublic #Entrepreneurship #Brisbane' },
+  { id:'bac-2', biz:'bac', day:2, platforms:['tw','ig'], type:'ADHD', pillar:'Neurodiversity', title:'ADHD guilt cycle', caption:"The hardest part of having ADHD and running multiple businesses isn't the distraction. It's the guilt.\n\nYou're working on the agency and feeling guilty you're not editing the YouTube video. You're editing the video and feeling guilty you're not walking dogs. You're walking dogs and thinking about the marketing campaign you should be writing.\n\nThe only thing that fixes this for me: a system that tells me what I should be doing right now. Not what I could be doing. What I should be doing.\n\nContent calendars. Task lists split by location (computer vs. out in the world). A master action list ordered by ROI.\n\nWhen the system decides, I don't have to. And that's the whole game with ADHD.", cta:'None', image:'None', hashtags:'#ADHD #ADHDEntrepreneur #BuildingInPublic' },
+  { id:'bac-3', biz:'bac', day:5, platforms:['tw','li'], type:'Business Lesson', pillar:'Building in Public', title:"Don't validate, just build", caption:"Unpopular take: you don't need to validate your idea before building it.\n\nI built a dog walking business in a weekend. Website, brand, booking system, content calendar. Cost me basically nothing because I self-host everything.\n\nThe validation is: am I getting clients? If yes, keep going. If no, I spent a weekend, not six months of market research.\n\nWhen your cost to build is near zero, the fastest validation is just... building.", cta:'None', image:'None', hashtags:'#StartupAdvice #BuildFirst #Solopreneur' },
+  { id:'bac-4', biz:'bac', day:7, platforms:['tw','ig'], type:'Systems', pillar:'Building in Public', title:'$16/month tech stack', caption:"My entire business tech stack costs $16/month.\n\nThat's: email marketing, CRM, analytics, link tracking, reporting dashboards, and social scheduling.\n\nAll self-hosted. All open-source.\n\nThe tools:\n- Mautic (email marketing. Replaces Mailchimp)\n- Twenty (CRM. Replaces HubSpot)\n- Matomo (analytics. Replaces Google Analytics)\n- Metabase (dashboards. Replaces Databox)\n- Shlink (link tracking. Replaces Bitly)\n\nThe $16 is the server cost. Everything else is free.\n\nIf you're a solopreneur paying $200+/month in SaaS subscriptions, there's probably an open-source alternative for most of them.", cta:'None', image:'None', hashtags:'#OpenSource #TechStack #SelfHosted #Solopreneur' },
+  { id:'bac-5', biz:'bac', day:9, platforms:['tw','li'], type:'Creative', pillar:'Multi-Passionate', title:'Power Portraits origin', caption:"Started Power Portraits because I kept meeting people who needed headshots and hated every option available.\n\nEither you pay $150 for 10 minutes in a studio with a grey backdrop and a ring light. Or you pay $2,000 for a \"personal branding\" shoot with 47 outfit changes and a wind machine.\n\nThere's a gap in the middle. One location. Natural light. Actual conversation. Portraits that look like you.\n\nThat's the whole pitch. Sometimes the simplest business ideas are the best ones.", cta:'None', image:'None', hashtags:'#BusinessIdeas #Photography #Entrepreneurship' },
+  { id:'bac-6', biz:'bac', day:12, platforms:['tw','li'], type:'Building in Public', pillar:'Transparency', title:'YouTube honesty: zero videos', caption:"Honest update: I haven't published a single YouTube video yet.\n\nI have scripts. I have a channel. I have a camera. I have editing software. I have a content plan.\n\nI haven't pressed record.\n\nThis is the part nobody talks about. The gap between having everything ready and actually doing the thing. For me, that gap is anxiety.\n\nNot about the quality. About putting myself out there. Building businesses behind a screen is comfortable. Talking to a camera isn't.\n\nThis month, I'm filming. No more excuses.", cta:'None', image:'None', hashtags:'#YouTube #BuildingInPublic #Vulnerability' },
+  { id:'bac-7', biz:'bac', day:14, platforms:['tw','ig'], type:'ADHD', pillar:'Neurodiversity', title:'Split your to-do list', caption:"ADHD productivity hack that actually works: split your to-do list into two columns.\n\nColumn 1: At the computer\nColumn 2: Out in the world\n\nWhen you sit down at your desk, you only look at Column 1. When you're out, you only look at Column 2.\n\nThis sounds stupidly simple but it eliminates the decision fatigue of looking at a massive list and not knowing where to start. Your environment tells you which column to focus on.\n\nI've been doing this for months and it's the single best system change I've made.", cta:'None', image:'None', hashtags:'#ADHDHacks #Productivity #ADHD' },
+  { id:'bac-8', biz:'bac', day:16, platforms:['tw','li'], type:'Business Lesson', pillar:'Building in Public', title:'Dog walking taught me marketing', caption:"Running a dog walking business has taught me more about marketing than running a marketing agency.\n\nBecause when you're the business, you feel every piece of friction.\n\nThe booking form is too long? You know because nobody books.\nThe pricing page is confusing? You know because people DM you asking \"how much?\"\nThe Google listing isn't set up? You know because nobody finds you.\n\nEvery marketer should run a small, real business alongside their agency. The empathy it creates is impossible to get any other way.", cta:'None', image:'None', hashtags:'#MarketingLessons #BuildingInPublic #SmallBusiness' },
+  { id:'bac-9', biz:'bac', day:19, platforms:['tw','li'], type:'Building in Public', pillar:'Transparency', title:"What's working, what's not", caption:"Things that are working right now:\n- Pawesome is getting inquiries from Instagram\n- NB's content system is fully automated (agents write, I approve, n8n publishes)\n- Power Portraits brand looks legit enough to book sessions\n\nThings that aren't:\n- YouTube is still at zero videos\n- ORCA needs member recruitment and I keep deprioritising it\n- I'm stretched thin across too many brands and some days it shows\n\nThe building-in-public deal is that you see both sides. Here they are.", cta:'None', image:'None', hashtags:'#BuildingInPublic #Transparency #HonestUpdate' },
+  { id:'bac-10', biz:'bac', day:21, platforms:['tw','ig'], type:'Systems', pillar:'Automation', title:'Approval queue for 4 businesses', caption:"I built an approval queue for all my content.\n\nEvery social post, blog draft, email, and ad generated by my AI agents goes into a single queue. I review and approve from one place.\n\nOn a good day, I can review and approve a full week of content for 4 businesses in about 30 minutes.\n\nThat's the power of systems. Not doing less work. Doing the right work, faster.", cta:'None', image:'None', hashtags:'#Automation #AITools #ContentSystems' },
+  { id:'bac-11', biz:'bac', day:23, platforms:['tw','li'], type:'Creative', pillar:'Multi-Passionate', title:'Dog walking made me a better photographer', caption:"I walk through Brisbane almost every day for Pawesome. And almost every day I see a photo I want to take.\n\nThe light on the Story Bridge at 4pm. A stranger's face in Fortitude Valley. The geometry of the Woolstores in Teneriffe.\n\nRunning a dog walking business accidentally turned me into a better photographer. You can't force that. You just have to show up in the world and pay attention.", cta:'None', image:'None', hashtags:'#StreetPhotography #Brisbane #MultiPassionate' },
+  { id:'bac-12', biz:'bac', day:26, platforms:['tw','li'], type:'ADHD', pillar:'Neurodiversity', title:'The ADHD tax', caption:"The ADHD tax is real.\n\nLast week I spent 3 hours building a feature for my admin dashboard that literally no one asked for, while ignoring the one thing that would actually move the needle.\n\nThe dopamine of building something new always beats the discipline of finishing something old.\n\nThe only counter I've found: a list of tasks ordered by ROI, not by how interesting they are. I still get distracted. But at least I know exactly what I'm supposed to be doing when I snap back.", cta:'None', image:'None', hashtags:'#ADHDTax #ADHD #Entrepreneurship' },
+  { id:'bac-13', biz:'bac', day:28, platforms:['tw','ig'], type:'Building in Public', pillar:'Journey', title:'Same stack, every business', caption:"Five businesses. All early stage. All in Brisbane.\n\nThe common thread: systems. Every one of them runs on the same self-hosted stack. Same email marketing. Same analytics. Same CRM. Same reporting dashboards.\n\nThat's the advantage of knowing how to build the infrastructure. You set it up once and every new business plugs into the same system.\n\nThe hard part was building the system. Adding a new business to it takes a day.", cta:'None', image:'None', hashtags:'#Systems #SelfHosted #BuildingInPublic' },
+  { id:'bac-14', biz:'bac', day:30, platforms:['tw','li'], type:'Monthly Reflection', pillar:'Building in Public', title:'May wrap', caption:"May wrap.\n\nPublished content consistently for 4 businesses this month. Showed up on Twitter and LinkedIn 3x/week.\n\nStill haven't pressed record on YouTube. That's the June goal.\n\nThe businesses are real. The systems work. The content is flowing. The audience is growing slowly.\n\nSlow is fine. Slow compounds.\n\nSee you in June.", cta:'None', image:'None', hashtags:'#MonthlyReview #BuildingInPublic #Compounding' },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let viewDate = new Date(2026, 4, new Date().getMonth() === 4 && new Date().getFullYear() === 2026 ? new Date().getDate() : 1);
+let postedState = JSON.parse(localStorage.getItem('nbhq-posted-may26') || '{}');
+let postNotes = JSON.parse(localStorage.getItem('nbhq-post-notes-may26') || '{}');
+
+// Always show today if it's May 2026
+(function() {
+  const now = new Date();
+  if (now.getFullYear() === 2026 && now.getMonth() === 4) {
+    viewDate = new Date(2026, 4, now.getDate());
+  }
+})();
+
+function saveState() {
+  localStorage.setItem('nbhq-posted-may26', JSON.stringify(postedState));
+  localStorage.setItem('nbhq-post-notes-may26', JSON.stringify(postNotes));
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function changeDay(delta) {
+  viewDate.setDate(viewDate.getDate() + delta);
+  if (viewDate.getMonth() !== 4 || viewDate.getFullYear() !== 2026) {
+    viewDate = delta > 0 ? new Date(2026, 4, 31) : new Date(2026, 4, 1);
+  }
+  renderAll();
+}
+
+function goToday() {
+  const now = new Date();
+  if (now.getFullYear() === 2026 && now.getMonth() === 4) {
+    viewDate = new Date(2026, 4, now.getDate());
+  } else {
+    viewDate = new Date(2026, 4, 1);
+  }
+  renderAll();
+}
+
+function jumpToDay(d) {
+  viewDate = new Date(2026, 4, d);
+  renderAll();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderAll() {
+  renderDayLabel();
+  renderBriefing();
+  renderPostCards();
+  renderMiniCalendar();
+}
+
+function renderDayLabel() {
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const d = viewDate;
+  document.getElementById('dayLabel').textContent = `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}`;
+}
+
+function renderBriefing() {
+  const day = viewDate.getDate();
+  const todayPosts = POSTS.filter(p => p.day === day);
+  const totalPosted = POSTS.filter(p => postedState[p.id]).length;
+  const totalPosts = POSTS.length;
+
+  if (todayPosts.length === 0) {
+    document.getElementById('briefing').innerHTML = `
+      <div class="briefing-date">Day ${day}</div>
+      <div class="briefing-summary">No posts scheduled. Rest day.</div>
+    `;
+    document.getElementById('engageReminder').style.display = 'none';
+    return;
+  }
+
+  const bizCount = new Set(todayPosts.map(p => p.biz)).size;
+  const platCount = new Set(todayPosts.flatMap(p => p.platforms)).size;
+  const postedToday = todayPosts.filter(p => postedState[p.id]).length;
+
+  document.getElementById('briefing').innerHTML = `
+    <div class="briefing-date">Day ${day} Posting Kit</div>
+    <div class="briefing-summary">
+      ${todayPosts.length} post${todayPosts.length > 1 ? 's' : ''} across ${bizCount} business${bizCount > 1 ? 'es' : ''}.
+      ${postedToday === todayPosts.length ? 'All posted. Nice work.' : `${todayPosts.length - postedToday} left to post.`}
+    </div>
+    <div class="briefing-stats">
+      <div class="briefing-stat"><strong>${todayPosts.length}</strong> posts today</div>
+      <div class="briefing-stat"><strong>${platCount}</strong> platforms</div>
+      <div class="briefing-stat"><strong>${postedToday}/${todayPosts.length}</strong> posted</div>
+      <div class="briefing-stat"><strong>${totalPosted}/${totalPosts}</strong> month total</div>
+    </div>
+  `;
+  document.getElementById('engageReminder').style.display = todayPosts.length > 0 ? 'block' : 'none';
+}
+
+function renderPostCards() {
+  const day = viewDate.getDate();
+  const todayPosts = POSTS.filter(p => p.day === day);
+  const container = document.getElementById('postCards');
+
+  if (todayPosts.length === 0) {
+    container.innerHTML = `
+      <div class="rest-day-banner">
+        <h2>Rest Day</h2>
+        <p>No posts scheduled. Recharge. Come back tomorrow.</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = todayPosts.map((post, i) => {
+    const biz = BIZ[post.biz];
+    const isPosted = postedState[post.id];
+    const note = postNotes[post.id] || '';
+    const platPills = post.platforms.map(p =>
+      `<span class="plat-pill ${p}"><span class="plat-dot ${p}"></span>${PLAT_NAMES[p]}</span>`
+    ).join('');
+
+    // Build platform-specific caption (with hashtags for IG, without for others)
+    const hasIG = post.platforms.includes('ig');
+
+    return `
+      <div class="post-card ${isPosted ? 'posted' : ''}" data-biz="${post.biz}" style="animation: fadeIn 0.3s ease ${i * 80}ms both; ${isPosted ? 'opacity:0.5;' : ''}">
+        <div class="post-card-header">
+          <div>
+            <div class="post-biz" style="color:${biz.color}">${esc(biz.name)}</div>
+          </div>
+          <div class="post-meta">
+            <span class="post-type-badge">${esc(post.type)}</span>
+            <span class="post-type-badge">${esc(post.pillar)}</span>
+            <button class="post-status-toggle ${isPosted ? 'posted' : ''}" onclick="togglePosted('${post.id}')" title="${isPosted ? 'Mark as not posted' : 'Mark as posted'}">${isPosted ? '&#10003;' : ''}</button>
+          </div>
+        </div>
+
+        <div class="post-platforms">${platPills}</div>
+
+        <div class="post-caption-wrap">
+          <div class="post-caption-label">
+            <span>Caption</span>
+            <div style="display:flex;gap:6px;">
+              ${post.platforms.map(p => `<button class="copy-btn" onclick="copyForPlatform('${post.id}','${p}',this)">Copy for ${PLAT_NAMES[p]}</button>`).join('')}
+            </div>
+          </div>
+          <div class="post-caption">${esc(post.caption)}</div>
+        </div>
+
+        <div class="post-fields">
+          ${post.cta && post.cta !== 'None' ? `<div class="post-field"><div class="post-field-label">Call to Action</div><div class="post-field-value">${esc(post.cta)}</div></div>` : '<div></div>'}
+          <div class="post-field"><div class="post-field-label">Image / Visual</div><div class="post-field-value">${esc(post.image || 'None')}</div></div>
+        </div>
+
+        <div class="post-notes-wrap">
+          <textarea class="post-notes" placeholder="Your notes for this post..." oninput="saveNote('${post.id}', this.value)">${esc(note)}</textarea>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderMiniCalendar() {
+  const grid = document.getElementById('miniCal');
+  const selectedDay = viewDate.getDate();
+
+  const dayNames = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  let html = dayNames.map(d => `<div class="mini-cal-hdr">${d}</div>`).join('');
+
+  // May 2026 starts on Friday (index 4 Mon-based)
+  const startDow = 4;
+  const daysInMonth = 31;
+  const now = new Date();
+  const todayDay = (now.getFullYear() === 2026 && now.getMonth() === 4) ? now.getDate() : -1;
+
+  // Group posts by day
+  const byDay = {};
+  POSTS.forEach(p => {
+    if (!byDay[p.day]) byDay[p.day] = new Set();
+    byDay[p.day].add(p.biz);
+  });
+
+  // Count posted
+  const totalPosted = POSTS.filter(p => postedState[p.id]).length;
+  document.getElementById('calBadge').textContent = `${totalPosted}/${POSTS.length} posted`;
+
+  // Prev month padding
+  for (let i = startDow - 1; i >= 0; i--) {
+    html += `<div class="mini-cal-day other"><div class="day-num">${30 - i}</div></div>`;
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = d === todayDay;
+    const isSelected = d === selectedDay;
+    const bizSet = byDay[d] || new Set();
+    const cls = ['mini-cal-day'];
+    if (isToday) cls.push('today');
+    if (isSelected) cls.push('selected');
+
+    const dots = [...bizSet].map(b => `<span class="mini-cal-dot ${b}"></span>`).join('');
+
+    html += `<div class="${cls.join(' ')}" onclick="jumpToDay(${d})">
+      <div class="day-num">${d}</div>
+      <div class="mini-cal-dots">${dots}</div>
+    </div>`;
+  }
+
+  // Next month padding
+  const totalCells = startDow + daysInMonth;
+  const remaining = (7 - (totalCells % 7)) % 7;
+  for (let i = 1; i <= remaining; i++) {
+    html += `<div class="mini-cal-day other"><div class="day-num">${i}</div></div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+// ============================================================
+// ACTIONS
+// ============================================================
+function togglePosted(id) {
+  postedState[id] = !postedState[id];
+  saveState();
+  renderAll();
+}
+
+function saveNote(id, val) {
+  if (val.trim()) { postNotes[id] = val; } else { delete postNotes[id]; }
+  saveState();
+}
+
+function copyForPlatform(id, platform, btn) {
+  const post = POSTS.find(p => p.id === id);
+  if (!post) return;
+
+  let text = post.caption;
+
+  // Add hashtags for Instagram, skip for LinkedIn/Twitter/Facebook
+  if (platform === 'ig' && post.hashtags) {
+    text += '\n\n.\n.\n.\n' + post.hashtags;
+  }
+
+  // Add URL for Facebook (no "link in bio")
+  if (platform === 'fb' && post.cta && post.cta.includes('nunyabunya.com')) {
+    text = text.replace('the website\'s in the bio', 'nunyabunya.com');
+    text = text.replace('link in bio', 'nunyabunya.com');
+    text = text.replace('Link in bio', 'nunyabunya.com');
+  }
+  if (platform === 'fb' && post.cta && post.cta.includes('Cal.com')) {
+    text = text.replace('link in bio', post.cta);
+    text = text.replace('Link in bio', post.cta);
+  }
+
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = `Copy for ${PLAT_NAMES[platform]}`;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+function esc(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\n/g,'<br>');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+  try {
+    if (typeof NB_ADMIN !== 'undefined') {
+      await NB_ADMIN.checkAuth();
+      NB_ADMIN.renderSidebar('todays-posts');
+    }
+  } catch(e) {}
+  renderAll();
+}
+
+init();
+</script>
+</body>
+</html>

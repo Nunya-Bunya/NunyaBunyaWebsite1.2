@@ -117,5 +117,40 @@ export default async function handler(req, res) {
     }
   }
 
+  // Twenty CRM — create Person, non-blocking
+  const TWENTY_URL = (process.env.TWENTY_URL || '').trim().replace(/\/$/, '');
+  const TWENTY_API_KEY = (process.env.TWENTY_API_KEY || '').trim();
+
+  if (TWENTY_URL && TWENTY_API_KEY) {
+    try {
+      const [firstName, ...rest] = name.split(/\s+/);
+      const lastName = rest.join(' ') || '';
+      const personPayload = {
+        name: { firstName, lastName },
+        emails: { primaryEmail: email },
+        jobTitle: interest || '',
+      };
+      // Twenty rejects non-E.164 phones; only attach if it looks valid
+      if (phone && /^\+?[1-9]\d{6,14}$/.test(phone.replace(/[\s\-().]/g, ''))) {
+        personPayload.phones = { primaryPhoneNumber: phone };
+      }
+
+      const twentyRes = await fetch(`${TWENTY_URL}/rest/people`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${TWENTY_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(personPayload),
+      });
+      if (!twentyRes.ok) {
+        const errText = await twentyRes.text();
+        console.error('Twenty CRM insert failed:', twentyRes.status, errText);
+      }
+    } catch (e) {
+      console.error('Twenty CRM error:', e);
+    }
+  }
+
   return res.status(200).json({ ok: true, lead: savedLead });
 }

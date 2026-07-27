@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Resource Library — NBHQ</title>
+<link rel="icon" href="/images/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  .tool-filters { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+  .tool-filters select, .tool-filters input {
+    background: var(--dark3); border: 1px solid #333; color: #fff;
+    padding: 8px 12px; border-radius: 6px; font-size: 14px; font-family: inherit;
+  }
+  .tool-filters select:focus, .tool-filters input:focus { border-color: var(--teal); outline: none; }
+  .tool-filters input { flex: 1; min-width: 200px; }
+
+  .kpi-row { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .kpi-box {
+    background: var(--dark3); border: 1px solid #222; border-radius: 10px;
+    padding: 16px 24px; flex: 1; min-width: 120px; text-align: center;
+  }
+  .kpi-box .num { font-size: 28px; font-weight: 700; font-family: 'Barlow Condensed', sans-serif; color: var(--teal); }
+  .kpi-box .label { font-size: 12px; color: #888; margin-top: 4px; }
+
+  .cat-section { margin-bottom: 32px; }
+  .cat-header {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700;
+    color: #fff; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #222;
+    display: flex; align-items: center; gap: 8px; cursor: pointer;
+  }
+  .cat-header .count { color: var(--teal); font-size: 14px; font-weight: 400; }
+  .cat-header .toggle { color: #555; font-size: 12px; transition: transform 0.2s; }
+  .cat-header.collapsed .toggle { transform: rotate(-90deg); }
+
+  .resource-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+  .resource-card {
+    background: var(--dark3); border: 1px solid #222; border-radius: 8px;
+    padding: 16px; transition: border-color 0.2s; display: flex; flex-direction: column; gap: 6px;
+  }
+  .resource-card:hover { border-color: var(--teal); }
+  .resource-card h3 { margin: 0; font-size: 15px; font-family: 'Barlow Condensed', sans-serif; }
+  .resource-card h3 a { color: var(--teal); text-decoration: none; }
+  .resource-card h3 a:hover { text-decoration: underline; }
+  .resource-card .desc { color: #aaa; font-size: 13px; line-height: 1.4; }
+  .resource-card .parent-tag {
+    font-size: 11px; color: var(--yellow); background: rgba(255,184,0,0.1);
+    padding: 2px 6px; border-radius: 3px; align-self: flex-start;
+  }
+
+  .view-toggle { display: flex; gap: 4px; }
+  .view-toggle button {
+    background: var(--dark3); border: 1px solid #333; color: #888;
+    padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px;
+  }
+  .view-toggle button.active { border-color: var(--teal); color: var(--teal); }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Resource <span>Library</span></h1>
+        <div class="date">700+ curated awesome-lists — tools, frameworks, and resources for every stack</div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi-box"><div class="num" id="kpiTotal">—</div><div class="label">Total Resources</div></div>
+      <div class="kpi-box"><div class="num" id="kpiCategories">—</div><div class="label">Categories</div></div>
+      <div class="kpi-box"><div class="num" id="kpiTopLevel">—</div><div class="label">Top-Level Lists</div></div>
+      <div class="kpi-box"><div class="num" id="kpiShowing">—</div><div class="label">Showing</div></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="tool-filters">
+      <input type="text" id="searchInput" placeholder="Search resources..." oninput="debounceRender()">
+      <select id="catFilter" onchange="render()"><option value="">All Categories</option></select>
+      <div class="view-toggle">
+        <button id="viewGrouped" class="active" onclick="setView('grouped')">Grouped</button>
+        <button id="viewFlat" onclick="setView('flat')">Flat</button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div id="content"></div>
+    <div class="empty-state" id="emptyState" style="display:none">
+      <div class="icon">&#128218;</div>
+      <p>No resources match your search</p>
+    </div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let allResources = [];
+  let categories = [];
+  let viewMode = 'grouped';
+  let collapsedCats = {};
+  let debounceTimer = null;
+
+  function debounceRender() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(render, 200);
+  }
+
+  function setView(mode) {
+    viewMode = mode;
+    document.getElementById('viewGrouped').classList.toggle('active', mode === 'grouped');
+    document.getElementById('viewFlat').classList.toggle('active', mode === 'flat');
+    render();
+  }
+
+  function toggleCat(cat) {
+    collapsedCats[cat] = !collapsedCats[cat];
+    render();
+  }
+
+  function renderCard(r) {
+    return `<div class="resource-card">
+      <h3><a href="${NB_ADMIN.esc(r.url)}" target="_blank" rel="noopener">${NB_ADMIN.esc(r.name)}</a></h3>
+      ${r.description ? `<div class="desc">${NB_ADMIN.esc(r.description)}</div>` : ''}
+      ${r.parent_name ? `<span class="parent-tag">Sub-list of ${NB_ADMIN.esc(r.parent_name)}</span>` : ''}
+    </div>`;
+  }
+
+  function render() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const cat = document.getElementById('catFilter').value;
+
+    let filtered = allResources.filter(r => {
+      if (cat && r.category !== cat) return false;
+      if (q && !r.name.toLowerCase().includes(q) && !(r.description || '').toLowerCase().includes(q)) return false;
+      return true;
+    });
+
+    document.getElementById('kpiShowing').textContent = filtered.length;
+    document.getElementById('emptyState').style.display = filtered.length ? 'none' : 'block';
+
+    const container = document.getElementById('content');
+
+    if (viewMode === 'flat') {
+      container.innerHTML = `<div class="resource-grid">${filtered.map(renderCard).join('')}</div>`;
+      return;
+    }
+
+    // Grouped view
+    const groups = {};
+    filtered.forEach(r => {
+      if (!groups[r.category]) groups[r.category] = [];
+      groups[r.category].push(r);
+    });
+
+    const sortedCats = Object.keys(groups).sort();
+    container.innerHTML = sortedCats.map(cat => {
+      const isCollapsed = collapsedCats[cat];
+      return `
+        <div class="cat-section">
+          <div class="cat-header ${isCollapsed ? 'collapsed' : ''}" onclick="toggleCat('${NB_ADMIN.esc(cat)}')">
+            <span class="toggle">&#9660;</span>
+            ${NB_ADMIN.esc(cat)}
+            <span class="count">${groups[cat].length}</span>
+          </div>
+          ${isCollapsed ? '' : `<div class="resource-grid">${groups[cat].map(renderCard).join('')}</div>`}
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function load() {
+    const data = await NB_ADMIN.apiFetch('tools?action=awesome&limit=500');
+    if (data && data.items) allResources = data.items;
+
+    const cats = await NB_ADMIN.apiFetch('tools?action=categories');
+    if (cats && cats.awesome_categories) {
+      categories = cats.awesome_categories;
+      const sel = document.getElementById('catFilter');
+      categories.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c; opt.textContent = c;
+        sel.appendChild(opt);
+      });
+    }
+
+    document.getElementById('kpiTotal').textContent = allResources.length;
+    document.getElementById('kpiCategories').textContent = categories.length;
+    document.getElementById('kpiTopLevel').textContent = allResources.filter(r => !r.parent_name).length;
+  }
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('resource-library');
+    await load();
+    render();
+  }
+  init();
+</script>
+</body>
+</html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Swipe File — Steal What Works | Nunya Bunya</title>
+<meta name="description" content="Every Friday: 20 fresh swipes for SMBs and solopreneurs. Posts, reels, hooks, subject lines. Pulled from ads and content that actually convert. Adapt and post. $27/mo. Cancel anytime.">
+<meta property="og:title" content="The Swipe File — Steal What Works">
+<meta property="og:description" content="Stop staring at a blank caption box. 20 fresh swipes every Friday — posts, reels, hooks, subject lines — pulled from content that actually converts. $27/mo.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="style-v2.css">
+<style>
+  :root {
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  /* HERO */
+  .sf-hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 140px 48px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .sf-eyebrow {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .sf-eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--teal); }
+  .sf-h1 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(56px, 9vw, 128px);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.88;
+    margin-bottom: 40px;
+  }
+  .sf-h1 .accent { color: var(--magenta); }
+  .sf-h1 .teal { color: var(--teal); }
+  .sf-hero-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  .sf-hero-p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+    max-width: 520px;
+  }
+  .sf-hero-p strong { color: var(--white); }
+  .sf-hero-actions { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+  .sf-price-line {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--teal);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+  .sf-hero-pricetag {
+    background: var(--magenta);
+    color: var(--dark);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  /* SECTION */
+  .sf-section { max-width: 1200px; margin: 0 auto; padding: 100px 48px; }
+  .sf-section-label {
+    font-family: var(--font-heading);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .sf-section-label::before { content:''; display:block; width:24px; height:1px; background:var(--teal); }
+  .sf-h2 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(40px, 5.5vw, 80px);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.9;
+    margin-bottom: 40px;
+  }
+  .sf-h2 .teal { color: var(--teal); }
+  .sf-h2 .mg { color: var(--magenta); }
+
+  /* PROBLEM section — itemized list, no card mess */
+  .problem-row {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 28px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--subtle);
+    align-items: start;
+  }
+  .problem-row:first-of-type { border-top: 1px solid var(--subtle); }
+  .problem-num {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--magenta);
+    font-weight: 600;
+    padding-top: 2px;
+  }
+  .problem-h {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 22px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+    letter-spacing: -0.005em;
+  }
+  .problem-p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 720px;
+  }
+
+  /* WHAT YOU GET — terminal-style breakdown */
+  .deliverable-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-top: 48px;
+  }
+  .deliverable {
+    background: var(--dark2);
+    padding: 36px 32px;
+    border-top: 2px solid var(--teal);
+    position: relative;
+  }
+  .deliverable.mg { border-top-color: var(--magenta); }
+  .deliverable-count {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .deliverable.mg .deliverable-count { color: var(--magenta); }
+  .deliverable-h {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .deliverable-p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* MATH BREAKDOWN — Reel World–style ROI */
+  .math-block {
+    background: var(--dark2);
+    border-left: 3px solid var(--magenta);
+    padding: 48px;
+    margin-top: 48px;
+    font-family: var(--mono);
+  }
+  .math-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--subtle);
+    font-size: 15px;
+  }
+  .math-row:last-child { border-bottom: none; padding-top: 22px; font-size: 18px; }
+  .math-row .label { color: var(--muted); }
+  .math-row .value { color: var(--white); font-weight: 600; }
+  .math-row.final .value { color: var(--teal); font-size: 22px; }
+
+  /* WHO IT'S FOR */
+  .audience-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-top: 40px;
+  }
+  .aud-card {
+    background: var(--dark2);
+    padding: 32px 28px;
+    border-top: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .aud-card:hover { border-color: var(--magenta); }
+  .aud-icon { font-size: 28px; margin-bottom: 16px; }
+  .aud-h {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .aud-p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* IMAGINE THIS */
+  .imagine-block {
+    background: linear-gradient(135deg, rgba(0,229,204,0.05), rgba(255,77,221,0.04));
+    border: 1px solid var(--subtle);
+    padding: 64px 56px;
+    margin-top: 48px;
+  }
+  .imagine-h {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .imagine-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .imagine-list li {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.85);
+    padding-left: 28px;
+    position: relative;
+  }
+  .imagine-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--teal);
+    font-weight: bold;
+  }
+
+  /* FAQ */
+  .faq-list {
+    max-width: 800px;
+    margin: 48px auto 0;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--subtle);
+    padding: 28px 0;
+  }
+  .faq-q {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--white);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+  }
+  .faq-a {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .faq-a a { color: var(--teal); }
+
+  /* FINAL CTA */
+  .sf-final {
+    background: var(--dark2);
+    padding: 100px 48px;
+    text-align: center;
+    border-top: 1px solid var(--subtle);
+  }
+  .sf-final-inner { max-width: 720px; margin: 0 auto; }
+  .sf-final h2 { margin-bottom: 24px; }
+  .sf-final p { color: var(--muted); font-size: 16px; line-height: 1.7; margin-bottom: 36px; }
+
+  /* Disclosure strip — story-shaped, vulnerability-as-flex */
+  .real-talk {
+    border-left: 3px solid var(--teal);
+    padding: 24px 28px;
+    background: var(--dark2);
+    font-size: 15px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.7;
+    margin-top: 48px;
+    max-width: 760px;
+  }
+  .real-talk strong { color: var(--white); }
+
+  @media (max-width: 800px) {
+    .sf-hero { padding: 100px 24px 60px; }
+    .sf-section { padding: 64px 24px; }
+    .sf-hero-body { grid-template-columns: 1fr; gap: 32px; }
+    .deliverable-grid, .audience-list { grid-template-columns: 1fr; }
+    .imagine-block { padding: 40px 28px; }
+    .math-block { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="urgency-strip">
+  The Swipe File · 20 swipes every Friday · <span>$27/mo · Cancel anytime</span>
+</div>
+
+<nav style="top: 37px;">
+  <a href="index.html" class="nav-logo">
+    <img src="images/logo-icon-white.png" alt="Nunya Bunya">
+    NUNYA<span>BUNYA</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="results.html">What We Do</a></li>
+    <li><a href="portfolio.html">Work</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html" class="nav-cta">Let's Talk</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="sf-hero">
+  <div class="hero-orb-1"></div>
+  <div class="hero-orb-2"></div>
+  <div class="sf-eyebrow">The Swipe File · By Nunya Bunya</div>
+  <h1 class="sf-h1">Steal<br>what<br><span class="accent">works.</span></h1>
+  <div class="sf-hero-body">
+    <p class="sf-hero-p">Every Friday: <strong>20 fresh swipes</strong> for SMBs and solopreneurs. Posts, reels, hooks, subject lines — pulled from ads and content I actually saw convert. You adapt and post. <strong>No more staring at a blank caption box on Sunday night.</strong></p>
+    <div class="sf-hero-actions">
+      <span class="sf-hero-pricetag">$27/MO · CANCEL ANYTIME</span>
+      <a href="#join" class="btn-primary">Join The Swipe File →</a>
+      <p class="sf-price-line">// $1.35 per swipe · less than a takeaway coffee</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="sf-section">
+  <div class="sf-section-label">The Sunday Night Spiral</div>
+  <h2 class="sf-h2">You sit down to post.<br><span class="mg">And nothing comes out.</span></h2>
+  <p style="font-size:16px;color:var(--muted);line-height:1.7;max-width:760px;">Posting consistently doesn't fail because you're lazy. It fails because every post starts from zero. Blank caption box. Blank reel. Blank email. And after a week of running your actual business, your brain has nothing left to give the algorithm.</p>
+
+  <div class="problem-list" style="margin-top:48px;">
+    <div class="problem-row">
+      <div class="problem-num">01</div>
+      <div>
+        <div class="problem-h">The blank page is the problem.</div>
+        <div class="problem-p">It's not creativity. It's the cost of starting from scratch every single time. 10 minutes becomes an hour becomes "I'll post tomorrow."</div>
+      </div>
+    </div>
+    <div class="problem-row">
+      <div class="problem-num">02</div>
+      <div>
+        <div class="problem-h">Generic AI captions don't sound like you.</div>
+        <div class="problem-p">ChatGPT will give you 50 hooks. They all sound like ChatGPT. You can spot them in your feed in two seconds — and so can everyone else.</div>
+      </div>
+    </div>
+    <div class="problem-row">
+      <div class="problem-num">03</div>
+      <div>
+        <div class="problem-h">You don't need more advice. You need raw material.</div>
+        <div class="problem-p">Every marketing guru tells you "post more." Nobody hands you what to post. The Swipe File is what to post.</div>
+      </div>
+    </div>
+    <div class="problem-row">
+      <div class="problem-num">04</div>
+      <div>
+        <div class="problem-h">Real swipes beat made-up content.</div>
+        <div class="problem-p">Everything in The Swipe File is pulled from posts and ads I saw work in the wild. Not theoretical. Tested. You're not stealing — you're shortcutting.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="sf-section" style="background:var(--dark2);max-width:none;padding:100px 48px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="sf-section-label">The Friday Drop</div>
+    <h2 class="sf-h2">20 swipes.<br>Every Friday.<br><span class="teal">For the price of a Netflix.</span></h2>
+    <p style="font-size:16px;color:var(--muted);line-height:1.7;max-width:720px;">Every Friday morning (AEST), a new drop hits your inbox. Adapt it on the weekend. Schedule it Monday. Live your life Tuesday through Thursday. Repeat.</p>
+
+    <div class="deliverable-grid">
+      <div class="deliverable">
+        <div class="deliverable-count">// 8 PER WEEK</div>
+        <div class="deliverable-h">Social posts</div>
+        <div class="deliverable-p">Written for SMBs and solopreneurs. Each comes with the original hook, the pivot, and the soft CTA. Edit your way in.</div>
+      </div>
+      <div class="deliverable mg">
+        <div class="deliverable-count">// 5 PER WEEK</div>
+        <div class="deliverable-h">Reel templates</div>
+        <div class="deliverable-p">Beat-matched scripts you film on your phone. Hook, story, CTA — 15-30 seconds. Plain English. No tripod. No fancy lighting.</div>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-count">// 5 PER WEEK</div>
+        <div class="deliverable-h">Subject lines</div>
+        <div class="deliverable-p">Tested in real email campaigns. The kind that get opened on a Friday afternoon when nobody's reading email.</div>
+      </div>
+      <div class="deliverable mg">
+        <div class="deliverable-count">// 2 PER WEEK</div>
+        <div class="deliverable-h">Hook of the week</div>
+        <div class="deliverable-p">The single hook I would steal first this week if I were starting from zero. With the post structure it lives inside.</div>
+      </div>
+    </div>
+
+    <div class="real-talk">
+      <strong>The real talk:</strong> I run an AI marketing agency. I see hundreds of ads, posts, and emails every week — what's converting and what's dying. The Swipe File is the slice of that I'd want if I were running a coffee shop or a dog walker on the side. I'm just letting you in.
+    </div>
+  </div>
+</section>
+
+<!-- ROI MATH -->
+<section class="sf-section">
+  <div class="sf-section-label">The Math</div>
+  <h2 class="sf-h2">$27 a month.<br><span class="teal">Do the math with me.</span></h2>
+  <div class="math-block">
+    <div class="math-row"><span class="label">Swipes per month (minimum)</span><span class="value">≥ 80</span></div>
+    <div class="math-row"><span class="label">Time to write one post from scratch</span><span class="value">~ 15 min</span></div>
+    <div class="math-row"><span class="label">Time to adapt one swipe</span><span class="value">~ 2 min</span></div>
+    <div class="math-row"><span class="label">Time saved per month</span><span class="value">≈ 17 hours</span></div>
+    <div class="math-row final"><span class="label">Cost per swipe</span><span class="value">$1.35</span></div>
+  </div>
+  <p style="font-size:13px;color:var(--muted);margin-top:20px;font-family:var(--mono);">// Or: less than 1 hour of your time at $30/hr. Or one bad Uber Eats order. Or 2.5 takeaway coffees.</p>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="sf-section" style="background:var(--dark2);max-width:none;padding:100px 48px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="sf-section-label">Built For</div>
+    <h2 class="sf-h2">If you run a business<br><span class="mg">and post sometimes.</span></h2>
+
+    <div class="audience-list">
+      <div class="aud-card">
+        <div class="aud-icon">☕</div>
+        <div class="aud-h">SMB owners</div>
+        <div class="aud-p">Cafés, salons, studios, gyms, dog walkers. You're great at the work. The marketing is the third shift you don't have time for.</div>
+      </div>
+      <div class="aud-card">
+        <div class="aud-icon">⚙️</div>
+        <div class="aud-h">Solopreneurs</div>
+        <div class="aud-p">Coaches, consultants, freelancers. You ARE the business. Your posts are the funnel. The Swipe File is the fuel.</div>
+      </div>
+      <div class="aud-card">
+        <div class="aud-icon">🛠️</div>
+        <div class="aud-h">Trades & service businesses</div>
+        <div class="aud-p">Plumbers, sparkies, builders, cleaners. You know "post on Instagram" is a thing. You don't know what to post. Now you do.</div>
+      </div>
+      <div class="aud-card">
+        <div class="aud-icon">📈</div>
+        <div class="aud-h">Anyone running their own marketing</div>
+        <div class="aud-p">If you're posting yourself instead of paying $3k/month for an agency — this is the agency's swipe file, minus the agency.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGINE -->
+<section class="sf-section">
+  <div class="sf-section-label">Sunday Night, 9pm</div>
+  <h2 class="sf-h2">Imagine this.</h2>
+  <div class="imagine-block">
+    <ul class="imagine-list">
+      <li>You open Friday's drop on your phone. 20 swipes, sorted by type.</li>
+      <li>You scroll past the ones that don't fit. You stop on three that do.</li>
+      <li>You change the names, the numbers, the details. <strong>10 minutes per post.</strong></li>
+      <li>You schedule the week — Monday, Wednesday, Friday — and close the laptop.</li>
+      <li>Monday morning the first one goes live while you're making coffee.</li>
+      <li>By Friday you've posted three times, sent one email, filmed one reel.</li>
+      <li>Next Friday: another 20.</li>
+      <li>Nobody knows it's a swipe file. Including you, eventually — it just sounds like you.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sf-section" style="background:var(--dark2);max-width:none;padding:100px 48px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="sf-section-label">Questions Anticipated</div>
+    <h2 class="sf-h2" style="text-align:center;">Asked &amp; <span class="teal">answered.</span></h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Where do the swipes come from?</div>
+        <div class="faq-a">Real ads, posts, and emails I see converting in the wild — across Facebook, Instagram, LinkedIn, and my agency clients' campaigns. Sources never include identifying details. You get the structure, the hook, the pattern. Not someone else's brand name.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is this just AI-generated content?</div>
+        <div class="faq-a">No. AI is great at making a lot of mediocre content fast. The Swipe File is the opposite: a small number of swipes that actually worked, curated by a human who's looked at thousands. AI is a tool I use; it's not the product.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What if my industry isn't represented?</div>
+        <div class="faq-a">A good swipe is structural. The hook for a café reel is the hook for a personal trainer reel is the hook for a tax accountant reel — you swap the noun. Most members run businesses I've never written specifically for.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How do I get the drop?</div>
+        <div class="faq-a">Every Friday morning (AEST) you get an email with a link to that week's drop folder. It lives in Google Drive — written swipes as text files, reel scripts as PDFs, subject lines as a single doc. Nothing to install.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I cancel?</div>
+        <div class="faq-a">Anytime, one click, no email-us-to-cancel nonsense. Stripe handles it. If you cancel mid-month you keep access until your next billing date.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Will The Swipe File ever go up in price?</div>
+        <div class="faq-a">Yes — almost certainly. When it does, founding members lock in $27/mo forever. The longer you wait, the more you'll pay.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Why $27?</div>
+        <div class="faq-a">Cheap enough to be a no-brainer for one good month. Expensive enough that I take it seriously and you actually use it. Free swipe files exist. They're free for a reason.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Who runs this?</div>
+        <div class="faq-a">Ben Alek Conner, founder of <a href="about.html">Nunya Bunya</a> — a fully remote AI marketing agency. I work with real clients on real campaigns. The Swipe File is what I'd want if I were sitting where you are.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="sf-final" id="join">
+  <div class="sf-final-inner">
+    <div class="sf-section-label" style="justify-content:center;">Stop Starting From Scratch</div>
+    <h2 class="sf-h2" style="text-align:center;">Friday is coming.<br><span class="mg">Are you in?</span></h2>
+    <p>20 swipes every Friday. $27/month. Cancel anytime, one click. Founding-member price locked for life.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://buy.stripe.com/REPLACE_WITH_SWIPE_FILE_LINK" target="_blank" rel="noopener" class="btn-primary" style="font-size:15px;padding:18px 36px;">Join The Swipe File — $27/mo</a>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:24px;">Questions? <a href="mailto:ben@nunyabunya.com" style="color:var(--teal);">ben@nunyabunya.com</a></p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo"><img src="images/logo-icon-white.png" alt="Nunya Bunya"> <span>NUNYA<em>BUNYA</em></span></div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="products.html">Products</a></li><li><a href="the-swipe-file.html">The Swipe File</a></li>
+    <li><a href="portfolio.html">Work</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+  <p class="footer-copy">&copy; 2026 Nunya Bunya Pty Ltd &middot; Remote, Australia &middot; ABN 48 890 965 530</p>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+  setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 80);
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering'); });
+  el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering'); });
+});
+document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+</script>
+</body>
+</html>

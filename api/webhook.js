@@ -170,6 +170,32 @@ export default async function handler(req, res) {
       break;
     }
 
+    case 'ai-audit': {
+      // Free AI Audit application (ai-audit.html). Captures the 9 intake answers so
+      // ai_audit_report.py can run grounded research on them. No payment involved.
+      // Field keys MUST match QUESTIONS[].key on the page and INTAKE_FIELDS in
+      // NunyaBunyaAgents/Execution/ai_audit_report.py.
+      const a = body.answers || {};
+      const fields = ['business_name','website','owner_name','what_it_does','team_size','time_sink','tools','tried_ai'];
+      const answersText = fields
+        .filter(k => (a[k] || '').toString().trim())
+        .map(k => `${k}: ${a[k].toString().trim()}`)
+        .join('\n');
+      leadData = {
+        name: (a.owner_name || body.name || '').trim(),
+        email: (body.email || a.email || '').trim(),
+        phone: null,
+        source: 'ai-audit',
+        page: 'ai-audit',
+        interest: 'Free AI Audit',
+        message: answersText,
+        created_at: new Date().toISOString()
+      };
+      slackMessage = `*🤖 New AI Audit application* (free)\n*Name:* ${escapeText(leadData.name)}\n*Email:* ${escapeText(leadData.email)}\n*Business:* ${escapeText(a.business_name || '—')}\n*Website:* ${escapeText(a.website || '—')}\n\n*Answers (for ai_audit_report.py):*\n${escapeText(answersText)}`;
+      mauticData = { email: leadData.email, firstname: leadData.name };
+      break;
+    }
+
     case 'voice-memo':
       // Voice memo submission
       tableName = 'voice_memos';

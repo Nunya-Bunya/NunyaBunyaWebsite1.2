@@ -275,8 +275,23 @@ let currentStatusFilter = null;
 let currentImageData = null;
 let viewingAdId = null;
 
+const SEED_VIDEO_ADS = [
+  { id: 'hf-bite-1', title: 'Posting Consistently — That\'s Cute', brand: 'nunya-bunya', platform: 'instagram-reel', type: 'video', status: 'draft', created: '2026-04-28T22:00:00Z', copy: 'Posting consistently every day? That\'s cute. We built a system.', tags: ['kinetic','hyperframes','charlie'], video: '/video-ads/NB-Ad-PostingConsistently-v1.mp4' },
+  { id: 'hf-bite-2', title: 'Your Competitor Automated', brand: 'nunya-bunya', platform: 'instagram-reel', type: 'video', status: 'draft', created: '2026-04-28T22:01:00Z', copy: 'Your competitor just automated their entire marketing. You\'re still making Canva posts at midnight.', tags: ['kinetic','hyperframes','charlie'], video: '/video-ads/NB-Ad-YourCompetitor-v1.mp4' },
+  { id: 'hf-bite-3', title: 'Social Media Manager', brand: 'nunya-bunya', platform: 'instagram-reel', type: 'video', status: 'draft', created: '2026-04-28T22:02:00Z', copy: 'You didn\'t start a business to become a social media manager.', tags: ['kinetic','hyperframes','charlie'], video: '/video-ads/NB-Ad-SocialMediaManager-v1.mp4' },
+  { id: 'hf-bite-4', title: 'Still Writing Captions — 2024 Energy', brand: 'nunya-bunya', platform: 'instagram-reel', type: 'video', status: 'draft', created: '2026-04-28T22:03:00Z', copy: 'Still writing your own captions? That\'s 2024 energy. AI does it better.', tags: ['kinetic','hyperframes','charlie'], video: '/video-ads/NB-Ad-StillWritingCaptions-v1.mp4' },
+];
+
 function loadAds() {
   ads = JSON.parse(localStorage.getItem('nbhq_ads') || '[]');
+  // Seed video ads if not already present
+  const existingIds = new Set(ads.map(a => a.id));
+  for (const seed of SEED_VIDEO_ADS) {
+    if (!existingIds.has(seed.id)) {
+      ads.push(seed);
+    }
+  }
+  saveAds();
 }
 
 function saveAds() {
@@ -316,7 +331,9 @@ function renderGrid() {
   document.getElementById('adGrid').innerHTML = filtered.map(ad => `
     <div class="ad-card" onclick="viewAd('${ad.id}')">
       <div class="ad-preview">
-        ${ad.image
+        ${ad.video
+          ? `<video src="${ad.video}" muted playsinline loop onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0" style="width:100%;height:100%;object-fit:cover;"></video>`
+          : ad.image
           ? `<img src="${ad.image}" alt="${esc(ad.title)}">`
           : `<div class="ad-placeholder"><div class="ph-icon">${ad.type === 'text-only' ? '📝' : '🖼️'}</div><div class="ph-text">${ad.type === 'text-only' ? 'Text Ad' : 'No image yet'}</div></div>`
         }
@@ -419,7 +436,9 @@ function viewAd(id) {
   if (!ad) return;
   viewingAdId = id;
   document.getElementById('viewTitle').textContent = ad.title;
-  document.getElementById('viewPreview').innerHTML = ad.image
+  document.getElementById('viewPreview').innerHTML = ad.video
+    ? `<video src="${ad.video}" controls autoplay loop style="width:100%;max-height:70vh;object-fit:contain;border-radius:8px;"></video>`
+    : ad.image
     ? `<img src="${ad.image}" alt="${esc(ad.title)}">`
     : `<div style="padding:60px;text-align:center;color:var(--muted)">${ad.type === 'text-only' ? '📝 Text-only ad' : '🖼️ No image uploaded'}</div>`;
   document.getElementById('viewDetails').innerHTML = `

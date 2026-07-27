@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Tool Discovery — NBHQ</title>
+<link rel="icon" href="/images/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  .tool-filters { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+  .tool-filters select, .tool-filters input {
+    background: var(--dark3); border: 1px solid #333; color: #fff;
+    padding: 8px 12px; border-radius: 6px; font-size: 14px; font-family: inherit;
+  }
+  .tool-filters select:focus, .tool-filters input:focus { border-color: var(--teal); outline: none; }
+  .tool-filters input { flex: 1; min-width: 200px; }
+  .tool-count { color: #888; font-size: 13px; margin-left: auto; }
+
+  .api-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+  .api-card {
+    background: var(--dark3); border: 1px solid #222; border-radius: 10px;
+    padding: 20px; transition: border-color 0.2s;
+  }
+  .api-card:hover { border-color: var(--teal); }
+  .api-card h3 { margin: 0 0 6px; font-size: 16px; font-family: 'Barlow Condensed', sans-serif; }
+  .api-card h3 a { color: var(--teal); text-decoration: none; }
+  .api-card h3 a:hover { text-decoration: underline; }
+  .api-card .desc { color: #aaa; font-size: 13px; margin-bottom: 12px; line-height: 1.5; }
+  .api-card .meta { display: flex; gap: 8px; flex-wrap: wrap; }
+  .api-card .tag {
+    font-size: 11px; padding: 3px 8px; border-radius: 4px;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .tag-cat { background: rgba(0,229,204,0.15); color: var(--teal); }
+  .tag-auth-no { background: rgba(76,175,80,0.15); color: #66bb6a; }
+  .tag-auth-key { background: rgba(255,184,0,0.15); color: var(--yellow); }
+  .tag-auth-oauth { background: rgba(255,45,120,0.15); color: var(--magenta); }
+  .tag-https { background: rgba(74,144,217,0.15); color: var(--blue); }
+  .tag-cors-yes { background: rgba(76,175,80,0.1); color: #66bb6a; }
+  .tag-cors-no { background: rgba(244,67,54,0.1); color: #ef5350; }
+  .tag-cors-unknown { background: rgba(255,255,255,0.05); color: #888; }
+
+  .kpi-row { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .kpi-box {
+    background: var(--dark3); border: 1px solid #222; border-radius: 10px;
+    padding: 16px 24px; flex: 1; min-width: 120px; text-align: center;
+  }
+  .kpi-box .num { font-size: 28px; font-weight: 700; font-family: 'Barlow Condensed', sans-serif; color: var(--teal); }
+  .kpi-box .label { font-size: 12px; color: #888; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar"></aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div>
+        <h1>Tool <span>Discovery</span></h1>
+        <div class="date">1,400+ free APIs from public-apis — find integrations for client builds</div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi-box"><div class="num" id="kpiTotal">—</div><div class="label">Total APIs</div></div>
+      <div class="kpi-box"><div class="num" id="kpiCategories">—</div><div class="label">Categories</div></div>
+      <div class="kpi-box"><div class="num" id="kpiNoAuth">—</div><div class="label">No Auth Required</div></div>
+      <div class="kpi-box"><div class="num" id="kpiShowing">—</div><div class="label">Showing</div></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="tool-filters">
+      <input type="text" id="searchInput" placeholder="Search APIs..." oninput="debounceRender()">
+      <select id="catFilter" onchange="render()"><option value="">All Categories</option></select>
+      <select id="authFilter" onchange="render()">
+        <option value="all">All Auth</option>
+        <option value="No">No Auth</option>
+        <option value="apiKey">API Key</option>
+        <option value="OAuth">OAuth</option>
+      </select>
+      <select id="corsFilter" onchange="render()">
+        <option value="all">All CORS</option>
+        <option value="Yes">CORS Yes</option>
+        <option value="No">CORS No</option>
+      </select>
+    </div>
+
+    <!-- Grid -->
+    <div id="grid" class="api-grid"></div>
+    <div class="empty-state" id="emptyState" style="display:none">
+      <div class="icon">&#128269;</div>
+      <p>No APIs match your filters</p>
+    </div>
+  </main>
+</div>
+
+<script src="/nb-admin-shared.js"></script>
+<script>
+  let allApis = [];
+  let categories = [];
+  let debounceTimer = null;
+
+  function debounceRender() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(render, 200);
+  }
+
+  function authTag(auth) {
+    if (auth === 'No') return `<span class="tag tag-auth-no">No Auth</span>`;
+    if (auth === 'apiKey') return `<span class="tag tag-auth-key">API Key</span>`;
+    if (auth === 'OAuth') return `<span class="tag tag-auth-oauth">OAuth</span>`;
+    return `<span class="tag tag-auth-key">${NB_ADMIN.esc(auth)}</span>`;
+  }
+
+  function corsTag(cors) {
+    if (cors === 'Yes') return `<span class="tag tag-cors-yes">CORS</span>`;
+    if (cors === 'No') return `<span class="tag tag-cors-no">No CORS</span>`;
+    return `<span class="tag tag-cors-unknown">CORS ?</span>`;
+  }
+
+  function render() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const cat = document.getElementById('catFilter').value;
+    const auth = document.getElementById('authFilter').value;
+    const cors = document.getElementById('corsFilter').value;
+
+    let filtered = allApis.filter(a => {
+      if (cat && a.category !== cat) return false;
+      if (auth !== 'all' && a.auth !== auth) return false;
+      if (cors !== 'all' && a.cors !== cors) return false;
+      if (q && !a.name.toLowerCase().includes(q) && !(a.description || '').toLowerCase().includes(q) && !a.category.toLowerCase().includes(q)) return false;
+      return true;
+    });
+
+    document.getElementById('kpiShowing').textContent = filtered.length;
+    document.getElementById('emptyState').style.display = filtered.length ? 'none' : 'block';
+
+    document.getElementById('grid').innerHTML = filtered.slice(0, 200).map(a => `
+      <div class="api-card">
+        <h3><a href="${NB_ADMIN.esc(a.url)}" target="_blank" rel="noopener">${NB_ADMIN.esc(a.name)}</a></h3>
+        <div class="desc">${NB_ADMIN.esc(a.description || 'No description')}</div>
+        <div class="meta">
+          <span class="tag tag-cat">${NB_ADMIN.esc(a.category)}</span>
+          ${authTag(a.auth)}
+          ${a.https === 'Yes' ? '<span class="tag tag-https">HTTPS</span>' : ''}
+          ${corsTag(a.cors)}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  async function load() {
+    // Load all APIs (paginate if needed)
+    const data = await NB_ADMIN.apiFetch('tools?action=apis&limit=500');
+    if (data && data.items) allApis = data.items;
+
+    // Load more if there are likely more entries
+    if (allApis.length === 500) {
+      // Fetch remaining via second call with offset workaround
+      const data2 = await NB_ADMIN.apiFetch('tools?action=apis&limit=500&q=');
+      // For now, 500 is plenty for browsing
+    }
+
+    // Load categories
+    const cats = await NB_ADMIN.apiFetch('tools?action=categories');
+    if (cats && cats.api_categories) {
+      categories = cats.api_categories;
+      const sel = document.getElementById('catFilter');
+      categories.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c; opt.textContent = c;
+        sel.appendChild(opt);
+      });
+    }
+
+    // KPIs
+    document.getElementById('kpiTotal').textContent = allApis.length;
+    document.getElementById('kpiCategories').textContent = categories.length;
+    document.getElementById('kpiNoAuth').textContent = allApis.filter(a => a.auth === 'No').length;
+  }
+
+  async function init() {
+    const ok = await NB_ADMIN.checkAuth();
+    if (!ok) return;
+    NB_ADMIN.renderSidebar('tool-discovery');
+    await load();
+    render();
+  }
+  init();
+</script>
+</body>
+</html>

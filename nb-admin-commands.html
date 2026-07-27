@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Command Bank | NBHQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="/nb-admin-style.css">
+<style>
+  .cmd-category {
+    font-family: var(--font-heading); font-size: 13px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+    margin: 32px 0 12px 0; padding-bottom: 8px; border-bottom: 1px solid var(--subtle);
+  }
+  .cmd-category:first-child { margin-top: 0; }
+  .cmd-card {
+    background: var(--card-bg, #111111); border: 1px solid var(--subtle, rgba(255,255,255,0.06));
+    border-radius: 12px; padding: 16px 20px; margin-bottom: 10px;
+    transition: border-color 0.2s;
+  }
+  .cmd-card:hover { border-color: rgba(255,255,255,0.12); }
+  .cmd-name {
+    font-family: var(--font-heading); font-size: 15px; font-weight: 700;
+    color: var(--white); margin-bottom: 4px;
+  }
+  .cmd-desc {
+    font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 300;
+    line-height: 1.5; margin-bottom: 10px;
+  }
+  .cmd-code {
+    background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px; padding: 10px 14px; font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 13px; color: var(--teal); cursor: pointer; position: relative;
+    transition: background 0.15s; overflow-x: auto; white-space: pre;
+  }
+  .cmd-code:hover { background: rgba(0,0,0,0.6); }
+  .cmd-code::after {
+    content: 'COPY'; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+    font-family: var(--font-heading); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.1em; color: var(--muted); opacity: 0; transition: opacity 0.15s;
+  }
+  .cmd-code:hover::after { opacity: 1; }
+  .cmd-code.copied { border-color: var(--teal); }
+  .cmd-code.copied::after { content: 'COPIED'; color: var(--teal); opacity: 1; }
+  .cmd-note {
+    font-size: 12px; color: rgba(255,255,255,0.35); font-weight: 300;
+    margin-top: 6px; font-style: italic;
+  }
+  .cmd-search {
+    width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--subtle);
+    background: var(--card-bg, #111); color: var(--white); font-size: 14px;
+    font-family: var(--font-body); margin-bottom: 24px; outline: none;
+  }
+  .cmd-search:focus { border-color: var(--teal); }
+  .cmd-search::placeholder { color: var(--muted); }
+  .cmd-count {
+    font-size: 12px; color: var(--muted); margin-bottom: 20px;
+    font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+<script src="/nb-admin-shared.js"></script>
+
+<div class="admin-layout">
+  <div id="sidebar"></div>
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>Command Bank</h1>
+      <p>Every command you've built. Click to copy.</p>
+    </div>
+
+    <input type="text" class="cmd-search" id="cmdSearch" placeholder="Search commands...">
+    <div class="cmd-count" id="cmdCount"></div>
+
+    <div id="commandList">
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- BLOG FEATURE OUTREACH -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="cmd-category">Blog Feature Outreach</div>
+
+      <div class="cmd-card" data-tags="blog outreach blast send email mautic">
+        <div class="cmd-name">Blast blog feature emails (~100 businesses)</div>
+        <div class="cmd-desc">Scrapes 20 industries, finds founder emails, personalises the approved template, sends via Mautic. Dedup built in.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && ./blog-outreach blast</div>
+        <div class="cmd-note">Add --dry-run to preview without sending</div>
+      </div>
+
+      <div class="cmd-card" data-tags="blog outreach single one email">
+        <div class="cmd-name">Blog feature email to one business</div>
+        <div class="cmd-desc">Crawls their site, generates personalised opener, sends the approved template.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && ./blog-outreach one "Company Name" "website.com"</div>
+      </div>
+
+      <div class="cmd-card" data-tags="blog questions interview feature">
+        <div class="cmd-name">Generate interview questions</div>
+        <div class="cmd-desc">After they say yes. Crawls their site, generates 6-8 personalised questions, saves to .tmp/</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && ./blog-outreach questions "Company Name" "website.com" "FirstName"</div>
+      </div>
+
+      <div class="cmd-card" data-tags="blog draft article write feature">
+        <div class="cmd-name">Draft article from interview answers</div>
+        <div class="cmd-desc">Takes their answers file, combines with site research, generates full article draft.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && ./blog-outreach draft "Company Name" "website.com" /path/to/answers.txt</div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- LEAD ENGINE -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="cmd-category">Lead Engine & Outreach</div>
+
+      <div class="cmd-card" data-tags="scrape leads google places search">
+        <div class="cmd-name">Scrape leads from Google Places</div>
+        <div class="cmd-desc">Search Google Maps for businesses, enrich with emails, generate cold outreach, queue for review.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 lead_engine.py scrape --source google --query "massage therapist Brisbane" --limit 50</div>
+      </div>
+
+      <div class="cmd-card" data-tags="scrape leads hotfrog yellowpages">
+        <div class="cmd-name">Scrape leads from HotFrog</div>
+        <div class="cmd-desc">Free Yellow Pages alternative. No API key needed.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 lead_engine.py scrape --source hotfrog --query "accountant" --location "Brisbane QLD" --limit 50</div>
+      </div>
+
+      <div class="cmd-card" data-tags="scrape leads jobs linkedin hiring">
+        <div class="cmd-name">Scrape LinkedIn job postings</div>
+        <div class="cmd-desc">Find companies hiring for marketing roles. Great outreach angle.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 lead_engine.py scrape --source jobs --location "Australia" --batch-size 25</div>
+      </div>
+
+      <div class="cmd-card" data-tags="send outreach email mautic approved">
+        <div class="cmd-name">Send approved outreach emails</div>
+        <div class="cmd-desc">Sends all emails with status "approved" in the outreach queue via Mautic.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 lead_engine.py send</div>
+        <div class="cmd-note">Add --dry-run to preview. Add --limit 10 to cap sends.</div>
+      </div>
+
+      <div class="cmd-card" data-tags="followup sequence email nudge">
+        <div class="cmd-name">Send follow-up emails</div>
+        <div class="cmd-desc">Day-4 nudge and Day-10 close follow-ups for all sent emails.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 lead_engine.py followup</div>
+      </div>
+
+      <div class="cmd-card" data-tags="report stats outreach metrics">
+        <div class="cmd-name">Outreach performance report</div>
+        <div class="cmd-desc">Send/open/reply stats for outreach campaigns.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 lead_engine.py report</div>
+      </div>
+
+      <div class="cmd-card" data-tags="opportunity report audit prospect">
+        <div class="cmd-name">Generate opportunity report for a prospect</div>
+        <div class="cmd-desc">Deep analysis of a business: website, GBP, social, search presence. Use for proposals.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/scripts && python3 generate-opportunity-report.py --url https://example.com --company "Company Name"</div>
+      </div>
+
+      <div class="cmd-card" data-tags="pp power portraits headshots outreach hiring">
+        <div class="cmd-name">Power Portraits new hire outreach</div>
+        <div class="cmd-desc">Find companies with new hires who need headshots, generate outreach.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 pp_new_hire_outreach.py</div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- BRAND BIBLE & CLIENT WORK -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="cmd-category">Brand Bible & Client Deliverables</div>
+
+      <div class="cmd-card" data-tags="brand bible generate client">
+        <div class="cmd-name">Generate a Brand Bible</div>
+        <div class="cmd-desc">Full premium Brand Bible for a client. 17-agent pipeline.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 brand_bible_generator.py --name "Business Name" --url "https://website.com"</div>
+      </div>
+
+      <div class="cmd-card" data-tags="bfk business plan free lead magnet survey">
+        <div class="cmd-name">Generate free business plan (BFK)</div>
+        <div class="cmd-desc">Lead magnet: survey answers to PDF business plan via Claude.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/marketing-stack/scripts && python3 bfk_generate_docs.py --submission-id UUID --tier free</div>
+      </div>
+
+      <div class="cmd-card" data-tags="bfk generate paid stripe">
+        <div class="cmd-name">Generate paid BFK package</div>
+        <div class="cmd-desc">Run agent pipeline for a paid BFK submission.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 generate_bfk.py --submission-id UUID</div>
+      </div>
+
+      <div class="cmd-card" data-tags="case study client portfolio">
+        <div class="cmd-name">Generate a case study</div>
+        <div class="cmd-desc">Auto-discovers assets, generates strategy cards + process text. 15 sec per study.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 case_study_generator.py</div>
+      </div>
+
+      <div class="cmd-card" data-tags="website build client site">
+        <div class="cmd-name">Generate a client website</div>
+        <div class="cmd-desc">Premium website from brand.json + business data. Content scraped from existing site.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 website_builder.py --name "Business" --url "https://site.com" --service "service type"</div>
+      </div>
+
+      <div class="cmd-card" data-tags="logo package design brand">
+        <div class="cmd-name">Generate a logo package</div>
+        <div class="cmd-desc">Full professional logo deliverable: variations, sizes, mockups, presentation.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 -c "from logo_package_builder import build_logo_package; build_logo_package(config)"</div>
+      </div>
+
+      <div class="cmd-card" data-tags="foundation package onboard client">
+        <div class="cmd-name">Generate foundation package</div>
+        <div class="cmd-desc">Every foundational document for a new client in their brand voice.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 foundation_package_builder.py --business "Name" --type service</div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- CONTENT & SOCIAL -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="cmd-category">Content & Social Media</div>
+
+      <div class="cmd-card" data-tags="content machine blog article social seo">
+        <div class="cmd-name">Content machine (keyword to full article)</div>
+        <div class="cmd-desc">Single keyword to full article + featured image + social posts.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 content_machine.py</div>
+      </div>
+
+      <div class="cmd-card" data-tags="content calendar month plan">
+        <div class="cmd-name">Generate a monthly content calendar</div>
+        <div class="cmd-desc">Strategic 30-day content calendar with ready-to-post captions.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 generate_content_calendars.py</div>
+      </div>
+
+      <div class="cmd-card" data-tags="twitter tweet post social">
+        <div class="cmd-name">Post a tweet</div>
+        <div class="cmd-desc">Send a tweet via API.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 tweet_poster.py "Your tweet text here"</div>
+      </div>
+
+      <div class="cmd-card" data-tags="twitter ads auto tweet hourly brand">
+        <div class="cmd-name">Auto-tweet ads (hourly)</div>
+        <div class="cmd-desc">Generate + post one ad tweet per hour. Rotates brands.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/scripts && python3 auto-ad-tweeter.py</div>
+        <div class="cmd-note">Add --dry-run to preview. Add --brand nb to target one brand.</div>
+      </div>
+
+      <div class="cmd-card" data-tags="twitter blog tweets generate">
+        <div class="cmd-name">Generate tweets from a blog post</div>
+        <div class="cmd-desc">Blog-first tweet generation. Reads the article, creates a tweet thread.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/scripts && python3 generate-tweets.py --brand nb --url https://nunyabunya.com/blog/article.html</div>
+      </div>
+
+      <div class="cmd-card" data-tags="twitter engagement find prospects social">
+        <div class="cmd-name">Find Twitter engagement opportunities</div>
+        <div class="cmd-desc">Discover trending content from Brisbane businesses to engage with.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/marketing-stack/scripts && python3 twitter-engagement-finder.py</div>
+      </div>
+
+      <div class="cmd-card" data-tags="twitter daily outreach prospect dm">
+        <div class="cmd-name">Daily Twitter outreach</div>
+        <div class="cmd-desc">Search for Brisbane professionals on Twitter, queue DM templates to #outreach Slack channel.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/marketing-stack/scripts && python3 daily-outreach.py</div>
+      </div>
+
+      <div class="cmd-card" data-tags="trivia brisbane video clip twitter">
+        <div class="cmd-name">Post Brisbane trivia clip to Twitter</div>
+        <div class="cmd-desc">Generate one blur/reveal trivia clip and post it.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 twitter_trivia_poster.py</div>
+      </div>
+
+      <div class="cmd-card" data-tags="seo keywords opportunities content plan">
+        <div class="cmd-name">Find SEO keyword opportunities</div>
+        <div class="cmd-desc">Generate 50 keyword opportunities + 12-week content calendar.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 -c "from seo_opportunity_finder import find_seo_opportunities; find_seo_opportunities(config)"</div>
+      </div>
+
+      <div class="cmd-card" data-tags="local seo landing pages service location">
+        <div class="cmd-name">Generate local SEO landing pages</div>
+        <div class="cmd-desc">Up to 50 service + location landing pages for local rankings.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 -c "from local_seo_tool import generate_local_pages; generate_local_pages(config)"</div>
+      </div>
+
+      <div class="cmd-card" data-tags="og image open graph blog social">
+        <div class="cmd-name">Generate OG images for blog posts</div>
+        <div class="cmd-desc">Create 1200x630 Open Graph images for social sharing.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/scripts && python3 generate-og-images.py</div>
+      </div>
+
+      <div class="cmd-card" data-tags="lead magnet pdf convert html">
+        <div class="cmd-name">Convert lead magnet HTML to PDF</div>
+        <div class="cmd-desc">Uses Playwright to render lead magnet HTML pages to downloadable PDFs.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/scripts && python3 generate-lead-magnet-pdf.py</div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- ADS & CREATIVE -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="cmd-category">Ads & Creative</div>
+
+      <div class="cmd-card" data-tags="ad creative image video caption multi-format">
+        <div class="cmd-name">Generate ad creative package</div>
+        <div class="cmd-desc">Full multi-format ad package: static image, video, captions for all platforms.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 -c "from ad_creative import produce_ad_creative; produce_ad_creative(config)"</div>
+      </div>
+
+      <div class="cmd-card" data-tags="ad factory html screenshot pixel-perfect">
+        <div class="cmd-name">Ad Factory (HTML to pixel-perfect ads)</div>
+        <div class="cmd-desc">HTML + Playwright screenshot-based ad generation. Pixel-perfect output.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 ad_factory.py --brand nb --format square --platform instagram</div>
+      </div>
+
+      <div class="cmd-card" data-tags="swipe file repurpose ad copy">
+        <div class="cmd-name">Repurpose a swipe file ad</div>
+        <div class="cmd-desc">Analyse a saved ad from swipe file, generate branded version for a client.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 -c "from repurpose_agent import run_repurpose; run_repurpose(config)"</div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- VIDEO -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="cmd-category">Video Production</div>
+
+      <div class="cmd-card" data-tags="video production route type">
+        <div class="cmd-name">Generate a video (auto-routes to correct type)</div>
+        <div class="cmd-desc">Routes to PAS, testimonial, listicle, HyperFrames, etc. based on video type.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 video_production_orchestrator.py CLIENT_ID VIDEO_TYPE "Topic"</div>
+        <div class="cmd-note">Types: pas, before_after, testimonial, hook_story, faq, listicle, hyperframes, text_edu, split_screen</div>
+      </div>
+
+      <div class="cmd-card" data-tags="hyperframes motion graphics video html gsap">
+        <div class="cmd-name">HyperFrames video (HTML motion graphics)</div>
+        <div class="cmd-desc">GSAP animations rendered to MP4. Fully automated branded content.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 -c "from video_hyperframes import run_video; run_video(config)"</div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- PIPELINE & SCHEDULING -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="cmd-category">Pipelines & Scheduling</div>
+
+      <div class="cmd-card" data-tags="pipeline run today sop client scheduled">
+        <div class="cmd-name">Run today's scheduled pipelines</div>
+        <div class="cmd-desc">Execute all SOPs scheduled for today across all clients.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 pipeline_runner.py --run-today</div>
+      </div>
+
+      <div class="cmd-card" data-tags="pipeline run sop specific client">
+        <div class="cmd-name">Run a specific SOP</div>
+        <div class="cmd-desc">Execute one specific SOP by ID.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 pipeline_runner.py --sop SOP-ID</div>
+      </div>
+
+      <div class="cmd-card" data-tags="weekly content machine schedule">
+        <div class="cmd-name">Weekly content machine</div>
+        <div class="cmd-desc">Generate and schedule a week's worth of content.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/marketing-stack/scripts && python3 weekly_content_machine.py</div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- EMAIL & MAUTIC -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="cmd-category">Email & Mautic</div>
+
+      <div class="cmd-card" data-tags="mautic provision segments templates campaigns client">
+        <div class="cmd-name">Provision Mautic for a client</div>
+        <div class="cmd-desc">Auto-create segments, templates, campaigns, forms in Mautic for a new client.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/marketing-stack/scripts && python3 provision_mautic.py --client CLIENT_SLUG</div>
+        <div class="cmd-note">Add --dry-run to preview</div>
+      </div>
+
+      <div class="cmd-card" data-tags="mautic dedup cleanup contacts">
+        <div class="cmd-name">Deduplicate Mautic contacts</div>
+        <div class="cmd-desc">Find and tag duplicate contacts, clean up cold leads.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/scripts && python3 mautic-dedup-cleanup.py --segment SEGMENT --dry-run</div>
+      </div>
+
+      <div class="cmd-card" data-tags="welcome client emails onboard">
+        <div class="cmd-name">Send welcome emails to new client</div>
+        <div class="cmd-desc">3-email welcome sequence via Gmail API when client signs agreement.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 -c "from welcome_client_emails import send_welcome; send_welcome(config)"</div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- DEPLOY & INFRA -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="cmd-category">Deploy & Infrastructure</div>
+
+      <div class="cmd-card" data-tags="deploy hetzner marketing stack vps">
+        <div class="cmd-name">Deploy marketing stack to Hetzner</div>
+        <div class="cmd-desc">Rsync + restart containers on 5.223.79.5</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/marketing-stack && ./scripts/deploy.sh</div>
+      </div>
+
+      <div class="cmd-card" data-tags="deploy crons hetzner server scheduled">
+        <div class="cmd-name">Deploy cron scripts to Hetzner</div>
+        <div class="cmd-desc">Push cron scripts to the server.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/scripts && bash deploy-crons.sh</div>
+      </div>
+
+      <div class="cmd-card" data-tags="deploy lead engine hetzner">
+        <div class="cmd-name">Deploy lead engine to Hetzner</div>
+        <div class="cmd-desc">Push lead_engine.py to the server.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/scripts && bash deploy-lead-engine.sh</div>
+      </div>
+
+      <div class="cmd-card" data-tags="health check services stack status">
+        <div class="cmd-name">Health check all services</div>
+        <div class="cmd-desc">Verify all marketing stack services are running and accessible.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/marketing-stack/scripts && bash health_check.sh</div>
+      </div>
+
+      <div class="cmd-card" data-tags="metabase provision dashboards reports">
+        <div class="cmd-name">Provision Metabase dashboards</div>
+        <div class="cmd-desc">Auto-create dashboards in Metabase for reporting.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/marketing-stack/scripts && python3 provision_metabase.py</div>
+        <div class="cmd-note">Add --dry-run to preview</div>
+      </div>
+
+      <div class="cmd-card" data-tags="convert markdown html nbhq docs">
+        <div class="cmd-name">Convert Markdown to NBHQ HTML</div>
+        <div class="cmd-desc">Convert any Markdown file into NBHQ-branded HTML page.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/scripts && python3 convert_md_to_nbhq.py</div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- DATA & GOOGLE SHEETS -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="cmd-category">Data & Google Sheets</div>
+
+      <div class="cmd-card" data-tags="google sheets read export json leads">
+        <div class="cmd-name">Read leads from Google Sheet</div>
+        <div class="cmd-desc">Export Google Sheet data to JSON for processing.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 -c "from read_sheet import read_leads; read_leads(config)"</div>
+      </div>
+
+      <div class="cmd-card" data-tags="google sheets write upload json">
+        <div class="cmd-name">Upload data to Google Sheet</div>
+        <div class="cmd-desc">Push JSON data to a Google Sheet.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 -c "from update_sheet import update_sheet; update_sheet(config)"</div>
+      </div>
+
+      <div class="cmd-card" data-tags="google drive upload files folders">
+        <div class="cmd-name">Upload to Google Drive</div>
+        <div class="cmd-desc">Upload folders and files to Google Drive.</div>
+        <div class="cmd-code" onclick="copyCmd(this)">cd ~/Desktop/MASTER\ WORKSPACE/00-Ben\ HQ/NunyaBunyaAgents/Execution && python3 -c "from google_drive_uploader import upload_to_drive; upload_to_drive(config)"</div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  function copyCmd(el) {
+    navigator.clipboard.writeText(el.textContent.trim());
+    el.classList.add('copied');
+    setTimeout(() => el.classList.remove('copied'), 1500);
+  }
+
+  // Count and display
+  const cards = document.querySelectorAll('.cmd-card');
+  document.getElementById('cmdCount').textContent = cards.length + ' commands';
+
+  // Search
+  document.getElementById('cmdSearch').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    let visible = 0;
+    cards.forEach(card => {
+      const text = (card.textContent + ' ' + (card.dataset.tags || '')).toLowerCase();
+      const show = text.includes(q);
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    document.getElementById('cmdCount').textContent = visible + ' of ' + cards.length + ' commands';
+    document.querySelectorAll('.cmd-category').forEach(cat => {
+      let next = cat.nextElementSibling;
+      let hasVisible = false;
+      while (next && !next.classList.contains('cmd-category')) {
+        if (next.style.display !== 'none') hasVisible = true;
+        next = next.nextElementSibling;
+      }
+      cat.style.display = hasVisible ? '' : 'none';
+    });
+  });
+
+  if (typeof NB !== 'undefined') NB.initSidebar('commands');
+</script>
+
+</body>
+</html>

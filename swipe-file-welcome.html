@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to The Swipe File | Nunya Bunya</title>
+<meta name="description" content="You're in. The first drop is on its way.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/logo-icon-white.png" type="image/png">
+<link rel="stylesheet" href="style-v2.css">
+<style>
+  .welcome-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .welcome-card {
+    background: var(--dark2);
+    border: 1px solid var(--subtle);
+    border-top: 3px solid var(--magenta);
+    border-radius: 8px;
+    padding: 56px 48px;
+    max-width: 640px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+  .welcome-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--magenta);
+    letter-spacing: 0.2em;
+    margin-bottom: 18px;
+  }
+  .welcome-h {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: clamp(40px, 6vw, 64px);
+    line-height: 0.95;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .welcome-h .teal { color: var(--teal); }
+  .welcome-sub {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 36px;
+  }
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .checklist li {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
+    align-items: start;
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+  }
+  .checklist li::before {
+    content: '01';
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--teal);
+    font-size: 11px;
+    font-weight: 600;
+    padding-top: 3px;
+  }
+  .checklist li:nth-child(2)::before { content: '02'; }
+  .checklist li:nth-child(3)::before { content: '03'; }
+  .checklist li:nth-child(4)::before { content: '04'; }
+  .checklist strong { color: var(--white); }
+
+  .real-talk-box {
+    background: var(--dark3);
+    border-left: 3px solid var(--teal);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.8);
+  }
+  .real-talk-box strong { color: var(--white); }
+
+  .welcome-cta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .welcome-cta-row a { width: 100%; text-align: center; }
+  .meta-line {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 20px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+</style>
+</head>
+<body>
+
+<section class="welcome-page">
+  <div class="hero-orb-1"></div>
+  <div class="hero-orb-2"></div>
+
+  <div class="welcome-card">
+    <div class="welcome-tag">// YOU'RE IN. WELCOME.</div>
+    <h1 class="welcome-h">The first drop is<br><span class="teal">on its way.</span></h1>
+    <p class="welcome-sub">Check your inbox in the next few minutes. The welcome email has your access link to the Drop Vault — every week's swipes live there, you'll always have access.</p>
+
+    <div class="real-talk-box">
+      <strong>Real talk:</strong> if you don't see the welcome email in 5 minutes, check spam. Then reply to it once you find it — that one reply tells Gmail "this is a human I want to hear from" and every future Friday drop lands in your primary inbox.
+    </div>
+
+    <p style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:16px;font-weight:600;">What happens next:</p>
+    <ul class="checklist">
+      <li>The <strong>welcome email</strong> arrives in your inbox with your Drop Vault link.</li>
+      <li>If today is Friday or later in the week, this Friday's drop is waiting in the Vault. If earlier, the next drop hits Friday morning (AEST).</li>
+      <li>Open the Vault. Scroll the swipes. Pick two or three that fit. Edit your way in.</li>
+      <li>Schedule your week. Close the laptop. Live your life.</li>
+    </ul>
+
+    <div class="welcome-cta-row">
+      <a href="mailto:ben@nunyabunya.com" class="btn-ghost">Got a question? ben@nunyabunya.com</a>
+      <a href="index.html" class="btn-primary">← Back to Nunya Bunya</a>
+    </div>
+    <p class="meta-line">// Subscription active · Manage anytime via Stripe receipt</p>
+  </div>
+</section>
+
+<script>
+// Fire Mautic / GA event for "swipe_file_signup_complete" if scripts present
+try {
+  if (window.MauticTrackingObject) {
+    var mt = window[window.MauticTrackingObject];
+    mt('send', 'pageview', { tags: 'swipe-file-subscriber' });
+  }
+} catch(e) {}
+</script>
+</body>
+</html>
