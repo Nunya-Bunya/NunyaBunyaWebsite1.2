@@ -1123,22 +1123,26 @@
           <li style="font-size:13px;color:rgba(255,255,255,0.6);padding:6px 0;display:flex;gap:8px;"><span style="color:var(--teal);">&#10003;</span> Brand Bible</li>
           <li style="font-size:13px;color:rgba(255,255,255,0.6);padding:6px 0;display:flex;gap:8px;"><span style="color:var(--teal);">&#10003;</span> Style Guide</li>
           <li style="font-size:13px;color:rgba(255,255,255,0.6);padding:6px 0;display:flex;gap:8px;"><span style="color:var(--teal);">&#10003;</span> Logo Package</li>
-          <li style="font-size:13px;color:var(--magenta);padding:6px 0;display:flex;gap:8px;"><span style="color:var(--magenta);">&#9733;</span> All six playbooks, bound</li>
+          <li style="font-size:13px;color:var(--magenta);padding:6px 0;display:flex;gap:8px;"><span style="color:var(--magenta);">&#9733;</span> All six playbooks, as designed PDFs</li>
         </ul>
         <button onclick="showCheckoutModal()" style="width:100%;padding:14px;background:var(--teal);color:var(--dark);font-family:var(--font-heading);font-weight:900;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;">Buy Now — $999</button>
       </div>
 
-      <!-- OPTION 2: PLAN + STYLE GUIDE ($499 or free with code) -->
+      <!-- OPTION 2: FREE BUSINESS PLAN (promo-code claim)
+           $499 "Plan + Style Guide" tier RETIRED 2026-07-31 (Ben's call). It had no
+           Stripe link and collided with the $299 playbook price. The card is KEPT
+           because it hosts the promo-code input that claims the FREE plan — deleting
+           the card would have deleted the free-claim path with it. -->
       <div style="padding:36px 28px;background:var(--dark3);border:1px solid var(--subtle);">
-        <div style="font-family:var(--font-heading);font-weight:700;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Essentials</div>
-        <div style="font-family:var(--font-heading);font-weight:900;font-size:24px;text-transform:uppercase;color:var(--white);margin-bottom:8px;">Plan + Style Guide</div>
-        <div id="bpPriceDisplay" style="font-family:var(--font-heading);font-weight:900;font-size:36px;color:var(--muted);margin-bottom:16px;">$499</div>
+        <div style="font-family:var(--font-heading);font-weight:700;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Lead Magnet</div>
+        <div style="font-family:var(--font-heading);font-weight:900;font-size:24px;text-transform:uppercase;color:var(--white);margin-bottom:8px;">Your Business Plan</div>
+        <div id="bpPriceDisplay" style="font-family:var(--font-heading);font-weight:900;font-size:36px;color:var(--muted);margin-bottom:16px;">Free</div>
         <ul style="list-style:none;padding:0;margin:0 0 24px;">
-          <li style="font-size:13px;color:rgba(255,255,255,0.6);padding:6px 0;display:flex;gap:8px;"><span style="color:var(--teal);">&#10003;</span> Business Plan</li>
-          <li style="font-size:13px;color:rgba(255,255,255,0.6);padding:6px 0;display:flex;gap:8px;"><span style="color:var(--teal);">&#10003;</span> Visual Style Guide</li>
+          <li style="font-size:13px;color:rgba(255,255,255,0.6);padding:6px 0;display:flex;gap:8px;"><span style="color:var(--teal);">&#10003;</span> Business Plan, built from your answers</li>
+          <li style="font-size:13px;color:rgba(255,255,255,0.6);padding:6px 0;display:flex;gap:8px;"><span style="color:var(--teal);">&#10003;</span> Delivered as a designed PDF</li>
           <li style="font-size:13px;color:rgba(255,255,255,0.2);padding:6px 0;display:flex;gap:8px;"><span style="color:rgba(255,255,255,0.15);">&mdash;</span> Brand Bible</li>
           <li style="font-size:13px;color:rgba(255,255,255,0.2);padding:6px 0;display:flex;gap:8px;"><span style="color:rgba(255,255,255,0.15);">&mdash;</span> Logo Package</li>
-          <li style="font-size:13px;color:rgba(255,255,255,0.2);padding:6px 0;display:flex;gap:8px;"><span style="color:rgba(255,255,255,0.15);">&mdash;</span> All six playbooks, bound</li>
+          <li style="font-size:13px;color:rgba(255,255,255,0.2);padding:6px 0;display:flex;gap:8px;"><span style="color:rgba(255,255,255,0.15);">&mdash;</span> All six playbooks, as designed PDFs</li>
         </ul>
         <div style="margin-bottom:12px;">
           <div style="display:flex;gap:8px;">
@@ -1148,7 +1152,7 @@
           <div id="bpPromoMessage" style="font-size:11px;color:var(--teal);margin-top:6px;display:none;"></div>
           <div id="freeClaimError" style="font-size:11px;color:var(--magenta);margin-top:6px;display:none;"></div>
         </div>
-        <button onclick="checkoutBP()" id="bpCheckoutBtn" style="width:100%;padding:14px;background:transparent;color:var(--teal);font-family:var(--font-heading);font-weight:700;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--teal);cursor:pointer;">Buy Plan + Style Guide — $499</button>
+        <a href="products-library.html" style="display:block;width:100%;box-sizing:border-box;padding:14px;background:transparent;color:var(--teal);font-family:var(--font-heading);font-weight:700;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--teal);cursor:pointer;text-align:center;text-decoration:none;">See the playbooks — from $99</a>
       </div>
     </div>
 
@@ -1272,7 +1276,7 @@ const totalSteps = 8;
 const questionsPerStep = [8, 9, 8, 5, 7, 7, 6, 10];
 const STORAGE_KEY = 'nb_bfk_survey';
 const SESSION_KEY = 'nb_bfk_session_id';
-const PLAN_STYLE_PRICE = 499;
+/* PLAN_STYLE_PRICE ($499) removed 2026-07-31 with the retired Plan + Style Guide tier. */
 
 /* ── Standing Stripe Payment Links ────────────────────────────────────────────
    The original design had n8n mint a Stripe Checkout Session per buyer and
@@ -1282,7 +1286,7 @@ const PLAN_STYLE_PRICE = 499;
    Stripe. If n8n ever does return a checkout_url, it takes precedence.
    Source of truth for links: MASTER PLANS/nb-os-spine.json (do not hand-edit). */
 const NB_CHECKOUT_LINK = 'https://buy.stripe.com/6oUeVe6DD9i6gBm28Y8k806';   /* $999 NB OS Foundation */
-const NB_PLAN_STYLE_LINK = '';   /* $499 Plan + Style Guide - no link yet; falls back to the email path */
+/* NB_PLAN_STYLE_LINK removed 2026-07-31 — the $499 tier it served is retired. */
 let businessStage = 'startup'; /* 'startup' or 'existing' */
 
 /* Stable per-visitor id so server-side partial saves upsert one row per person. */
@@ -1753,21 +1757,16 @@ async function applyBPPromo() {
     }
 
     bpPromoApplied = promo;
-    const newPrice = Math.round(PLAN_STYLE_PRICE * (1 - promo.discount_percent / 100));
 
-    if (newPrice === 0) {
-      document.getElementById('bpPriceDisplay').innerHTML = '<span style="text-decoration:line-through;color:rgba(255,255,255,0.2);font-size:24px;">$499</span> Free';
-      document.getElementById('bpCheckoutBtn').textContent = 'Get Plan + Style Guide — Free';
-      msgEl.textContent = 'Code applied! Your Plan + Style Guide is free.';
-    } else {
-      document.getElementById('bpPriceDisplay').innerHTML = '<span style="text-decoration:line-through;color:rgba(255,255,255,0.2);font-size:24px;">$499</span> $' + newPrice;
-      document.getElementById('bpCheckoutBtn').textContent = 'Buy Plan + Style Guide — $' + newPrice;
-      msgEl.textContent = promo.discount_percent + '% off applied!';
-    }
+    /* The $499 paid tier was retired 2026-07-31, so a valid code now simply claims
+       the FREE business plan. bpCheckoutBtn no longer exists — writing to it here
+       threw a null reference and killed the claim. Submit the survey directly. */
+    msgEl.textContent = 'Code applied. Building your business plan now...';
     msgEl.style.display = 'block';
     document.getElementById('freePromoInput').disabled = true;
     btn.textContent = '✓';
     btn.disabled = true;
+    await submitSurvey();
 
   } catch (e) {
     errEl.textContent = 'Could not verify code.';
@@ -1776,51 +1775,10 @@ async function applyBPPromo() {
   }
 }
 
-async function checkoutBP() {
-  const finalPrice = bpPromoApplied ? Math.round(PLAN_STYLE_PRICE * (1 - bpPromoApplied.discount_percent / 100)) : PLAN_STYLE_PRICE;
-
-  if (finalPrice === 0 && bpPromoApplied) {
-    /* Free — submit survey and show success */
-    await submitSurvey();
-    return;
-  }
-
-  /* Paid — go to Stripe via n8n */
-  const btn = document.getElementById('bpCheckoutBtn');
-  btn.disabled = true;
-  btn.textContent = 'Processing...';
-
-  try {
-    const name = document.getElementById('clientName').value.trim();
-    const email = document.getElementById('clientEmail').value.trim();
-    const answers = collectSurveyAnswers();
-    const res = await fetch('/api/webhook?type=business-foundation-kit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        product: 'plan-style-guide',
-        tier: 'essentials',
-        client_name: name,
-        client_email: email,
-        client_phone: document.getElementById('clientPhone').value.trim(),
-        answers: answers,
-        amount: finalPrice * 100,
-        payment_status: 'pending',
-        submitted_at: new Date().toISOString()
-      })
-    });
-    const data = await res.json();
-    const target = data.checkout_url || NB_PLAN_STYLE_LINK;
-    if (target) { window.location.href = target; return; }
-    btn.disabled = false;
-    btn.textContent = 'Buy Plan + Style Guide — $' + finalPrice;
-    alert("Your answers are saved, but checkout could not open just now.\n\nEmail ben@nunyabunya.com and I'll send you a payment link directly.");
-  } catch (e) {
-    btn.disabled = false;
-    btn.textContent = 'Buy Plan + Style Guide — $' + finalPrice;
-    alert("Your answers are saved, but checkout could not open just now.\n\nEmail ben@nunyabunya.com and I'll send you a payment link directly.");
-  }
-}
+/* checkoutBP() REMOVED 2026-07-31 — it drove the retired $499 "Plan + Style Guide"
+   tier. That tier had no Stripe link (NB_PLAN_STYLE_LINK was empty), so the paid
+   branch always fell through to an email-me alert. The free branch now lives in
+   applyBPPromo(), which calls submitSurvey() directly. */
 
 /* ═══════════ BFK CHECKOUT ═══════════ */
 let appliedPromo = null;
