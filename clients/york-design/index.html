@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>York Design Launch Preview</title>
+<link rel="icon" href="i/profile-1080.jpg">
+</head>
+<body>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one reading column like a printed proof; every item carries a code Tish can quote back when she replies. */
+:root{
+  --bg:#f6f8f4; --surface:#ffffff; --fg:#1f2a1c; --muted:#56614f; --line:#dce5d6;
+  --sage:#b3cba6; --sage-ink:#4d6f3e; --tint:#e7f1e1; --mark:#fbe7a1;
+  --display:Cardo,Georgia,"Times New Roman",serif; --body:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141a12; --surface:#1c241a; --fg:#e8eee4; --muted:#a9b6a2; --line:#2f3a2b;
+  --sage:#7f9c71; --sage-ink:#b3cba6; --tint:#243020; --mark:#6b5a1c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a12; --surface:#1c241a; --fg:#e8eee4; --muted:#a9b6a2; --line:#2f3a2b;
+  --sage:#7f9c71; --sage-ink:#b3cba6; --tint:#243020; --mark:#6b5a1c; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:20px;padding-block:28px 96px}
+a{color:var(--sage-ink)} a:focus-visible{outline:2px solid var(--sage-ink);outline-offset:2px}
+img{max-width:100%;height:auto;display:block}
+h1,h2,h3{font-family:var(--display);font-weight:700;text-wrap:balance;margin:0}
+.top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.hero{padding-block:28px 8px;border-bottom:2px solid var(--sage)}
+.hero h1{font-size:clamp(34px,6vw,58px);line-height:1.05}
+.hero p{max-width:62ch;color:var(--muted);font-size:17px}
+.how{background:var(--tint);border-radius:10px;padding:18px 20px;margin:24px 0 0;display:grid;gap:6px}
+.how b{font-weight:600}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px 18px;margin:20px 0 0;font-size:14px}
+section{margin-top:56px}
+section>h2{font-size:clamp(26px,4vw,36px)}
+section>.lead{color:var(--muted);max-width:62ch;margin:6px 0 20px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:18px}
+.item-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.item-h h3{font-size:24px;flex:1 1 12ch;min-width:0}
+.code{font:600 13px/1 var(--body);letter-spacing:.06em;background:var(--sage);color:#1f2a1c;padding:6px 9px;border-radius:5px}
+.open{font-weight:600;font-size:15px}
+.ad{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px}
+.ad-imgs{display:grid;grid-template-columns:1.4fr 1fr;gap:12px;align-items:start}
+figure{margin:0} figcaption{font-size:13px;color:var(--muted);margin-top:6px}
+.ad-imgs img,.lp img,.cover img,.post img{border-radius:6px;border:1px solid var(--line)}
+.label{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage-ink);font-weight:600;margin:0 0 6px}
+.copy{background:var(--tint);border-radius:8px;padding:12px 14px;font-size:15px} .copy p{margin:0 0 10px} .copy p:last-child{margin:0}
+dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px;margin:14px 0 0} dt{color:var(--muted)} dd{margin:0;font-weight:500;min-width:0;overflow-wrap:anywhere}
+mark{background:var(--mark);color:inherit;padding:0 3px;border-radius:3px}
+.lp{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,1fr);gap:16px;align-items:start}
+.pp{display:flex;gap:20px;align-items:center;flex-wrap:wrap} .pp img{width:160px} .pp-ci{border-radius:50%;border:1px solid var(--line)} .pp-sq{border:1px solid var(--line)} .pp p{flex:1;min-width:220px;color:var(--muted);margin:0}
+.acct-b{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;align-items:start} .acct-instagram{grid-template-columns:minmax(0,340px) minmax(0,1fr)}
+.shot{border-radius:8px;border:1px solid var(--line)} .shot.pending{aspect-ratio:16/10;display:grid;place-items:center;background:var(--tint);color:var(--muted);font-size:14px;text-align:center;padding:16px}
+.pending-tag{font-size:13px;font-weight:600;color:var(--sage-ink);background:var(--tint);padding:6px 10px;border-radius:999px}
+.acct p{margin:0 0 8px} .note{color:var(--muted);font-size:14px}
+.tbl{overflow-x:auto} table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-top:1px solid var(--line);white-space:pre-line}
+th[scope=row]{color:var(--muted);font-weight:500;width:150px} th.sub{font-family:var(--display);font-size:19px;padding-top:18px;border-top:0}
+.posts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.post{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.post figcaption{font-size:14px;color:var(--fg)} .post figcaption p{margin:8px 0 0} .post .code{display:inline-block;margin-top:10px}
+.ideas{margin:0;padding-left:20px;display:grid;gap:8px;max-width:70ch}
+.need{counter-reset:n;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.need li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.need b{font-weight:600} .need-one p{margin:0} .need-one b{font-weight:600}
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+@media (max-width:820px){.ad,.lp,.acct-b{grid-template-columns:1fr} .posts{grid-template-columns:repeat(2,minmax(0,1fr))} .lp-m{max-width:240px}}
+@media (max-width:520px){.posts{grid-template-columns:1fr} .ad-imgs{grid-template-columns:1fr} .ad-imgs figure+figure{max-width:70%;justify-self:center} .item{padding:16px} .item-h .open{flex-basis:100%}}
+</style>
+<div class="wrap">
+<div class="top"><span>Prepared for Letitia York · York Design</span><span>Nunya Bunya · 12 October 2026</span></div>
+<header class="hero">
+<h1>Your ads, pages and profiles, ready for your OK</h1>
+<p>Everything here uses your own project photos and the reviews on yorkdesign.com.au. Two ads run on Facebook and Instagram: one for kitchen, bathroom and laundry renovations, one for decks and deck extensions. Each sends people to its own page with a quote form that comes straight to you.</p>
+</header>
+<div class="how"><b>How to approve</b><span>Reply to Ben's email or text him. "All approved" is enough. To change something, quote its code, for example: "D6, change the last line" or "A2, change the headline to…"</span></div>
+<nav class="toc" aria-label="Sections"><a href="#ads">A · The two ads</a><a href="#pages">B · Landing pages</a><a href="#profiles">C · Your profiles</a><a href="#posts">D · First posts</a><a href="#need">What we need from you</a></nav>
+
+<section id="ads"><h2>A · The two ads</h2>
+<p class="lead">$30 a day in total, $15 on each ad, shown to people within about 10km of Dutton Park and Moorooka.</p>
+<article class="item" id="a1">
+<header class="item-h"><span class="code">A1</span><h3>Kitchen, bathroom and laundry renovations</h3></header>
+<div class="ad">
+  <div class="ad-imgs"><figure><img src="i/ad-renovations.jpg" alt="The ad in the Facebook feed" width="1064" height="1800"><figcaption>In the Facebook and Instagram feed</figcaption></figure>
+  <figure><img src="i/renovations-story.jpg" alt="The ad in Stories" width="640" height="1138"><figcaption>In Stories and Reels</figcaption></figure></div>
+  <div class="ad-copy">
+    <p class="label">Full ad text</p><div class="copy"><p>Kitchens, bathrooms and laundries usually pass between a designer, a cabinet maker, a builder and five other trades. With York Design, one person designs it, books every trade and is on site building it.</p><p>Letitia (Tish) York is a licensed carpenter with interior design qualifications and 18 renovated homes behind her. She specialises in Queenslanders.</p><p>Working within about 10km of Dutton Park and Moorooka. Two new projects a month.</p><p>QBCC licence 15367237</p></div>
+    <dl><dt>Headline</dt><dd>Kitchen, bathroom and laundry renovations</dd><dt>Button</dt><dd>Get quote</dd>
+    <dt>Clicks go to</dt><dd><a href="https://york-design-lp.vercel.app/renovations">york-design-lp.vercel.app/renovations</a></dd></dl>
+  </div>
+</div></article><article class="item" id="a2">
+<header class="item-h"><span class="code">A2</span><h3>Decks and deck extensions, built by Tish</h3></header>
+<div class="ad">
+  <div class="ad-imgs"><figure><img src="i/ad-decks.jpg" alt="The ad in the Facebook feed" width="1064" height="1800"><figcaption>In the Facebook and Instagram feed</figcaption></figure>
+  <figure><img src="i/decks-story.jpg" alt="The ad in Stories" width="640" height="1138"><figcaption>In Stories and Reels</figcaption></figure></div>
+  <div class="ad-copy">
+    <p class="label">Full ad text</p><div class="copy"><p>Thinking about extending the deck, or replacing the one that&#x27;s past it?</p><p>Letitia (Tish) York is a licensed carpenter who specialises in Queenslanders. She designs the deck with you, works out the footings and approvals, and builds it with her own team.</p><p>&quot;Tish worked with us very effectively to help us make decisions keeping in mind new regulations and who would need to be engaged for approvals.&quot; Bruce, Ashgrove</p><p>Working within about 10km of Dutton Park and Moorooka.</p><p>QBCC licence 15367237</p></div>
+    <dl><dt>Headline</dt><dd>Decks and deck extensions, built by Tish</dd><dt>Button</dt><dd>Get quote</dd>
+    <dt>Clicks go to</dt><dd><a href="https://york-design-lp.vercel.app/decks">york-design-lp.vercel.app/decks</a></dd></dl>
+  </div>
+</div></article></section>
+
+<section id="pages"><h2>B · Landing pages</h2>
+<p class="lead">These are live now, so tap through and try them on your phone. Your video sits at the top of the kitchen, bathroom and laundry page, with captions for people watching with the sound off. Enquiries from the form will come to your email with the person's details and a tap-to-call link. Only people who click your ads will see these pages.</p>
+<article class="item" id="b1">
+<header class="item-h"><span class="code">B1</span><h3>Kitchen, bathroom and laundry page</h3><a class="open" href="https://york-design-lp.vercel.app/renovations">Open the live page</a></header>
+<div class="lp"><img class="lp-d" src="i/lp-renovations.jpg" alt="Kitchen, bathroom and laundry page on a computer" width="1100" height="693"><img class="lp-m" src="i/lpm-renovations.jpg" alt="Kitchen, bathroom and laundry page on a phone" width="390" height="844"></div>
+</article><article class="item" id="b2">
+<header class="item-h"><span class="code">B2</span><h3>Decks and deck extensions page</h3><a class="open" href="https://york-design-lp.vercel.app/decks">Open the live page</a></header>
+<div class="lp"><img class="lp-d" src="i/lp-decks.jpg" alt="Decks and deck extensions page on a computer" width="1100" height="693"><img class="lp-m" src="i/lpm-decks.jpg" alt="Decks and deck extensions page on a phone" width="390" height="844"></div>
+</article></section>
+
+<section id="profiles"><h2>C · Your social profiles</h2>
+<p class="lead">Your new Instagram and Facebook Page. They're in your business's name, and Ben looks after them day to day.</p>
+<article class="item acct" id="c1"><header class="item-h"><span class="code">C1</span><h3>Instagram</h3>
+<a class="open" href="https://www.instagram.com/yorkdesignbrisbane/">Open your Instagram</a></header>
+<div class="acct-b acct-instagram"><figure><img class="shot" src="i/ig-profile.jpg" alt="How your Instagram will look once the first nine posts are up."><figcaption>How your Instagram will look once the first nine posts are up.</figcaption></figure>
+<div><p class="label">Logging in</p><p>Ben looks after the logins and the day-to-day for you, so there&#x27;s nothing you need to do. If you&#x27;d ever like to get in yourself, just ask him.</p></div></div></article><article class="item acct" id="c2"><header class="item-h"><span class="code">C2</span><h3>Facebook Page</h3>
+<a class="open" href="https://www.facebook.com/yorkdesignbrisbane">Open your Facebook Page</a></header>
+<div class="acct-b acct-facebook"><figure><img class="shot" src="i/fb-page.jpg" alt="How your Facebook Page will look once the first posts are up."><figcaption>How your Facebook Page will look once the first posts are up.</figcaption></figure>
+<div><p class="label">Logging in</p><p>Ben looks after the logins and the day-to-day for you, so there&#x27;s nothing you need to do. If you&#x27;d ever like to get in yourself, just ask him.</p></div></div></article></section>
+
+<section id="posts"><h2>D · First nine posts</h2>
+<p class="lead">Written in your voice, so read them as if you were posting them. They go up in this order, before the ads start, so anyone who clicks through to your profile sees your work.</p>
+<div class="posts"><figure class="post" id="d1"><img src="i/post-01.jpg" alt="Post 1" width="640" height="800" loading="lazy">
+<figcaption><span class="code">D1</span><p>Hi, I&#x27;m Tish, and this is York Design.</p><p>I started out as a teacher. In 2010 I renovated and flipped my first house, and over the next ten years I did 18 of them. Then I made it official: carpentry licence, Project Management Diploma and interior design qualifications.</p><p>These days I renovate other people&#x27;s Queenslanders in Brisbane&#x27;s inner south. Kitchens, bathrooms, laundries and decks. I design the job with you and I&#x27;m on site building it.</p><p>This page is where I&#x27;ll share the jobs as they happen.</p><p>#queenslander #brisbanerenovation #yorkdesign #duttonpark #moorooka</p></figcaption></figure><figure class="post" id="d2"><img src="i/post-02.jpg" alt="Post 2" width="640" height="800" loading="lazy">
+<figcaption><span class="code">D2</span><p>The Tillot kitchen, Dutton Park.</p><p>The house was built in 1885. Every part of it was repaired, restored or replaced, and the post-war add-ons came off first.</p><p>The kitchen got a long stone island, timber stools and an arched wine wall. The skylight does most of the work during the day.</p><p>#queenslander #kitchenrenovation #brisbanekitchens #duttonpark #yorkdesign</p></figcaption></figure><figure class="post" id="d3"><img src="i/post-03.jpg" alt="Post 3" width="640" height="800" loading="lazy">
+<figcaption><span class="code">D3</span><p>One of the bathrooms at Tillot, Dutton Park.</p><p>Fluted glass, a timber vanity and two pink basins. A bathroom like this needs a plumber, electrician, waterproofer, tiler and carpenter, in the right order. I book and sequence all of them, so my clients only ever have one person to call.</p><p>#bathroomrenovation #brisbanebathrooms #queenslander #yorkdesign</p></figcaption></figure><figure class="post" id="d4"><img src="i/post-04.jpg" alt="Post 4" width="640" height="800" loading="lazy">
+<figcaption><span class="code">D4</span><p>Philip, Hawthorne.</p><p>This 2 bed, 1 bath house became a 3 bed, 2 bath house without growing its footprint. Part of a very large external deck was turned into internal space for this new kitchen.</p><p>Sometimes the room you need is already there.</p><p>#hawthorne #kitchenrenovation #brisbanerenovation #yorkdesign</p></figcaption></figure><figure class="post" id="d5"><img src="i/post-05.jpg" alt="Post 5" width="640" height="800" loading="lazy">
+<figcaption><span class="code">D5</span><p>Mandalay, Fig Tree Pocket.</p><p>A 1980s house turned into a mid-century modern home. Cane-front vanity, brass tapware and a freestanding tub.</p><p>Old houses aren&#x27;t only Queenslanders. Every era has something worth keeping.</p><p>#bathroomrenovation #midcenturymodern #figtreepocket #yorkdesign</p></figcaption></figure><figure class="post" id="d6"><img src="i/post-06.jpg" alt="Post 6" width="640" height="800" loading="lazy">
+<figcaption><span class="code">D6</span><p>&quot;Having only ever had bad experiences with builders, Letitia was a dream to work with. Her work is of the highest standard. Her attention to detail second to none. Letitia listens intently to what you want and she delivers exactly that.&quot;</p><p>Sara, Moorooka. New bedroom, 2025.</p><p>Thank you Sara.</p><p>#moorooka #brisbanerenovation #yorkdesign</p></figcaption></figure><figure class="post" id="d7"><img src="i/post-07.jpg" alt="Post 7" width="640" height="800" loading="lazy">
+<figcaption><span class="code">D7</span><p>The back deck at Mandalay, Fig Tree Pocket.</p><p>Built-in bench seating with lighting tucked underneath, steps down to the yard, and a louvred roof over the dining end.</p><p>Thinking about a new deck or extending the one you have? I handle the design, footings and approvals, and build it with my own team.</p><p>#brisbanedecks #deckbuilder #deckextension #figtreepocket #yorkdesign</p></figcaption></figure><figure class="post" id="d8"><img src="i/post-08.jpg" alt="Post 8" width="640" height="800" loading="lazy">
+<figcaption><span class="code">D8</span><p>Laundries get forgotten in a renovation, and they get used every single day.</p><p>Rattan-front cabinets, a brushed brass tap, a green tiled splashback and a frosted glass door. Small room, big difference.</p><p>#laundryrenovation #brisbanerenovation #queenslander #yorkdesign</p></figcaption></figure><figure class="post" id="d9"><img src="i/post-09.jpg" alt="Post 9" width="640" height="800" loading="lazy">
+<figcaption><span class="code">D9</span><p>The new bathroom at Philip, Hawthorne.</p><p>Arched mirror, freestanding bath and patterned floor tiles, inside the house&#x27;s original footprint.</p><p>Thinking about a kitchen or bathroom in Brisbane&#x27;s inner south? Send me a message or call 0404 018 055 for a free quote. I take on two new projects a month.</p><p>#bathroomrenovation #hawthorne #queenslander #yorkdesign</p></figcaption></figure></div>
+
+</section>
+
+<section id="need"><h2>What we need from you</h2>
+<div class="item need-one"><p><b>Your card on the Facebook ad account.</b> Meta bills your card directly for the ad spend, $30 a day. Ben will walk you through it on a quick call, and then the ads can go live.</p></div></section>
+
+<footer>Prepared by Ben Alek Conner, Nunya Bunya</footer>
+</div>
+
+</body>
+</html>
