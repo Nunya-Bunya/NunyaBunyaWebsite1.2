@@ -243,8 +243,14 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"/></n
       if (d && d.url) url = d.url;
     } catch (e) { console.error('checkout create failed (using payment link):', e); }
     try { localStorage.setItem('bp_answers', JSON.stringify(answers)); } catch (e) {}
-    if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { value: 89, currency: 'AUD' });
-    if (typeof _paq !== 'undefined') _paq.push(['trackEvent', 'BusinessPlan', 'InitiateCheckout', '$89']);
+    // Lead = finished the quiz and gave an email. This is the event the Meta ad set optimises on:
+    // at ~$10/day there will never be ~50 purchases a week for Meta to learn from (SOP-AD-000 stage 6).
+    if (typeof fbq !== 'undefined') {
+      fbq('track', 'Lead', { content_name: 'Business Plan quiz' });
+      fbq('track', 'InitiateCheckout', { value: 89, currency: 'AUD' });
+    }
+    // give the pixel a moment to send before the page navigates away
+    await new Promise(res => setTimeout(res, 400));
     window.location.href = url;
   });
 
