@@ -224,26 +224,27 @@ src="https://www.facebook.com/tr?id=251483972902519&ev=PageView&noscript=1"/></n
   nextBtn.addEventListener('click', async () => {
     if (!validateAndSave()) return;
     if (step < QUESTIONS.length - 1) { step++; render(); return; }
-    // final step → capture lead, then send to Stripe
+    // final step → open a Stripe checkout that carries the answers on the payment itself
+    // (api/bp-checkout.js). If that fails, fall back to the plain Payment Link.
     nextBtn.disabled = true; nextBtn.textContent = 'Saving your answers…';
     const payload = {
       email: answers.email,
       name: answers.owner_name,
       answers: { ...answers }
     };
+    let url = STRIPE_PAYMENT_LINK + (STRIPE_PAYMENT_LINK.includes('?') ? '&' : '?') + 'prefilled_email=' + encodeURIComponent(answers.email);
     try {
-      await fetch('/api/webhook?type=business-plan', {
+      const r = await fetch('/api/bp-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-    } catch (e) { console.error('lead capture failed (continuing to payment):', e); }
-    // stash answers locally too, as a backstop
+      const d = await r.json();
+      if (d && d.url) url = d.url;
+    } catch (e) { console.error('checkout create failed (using payment link):', e); }
     try { localStorage.setItem('bp_answers', JSON.stringify(answers)); } catch (e) {}
     if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { value: 89, currency: 'AUD' });
     if (typeof _paq !== 'undefined') _paq.push(['trackEvent', 'BusinessPlan', 'InitiateCheckout', '$89']);
-    // send to Stripe Payment Link, prefilling email so the receipt matches
-    const url = STRIPE_PAYMENT_LINK + (STRIPE_PAYMENT_LINK.includes('?') ? '&' : '?') + 'prefilled_email=' + encodeURIComponent(answers.email);
     window.location.href = url;
   });
 
