@@ -88,7 +88,7 @@ export default async function handler(req, res) {
   // Email Ben (2026-11-13). Slack isn't read; this is the alert that reaches him.
   const rowsHtml = [['Name', name], ['Email', email], ['Phone', phone], ['Interest', interest], ['Source', source], ['Page', page], ['Message', message]]
     .filter(([, v]) => v).map(([k, v]) => `<p><b>${k}:</b> ${escapeHtml(String(v))}</p>`).join('');
-  const emailed = await sendEmailNotification(null, `New NB lead: ${name}${interest ? ' (' + interest + ')' : ''}`, rowsHtml + `<p>Lead ID: ${savedLead?.id || (saveFailed ? 'NOT SAVED (database down), this email is the only record' : 'unknown')}</p>`);
+  const emailed = await sendEmailNotification('ben@nunyabunya.com', `New NB lead: ${name}${interest ? ' (' + interest + ')' : ''}`, rowsHtml + `<p>Lead ID: ${savedLead?.id || (saveFailed ? 'NOT SAVED (database down), this email is the only record' : 'unknown')}</p>`);
   if (saveFailed && !emailed) {
     return res.status(500).json({ ok: false, error: 'Could not save your message. Please try again.' });
   }

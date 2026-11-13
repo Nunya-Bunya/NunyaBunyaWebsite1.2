@@ -102,7 +102,7 @@ export default async function handler(req, res) {
   <p style="margin-top:20px"><a href="https://www.nunyabunya.com/nb-admin-bfk.html" style="background:#00e5cc;color:#000;padding:10px 16px;text-decoration:none;font-weight:700">Open in NBHQ</a></p>
 </div>`;
 
-  const emailed = await sendEmailNotification(null, `New BFK submission — ${business}`, emailHtml);
+  const emailed = await sendEmailNotification('ben@nunyabunya.com', `New BFK submission — ${business}`, emailHtml);
   if (saveFailed && !emailed) {
     return res.status(500).json({ ok: false, error: 'Could not save your answers. Please try again.' });
   }
