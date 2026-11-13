@@ -41,6 +41,7 @@ export default async function handler(req, res) {
   };
 
   let savedLead = null;
+  let saveFailed = false;
   try {
     const supabaseRes = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
       method: 'POST',
@@ -56,15 +57,17 @@ export default async function handler(req, res) {
     if (!supabaseRes.ok) {
       const errText = await supabaseRes.text();
       console.error('Supabase insert failed:', supabaseRes.status, errText);
-      return res.status(500).json({ ok: false, error: 'Could not save your message. Please try again.' });
+      saveFailed = true;
+    } else {
+      const rows = await supabaseRes.json();
+      savedLead = Array.isArray(rows) ? rows[0] : rows;
     }
-
-    const rows = await supabaseRes.json();
-    savedLead = Array.isArray(rows) ? rows[0] : rows;
   } catch (err) {
     console.error('Supabase insert exception:', err);
-    return res.status(500).json({ ok: false, error: 'Could not save your message. Please try again.' });
+    saveFailed = true;
   }
+  // 2026-11-13: the Supabase project stopped resolving, so every enquiry was rejected. A failed save no
+  // longer loses the lead: the email to Ben below becomes the record. Only if BOTH fail does the visitor see an error.
 
   // Send Slack alert
   const slackMessage = [
@@ -85,7 +88,10 @@ export default async function handler(req, res) {
   // Email Ben (2026-11-13). Slack isn't read; this is the alert that reaches him.
   const rowsHtml = [['Name', name], ['Email', email], ['Phone', phone], ['Interest', interest], ['Source', source], ['Page', page], ['Message', message]]
     .filter(([, v]) => v).map(([k, v]) => `<p><b>${k}:</b> ${escapeHtml(String(v))}</p>`).join('');
-  await sendEmailNotification(null, `New NB lead: ${name}${interest ? ' (' + interest + ')' : ''}`, rowsHtml + `<p>Lead ID: ${savedLead?.id || 'unknown'}</p>`);
+  const emailed = await sendEmailNotification(null, `New NB lead: ${name}${interest ? ' (' + interest + ')' : ''}`, rowsHtml + `<p>Lead ID: ${savedLead?.id || (saveFailed ? 'NOT SAVED (database down), this email is the only record' : 'unknown')}</p>`);
+  if (saveFailed && !emailed) {
+    return res.status(500).json({ ok: false, error: 'Could not save your message. Please try again.' });
+  }
 
   // Mautic — create/update contact and add to NB segment
   const MAUTIC_URL = (process.env.MAUTIC_URL || '').trim().replace(/\/$/, '');

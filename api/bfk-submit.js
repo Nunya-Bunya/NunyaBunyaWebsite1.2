@@ -38,6 +38,7 @@ export default async function handler(req, res) {
   };
 
   let insertedId = null;
+  let saveFailed = false;
   try {
     const r = await fetch(`${SUPABASE_URL}/rest/v1/bfk_submissions`, {
       method: 'POST',
@@ -52,14 +53,17 @@ export default async function handler(req, res) {
     if (!r.ok) {
       const errTxt = await r.text();
       console.error('Supabase insert failed:', r.status, errTxt);
-      return res.status(500).json({ ok: false, error: 'Could not save your answers. Please try again.' });
+      saveFailed = true;
+    } else {
+      const rows = await r.json();
+      insertedId = rows && rows[0] && rows[0].id;
     }
-    const rows = await r.json();
-    insertedId = rows && rows[0] && rows[0].id;
   } catch (e) {
     console.error('Supabase insert exception:', e);
-    return res.status(500).json({ ok: false, error: 'Could not save your answers. Please try again.' });
+    saveFailed = true;
   }
+  // 2026-11-13: the Supabase project stopped resolving. A failed save no longer loses the submission: the email
+  // below then carries every answer and is the record. Only if BOTH fail does the visitor see an error.
 
   const business = answers.q1 || answers.q2 || '(unnamed)';
   const trackLabel = track === 'existing' ? 'Existing business' : (track === 'startup' ? 'Starting fresh' : 'Unknown track');
@@ -94,10 +98,14 @@ export default async function handler(req, res) {
     <tr><td style="padding:6px 12px;background:#f5f5f5"><strong>Answers</strong></td><td style="padding:6px 12px">${answerCount} questions</td></tr>
     <tr><td style="padding:6px 12px;background:#f5f5f5"><strong>Submission ID</strong></td><td style="padding:6px 12px;font-family:monospace;font-size:12px">${escapeHtml(insertedId || 'unknown')}</td></tr>
   </table>
+  ${saveFailed ? `<p style="color:#b00;font-weight:700">NOT SAVED (database down). This email is the only record. All answers:</p><pre style="white-space:pre-wrap;font-size:12px">${escapeHtml(JSON.stringify(answers, null, 2))}</pre>` : ''}
   <p style="margin-top:20px"><a href="https://www.nunyabunya.com/nb-admin-bfk.html" style="background:#00e5cc;color:#000;padding:10px 16px;text-decoration:none;font-weight:700">Open in NBHQ</a></p>
 </div>`;
 
-  await sendEmailNotification(null, `New BFK submission — ${business}`, emailHtml);
+  const emailed = await sendEmailNotification(null, `New BFK submission — ${business}`, emailHtml);
+  if (saveFailed && !emailed) {
+    return res.status(500).json({ ok: false, error: 'Could not save your answers. Please try again.' });
+  }
 
   // Forward to n8n webhook
   const N8N_WEBHOOK = process.env.N8N_BFK_WEBHOOK || 'https://n8n.nunyabunya.com/webhook/business-foundation-kit';
@@ -105,7 +113,8 @@ export default async function handler(req, res) {
     await fetch(N8N_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product: 'brand-bible', promo_code: null, submission_id: insertedId, ...row })
+      body: JSON.stringify({ product: 'brand-bible', promo_code: null, submission_id: insertedId, ...row }),
+      signal: AbortSignal.timeout(1500) // n8n.nunyabunya.com was on the dead Hetzner box
     });
   } catch (e) {
     console.error('n8n exception:', e);
