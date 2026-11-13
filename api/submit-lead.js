@@ -1,5 +1,5 @@
 // Vercel serverless function — accepts site contact form submissions, stores them in Supabase, and sends a Slack alert.
-import { sendSlackAlert, sendMauticSubmission, escapeText } from '../lib/notifications.js';
+import { sendSlackAlert, sendMauticSubmission, sendEmailNotification, escapeText, escapeHtml } from '../lib/notifications.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -82,6 +82,11 @@ export default async function handler(req, res) {
 
   await sendSlackAlert(slackMessage);
 
+  // Email Ben (2026-11-13). Slack isn't read; this is the alert that reaches him.
+  const rowsHtml = [['Name', name], ['Email', email], ['Phone', phone], ['Interest', interest], ['Source', source], ['Page', page], ['Message', message]]
+    .filter(([, v]) => v).map(([k, v]) => `<p><b>${k}:</b> ${escapeHtml(String(v))}</p>`).join('');
+  await sendEmailNotification(null, `New NB lead: ${name}${interest ? ' (' + interest + ')' : ''}`, rowsHtml + `<p>Lead ID: ${savedLead?.id || 'unknown'}</p>`);
+
   // Mautic — create/update contact and add to NB segment
   const MAUTIC_URL = (process.env.MAUTIC_URL || '').trim().replace(/\/$/, '');
   const MAUTIC_USER = process.env.MAUTIC_API_USER || process.env.MAUTIC_USER || 'admin';
@@ -102,14 +107,16 @@ export default async function handler(req, res) {
       const r = await fetch(`${MAUTIC_URL}/api/contacts/new`, {
         method: 'POST',
         headers: { Authorization: auth, 'Content-Type': 'application/json' },
-        body: JSON.stringify(contactData)
+        body: JSON.stringify(contactData),
+        signal: AbortSignal.timeout(1500) // Mautic's host is gone (Hetzner, Oct 2026); never let it hold up the reply
       });
       const d = await r.json();
       const cid = d?.contact?.id;
       if (cid) {
         await fetch(`${MAUTIC_URL}/api/segments/${NB_SEGMENT_ID}/contact/${cid}/add`, {
           method: 'POST',
-          headers: { Authorization: auth }
+          headers: { Authorization: auth },
+          signal: AbortSignal.timeout(1500)
         }).catch(() => {});
       }
     } catch (e) {
@@ -142,6 +149,7 @@ export default async function handler(req, res) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(personPayload),
+        signal: AbortSignal.timeout(1500),
       });
       if (!twentyRes.ok) {
         const errText = await twentyRes.text();

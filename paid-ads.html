@@ -24,8 +24,9 @@
   })();
 </script>
 
-<!-- Meta Pixel Code -->
+<!-- Meta Pixel Code: loads only after the visitor accepts cookies (SOP-AD-000, OAIC) -->
 <script>
+function nbLoadPixel(){
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -36,6 +37,8 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '780551491788433');
 fbq('track', 'PageView');
+}
+try { if (localStorage.getItem('nb_cookie_consent') === 'yes') nbLoadPixel(); } catch (e) {}
 </script>
 
 <style>
@@ -356,6 +359,18 @@ footer a { color: var(--teal); }
 @media (max-width: 480px) {
   .platform-grid { grid-template-columns: 1fr; }
 }
+
+/* Nav: copied from style-v2.css (2026-11-13). This page never loaded it, so the menu showed as a bulleted list. */
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; margin: 0; padding: 0; }
+.nav-links a { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,.6); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: #fff; }
+.nav-toggle { display: none; flex-direction: column; gap: 6px; background: none; border: none; padding: 4px; cursor: pointer; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; }
+@media (max-width: 900px) {
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(13,13,13,0.98); flex-direction: column; padding: 24px; gap: 16px; }
+  .nav-links.open { display: flex; }
+  .nav-toggle { display: flex; }
+}
 </style>
 </head>
 <body>
@@ -384,7 +399,7 @@ footer a { color: var(--teal); }
 <section class="hero">
   <div class="hero-label fade-up">Paid Ads Management</div>
   <h1 class="fade-up fade-up-d1">Paid Ads That<br><em>Actually Make You Money</em></h1>
-  <p class="fade-up fade-up-d2">We've managed hundreds of thousands in ad spend across Google, Meta, TikTok, and Reddit. We don't guess &mdash; we build campaigns engineered to convert, then optimise them relentlessly until your cost per lead drops and your revenue climbs.</p>
+  <p class="fade-up fade-up-d2">I&rsquo;ve run paid ads on Google, Meta, TikTok and Reddit. I build each campaign around one number, what a real enquiry costs you, and every enquiry is tracked back to the ad that brought it in.</p>
   <a href="#cta" class="btn-primary fade-up fade-up-d3">Get Started</a>
 </section>
 
@@ -393,8 +408,8 @@ footer a { color: var(--teal); }
 <!-- PLATFORMS -->
 <section class="section">
   <div class="section-label">Where We Run</div>
-  <h2>Platforms We <span>Master</span></h2>
-  <p class="lead">Four platforms. Four different audiences. One team that knows how to print money on all of them.</p>
+  <h2>Where I <span>Run Ads</span></h2>
+  <p class="lead">Four platforms, four different audiences. I&rsquo;ll tell you which one fits your business, and which ones don&rsquo;t.</p>
   <div class="platform-grid">
     <div class="platform-card">
       <div class="platform-icon google">G</div>
@@ -424,16 +439,16 @@ footer a { color: var(--teal); }
 <!-- AD TYPES -->
 <section class="section">
   <div class="section-label">What We Run</div>
-  <h2>Campaign Types That <span>Print Money</span></h2>
+  <h2>Campaign Types <span>Worth Your Budget</span></h2>
   <p class="lead">Not every ad type is worth your budget. These are the ones that consistently deliver ROI.</p>
   <div class="ad-grid">
     <div class="ad-card">
       <h3>Search &amp; Shopping</h3>
-      <p>Capture people actively searching for what you sell. Highest intent, fastest ROI.</p>
+      <p>Reach people who are searching for what you sell right now.</p>
     </div>
     <div class="ad-card">
       <h3>Retargeting</h3>
-      <p>Bring back the 97% of visitors who didn't convert the first time. Cheap clicks, warm audiences.</p>
+      <p>Show your ads again to people who visited and didn&rsquo;t enquire. They already know who you are.</p>
     </div>
     <div class="ad-card">
       <h3>Lead Generation</h3>
@@ -490,19 +505,19 @@ footer a { color: var(--teal); }
 <!-- RESULTS -->
 <section class="section">
   <div class="section-label">What You Get</div>
-  <h2>Results We <span>Deliver</span></h2>
+  <h2>What You <span>Get</span></h2>
   <div class="stats-row">
     <div class="stat-card">
-      <div class="stat-num">3-5x</div>
-      <div class="stat-label">Average ROAS across client accounts</div>
+      <div class="stat-num">Every lead</div>
+      <div class="stat-label">tracked to the ad that brought it in</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num">40%</div>
-      <div class="stat-label">Average reduction in cost per lead</div>
+      <div class="stat-num">Cost per lead</div>
+      <div class="stat-label">is the number we judge on, not likes or reach</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num">14 Days</div>
-      <div class="stat-label">From signup to live campaigns</div>
+      <div class="stat-num">~2 weeks</div>
+      <div class="stat-label">from yes to live ads</div>
     </div>
   </div>
 </section>
@@ -512,39 +527,9 @@ footer a { color: var(--teal); }
 <!-- PRICING -->
 <section class="section">
   <div class="section-label">Investment</div>
-  <h2>Transparent <span>Pricing</span></h2>
-  <p class="lead">Management fee + your ad spend. You control the budget, we control the results.</p>
-  <div class="pricing-grid">
-    <div class="price-card">
-      <h3>Ads Monitoring</h3>
-      <div class="price-amount">$1,500/mo</div>
-      <div class="price-note">+ ad spend (you control the budget)</div>
-      <ul>
-        <li>1 platform (Google OR Meta)</li>
-        <li>Campaign setup &amp; optimisation</li>
-        <li>Conversion tracking setup</li>
-        <li>Weekly performance reports</li>
-        <li>Monthly strategy call</li>
-      </ul>
-      <a href="#cta" class="btn-primary" style="width:100%;text-align:center;">Get Started</a>
-    </div>
-    <div class="price-card featured">
-      <h3>Full Ads Management</h3>
-      <div class="price-amount">$2,800/mo</div>
-      <div class="price-note">+ ad spend (you control the budget)</div>
-      <ul>
-        <li>All 4 platforms included</li>
-        <li>Unlimited campaign builds</li>
-        <li>Custom landing pages</li>
-        <li>Ad creative &amp; copywriting</li>
-        <li>Weekly reports + strategy calls</li>
-        <li>Retargeting &amp; funnel setup</li>
-        <li>A/B testing &amp; creative refresh</li>
-      </ul>
-      <a href="#cta" class="btn-magenta btn-primary" style="width:100%;text-align:center;">Get Started</a>
-    </div>
-  </div>
-  <p class="pricing-footnote">No lock-in contracts. No setup fees. Cancel anytime with 30 days notice.</p>
+  <h2>How <span>Pricing</span> Works</h2>
+  <p class="lead">A monthly management fee, plus your ad spend, which you pay straight to the platform on your own card. The fee depends on how many platforms and whether you need landing pages built. Book a call and I&rsquo;ll give you a quote in writing before anything starts.</p>
+  <p class="pricing-footnote">The first three months are the minimum, because the platforms need that long before the numbers mean anything. After that it&rsquo;s month to month.</p>
 </section>
 
 <hr class="divider">
@@ -556,8 +541,8 @@ footer a { color: var(--teal); }
   <ul class="guarantee-list">
     <li><div class="g-icon">&check;</div><div>You own everything &mdash; ad accounts, data, creative assets. Always.</div></li>
     <li><div class="g-icon">&check;</div><div>Full transparency &mdash; see every dollar spent and every result it generated.</div></li>
-    <li><div class="g-icon">&check;</div><div>No long-term contracts &mdash; we earn your business every month.</div></li>
-    <li><div class="g-icon">&check;</div><div>Direct access to your ads manager &mdash; not a junior, not a chatbot.</div></li>
+    <li><div class="g-icon">&check;</div><div>Three months, then month to month. You stay because it&rsquo;s working.</div></li>
+    <li><div class="g-icon">&check;</div><div>You deal with me directly. Not a junior, not a chatbot.</div></li>
     <li><div class="g-icon">&check;</div><div>If we can't improve your numbers in 60 days, we'll refund your last month's management fee.</div></li>
   </ul>
 </section>
@@ -566,10 +551,21 @@ footer a { color: var(--teal); }
 
 <!-- CTA -->
 <section class="cta-section" id="cta">
-  <h2>Ready to <span>Scale?</span></h2>
-  <p>Book a free 15-minute strategy call. We'll audit your current ads (or plan your first campaign) and show you exactly where the money is.</p>
-  <div class="form-wrap">{form=FORM_ID}</div>
-  <p class="fine-print">No obligation. No hard sell. Just honest advice from people who run ads every day.</p>
+  <h2>Let&rsquo;s <span>Talk</span></h2>
+  <p>Book a free call and I&rsquo;ll look at your current ads, or plan your first campaign with you. Or leave your details and I&rsquo;ll get back to you within one business day.</p>
+  <div class="form-wrap">
+    <p style="margin-bottom:16px"><a class="btn-primary" href="https://cal.com/benalekconner/nb-free-audit" target="_blank" rel="noopener">Book a free call</a></p>
+    <form id="nb-lead" class="nb-form" novalidate>
+      <input type="text" name="company_site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+      <label>Your name<input name="name" required autocomplete="name"></label>
+      <label>Email<input name="email" type="email" required autocomplete="email"></label>
+      <label>Phone (optional)<input name="phone" type="tel" autocomplete="tel"></label>
+      <label>What do you sell, and where?<textarea name="message" rows="3"></textarea></label>
+      <button type="submit" class="btn-magenta btn-primary">Send</button>
+      <p id="nb-lead-msg" role="status" style="margin-top:10px"></p>
+    </form>
+  </div>
+  <p class="fine-print">No obligation. No hard sell. Just honest advice.</p>
 </section>
 
 <!-- FOOTER -->
@@ -590,5 +586,41 @@ footer a { color: var(--teal); }
   <p class="footer-copy">&copy; 2026 Nunya Bunya Pty Ltd &middot; Remote, Australia &middot; All rights reserved.</p>
 </footer>
 
+
+<div id="nb-consent" style="display:none;position:fixed;left:16px;right:16px;bottom:16px;max-width:560px;margin:0 auto;background:#111;border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:14px 16px;z-index:9999;font-size:14px;color:#f5f5f5">
+  This site uses a Meta pixel to measure ads, only if you say yes. <a href="privacy.html" style="color:#00E5CC">Privacy</a>
+  <div style="margin-top:10px;display:flex;gap:8px"><button id="nb-consent-yes" class="btn-primary" style="padding:8px 14px">Accept</button><button id="nb-consent-no" style="padding:8px 14px;background:none;border:1px solid rgba(255,255,255,.3);border-radius:6px;color:#f5f5f5;cursor:pointer">No thanks</button></div>
+</div>
+<style>.nb-form label{display:block;text-align:left;margin:0 0 12px;font-size:14px}.nb-form input,.nb-form textarea{display:block;width:100%;margin-top:4px;padding:10px 12px;border-radius:6px;border:1px solid rgba(255,255,255,.2);background:#0a0a0a;color:#f5f5f5;font:inherit}</style>
+<script>
+(function(){
+  var nt=document.getElementById('navToggle'), nl=document.getElementById('navLinks');
+  if (nt && nl) nt.addEventListener('click', function(){ nl.classList.toggle('open'); });
+  var b=document.getElementById('nb-consent'), v=null;
+  try { v=localStorage.getItem('nb_cookie_consent'); } catch(e) {}
+  if (!v) b.style.display='block';
+  function set(x){ try{localStorage.setItem('nb_cookie_consent',x);}catch(e){} b.style.display='none'; if(x==='yes') nbLoadPixel(); }
+  document.getElementById('nb-consent-yes').onclick=function(){set('yes');};
+  document.getElementById('nb-consent-no').onclick=function(){set('no');};
+  var q=new URLSearchParams(location.search), f=document.getElementById('nb-lead'), m=document.getElementById('nb-lead-msg');
+  f.addEventListener('submit', async function(ev){
+    ev.preventDefault();
+    var d=Object.fromEntries(new FormData(f));
+    if (d.company_site) return;
+    if (!d.name || !d.email) { m.textContent='Please add your name and email.'; return; }
+    var t=['utm_source','utm_medium','utm_campaign','utm_content','fbclid'].map(function(k){return q.get(k)?k+'='+q.get(k):null;}).filter(Boolean).join(' ');
+    var body={name:d.name,email:d.email,phone:d.phone,message:(d.message||'')+(t?'\n\n['+t+']':''),interest:'Paid ads',source:q.get('utm_source')?'paid-ads:'+q.get('utm_source'):'paid-ads',page:location.pathname+location.search};
+    f.querySelector('button').disabled=true; m.textContent='Sending...';
+    try {
+      var r=await fetch('/api/submit-lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      var j=await r.json();
+      if(!r.ok||!j.ok) throw new Error(j.error||'Something went wrong');
+      f.reset(); m.textContent='Thanks, got it. I&rsquo;ll be in touch within one business day.'.replace('&rsquo;','\u2019');
+      if (window.fbq) fbq('track','Lead');
+    } catch(e) { m.textContent=e.message+' You can also email ben@nunyabunya.com.'; }
+    f.querySelector('button').disabled=false;
+  });
+})();
+</script>
 </body>
 </html>
