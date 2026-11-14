@@ -139,6 +139,7 @@ body::after {
 
 .skip { position: absolute; left: -9999px; top: 8px; z-index: 1000; background: var(--sys); color: var(--on-sys); padding: 10px 16px; font-weight: 600; }
 .skip:focus { left: 8px; }
+[hidden] { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
@@ -397,7 +398,9 @@ body::after {
 .rate__price small { display: block; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-3); margin-top: 4px; }
 .rate .i { grid-row: 1 / span 2; grid-column: 3; color: var(--fg-3); transition: transform var(--dur-ui) var(--ease-out), color var(--dur-ui); }
 .rate:hover .i { transform: translateX(4px); color: var(--sys); }
-.rates__foot { margin-top: 22px; color: var(--fg-3); }
+.rates__foot { margin-top: 22px; color: var(--fg-2); }   /* a real qualifier, so it reads at body contrast (Lucy, 2026-11-14) */
+.rates__foot .t-mono { display: inline-flex; align-items: baseline; gap: 10px; font-size: 12px; letter-spacing: 0.1em; }
+.rates__foot .t-mono::before { content: ''; flex: none; width: 14px; height: 1px; background: var(--sys); transform: translateY(-3px); }
 @media (max-width: 900px) { .doors { grid-template-columns: 1fr; } }
 @media (max-width: 480px) {
   .rate { grid-template-columns: minmax(0, 1fr) 20px; }
@@ -491,11 +494,14 @@ html body #nb-consent a { color: var(--sys); }
 html body #nb-consent button { border-radius: var(--radius); font-family: var(--font-display); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 13px; padding: 9px 14px; min-width: 0; }
 html body #nb-consent .no { color: var(--fg); border-color: var(--rule-strong); }
 html body #nb-consent .yes { background: var(--sys); border-color: var(--sys); color: var(--on-sys); }
+/* Phones: compact, so it never sits over the hero subline (Lucy, 2026-11-14).
+   The message is one line; tapping it opens the full text (cursor:pointer gives touch :hover). */
 @media (max-width: 520px) {
-  html body #nb-consent { font-size: 12px; padding: 10px 12px; left: 8px; right: 8px; bottom: 8px; }
-  html body #nb-consent p { flex-basis: 100%; }
-  html body #nb-consent .b { width: 100%; }
-  html body #nb-consent button { flex: 1; }
+  html body #nb-consent { font-size: 12px; line-height: 1.4; padding: 8px 10px; gap: 8px; left: 8px; right: 8px; bottom: 8px; }
+  html body #nb-consent p { flex-basis: 100%; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden; cursor: pointer; }
+  html body #nb-consent p:hover, html body #nb-consent p:focus-within { -webkit-line-clamp: unset; display: block; }
+  html body #nb-consent .b { width: 100%; flex-wrap: nowrap; }
+  html body #nb-consent button { flex: 1; padding: 8px 10px; font-size: 12px; }
 }
 
 /* ═══════════ 19. MOTION ═══════════
@@ -538,4 +544,242 @@ html body #nb-consent .yes { background: var(--sys); border-color: var(--sys); c
   .js [data-draw], .js .hero .mark { clip-path: none !important; }
   .js[data-theme="light"] .hero__still img { filter: saturate(0.7) contrast(1.02) brightness(0.98) !important; }
   .js .slate[data-reveal] .slate__rule { transform: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PHASE 2 · inner pages (Wizard, 2026-11-14)
+   Each inner page is another document from the same production:
+     services = the rate card · paid-ads = the shot list
+     about    = the director's note · contact = the call sheet
+   Same five signature elements. Nothing below invents a new one.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* 20. TITLE CARD: an inner-page opener. Uses .hero so the title-rise runs; no still. */
+.hero--card { min-height: 0; display: block; padding: clamp(150px, 20vh, 210px) 0 clamp(72px, 9vw, 120px); border-bottom: 1px solid var(--rule); }
+.hero--card .hero__title { font-size: var(--fs-1); margin-bottom: clamp(24px, 3.4vw, 40px); }
+.hero--card .hero__foot { grid-template-columns: minmax(0, 560px) minmax(0, 1fr); }
+.card-meta { justify-self: end; display: grid; gap: 0; min-width: 260px; border-top: 1.5px solid var(--fg); }
+.card-meta div { display: flex; justify-content: space-between; gap: 24px; padding: 11px 0; border-bottom: 1px solid var(--rule); }
+.card-meta dt { color: var(--fg-3); }
+.card-meta dd { color: var(--fg); text-align: right; }
+@media (max-width: 860px) {
+  .hero--card { padding: 124px 0 56px; }
+  .hero--card .hero__copy { margin-top: 0; }
+  .hero--card .hero__title { font-size: clamp(46px, 13.4vw, 84px); }
+  .hero--card .hero__foot .actions { order: 0; }
+  .card-meta { justify-self: stretch; min-width: 0; width: 100%; }
+}
+
+/* 21. SPEC SHEET: one featured package (Bedrock) */
+.spec-sheet { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); border-top: 1.5px solid var(--fg); padding-top: clamp(28px, 3.4vw, 44px); }
+.spec-sheet__name { display: grid; gap: 18px; align-content: start; }
+.spec-sheet__price { font-family: var(--font-mono); color: var(--sys); font-size: clamp(30px, 3.2vw, 44px); letter-spacing: 0; font-weight: 500; line-height: 1; }
+.spec-sheet__price small { display: block; margin-top: 10px; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-3); }
+.ticks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; align-content: start; }
+.ticks li { display: flex; gap: 12px; align-items: baseline; padding: 13px 0; border-bottom: 1px solid var(--rule); color: var(--fg); font-size: 15px; line-height: 1.45; }
+.ticks .i { color: var(--sys); width: 18px; height: 18px; position: relative; top: 3px; }
+.ticks--one { grid-template-columns: 1fr; }
+@media (max-width: 860px) { .spec-sheet { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .ticks { grid-template-columns: 1fr; } }
+
+/* 22. TIERS: three retainers side by side, ruled like a call sheet */
+.tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(6, auto); row-gap: 18px; border-top: 1.5px solid var(--fg); }
+.tier { display: grid; grid-row: span 6; grid-template-rows: subgrid; gap: 18px; padding: 28px clamp(18px, 2.2vw, 32px) 32px; border-right: 1px solid var(--rule); }
+.tier:first-child { padding-left: 0; }
+.tier:last-child { border-right: 0; padding-right: 0; }
+.tier__tag { color: var(--fg-3); }
+.tier h3 { font-family: var(--font-display); font-weight: 800; font-size: clamp(34px, 3.3vw, 52px); white-space: nowrap; text-transform: uppercase; line-height: 0.9; }
+.tier h3 small { display: block; font-size: 0.42em; color: var(--fg-3); letter-spacing: 0.06em; margin-bottom: 6px; }
+.tier__price { font-family: var(--font-mono); font-weight: 500; color: var(--sys); font-size: 22px; line-height: 1; }
+.tier__price small { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-3); margin-left: 6px; }
+.tier .ticks { grid-template-columns: 1fr; }
+.tier .ticks li { font-size: 14px; padding: 10px 0; }
+.tier > div:last-child { align-content: space-between; }
+.tier__note { color: var(--fg-3); font-size: 13px; line-height: 1.5; }
+@media (max-width: 980px) {
+  .tiers { grid-template-columns: 1fr; grid-template-rows: none; row-gap: 0; }
+  .tier { grid-row: auto; grid-template-rows: none; }
+  .tier, .tier:first-child, .tier:last-child { padding: 28px 0 36px; border-right: 0; border-bottom: 1px solid var(--rule); }
+}
+
+/* 23. SHEET: the comparison call sheet. The column you point at comes into focus. */
+.sheet-wrap { position: relative; overflow-x: auto; -webkit-overflow-scrolling: touch; border-top: 1.5px solid var(--fg); }
+.sheet { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 14px; }
+.sheet th, .sheet td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--rule); vertical-align: top; transition: color var(--dur-ui), background-color var(--dur-ui); }
+.sheet thead th { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 20px; line-height: 1; padding-block: 20px 16px; }
+.sheet thead th small { display: block; font-family: var(--font-mono); font-weight: 500; font-size: 11px; letter-spacing: 0.1em; color: var(--sys); margin-top: 8px; }
+.sheet th[scope="row"] { font-family: var(--font-mono); font-weight: 500; font-size: var(--fs-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-3); padding-left: 0; width: 26%; }
+.sheet td { color: var(--fg); }
+.sheet .no { color: var(--fg-3); }
+.sheet .i { color: var(--sys); width: 18px; height: 18px; }
+/* column focus: point at a tier and the others step back */
+@media (hover: hover) {
+  .sheet:has(.c1:hover) :is(.c2, .c3), .sheet:has(.c2:hover) :is(.c1, .c3), .sheet:has(.c3:hover) :is(.c1, .c2) { color: var(--fg-3); }
+  .sheet:has(.c1:hover) .c1, .sheet:has(.c2:hover) .c2, .sheet:has(.c3:hover) .c3 { background: var(--sys-soft); }
+}
+@media (max-width: 700px) {
+  .sheet th[scope="row"] { position: sticky; left: 0; background: var(--bg); z-index: 1; }
+  .sheet-hint { display: block; }
+}
+.sheet-hint { display: none; margin-top: 12px; color: var(--fg-3); }
+
+/* 24. CASES: framed stills with a credit line */
+.cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 3.4vw, 48px); list-style: none; }
+.case a { display: grid; gap: 18px; }
+.case .frame { --inset: -8px; }
+.case img { width: 100%; aspect-ratio: 16 / 11; object-fit: cover; object-position: top; filter: saturate(0.85); transition: filter 500ms var(--ease-out); }
+.case a:hover img { filter: saturate(1); }
+.case .t-mono { color: var(--sys); }
+.case h3 { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-3); text-transform: uppercase; line-height: 1; }
+.case p { font-size: var(--fs-small); color: var(--fg-2); }
+.case .link { padding: 0; }
+@media (max-width: 900px) { .cases { grid-template-columns: 1fr; gap: 48px; } .case img { aspect-ratio: 16 / 10; } }
+
+/* 25. SHOT LIST: numbered items, each with a hand-drawn icon */
+.shots { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--rule); }
+.shot { display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; align-content: start; padding: 30px clamp(16px, 2.4vw, 36px) 34px 0; border-bottom: 1px solid var(--rule); }
+.shot:not(:nth-child(3n)) { border-right: 1px solid var(--rule); }
+.shot:not(:nth-child(3n+1)) { padding-left: clamp(16px, 2.4vw, 36px); }
+.shot__n { grid-column: 1 / -1; display: flex; justify-content: space-between; color: var(--fg-3); }
+.shot .i { width: 30px; height: 30px; color: var(--sys); grid-row: 2 / span 2; margin-top: 2px; }
+.shot h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-3); text-transform: uppercase; line-height: 1; }
+.shot p { grid-column: 2; font-size: var(--fs-small); color: var(--fg-2); line-height: 1.55; }
+@media (max-width: 980px) {
+  .shots { grid-template-columns: 1fr 1fr; }
+  .shot:not(:nth-child(3n)), .shot:not(:nth-child(3n+1)) { border-right: 0; padding-left: 0; }
+  .shot:nth-child(odd) { border-right: 1px solid var(--rule); }
+  .shot:nth-child(even) { padding-left: clamp(16px, 2.4vw, 36px); }
+}
+@media (max-width: 620px) {
+  .shots { grid-template-columns: 1fr; }
+  .shot:nth-child(odd) { border-right: 0; }
+  .shot:nth-child(even) { padding-left: 0; }
+}
+
+/* 26. WHO-FOR list (paid ads opener) */
+.trades { list-style: none; columns: 2; column-gap: 32px; border-top: 1.5px solid var(--fg); padding-top: 6px; }
+.trades li { display: flex; gap: 10px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid var(--rule); break-inside: avoid; font-size: 15px; }
+.trades .i { color: var(--hand); width: 16px; height: 16px; position: relative; top: 2px; }
+@media (max-width: 480px) { .trades { columns: 1; } }
+
+/* 27. CADENCE: the part that repeats. A loop drawn by hand, three beats on it. */
+.cadence { margin-top: clamp(40px, 5vw, 64px); display: grid; grid-template-columns: 150px repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px dashed var(--rule-strong); }
+.cadence__loop { display: grid; place-items: start; padding-top: 22px; color: var(--hand); }
+.cadence__loop .i { width: 56px; height: 56px; }
+.cadence__loop .t-hand { margin-top: 10px; transform: rotate(-4deg); font-size: 12px; white-space: nowrap; }
+.beat { padding: 22px clamp(16px, 2vw, 28px) 8px; border-left: 1px solid var(--rule); display: grid; gap: 10px; align-content: start; }
+.beat .t-mono { color: var(--sys); }
+.beat h3 { font-family: var(--font-display); font-weight: 700; font-size: 22px; text-transform: uppercase; line-height: 1; }
+.beat p { font-size: var(--fs-small); color: var(--fg-2); }
+@media (max-width: 900px) {
+  .cadence { grid-template-columns: 1fr; }
+  .cadence__loop { grid-template-columns: auto 1fr; align-items: center; gap: 12px; padding-bottom: 6px; }
+  .cadence__loop .i { width: 40px; height: 40px; }
+  .beat { border-left: 2px solid var(--sys); margin-top: 14px; padding: 4px 0 4px 18px; }
+}
+
+/* 28. FEE: management fee + ad spend, and the three-month minimum on a ruler */
+.fee-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(36px, 6vw, 96px); align-items: start; }
+.fee { padding: 28px; --inset: 0px; border: 1px solid var(--rule); background: var(--bg-raised); }
+.fee__row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.fee__row b { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-3); text-transform: uppercase; line-height: 1; }
+.fee__row .t-mono { color: var(--sys); }
+.fee__plus { font-family: var(--font-mono); color: var(--fg-3); padding-top: 8px; }
+.months { margin-top: 26px; }
+.months__bar { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.months__bar i { height: 10px; border: 1px solid var(--rule-strong); }
+.months__bar i.on { background: var(--sys); border-color: var(--sys); }
+.months__lbl { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-top: 8px; color: var(--fg-3); }
+.fee__foot { margin-top: 18px; font-size: var(--fs-small); color: var(--fg-2); }
+@media (max-width: 860px) { .fee-grid { grid-template-columns: 1fr; } }
+
+/* 29. FORM: fields set like a call sheet, mono labels, ruled underline */
+.form { display: grid; gap: 22px; }
+.field { display: grid; gap: 8px; }
+.field > span { font-family: var(--font-mono); font-size: var(--fs-mono); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-3); }
+.field input, .field textarea, .field select {
+  width: 100%; font: inherit; font-size: 17px; color: var(--fg); background: transparent;
+  border: 0; border-bottom: 1px solid var(--rule-strong); border-radius: 0; padding: 10px 0 12px; outline: none;
+  transition: border-color var(--dur-ui);
+}
+.field textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
+.field select { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 28px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300E5CC' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M6 9.4c2 1.9 4 3.8 6.1 5.8 2-2 4-4 6-6.1'/%3E%3C/svg%3E") right 0 center / 18px no-repeat; }
+.field select option { background: var(--bg-raised); color: var(--fg); }
+.field input:focus, .field textarea:focus, .field select:focus { border-color: var(--sys); }
+.field input::placeholder, .field textarea::placeholder { color: var(--fg-3); }
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 28px; }
+.form__msg { min-height: 1.4em; font-size: var(--fs-small); color: var(--fg-2); }
+.form__msg.is-error { color: var(--hand); }
+.form .btn { justify-self: start; margin-top: 6px; }
+.form .btn:disabled { opacity: 0.55; cursor: progress; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+@media (max-width: 560px) { .form__row { grid-template-columns: 1fr; } .form .btn { justify-self: stretch; } }
+.form-done { display: none; gap: 14px; align-content: start; padding-top: 8px; }
+.form-done.is-shown { display: grid; }
+.form-done h3 { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-2); text-transform: uppercase; line-height: 0.9; }
+
+/* 30. CALL SHEET: a definition list of the practical details */
+.callsheet { border-top: 1.5px solid var(--fg); }
+.callsheet div { display: grid; grid-template-columns: 28px 120px minmax(0, 1fr); gap: 14px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+.callsheet .i { color: var(--sys); position: relative; top: 4px; }
+.callsheet dt { color: var(--fg-3); }
+.callsheet dd { color: var(--fg); }
+.callsheet a:hover { color: var(--sys); }
+@media (max-width: 420px) { .callsheet div { grid-template-columns: 24px minmax(0, 1fr); } .callsheet dd { grid-column: 2; } }
+
+.split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(40px, 7vw, 120px); align-items: start; }
+@media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
+
+/* 31. DIRECTOR'S NOTE (about): framed portrait + the story set as a statement */
+.note { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(40px, 7vw, 120px); align-items: start; }
+.note__still { position: sticky; top: 110px; max-width: 440px; }
+.note__still img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; filter: saturate(0.78) contrast(1.05); }
+.note__still .frame__label.tl { top: -34px; left: 0; }
+.note__still .frame__label.bl { bottom: -34px; left: 0; color: var(--fg-3); }
+.note__still .hero__note { left: auto; right: -8px; top: 34%; }
+.note__text { display: grid; gap: 22px; }
+.note__text p { font-size: var(--fs-lead); line-height: 1.6; color: var(--fg-2); max-width: 40ch; }
+.note__text p strong { color: var(--fg); font-weight: 500; }
+.note__text .note__last { color: var(--fg); }
+.note__sig { display: grid; gap: 4px; padding-top: 22px; border-top: 1px solid var(--rule); max-width: 40ch; }
+.note__sig .credits__name { font-family: var(--font-display); font-weight: 800; font-size: 28px; text-transform: uppercase; line-height: 1; }
+.note__sig .t-mono { color: var(--fg-3); }
+@media (max-width: 900px) {
+  .note { grid-template-columns: 1fr; }
+  .note__still { position: relative; top: 0; max-width: 360px; margin-block: 34px 24px; }
+}
+
+/* 32. VALUES: three numbered principles on one rule */
+.values { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1.5px solid var(--fg); }
+.values li { padding: 28px clamp(18px, 2.4vw, 36px) 8px 0; display: grid; gap: 14px; align-content: start; }
+.values li + li { border-left: 1px solid var(--rule); padding-left: clamp(18px, 2.4vw, 36px); }
+.values .t-mono { color: var(--sys); }
+.values h3 { font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 2.9vw, 44px); hyphens: none; text-transform: uppercase; line-height: 0.9; }
+.values p { font-size: var(--fs-small); color: var(--fg-2); max-width: 36ch; }
+@media (max-width: 860px) {
+  .values { grid-template-columns: 1fr; }
+  .values li, .values li + li { border-left: 0; padding: 26px 0; border-bottom: 1px solid var(--rule); }
+}
+.promise__after { margin-top: clamp(28px, 3vw, 40px); max-width: 60ch; font-size: var(--fs-lead); line-height: 1.5; color: var(--fg); }
+
+/* 33. DOCK: on phones, the two ways to act stay in reach once the opener has gone */
+.dock { display: none; }
+@media (max-width: 760px) {
+  .dock { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 8px; right: 8px; bottom: 8px; z-index: 600;
+    padding: 8px; background: color-mix(in srgb, var(--bg) 90%, transparent); border: 1px solid var(--rule-strong);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    transform: translateY(140%); transition: transform 420ms var(--ease-out); }
+  .dock.is-shown { transform: none; }
+  .dock .btn { min-height: 46px; padding: 10px 12px; font-size: 13px; }
+}
+
+/* 34. FOCUS PULL on an inner still (about): the homepage's signature, quieter, once */
+.js [data-focus] img { filter: blur(10px) saturate(0.4) brightness(0.6); transform: scale(1.04); transition: filter 1500ms var(--ease-out) 150ms, transform 2000ms var(--ease-out) 150ms; }
+.js [data-focus].in img { filter: saturate(0.78) contrast(1.05); transform: none; }
+.js [data-focus] .fc { opacity: 0; transform: scale(1.8); }
+.js [data-focus].in .fc { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .js [data-focus] img { filter: saturate(0.78) contrast(1.05) !important; transform: none !important; }
+  .js [data-focus] .fc { opacity: 1 !important; transform: none !important; }
 }

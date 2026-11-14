@@ -79,4 +79,20 @@
     else { img.addEventListener('load', go, { once: true }); img.addEventListener('error', go, { once: true }); }
     setTimeout(go, 1800); /* never leave the title hidden on a slow connection */
   }
+
+  /* ── Phone dock: shows once the opener's buttons have gone, hides at the closing scene ── */
+  var dock = document.querySelector('.dock');
+  var heroActs = document.querySelector('.hero .actions');
+  var end = document.querySelector('[data-dock-end]');
+  if (dock && heroActs && 'IntersectionObserver' in window) {
+    var past = false, atEnd = false;
+    var paintDock = function () {
+      var show = past && !atEnd;
+      dock.classList.toggle('is-shown', show);
+      dock.setAttribute('aria-hidden', show ? 'false' : 'true');
+      dock.querySelectorAll('a').forEach(function (a) { a.tabIndex = show ? 0 : -1; });
+    };
+    new IntersectionObserver(function (e) { past = !e[0].isIntersecting && e[0].boundingClientRect.top < 0; paintDock(); }).observe(heroActs);
+    if (end) new IntersectionObserver(function (e) { atEnd = e[0].isIntersecting; paintDock(); }).observe(end);
+  }
 })();
