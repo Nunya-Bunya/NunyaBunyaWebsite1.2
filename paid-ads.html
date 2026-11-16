@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Facebook Ads for Builders and Renovators | Nunya Bunya</title>
-<meta name="description" content="Facebook and Instagram ads for builders, renovators and local trades. A landing page per service, ads aimed at your postcodes, and every enquiry emailed to you within seconds.">
+<title>Facebook Ads for Tradies, Aimed at Your Postcodes | Nunya Bunya</title>
+<meta name="description" content="Facebook and Instagram ads for tradies, aimed at the postcodes you work in. Start with a free Full Diary Plan, ready within 2 business days.">
 <meta name="theme-color" content="#0D0D0D">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -211,10 +211,11 @@ nav {
   display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   gap: clamp(32px, 5vw, 80px); align-items: center;
 }
-.hero-tag { display: flex; gap: 12px; align-items: center; color: var(--teal); margin-bottom: 26px; }
+.hero-tag { display: flex; gap: 12px; align-items: baseline; color: var(--teal); margin-bottom: 26px; max-width: 560px; line-height: 1.6; }
+.hero-tag::before { flex: none; transform: translateY(-3px); }
 .hero-tag::before { content: ''; width: 28px; border-top: 1px solid currentColor; }
 .hero h1 {
-  font-size: clamp(54px, 5.6vw, 96px);
+  font-size: clamp(48px, 4.9vw, 82px);
   margin-bottom: 30px;
 }
 .hero h1 .t { color: var(--teal); }
@@ -227,17 +228,24 @@ nav {
 .hero-lead { font-size: clamp(17px, 1.35vw, 19px); color: var(--ink); max-width: 560px; line-height: 1.6; }
 .hero-lead + .hero-lead { margin-top: 14px; color: var(--muted); }
 
-/* the trades: one ticked row under the lead */
-.trades { margin-top: 30px; }
-.trades ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 22px; }
-.trades li {
-  display: flex; align-items: center; gap: 8px;
-  font-family: var(--font-heading); font-weight: 700; font-size: 18px;
-  text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.2;
-  color: var(--ink);
-}
-.trades li .k { width: 16px; height: 16px; flex: none; }
-.trades li .k { fill: none; stroke: var(--magenta); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+/* the trade word: a slot, like the sample ads' placeholders. One pass, then it settles on "tradie". */
+.hero h1 .ln { display: block; }
+.slot-w { color: var(--teal); display: inline-block; border-bottom: 0.06em dashed rgba(0,229,204,0.65); line-height: 0.95; }
+.slot-w.swap { animation: swapin .5s var(--ease) both; }
+@keyframes swapin { from { opacity: 0; transform: translateY(0.18em); } to { opacity: 1; transform: none; } }
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* steps strip: free plan -> page per service -> ads live */
+.steps { list-style: none; display: flex; flex-wrap: wrap; align-items: stretch; gap: 0; margin-top: 30px; max-width: 640px; border-top: 1px solid var(--rule); }
+.steps li { flex: 1 1 0; min-width: 0; padding: 14px 18px 0 0; position: relative; font-size: 14px; line-height: 1.45; color: var(--ink); }
+.steps li + li { padding-left: 18px; border-left: 1px solid var(--rule); }
+.steps li .mono { display: block; color: var(--teal); margin-bottom: 6px; font-size: 10px; }
+.steps li:first-child { color: var(--white); font-weight: 600; }
+.live-chip { display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; color: var(--teal); }
+.live-chip i { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); animation: beat 2.4s var(--ease) infinite; }
+.live-chip:hover { color: var(--white); }
+.hero-grid > .live-chip { grid-column: 2; justify-self: start; margin-top: -8px; }
+.enq .under { margin-top: 12px; font-size: 13px; color: var(--muted); line-height: 1.45; }
 
 /* ═══════════ THE ENQUIRY SLIP (one design, used in the hero and at the end) ═══════════ */
 .enq {
@@ -388,7 +396,7 @@ nav {
 /* CTA */
 .cta-section { padding-top: clamp(80px, 12vw, 152px); padding-bottom: clamp(80px, 10vw, 128px); position: relative; }
 .cta-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(36px, 6vw, 96px); align-items: start; }
-.cta-section h2 { font-size: clamp(64px, 10vw, 150px); margin-bottom: 30px; }
+.cta-section h2 { font-size: clamp(36px, 5vw, 76px); margin-bottom: 26px; max-width: 16ch; }
 .cta-section h2 .u { position: relative; display: inline-block; color: var(--teal); }
 .cta-section h2 .u svg { position: absolute; left: -3%; width: 106%; bottom: -0.12em; height: 0.24em; overflow: visible; }
 .cta-section h2 .u svg path { stroke-width: 6; }
@@ -427,6 +435,55 @@ nav {
   .dock .btn { flex: 1; padding: 14px 10px; min-height: 50px; font-size: 15px; }
 }
 
+/* section buttons: quiet, one action, back to the form */
+.again { margin-top: 36px; }
+.btn-sm { min-height: 48px; padding: 13px 22px; font-size: 14px; }
+
+/* The free plan: a spec sheet of three */
+.plan .spec h3 { max-width: 15ch; }
+.plan-foot { margin-top: 26px; color: var(--muted); max-width: 620px; font-size: 16px; line-height: 1.6; }
+
+/* What a full diary feels like: six weeks, filling in */
+.life { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.life .lead + .lead { margin-top: 18px; }
+.life .lead.k { color: var(--white); }
+.diary { border: 1px solid var(--rule); background: rgba(20,20,20,0.6); padding: 22px 22px 18px; }
+.diary .hd { display: flex; justify-content: space-between; color: var(--faint); margin-bottom: 14px; }
+.diary .hd b { color: var(--teal); font-weight: 400; }
+.diary .g { display: grid; grid-template-columns: 26px repeat(6, minmax(0, 1fr)); gap: 5px; }
+.diary .g .lbl { color: var(--faint); font-size: 9.5px; display: grid; place-items: center start; }
+.diary .g .wk { color: var(--faint); font-size: 9.5px; text-align: center; padding-bottom: 2px; }
+.diary .g i { height: 26px; border: 1px solid rgba(0,229,204,0.28); display: block; }
+.diary .g i.f { background: var(--teal); border-color: var(--teal); }
+.diary .g i.big { background: var(--magenta); border-color: var(--magenta); }
+.js .diary .g i.f, .js .diary .g i.big { background: transparent; transition: background .35s var(--ease) calc(var(--n) * 28ms), border-color .35s var(--ease) calc(var(--n) * 28ms); }
+.js .diary.in .g i.f { background: var(--teal); }
+.js .diary.in .g i.big { background: var(--magenta); border-color: var(--magenta); }
+.diary .key { display: flex; gap: 18px; margin-top: 14px; color: var(--faint); font-size: 9.5px; }
+.diary .key span { display: inline-flex; align-items: center; gap: 7px; }
+.diary .key span::before { content: ''; width: 10px; height: 10px; background: var(--teal); }
+.diary .key span.m::before { background: var(--magenta); }
+
+/* Taking your side */
+.side { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.side .lead + .lead { margin-top: 18px; }
+.side .own { margin-top: 26px; padding-left: 18px; border-left: 2px solid var(--magenta); color: var(--white); }
+.note { margin-top: 22px; color: var(--muted); font-size: 16px; max-width: 620px; }
+
+/* Price + offer */
+.sum .row b.amt { font-size: 34px; letter-spacing: .01em; }
+.stamp { margin-top: 22px; border: 1.5px dashed var(--magenta); color: var(--white); padding: 14px 16px; position: relative; }
+.stamp .mono { display: block; color: var(--magenta); margin-bottom: 6px; }
+.stamp p { font-size: 16px; line-height: 1.5; font-weight: 600; }
+.stamp small { display: block; margin-top: 6px; color: var(--muted); font-size: 14px; font-weight: 400; }
+.small-print { margin-top: 14px; font-size: 13px; color: var(--faint); }
+
+/* The limit */
+.fit { list-style: none; margin-top: 8px; max-width: 620px; border-top: 1px solid var(--rule); }
+.fit li { display: flex; gap: 14px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: 17px; color: var(--ink); }
+.fit li svg { width: 18px; height: 18px; flex: none; fill: none; stroke: var(--magenta); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transform: translateY(3px); }
+.fit-lbl { color: var(--muted); margin-bottom: 4px; }
+
 /* ═══════════ FOOTER (from style-v2.css; this page doesn't load it) ═══════════ */
 footer {
   padding: 40px var(--gutter);
@@ -449,8 +506,9 @@ footer {
 
 /* ═══════════ RESPONSIVE ═══════════ */
 @media (max-width: 980px) {
-  .hero-grid, .quote-grid, .cta-grid { grid-template-columns: minmax(0, 1fr); }
-  .hero-grid > div:last-child { max-width: 560px; }
+  .hero-grid, .quote-grid, .cta-grid, .life, .side { grid-template-columns: minmax(0, 1fr); }
+  .hero-grid > .enq { max-width: 560px; }
+  .hero-grid > .live-chip { grid-column: auto; }
   .ads { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 720px; }
   .spec { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .spec > div:not(:nth-child(3n+1)) { padding-left: 0; border-left: 0; }
@@ -463,13 +521,12 @@ footer {
   .hero { padding-top: 78px; padding-bottom: 48px; }
   .hero::after { top: -30vmax; }
   .hero-tag { margin-bottom: 12px; }
-  .hero h1 { font-size: clamp(38px, 11.4vw, 52px); margin-bottom: 18px; }
+  .hero h1 { font-size: clamp(34px, 10.2vw, 46px); margin-bottom: 18px; }
   .hero h1 br { display: none; }
   /* phone: the form sits right under the headline, inside the first screen */
   .hero-grid { gap: 0; }
   .hero-grid > div:first-child { display: contents; }
   .hero-tag { order: 1; } .hero h1 { order: 2; } .hero-grid > .enq { order: 3; margin: 0 -8px 34px; }
-  .hero-lead { order: 4; } .trades { order: 5; }
   .enq { padding: 16px 16px 14px; }
   .enq .head { margin-bottom: 12px; }
   .nb-form label { margin-bottom: 12px; font-size: 10.5px; }
@@ -489,21 +546,6 @@ footer {
   body #nb-consent button { flex: 1; min-width: 0; padding: 7px 12px; font-size: 13px; }
   /* the sticky bar waits until the cookie choice is made, so the two never stack */
   body:has(#nb-consent) .dock { display: none; }
-}
-/* Short phones (Facebook/Instagram in-app browsers leave ~600-670px): Send must clear the cookie bar */
-@media (max-width: 640px) and (max-height: 760px) {
-  nav { padding-top: 10px; padding-bottom: 10px; }
-  .hero { padding-top: 64px; }
-  .hero-tag { display: none; }
-  .hero h1 { font-size: clamp(34px, 10vw, 42px); margin-bottom: 12px; }
-  .enq { padding: 10px 14px 10px; }
-  .enq .head { display: none; }
-  .nb-form label { margin-bottom: 8px; font-size: 10px; }
-  .nb-form input { font-size: 16px; padding: 3px 0 6px; margin-top: 2px; }
-  .nb-form button { min-height: 48px; padding-top: 12px; padding-bottom: 12px; }
-  .enq .alt { margin-top: 8px; font-size: 14px; }
-  body #nb-consent { padding: 8px 10px; gap: 6px; font-size: 11.5px; line-height: 1.3; }
-  body #nb-consent button { padding: 6px 10px; font-size: 12.5px; }
   .spec { grid-template-columns: minmax(0, 1fr); }
   .spec > div, .spec > div:nth-child(2n) { padding: 24px 44px 28px 0; border-left: 0; }
   .spec svg.ic, .spec > div:nth-child(3n+1) svg.ic { right: 0; top: 24px; width: 26px; height: 26px; }
@@ -515,6 +557,32 @@ footer {
   .sum .row { flex-direction: column; gap: 4px; align-items: flex-start; }
   .sum .row .mono { text-align: left; }
   footer { flex-direction: column; text-align: center; padding: 40px 20px 110px; }
+  .hero-tag { font-size: 10px; }
+  .hero-grid > .live-chip { order: 4; margin: -18px 0 26px; }
+  .hero-lead { order: 5; } .steps { order: 6; }
+  .steps { flex-direction: column; border-top: 0; }
+  .steps li, .steps li + li { padding: 12px 0 12px 16px; border-left: 1px solid rgba(0,229,204,0.35); border-top: 0; }
+  .diary { padding: 16px 14px 14px; }
+  .diary .g { grid-template-columns: 22px repeat(6, minmax(0, 1fr)); gap: 4px; }
+  .diary .g i { height: 20px; }
+  .again .btn { width: 100%; }
+  .cta-section h2 { font-size: clamp(32px, 9vw, 40px); }
+}
+/* Short phones (Facebook/Instagram in-app browsers leave ~600-670px): Send must clear the cookie bar */
+@media (max-width: 640px) and (max-height: 760px) {
+  nav { padding-top: 10px; padding-bottom: 10px; }
+  .hero { padding-top: 64px; }
+  .hero-tag { display: none; }
+  .hero h1 { font-size: clamp(30px, 8.6vw, 36px); margin-bottom: 10px; }
+  .enq .under { display: none; }
+  .enq { padding: 10px 14px 10px; }
+  .enq .head { display: none; }
+  .nb-form label { margin-bottom: 8px; font-size: 10px; }
+  .nb-form input { font-size: 16px; padding: 3px 0 6px; margin-top: 2px; }
+  .nb-form button { min-height: 48px; padding-top: 12px; padding-bottom: 12px; }
+  .enq .alt { margin-top: 8px; font-size: 14px; }
+  body #nb-consent { padding: 8px 10px; gap: 6px; font-size: 11.5px; line-height: 1.3; }
+  body #nb-consent button { padding: 6px 10px; font-size: 12.5px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -523,9 +591,11 @@ footer {
   .js .reveal { opacity: 1; transform: none; }
   .js .dim .line { transform: none; }
   .js .hand.draw path { stroke-dashoffset: 0; }
+  .js .diary .g i.f { background: var(--teal); }
+  .js .diary .g i.big { background: var(--magenta); border-color: var(--magenta); }
 }
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Service", "name": "Meta ads management for renovation trades", "serviceType": "Paid advertising management", "provider": {"@type": "Organization", "name": "Nunya Bunya", "url": "https://www.nunyabunya.com"}, "areaServed": [{"@type": "Country", "name": "Australia"}, {"@type": "Country", "name": "United States"}], "url": "https://www.nunyabunya.com/paid-ads", "description": "Facebook and Instagram ads for builders, renovators and local trades: a landing page per service, postcode targeting, and every enquiry emailed to you within seconds."}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do I need a website first?", "acceptedAnswer": {"@type": "Answer", "text": "No. I build a landing page for each service you advertise, so the ad and the page say the same thing. If you already have a site, it stays as it is."}}, {"@type": "Question", "name": "Who pays for the ads?", "acceptedAnswer": {"@type": "Answer", "text": "You do, straight to Meta, on your own card in your own ad account. My fee is separate. If we ever stop working together, the account, the data and the ads stay with you."}}, {"@type": "Question", "name": "How much do I need to spend?", "acceptedAnswer": {"@type": "Answer", "text": "You set the daily budget. Small budgets work if they're set up for it: one campaign, three to five different ads, and patience. I currently run a renovation campaign at $30 a day."}}, {"@type": "Question", "name": "How soon will I get enquiries?", "acceptedAnswer": {"@type": "Answer", "text": "I can't promise a number or a date. Ads usually go live about two weeks after you say yes, and the first month is mostly the platform learning who responds. I judge it on booked site visits and jobs, read monthly, not on one week."}}, {"@type": "Question", "name": "Where do the leads go?", "acceptedAnswer": {"@type": "Answer", "text": "Each enquiry is emailed to you within seconds of someone filling in the form, with their details and the ad they came from, so you can call them back while they're still keen."}}, {"@type": "Question", "name": "I'm a licensed builder in Queensland. Does that change anything?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every ad and landing page shows your licensed name, licence number and that you're licensed under the QBCC Act, as the QBCC requires. I set that up before anything runs."}}, {"@type": "Question", "name": "Do you only work in Brisbane?", "acceptedAnswer": {"@type": "Answer", "text": "I work remotely with businesses anywhere in Australia, and in the US. Your ads target the postcodes you actually service, not a circle on a map."}}, {"@type": "Question", "name": "Is there a lock-in?", "acceptedAnswer": {"@type": "Answer", "text": "Three months, because that's how long the numbers take to mean anything. After that it's month to month."}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Service", "name": "Facebook and Instagram ads for tradies", "serviceType": "Paid advertising management", "provider": {"@type": "Organization", "name": "Nunya Bunya", "url": "https://www.nunyabunya.com"}, "areaServed": [{"@type": "Country", "name": "Australia"}], "url": "https://www.nunyabunya.com/paid-ads", "description": "Facebook and Instagram ads for tradies, aimed at the postcodes you work in, starting with a free Full Diary Plan."}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much do I need to spend on ads?", "acceptedAnswer": {"@type": "Answer", "text": "At least about $30 a day, paid to Meta on your own card. Past that it depends on how many jobs you want, and your Full Diary Plan works that daily budget out for your trade and postcodes. It's an estimate to start from, and the first months show the real numbers."}}, {"@type": "Question", "name": "What does it cost all up?", "acceptedAnswer": {"@type": "Answer", "text": "$2,000 setup when you sign, then $1,200 a month starting 30 days after your ads go live. Book by 24 December and your first month is free. Your ad spend is separate and goes straight to Meta, with nothing added. Prices are AUD and no GST is added."}}, {"@type": "Question", "name": "How soon will the phone ring? Do you guarantee jobs?", "acceptedAnswer": {"@type": "Answer", "text": "Ads usually go live about two weeks after you say yes, and enquiries go to you the moment they come in. I won't promise a number or a date, because nobody can honestly guarantee jobs from ads that haven't run in your area yet. The first month is the platform learning who responds. I judge it on booked jobs, read monthly, and I'll tell you straight if it isn't paying for itself."}}, {"@type": "Question", "name": "Is the Full Diary Plan really free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It's ready within 2 business days and it's yours to keep. If you'd rather run the ads yourself, it tells you where to start."}}, {"@type": "Question", "name": "Do I need a website first?", "acceptedAnswer": {"@type": "Answer", "text": "No. I build a page for each service you advertise, so the ad and the page say the same thing. If you already have a site, it stays as it is."}}, {"@type": "Question", "name": "Do I get a say in the ads?", "acceptedAnswer": {"@type": "Answer", "text": "You tell me the jobs you want, send the photos and set the budget. I write and run the ads, and you get a heads-up whenever one changes and why."}}, {"@type": "Question", "name": "Is there a lock-in?", "acceptedAnswer": {"@type": "Answer", "text": "Three months, then month to month. The ad account is in your name and the card is yours, so if we stop, the account, the ads and the data stay with you."}}, {"@type": "Question", "name": "I'm a licensed builder in Queensland. Does that change anything?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every ad and page shows your licensed name, licence number and that you're licensed under the QBCC Act, as the QBCC requires. That's set up before anything runs."}}]}]}</script>
 </head>
 <body>
 
@@ -561,42 +631,71 @@ footer {
 <section class="hero" id="top">
   <div class="wrap hero-grid">
     <div>
-      <div class="hero-tag mono reveal">Paid Ads for Trades</div>
-      <h1 class="display reveal d1">Facebook Ads for <span class="t">Builders and <span class="u">Renovators<svg class="hand draw" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path style="--len:310" d="M4 15C52 9 104 7 152 9.5S246 15.5 296 7"/><path style="--len:270" d="M30 20.5C96 15.5 170 14 278 15.5" stroke-width="3"/></svg></span></span></h1>
-      <p class="hero-lead reveal d2">I run Facebook and Instagram ads for renovation trades and local service businesses.</p>
-      <p class="hero-lead reveal d2">Each ad points at a page about that one service, and every enquiry lands in your inbox within seconds.</p>
-      <div class="trades reveal d3" aria-label="Who it's for">
-        <ul>
-          <li><svg class="k" aria-hidden="true"><use href="#tick"/></svg>Builders</li>
-          <li><svg class="k" aria-hidden="true"><use href="#tick"/></svg>Kitchen and bathroom renovators</li>
-          <li><svg class="k" aria-hidden="true"><use href="#tick"/></svg>Deck builders</li>
-          <li><svg class="k" aria-hidden="true"><use href="#tick"/></svg>Landscapers</li>
-          <li><svg class="k" aria-hidden="true"><use href="#tick"/></svg>Electricians</li>
-          <li><svg class="k" aria-hidden="true"><use href="#tick"/></svg>Plumbers</li>
-        </ul>
-      </div>
+      <div class="hero-tag mono reveal">Facebook and Instagram ads for tradies, aimed at the postcodes you work in</div>
+      <h1 class="display reveal d1"><span class="ln">Someone in your suburb needed a</span> <span class="ln"><span class="sr" id="trade-sr">tradie</span><span class="slot-w" id="trade" aria-hidden="true">tradie</span> today.</span> <span class="ln t"><span class="u">Who did they ring?<svg class="hand draw" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path style="--len:310" d="M4 15C52 9 104 7 152 9.5S246 15.5 296 7"/><path style="--len:270" d="M30 20.5C96 15.5 170 14 278 15.5" stroke-width="3"/></svg></span></span></h1>
+      <p class="hero-lead reveal d2">Find out free. Tell me your trade and area, and within 2 business days you&rsquo;ll have your Full Diary Plan: who&rsquo;s getting those calls, what your local competitors are running, and the ads I&rsquo;d run for you, postcode by postcode.</p>
+      <ol class="steps reveal d3">
+        <li><span class="mono">01</span>Your free plan</li>
+        <li><span class="mono">02</span>A page for each service</li>
+        <li><span class="mono">03</span>Ads live in your postcodes, enquiries straight to your inbox</li>
+      </ol>
     </div>
     <div class="enq crop" id="enquire">
       <span class="cm tl"></span><span class="cm tr"></span><span class="cm bl"></span><span class="cm br"></span>
-      <div class="head mono"><b>Quick enquiry</b><span>Reply in 1 business day</span></div>
+      <div class="head mono"><b>Get your Full Diary Plan</b><span>Free</span></div>
       <form class="nb-form" novalidate>
         <input type="text" name="company_site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
         <label>Name<input name="name" required autocomplete="name" enterkeyhint="next"></label>
         <label>Phone or email<input name="contact" required autocomplete="email" autocapitalize="off" spellcheck="false" enterkeyhint="next"></label>
-        <label>What&rsquo;s your trade and area?<input name="message" placeholder="e.g. Decks, Gold Coast" enterkeyhint="send"></label>
-        <button type="submit" class="btn btn-ink">Send <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <label>Your trade and area<input name="message" placeholder="e.g. electrician, Penrith and the Hills" enterkeyhint="send"></label>
+        <button type="submit" class="btn btn-ink">Send me my plan <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <p class="nb-msg" role="status"></p>
       </form>
+      <p class="under">Free. Ready within 2 business days. Anywhere in Australia.</p>
       <a class="alt" href="https://cal.com/benalekconner/nb-free-audit" target="_blank" rel="noopener"><span>Or book a free call</span><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
+    <a class="live-chip mono" href="#live-now"><i></i>Live now &middot; York Design, Brisbane</a>
   </div>
 </section>
 
-<!-- SAMPLE ADS -->
+<!-- THE FREE PLAN -->
+<section class="section wrap plan">
+  <div class="dim mono"><span class="n">01</span><span class="lbl">The Free Plan</span><span class="line"></span></div>
+  <h2 class="display reveal">Your Full Diary Plan, <span>free</span></h2>
+  <p class="lead reveal d1" style="margin-bottom:36px">Three things, written for your business and your area.</p>
+  <div class="spec">
+    <div class="reveal"><span class="n mono">01</span><svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><path d="M9.5 4.5l3 5-2.2 2.2c1.4 3 3.4 5 6.4 6.4l2.2-2.2 5 3-1.6 4.1c-.4.9-1.3 1.4-2.3 1.2C12 22.8 7.2 18 5.8 10.2c-.2-1 .3-1.9 1.2-2.3z"/><path d="M19 4.5c3.3.6 5.9 3.2 6.5 6.5M18.5 8.6c1.4.4 2.5 1.5 2.9 2.9"/></svg><h3>Who gets the call instead of you</h3><p>When a homeowner searches your trade and suburb, these are the names they find first.</p></div>
+    <div class="reveal d1"><span class="n mono">02</span><svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><rect x="4" y="6" width="22" height="17" rx="1"/><path d="M8 11h9M8 15h6"/><circle cx="21.5" cy="21.5" r="4"/><path d="M24.4 24.4l2.6 2.6"/></svg><h3>What your local competitors are advertising right now</h3><p>Their actual ads, what they&rsquo;re offering, and where they&rsquo;re leaving gaps.</p></div>
+    <div class="reveal d2"><span class="n mono">03</span><svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><path d="M15 26.5s-8-7.6-8-13.6a8 8 0 0 1 16 0c0 6-8 13.6-8 13.6z"/><circle cx="15" cy="12.6" r="2.8"/></svg><h3>Your plan</h3><p>The postcodes worth targeting, a daily budget worked back from the number of jobs you want, and three ads written for your business, ready to run.</p></div>
+  </div>
+  <p class="plan-foot reveal">It&rsquo;s yours to keep whether we work together or not. We can go through it on a free call if you&rsquo;d like.</p>
+  <div class="again reveal"><a class="btn btn-line btn-sm to-form" href="#enquire">Send me my plan <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+</section>
+
+<!-- THE LIFE IT'S FOR -->
 <section class="section wrap">
-  <div class="dim mono"><span class="n">01</span><span class="lbl">Sample Ads</span><span class="line"></span></div>
+  <div class="dim mono"><span class="n">02</span><span class="lbl">The Point</span><span class="line"></span></div>
+  <div class="life">
+    <div>
+      <h2 class="display reveal">What a full diary <span>feels like</span></h2>
+      <p class="lead reveal d1">You know on Monday what the next six weeks hold. You quote the kitchen you want instead of the three small jobs you need. Winter&rsquo;s as busy as spring. You lift your prices because you can afford to lose the bloke who haggles. You spend your days on the tools doing the work you trained for, and the next job is already booked.</p>
+      <p class="lead k reveal d2">That&rsquo;s what the ads are for. Two extra jobs a month or a second crew&rsquo;s worth of work, the plan starts from your number.</p>
+    </div>
+    <figure class="diary crop reveal d1" aria-label="A six-week diary, every weekday booked">
+        <span class="cm tl"></span><span class="cm tr"></span><span class="cm bl"></span><span class="cm br"></span>
+        <div class="hd mono"><b>Next six weeks</b><span>Monday</span></div>
+        <div class="g" aria-hidden="true"><span></span><span class="wk mono">Wk1</span><span class="wk mono">Wk2</span><span class="wk mono">Wk3</span><span class="wk mono">Wk4</span><span class="wk mono">Wk5</span><span class="wk mono">Wk6</span><span class="lbl mono">M</span><i class="f" style="--n:0"></i><i class="f" style="--n:5"></i><i class="big" style="--n:10"></i><i class="big" style="--n:15"></i><i class="f" style="--n:20"></i><i class="f" style="--n:25"></i><span class="lbl mono">T</span><i class="f" style="--n:1"></i><i class="f" style="--n:6"></i><i class="big" style="--n:11"></i><i class="big" style="--n:16"></i><i class="f" style="--n:21"></i><i class="f" style="--n:26"></i><span class="lbl mono">W</span><i class="f" style="--n:2"></i><i class="f" style="--n:7"></i><i class="big" style="--n:12"></i><i class="big" style="--n:17"></i><i class="f" style="--n:22"></i><i class="f" style="--n:27"></i><span class="lbl mono">T</span><i class="f" style="--n:3"></i><i class="f" style="--n:8"></i><i class="f" style="--n:13"></i><i class="f" style="--n:18"></i><i class="f" style="--n:23"></i><i class="f" style="--n:28"></i><span class="lbl mono">F</span><i class="f" style="--n:4"></i><i class="f" style="--n:9"></i><i class="f" style="--n:14"></i><i class="f" style="--n:19"></i><i class="f" style="--n:24"></i><i class="f" style="--n:29"></i></div>
+        <div class="key mono" aria-hidden="true"><span>Booked</span><span class="m">The kitchen you wanted</span></div>
+      </figure>
+  </div>
+  <div class="again reveal"><a class="btn btn-line btn-sm to-form" href="#enquire">Start with my plan <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+</section>
+
+<!-- SAMPLE ADS -->
+<section class="section wrap" id="samples">
+  <div class="dim mono"><span class="n">03</span><span class="lbl">Sample Ads</span><span class="line"></span></div>
   <h2 class="display reveal">What Your Ads <span>Could Look Like</span></h2>
-  <p class="samples-note reveal d1">Samples. Your ads use your photos, your offer and your postcodes.</p>
+  <p class="samples-note reveal d1">Samples. Yours use your photos, your offer and your postcodes.</p>
   <div class="ads">
       <article class="ad reveal">
         <div class="top"><span class="logo ph">Your logo</span><span class="who"><b>Your Business</b><small>Sponsored</small></span></div>
@@ -619,7 +718,7 @@ footer {
         <div class="bottom"><div class="txt"><span class="site">Your website</span><h3>Backyards finished before summer</h3></div><span class="go">See details</span></div>
         <span class="tag mono">Sample &middot; Landscaper</span>
       </article>
-      <article class="ad live reveal d3">
+      <article class="ad live reveal d3" id="live-now">
         <img src="images/york-design-renovations-ad.jpg" width="720" height="900" loading="lazy" alt="York Design&rsquo;s Facebook ad: kitchen, bathroom and laundry photos with the line &lsquo;Designed and built by the same person.&rsquo; and a Free quote button">
         <span class="tag mono"><i></i>Live now &middot; York Design, Brisbane</span>
       </article>
@@ -627,92 +726,118 @@ footer {
   <p class="swipe-hint mono" aria-hidden="true">Swipe</p>
 </section>
 
-<!-- WHAT YOU GET -->
+<!-- TAKING YOUR SIDE -->
 <section class="section wrap">
-  <div class="dim mono"><span class="n">02</span><span class="lbl">What You Get</span><span class="line"></span></div>
-  <h2 class="display reveal">What&rsquo;s <span>Included</span></h2>
-  <div class="spec">
-    <div class="reveal"><span class="n mono">01</span><svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><rect x="4" y="6" width="22" height="17" rx="1"/><path d="M8 11h9M8 15h6M20.5 26.5l-3-3.5"/></svg><h3>Ads that name the job</h3><p>Ads written about the work you want more of: kitchens, bathrooms, decks, extensions. Built from your own photos of finished jobs.</p></div>
-    <div class="reveal d1"><span class="n mono">02</span><svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><rect x="8" y="3.5" width="14" height="23" rx="2"/><path d="M11.5 9h7M11.5 12.5h5M11.5 18h7v4h-7z"/></svg><h3>A page per service</h3><p>Each ad lands on a page about that service, with one form and a tap-to-call button on mobile.</p></div>
-    <div class="reveal d2"><span class="n mono">03</span><svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><path d="M15 26.5s-8-7.6-8-13.6a8 8 0 0 1 16 0c0 6-8 13.6-8 13.6z"/><circle cx="15" cy="12.6" r="2.8"/></svg><h3>Your postcodes only</h3><p>Ads aimed at the postcodes you service, so you&rsquo;re not paying for clicks from people three hours away.</p></div>
-    <div class="reveal"><span class="n mono">04</span><svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><rect x="3.5" y="7" width="23" height="16" rx="1"/><path d="M4 8l11 8.5L26 8M21 3.5l2.5 2M25.5 2l-1 3.5"/></svg><h3>Leads in seconds</h3><p>Every enquiry is emailed to you straight away, with the ad it came from, so you know what&rsquo;s working.</p></div>
-    <div class="reveal d1"><span class="n mono">05</span><svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><rect x="3.5" y="7.5" width="23" height="15" rx="1.5"/><path d="M3.5 12.5h23M7.5 18h6"/></svg><h3>Your account, your card</h3><p>The ad account is in your name and you pay Meta directly. Nothing is held hostage if we part ways.</p></div>
-    <div class="reveal d2"><span class="n mono">06</span><svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><rect x="5" y="4" width="20" height="23" rx="1"/><path d="M9 9.5h12M9 13.5h8M10 21.5l2.5 2.5L19 17.5"/></svg><h3>Licence details done right</h3><p>For Queensland builders, your QBCC licence line goes on every ad and page before anything runs.</p></div>
+  <div class="dim mono"><span class="n">04</span><span class="lbl">Your Side</span><span class="line"></span></div>
+  <div class="side">
+    <h2 class="display reveal">Tried ads before and got nothing? <span>Blame the setup.</span></h2>
+    <div>
+      <p class="lead reveal d1">A boosted post with no page behind it, no postcode limits and nobody watching what comes in will burn money for any trade. You did the hard part already, which is being good at the job.</p>
+      <p class="lead reveal d1">Meta will always suggest you spend more. I&rsquo;ll tell you when more isn&rsquo;t worth it, and when a cheaper week would do the same job.</p>
+      <p class="lead own reveal d2">Every enquiry is one only you got. It comes from your ad, in your postcodes, to your inbox, instead of a lead sold to a handful of tradies at once.</p>
+    </div>
   </div>
+  <div class="again reveal"><a class="btn btn-line btn-sm to-form" href="#enquire">Send me my plan <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
 </section>
 
-<!-- PROCESS -->
+<!-- FIRST TWO WEEKS -->
 <section class="section wrap">
-  <div class="dim mono"><span class="n">03</span><span class="lbl">How It Works</span><span class="line"></span></div>
-  <h2 class="display reveal">How It <span>Runs</span></h2>
+  <div class="dim mono"><span class="n">05</span><span class="lbl">Starting</span><span class="line"></span></div>
+  <h2 class="display reveal">Your first <span>two weeks</span></h2>
   <ol class="program">
-    <li class="reveal"><span class="node"><span class="sq"></span></span><strong><span class="mono">01</span>A free call</strong><p>We talk about the jobs you want more of, where you work and what a good month looks like for you.</p></li>
-    <li class="reveal"><span class="node"><span class="sq"></span></span><strong><span class="mono">02</span>Setup</strong><p>I set up access to your ad account, build a landing page for each service, and write three to five different ads from your photos. You set the budget, and you see every ad before it runs.</p></li>
-    <li class="reveal"><span class="node"><span class="sq"></span></span><strong><span class="mono">03</span>Live</strong><p>Ads usually go live about two weeks after you say yes.</p></li>
-    <li class="reveal loop"><span class="node"><svg class="ic" viewBox="0 0 22 22" aria-hidden="true"><path d="M17.6 8.2A7 7 0 1 0 18 13.4"/><path d="M18.4 3.6l-.6 4.8-4.7-.9"/></svg></span><strong><span class="mono">04</span>Every Monday</strong><p>I check spend, enquiries and cost per enquiry, and ask you what happened to each lead. No changes that day.</p></li>
-    <li class="reveal loop"><span class="node"><svg class="ic" viewBox="0 0 22 22" aria-hidden="true"><path d="M17.6 8.2A7 7 0 1 0 18 13.4"/><path d="M18.4 3.6l-.6 4.8-4.7-.9"/></svg></span><strong><span class="mono">05</span>Every second week</strong><p>One edit day: I swap out the ads that aren&rsquo;t pulling their weight and leave the rest alone, because constant fiddling resets the platform&rsquo;s learning.</p></li>
-    <li class="reveal loop"><span class="node"><svg class="ic" viewBox="0 0 22 22" aria-hidden="true"><path d="M17.6 8.2A7 7 0 1 0 18 13.4"/><path d="M18.4 3.6l-.6 4.8-4.7-.9"/></svg></span><strong><span class="mono">06</span>Every month</strong><p>A plain-English report: what you spent, what came in, and what I&rsquo;m changing next.</p></li>
+    <li class="reveal"><span class="node"><span class="sq"></span></span><strong><span class="mono">Start</span>Day 1</strong><p>You sign, and send me photos of jobs you&rsquo;ve finished and the work you want more of.</p></li>
+    <li class="reveal"><span class="node"><span class="sq"></span></span><strong><span class="mono">Setup</span>Week 1</strong><p>I set up your ad account in your name, build a page for each service you&rsquo;re advertising, and write your ads from your photos.</p></li>
+    <li class="reveal"><span class="node"><span class="sq"></span></span><strong><span class="mono">Live</span>Week 2</strong><p>Your ads go live in your postcodes, usually about two weeks after you say yes. Every enquiry is emailed to you within seconds, with the ad it came from, so you can call while they&rsquo;re still keen.</p></li>
   </ol>
+  <p class="note reveal">You set the budget. You get a heads-up whenever an ad changes and why.</p>
+  <div class="again reveal"><a class="btn btn-line btn-sm to-form" href="#enquire">Send me my plan <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
 </section>
 
-<!-- PRICING -->
+<!-- EVERY MONTH AFTER -->
 <section class="section wrap">
-  <div class="dim mono"><span class="n">04</span><span class="lbl">Investment</span><span class="line"></span></div>
+  <div class="dim mono"><span class="n">06</span><span class="lbl">Every Month After</span><span class="line"></span></div>
+  <h2 class="display reveal" style="max-width:17ch">I chase every enquiry, so the ads find <span>better jobs</span></h2>
+  <ol class="program">
+    <li class="reveal loop"><span class="node"><svg class="ic" viewBox="0 0 22 22" aria-hidden="true"><path d="M17.6 8.2A7 7 0 1 0 18 13.4"/><path d="M18.4 3.6l-.6 4.8-4.7-.9"/></svg></span><strong><span class="mono">Weekly</span>Every Monday</strong><p>I check the spend, the enquiries and what each one cost, and I ask you what happened to each enquiry: booked, quoted, or gone quiet. That&rsquo;s how the ads learn to bring in the jobs you want and fewer of the ones you don&rsquo;t.</p></li>
+    <li class="reveal loop"><span class="node"><svg class="ic" viewBox="0 0 22 22" aria-hidden="true"><path d="M17.6 8.2A7 7 0 1 0 18 13.4"/><path d="M18.4 3.6l-.6 4.8-4.7-.9"/></svg></span><strong><span class="mono">Fortnightly</span>Every second week</strong><p>I swap out the ads that aren&rsquo;t pulling their weight and leave the winners alone.</p></li>
+    <li class="reveal loop"><span class="node"><svg class="ic" viewBox="0 0 22 22" aria-hidden="true"><path d="M17.6 8.2A7 7 0 1 0 18 13.4"/><path d="M18.4 3.6l-.6 4.8-4.7-.9"/></svg></span><strong><span class="mono">Monthly</span>Once a month</strong><p>You get a plain-English report: what you spent, what came in, and what I&rsquo;m changing next.</p></li>
+  </ol>
+  <div class="again reveal"><a class="btn btn-line btn-sm to-form" href="#enquire">Send me my plan <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+</section>
+
+<!-- PRICE AND OFFER -->
+<section class="section wrap">
+  <div class="dim mono"><span class="n">07</span><span class="lbl">Price</span><span class="line"></span></div>
   <div class="quote-grid">
     <div>
-      <h2 class="display reveal">How <span>Pricing</span> Works</h2>
-      <p class="lead reveal d1">A monthly management fee, plus your ad spend, which you pay straight to Meta on your own card. The fee depends on how many services we advertise and how many landing pages you need. Book a call and I&rsquo;ll give you a quote in writing before anything starts.</p>
+      <h2 class="display reveal">The price, before you <span>have to ask</span></h2>
+      <p class="lead reveal d1">$2,000 setup, paid when you sign. Then $1,200 a month, starting 30 days after your ads go live.</p>
+      <p class="lead reveal d1" style="margin-top:18px">Your ad spend goes straight to Meta on your own card. I don&rsquo;t add a cent to it.</p>
     </div>
     <div class="sum crop reveal d2">
       <span class="cm tl"></span><span class="cm tr"></span><span class="cm bl"></span><span class="cm br"></span>
-      <div class="row"><b>Management fee</b><span class="mono">Monthly</span></div>
-      <div class="plus">+</div>
-      <div class="row" style="border-bottom:0"><b>Ad spend</b><span class="mono">Straight to Meta</span></div>
-      <div class="months" aria-hidden="true">
-        <div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
-        <div class="lbl mono"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+      <div class="row"><b>Setup</b><b class="amt">$2,000</b></div>
+      <div class="row"><b>Monthly</b><b class="amt">$1,200</b></div>
+      <div class="row" style="border-bottom:0"><b>Ad spend</b><span class="mono">Your card, straight to Meta</span></div>
+      <div class="stamp">
+        <span class="mono">Offer &middot; ends 24 December</span>
+        <p>Book by 24 December and your first month is free.<small>So your first $1,200 is billed about 60 days after your ads go live.</small></p>
       </div>
-      <p class="pricing-footnote">The first three months are the minimum, because the platforms need that long before the numbers mean anything. After that it&rsquo;s month to month.</p>
+      <p class="small-print">All prices in AUD. No GST is added. Three-month minimum, then month to month.</p>
     </div>
   </div>
+  <div class="again reveal"><a class="btn btn-line btn-sm to-form" href="#enquire">Send me my plan <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+</section>
+
+<!-- THE LIMIT -->
+<section class="section wrap">
+  <div class="dim mono"><span class="n">08</span><span class="lbl">The Limit</span><span class="line"></span></div>
+  <h2 class="display reveal">Taking 3 new clients <span>through December</span></h2>
+  <p class="fit-lbl reveal">It suits you if:</p>
+  <ul class="fit reveal d1">
+    <li><svg aria-hidden="true"><use href="#tick"/></svg>you can put at least about $30 a day into ads,</li>
+    <li><svg aria-hidden="true"><use href="#tick"/></svg>you&rsquo;ve got room in the week for more work,</li>
+    <li><svg aria-hidden="true"><use href="#tick"/></svg>you&rsquo;ve got photos of jobs you&rsquo;ve finished (phone photos are fine).</li>
+  </ul>
+  <div class="again reveal"><a class="btn btn-line btn-sm to-form" href="#enquire">Send me my plan <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
 </section>
 
 <!-- FAQ -->
 <section class="section wrap" id="faq">
-  <div class="dim mono"><span class="n">05</span><span class="lbl">Questions</span><span class="line"></span></div>
-  <h2 class="display reveal">Questions Trades <span>Ask</span></h2>
+  <div class="dim mono"><span class="n">09</span><span class="lbl">Questions</span><span class="line"></span></div>
+  <h2 class="display reveal">Questions tradies <span>ask</span></h2>
   <div class="faq-wrap">
-    <details class="faq"><summary><span class="mono">Q1</span><span>Do I need a website first?</span><span class="pm"></span></summary><p>No. I build a landing page for each service you advertise, so the ad and the page say the same thing. If you already have a site, it stays as it is.</p></details>
-    <details class="faq"><summary><span class="mono">Q2</span><span>Who pays for the ads?</span><span class="pm"></span></summary><p>You do, straight to Meta, on your own card in your own ad account. My fee is separate. If we ever stop working together, the account, the data and the ads stay with you.</p></details>
-    <details class="faq"><summary><span class="mono">Q3</span><span>How much do I need to spend?</span><span class="pm"></span></summary><p>You set the daily budget. Small budgets work if they&#x27;re set up for it: one campaign, three to five different ads, and patience. I currently run a renovation campaign at $30 a day.</p></details>
-    <details class="faq"><summary><span class="mono">Q4</span><span>How soon will I get enquiries?</span><span class="pm"></span></summary><p>I can&#x27;t promise a number or a date. Ads usually go live about two weeks after you say yes, and the first month is mostly the platform learning who responds. I judge it on booked site visits and jobs, read monthly, not on one week.</p></details>
-    <details class="faq"><summary><span class="mono">Q5</span><span>Where do the leads go?</span><span class="pm"></span></summary><p>Each enquiry is emailed to you within seconds of someone filling in the form, with their details and the ad they came from, so you can call them back while they&#x27;re still keen.</p></details>
-    <details class="faq"><summary><span class="mono">Q6</span><span>I&#x27;m a licensed builder in Queensland. Does that change anything?</span><span class="pm"></span></summary><p>Yes. Every ad and landing page shows your licensed name, licence number and that you&#x27;re licensed under the QBCC Act, as the QBCC requires. I set that up before anything runs.</p></details>
-    <details class="faq"><summary><span class="mono">Q7</span><span>Do you only work in Brisbane?</span><span class="pm"></span></summary><p>I work remotely with businesses anywhere in Australia, and in the US. Your ads target the postcodes you actually service, not a circle on a map.</p></details>
-    <details class="faq"><summary><span class="mono">Q8</span><span>Is there a lock-in?</span><span class="pm"></span></summary><p>Three months, because that&#x27;s how long the numbers take to mean anything. After that it&#x27;s month to month.</p></details>
+    <details class="faq"><summary><span class="mono">Q1</span><span>How much do I need to spend on ads?</span><span class="pm"></span></summary><p>At least about $30 a day, paid to Meta on your own card. Past that it depends on how many jobs you want, and your Full Diary Plan works that daily budget out for your trade and postcodes. It&#x27;s an estimate to start from, and the first months show the real numbers.</p></details>
+    <details class="faq"><summary><span class="mono">Q2</span><span>What does it cost all up?</span><span class="pm"></span></summary><p>$2,000 setup when you sign, then $1,200 a month starting 30 days after your ads go live. Book by 24 December and your first month is free. Your ad spend is separate and goes straight to Meta, with nothing added. Prices are AUD and no GST is added.</p></details>
+    <details class="faq"><summary><span class="mono">Q3</span><span>How soon will the phone ring? Do you guarantee jobs?</span><span class="pm"></span></summary><p>Ads usually go live about two weeks after you say yes, and enquiries go to you the moment they come in. I won&#x27;t promise a number or a date, because nobody can honestly guarantee jobs from ads that haven&#x27;t run in your area yet. The first month is the platform learning who responds. I judge it on booked jobs, read monthly, and I&#x27;ll tell you straight if it isn&#x27;t paying for itself.</p></details>
+    <details class="faq"><summary><span class="mono">Q4</span><span>Is the Full Diary Plan really free?</span><span class="pm"></span></summary><p>Yes. It&#x27;s ready within 2 business days and it&#x27;s yours to keep. If you&#x27;d rather run the ads yourself, it tells you where to start.</p></details>
+    <details class="faq"><summary><span class="mono">Q5</span><span>Do I need a website first?</span><span class="pm"></span></summary><p>No. I build a page for each service you advertise, so the ad and the page say the same thing. If you already have a site, it stays as it is.</p></details>
+    <details class="faq"><summary><span class="mono">Q6</span><span>Do I get a say in the ads?</span><span class="pm"></span></summary><p>You tell me the jobs you want, send the photos and set the budget. I write and run the ads, and you get a heads-up whenever one changes and why.</p></details>
+    <details class="faq"><summary><span class="mono">Q7</span><span>Is there a lock-in?</span><span class="pm"></span></summary><p>Three months, then month to month. The ad account is in your name and the card is yours, so if we stop, the account, the ads and the data stay with you.</p></details>
+    <details class="faq"><summary><span class="mono">Q8</span><span>I&#x27;m a licensed builder in Queensland. Does that change anything?</span><span class="pm"></span></summary><p>Yes. Every ad and page shows your licensed name, licence number and that you&#x27;re licensed under the QBCC Act, as the QBCC requires. That&#x27;s set up before anything runs.</p></details>
   </div>
 </section>
 
-<!-- CTA -->
+<!-- CLOSE -->
 <section class="cta-section wrap" id="cta">
-  <div class="dim mono"><span class="n">06</span><span class="lbl">Let&rsquo;s Talk</span><span class="line"></span></div>
+  <div class="dim mono"><span class="n">10</span><span class="lbl">Your Plan</span><span class="line"></span></div>
   <div class="cta-grid">
     <div>
-      <h2 class="display">Let&rsquo;s <span class="u">Talk<svg class="hand draw" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path style="--len:310" d="M5 13C60 7.5 120 6 176 9S258 16 295 9"/><path style="--len:260" d="M40 19.5C110 15 190 14.5 270 16" stroke-width="3.5"/></svg></span></h2>
-      <p class="lead">Leave your details and I&rsquo;ll get back to you within one business day. Or book a free call and I&rsquo;ll look at your current ads, or plan your first campaign with you.</p>
-      <p class="fine-print">No obligation. No hard sell. Just honest advice.</p>
+      <h2 class="display">Somebody&rsquo;s ads are already running in your postcodes. <span class="u">Make them yours.<svg class="hand draw" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path style="--len:310" d="M5 13C60 7.5 120 6 176 9S258 16 295 9"/><path style="--len:260" d="M40 19.5C110 15 190 14.5 270 16" stroke-width="3.5"/></svg></span></h2>
+      <p class="lead">Your Full Diary Plan, free, within 2 business days.</p>
     </div>
     <div class="enq crop">
       <span class="cm tl"></span><span class="cm tr"></span><span class="cm bl"></span><span class="cm br"></span>
-      <div class="head mono"><b>Quick enquiry</b><span>Reply in 1 business day</span></div>
+      <div class="head mono"><b>Get your Full Diary Plan</b><span>Free</span></div>
       <form class="nb-form" novalidate>
         <input type="text" name="company_site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
         <label>Name<input name="name" required autocomplete="name" enterkeyhint="next"></label>
         <label>Phone or email<input name="contact" required autocomplete="email" autocapitalize="off" spellcheck="false" enterkeyhint="next"></label>
-        <label>What&rsquo;s your trade and area?<input name="message" placeholder="e.g. Decks, Gold Coast" enterkeyhint="send"></label>
-        <button type="submit" class="btn btn-ink">Send <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <label>Your trade and area<input name="message" placeholder="e.g. electrician, Penrith and the Hills" enterkeyhint="send"></label>
+        <button type="submit" class="btn btn-ink">Send me my plan <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <p class="nb-msg" role="status"></p>
       </form>
+      <p class="under">Free. Ready within 2 business days. Anywhere in Australia.</p>
       <a class="alt" href="https://cal.com/benalekconner/nb-free-audit" target="_blank" rel="noopener"><span>Or book a free call</span><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </div>
@@ -722,7 +847,7 @@ footer {
 <!-- Phone: keep the two ways to act in reach -->
 <div class="dock" id="dock" aria-hidden="true">
   <a class="btn btn-line" href="https://cal.com/benalekconner/nb-free-audit" target="_blank" rel="noopener" tabindex="-1">Book a free call</a>
-  <a class="btn btn-ink" href="#enquire" tabindex="-1">Enquire</a>
+  <a class="btn btn-ink" href="#enquire" tabindex="-1">Get my plan</a>
 </div>
 
 <!-- FOOTER -->
@@ -769,7 +894,7 @@ footer {
         var r=await fetch('/api/submit-lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
         var j=await r.json();
         if(!r.ok||!j.ok) throw new Error(j.error||'Something went wrong');
-        f.reset(); m.textContent='Thanks, got it. I’ll be in touch within one business day.';
+        f.reset(); m.textContent='Thanks, got it. Your plan will be with you within 2 business days.';
         if (window.fbq) fbq('track','Lead');
       } catch(e) { m.textContent=e.message+' You can also email ben@nunyabunya.com.'; }
       b.disabled=false;
@@ -778,10 +903,25 @@ footer {
 })();
 </script>
 <script>
+/* Trade word: from utm_content if it names a trade, else one slow pass through the trades, settling on "tradie".
+   Screen readers always get the static word in #trade-sr. Reduced motion: no rotation. */
+(function(){
+  var el=document.getElementById('trade'), sr=document.getElementById('trade-sr'); if(!el) return;
+  var words=['builder','sparky','plumber','landscaper','renovator','tiler'];
+  var map={builder:'builder',build:'builder',electric:'sparky',sparky:'sparky',plumb:'plumber',landscap:'landscaper',renovat:'renovator',kitchen:'renovator',bathroom:'renovator',tile:'tiler',tiling:'tiler'};
+  var uc=(new URLSearchParams(location.search).get('utm_content')||'').toLowerCase();
+  for (var k in map) if (uc.indexOf(k)>-1) { el.textContent=sr.textContent=map[k]; return; }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var seq=words.concat(['tradie']), i=0;
+  function next(){ if(i>=seq.length) return; el.classList.remove('swap'); void el.offsetWidth; el.textContent=seq[i++]; el.classList.add('swap'); setTimeout(next, i===seq.length?0:1700); }
+  setTimeout(next, 1800);
+})();
+/* "Send me my plan" buttons: back to the hero form, cursor in the first field */
+document.querySelectorAll('.to-form').forEach(function(a){ a.addEventListener('click', function(){ setTimeout(function(){ var n=document.querySelector('#enquire input[name=name]'); if(n) n.focus({preventScroll:true}); }, 600); }); });
 /* Reveal, dimension lines, hand marks, phone dock. No library. */
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var els = document.querySelectorAll('.reveal, .dim, .hand.draw');
+  var els = document.querySelectorAll('.reveal, .dim, .hand.draw, .diary');
   if (reduce || !('IntersectionObserver' in window)) {
     els.forEach(function(e){ e.classList.add('in'); });
   } else {
