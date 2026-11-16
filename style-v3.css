@@ -238,6 +238,11 @@ body::after {
 .btn--ghost { --b-bg: transparent; --b-fg: var(--fg); --b-bd: var(--rule-strong); }
 .btn--ghost:hover { --b-bg: transparent; --b-fg: var(--fg); --b-bd: var(--fg); }
 .btn--small { min-height: 40px; padding: 10px 18px; font-size: 14px; }
+/* Long labels on phones: tighten first; if a label still wraps, balance it and keep the arrow centred */
+@media (max-width: 560px) {
+  .btn:not(.btn--small) { font-size: 14.5px; letter-spacing: 0.08em; padding-inline: 20px; gap: 10px; }
+  .btn { max-width: 100%; text-align: left; line-height: 1.2; text-wrap: balance; }
+}
 
 .link {
   display: inline-flex; align-items: center; gap: 8px;
@@ -325,14 +330,14 @@ body::after {
 .hero__still .frame { position: absolute; inset: 96px 28px 28px 32%; --inset: 0px; }
 .hero__still .frame__label.tl { top: 14px; left: 16px; }
 .hero__still .frame__label.br { bottom: 14px; right: 16px; color: var(--fg-2); }
-.hero__note { position: absolute; z-index: 2; left: 52%; top: 26%; display: flex; align-items: flex-start; gap: 4px; }
+.hero__note { position: absolute; z-index: 2; right: 2.5%; top: 17%; display: flex; flex-direction: row-reverse; align-items: flex-start; gap: 4px; }   /* right of his head, arrow pointing back at him */
 .hero__note .t-hand { transform: rotate(-6deg); white-space: nowrap; font-size: 17px; }
-.hero__note .mark--arrow { position: relative; width: 78px; height: 58px; margin-top: 18px; }
+.hero__note .mark--arrow { position: relative; width: 78px; height: 58px; margin-top: 18px; transform: scaleX(-1); }
 
 .hero__copy { position: relative; width: 100%; }
 .hero__eyebrow { color: var(--sys); margin-bottom: clamp(20px, 3vh, 32px); display: flex; align-items: center; gap: 14px; }
 .hero__eyebrow::before { content: ''; width: 36px; height: 1px; background: currentColor; }
-.hero__title { margin-bottom: clamp(24px, 4vh, 40px); font-size: min(var(--fs-mega), 16.5vh); }
+.hero__title { margin-bottom: clamp(24px, 4vh, 40px); font-size: min(var(--fs-mega), 16.5vh, 8.9vw); }   /* 8.9vw: the longest line stops at the camera, clear of Ben's face */
 .hero__title .t-line { overflow: hidden; padding-bottom: 0.04em; }
 .hero__title .t-line > span { display: inline-block; }
 .hero__foot { display: grid; grid-template-columns: minmax(0, 520px) auto; align-items: end; gap: 32px 56px; }
@@ -350,9 +355,11 @@ body::after {
   .hero__still { height: 50svh; min-height: 330px; }
   .hero__still .frame { inset: 76px 14px 30% 14px; }
   .hero__still .frame__label.br { display: none; }
-  .hero__note { left: 24%; top: 36%; }
+  .hero__note { right: 5%; top: auto; bottom: 30%; align-items: flex-end; }   /* under his chin, arrow pointing up at him */
+  .hero__note .mark--arrow { transform: scaleY(-1); margin: 0 0 14px; width: 60px; height: 44px; }
+  .hero__note .t-hand { font-size: 15px; }
   .hero__copy { margin-top: -16vw; }
-  .hero__title { font-size: min(20.5vw, 120px); }
+  .hero__title { font-size: min(12.2vw, 96px); }   /* four lines at 390, button clears the consent bar */
   .hero__eyebrow { font-size: 10.5px; }
   .hero__eyebrow::before { width: 20px; flex: none; }
   .hero__foot { display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
