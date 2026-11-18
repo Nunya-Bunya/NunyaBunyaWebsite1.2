@@ -220,7 +220,24 @@
     <div class="lm-form-card">
         <h2>Download Your Free Guide</h2>
       <p class="form-sub">Enter your details and get the PDF instantly.</p>
-      <script type="text/javascript" src="https://mautic.nunyabunya.com/form/generate.js?id=15"></script>
+      <form id="nbf-lead-magnet-good-marketing" novalidate style="text-align:left;">
+        <input name="name" type="text" required placeholder="Your name" style="width:100%;padding:14px 16px;margin:0 0 10px;background:#111;border:1px solid #333;border-radius:6px;color:#fff;font-size:15px;box-sizing:border-box;">
+        <input name="email" type="email" required placeholder="Your email" style="width:100%;padding:14px 16px;margin:0 0 10px;background:#111;border:1px solid #333;border-radius:6px;color:#fff;font-size:15px;box-sizing:border-box;">
+        
+        <button type="submit" style="width:100%;padding:14px;background:var(--mint);color:#000;border:0;border-radius:6px;font-weight:700;font-size:15px;cursor:pointer;">Send me the guide</button>
+        <p class="nbf-msg" style="margin:10px 0 0;font-size:14px;color:var(--gray);"></p>
+      </form>
+      <script>
+      (function(){var f=document.getElementById('nbf-lead-magnet-good-marketing');f.addEventListener('submit',async function(e){e.preventDefault();var m=f.querySelector('.nbf-msg'),b=f.querySelector('button');
+        var d={name:f.name.value.trim(),email:f.email.value.trim(),source:'lead-magnet-good-marketing',page:location.pathname,message:f.website?('Website: '+f.website.value.trim()):null};
+        if(!d.name||!d.email||d.email.indexOf('@')<1){m.textContent='Please add your name and email.';return;}
+        b.disabled=true;b.textContent='Sending...';
+        try{var r=await fetch('/api/submit-lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});var j=await r.json();if(!r.ok||!j.ok)throw 0;
+          f.querySelectorAll('input,button').forEach(function(x){x.style.display='none'});m.innerHTML='Thanks. Your guide is ready: <a href=\'assets/what-even-is-good-marketing.pdf\' target=\'_blank\' style=\'color:var(--mint)\'>download the PDF</a>.';m.style.color='var(--white)';
+          if(window.fbq)fbq('track','Lead');}
+        catch(err){b.disabled=false;b.textContent='Send me the guide';m.innerHTML='That didn\'t send. Email <a href="mailto:ben@nunyabunya.com" style="color:var(--mint)">ben@nunyabunya.com</a> instead.';}
+      });})();
+      </script>
       <p class="form-footer">No spam. Unsubscribe anytime.</p>
     </div>
   </div>
@@ -247,7 +264,6 @@
   document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
   document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
 
-  // Form handled by Mautic embed (form ID 15)
 </script>
 
 </body>
