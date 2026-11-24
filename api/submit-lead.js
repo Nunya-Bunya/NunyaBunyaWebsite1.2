@@ -1,4 +1,6 @@
-// Vercel serverless function — accepts site contact form submissions, stores them in Supabase, and sends a Slack alert.
+// Vercel serverless function: accepts site form submissions, stores them in Supabase, and emails Ben a lead alert.
+import { buildLeadFacts } from '../lib/lead-facts.js';
+import { renderLeadEmail } from '../lib/lead-email.js';
 import { sendSlackAlert, sendMauticSubmission, sendEmailNotification, escapeText, escapeHtml } from '../lib/notifications.js';
 
 export default async function handler(req, res) {
@@ -17,6 +19,7 @@ export default async function handler(req, res) {
   const message = (body.message || '').trim() || null;
   const source = (body.source || 'web-form').trim();
   const page = (body.page || '').trim() || null;
+  const tracking = body.tracking && typeof body.tracking === 'object' ? body.tracking : null;
 
   if (!email || !name) {
     return res.status(400).json({ ok: false, error: 'Name and email are required.' });
@@ -85,10 +88,19 @@ export default async function handler(req, res) {
 
   await sendSlackAlert(slackMessage);
 
-  // Email Ben (2026-11-13). Slack isn't read; this is the alert that reaches him.
-  const rowsHtml = [['Name', name], ['Email', email], ['Phone', phone], ['Interest', interest], ['Source', source], ['Page', page], ['Message', message]]
-    .filter(([, v]) => v).map(([k, v]) => `<p><b>${k}:</b> ${escapeHtml(String(v))}</p>`).join('');
-  const emailed = await sendEmailNotification('ben@nunyabunya.com', `New NB lead: ${name}${interest ? ' (' + interest + ')' : ''}`, rowsHtml + `<p>Lead ID: ${savedLead?.id || (saveFailed ? 'NOT SAVED (database down), this email is the only record' : 'unknown')}</p>`);
+  // Email Ben (2026-11-13; redesigned 2026-11-24). Slack isn't read; this is the alert that reaches him.
+  // reply_to = the lead, so hitting Reply in Gmail answers them directly.
+  let emailed = false;
+  try {
+    const facts = buildLeadFacts({ name, email, phone, interest, message, source, page, tracking, leadId: savedLead?.id, saveFailed });
+    const { subject, html, text } = renderLeadEmail(facts);
+    emailed = await sendEmailNotification('ben@nunyabunya.com', subject, html, null, { text, replyTo: facts.contact.email || undefined });
+  } catch (e) {
+    console.error('Lead email render failed, sending plain fallback:', e);
+    const rows = [['Name', name], ['Email', email], ['Phone', phone], ['Interest', interest], ['Message', message]]
+      .filter(([, v]) => v).map(([k, v]) => `<p><b>${k}:</b> ${escapeHtml(String(v))}</p>`).join('');
+    emailed = await sendEmailNotification('ben@nunyabunya.com', `New NB lead: ${name}`, rows + `<p>Lead ID: ${savedLead?.id || 'NOT SAVED'}</p>`);
+  }
   if (saveFailed && !emailed) {
     return res.status(500).json({ ok: false, error: 'Could not save your message. Please try again.' });
   }

@@ -891,8 +891,8 @@ footer {
       else if (c.replace(/\D/g,'').length>=8 && !/[a-z@]/i.test(c)) { phone=c; email='none given (phone only)'; }
       if (!name || !c) { m.textContent='Please add your name and a phone number or email.'; return; }
       if (!email) { m.textContent='That doesn’t look like a phone number or email. Mind checking it?'; return; }
-      var t=['utm_source','utm_medium','utm_campaign','utm_content','fbclid'].map(function(k){return q.get(k)?k+'='+q.get(k):null;}).filter(Boolean).join(' ');
-      var body={name:name,email:email,phone:phone,message:(d.message||'')+(t?'\n\n['+t+']':''),interest:'Paid ads',source:q.get('utm_source')?'paid-ads:'+q.get('utm_source'):'paid-ads',page:location.pathname+location.search};
+      var tr={}; ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid'].forEach(function(k){if(q.get(k))tr[k]=q.get(k);});
+      var body={name:name,email:email,phone:phone,message:(d.message||'').trim(),tracking:tr,interest:'Paid ads',source:q.get('utm_source')?'paid-ads:'+q.get('utm_source'):'paid-ads',page:location.pathname+location.search};
       b.disabled=true; m.textContent='Sending...';
       try {
         var r=await fetch('/api/submit-lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
