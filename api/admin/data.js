@@ -627,10 +627,10 @@ export default async function handler(req, res) {
         const name = sub?.[0]?.client_name || 'Unknown';
         const email = sub?.[0]?.client_email || '';
 
-        await fetch('https://slack.com/api/chat.postMessage', {
+        if (process.env.SLACK_BOT_TOKEN) await fetch('https://slack.com/api/chat.postMessage', {  // no hardcoded token (2026-11-25); Slack unused
           method: 'POST',
           headers: {
-            'Authorization': 'Bearer ' + (process.env.SLACK_BOT_TOKEN || 'xoxb-10755237382436-10749606199814-bRCC6xDwjeVZ7UODIdBdxEeK'),
+            'Authorization': 'Bearer ' + process.env.SLACK_BOT_TOKEN,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
