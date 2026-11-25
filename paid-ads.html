@@ -877,6 +877,12 @@ footer {
   var nt=document.getElementById('navToggle'), nl=document.getElementById('navLinks');
   if (nt && nl) nt.addEventListener('click', function(){ nl.classList.toggle('open'); });
   var q=new URLSearchParams(location.search);
+  /* 2026-11-25: carry the ad's UTMs into the Cal.com booking (stored as booking metadata; api/cal-booking.js reads them). */
+  document.querySelectorAll('a[href*="cal.com/benalekconner/nb-free-audit"]').forEach(function(a){
+    var u=new URL(a.href);
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){ if(q.get(k)) u.searchParams.set('metadata['+k+']', q.get(k)); });
+    a.href=u.toString();
+  });
   /* One field takes a phone or an email. /api/submit-lead requires `email` (non-empty, no format check)
      and never mails the lead, so a phone-only enquiry sends a clear marker in `email` and the number in `phone`. */
   var EMAIL=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
