@@ -91,7 +91,8 @@ export default async function handler(req, res) {
 
   // 2. Meta Lead. event_id = booking uid, so a retried webhook can't double count.
   let meta_ok = null;
-  try {
+  const isTest = /^test\b/i.test(name) || /@nunyabunya\.com$/i.test(email);
+  if (!isTest) try {
     const m = await sendMetaLead({ email, name, eventId: `cal-${p.uid || p.bookingId}`, eventTime: Math.floor(Date.now() / 1000), extra: { trading: answer(r, 'trading'), ad_budget: answer(r, 'ad-budget') } });
     meta_ok = m.ok ?? false;
   } catch (e) { console.error('Meta CAPI exception:', e); meta_ok = false; }
