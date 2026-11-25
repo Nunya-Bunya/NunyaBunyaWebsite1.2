@@ -651,7 +651,7 @@ footer {
         <input type="text" name="company_site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
         <label>Name<input name="name" required autocomplete="name" enterkeyhint="next"></label>
         <label>Phone or email<input name="contact" required autocomplete="email" autocapitalize="off" spellcheck="false" enterkeyhint="next"></label>
-        <label>Your trade and area<input name="message" placeholder="e.g. electrician, Penrith and the Hills" enterkeyhint="send"></label>
+        <label>Your trade and area<input name="message" required placeholder="e.g. electrician, Penrith and the Hills" enterkeyhint="send"></label>
         <button type="submit" class="btn btn-ink">Send me my plan <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <p class="nb-msg" role="status"></p>
       </form>
@@ -837,7 +837,7 @@ footer {
         <input type="text" name="company_site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
         <label>Name<input name="name" required autocomplete="name" enterkeyhint="next"></label>
         <label>Phone or email<input name="contact" required autocomplete="email" autocapitalize="off" spellcheck="false" enterkeyhint="next"></label>
-        <label>Your trade and area<input name="message" placeholder="e.g. electrician, Penrith and the Hills" enterkeyhint="send"></label>
+        <label>Your trade and area<input name="message" required placeholder="e.g. electrician, Penrith and the Hills" enterkeyhint="send"></label>
         <button type="submit" class="btn btn-ink">Send me my plan <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <p class="nb-msg" role="status"></p>
       </form>
@@ -890,6 +890,7 @@ footer {
       if (EMAIL.test(c)) email=c;
       else if (c.replace(/\D/g,'').length>=8 && !/[a-z@]/i.test(c)) { phone=c; email='none given (phone only)'; }
       if (!name || !c) { m.textContent='Please add your name and a phone number or email.'; return; }
+      if (!(d.message||'').trim()) { m.textContent='Add your trade and the area you work in, so I can write your plan.'; return; }
       if (!email) { m.textContent='That doesn’t look like a phone number or email. Mind checking it?'; return; }
       var tr={}; ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid'].forEach(function(k){if(q.get(k))tr[k]=q.get(k);});
       var body={name:name,email:email,phone:phone,message:(d.message||'').trim(),tracking:tr,interest:'Paid ads',source:q.get('utm_source')?'paid-ads:'+q.get('utm_source'):'paid-ads',page:location.pathname+location.search};

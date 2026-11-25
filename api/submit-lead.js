@@ -1,7 +1,8 @@
 // Vercel serverless function: accepts site form submissions, stores them in Supabase, and emails Ben a lead alert.
 import { buildLeadFacts } from '../lib/lead-facts.js';
 import { renderLeadEmail } from '../lib/lead-email.js';
-import { sendSlackAlert, sendMauticSubmission, sendEmailNotification, escapeText, escapeHtml } from '../lib/notifications.js';
+import { sendLeadAutoReply } from '../lib/lead-autoreply.js';
+import { sendEmailNotification, escapeHtml } from '../lib/notifications.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -72,27 +73,13 @@ export default async function handler(req, res) {
   // 2026-11-13: the Supabase project stopped resolving, so every enquiry was rejected. A failed save no
   // longer loses the lead: the email to Ben below becomes the record. Only if BOTH fail does the visitor see an error.
 
-  // Send Slack alert
-  const slackMessage = [
-    `*New lead from Nunya Bunya website*`,
-    `*Name:* ${escapeText(name)}`,
-    `*Email:* ${escapeText(email)}`,
-    phone ? `*Phone:* ${escapeText(phone)}` : null,
-    interest ? `*Interest:* ${escapeText(interest)}` : null,
-    source ? `*Source:* ${escapeText(source)}` : null,
-    page ? `*Page:* ${escapeText(page)}` : null,
-    message ? `*Message:* ${escapeText(message)}` : null,
-    '',
-    `*Lead ID:* ${savedLead?.id || 'unknown'}`
-  ].filter(Boolean).join('\n');
-
-  await sendSlackAlert(slackMessage);
-
-  // Email Ben (2026-11-13; redesigned 2026-11-24). Slack isn't read; this is the alert that reaches him.
+  // Email Ben (2026-11-13; redesigned 2026-11-24). This is the alert that reaches him (Slack isn't read).
   // reply_to = the lead, so hitting Reply in Gmail answers them directly.
+  // 2026-11-25: Slack, Mautic and Twenty CRM calls removed; all three pointed at services that no longer exist.
   let emailed = false;
+  let facts = null;
   try {
-    const facts = buildLeadFacts({ name, email, phone, interest, message, source, page, tracking, leadId: savedLead?.id, saveFailed });
+    facts = buildLeadFacts({ name, email, phone, interest, message, source, page, tracking, leadId: savedLead?.id, saveFailed });
     const { subject, html, text } = renderLeadEmail(facts);
     emailed = await sendEmailNotification('ben@nunyabunya.com', subject, html, null, { text, replyTo: facts.contact.email || undefined });
   } catch (e) {
@@ -105,78 +92,9 @@ export default async function handler(req, res) {
     return res.status(500).json({ ok: false, error: 'Could not save your message. Please try again.' });
   }
 
-  // Mautic — create/update contact and add to NB segment
-  const MAUTIC_URL = (process.env.MAUTIC_URL || '').trim().replace(/\/$/, '');
-  const MAUTIC_USER = process.env.MAUTIC_API_USER || process.env.MAUTIC_USER || 'admin';
-  const MAUTIC_PASS = process.env.MAUTIC_API_PASSWORD || process.env.MAUTIC_PASS || '';
-  const NB_SEGMENT_ID = process.env.MAUTIC_NB_SEGMENT_ID || '6';
-
-  if (MAUTIC_URL && MAUTIC_PASS) {
-    const auth = 'Basic ' + Buffer.from(`${MAUTIC_USER}:${MAUTIC_PASS}`).toString('base64');
-    try {
-      const contactData = {
-        firstname: name,
-        email,
-        tags: ['nunya-bunya', 'contact-form'],
-      };
-      if (phone) contactData.phone = phone;
-      if (interest) contactData.tags.push(interest.toLowerCase().replace(/\s+/g, '-'));
-
-      const r = await fetch(`${MAUTIC_URL}/api/contacts/new`, {
-        method: 'POST',
-        headers: { Authorization: auth, 'Content-Type': 'application/json' },
-        body: JSON.stringify(contactData),
-        signal: AbortSignal.timeout(1500) // Mautic's host is gone (Hetzner, Oct 2026); never let it hold up the reply
-      });
-      const d = await r.json();
-      const cid = d?.contact?.id;
-      if (cid) {
-        await fetch(`${MAUTIC_URL}/api/segments/${NB_SEGMENT_ID}/contact/${cid}/add`, {
-          method: 'POST',
-          headers: { Authorization: auth },
-          signal: AbortSignal.timeout(1500)
-        }).catch(() => {});
-      }
-    } catch (e) {
-      console.error('Mautic error:', e);
-    }
-  }
-
-  // Twenty CRM — create Person, non-blocking
-  const TWENTY_URL = (process.env.TWENTY_URL || '').trim().replace(/\/$/, '');
-  const TWENTY_API_KEY = (process.env.TWENTY_API_KEY || '').trim();
-
-  if (TWENTY_URL && TWENTY_API_KEY) {
-    try {
-      const [firstName, ...rest] = name.split(/\s+/);
-      const lastName = rest.join(' ') || '';
-      const personPayload = {
-        name: { firstName, lastName },
-        emails: { primaryEmail: email },
-        jobTitle: interest || '',
-      };
-      // Twenty rejects non-E.164 phones; only attach if it looks valid
-      if (phone && /^\+?[1-9]\d{6,14}$/.test(phone.replace(/[\s\-().]/g, ''))) {
-        personPayload.phones = { primaryPhoneNumber: phone };
-      }
-
-      const twentyRes = await fetch(`${TWENTY_URL}/rest/people`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${TWENTY_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(personPayload),
-        signal: AbortSignal.timeout(1500),
-      });
-      if (!twentyRes.ok) {
-        const errText = await twentyRes.text();
-        console.error('Twenty CRM insert failed:', twentyRes.status, errText);
-      }
-    } catch (e) {
-      console.error('Twenty CRM error:', e);
-    }
-  }
+  // Instant reply to the lead from Ben (2026-11-25): no enquiry waits for a first touch.
+  // /paid-ads leads get the Full Diary Plan version with its due date.
+  await sendLeadAutoReply(name, email, facts);
 
   return res.status(200).json({ ok: true, lead: savedLead });
 }
